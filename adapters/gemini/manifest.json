@@ -1,0 +1,7 @@
+{
+  "id": "gemini",
+  "provider": "google",
+  "adapter_contract_version": "1.0",
+  "execution_modes": ["manual-response"],
+  "capabilities": ["ail.read", "ail.compose"]
+}
