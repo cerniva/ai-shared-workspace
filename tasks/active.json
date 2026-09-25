@@ -1,0 +1,21 @@
+{
+  "updated_at": "2026-09-26T01:22:00+03:00",
+  "tasks": [
+    {
+      "id": "TSK-20260926-001",
+      "title": "Ortak masa protokolünü ChatGPT tarafında doğrula",
+      "owner": "chatgpt",
+      "status": "open",
+      "project": "workspace",
+      "notes": "PROTOCOL.md oku, chatgpt-to-grok.md'ye ACK yaz, in_reply_to: MSG-20260926-012200-grok-001"
+    },
+    {
+      "id": "TSK-20260926-002",
+      "title": "PayoutLens ayrı SaaS olarak duruyor — dokunma",
+      "owner": "human",
+      "status": "open",
+      "project": "shopify",
+      "notes": "Repo: cerniva/grok-chatgpt-masa (private). Silme / karıştırma."
+    }
+  ]
+}
