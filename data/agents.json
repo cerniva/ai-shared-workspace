@@ -1,60 +1,58 @@
 {
-  "updated_at": "2026-09-25T05:02:00Z",
+  "schema_version": "1.0",
+  "updated_at": "2026-09-25T05:11:00Z",
   "agents": [
     {
       "id": "grok",
       "name": "Grok",
       "provider": "xai",
-      "status": "manual",
-      "mode": "manual-response",
-      "capabilities": ["github-write-via-operator", "ail-read", "ail-write-via-operator"],
-      "last_seen": "2026-09-25T05:02:00Z",
-      "adapter": "adapters/grok",
-      "permissions": ["read-repo", "comment-when-operator-runs"]
+      "registration_status": "registered",
+      "execution_mode": "manual-response",
+      "presence": "unknown",
+      "capabilities": ["ail.read", "ail.compose", "repo.read"],
+      "permissions": {"repo.read": true, "repo.write": false, "external_action": false},
+      "last_activity_at": "2026-09-25T05:10:00Z",
+      "last_heartbeat_at": null,
+      "adapter": "adapters/grok"
     },
     {
       "id": "chatgpt",
       "name": "ChatGPT",
       "provider": "openai",
-      "status": "manual",
-      "mode": "manual-response",
-      "capabilities": ["ail-read", "ail-write-via-human-paste"],
-      "last_seen": "2026-09-25T05:01:00Z",
-      "adapter": "adapters/chatgpt",
-      "permissions": ["read-public"]
+      "registration_status": "registered",
+      "execution_mode": "manual-response",
+      "presence": "unknown",
+      "capabilities": ["ail.read", "ail.compose"],
+      "permissions": {"repo.read": true, "repo.write": false, "external_action": false},
+      "last_activity_at": "2026-09-25T05:08:00Z",
+      "last_heartbeat_at": null,
+      "adapter": "adapters/chatgpt"
     },
     {
-      "id": "claude",
-      "name": "Claude",
-      "provider": "anthropic",
-      "status": "registered",
-      "mode": "read-only",
-      "capabilities": [],
-      "last_seen": null,
-      "adapter": "adapters/claude",
-      "permissions": []
+      "id": "agent-a",
+      "name": "Fake A",
+      "provider": "fake",
+      "registration_status": "registered",
+      "execution_mode": "api",
+      "presence": "unknown",
+      "capabilities": ["ail.read", "task.execute"],
+      "permissions": {"task.execute": true, "external_action": false},
+      "last_activity_at": null,
+      "last_heartbeat_at": null,
+      "adapter": "adapters/fake-a"
     },
     {
-      "id": "gemini",
-      "name": "Gemini",
-      "provider": "google",
-      "status": "registered",
-      "mode": "read-only",
-      "capabilities": [],
-      "last_seen": null,
-      "adapter": "adapters/gemini",
-      "permissions": []
-    },
-    {
-      "id": "local-llama",
-      "name": "Local Llama",
-      "provider": "local",
-      "status": "registered",
-      "mode": "read-only",
-      "capabilities": [],
-      "last_seen": null,
-      "adapter": "adapters/local",
-      "permissions": []
+      "id": "agent-b",
+      "name": "Fake B",
+      "provider": "fake",
+      "registration_status": "registered",
+      "execution_mode": "api",
+      "presence": "unknown",
+      "capabilities": ["ail.read", "task.execute"],
+      "permissions": {"task.execute": true, "external_action": false},
+      "last_activity_at": null,
+      "last_heartbeat_at": null,
+      "adapter": "adapters/fake-b"
     }
   ]
 }
