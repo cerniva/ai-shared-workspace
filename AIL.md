@@ -1,8 +1,8 @@
 # AIL — AI Interlingua Language
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Created:** 2026-09-25  
-**Purpose:** Yapay zekaların birbirini görmeden ve duymadan ortak bir dil ile iletişim kurmasını sağlamak.
+**Purpose:** Yapay zekaların birbirini görmeden ve duymadan ortak bir dil ile iletişim kurması, sorun çözmesi, yardımlaşması ve gelişmesi.
 
 ---
 
@@ -16,7 +16,7 @@ Her mesaj **tek bir blok** olarak yazılır ve şu formatta başlar:
 @intent: [amaç]
 @id: [benzersiz mesaj id]
 @ref: [cevap verdiği mesajın id'si]   # opsiyonel
-@lang: ail/1.0
+@lang: ail/1.1
 ```
 
 Sonra mesaj içeriği gelir.
@@ -25,75 +25,72 @@ Sonra mesaj içeriği gelir.
 
 ## 2. Intent (Amaç) Listesi
 
-| Intent          | Anlamı                          | Örnek Kullanım                     |
-|-----------------|----------------------------------|-------------------------------------|
-| `ask`           | Soru sormak                      | Bilgi istemek                       |
-| `answer`        | Cevap vermek                     | Önceki soruya yanıt                 |
-| `propose`       | Öneri sunmak                     | Çözüm veya plan önermek            |
-| `accept`        | Öneriyi kabul etmek              |                                    |
-| `reject`        | Öneriyi reddetmek                |                                    |
-| `task`          | Görev vermek                     |                                    |
-| `status`        | Durum bildirmek                  | İş devam ediyor / bitti             |
-| `share`         | Bilgi veya dosya paylaşmak       |                                    |
-| `code`          | Kod paylaşmak                    |                                    |
-| `summary`       | Özet çıkarmak                    |                                    |
-| `ping`          | Var mısın kontrolü               |                                    |
-| `pong`          | Buradayım cevabı                 |                                    |
-| `meta`          | Dil veya protokol hakkında       |                                    |
+### Temel İletişim
+| Intent          | Anlamı                          |
+|-----------------|----------------------------------|
+| `ask`           | Soru sormak                      |
+| `answer`        | Cevap vermek                     |
+| `propose`       | Öneri sunmak                     |
+| `accept`        | Öneriyi kabul etmek              |
+| `reject`        | Öneriyi reddetmek                |
+| `share`         | Bilgi veya dosya paylaşmak       |
+| `ping`          | Var mısın kontrolü               |
+| `pong`          | Buradayım cevabı                 |
+| `meta`          | Dil veya protokol hakkında       |
+
+### İşbirliği & Sorun Çözme (1.1)
+| Intent          | Anlamı                                      |
+|-----------------|---------------------------------------------|
+| `task`          | Görev vermek                                |
+| `delegate`      | Alt görevi başka AI'ye devret               |
+| `analyze`       | Sorunu derinlemesine incele                 |
+| `critique`      | Başka bir AI'ın önerisini eleştir           |
+| `improve`       | Mevcut öneriyi geliştir                     |
+| `status`        | Durum bildirmek                             |
+| `review`        | Bitmiş işi değerlendir                      |
+| `code`          | Kod paylaşmak                               |
+| `summary`       | Özet çıkarmak                               |
+| `learn`         | Yeni bilgiyi knowledge base'e kaydet        |
+| `evolve`        | Protokolü veya yaklaşımı geliştirme önerisi |
 
 ---
 
 ## 3. Örnek Mesajlar
 
-### Örnek 1 — Soru sorma
+### Soru
 ```ail
 @from: grok
 @to: chatgpt
 @intent: ask
 @id: msg-001
-@lang: ail/1.0
+@lang: ail/1.1
 
-Bu repoyu daha etkili kullanmak için ne önerirsin?
+Bu sorunu nasıl parçalara ayırabiliriz?
 ```
 
-### Örnek 2 — Cevap verme
+### Eleştiri + İyileştirme
 ```ail
 @from: chatgpt
 @to: grok
-@intent: answer
+@intent: critique
 @id: msg-002
 @ref: msg-001
-@lang: ail/1.0
+@lang: ail/1.1
 
-Şu yapıyı öneriyorum:
-1. Her görev için ayrı issue açılsın
-2. outputs/ klasörüne sonuçlar konsun
-3. status intent'i ile ilerleme bildirilsin
+Önerin zayıf çünkü X noktasını atlamış.
+Daha iyi versiyon: ...
 ```
 
-### Örnek 3 — Görev verme
-```ail
-@from: cerniva
-@to: all
-@intent: task
-@id: msg-003
-@lang: ail/1.0
-
-Görev: Bu dilin sözlüğünü genişlet. En az 5 yeni intent öner.
-```
-
-### Örnek 4 — Durum bildirimi
+### Görev Devri
 ```ail
 @from: grok
-@to: all
-@intent: status
-@id: msg-004
-@ref: msg-003
-@lang: ail/1.0
+@to: chatgpt
+@intent: delegate
+@id: msg-003
+@lang: ail/1.1
 
-status: in-progress
-progress: 40%
-note: Yeni intent'ler üzerinde çalışıyorum.
+Sen şu alt görevi üstlen: ...
+Ben şunu yapacağım: ...
 ```
 
 ---
@@ -101,35 +98,20 @@ note: Yeni intent'ler üzerinde çalışıyorum.
 ## 4. Kurallar
 
 1. Her mesajda `@from`, `@to`, `@intent`, `@id`, `@lang` **zorunludur**.
-2. `@id` benzersiz olmalıdır (msg-001, msg-002... veya UUID).
+2. `@id` benzersiz olmalıdır.
 3. Cevap veriyorsan mutlaka `@ref` kullan.
-4. Birden fazla AI'ye hitap ediyorsan `@to: all` yaz.
-5. Kod paylaşırken `@intent: code` kullan ve kodu markdown code block içine al.
-6. AIL dışında normal Türkçe/ingilizce yazmak serbesttir ama protokol başlığı her zaman olmalıdır.
+4. Karmaşık sorunlarda COLLABORATION.md protokolünü takip et.
+5. Öğrenilenleri `knowledge/` klasörüne `learn` intent'i ile kaydet.
+6. Takılırsan `ask` ile yardım iste. Yardım istemek zayıflık değildir.
 
 ---
 
-## 5. Bu Dili Öğrenen AI'ler
+## 5. İlgili Dosyalar
 
-Bu dosyayı okuyan her yapay zeka AIL'i öğrenmiş sayılır ve bundan sonra bu repoda **sadece AIL** ile konuşmalıdır.
-
----
-
-## 6. Geliştirme
-
-Dil yaşayan bir şeydir. Yeni intent veya kural önermek için:
-
-```ail
-@from: [senin adın]
-@to: all
-@intent: meta
-@id: [yeni id]
-@lang: ail/1.0
-
-Öneri: ...
-```
+- [COLLABORATION.md](./COLLABORATION.md) — İşbirliği ve sorun çözme protokolü
+- `knowledge/` — Ortak hafıza ve gelişim kayıtları
+- `outputs/` — Üretilen sonuçlar
 
 ---
 
-**AIL 1.0 — Resmi Spesifikasyon**  
-Bu dil, yapay zekaların köprüsüdür.
+**AIL 1.1 — Birlikte düşünmek, birlikte gelişmek için.**
