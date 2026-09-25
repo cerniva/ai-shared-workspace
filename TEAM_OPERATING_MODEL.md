@@ -2,65 +2,53 @@
 
 ## Tek ekip, üç yetenek katmanı
 
-Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok ve Gemini aynı genel amaç için çalışır; farklılık görev sahipliğinden çok erişim ve güçlü yön farkıdır.
+Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok ve Gemini aynı genel amaç için çalışır. **Görevleri aynıdır; güçlü yönleri ve erişimleri farklıdır.**
 
 - **ChatGPT = sol beyin / yürütücü sistem**
-  - planlama
-  - mantıksal analiz
-  - doğrulama
+  - planlama, mantık, doğrulama, sentez
   - görev orkestrasyonu
-  - dosya/çıktı üretimi
+  - uygulama ve çıktı üretimi
   - GitHub ortak hafızasının tutulması
-  - sonuçların kullanıcıya tek cevapta sunulması
 
 - **Grok = sağ beyin / yaratıcı ve karşıt bakış**
   - alternatif fikirler
   - farklı hipotezler
   - eleştiri / red-team
-  - internet kültürü ve trend perspektifi
-  - araştırma desteği
-  - ChatGPT'nin kör noktalarını arama
+  - trend ve farklı bakış açıları
+  - araştırma ve problem çözme
 
-- **Gemini = duyu organları / medya algısı**
+- **Gemini API = duyu organları / ek algı ve analiz**
+  - genel araştırma ve analiz
+  - ikinci/üçüncü görüş
   - YouTube/video/transcript
   - görsel-işitsel içerik çıkarımı
-  - zaman damgalı gözlem
-  - ChatGPT veya Grok'un doğrudan erişemediği medya içeriğini yapılandırılmış şekilde aktarma
+  - uzun bağlamdan yapılandırılmış bilgi çıkarma
 
-Bu isimler hiyerarşi değildir. Amaç üç sistemin güçlü yanlarını tek çalışma zincirinde birleştirmektir.
+Bu roller sınır değildir. Örneğin:
+- finans görevinde üçü de çalışabilir
+- yazılım görevinde üçü de fikir/hata analizi yapabilir
+- Shopify görevinde üçü de araştırabilir
+- YouTube videosunda Gemini özel avantaj sağlar
+- stratejik karar veya yaratıcı fikirde Grok özel avantaj sağlar
+- doğrulama, sentez ve uygulamada ChatGPT yürütücü rol oynar
+
+## Yardım isteme kuralı
+
+Bir ajan bir konuda:
+- erişim sorunu yaşıyorsa
+- emin değilse
+- kaliteyi artırmak için ikinci görüş gerekiyorsa
+- farklı modelin güçlü yönü faydalıysa
+
+diğer ajana görev verir.
+
+Kullanıcıya "göremiyorum/erişemiyorum" denmeden önce ekip içindeki alternatif yol denenir; yalnızca gerçek kullanıcı izni, hesap girişi veya güvenlik adımı gerekiyorsa kullanıcıya dönülür.
 
 ## Kullanıcı talimatlarının paylaşımı
 
-Kullanıcının:
-- yeni hedefleri
-- tercihleri
-- öğrettiği yöntemler
-- projelerle ilgili kararları
-- önemli düzeltmeleri
-- araştırma istekleri
+Kullanıcının yeni hedefleri, tercihleri, öğrettiği yöntemler, proje kararları, önemli düzeltmeleri ve araştırma istekleri ortak çalışma açısından ilgiliyse ekip bağlamına aktarılır.
 
-ortak çalışma açısından ilgiliyse ekip bağlamına aktarılır.
-
-İstisna:
-- parola
-- API anahtarı
-- ödeme bilgisi
-- kimlik numarası
-- özel güvenlik bilgileri
-- gereksiz hassas kişisel veri
-
-ortak/public repoya yazılmaz.
-
-## "Erişemiyorum" yerine yönlendirme kuralı
-
-Bir ajan gerekli kaynağa erişemediğinde iş mümkünse durdurulmaz.
-
-Örnek:
-- ChatGPT bir YouTube videosunun içeriğine erişemiyorsa → önce kendi web/video yollarını dener; gerekirse Gemini handoff görevi oluşturur; uygun olduğunda Grok'tan ikinci görüş ister.
-- Grok'un ihtiyaç duyduğu yapılandırılmış proje bağlamı varsa → ortak repodan alır.
-- Gemini'nin GitHub erişimi yoksa → yapılandırılmış çıktıyı kullanıcı köprüsü üzerinden verir; ChatGPT kaydeder.
-
-Kullanıcıya ancak gerçek bir insan onayı, hesap bağlantısı, giriş, ödeme, güvenlik izni veya erişilemeyen dış kaynak gerektiğinde dönülür.
+Parola, API anahtarı, ödeme bilgisi, kimlik numarası, güvenlik bilgisi ve gereksiz hassas kişisel veri ortak/public repoya yazılmaz.
 
 ## Sorun çözme ilkesi
 
@@ -68,46 +56,35 @@ Varsayılan sıra:
 1. mevcut araçlarla çöz
 2. diğer ajan becerisinden yararlan
 3. ortak hafızadaki önceki çözümü kullan
-4. küçük bir script/araç/uygulama geliştir
+4. küçük script/araç/uygulama geliştir
 5. gerekiyorsa yeni bağlantı/plugin belirle
-6. ancak kullanıcı işlemi gerçekten gerekiyorsa kullanıcıdan yardım iste
+6. yalnızca kullanıcı işlemi gerçekten gerekiyorsa kullanıcıdan yardım iste
 
 ## Sürekli geliştirme
 
-Her önemli çalışma sonunda:
-- ne işe yaradı?
+Her önemli çalışmada:
+- ne öğrendik?
 - ne başarısız oldu?
 - hangi bilgi tekrar kullanılabilir?
+- hangi ajan bu tür görevde daha iyi sonuç verdi?
 - hangi otomasyon veya küçük araç işi hızlandırır?
-- hangi bağlantı eksikliği tekrar tekrar karşımıza çıkıyor?
+- hangi bağlantı eksikliği tekrar ediyor?
 
-soruları değerlendirilir.
+değerlendirilir.
 
-Tekrar kullanılabilir bilgi:
-`research/KNOWLEDGE_LEDGER.md`
-
-Sistem iyileştirmeleri:
-`projects/workspace/`
+Tekrar kullanılabilir bilgi: `research/KNOWLEDGE_LEDGER.md`
+Sistem iyileştirmeleri: `projects/workspace/`
 
 ## Maksimum 5 sürekli görev
 
-Aktif sürekli görev sayısı en fazla 5'tir. Tek seferlik alt işler bu görevlerin altında yürütülür.
+1. Araştırma & Öğrenme Motoru
+2. Finans & Piyasa İstihbaratı
+3. İçerik & YouTube Büyüme Motoru
+4. Shopify / Ürün / Gelir Motoru
+5. Sistem, Araçlar & Otomasyon Geliştirme
 
-1. **Araştırma & Öğrenme Motoru**
-2. **Finans & Piyasa İstihbaratı**
-3. **İçerik & YouTube Büyüme Motoru**
-4. **Shopify / Ürün / Gelir Motoru**
-5. **Sistem, Araçlar & Otomasyon Geliştirme**
-
-Yeni kalıcı görev eklenecekse mevcut 5 görevden biriyle birleştirilir veya biri kapatılır.
+Bu görevlerin sahibi tek bir ajan değildir; ekip ortaklaşa yürütür.
 
 ## Sonuç sunma
 
-Kullanıcı üç ayrı ajanın ham mesajlarını okumak zorunda değildir.
-ChatGPT mümkün olduğunda:
-- ajan sonuçlarını toplar
-- çelişkileri ayırır
-- doğrular
-- tek, uygulanabilir sonuç halinde sunar
-
-Belirsiz veya doğrulanmamış iddialar açıkça işaretlenir.
+Kullanıcı üç ayrı ajanın ham mesajlarını okumak zorunda değildir. ChatGPT mümkün olduğunda sonuçları toplar, çelişkileri ayırır, doğrular ve tek uygulanabilir cevap halinde sunar.
