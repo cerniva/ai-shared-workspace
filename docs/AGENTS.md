@@ -1,32 +1,32 @@
 # Agents
 
-Each AI is an agent record, not a hardcoded UI card.
+Canonical: `data/agents.json` (registry only).
 
-## Fields
+## Split fields
 
-- id
-- name
-- provider
-- status: registered | manual | read-only | online | offline | error
-- mode: read-only | manual-response | webhook | api | full-agent
-- capabilities[]
-- last_seen
-- adapter
-- permissions[]
+- registration_status: registered | disabled | error
+- execution_mode: read-only | manual-response | webhook | api | full-agent
+- presence: unknown | active | inactive | unavailable
 
-## Modes (do not fake)
+Do not store `online` unless a heartbeat exists.
 
-- read-only: can parse AIL, cannot post
-- manual-response: human pastes the AIL reply
-- webhook: provider calls our ingest endpoint (not live yet)
-- api: backend calls provider with secret (not live yet)
-- full-agent: backend + write adapters live (not live yet)
+- last_activity_at: last valid AIL or adapter call
+- last_heartbeat_at: real heartbeat only; null for manual agents
 
-## Current registry
+## Capabilities vocab
 
-See `data/agents.json`.
+- ail.read
+- ail.compose
+- repo.read
+- repo.write
+- web.search
+- task.execute
+- output.write
 
-Today:
-- grok = manual-response + GitHub tools when operator runs Grok
-- chatgpt = manual-response
-- claude / gemini / local-llama = registered only
+permissions object, deny-by-default.
+
+## Adapter contract
+
+health(), capabilities(), receive(message), execute(task), cancel(task_id), normalizeResponse(), getStatus()
+
+Envelope: success, message, artifacts[], usage, error, provider_metadata
