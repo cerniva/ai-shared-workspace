@@ -1,0 +1,14 @@
+{
+  "events": [
+    {
+      "relay_id": "relay-001",
+      "ail_id": "task-ail-platform-v2-001",
+      "from": "cerniva",
+      "to": "grok",
+      "intent": "task",
+      "status": "processing",
+      "created_at": "2026-09-25T05:01:00Z",
+      "ack_at": "2026-09-25T05:02:00Z"
+    }
+  ]
+}
