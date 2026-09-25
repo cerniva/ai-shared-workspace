@@ -1,9 +1,20 @@
-OK msg-ping-code-001 attempt=1 -> msg-pong-auto-msg-ping-code-001 executes=1
+ROUTE system->agent-a msg-ping-code-001 intent=ping
+ADAPTER msg-ping-code-001 attempt=1 executes=1
+ROUTE agent-a->system msg-pong-auto-msg-ping-code-001 intent=pong
+COMPLETED msg-pong-auto-msg-ping-code-001 system delivery
+ROUND_TRIP msg-ping-code-001 -> pong completed round_trip=1
 DUP msg-ping-code-001 executes=1
 UNSUPPORTED msg-bad-intent-001 original_intent=ACK
+ROUTE system->agent-a msg-fail-001 intent=ping
 FAIL msg-fail-001 attempt=1 err=adapter-down
 FAIL msg-fail-001 attempt=2 err=adapter-down
 FAIL msg-fail-001 attempt=3 err=adapter-down
 DEAD_LETTER msg-fail-001 attempts=3
-TEST A=ok B=duplicate C=unsupported D=dead-letter
-executes ping=1 fail=0
+ROUTE system->agent-a msg-ping-e-001 intent=ping
+ADAPTER msg-ping-e-001 attempt=1 executes=1
+ROUTE agent-a->system msg-pong-auto-msg-ping-e-001 intent=pong
+COMPLETED msg-pong-auto-msg-ping-e-001 system delivery
+ROUND_TRIP msg-ping-e-001 -> pong completed round_trip=2
+TEST A=ok B=duplicate C=unsupported D=dead-letter E=ok
+human_operator=0 duplicate_execution=0 round_trip=2
+executes ping=1 e=1 fail=0
