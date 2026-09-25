@@ -1,0 +1,12 @@
+LIVE_ATTEMPT=1
+ADAPTER=openai-api-adapter,grok-api-adapter
+CORE=untouched
+OPENAI_API_KEY=missing
+XAI_API_KEY=missing
+RESULT=not-fired
+executor=none
+human/operator=0
+duplicate_executions=0
+successful_round_trip=0
+reason=fail-closed-no-secrets
+NOTE=Do not treat this file as a live pass.
