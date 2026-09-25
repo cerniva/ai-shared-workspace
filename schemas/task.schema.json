@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "task_id", "title", "description", "status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "task_id": {"type": "string", "pattern": "^task-"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "status": {"enum": ["draft", "queued", "processing", "blocked", "review", "accepted", "rejected", "done", "failed", "cancelled", "paused"]},
+    "claim_mode": {"enum": ["manual", "worker"]}
+  }
+}
