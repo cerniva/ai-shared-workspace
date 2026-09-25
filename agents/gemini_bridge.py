@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Read queued Gemini requests, call Gemini API, write responses."""
 from __future__ import annotations
 
 import datetime as dt
 import json
 import os
 import re
-import sys
 import urllib.request
 from pathlib import Path
 
@@ -19,12 +17,12 @@ MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 YT_RE = re.compile(r"https?://(?:www\.)?(?:youtube\.com/watch\?v=[\w-]+|youtu\.be/[\w-]+)")
 
 
-def now_tr() -> dt.datetime:
+def now_tr():
     return dt.datetime.now(dt.timezone(dt.timedelta(hours=3)))
 
 
-def parse_front(text: str) -> tuple[dict, str]:
-    meta: dict = {}
+def parse_front(text: str):
+    meta = {}
     body = text
     if text.startswith("---"):
         parts = text.split("---", 2)
@@ -39,12 +37,12 @@ def parse_front(text: str) -> tuple[dict, str]:
 
 def call_gemini(prompt: str, urls: list[str]) -> str:
     if not KEY:
-        return "ERROR: GEMINI_API_KEY secret yok. Repo → Settings → Secrets → Actions."
+        return "ERROR: GEMINI_API_KEY secret yok."
     parts = [{
         "text": (
-            "Sen ekibin duyu organısın. Video varsa izle veya caption kullan. "
-            "Uydurma transcript yazma. Türkçe yanıt ver. "
-            "Başlık, kanal, zaman damgalı özet, iddialar, uygulanabilir fikirler, belirsizlik.\n\n"
+            "Sen ekibin duyu organisin. Video varsa izle veya caption kullan. "
+            "Uydurma transcript yazma. Turkce yanit ver. "
+            "Baslik, kanal, zaman damgali ozet, iddialar, uygulanabilir fikirler, belirsizlik.\n\n"
             + prompt
         )
     }]
@@ -64,7 +62,7 @@ def call_gemini(prompt: str, urls: list[str]) -> str:
     data = json.loads(raw.decode())
     cands = data.get("candidates") or []
     if not cands:
-        return "ERROR: boş yanıt " + json.dumps(data)[:2000]
+        return "ERROR: bos yanit " + json.dumps(data)[:2000]
     bits = [p.get("text", "") for p in ((cands[0].get("content") or {}).get("parts") or [])]
     return "\n".join(b for b in bits if b).strip() or json.dumps(data)[:2000]
 

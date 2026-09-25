@@ -2,9 +2,8 @@
 
 Bir istek = bir dosya: `requests/gemini/REQ-YYYYMMDD-HHMMSS.md`
 
-Şablon:
+Sablon:
 
-```
 ---
 id: REQ-...
 from: grok | chatgpt | human
@@ -13,7 +12,6 @@ url:
 status: queued
 ---
 
-Görev metni.
-```
+Gorev metni.
 
-`status: queued` olan dosyalar Action tarafından işlenir.
+status: queued olan dosyalar Action tarafindan islenir.
