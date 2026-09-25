@@ -14,7 +14,7 @@ OUT = ROOT / "messages" / "gemini-to-chatgpt.md"
 YT_DIR = ROOT / "research" / "youtube"
 
 KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
 
 ACTIVE_STATUSES = {"queued", "ready", "open", "run"}
 
