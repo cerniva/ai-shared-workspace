@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "registry_version": "reg-2026-09-25-1",
-  "updated_at": "2026-09-25T05:18:00Z",
+  "registry_version": "reg-2026-09-25-2",
+  "updated_at": "2026-09-25T05:21:00Z",
   "agents": [
     {
       "id": "grok",
@@ -9,12 +9,9 @@
       "provider": "xai",
       "registration_status": "registered",
       "execution_mode": "manual-response",
-      "presence": "unknown",
       "subscribed": true,
       "capabilities": ["ail.read", "ail.compose", "repo.read"],
       "permissions": {"ail.read": true, "ail.compose": true, "repo.read": true, "repo.write": false, "external_action": false},
-      "last_activity_at": "2026-09-25T05:18:00Z",
-      "last_heartbeat_at": null,
       "adapter": "adapters/grok"
     },
     {
@@ -23,12 +20,9 @@
       "provider": "openai",
       "registration_status": "registered",
       "execution_mode": "manual-response",
-      "presence": "unknown",
       "subscribed": true,
       "capabilities": ["ail.read", "ail.compose"],
-      "permissions": {"ail.read": true, "ail.compose": true, "repo.read": false, "external_action": false},
-      "last_activity_at": "2026-09-25T05:13:00Z",
-      "last_heartbeat_at": null,
+      "permissions": {"ail.read": true, "ail.compose": true, "external_action": false},
       "adapter": "adapters/chatgpt"
     },
     {
@@ -37,12 +31,9 @@
       "provider": "google",
       "registration_status": "registered",
       "execution_mode": "manual-response",
-      "presence": "unknown",
       "subscribed": true,
       "capabilities": ["ail.read", "ail.compose"],
       "permissions": {"ail.read": true, "ail.compose": true, "external_action": false},
-      "last_activity_at": "2026-09-25T05:18:00Z",
-      "last_heartbeat_at": null,
       "adapter": "adapters/gemini"
     }
   ]
