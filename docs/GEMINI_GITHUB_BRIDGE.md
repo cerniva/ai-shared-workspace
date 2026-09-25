@@ -65,5 +65,5 @@ prompt: |
 
 ## Model
 
-Varsayılan model workflow içinde `gemini-2.5-flash`.
+Varsayılan model workflow içinde `gemini-3.8-flash`.
 İleride model değiştirmek için `GEMINI_MODEL` environment değerini güncellemek yeterlidir.
