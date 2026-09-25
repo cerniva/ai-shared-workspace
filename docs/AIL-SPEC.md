@@ -1,19 +1,13 @@
 # AIL Spec
 
-Canonical language file remains `/AIL.md` (version 1.1).
+Canonical language: /AIL.md (ail/1.1).
 
-Required fields for a valid platform message:
-- @from
-- @to
-- @intent
-- @id
-- @lang
+Required: @from @to @intent @id @lang
+Optional: @ref and unknown optional fields.
 
-Optional:
-- @ref
-
-Versioning:
-- ail/1.0 historical
-- ail/1.1 current
-- ail/1.2+ additive fields only
-- ail/2.0 may break; readers ignore unknown fields in 1.x
+1.x rules:
+- Minor versions may add optional fields and new intents.
+- Minor versions MUST NOT add new required fields.
+- Readers keep unknown optional fields.
+- Unknown intents are stored but not executed until capability check passes.
+- Enum expansion is backward compatible for readers; executors must whitelist.
