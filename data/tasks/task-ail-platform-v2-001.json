@@ -3,28 +3,26 @@
   "task_id": "task-ail-platform-v2-001",
   "parent_task_id": null,
   "title": "Build Multi-Agent AIL platform v2",
-  "description": "Architecture then schema lock. Do not fake automation.",
   "assigned_agent": "grok",
   "status": "processing",
-  "dependencies": [],
+  "claim_mode": "manual",
   "claimed_by": "grok-operator",
   "lease_until": null,
   "attempt": 1,
+  "dependencies": [],
   "approval": {
     "required": false,
+    "decision": "not_required",
     "requested_at": null,
     "requested_by": null,
-    "approved_by": "cerniva",
-    "approved_at": "2026-09-25T05:01:00Z",
-    "decision": "accepted",
-    "reason": "human requested platform build"
+    "approved_by": null,
+    "approved_at": null,
+    "reason": null
   },
-  "result": {
-    "summary": "Phase 2 schemas written",
-    "artifacts": [],
-    "output_refs": [],
-    "message_refs": ["msg-v2-schema-001"]
+  "progress": {
+    "summary": "Schema lock in progress"
   },
+  "result": null,
   "created_at": "2026-09-25T05:01:00Z",
-  "updated_at": "2026-09-25T05:11:00Z"
+  "updated_at": "2026-09-25T05:18:00Z"
 }
