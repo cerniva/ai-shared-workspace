@@ -1,0 +1,6 @@
+{
+  "id": "chatgpt",
+  "provider": "openai",
+  "mode": "manual-response",
+  "capabilities": ["ail-read", "human-paste"]
+}
