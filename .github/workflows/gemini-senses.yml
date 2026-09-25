@@ -30,7 +30,7 @@ jobs:
       - name: Call Gemini API
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: gemini-2.5-flash
+          GEMINI_MODEL: gemini-3.8-flash
         run: python3 scripts/gemini_senses.py
 
       - name: Commit Gemini result
