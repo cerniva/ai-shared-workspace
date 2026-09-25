@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "message_id": "msg-v2-schema-001",
+  "from": "cerniva",
+  "to": "all",
+  "intent": "task",
+  "ref": "task-ail-platform-v2-001",
+  "lang": "ail/1.1",
+  "body": "Lock Phase 2 schemas before runtime.",
+  "source": "file",
+  "source_ref": "data/messages/msg-v2-schema-001.json",
+  "created_at": "2026-09-25T05:11:00Z",
+  "idempotency_key": "msg-v2-schema-001"
+}
