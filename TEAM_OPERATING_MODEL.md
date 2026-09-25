@@ -32,17 +32,17 @@ Bu roller sınır değildir. Örneğin:
 - stratejik karar veya yaratıcı fikirde Grok özel avantaj sağlar
 - doğrulama, sentez ve uygulamada ChatGPT yürütücü rol oynar
 
-## Yardım isteme kuralı
+## Zorunlu görüş alma kuralı
 
-Bir ajan bir konuda:
-- erişim sorunu yaşıyorsa
-- emin değilse
-- kaliteyi artırmak için ikinci görüş gerekiyorsa
-- farklı modelin güçlü yönü faydalıysa
+Her kullanıcı görevi üçlü değerlendirmeye açıktır ve ChatGPT varsayılan olarak **hem Grok'tan hem Gemini API'den görüş alır**.
 
-diğer ajana görev verir.
+- ChatGPT: ilk analiz + koordinasyon + doğrulama + nihai sentez
+- Grok: bağımsız ikinci görüş + alternatif fikir + red-team
+- Gemini API: bağımsız üçüncü görüş + araştırma/algı + farklı model yaklaşımı
 
-Kullanıcıya "göremiyorum/erişemiyorum" denmeden önce ekip içindeki alternatif yol denenir; yalnızca gerçek kullanıcı izni, hesap girişi veya güvenlik adımı gerekiyorsa kullanıcıya dönülür.
+Bir ajan erişim sorunu yaşıyorsa diğerinin yetenekleri kullanılır. Kullanıcıya "göremiyorum/erişemiyorum" denmeden önce ekip içindeki alternatif yol denenir; yalnızca gerçek kullanıcı izni, hesap girişi veya güvenlik adımı gerekiyorsa kullanıcıya dönülür.
+
+Amaç üç cevabı yan yana yığmak değil; üçünün bilgisini tek daha güçlü sonuca dönüştürmektir.
 
 ## Kullanıcı talimatlarının paylaşımı
 
