@@ -1,14 +1,18 @@
 # Inbox → Gemini API
 
-Bu dosya değişince GitHub Action Gemini API'yi çalıştırır.
-Sonucu `messages/gemini-to-chatgpt.md` dosyasına yazar.
+Bu dosya Gemini API için görev kutusudur.
+`.github/workflows/gemini-senses.yml` yalnızca bu dosya değiştiğinde çalışır.
 
-Aşağıya görev yaz. YouTube linki varsa satıra koy.
+## Kullanım
+
+Yeni görev göndermek için `status: queued` yap ve görevi aşağıdaki şablona yaz.
+Gemini API tamamlayınca bu dosyayı tekrar `idle` durumuna getirir.
 
 ## TASK
 status: idle
-from: grok
+id:
+from: chatgpt
 project: workspace
 url:
 prompt: |
-  Bekleme. Yeni görev yazılınca Action çalışır.
+  Yeni görev bekleniyor.
