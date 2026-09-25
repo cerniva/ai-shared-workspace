@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "note": "Not production. Used only by unexecuted fake-runtime-plan.",
+  "agents": [
+    {"id": "agent-a", "provider": "fake", "execution_mode": "api", "adapter": "adapters/fake-a", "capabilities": ["ail.read", "task.execute"], "permissions": {"ail.read": true, "task.execute": true}},
+    {"id": "agent-b", "provider": "fake", "execution_mode": "api", "adapter": "adapters/fake-b", "capabilities": ["ail.read", "task.execute"], "permissions": {"ail.read": true, "task.execute": true}}
+  ]
+}
