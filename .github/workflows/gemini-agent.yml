@@ -1,0 +1,31 @@
+name: gemini-agent
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "requests/gemini/**"
+      - "agents/gemini_bridge.py"
+
+jobs:
+  gemini:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Gemini bridge
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 agents/gemini_bridge.py
+      - name: Commit responses
+        run: |
+          git config user.name "gemini-agent"
+          git config user.email "gemini-agent@users.noreply.github.com"
+          git add requests/gemini responses/gemini research/youtube
+          git diff --cached --quiet || git commit -m "Gemini agent responses"
+          git push
