@@ -1,14 +1,16 @@
 {
   "schema_version": "1.0",
-  "name": "fake-two-agent-flow",
+  "name": "smallest-ping-pong",
   "executed": false,
-  "note": "Plan only. No worker ran this.",
-  "steps": [
-    "cerniva creates parent task",
-    "engine emits two subtasks",
-    "relay deliveries to agent-a and agent-b",
-    "fake adapters return deterministic envelopes",
-    "review task aggregates result",
-    "audit records each transition"
+  "registry": "data/fixtures/agents.fake.json",
+  "note": "Independent from production data/agents.json. Worker not run.",
+  "success_criteria": [
+    "1 message in",
+    "1 delivery to agent-a",
+    "1 adapter execute",
+    "1 pong message",
+    "1 return delivery",
+    "audit rows",
+    "duplicate execute = 0"
   ]
 }
