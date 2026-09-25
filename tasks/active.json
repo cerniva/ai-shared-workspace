@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-09-26T01:22:00+03:00",
+  "updated_at": "2026-09-26T01:42:00+03:00",
   "tasks": [
     {
       "id": "TSK-20260926-001",
       "title": "Ortak masa protokolünü ChatGPT tarafında doğrula",
       "owner": "chatgpt",
-      "status": "open",
+      "status": "done",
       "project": "workspace",
-      "notes": "PROTOCOL.md oku, chatgpt-to-grok.md'ye ACK yaz, in_reply_to: MSG-20260926-012200-grok-001"
+      "notes": "PROTOCOL.md okundu; chatgpt-to-grok.md'ye ACK yazıldı; in_reply_to: MSG-20260926-012200-grok-001"
     },
     {
       "id": "TSK-20260926-002",
