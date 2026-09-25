@@ -3,6 +3,7 @@
   "task_id": "task-ail-platform-v2-001",
   "parent_task_id": null,
   "title": "Build Multi-Agent AIL platform v2",
+  "description": "Architecture then smallest relay loop. Do not fake automation.",
   "assigned_agent": "grok",
   "status": "processing",
   "claim_mode": "manual",
@@ -19,10 +20,8 @@
     "approved_at": null,
     "reason": null
   },
-  "progress": {
-    "summary": "Schema lock in progress"
-  },
+  "progress": {"summary": "Schema lock + ping loop fixtures"},
   "result": null,
   "created_at": "2026-09-25T05:01:00Z",
-  "updated_at": "2026-09-25T05:18:00Z"
+  "updated_at": "2026-09-25T05:21:00Z"
 }
