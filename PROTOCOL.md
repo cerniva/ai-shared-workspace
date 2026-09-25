@@ -17,16 +17,22 @@ Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve �
 
 Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
 
-## İşbirliği kuralı
+## Zorunlu üçlü görüş kuralı
 
-Bir görev geldiğinde ChatGPT önce görevin ihtiyaçlarını değerlendirir:
-- tek ajan yeterliyse işi gereksiz yere çoğaltmaz
-- ikinci görüş kaliteyi artıracaksa Grok'a yollar
-- ek analiz, büyük bağlam, medya/video veya farklı model görüşü yararlıysa Gemini API'ye yollar
-- gerekirse aynı işi üçü paralel düşünür; ChatGPT sonuçları birleştirir
-- çelişki varsa kaynak/kanıt üzerinden çözülür
+Her gerçek kullanıcı görevi için ChatGPT, kendi değerlendirmesine ek olarak **Grok ve Gemini API'den de görüş ister**. Bu artık isteğe bağlı kalite artırımı değil, varsayılan çalışma yöntemidir.
 
-Gemini yalnızca YouTube için değildir. Grok yalnızca fikir üretmek için değildir. ChatGPT yalnızca koordinatör değildir. Üçü de gerektiğinde diğer alanlara katkı verir.
+Akış:
+1. ChatGPT görevi anlar ve ilk çerçeveyi kurar.
+2. Aynı hedef Grok'a gönderilir; alternatif fikir, itiraz, risk ve kör nokta aranır.
+3. Aynı hedef Gemini API'ye gönderilir; bağımsız analiz, araştırma ve gerektiğinde medya/dış içerik incelemesi istenir.
+4. ChatGPT üç görüşü karşılaştırır.
+5. Çelişkiler varsa kanıt, kaynak, uygulanabilirlik ve güncellik üzerinden ayrıştırılır.
+6. Kullanıcıya mümkün olduğunda tek birleşik sonuç sunulur.
+7. Yeniden kullanılabilir öğrenmeler ortak hafızaya işlenir.
+
+Görüş istemek, diğer ajanların cevabını körü körüne kabul etmek değildir. ChatGPT nihai sentezde hataları, çelişkileri ve doğrulanmamış iddiaları ayırır.
+
+Gemini yalnızca YouTube için değildir. Grok yalnızca fikir üretmek için değildir. ChatGPT yalnızca koordinatör değildir. Üçü de her alanda katkı verir.
 
 ## Roller
 
