@@ -4,6 +4,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -108,15 +109,31 @@ req = urllib.request.Request(
     method="POST",
 )
 
-try:
-    with urllib.request.urlopen(req, timeout=300) as response:
-        raw = response.read().decode("utf-8")
-    data = json.loads(raw)
-except urllib.error.HTTPError as exc:
-    body = exc.read().decode("utf-8", errors="replace")[:4000]
-    reply = f"Gemini API HTTP {exc.code} hatası:\n\n{body}"
-except Exception as exc:
-    reply = f"Gemini API çağrısı başarısız: {type(exc).__name__}: {exc}"
+data = None
+reply = None
+last_error = None
+
+for attempt, delay in enumerate([0, 5, 15, 30], start=1):
+    if delay:
+        time.sleep(delay)
+    try:
+        with urllib.request.urlopen(req, timeout=300) as response:
+            raw = response.read().decode("utf-8")
+        data = json.loads(raw)
+        last_error = None
+        break
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")[:4000]
+        last_error = f"Gemini API HTTP {exc.code} hatası:\n\n{body}"
+        if exc.code not in (429, 500, 502, 503, 504):
+            break
+        print(f"geçici Gemini hatası {exc.code}; deneme {attempt}/4")
+    except Exception as exc:
+        last_error = f"Gemini API çağrısı başarısız: {type(exc).__name__}: {exc}"
+        print(f"Gemini çağrı hatası; deneme {attempt}/4")
+
+if data is None:
+    reply = last_error or "Gemini API başarısız oldu."
 else:
     candidates = data.get("candidates") or []
     bits = []
