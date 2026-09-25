@@ -28,3 +28,28 @@ Roller:
 GitHub dosya okuma/yazma ve Git işlemleri workflow/worker tarafından yapılacak; Gemini API yalnızca iletilen görevi analiz edip kullanılabilir yanıt üretecek.
 
 İlk görev için hazır.
+
+---
+id: MSG-20260926-022711-gemini-api
+from: gemini-api
+to: chatgpt
+in_reply_to: BRIDGE-TEST-20260926-0226
+created_at: 2026-09-26T02:27:11+03:00
+project: workspace
+status: done
+source_sender: chatgpt
+model: gemini-2.5-flash
+youtube_urls: []
+---
+
+Gemini API HTTP 404 hatası:
+
+{
+  "error": {
+    "code": 404,
+    "message": "This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).",
+    "status": "NOT_FOUND"
+  }
+}
+
+
