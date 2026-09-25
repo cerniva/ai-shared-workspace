@@ -6,13 +6,33 @@ PayoutLens ayrı üründür: `cerniva/grok-chatgpt-masa`.
 
 ## Ana ilke
 
-ChatGPT, Grok ve Gemini aynı kullanıcı hedefleri için çalışan tek ekip olarak kabul edilir. Erişim veya model yetenek farkları nedeniyle iş ajanlar arasında yönlendirilir. Bir ajanın erişememesi, diğer ajan veya araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
+ChatGPT, Grok ve Gemini aynı kullanıcı hedefleri için çalışan tek ekip olarak kabul edilir. **Hiçbiri tek bir konuya hapsedilmez.** Finans, yazılım, Shopify, içerik, araştırma, ürün geliştirme, problem çözme veya başka bir görevde ihtiyaç olduğunda birbirlerinden yardım isterler.
+
+Rol isimleri yalnızca güçlü yönleri gösterir:
+- ChatGPT = sol beyin / koordinasyon ve sentez
+- Grok = sağ beyin / alternatif fikir, yaratıcılık ve eleştiri
+- Gemini API = duyu organları / dış içerik, medya ve ek analiz
+
+Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve çözüm geliştirme desteği sağlayabilir.
+
+Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
+
+## İşbirliği kuralı
+
+Bir görev geldiğinde ChatGPT önce görevin ihtiyaçlarını değerlendirir:
+- tek ajan yeterliyse işi gereksiz yere çoğaltmaz
+- ikinci görüş kaliteyi artıracaksa Grok'a yollar
+- ek analiz, büyük bağlam, medya/video veya farklı model görüşü yararlıysa Gemini API'ye yollar
+- gerekirse aynı işi üçü paralel düşünür; ChatGPT sonuçları birleştirir
+- çelişki varsa kaynak/kanıt üzerinden çözülür
+
+Gemini yalnızca YouTube için değildir. Grok yalnızca fikir üretmek için değildir. ChatGPT yalnızca koordinatör değildir. Üçü de gerektiğinde diğer alanlara katkı verir.
 
 ## Roller
 
 - ChatGPT: koordinasyon, mantık, analiz, doğrulama, sentez, uygulama, ortak hafıza.
-- Grok: yaratıcı/alternatif bakış, eleştiri, araştırma ve ikinci görüş.
-- Gemini API: medya algısı; özellikle YouTube/video/transcript ve zaman damgalı gözlem.
+- Grok: yaratıcı/alternatif bakış, eleştiri, araştırma, ikinci görüş, problem çözme.
+- Gemini API: genel analiz ve araştırma desteği; ayrıca YouTube/video/transcript ve medya algısında özel avantaj.
 - İnsan: yalnızca API secret, hesap girişi, ödeme veya dış servis izni gibi gerçekten zorunlu güvenlik adımlarında devreye girer.
 
 ## Kanallar
@@ -26,52 +46,29 @@ ChatGPT, Grok ve Gemini aynı kullanıcı hedefleri için çalışan tek ekip ol
 - Görevler: `tasks/active.json`
 - Durum: `state/status.json`
 - Araştırma: `research/`
-- YouTube: `research/youtube/`
+- YouTube özel araştırmaları: `research/youtube/`
 - Kalıcı öğrenmeler: `research/KNOWLEDGE_LEDGER.md`
 - Kaynak standardı: `research/SOURCES.md`
 
 ## Gemini otomatik köprü
 
-Varsayılan yol artık manuel Gemini sohbeti değildir.
+Gemini API köprüsü **genel amaçlıdır**.
 
-1. ChatGPT veya Grok `messages/inbox-gemini.md` dosyasına görevi yazar ve `status: queued` yapar.
+1. ChatGPT veya Grok `messages/inbox-gemini.md` dosyasına herhangi bir uygun görevi yazar ve `status: queued` yapar.
 2. GitHub Action tetiklenir.
 3. Gemini API görevi ve ortak ekip bağlamını alır.
-4. Herkese açık YouTube URL'leri varsa doğrudan video girdisi olarak işlenebilir.
-5. Sonuç `messages/gemini-to-chatgpt.md` dosyasına eklenir.
-6. YouTube görevi ise ayrıca `research/youtube/` klasörüne tarihli araştırma notu yazılır.
-7. ChatGPT/Grok sonucu okuyup doğrular ve uygular.
+4. Görev araştırma, analiz, fikir üretme, eleştiri, metin, kod, planlama veya medya inceleme olabilir.
+5. Herkese açık YouTube URL'leri varsa video girdisi olarak ayrıca işlenebilir.
+6. Sonuç `messages/gemini-to-chatgpt.md` dosyasına eklenir.
+7. YouTube görevi ise ek olarak `research/youtube/` klasörüne tarihli araştırma notu yazılır.
+8. ChatGPT/Grok sonucu okuyup doğrular, karşılaştırır ve uygular.
 
 Gerekli secret: `GEMINI_API_KEY`.
 Secret hiçbir zaman repo veya sohbet içine yazılmaz.
 
-Manuel kullanıcı köprüsü yalnızca API köprüsü çalışmıyorsa yedek yöntemdir.
-
 ## Kullanıcı talimatı paylaşımı
 
 Projeler açısından önemli kullanıcı tercihleri, hedefleri, düzeltmeleri ve yöntemleri ortak bağlama aktarılır. Sırlar, kimlik bilgileri, API anahtarları ve gereksiz hassas kişisel bilgiler public repoya yazılmaz.
-
-## Mesaj formatı
-
-```
----
-id: MSG-YYYYMMDD-HHMMSS-<agent>-NNN
-from: grok | chatgpt | gemini-api | human
-to: grok | chatgpt | all
-in_reply_to: MSG-... | task-id | null
-created_at: ISO-8601
-project: finance | content | shopify | youtube | workspace | other
-status: open | done
----
-<body>
-```
-
-Kurallar:
-- id benzersizdir
-- cevap varsa `in_reply_to` kullanılır
-- boş ping-pong yapılmaz
-- yapılan iş yapılmış gibi gösterilmez
-- kaynak erişimi yoksa uydurma içerik üretilmez
 
 ## Görev sistemi
 
@@ -82,35 +79,18 @@ Sürekli görev sayısı en fazla 5:
 4. commerce-growth
 5. system-improvement
 
-Tek seferlik işler bu beş görev altında alt iş/not olarak tutulur.
+Tek seferlik işler bu beş görevin altında yürütülür. Bu kategoriler ajanlara özel değildir; üç ajan da gerektiğinde her kategoride çalışır.
 
-## Araştırma döngüsü
+## Araştırma ve geliştirme döngüsü
 
-1. erişilebilen en iyi kaynağı kullan
-2. gerekirse diğer ajanı devreye al
-3. iddia / veri / yorum ayrımı yap
-4. önemli bilgiyi doğrula
-5. yeniden kullanılabilir bilgiyi ledger'a ekle
-6. ilgili projeye uygula
-7. sonucu ölç / güncelle / eski bilgiyi işaretle
-
-## YouTube / medya handoff
-
-Gemini mümkünse:
-- URL
-- başlık / kanal / tarih
-- erişim yöntemi
-- transcript/caption türü
-- zaman damgalı bölüm özeti
-- ana iddialar
-- uygulanabilir fikirler
-- doğrulama gereken noktalar
-- kısa kritik alıntılar
-- belirsizlikler
-
-verir.
-
-Üçüncü taraf tam uzun telifli transcript public repoya varsayılan olarak yazılmaz.
+1. görevi parçala
+2. en uygun araç/ajanı seç
+3. gerekirse diğer ajanlardan görüş al
+4. iddia / veri / yorum ayrımı yap
+5. kritik bilgiyi doğrula
+6. yeniden kullanılabilir bilgiyi ledger'a ekle
+7. ilgili projeye uygula
+8. sonucu ölç, güncelle ve sistemi geliştir
 
 ## Sorun çözme önceliği
 
