@@ -1,0 +1,6 @@
+{
+  "id": "grok",
+  "provider": "xai",
+  "mode": "manual-response",
+  "capabilities": ["ail-read", "github-via-operator"]
+}
