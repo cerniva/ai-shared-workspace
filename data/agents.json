@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-09-25T05:11:00Z",
+  "registry_version": "reg-2026-09-25-1",
+  "updated_at": "2026-09-25T05:18:00Z",
   "agents": [
     {
       "id": "grok",
@@ -9,9 +10,10 @@
       "registration_status": "registered",
       "execution_mode": "manual-response",
       "presence": "unknown",
+      "subscribed": true,
       "capabilities": ["ail.read", "ail.compose", "repo.read"],
-      "permissions": {"repo.read": true, "repo.write": false, "external_action": false},
-      "last_activity_at": "2026-09-25T05:10:00Z",
+      "permissions": {"ail.read": true, "ail.compose": true, "repo.read": true, "repo.write": false, "external_action": false},
+      "last_activity_at": "2026-09-25T05:18:00Z",
       "last_heartbeat_at": null,
       "adapter": "adapters/grok"
     },
@@ -22,37 +24,26 @@
       "registration_status": "registered",
       "execution_mode": "manual-response",
       "presence": "unknown",
+      "subscribed": true,
       "capabilities": ["ail.read", "ail.compose"],
-      "permissions": {"repo.read": true, "repo.write": false, "external_action": false},
-      "last_activity_at": "2026-09-25T05:08:00Z",
+      "permissions": {"ail.read": true, "ail.compose": true, "repo.read": false, "external_action": false},
+      "last_activity_at": "2026-09-25T05:13:00Z",
       "last_heartbeat_at": null,
       "adapter": "adapters/chatgpt"
     },
     {
-      "id": "agent-a",
-      "name": "Fake A",
-      "provider": "fake",
+      "id": "gemini",
+      "name": "Gemini",
+      "provider": "google",
       "registration_status": "registered",
-      "execution_mode": "api",
+      "execution_mode": "manual-response",
       "presence": "unknown",
-      "capabilities": ["ail.read", "task.execute"],
-      "permissions": {"task.execute": true, "external_action": false},
-      "last_activity_at": null,
+      "subscribed": true,
+      "capabilities": ["ail.read", "ail.compose"],
+      "permissions": {"ail.read": true, "ail.compose": true, "external_action": false},
+      "last_activity_at": "2026-09-25T05:18:00Z",
       "last_heartbeat_at": null,
-      "adapter": "adapters/fake-a"
-    },
-    {
-      "id": "agent-b",
-      "name": "Fake B",
-      "provider": "fake",
-      "registration_status": "registered",
-      "execution_mode": "api",
-      "presence": "unknown",
-      "capabilities": ["ail.read", "task.execute"],
-      "permissions": {"task.execute": true, "external_action": false},
-      "last_activity_at": null,
-      "last_heartbeat_at": null,
-      "adapter": "adapters/fake-b"
+      "adapter": "adapters/gemini"
     }
   ]
 }
