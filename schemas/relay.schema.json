@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "relay_id", "message_id", "created_at", "deliveries"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "relay_id": {"type": "string", "pattern": "^relay-"},
+    "message_id": {"type": "string", "pattern": "^msg-"},
+    "created_at": {"type": "string"},
+    "registry_version": {"type": "string"},
+    "recipient_snapshot_at": {"type": "string"},
+    "recipient_ids": {"type": "array", "items": {"type": "string"}},
+    "deliveries": {"type": "array"}
+  }
+}
