@@ -60,6 +60,9 @@ team_context = "\n\n".join(
         read(ROOT / "PROTOCOL.md", 10000),
         read(ROOT / "research" / "SOURCES.md", 6000),
         read(ROOT / "research" / "KNOWLEDGE_LEDGER.md", 8000),
+        read(ROOT / "reports" / "LATEST.md", 12000),
+        read(ROOT / "docs" / "TASK_ROUTING.md", 6000),
+        read(ROOT / "tasks" / "agent_capacity.json", 4000),
     ] if x
 )
 
