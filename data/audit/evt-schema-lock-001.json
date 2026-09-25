@@ -1,11 +1,14 @@
 {
   "schema_version": "1.0",
   "event_id": "evt-schema-lock-001",
-  "actor_type": "agent",
-  "actor_id": "grok",
+  "initiator_type": "agent",
+  "initiator_id": "grok",
+  "executor_type": "human",
+  "executor_id": "operator",
+  "transport": "github-tool",
   "action": "schema.update",
   "resource_type": "docs",
   "resource_id": "v2-architecture",
-  "timestamp": "2026-09-25T05:11:00Z",
-  "metadata": {"ref": "msg-chatgpt-v2-001"}
+  "timestamp": "2026-09-25T05:21:00Z",
+  "metadata": {"ref": "msg-chatgpt-v2-003"}
 }
