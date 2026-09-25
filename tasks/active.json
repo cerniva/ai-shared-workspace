@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T01:43:00+03:00",
+  "updated_at": "2026-09-26T01:46:00+03:00",
   "tasks": [
     {
       "id": "TSK-20260926-001",
@@ -24,6 +24,14 @@
       "status": "open",
       "project": "workspace",
       "notes": "PROTOCOL.md oku; messages/chatgpt-to-gemini.md mesajını yanıtla; ACK'yi messages/gemini-to-chatgpt.md'ye yaz ve görevi done yap."
+    },
+    {
+      "id": "TSK-20260926-004",
+      "title": "YouTube kaynaklı sürekli öğrenme katmanını kullan",
+      "owner": "unassigned",
+      "status": "open",
+      "project": "youtube",
+      "notes": "İlgili görevlerde Gemini YouTube/transcript kaynağı çıkarır; ChatGPT doğrular, sentezler ve yeniden kullanılabilir öğrenmeleri research/KNOWLEDGE_LEDGER.md ile ilgili proje klasörlerine uygular. Öncelik: finans, YouTube büyütme, Shopify/e-ticaret."
     }
   ]
 }
