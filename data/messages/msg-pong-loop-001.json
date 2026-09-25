@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "message_id": "msg-pong-loop-001",
+  "sender_type": "agent",
+  "sender_id": "agent-a",
+  "from": "agent-a",
+  "to": "system",
+  "intent": "pong",
+  "ref": "msg-ping-loop-001",
+  "lang": "ail/1.1",
+  "body": "pong",
+  "source": "adapter",
+  "created_at": "2026-09-25T05:23:01Z",
+  "idempotency_key": "msg-pong-loop-001"
+}
