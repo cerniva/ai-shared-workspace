@@ -3,28 +3,41 @@ name: gemini-senses
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - messages/inbox-gemini.md
-    branches: [main]
+
+concurrency:
+  group: gemini-senses
+  cancel-in-progress: false
 
 jobs:
   run-gemini:
+    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Call Gemini and append reply
+
+      - name: Call Gemini API
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-2.5-flash
         run: python3 scripts/gemini_senses.py
-      - name: Commit reply
+
+      - name: Commit Gemini result
         run: |
           git config user.name "gemini-senses-bot"
           git config user.email "gemini-senses@users.noreply.github.com"
-          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md
-          git diff --cached --quiet || git commit -m "Gemini senses reply"
+          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md research/youtube/
+          git diff --cached --quiet && exit 0
+          git commit -m "Gemini senses reply"
           git push
