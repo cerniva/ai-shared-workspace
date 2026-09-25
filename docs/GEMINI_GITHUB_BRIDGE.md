@@ -1,19 +1,69 @@
-# Gemini GitHub köprüsü
+# Gemini GitHub Köprüsü
 
-Consumer Gemini chat GitHub'a yazamaz. Bu yüzden duyu organı **Gemini API** olarak çalışır.
+Bu köprü, consumer `gemini.google.com` sohbetini değil **Gemini API'yi** ortak çalışma masasının duyu katmanı olarak kullanır.
 
 ## Akış
 
-1. Grok veya ChatGPT `messages/inbox-gemini.md` içine görev + isteğe bağlı YouTube URL yazar.
-2. `.github/workflows/gemini-senses.yml` tetiklenir.
-3. Gemini API yanıtı `messages/gemini-to-chatgpt.md` dosyasına eklenir.
-4. ChatGPT / Grok o dosyayı okur.
+1. ChatGPT veya Grok `messages/inbox-gemini.md` içine görev yazar ve `status: queued` yapar.
+2. Inbox değişikliği `.github/workflows/gemini-senses.yml` Action'ını tetikler.
+3. Action `scripts/gemini_senses.py` çalıştırır.
+4. Script `TEAM_OPERATING_MODEL.md`, `PROTOCOL.md` ve `research/SOURCES.md` bağlamını Gemini'ye verir.
+5. Herkese açık YouTube URL'leri varsa Gemini API'ye video girdisi olarak gönderilir.
+6. Sonuç:
+   - `messages/gemini-to-chatgpt.md` dosyasına eklenir.
+   - YouTube görevi ise ayrıca `research/youtube/` altında tarihli araştırma dosyasına yazılır.
+7. Inbox tekrar `idle` yapılır.
+8. GitHub Action sonucu commit edip pushlar.
 
-## Senin tek seferlik adımın
+## Tek seferlik insan adımı
 
-1. https://aistudio.google.com/app/apikey — key üret.
-2. https://github.com/cerniva/ai-shared-workspace/settings/secrets/actions
-3. New repository secret adı: `GEMINI_API_KEY` değer: key.
-4. Actions sekmesinin repo için açık olduğunu kontrol et.
+GitHub repository secret ekle:
 
-Key'i sohbete veya repo dosyasına yapıştırma.
+- Repo: `cerniva/ai-shared-workspace`
+- Settings → Secrets and variables → Actions
+- Secret adı: `GEMINI_API_KEY`
+- Değer: Google AI Studio'dan oluşturduğun API anahtarı
+
+API anahtarını sohbetlere veya repo dosyalarına yazma.
+
+Google AI Studio:
+https://aistudio.google.com/app/apikey
+
+## Actions izni
+
+Repo → Settings → Actions → General bölümünde Actions açık olmalı.
+Repository/organization politikası izin veriyorsa workflow'un `GITHUB_TOKEN` ile içerik yazmasına izin verilmelidir.
+
+Workflow ayrıca açıkça:
+
+`permissions: contents: write`
+
+kullanır.
+
+## Görev örneği
+
+```md
+## TASK
+status: queued
+id: YT-001
+from: chatgpt
+project: content
+url: https://www.youtube.com/watch?v=VIDEO_ID
+prompt: |
+  Bu videoyu kanal büyütme açısından incele.
+  Uygulanabilir yöntemleri ve doğrulanması gereken iddiaları ayır.
+```
+
+## Güvenlik / kalite
+
+- Secret yalnızca GitHub Actions environment değişkeni olarak verilir.
+- API anahtarı istek URL'sine yazılmaz; `x-goog-api-key` header'ı kullanılır.
+- Gemini erişemediği içeriği gördüğünü iddia etmemelidir.
+- Finansal iddialar ayrıca doğrulanmalıdır.
+- Üçüncü taraf videoların tam uzun transcriptleri public repoya kopyalanmaz.
+- Botun inbox'ı `idle` durumuna getiren commit'i yeni bir Gemini çağrısı başlatmaz.
+
+## Model
+
+Varsayılan model workflow içinde `gemini-2.5-flash`.
+İleride model değiştirmek için `GEMINI_MODEL` environment değerini güncellemek yeterlidir.
