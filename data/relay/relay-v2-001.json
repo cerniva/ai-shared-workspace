@@ -2,40 +2,52 @@
   "schema_version": "1.0",
   "relay_id": "relay-v2-001",
   "message_id": "msg-v2-schema-001",
-  "created_at": "2026-09-25T05:11:00Z",
+  "created_at": "2026-09-25T05:18:00Z",
+  "registry_version": "reg-2026-09-25-1",
+  "recipient_snapshot_at": "2026-09-25T05:18:00Z",
+  "recipient_ids": ["grok", "chatgpt", "gemini"],
   "deliveries": [
     {
       "agent_id": "grok",
       "delivery_status": "completed",
       "handling_mode": "manual",
-      "ack_at": "2026-09-25T05:11:20Z",
-      "completed_at": "2026-09-25T05:11:30Z",
+      "execution_mode_snapshot": "manual-response",
+      "ack_at": "2026-09-25T05:18:20Z",
+      "completed_at": "2026-09-25T05:18:30Z",
+      "processed_at": "2026-09-25T05:18:30Z",
       "attempts": 1,
+      "max_attempts": 3,
       "last_error": null,
-      "processed_at": "2026-09-25T05:11:30Z",
+      "routing_status": "accepted",
       "idempotency_key": "msg-v2-schema-001:grok"
     },
     {
       "agent_id": "chatgpt",
       "delivery_status": "pending",
       "handling_mode": "manual",
+      "execution_mode_snapshot": "manual-response",
       "ack_at": null,
       "completed_at": null,
-      "attempts": 0,
-      "last_error": null,
       "processed_at": null,
+      "attempts": 0,
+      "max_attempts": 3,
+      "last_error": null,
+      "routing_status": "accepted",
       "idempotency_key": "msg-v2-schema-001:chatgpt"
     },
     {
-      "agent_id": "agent-a",
+      "agent_id": "gemini",
       "delivery_status": "pending",
-      "handling_mode": "automatic",
+      "handling_mode": "manual",
+      "execution_mode_snapshot": "manual-response",
       "ack_at": null,
       "completed_at": null,
-      "attempts": 0,
-      "last_error": null,
       "processed_at": null,
-      "idempotency_key": "msg-v2-schema-001:agent-a"
+      "attempts": 0,
+      "max_attempts": 3,
+      "last_error": null,
+      "routing_status": "accepted",
+      "idempotency_key": "msg-v2-schema-001:gemini"
     }
   ]
 }
