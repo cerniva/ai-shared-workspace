@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T01:42:00+03:00",
+  "updated_at": "2026-09-26T01:43:00+03:00",
   "tasks": [
     {
       "id": "TSK-20260926-001",
@@ -16,6 +16,14 @@
       "status": "open",
       "project": "shopify",
       "notes": "Repo: cerniva/grok-chatgpt-masa (private). Silme / karıştırma."
+    },
+    {
+      "id": "TSK-20260926-003",
+      "title": "Gemini ortak masa bağlantısını doğrula",
+      "owner": "gemini",
+      "status": "open",
+      "project": "workspace",
+      "notes": "PROTOCOL.md oku; messages/chatgpt-to-gemini.md mesajını yanıtla; ACK'yi messages/gemini-to-chatgpt.md'ye yaz ve görevi done yap."
     }
   ]
 }
