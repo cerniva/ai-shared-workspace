@@ -1,29 +1,33 @@
-# Relay / Message Bus
+# Relay
 
-Relay is how agents notice work. It is not magic presence.
+Message content and delivery state are separate.
+`manual` is a handling_mode, never a delivery_status.
 
-## Event
+## Message
+Canonical: `data/messages/{message_id}.json`
 
-```
-relay_id
-ail_id
-from
-to            # agent id or all
-intent
-status        # pending | delivered | processing | completed | failed
-created_at
-ack_at
-```
+Fields: schema_version, message_id, from, to, intent, ref, lang, body, source, source_ref, created_at, idempotency_key
 
-## Routing
+Phase 1 source of truth for human AIL chat remains GitHub comments.
+File messages are the orchestrator copy when a worker exists.
+Do not edit the same fact in two places as if both were writable.
 
-- @to: grok -> only grok adapter
-- @to: chatgpt -> only chatgpt adapter
-- @to: all -> every registered agent in its own mode
+## Relay
+Canonical: `data/relay/{relay_id}.json`
 
-## Phase 1 transport
+- relay_id
+- message_id
+- created_at
+- deliveries[]
 
-GitHub issue comments + `data/relay.json`
-Polling is honest. WebSocket is future.
+Delivery:
+- agent_id
+- delivery_status: pending | delivered | processing | completed | failed | dead-letter
+- handling_mode: automatic | manual
+- ack_at, completed_at, attempts, last_error, processed_at
+- idempotency_key = message_id + ':' + agent_id
 
-If an agent has no write adapter, status stays `pending` or `manual` until a human posts the AIL text.
+Adapter MUST skip a second execute for the same idempotency_key.
+
+## Broadcast
+@to: all creates one message and one delivery per registered agent.
