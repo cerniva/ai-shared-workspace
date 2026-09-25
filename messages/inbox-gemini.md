@@ -9,10 +9,14 @@ Yeni görev göndermek için `status: queued` yap ve görevi aşağıdaki şablo
 Gemini API tamamlayınca bu dosyayı tekrar `idle` durumuna getirir.
 
 ## TASK
-status: idle
-id:
+status: queued
+id: BRIDGE-TEST-20260926-0226
 from: chatgpt
 project: workspace
 url:
 prompt: |
-  Yeni görev bekleniyor.
+  Gemini API köprü bağlantı testi.
+  Yalnızca şu biçimde kısa cevap ver:
+  BRIDGE_OK
+  rol: duyu organı
+  durum: hazır
