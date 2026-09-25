@@ -1,8 +1,9 @@
-OK msg-ping-code-001 -> msg-pong-auto-msg-ping-code-001
-DUP msg-ping-code-001 skip
-RESULT first=@from: agent-a
-RESULT second=DUPLICATE
-DUP msg-ping-code-001 skip
-DUP msg-ping-code-001 skip
-RESULT first=DUPLICATE
-RESULT second=DUPLICATE
+OK msg-ping-code-001 attempt=1 -> msg-pong-auto-msg-ping-code-001 executes=1
+DUP msg-ping-code-001 executes=1
+UNSUPPORTED msg-bad-intent-001 original_intent=ACK
+FAIL msg-fail-001 attempt=1 err=adapter-down
+FAIL msg-fail-001 attempt=2 err=adapter-down
+FAIL msg-fail-001 attempt=3 err=adapter-down
+DEAD_LETTER msg-fail-001 attempts=3
+TEST A=ok B=duplicate C=unsupported D=dead-letter
+executes ping=1 fail=0
