@@ -1,0 +1,22 @@
+{
+  "updated_at": "2026-09-26T02:43:26+03:00",
+  "max_active_per_agent": 5,
+  "agents": {
+    "chatgpt": {
+      "active": 0,
+      "queued": 0,
+      "role": "coordination-validation-synthesis"
+    },
+    "grok": {
+      "active": 0,
+      "queued": 0,
+      "role": "creative-alternatives-redteam"
+    },
+    "gemini-api": {
+      "active": 0,
+      "queued": 0,
+      "role": "research-media-analysis"
+    }
+  },
+  "policy": "all-agents-review; execution lead chosen by fit and capacity; overflow when lead reaches 5"
+}
