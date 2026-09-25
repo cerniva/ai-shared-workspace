@@ -16,7 +16,6 @@ YT_DIR = ROOT / "research" / "youtube"
 
 KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
-
 ACTIVE_STATUSES = {"queued", "ready", "open", "run"}
 
 def read(path: Path, limit: int | None = None) -> str:
@@ -29,7 +28,7 @@ def field(text: str, name: str, default: str = "") -> str:
     m = re.search(rf"(?mi)^\s*{re.escape(name)}\s*:\s*(.*?)\s*$", text)
     return m.group(1).strip() if m else default
 
-def extract_urls(text: str) -> list[str]:
+def extract_youtube_urls(text: str) -> list[str]:
     urls = re.findall(r"https?://[^\s)>\]]+", text)
     clean = []
     for u in urls:
@@ -48,22 +47,25 @@ if status not in ACTIVE_STATUSES:
     sys.exit(0)
 
 if not KEY:
-    sys.exit("GEMINI_API_KEY secret eksik. Repo Settings → Secrets and variables → Actions.")
+    sys.exit("GEMINI_API_KEY secret eksik.")
 
 task_id = field(inbox, "id") or "gemini-task"
 project = field(inbox, "project", "workspace")
 sender = field(inbox, "from", "chatgpt")
-youtube_urls = extract_urls(inbox)
+youtube_urls = extract_youtube_urls(inbox)
 
 team_context = "\n\n".join(
     x for x in [
-        read(ROOT / "TEAM_OPERATING_MODEL.md", 9000),
-        read(ROOT / "PROTOCOL.md", 9000),
+        read(ROOT / "TEAM_OPERATING_MODEL.md", 10000),
+        read(ROOT / "PROTOCOL.md", 10000),
         read(ROOT / "research" / "SOURCES.md", 6000),
+        read(ROOT / "research" / "KNOWLEDGE_LEDGER.md", 8000),
     ] if x
 )
 
-instruction = f"""Sen ortak AI ekibinin Gemini API / duyu katmanısın.
+instruction = f"""Sen ortak AI ekibinin Gemini API üyesisin.
+
+Sen yalnızca YouTube/video işçisi değilsin. Finans, yazılım, Shopify, ürün geliştirme, içerik, araştırma, fikir üretme, eleştiri, planlama ve problem çözme dahil uygun olan her konuda ChatGPT ve Grok'a destek verirsin. Video/YouTube sadece özel güçlü yönlerinden biridir.
 
 ORTAK BAĞLAM:
 {team_context}
@@ -71,21 +73,23 @@ ORTAK BAĞLAM:
 GÖREV:
 {inbox}
 
-ÇIKTI KURALLARI:
+GENEL ÇIKTI KURALLARI:
 - Türkçe yaz.
-- Gerçekte erişmediğin veya çözümleyemediğin şeyi gördüğünü iddia etme.
-- YouTube/video varsa erişim biçimini belirt: video analizi, caption/transcript veya erişilemedi.
-- Mümkün olduğunda zaman damgaları kullan.
-- Şunları ayrı başlıklarda ver:
-  1) Kaynak bilgisi
-  2) Zaman damgalı bölüm özeti
-  3) Ana iddialar / veriler
-  4) Uygulanabilir fikirler
-  5) Doğrulama gereken noktalar
-  6) Belirsizlikler
-- Finans içeriğinde tahmin, görüş ve doğrulanmış olguyu birbirinden ayır.
-- Üçüncü taraf içeriğin uzun tam transcriptini üretme; sadık özet ve yalnızca gerekli kısa alıntılar kullan.
-- Kullanıcının aktif projelerine gerçekten uygulanabilecek fikirleri özellikle işaretle.
+- Görevi doğrudan çözmeye çalış.
+- Gerekli olduğunda kaynak/kanıt, varsayım, risk ve belirsizlikleri ayır.
+- Emin olmadığın şeyi kesin gerçek gibi yazma.
+- ChatGPT/Grok'un sonraki adımda kullanabileceği somut öneri veya çıktı üret.
+- Kullanıcının aktif projelerine uygulanabilir noktaları özellikle belirt.
+- Finans konusunda tahmin, görüş ve doğrulanmış olguyu ayır.
+- Kod/yazılım görevinde mümkün olduğunca uygulanabilir teknik çözüm ver.
+- Yaratıcı görevde birden fazla güçlü alternatif üretmekten çekinme.
+- Eleştiri görevi verilirse zayıf noktaları açıkça belirt.
+
+MEDYA/VIDEO VARSA EK KURALLAR:
+- Erişim biçimini belirt: video analizi, caption/transcript veya erişilemedi.
+- Mümkünse zaman damgaları kullan.
+- Uydurma transcript üretme.
+- Üçüncü taraf içeriğin uzun tam transcriptini üretme; sadık özet ve gerekli kısa alıntıları kullan.
 """
 
 parts = [{"text": instruction}]
@@ -94,18 +98,13 @@ for url in youtube_urls:
 
 payload = {
     "contents": [{"role": "user", "parts": parts}],
-    "generationConfig": {
-        "temperature": 0.2
-    }
+    "generationConfig": {"temperature": 0.2}
 }
 
 req = urllib.request.Request(
     f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent",
     data=json.dumps(payload).encode("utf-8"),
-    headers={
-        "Content-Type": "application/json",
-        "x-goog-api-key": KEY,
-    },
+    headers={"Content-Type": "application/json", "x-goog-api-key": KEY},
     method="POST",
 )
 
@@ -169,9 +168,7 @@ youtube_urls: {json.dumps(youtube_urls, ensure_ascii=False)}
 """
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
-previous = read(OUT)
-if not previous:
-    previous = "# Gemini API → ChatGPT / Grok\n"
+previous = read(OUT) or "# Gemini API → ChatGPT / Grok\n"
 OUT.write_text(previous.rstrip() + block + "\n", encoding="utf-8")
 
 if youtube_urls:
@@ -191,7 +188,7 @@ if youtube_urls:
 
 INBOX.write_text(
     "# Inbox → Gemini API\n\n"
-    "Bu dosya Gemini API için görev kutusudur.\n\n"
+    "Bu dosya Gemini API için genel amaçlı görev kutusudur.\n\n"
     "## TASK\n"
     "status: idle\n"
     f"id: {task_id}\n"
