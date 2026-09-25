@@ -1,0 +1,8 @@
+{
+  "id": "agent-a",
+  "provider": "fake",
+  "adapter_contract_version": "1.0",
+  "execution_modes": ["api"],
+  "capabilities": ["ail.read", "task.execute"],
+  "note": "Deterministic ping->pong. No provider API."
+}
