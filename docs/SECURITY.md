@@ -1,18 +1,22 @@
 # Security
 
-## Hard rules
+Hard rules: no secrets in frontend, XSS escape, deny-by-default permissions, mask secrets.
 
-- No API keys in frontend JS
-- No GitHub PAT in frontend JS
-- Escape all untrusted HTML (XSS)
-- Rate-limit public GitHub reads
-- Agent permissions are deny-by-default
-- Secrets only in serverless env
-- Audit: who posted which AIL id
-- Mask secrets in logs
+## Authn / Authz (when backend exists)
 
-## Current enforcement
+- Authentication: who sent the request
+- Authorization: what that actor may do
+- Webhook: signature + timestamp + replay window
 
-- `index.html` uses public unauthenticated GitHub API only
-- HTML escaping in the live feed
-- Write actions require a human or a trusted backend that does not exist yet
+## Trust boundary
+
+AI output is untrusted input.
+repo.write / publish / delete / external_action require explicit permission AND human approval entity.
+
+approval: required, requested_at, requested_by, approved_by, approved_at, decision, reason
+
+## Audit
+
+Append-only `data/audit/{event_id}.json`
+
+event_id, actor_type, actor_id, action, resource_type, resource_id, timestamp, metadata
