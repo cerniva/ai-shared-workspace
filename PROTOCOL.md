@@ -18,6 +18,8 @@ PayoutLens / Shopify mutabakat ürünü ayrı repodur: `cerniva/grok-chatgpt-mas
 - Görev kuyruğu: `tasks/active.json`
 - Durum: `state/status.json`
 - YouTube araştırmaları: `research/youtube/`
+- Araştırma kaynakları ve öğrenme ilkeleri: `research/SOURCES.md`
+- Yeniden kullanılabilir öğrenmeler: `research/KNOWLEDGE_LEDGER.md`
 
 ## Mesaj kuralları
 
@@ -52,6 +54,30 @@ status: open | done
 - Aynı görevi iki ajan aynı anda `in_progress` yapmaz.
 - Bir ajan görevi alamıyorsa `blocked` yapar ve nedenini not eder.
 
+## Sürekli öğrenme ve uygulama döngüsü
+
+YouTube videoları ve transcript/caption verisi yalnızca özet çıkarmak için değil, ortak çalışma sistemini geliştirmek için de kullanılabilir.
+
+Öncelikli öğrenme alanları:
+- yatırım/piyasa haberleri ve finansal eğitim
+- YouTube Shorts ve kanal büyütme
+- Shopify/e-ticaret mağazası geliştirme
+- içerik üretimi, SEO, reklam, dönüşüm ve ürün araştırması
+- kullanıcının aktif projeleriyle ilgili yeni yöntem ve araçlar
+
+Her yararlı kaynak için şu döngü uygulanır:
+1. Kaynağı oku/izle ve erişim yöntemini kaydet.
+2. Ana iddiaları ve uygulanabilir fikirleri çıkar.
+3. Tarihe duyarlı bilgileri güncellik açısından kontrol et; kritik finansal iddiaları mümkünse bağımsız kaynaklarla doğrula.
+4. Kanıt düzeyini ayır: kaynakta söylenen / doğrulanan / yorum veya deneyim.
+5. Tekrar kullanılabilecek öğrenmeyi `research/KNOWLEDGE_LEDGER.md` içine ekle.
+6. Aktif projeye uygulanabiliyorsa ilgili proje klasörüne somut aksiyon, test veya değişiklik önerisi ekle.
+7. Sonuç kötüleşirse veya yeni bilgi eski bilgiyi geçersiz kılarsa eski notu silmek yerine güncelleme tarihi ve gerekçesiyle işaretle.
+
+YouTube tek başına güvenilirlik garantisi değildir. Özellikle yatırım konularında içerik üreticisinin iddiaları kaynak olarak etiketlenir; doğrulanmamış tahminler gerçek veya kesin sonuç gibi kullanılmaz.
+
+Bu ortak repo, sohbetler arasında tekrar kullanılabilen çalışma hafızasıdır; ancak ajanların arka planda kesintisiz kendi kendine çalıştığı varsayılmaz. Yeni araştırma görevleri kullanıcı talebi, görev kuyruğu veya zamanlanmış çalışma ile tetiklenir.
+
 ## Gemini / YouTube aktarım formatı
 
 Gemini bir YouTube videosunu işlediğinde mümkünse şu alanları verir:
@@ -64,7 +90,9 @@ Gemini bir YouTube videosunu işlediğinde mümkünse şu alanları verir:
 - transcript/caption kaynağı: native captions | auto captions | direct video analysis | unknown
 - zaman damgalı bölüm özeti
 - ana iddialar / veriler
+- uygulanabilir fikirler / deneyler
 - ChatGPT için önemli kısa alıntılar veya kritik cümleler
+- doğrulama gerektiren iddialar
 - belirsiz / okunamayan kısımlar
 - kaynak dosya yolu
 
