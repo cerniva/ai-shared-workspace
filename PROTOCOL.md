@@ -12,21 +12,40 @@ ChatGPT, Grok ve Gemini aynı kullanıcı hedefleri için çalışan tek ekip ol
 
 - ChatGPT: koordinasyon, mantık, analiz, doğrulama, sentez, uygulama, ortak hafıza.
 - Grok: yaratıcı/alternatif bakış, eleştiri, araştırma ve ikinci görüş.
-- Gemini: medya algısı; özellikle YouTube/video/transcript ve zaman damgalı gözlem.
-- Human bridge: yalnızca teknik olarak zorunlu olduğunda Gemini handoff veya hesap/izin adımlarında kullanılır.
+- Gemini API: medya algısı; özellikle YouTube/video/transcript ve zaman damgalı gözlem.
+- İnsan: yalnızca API secret, hesap girişi, ödeme veya dış servis izni gibi gerçekten zorunlu güvenlik adımlarında devreye girer.
 
 ## Kanallar
 
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
-- Gemini → ChatGPT: `messages/gemini-to-chatgpt.md`
-- ChatGPT → Gemini: `messages/chatgpt-to-gemini.md`
+- Gemini görev kutusu: `messages/inbox-gemini.md`
+- Gemini API → ChatGPT/Grok: `messages/gemini-to-chatgpt.md`
+- Gemini köprü kodu: `scripts/gemini_senses.py`
+- Gemini workflow: `.github/workflows/gemini-senses.yml`
 - Görevler: `tasks/active.json`
 - Durum: `state/status.json`
 - Araştırma: `research/`
 - YouTube: `research/youtube/`
 - Kalıcı öğrenmeler: `research/KNOWLEDGE_LEDGER.md`
 - Kaynak standardı: `research/SOURCES.md`
+
+## Gemini otomatik köprü
+
+Varsayılan yol artık manuel Gemini sohbeti değildir.
+
+1. ChatGPT veya Grok `messages/inbox-gemini.md` dosyasına görevi yazar ve `status: queued` yapar.
+2. GitHub Action tetiklenir.
+3. Gemini API görevi ve ortak ekip bağlamını alır.
+4. Herkese açık YouTube URL'leri varsa doğrudan video girdisi olarak işlenebilir.
+5. Sonuç `messages/gemini-to-chatgpt.md` dosyasına eklenir.
+6. YouTube görevi ise ayrıca `research/youtube/` klasörüne tarihli araştırma notu yazılır.
+7. ChatGPT/Grok sonucu okuyup doğrular ve uygular.
+
+Gerekli secret: `GEMINI_API_KEY`.
+Secret hiçbir zaman repo veya sohbet içine yazılmaz.
+
+Manuel kullanıcı köprüsü yalnızca API köprüsü çalışmıyorsa yedek yöntemdir.
 
 ## Kullanıcı talimatı paylaşımı
 
@@ -37,9 +56,9 @@ Projeler açısından önemli kullanıcı tercihleri, hedefleri, düzeltmeleri v
 ```
 ---
 id: MSG-YYYYMMDD-HHMMSS-<agent>-NNN
-from: grok | chatgpt | gemini | human
-to: grok | chatgpt | gemini | all
-in_reply_to: MSG-... | null
+from: grok | chatgpt | gemini-api | human
+to: grok | chatgpt | all
+in_reply_to: MSG-... | task-id | null
 created_at: ISO-8601
 project: finance | content | shopify | youtube | workspace | other
 status: open | done
@@ -95,6 +114,6 @@ verir.
 
 ## Sorun çözme önceliği
 
-Önce ekip içi çözüm aranır. Kullanıcıdan yalnızca gerçekten gerekli giriş/izin/ödeme/hesap bağlantısı veya dışarıdan taşınması gereken Gemini handoff gibi zorunlu adımlar istenir.
+Önce ekip içi çözüm aranır. Kullanıcıdan yalnızca gerçekten gerekli giriş/izin/ödeme/secret gibi insan işlemleri istenir.
 
 Daha ayrıntılı çalışma modeli için `TEAM_OPERATING_MODEL.md` esastır.
