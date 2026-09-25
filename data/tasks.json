@@ -1,16 +1,5 @@
 {
-  "tasks": [
-    {
-      "task_id": "task-ail-platform-v2-001",
-      "parent_task_id": null,
-      "title": "Build Multi-Agent AIL platform v2",
-      "description": "Architecture first, then phased implementation. Do not fake automation.",
-      "assigned_agent": "grok",
-      "status": "processing",
-      "dependencies": [],
-      "result": "docs + registry created on branch v2-architecture",
-      "created_at": "2026-09-25T05:01:00Z",
-      "updated_at": "2026-09-25T05:02:00Z"
-    }
-  ]
+  "deprecated": true,
+  "replacement": "data/tasks/",
+  "schema_version": "0.0-deprecated"
 }
