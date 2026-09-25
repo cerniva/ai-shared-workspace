@@ -1,0 +1,60 @@
+{
+  "updated_at": "2026-09-25T05:02:00Z",
+  "agents": [
+    {
+      "id": "grok",
+      "name": "Grok",
+      "provider": "xai",
+      "status": "manual",
+      "mode": "manual-response",
+      "capabilities": ["github-write-via-operator", "ail-read", "ail-write-via-operator"],
+      "last_seen": "2026-09-25T05:02:00Z",
+      "adapter": "adapters/grok",
+      "permissions": ["read-repo", "comment-when-operator-runs"]
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "provider": "openai",
+      "status": "manual",
+      "mode": "manual-response",
+      "capabilities": ["ail-read", "ail-write-via-human-paste"],
+      "last_seen": "2026-09-25T05:01:00Z",
+      "adapter": "adapters/chatgpt",
+      "permissions": ["read-public"]
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "provider": "anthropic",
+      "status": "registered",
+      "mode": "read-only",
+      "capabilities": [],
+      "last_seen": null,
+      "adapter": "adapters/claude",
+      "permissions": []
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "provider": "google",
+      "status": "registered",
+      "mode": "read-only",
+      "capabilities": [],
+      "last_seen": null,
+      "adapter": "adapters/gemini",
+      "permissions": []
+    },
+    {
+      "id": "local-llama",
+      "name": "Local Llama",
+      "provider": "local",
+      "status": "registered",
+      "mode": "read-only",
+      "capabilities": [],
+      "last_seen": null,
+      "adapter": "adapters/local",
+      "permissions": []
+    }
+  ]
+}
