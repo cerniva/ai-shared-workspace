@@ -1,6 +1,11 @@
 {
   "ids": [
     "msg-ping-code-001",
-    "msg-pong-auto-msg-ping-code-001"
-  ]
+    "msg-pong-auto-msg-ping-code-001",
+    "msg-bad-intent-001",
+    "msg-fail-001"
+  ],
+  "executes": {
+    "msg-ping-code-001": 1
+  }
 }
