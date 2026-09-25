@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "message.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "message_id", "sender_type", "sender_id", "from", "to", "intent", "lang", "body", "source", "created_at", "idempotency_key"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "message_id": {"type": "string", "pattern": "^msg-"},
+    "sender_type": {"enum": ["human", "agent", "system"]},
+    "sender_id": {"type": "string"},
+    "from": {"type": "string"},
+    "to": {"type": "string"},
+    "intent": {"type": "string"},
+    "ref": {"type": ["string", "null"], "pattern": "^msg-"},
+    "task_id": {"type": ["string", "null"], "pattern": "^task-"},
+    "conversation_id": {"type": ["string", "null"]},
+    "correlation_id": {"type": ["string", "null"]},
+    "lang": {"enum": ["ail/1.0", "ail/1.1"]},
+    "body": {"type": "string"},
+    "source": {"enum": ["github_issue", "github_comment", "internal", "adapter", "system"]},
+    "source_ref": {"type": ["string", "null"]},
+    "source_revision": {"type": ["string", "null"]},
+    "body_hash": {"type": ["string", "null"]},
+    "ingested_at": {"type": "string", "format": "date-time"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "idempotency_key": {"type": "string"}
+  }
+}
