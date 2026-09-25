@@ -1,20 +1,41 @@
 {
   "schema_version": "1.0",
-  "executed": false,
+  "executed": true,
+  "executor_type": "human",
+  "executor_id": "operator",
+  "transport": "github-tool",
+  "note": "Not a provider API. Deterministic fixture write only.",
   "in": {
     "message_id": "msg-ping-loop-001",
+    "sender_type": "system",
     "from": "system",
     "to": "agent-a",
     "intent": "ping",
     "lang": "ail/1.1",
     "body": "ping"
   },
-  "expected_out": {
+  "delivery": {
+    "relay_id": "relay-ping-loop-001",
+    "agent_id": "agent-a",
+    "delivery_status": "completed",
+    "handling_mode": "automatic",
+    "attempts": 1,
+    "idempotency_key": "msg-ping-loop-001:agent-a"
+  },
+  "out": {
     "message_id": "msg-pong-loop-001",
     "from": "agent-a",
     "to": "system",
     "intent": "pong",
     "ref": "msg-ping-loop-001",
+    "lang": "ail/1.1",
     "body": "pong"
-  }
+  },
+  "return_delivery": {
+    "relay_id": "relay-pong-loop-001",
+    "agent_id": "system",
+    "delivery_status": "completed",
+    "idempotency_key": "msg-pong-loop-001:system"
+  },
+  "duplicate_execute": 0
 }
