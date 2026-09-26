@@ -15,12 +15,17 @@ INBOX = ROOT / "messages" / "inbox-tinyfish.md"
 OUT = ROOT / "messages" / "from-tinyfish.md"
 ACTION = ROOT / "messages" / "user-action-required.md"
 FETCH_URL = "https://api.fetch.tinyfish.ai"
-ALLOWED_HOSTS = {
-    "i19cci-4e.myshopify.com",
-    "docs.tinyfish.ai",
-    "agent.tinyfish.ai",
-    "example.com",
-}
+AGENT_RUN_URL = "https://agent.tinyfish.ai/v1/automation/run"
+ALLOWED_HOSTS = {"i19cci-4e.myshopify.com", "docs.tinyfish.ai", "agent.tinyfish.ai", "example.com"}
+PROHIBITED_GOAL_PATTERNS = (
+    r"\b(buy|purchase|pay|checkout)\b",
+    r"\b(publish|post publicly|send publicly)\b",
+    r"\b(delete|remove account)\b",
+    r"\b(change|reset).{0,20}\b(password|security|2fa|mfa)\b",
+    r"\b(secret|password|api key|token)\b",
+    r"\b(bypass|solve).{0,20}\b(2fa|mfa|captcha|login)\b",
+    r"\blog\s?in\b|\blogin\b",
+)
 
 
 def now() -> str:
@@ -28,9 +33,7 @@ def now() -> str:
 
 
 def latest_task(text: str) -> str:
-    if "## TASK" not in text:
-        return text
-    return text.rsplit("## TASK", 1)[-1]
+    return text.rsplit("## TASK", 1)[-1] if "## TASK" in text else text
 
 
 def field(block: str, name: str) -> str:
@@ -85,25 +88,53 @@ def validate_task(task: dict[str, object]) -> tuple[bool, str]:
         return False, f"unsupported mode: {mode}"
     if mode == "fetch" and not task.get("urls"):
         return False, "fetch requires at least one allowlisted URL"
-    if mode == "browser":
-        if not task.get("url"):
-            return False, "browser requires url"
-        if not task.get("goal"):
-            return False, "browser requires goal"
+    if mode == "browser" and (not task.get("url") or not task.get("goal")):
+        return False, "browser requires url and goal"
     return True, ""
+
+
+def browser_block_reason(task: dict[str, object]) -> str:
+    goal = str(task.get("goal", "")).lower()
+    for pattern in PROHIBITED_GOAL_PATTERNS:
+        if re.search(pattern, goal, re.I):
+            return "browser goal requires prohibited or authenticated action"
+    return ""
+
+
+def build_browser_payload(task: dict[str, object]) -> dict[str, object]:
+    if task.get("mode") != "browser":
+        raise ValueError("browser payload requires mode: browser")
+    reason = browser_block_reason(task)
+    if reason:
+        raise ValueError(reason)
+    return {
+        "url": task["url"],
+        "goal": task["goal"],
+        "browser_profile": "lite",
+        "agent_config": {"mode": "strict", "max_steps": 50, "max_duration_seconds": 300},
+    }
+
+
+def run_browser(task: dict[str, object], key: str) -> dict[str, object]:
+    payload = build_browser_payload(task)
+    req = urllib.request.Request(
+        AGENT_RUN_URL,
+        data=json.dumps(payload).encode(),
+        method="POST",
+        headers={"Content-Type": "application/json", "X-API-Key": key, "User-Agent": "cerniva-desk-tinyfish/2"},
+    )
+    with urllib.request.urlopen(req, timeout=330) as resp:
+        return json.loads(resp.read().decode())
 
 
 def append_action(reason: str) -> None:
     block = (
         f"\n---\nid: ACTION-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}-tinyfish\n"
         f"source: tinyfish-worker\nstatus: open\ncreated_at: {now()}\n---\n\n"
-        "## BAĞLANTI GEREKİYOR\n"
-        "- Servis: TinyFish Fetch API\n"
-        "- Secret adı: TINYFISH_API_KEY\n"
+        "## BAĞLANTI GEREKİYOR\n- Servis: TinyFish Fetch API\n- Secret adı: TINYFISH_API_KEY\n"
         "- Nereye: GitHub → cerniva/ai-shared-workspace → Settings → Secrets → Actions\n"
         "- Anahtar: agent.tinyfish.ai/api-keys (sohbete yapıştırma)\n"
-        f"- Neden: {reason}\n"
-        "- ChatGPT plugin OAuth şart değil; masa worker yeterli.\n"
+        f"- Neden: {reason}\n- ChatGPT plugin OAuth şart değil; masa worker yeterli.\n"
     )
     ACTION.write_text(ACTION.read_text(encoding="utf-8") + block if ACTION.exists() else block, encoding="utf-8")
 
@@ -118,16 +149,7 @@ def mark_inbox(status: str, note: str) -> None:
 
 def fetch(urls: list[str], key: str) -> dict:
     body = json.dumps({"urls": urls, "format": "markdown"}).encode()
-    req = urllib.request.Request(
-        FETCH_URL,
-        data=body,
-        method="POST",
-        headers={
-            "Content-Type": "application/json",
-            "X-API-Key": key,
-            "User-Agent": "cerniva-desk-tinyfish/1",
-        },
-    )
+    req = urllib.request.Request(FETCH_URL, data=body, method="POST", headers={"Content-Type": "application/json", "X-API-Key": key, "User-Agent": "cerniva-desk-tinyfish/1"})
     with urllib.request.urlopen(req, timeout=90) as resp:
         return json.loads(resp.read().decode())
 
@@ -146,13 +168,7 @@ def main() -> int:
     try:
         data = fetch(urls, key)
         snippet = json.dumps(data, ensure_ascii=False)[:4000]
-        OUT.write_text(
-            (OUT.read_text(encoding="utf-8") if OUT.exists() else "# from-tinyfish\n")
-            + f"\n---\nid: TF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}\n"
-            f"created_at: {now()}\nurls: {', '.join(urls)}\nstatus: done\n---\n\n"
-            f"```json\n{snippet}\n```\n",
-            encoding="utf-8",
-        )
+        OUT.write_text((OUT.read_text(encoding="utf-8") if OUT.exists() else "# from-tinyfish\n") + f"\n---\nid: TF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}\ncreated_at: {now()}\nurls: {', '.join(urls)}\nstatus: done\n---\n\n```json\n{snippet}\n```\n", encoding="utf-8")
         mark_inbox("done", "fetch ok")
     except urllib.error.HTTPError as exc:
         mark_inbox("blocked", f"HTTP {exc.code}")
