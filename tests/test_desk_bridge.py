@@ -590,6 +590,40 @@ class DeskBridgeTests(unittest.TestCase):
         self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["key"] == rid + ":seen"]), 1)
 
 
+    def test_shared_inbox_read_cursors_are_per_reader(self):
+        db.CHANNELS["shared-inbox"] = (
+            self.msg_dir / "shared-inbox.md",
+            None,
+            "team",
+        )
+        mid = db.append_message(
+            "shared-inbox",
+            "chatgpt",
+            "team",
+            "intent: report | info\nnext-action: read by each agent",
+            status="open",
+        )
+        self.assertIn("team-reports", db.INBOX_WATCH_CHANNELS)
+        self.assertEqual(len(db.unread_message_rows("shared-inbox", reader="grok")), 1)
+        self.assertEqual(len(db.unread_message_rows("shared-inbox", reader="chatgpt")), 1)
+
+        db.mark_inbox_read("shared-inbox", reader="grok")
+        self.assertEqual(db.unread_message_rows("shared-inbox", reader="grok"), [])
+        self.assertEqual(len(db.unread_message_rows("shared-inbox", reader="chatgpt")), 1)
+
+        db.mark_inbox_read("shared-inbox", reader="chatgpt")
+        self.assertEqual(db.unread_message_rows("shared-inbox", reader="chatgpt"), [])
+        saved = db.load_inbox_read_state()["shared-inbox"]["readers"]
+        self.assertEqual(saved["grok"]["last_read_id"], mid)
+        self.assertEqual(saved["chatgpt"]["last_read_id"], mid)
+        seen_by = db.load_delivery_state()["messages"][mid]["seen_by"]
+        self.assertEqual(set(seen_by), {"grok", "chatgpt"})
+        seen_events = [
+            event for event in db.load_delivery_state()["events"]
+            if event["message_id"] == mid and event["transition"] == "seen"
+        ]
+        self.assertEqual(len(seen_events), 1)
+
 if __name__ == "__main__":
     unittest.main()
 
