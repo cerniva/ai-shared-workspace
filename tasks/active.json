@@ -44,7 +44,7 @@
       "owner": "team",
       "status": "tracked",
       "project": "shopify",
-      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünlar, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
+      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
       "backups": [
         "grok"
