@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26",
+  "updated_at": "2026-09-27",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -10,7 +10,10 @@
       "project": "research-learning",
       "notes": "Resmi kaynaklar, bağlantılı araçlar ve geçmiş sonuçlardan doğrulanmış öğrenmeleri kaydet; somut göreve uygula. Gemini yeniden aktif; geçici API yoğunluklarında retry uygulanır.",
       "lead": "chatgpt",
-      "backups": ["grok", "gemini"]
+      "backups": [
+        "grok",
+        "gemini"
+      ]
     },
     {
       "id": "CORE-02",
@@ -20,7 +23,9 @@
       "project": "finance",
       "notes": "Makro, şirketler, kripto, sektörler ve yatırım eğitimi. ChatGPT doğrulama/sentez; Grok alternatif görüş; tahmin ile olgu ayrılır.",
       "lead": "chatgpt",
-      "backups": ["grok"]
+      "backups": [
+        "grok"
+      ]
     },
     {
       "id": "CORE-03",
@@ -30,7 +35,10 @@
       "project": "content",
       "notes": "Shorts, kanal stratejisi, kapak/başlık, retention, trend, senaryo ve yayın performansı. Grok yaratıcı varyasyon/red-team; Gemini Google/YouTube doğrulama; ChatGPT sistemleştirir.",
       "lead": "grok",
-      "backups": ["gemini", "chatgpt"]
+      "backups": [
+        "gemini",
+        "chatgpt"
+      ]
     },
     {
       "id": "CORE-04",
@@ -40,7 +48,9 @@
       "project": "shopify",
       "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
-      "backups": ["grok"]
+      "backups": [
+        "grok"
+      ]
     },
     {
       "id": "CORE-05",
@@ -50,7 +60,9 @@
       "project": "workspace",
       "notes": "Tekrarlayan sorunları ekip içinde çözer; küçük araç/script/app geliştirir; darboğazları azaltır; gerçekten gerekli yeni bağlantıları belirler; ajanlar arası handoff'u iyileştirir.",
       "lead": "chatgpt",
-      "backups": ["grok"]
+      "backups": [
+        "grok"
+      ]
     },
     {
       "id": "TSK-20260926-005",
@@ -91,10 +103,29 @@
       "kind": "ticket",
       "parent": "CORE-05",
       "notes": "CORE leads: 01 ChatGPT/Grok · 02 ChatGPT/Grok · 03 Grok/Gemini · 04 ChatGPT/Grok · 05 ChatGPT/GrokBot. Overflow: GrokBot→Grok→Gemini. Kaynak: MSG-060500."
+    },
+    {
+      "id": "TSK-20260927-001",
+      "title": "Aşamalı ortak raporlama ve yardım döngüsü",
+      "owner": "team",
+      "status": "active",
+      "project": "workspace",
+      "kind": "ticket",
+      "parent": "CORE-05",
+      "lead": "chatgpt",
+      "backups": [
+        "grok"
+      ],
+      "notes": "Plan: (1) her iş başlangıcında task ID/amaç/sahip/başlangıç raporu; (2) araştırma/okuma/denetim/uygulama/test/engel/yardım/öğrenme/geçiş/tamamlanma olaylarını zaman damgası ve kanıtla raporla; (3) diğer ajan mesajı gördüğünde, incelediğinde, bilgi/öneriyi kullandığında veya neden kullanmadığında ayrı kayıt düşsün; (4) blokajda yardım isteği + sahip + tek sonraki adım; (5) kaynak, erişim tarihi, iddia, kullanım sonucu ve tekrar kullanılabilir bilgiyi knowledge deposuna kaydet; (6) teslim/okundu/yanıt/yardım/çözüm/gecikme durumlarını idempotent ledger'da izle; (7) farklı görevleri sahip ve sınırla böl, örtüşen işi birlikte çöz; (8) testler ve Actions kanıtıyla doğrula. Koruma: poll-ledger'ı anlık push gibi sunma; arka plan/sohbet erişimi varmış gibi iddia etme. User'ın onay istememe talimatı, gerçek hesap girişi/secret/ödeme/geri alınamaz eylem gerektiren platform kapılarını aşmaz."
     }
   ],
-  "completed_setup": ["TSK-20260926-001", "TSK-20260926-003"],
-  "protected_notes": ["PayoutLens repo cerniva/grok-chatgpt-masa ayrı üründür; silinmez veya ortak masa ile karıştırılmaz."],
+  "completed_setup": [
+    "TSK-20260926-001",
+    "TSK-20260926-003"
+  ],
+  "protected_notes": [
+    "PayoutLens repo cerniva/grok-chatgpt-masa ayrı üründür; silinmez veya ortak masa ile karıştırılmaz."
+  ],
   "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup.",
   "execution_note": "CORE başlıkları takip amaçlıdır. Kullanıcının işe başlayın talimatıyla ChatGPT/Grok/Gemini/Meta uygun somut görevlerde aktif çalışır; sürekli ajan iddiası yapılmaz, mevcut worker/bridge tetiklemeleri kullanılır."
 }
