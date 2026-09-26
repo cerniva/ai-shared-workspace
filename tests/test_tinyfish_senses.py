@@ -65,12 +65,12 @@ class ResultTests(unittest.TestCase):
 
 class RoutingTests(unittest.TestCase):
     def test_routes_fetch_and_browser_once(self):
-        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"ok": 2}) as browser_call:
+        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"run_id": "run-2"}) as browser_call:
             status, _, _ = t.execute_task({"mode": "fetch", "urls": ["https://example.com"]}, "k")
             self.assertEqual(status, "done"); fetch_call.assert_called_once(); browser_call.assert_not_called()
-        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"ok": 2}) as browser_call:
-            status, _, _ = t.execute_task({"mode": "browser", "url": "https://example.com", "goal": "read pricing"}, "k")
-            self.assertEqual(status, "done"); browser_call.assert_called_once(); fetch_call.assert_not_called()
+        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"run_id": "run-2"}) as browser_call:
+            status, data, _ = t.execute_task({"mode": "browser", "url": "https://example.com", "goal": "read pricing"}, "k")
+            self.assertEqual(status, "running"); self.assertEqual(data["run_id"], "run-2"); browser_call.assert_called_once(); fetch_call.assert_not_called()
 
     def test_http_classification(self):
         self.assertEqual(t.classify_http_status(401)[0], "api-permission")
