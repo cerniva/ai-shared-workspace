@@ -209,7 +209,8 @@ else:
                 bits.append(part["text"])
     reply = "\n".join(bits).strip()
     if not reply:
-        reply = "Gemini anlamlı metin döndürmedi. Ham yanıt özeti:\n" + json.dumps(data, ensure_ascii=False)[:4000]
+        print("Gemini anlamlı metin döndürmedi; görev kuyrukta bırakıldı.", file=sys.stderr)
+        sys.exit(1)
 
 now = dt.datetime.now(dt.timezone(dt.timedelta(hours=3)))
 stamp = now.strftime("%Y%m%d-%H%M%S")
