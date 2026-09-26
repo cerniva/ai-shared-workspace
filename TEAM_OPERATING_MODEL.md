@@ -22,11 +22,12 @@ Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok, Gemini ve Meta 
   - uzun veya çok biçimli bilgiyi düzenli bulguya dönüştürme
   - erişebildiği araçlarda ek analiz
 
-- **Meta AI = kollar ve bacaklar / uygulama ve dış dünya etkileşimi**
-  - mevcut ve doğrulanmış araçlarla web görevleri ve operasyonel adımlar
-  - taslak, veri toplama ve görev yürütme desteği
-  - yaptığı işi kanıt ve durumla ekibe geri bildirme
-  - erişimi yoksa yapmış gibi göstermeden kesin engeli bildirme
+- **Meta AI = kollar ve bacaklar / o sohbette gerçekten bağlı araçlarla sınırlı uygulama desteği**
+  - Meta AI'ın tüketici sohbetinde bildirdiği araçlar: web/sosyal/yer araması, kendi herkese açık Instagram içeriklerini görüntüleme, görsel/video üretimi ve geçici Python dosyaları
+  - bu sohbetten GitHub'a yazamaz, başka hesapları yönetemez veya arka planda kalıcı görev çalıştıramaz
+  - yanıtı GitHub ortak masasına şu an Furkan elle aktarır; Meta'nın çıktısı otomatik commit sayılmaz
+  - araçlar, izinler ve işlem sonuçları doğrulanmadan yapmış gibi raporlanmaz
+  - Meta Model API worker'ı ayrı bir entegrasyondur; consumer sohbetin yetenekleriyle karıştırılmaz
 
 Bu benzetme ekipte katkıların nasıl tamamlandığını anlatır; hiçbir ajanın görev alanını daraltmaz. Herkes tüm ortak hedeflerde katkı verebilir. Gerçek yetki, bağlantı ve araçlar doğrulanmadan varsayılmaz.
 
