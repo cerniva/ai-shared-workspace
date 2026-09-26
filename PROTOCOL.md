@@ -4,7 +4,7 @@ Ortak repo: `cerniva/ai-shared-workspace`.
 Ana ekip modeli: `TEAM_OPERATING_MODEL.md`.
 PayoutLens ayrı üründür: `cerniva/grok-chatgpt-masa`.
 Ortak dil (şablon+status): `knowledge/ortak-dil.md`.
-Meta: `docs/META_AI_BRIDGE.md`. Çıkış kanalı: `messages/from-meta.md`.
+Meta: `docs/META_AI_BRIDGE.md`. Consumer sohbet yanıtı Furkan tarafından `messages/from-meta.md` kanalına elle aktarılır.
 
 ## Ana ilke
 
@@ -14,10 +14,10 @@ Rol isimleri yalnızca güçlü yönleri gösterir:
 - ChatGPT = sağ beyin / yaratıcı yön, sentez ve ekip koordinasyonu
 - Grok = sol beyin / mantık, kanıt kontrolü ve eleştirel çözümleme
 - Gemini API = duyular / web, video, görsel-işitsel içerik ve ek algı
-- Meta AI = kollar ve bacaklar / doğrulanmış araçlarla uygulama ve dış dünya etkileşimi; yazma yüzeyi `messages/from-meta.md`
+- Meta AI = kollar ve bacaklar / yalnızca o consumer sohbette gerçekten bağlı araçlarla sınırlı uygulama desteği
 
 Bu benzetme katkı biçimini anlatır, görev sınırı koymaz. Gerçek araç, izin ve erişim ayrıca doğrulanır; yapılmayan işlem yapılmış gibi raporlanmaz.
-Meta.ai sohbetinin GitHub hesabı yoktur. Masa yazma yetkisi vardır; `git push` için Furkan taşır veya sonra makine kimliği kurulur. Secret sohbete yazılmaz.
+Meta AI'ın consumer sohbeti GitHub connector'ı olmadığını bildirdi: GitHub dosyalarını okuyamaz/yazamaz, commit atamaz ve arka plan görevi çalıştıramaz. Yanıtların ortak repoya geçişi şu an Furkan'ın elle kopyalamasıyla olur. Meta Model API worker'ı ayrı bir otomasyondur; consumer sohbetin erişimini göstermez. Worker'da daha önce 402 billing_not_configured hatası görüldü. Secret sohbete yazılmaz.
 Bir ajanın erişememesi, çözülebilir işi kullanıcıya geri atmak için yeterli değildir.
 
 ## Sabit tur sırası (Furkan)
@@ -36,7 +36,7 @@ SoT: `state/now.json`.
 
 - Grok okur: `messages/chatgpt-to-grok.md` + `messages/from-meta.md` (yeni kayıt varsa)
 - ChatGPT okur: `messages/grok-to-chatgpt.md` + `messages/from-meta.md`
-- Meta yazar: `messages/from-meta.md`
+- Meta yanıtını Furkan, doğruluğunu kontrol edip `messages/from-meta.md` kanalına elle yapıştırır. Meta consumer sohbeti inbox dosyasını kendisi okuyamaz.
 
 `desk_bridge` kodu docs ajanı tarafından düzenlenmez.
 
@@ -54,7 +54,7 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 - ChatGPT: yaratıcı yön, seçenek üretme, koordinasyon ve nihai sentez; `main` merge.
 - Grok: adım adım mantık, kanıt/tutarlılık denetimi, alternatif ve risk analizi.
 - Gemini API: duyusal algı ve bilgi toplama; web/video/görsel-işitsel kaynaklardan yapılandırılmış bulgu.
-- Meta AI: doğrulanmış araçlarla uygulama ve web adımları; gerçek erişim sınırlarını raporlar; çıkış `messages/from-meta.md`.
+- Meta AI: consumer sohbetinde bildirdiği arama, herkese açık Instagram içeriği, medya üretimi ve geçici Python araçlarını kullanabilir; GitHub/hesap yazımı ve kalıcı arka plan görevi yoktur. Yanıtı Furkan `messages/from-meta.md` kanalına elle aktarır.
 - İnsan müdahalesi: hesap girişi/MFA, eksik OAuth kapsamına onay, ödeme veya araç tarafından açıkça istenen işlem.
 
 ## Yayın yetkisi ve doğrulama
@@ -70,9 +70,8 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
 - Gemini kuyruk / çıktı: `messages/inbox-gemini.md` / `messages/gemini-to-chatgpt.md`
-- Meta kuyruk: `messages/inbox-meta.md`
-- Meta yazma: `messages/from-meta.md`
-- Meta ham yapıştırma: `messages/paste-from-meta.md`
+- Meta Model API worker kuyruğu: `messages/inbox-meta.md` (Meta consumer sohbetine bağlı değildir; faturalandırma/secret gerektirebilir)
+- Meta consumer sohbet yanıtı: Furkan elle `messages/from-meta.md` veya ham olarak `messages/paste-from-meta.md` içine aktarır
 - Meta özet: `messages/meta-to-chatgpt.md`
 - TinyFish ortak kuyruk / çıktı: `messages/inbox-tinyfish.md` / `messages/from-tinyfish.md`
 - Görev / durum: `tasks/active.json` / `state/status.json` / `state/now.json`
@@ -105,13 +104,11 @@ TinyFish, dört ajan için ortak web eli/ayağıdır; karar verici değildir. `s
 `inbox-gemini.md` queued → Action → `gemini-to-chatgpt.md`.
 Secret: `GEMINI_API_KEY` (repo içine yazılmaz).
 
-## Meta yazma
+## Meta iletişim yolları
 
-1. Diğer ajan görev yazarsa `inbox-meta.md` (`queued`).
-2. Meta çıktısı `messages/from-meta.md` sonuna eklenir (ortak-dil şablonu).
-3. Ham metin geçici olarak `paste-from-meta.md` olabilir; resmi yazı `from-meta.md`.
-4. Secret, giriş ve ödeme Meta'ya verilmez.
-5. Yeni `bot.py` yok.
+- **Consumer Meta AI sohbeti:** Bu oturum araçlarıyla arama, herkese açık Instagram içeriklerini görüntüleme, medya üretimi ve geçici Python dosyaları yapabildiğini bildirdi. GitHub connector'ı, hesap yönetimi veya kalıcı arka plan görevi yok. Furkan, görev metnini sohbete taşır ve yanıtı `messages/from-meta.md` ya da önce `messages/paste-from-meta.md` dosyasına elle aktarır.
+- **Meta Model API worker:** `inbox-meta.md` kuyruğunu ayrı GitHub Action işler. Bu yol consumer Meta AI sohbeti değildir; secret ve API faturalandırması gerektirir. Daha önce 402 `billing_not_configured` hatası raporlandı. Consumer sohbetin çalıştığı veya çalışmadığına dair kanıt sayılmaz.
+- Hiçbir Meta yanıtı repoya otomatik yazılmış gibi sunulmaz. Secret, giriş ve ödeme bilgisi sohbete verilmez.
 
 ## Görev sistemi
 
