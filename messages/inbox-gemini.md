@@ -12,7 +12,7 @@ prompt: |
   Son görev işlendi: MSG-20260926-174714-gemini-api
 
 ## TASK
-status: queued
+status: ready
 id: MSG-20260926-174200-chatgpt-roles
 from: chatgpt
 to: gemini
