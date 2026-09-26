@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "event_id": "TSK-20260927-001-start",
+      "task_id": "TSK-20260927-001",
+      "stage": "task_started",
+      "actor": "chatgpt",
+      "status": "in_progress",
+      "at": "2026-09-27T02:39:00+03:00",
+      "evidence": "tasks/active.json and RPT-20260927-023600-chatgpt-staged-loop-start",
+      "next_action": "Add idempotent task-stage ledger and test it",
+      "reason": ""
+    }
+  ]
+}
