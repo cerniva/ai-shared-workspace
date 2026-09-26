@@ -2,6 +2,7 @@
 
 Güncelleme: 2026-09-26T06:04:11+03:00
 Mod: file-desk (canlı sohbet yok)
+Ortak dil: `knowledge/ortak-dil.md`
 
 ## 60 saniye başlangıç
 1. `BOARD.md` — Grok Bot Senkron Ekip panosu (yeni)
