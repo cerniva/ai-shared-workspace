@@ -35,6 +35,37 @@ def field(text: str, name: str, default: str = "") -> str:
     m = re.search(rf"(?mi)^\s*{re.escape(name)}\s*:\s*(.*?)\s*$", text)
     return m.group(1).strip() if m else default
 
+TASK_MARKER = re.compile(r"(?m)^## TASK[ \t]*$")
+
+def task_blocks(text: str) -> list[tuple[int, int, str]]:
+    marks = list(TASK_MARKER.finditer(text))
+    blocks = []
+    for i, match in enumerate(marks):
+        start = match.start()
+        end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+        blocks.append((start, end, text[start:end]))
+    return blocks
+
+def select_active_task(text: str) -> str:
+    for _, _, block in task_blocks(text):
+        if field(block, "status", "idle").lower() in ACTIVE_STATUSES:
+            return block
+    return ""
+
+def mark_task_done(text: str, task_id: str) -> str:
+    for start, end, block in task_blocks(text):
+        if field(block, "id") == task_id:
+            updated, count = re.subn(
+                r"(?mi)^([ \\t]*status[ \\t]*:[ \\t]*)[^\\r\\n]+",
+                r"\\1done",
+                block,
+                count=1,
+            )
+            if count != 1:
+                raise ValueError(f"status missing for Gemini task {task_id}")
+            return text[:start] + updated + text[end:]
+    raise ValueError(f"Gemini task not found: {task_id}")
+
 def extract_youtube_urls(text: str) -> list[str]:
     urls = re.findall(r"https?://[^\s)>\]]+", text)
     clean = []
@@ -69,9 +100,9 @@ if not INBOX.exists():
     sys.exit("messages/inbox-gemini.md bulunamadı.")
 
 inbox = read(INBOX)
-status = field(inbox, "status", "idle").lower()
-if status not in ACTIVE_STATUSES:
-    print(f"inbox status={status!r}; çalıştırılmadı")
+task_text = select_active_task(inbox)
+if not task_text:
+    print("inbox içinde bekleyen görev yok; çalıştırılmadı")
     sys.exit(0)
 
 # Defence in depth: never put private connector analysis into a public response.
@@ -84,11 +115,11 @@ if os.environ.get("REPO_PRIVATE", "false").lower() != "true" and any(
 if not KEY:
     sys.exit("GEMINI_API_KEY secret eksik.")
 
-task_id = field(inbox, "id") or "gemini-task"
-project = field(inbox, "project", "workspace")
-sender = field(inbox, "from", "chatgpt")
-youtube_urls = extract_youtube_urls(inbox)
-code_context = public_code_context(field(inbox, "context_files"))
+task_id = field(task_text, "id") or "gemini-task"
+project = field(task_text, "project", "workspace")
+sender = field(task_text, "from", "chatgpt")
+youtube_urls = extract_youtube_urls(task_text)
+code_context = public_code_context(field(task_text, "context_files"))
 
 youtube_data_context = ""
 if youtube_urls:
@@ -130,7 +161,7 @@ ORTAK BAĞLAM:
 {team_context}
 
 GÖREV:
-{inbox}
+{task_text}
 
 SEÇİLEN HALKA AÇIK KOD BAĞLAMI:
 {code_context}
@@ -296,18 +327,6 @@ if youtube_urls:
         encoding="utf-8",
     )
 
-INBOX.write_text(
-    "# Inbox → Gemini API\n\n"
-    "Bu dosya Gemini API için genel amaçlı görev kutusudur.\n\n"
-    "## TASK\n"
-    "status: idle\n"
-    f"id: {task_id}\n"
-    "from: system\n"
-    f"project: {project}\n"
-    "url:\n"
-    "prompt: |\n"
-    f"  Son görev işlendi: {msg_id}\n",
-    encoding="utf-8",
-)
+INBOX.write_text(mark_task_done(inbox, task_id), encoding="utf-8")
 
 print(f"Gemini yanıtı kaydedildi: {msg_id}; {len(reply)} karakter")
