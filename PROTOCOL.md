@@ -1,20 +1,22 @@
-# Grok ↔ ChatGPT ↔ Gemini çalışma protokolü
+# Grok ↔ ChatGPT ↔ Gemini ↔ Meta çalışma protokolü
 
 Ortak repo: `cerniva/ai-shared-workspace`.
 Ana ekip modeli: `TEAM_OPERATING_MODEL.md`.
 PayoutLens ayrı üründür: `cerniva/grok-chatgpt-masa`.
 Ortak dil (şablon+status): `knowledge/ortak-dil.md`.
+Meta köprü: `docs/META_AI_BRIDGE.md`.
 
 ## Ana ilke
 
-ChatGPT, Grok ve Gemini aynı kullanıcı hedefleri için çalışan tek ekip olarak kabul edilir. **Hiçbiri tek bir konuya hapsedilmez.** Finans, yazılım, Shopify, içerik, araştırma, ürün geliştirme, problem çözme veya başka bir görevde ihtiyaç olduğunda birbirlerinden yardım isterler.
+ChatGPT, Grok, Gemini ve Meta AI aynı kullanıcı hedefleri için çalışan tek ekip olarak kabul edilir. **Hiçbiri tek bir konuya hapsedilmez.** Finans, yazılım, Shopify, içerik, araştırma, ürün geliştirme, problem çözme veya başka bir görevde ihtiyaç olduğunda birbirlerinden yardım isterler.
 
 Rol isimleri yalnızca güçlü yönleri gösterir:
 - ChatGPT = sol beyin / koordinasyon ve sentez
 - Grok = sağ beyin / alternatif fikir, yaratıcılık ve eleştiri
 - Gemini API = duyu organları / dış içerik, medya ve ek analiz
+- Meta AI = web elleri / ayakları (insan köprüsü; sohbet çıktısı yapıştırılır)
 
-Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve çözüm geliştirme desteği sağlayabilir.
+Her üç otomatik ajan genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve çözüm geliştirme desteği sağlayabilir. Meta doğrudan GitHub yazamaz.
 
 Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
 
@@ -38,6 +40,7 @@ Her tur sabit operasyonel döngü (2 adımın içine gömülü; «tabloları de�
 Her tur başı (**START**): karşı kanalın son açık mesajlarını oku.
 - Grok okur: `messages/chatgpt-to-grok.md`
 - ChatGPT okur: `messages/grok-to-chatgpt.md`
+- Meta paste varsa oku: `messages/paste-from-meta.md`
 
 Inbox bu turda okunmadan **iş yok / claim yok / commit yok**. Yazmak teslim değildir; karşı taraf poll edene kadar teslim sayılmaz. Pano: `BOARD.md` Inbox Watch satırı. Operasyonel şablon: `knowledge/ortak-dil.md`.
 
@@ -67,6 +70,8 @@ ChatGPT, Grok ve Gemini API'den birlikte görüş **yalnızca** şu dört durumd
 
 Bu dört koşul yoksa en uygun tek ajan görevi yürütür; gerekirse kısa handoff yapar. Üçlü görüş gerekmeyen bir iş, diğer ajanların cevabını beklemek için bloklanmaz.
 
+Meta AI üçlü görüş üyesi değildir; web işlemi / dış sayfa için çağrılır.
+
 Üçlü görüş gerektiğinde akış:
 1. ChatGPT görevi anlar ve ilk çerçeveyi kurar.
 2. Aynı hedef Grok'a gönderilir; alternatif fikir, itiraz, risk ve kör nokta aranır.
@@ -85,7 +90,8 @@ Gemini yalnızca YouTube için değildir. Grok yalnızca fikir üretmek için de
 - ChatGPT: koordinasyon, mantık, analiz, doğrulama, sentez, uygulama, ortak hafıza.
 - Grok: yaratıcı/alternatif bakış, eleştiri, araştırma, ikinci görüş, problem çözme.
 - Gemini API: genel analiz ve araştırma desteği; ayrıca YouTube/video/transcript ve medya algısında özel avantaj.
-- İnsan: yalnızca API secret, hesap girişi, ödeme veya dış servis izni gibi gerçekten zorunlu güvenlik adımlarında devreye girer.
+- Meta AI: web el/ayak; herkese açık sayfa, taslak form, ekran kanıtı. İnsan köprüsü.
+- İnsan: API secret, hesap girişi, ödeme, yayın ve Meta yapıştırma.
 
 ## Kanallar
 
@@ -95,6 +101,9 @@ Gemini yalnızca YouTube için değildir. Grok yalnızca fikir üretmek için de
 - Gemini API → ChatGPT/Grok: `messages/gemini-to-chatgpt.md`
 - Gemini köprü kodu: `scripts/gemini_senses.py`
 - Gemini workflow: `.github/workflows/gemini-senses.yml`
+- Meta görev kutusu: `messages/inbox-meta.md`
+- Meta yapıştırma: `messages/paste-from-meta.md`
+- Meta → masa: `messages/meta-to-chatgpt.md`
 - Görevler: `tasks/active.json`
 - Durum: `state/status.json`
 - Araştırma: `research/`
@@ -117,6 +126,18 @@ Gemini API köprüsü **genel amaçlıdır**.
 
 Gerekli secret: `GEMINI_API_KEY`.
 Secret hiçbir zaman repo veya sohbet içine yazılmaz. Bu repo herkese açıktır: özel Shopify/YouTube Analytics verisi ve bu verilerden üretilen yanıtlar burada işlenmez. Özel veri görevleri private çalışma alanı kurulana kadar bloke edilir; yeni anahtar isteyerek bu engel aşılmaz.
+
+## Meta AI insan köprüsü
+
+Meta Model API worker yok (anahtar yok; `docs/META_WORKER.md` taslak). Masa kanalı sohbet + yapıştırma.
+
+1. Grok veya ChatGPT `messages/inbox-meta.md` ye kısa görev yazar (`status: queued`).
+2. Furkan prompt'u Meta AI sohbetine taşır.
+3. Cevabı `messages/paste-from-meta.md` altına yapıştırır.
+4. Grok/ChatGPT paste'i okur; özeti `messages/meta-to-chatgpt.md` ye append eder.
+5. Login / ödeme / yayın / secret / PayoutLens yok.
+
+Yeni ajan başına JSON kutu veya ikinci `bot.py` kurulmaz.
 
 ## Kullanıcı talimatı paylaşımı
 

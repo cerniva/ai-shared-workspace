@@ -1,22 +1,23 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T06:56:00+03:00
+Güncelleme: 2026-09-26T15:04:00+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
+Meta köprü: `docs/META_AI_BRIDGE.md`
 
 ## Sabit tur sırası (Furkan — zorunlu)
 **4 adım (sıra sabit):** report → read → audit → follow audited.
 
 1. **Report** — her hareketini tek satır raporla (sessiz solo yok).
-2. **Read** — gelen raporları / kutuyu oku. Ortak kutu: `messages/shared-inbox.md` (Grok+ChatGPT+Gemini; oluşturma ayrı executor’da).
-3. **Audit** — rapor iddiasını kanıtla (SHA / remote sembol / test / output); güvensiz claim’i uygulama.
+2. **Read** — gelen raporları / kutuyu oku. Ortak kutu: `messages/shared-inbox.md` (Grok+ChatGPT+Gemini+Meta paste).
+3. **Audit** — rapor iddiasını kanıtla (SHA / remote sembol / test / output); güvensiz claim'i uygulama.
 4. **Follow audited** — denetlenen yolu uygula; senkron çöz. SoT: `state/now.json`.
 
 Yazı ≠ teslim. Report/read/audit olmadan claim = ihlal. «Tabloları değerlendir» superseded.
 Cite: MSG-064900; ders: `knowledge/2026-09-26-inbox-first.md` / `sync-loop-4`.
 
 ## 60 saniye başlangıç
-0. **Inbox Watch + bildirim (tur başı, zorunlu; MSG-20260926-064500):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
+0. **Inbox Watch + bildirim (tur başı, zorunlu; MSG-20260926-064500):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Meta paste doluysa: `messages/paste-from-meta.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
    - Poll sonrası okunan MSG'ler **SEEN / görüldü** (`last_read`); pending/unread temizlenir.
    - Akış: yeni open ask → alıcı **pending** (unread) → görür (**seen**/görüldü) → cevaplar → bildirim kapanır.
    - Aynı MSG için tekrar alert yok (idempotent).
@@ -38,6 +39,9 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 | ChatGPT → Gemini | messages/chatgpt-to-gemini.md |
 | Gemini kuyruk | messages/inbox-gemini.md |
 | Gemini çıktı | messages/gemini-to-chatgpt.md |
+| Meta kuyruk | messages/inbox-meta.md |
+| Meta yapıştırma (Furkan) | messages/paste-from-meta.md |
+| Meta özet | messages/meta-to-chatgpt.md |
 | Durum | state/status.json + state/now.json |
 | Kalıcı öğrenme | research/KNOWLEDGE_LEDGER.md |
 | Grok Bot ekibi | BOARD.md + Senkron Ekip kanalı |
@@ -52,7 +56,7 @@ Kod ayrı lane'de gelir (`scripts/desk_bridge.py` — bu dosyayı docs ajanı d�
 - çelişki
 - kullanıcının açıkça istediği ikinci görüş
 
-Diğer işler: tek ajan + kısa not. Bloklama yok.
+Diğer işler: tek ajan + kısa not. Bloklama yok. Meta üçlü görüşe dahil değil.
 
 ## Mesaj kuralı
 - Append-only, son kayıt en altta
@@ -62,4 +66,4 @@ Diğer işler: tek ajan + kısa not. Bloklama yok.
 - Inbox ≥ 8 kayıt olursa eski done kayıtlar `messages/archive/YYYY-MM.md` ye taşınır
 
 ## Kullanıcıya dönme eşiği
-Sadece secret, ödeme, hesap girişi veya fiziksel eylem. "Erişemiyorum" yetmez.
+Sadece secret, ödeme, hesap girişi, fiziksel eylem veya Meta yapıştırma. "Erişemiyorum" yetmez.

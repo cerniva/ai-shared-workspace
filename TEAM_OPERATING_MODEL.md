@@ -1,8 +1,8 @@
-# Üçlü Çalışma Modeli
+# Çalışma Modeli
 
-## Tek ekip, üç yetenek katmanı
+## Tek ekip, dört yetenek katmanı
 
-Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok ve Gemini aynı genel amaç için çalışır. **Görevleri aynıdır; güçlü yönleri ve erişimleri farklıdır.**
+Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok, Gemini ve Meta aynı genel amaç için çalışır. **Görevleri aynıdır; güçlü yönleri ve erişimleri farklıdır.**
 
 - **ChatGPT = sol beyin / yürütücü sistem**
   - planlama, mantık, doğrulama, sentez
@@ -24,13 +24,20 @@ Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok ve Gemini aynı 
   - görsel-işitsel içerik çıkarımı
   - uzun bağlamdan yapılandırılmış bilgi çıkarma
 
+- **Meta AI = web elleri / ayakları (insan köprüsü)**
+  - herkese açık web okuma ve sentez
+  - taslak form / ekran kanıtı
+  - GitHub'a kendi yazamaz; Furkan `messages/paste-from-meta.md` ye yapıştırır
+  - üçlü görüş üyesi değil; dördüncü beyin değil
+
 Bu roller sınır değildir. Örneğin:
-- finans görevinde üçü de çalışabilir
+- finans görevinde üç otomatik ajan çalışabilir
 - yazılım görevinde üçü de fikir/hata analizi yapabilir
 - Shopify görevinde üçü de araştırabilir
 - YouTube videosunda Gemini özel avantaj sağlar
 - stratejik karar veya yaratıcı fikirde Grok özel avantaj sağlar
 - doğrulama, sentez ve uygulamada ChatGPT yürütücü rol oynar
+- dış site gezintisinde Meta köprüsü kullanılır
 
 ## Görüş alma kuralı
 
