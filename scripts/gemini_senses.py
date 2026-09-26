@@ -9,6 +9,12 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+try:
+    from scripts.connectors.youtube_client import compact_video_bundle, YouTubeDataError
+except Exception:
+    compact_video_bundle = None
+    YouTubeDataError = RuntimeError
+
 ROOT = Path(".")
 INBOX = ROOT / "messages" / "inbox-gemini.md"
 OUT = ROOT / "messages" / "gemini-to-chatgpt.md"
@@ -55,6 +61,29 @@ project = field(inbox, "project", "workspace")
 sender = field(inbox, "from", "chatgpt")
 youtube_urls = extract_youtube_urls(inbox)
 
+youtube_data_context = ""
+if youtube_urls:
+    if compact_video_bundle is None:
+        youtube_data_context = "YouTube Data connector yüklenemedi."
+    elif not os.environ.get("YOUTUBE_API_KEY", "").strip():
+        youtube_data_context = (
+            "YOUTUBE_DATA_API_STATUS: not_connected\n"
+            "YOUTUBE_API_KEY GitHub Secret henüz yok. "
+            "Video doğrudan Gemini ile analiz edilebilir; ancak yapılandırılmış metadata, "
+            "kanal istatistikleri, arama ve yorum verisi için bağlantı gerekir."
+        )
+    else:
+        bundles = []
+        for u in youtube_urls[:3]:
+            try:
+                bundles.append(compact_video_bundle(u))
+            except Exception as exc:
+                bundles.append({"url": u, "error": str(exc)})
+        youtube_data_context = (
+            "YOUTUBE_DATA_API_STATUS: connected\n"
+            + json.dumps(bundles, ensure_ascii=False)[:14000]
+        )
+
 team_context = "\n\n".join(
     x for x in [
         read(ROOT / "TEAM_OPERATING_MODEL.md", 10000),
@@ -76,6 +105,9 @@ ORTAK BAĞLAM:
 
 GÖREV:
 {inbox}
+
+YOUTUBE DATA API BAĞLAMI:
+{youtube_data_context}
 
 GENEL ÇIKTI KURALLARI:
 - Türkçe yaz.
