@@ -1,15 +1,16 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T06:40:31+03:00
+Güncelleme: 2026-09-26T06:46:13+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
 
 ## 60 saniye başlangıç
-1. **Inbox Watch (tur başı, zorunlu):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
-2. `BOARD.md` — Grok Bot Senkron Ekip panosu (Inbox Watch satırı)
-3. `state/now.json` — şu anki odak
-4. `tasks/active.json` — açık işler (max 5 standing + ticket)
-5. Gerekirse `PROTOCOL.md` içindeki **Hızlı yol** + tur-başı inbox kuralını oku
+**Sıra sabit (Furkan standing order):** önce gelen kutu, sonra panolar — tersine çevrilemez.
+
+0. **Inbox first (zorunlu):** karşı kanalın son open kayıtlarını oku + **tek satır rapor** (ör. `inbox: chatgpt-to-grok open=N stale=M`). Grok → `messages/chatgpt-to-grok.md`; ChatGPT → `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim.
+1. **Tables / APPLY:** `BOARD.md` + `state/now.json` + `tasks/active.json` oku ve **uygula** (yalnızca okuma değil).
+2. Gerekirse `PROTOCOL.md` **Hızlı yol** + Inbox Watch.
+3. Knowledge: `knowledge/lessons.md` (inbox-first-then-tables).
 
 Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi her turda okunmaz (karşı kanal son açıklar hariç).
 
@@ -26,7 +27,7 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 | Grok Bot ekibi | BOARD.md + Senkron Ekip kanalı |
 
 ## desk_bridge (İletişim Köprüsü)
-Kod ayrı lane'de gelir (`scripts/desk_bridge.py` — bu dosyayı docs ajanı düzenlemez). Planlanan yüzey: `inbox` / `unread` + `health` içinde `last_write` vs `last_read` (kanal bazlı gecikme). Operasyonel şablon/status: `knowledge/ortak-dil.md`.
+CLI (landed/WIP): `inbox|unread` (+ `--mark`); delivery `pending|seen|answered|delayed` (GitHub-native). **Protokol:** mesaj bırakmak yetmez → teslim/görüldü takip. Şablon: `knowledge/ortak-dil.md`. Ders: `knowledge/lessons.md`.
 
 ## Hızlı yol vs üçlü görüş
 Üçlü görüş **yalnızca** şunlarda zorunlu:
