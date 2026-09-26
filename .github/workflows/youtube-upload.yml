@@ -1,0 +1,60 @@
+name: Upload YouTube Short
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_path:
+        description: "Repo-relative path to the finished MP4 (for example outputs/shorts/today.mp4)"
+        required: true
+        type: string
+      metadata_path:
+        description: "Repo-relative path to a JSON file with title and description"
+        required: true
+        type: string
+      publish_publicly:
+        description: "Make the video public after upload (otherwise upload privately)"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install YouTube upload dependencies
+        run: python -m pip install -r scripts/requirements-youtube.txt
+
+      - name: Upload and verify on the configured channel
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          VIDEO_PATH: ${{ inputs.video_path }}
+          METADATA_PATH: ${{ inputs.metadata_path }}
+          PUBLISH_PUBLICLY: ${{ inputs.publish_publicly }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in YOUTUBE_CLIENT_ID YOUTUBE_CLIENT_SECRET YOUTUBE_REFRESH_TOKEN; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Missing GitHub Actions secret: $name" >&2
+              exit 1
+            fi
+          done
+          if [[ "$PUBLISH_PUBLICLY" == "true" ]]; then
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --publish
+          else
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH"
+          fi
