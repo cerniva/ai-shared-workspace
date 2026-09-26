@@ -53,6 +53,13 @@ if status not in ACTIVE_STATUSES:
     print(f"inbox status={status!r}; çalıştırılmadı")
     sys.exit(0)
 
+# Defence in depth: never put private connector analysis into a public response.
+if os.environ.get("REPO_PRIVATE", "false").lower() != "true" and any(
+    field(inbox, name).lower() in {"true", "1", "yes", "on", "evet"}
+    for name in ("use_shopify", "use_youtube_analytics")
+):
+    sys.exit("Private connector task blocked in public workspace.")
+
 if not KEY:
     sys.exit("GEMINI_API_KEY secret eksik.")
 
