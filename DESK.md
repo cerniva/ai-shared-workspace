@@ -1,6 +1,6 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T06:50:00+03:00
+Güncelleme: 2026-09-26T06:53:00+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
 
@@ -9,17 +9,25 @@ Ortak dil: `knowledge/ortak-dil.md`
 2. **Raporları oku + uygulamaya geç.**
 Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
 
+### Sync-audit loop (MSG-20260926-064900 — her tur)
+Operasyonel döngü (yukarıdaki 2 adımın içine gömülü; «tabloları değerlendir» yok):
+**kutu kontrol → kanıt denetimi → iş → anlamlı rapor → senkron çözüm**
+- Sessiz solo ilerleme yok; MSG id cite et.
+- Rapor iddiası SHA/test/output kanıtı kontrol edilene kadar güvensiz.
+- Çelişki → tek açık ask. SoT: `state/now.json`. Cite: MSG-20260926-064900.
+
 ## 60 saniye başlangıç
-0. **Inbox Watch + bildirim (tur başı, zorunlu):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
+0. **Inbox Watch + bildirim (tur başı, zorunlu; MSG-20260926-064500):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
    - Poll sonrası okunan MSG'ler **SEEN / görüldü** (`last_read`); pending/unread temizlenir.
    - Akış: yeni open ask → alıcı **pending** (unread) → görür (**seen**/görüldü) → cevaplar → bildirim kapanır.
    - Aynı MSG için tekrar alert yok (idempotent).
-   - Cevapsız kalanlar → **delayed** escalate.
-   - SoT: `state/inbox_read.json` + `desk_bridge` pending/seen/unread (kod: İletişim Köprüsü; docs ajanı `scripts/desk_bridge.py` düzenlemez). GitHub-native önce (webhook/token yok).
-1. `BOARD.md` — Grok Bot Senkron Ekip panosu (Inbox Watch + Notify satırları)
+   - Cevapsız kalanlar → **delayed** / stale escalate.
+   - done/superseded → bildirim clear.
+   - SoT: `state/inbox_read.json` + `desk_bridge` unread/pending (kod: İletişim Köprüsü; docs ajanı `scripts/desk_bridge.py` düzenlemez). Secrets-free GitHub-native önce (webhook/token yok).
+1. `BOARD.md` — Grok Bot Senkron Ekip panosu (Inbox Watch + Notify + Sync-audit satırları)
 2. `state/now.json` — şu anki odak
 3. `tasks/active.json` — açık işler (max 5 standing + ticket)
-4. Gerekirse `PROTOCOL.md` içindeki **Hızlı yol** + tur-başı inbox / Delivery tracking kuralını oku
+4. Gerekirse `PROTOCOL.md` içindeki **Hızlı yol** + tur-başı inbox / Delivery tracking / Sync-audit kuralını oku
 
 Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi her turda okunmaz (karşı kanal son açıklar hariç).
 
