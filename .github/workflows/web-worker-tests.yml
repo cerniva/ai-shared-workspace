@@ -1,0 +1,30 @@
+name: web-worker-tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/tinyfish_senses.py'
+      - 'scripts/shared_web_worker.py'
+      - 'tests/test_tinyfish_senses.py'
+      - 'tests/test_firecrawl_fallback.py'
+      - '.github/workflows/firecrawl-fallback.yml'
+      - '.github/workflows/web-worker-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/tinyfish_senses.py'
+      - 'scripts/shared_web_worker.py'
+      - 'tests/test_tinyfish_senses.py'
+      - 'tests/test_firecrawl_fallback.py'
+      - '.github/workflows/firecrawl-fallback.yml'
+      - '.github/workflows/web-worker-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests
+        run: python3 -m unittest tests.test_tinyfish_senses tests.test_firecrawl_fallback
+      - name: Compile workers
+        run: python3 -m py_compile scripts/tinyfish_senses.py scripts/shared_web_worker.py

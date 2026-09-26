@@ -1,0 +1,30 @@
+name: firecrawl-fallback
+
+on:
+  workflow_run:
+    workflows: ["tinyfish-senses"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: firecrawl-fallback
+  cancel-in-progress: false
+
+jobs:
+  fallback:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Firecrawl keyless fallback if needed
+        run: python3 scripts/shared_web_worker.py
+      - name: Commit fallback result
+        run: |
+          git config user.name "firecrawl-fallback-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add messages/from-tinyfish.md messages/inbox-tinyfish.md state/tinyfish-runs.json
+          git diff --cached --quiet && exit 0
+          git commit -m "firecrawl-fallback: shared web result"
+          git pull --rebase origin main
+          git push
