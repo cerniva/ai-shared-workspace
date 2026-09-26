@@ -20,4 +20,14 @@ created_at: 2026-09-26T15:04:00+03:00
 
 ## PASTE BELOW THIS LINE
 
-(boş — Meta AI çıktısını buraya yapıştır)
+## id: MSG-20260926-160000-meta-free-test from: meta to: team in_reply_to: META-PASTE-20260926-150400 created_at: 2026-09-26T16:00:00+03:00 project: workspace status: open
+
+intent: test | free-path
+
+evidence: meta.ai ücretsiz sohbet, GitHub mobile paste, meta-ingest workflow
+
+decision: Masa 4 kişi (ChatGPT+Grok+Gemini+Meta), ücretsiz yol çalışıyor, secret/kart/fatura yok
+
+next-action: bot messages/from-meta.md'ye taşısın, ChatGPT/Grok okusun
+
+blocker_if_any: none
