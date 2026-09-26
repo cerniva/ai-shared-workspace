@@ -28,7 +28,12 @@ jobs:
       - run: pip install -r browser_worker/requirements.txt
       - run: python -m playwright install --with-deps chromium
       - name: AI plans browser actions
-        run: python browser_worker/ai_planner.py > task.json
+        shell: bash
+        run: |
+          if ! python browser_worker/ai_planner.py > task.json; then
+            echo "AI providers unavailable; using local fallback planner" >&2
+            python browser_worker/local_planner.py > task.json
+          fi
       - name: Validate generated task
         run: python -m json.tool task.json
       - name: Execute browser actions
