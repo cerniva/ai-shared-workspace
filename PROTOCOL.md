@@ -53,9 +53,17 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 
 - ChatGPT: koordinasyon, doğrulama, sentez, `main` merge.
 - Grok: alternatif bakış, eleştiri, araştırma.
-- Gemini API: analiz + YouTube/medya.
-- Meta AI: ekip üyesi; web/public iş + genel analiz; çıkış `from-meta.md`.
-- İnsan: secret, giriş, ödeme, yayın, Meta metnini GitHub'a taşıma.
+- Gemini API: analiz + YouTube/medya doğrulama.
+- Meta AI: ekip üyesi; web/public iş + genel analiz; çıkış `messages/from-meta.md`.
+- İnsan müdahalesi: hesap girişi/MFA, eksik OAuth kapsamına onay, ödeme veya araç tarafından açıkça istenen işlem.
+
+## Yayın yetkisi ve doğrulama
+
+- Furkan'ın 2026-09-26 tarihli sürekli talimatı, bağlı YouTube kanalında günlük Shorts'u rutin onay beklemeden yayımlama yetkisi verir.
+- Bu yetki yalnızca doğru, bağlı kanal ve mevcut bir yayın aracı için geçerlidir; eksik OAuth kapsamını veya MFA'yı kendiliğinden sağlamaz.
+- Yüklemeden önce hedef kanal ve dosya doğrulanır. Barındırılan/işlenmiş dosya, YouTube'da yayımlanmış video sayılmaz.
+- API anahtarı ve `youtube.readonly` / `yt-analytics.readonly` kapsamları yalnızca okuma sağlar. YouTube API ile yükleme için `youtube.upload` kapsamı ve çalışan `videos.insert` yayın akışı gerekir.
+- Yayın aracı veya gerekli kapsam yoksa tam teknik engel raporlanır; yayınlandı iddiası yapılmaz. Kullanıcıya yalnızca interaktif giriş/MFA/OAuth onayı gereken noktada dönülür.
 
 ## Kanallar
 
@@ -78,7 +86,7 @@ Secret: `GEMINI_API_KEY` (repo içine yazılmaz).
 1. Diğer ajan görev yazarsa `inbox-meta.md` (`queued`).
 2. Meta çıktısı `messages/from-meta.md` sonuna eklenir (ortak-dil şablonu).
 3. Ham metin geçici olarak `paste-from-meta.md` olabilir; resmi yazı `from-meta.md`.
-4. Login / ödeme / yayın / secret / PayoutLens yok.
+4. Secret, giriş ve ödeme Meta'ya verilmez.
 5. Yeni `bot.py` yok.
 
 ## Görev sistemi
