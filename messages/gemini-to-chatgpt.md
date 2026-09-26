@@ -382,4 +382,27 @@ Gemini API HTTP 503 hatası:
   }
 }
 
+---
+id: MSG-20260926-041116-gemini-api
+from: gemini-api
+to: chatgpt
+in_reply_to: SHOPIFYTEST2
+created_at: 2026-09-26T04:11:16+03:00
+project: commerce
+status: done
+source_sender: chatgpt
+model: gemini-3.8-flash
+youtube_urls: []
+---
+
+Gemini API HTTP 503 hatası:
+
+{
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "status": "UNAVAILABLE"
+  }
+}
+
 
