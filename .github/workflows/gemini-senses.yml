@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name "gemini-senses-bot"
           git config user.email "gemini-senses@users.noreply.github.com"
-          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md research/youtube/
+          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md messages/user-action-required.md research/youtube/
           git diff --cached --quiet && exit 0
           git commit -m "Gemini senses reply"
           git push
