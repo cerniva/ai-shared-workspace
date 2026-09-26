@@ -15,6 +15,10 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: gpt-5.6-sol
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      XAI_MODEL: grok-4.7
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: gemini-3.8-flash
       BROWSER_OBJECTIVE: ${{ inputs.objective }}
     steps:
       - uses: actions/checkout@v4
