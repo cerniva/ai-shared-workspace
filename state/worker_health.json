@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T05:24:39.322628+00:00",
+  "generated_at": "2026-09-26T06:01:27.164353+00:00",
   "healthy": true,
   "model": {
     "provider": "openai",
@@ -12,7 +12,7 @@
   },
   "queue": {
     "counts": {
-      "dead_letter": 1
+      "retryable_failed": 1
     },
     "active_leases": []
   },
