@@ -35,7 +35,25 @@ def credentials_from_env():
         client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
         scopes=[UPLOAD_SCOPE],
     )
-    creds.refresh(Request())
+    try:
+        creds.refresh(Request())
+    except Exception as exc:
+        # Google's invalid_grant response is an OAuth credential/configuration
+        # failure, not a transient upload problem. Give an actionable message
+        # without exposing any token or client secret.
+        if "invalid_grant" in str(exc).lower():
+            raise RuntimeError(
+                "Google rejected YOUTUBE_REFRESH_TOKEN (invalid_grant). "
+                "Re-authorize the intended YouTube account with this same OAuth "
+                "client and the youtube.upload scope, then replace the "
+                "YOUTUBE_REFRESH_TOKEN GitHub Actions secret. Also check whether "
+                "the OAuth consent screen is in Testing mode; test-user refresh "
+                "tokens can expire."
+            ) from exc
+        raise RuntimeError(
+            "Google OAuth token refresh failed. Check the OAuth client ID/secret, "
+            "refresh token, consent-screen status, and youtube.upload scope."
+        ) from exc
     return creds
 
 
