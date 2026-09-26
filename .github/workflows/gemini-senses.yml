@@ -2,6 +2,8 @@ name: gemini-senses
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
   push:
     branches: [main]
     paths:
@@ -22,12 +24,50 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check pending task
+        id: pending
+        run: |
+          if rg -qi '^[[:space:]]*status:[[:space:]]*(queued|ready|open|run)[[:space:]]*
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          YT_ANALYTICS_CLIENT_ID: ${{ secrets.YT_ANALYTICS_CLIENT_ID }}
+          YT_ANALYTICS_CLIENT_SECRET: ${{ secrets.YT_ANALYTICS_CLIENT_SECRET }}
+          YT_ANALYTICS_REFRESH_TOKEN: ${{ secrets.YT_ANALYTICS_REFRESH_TOKEN }}
+        run: python3 scripts/enrich_context.py
+
+      - name: Call Gemini API
+        if: steps.pending.outputs.queued == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GEMINI_MODEL: gemini-3.8-flash
+        run: python3 scripts/gemini_senses.py
+
+      - name: Commit Gemini result
+        if: steps.pending.outputs.queued == 'true'
+        run: |
+          git config user.name "gemini-senses-bot"
+          git config user.email "gemini-senses@users.noreply.github.com"
+          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md messages/user-action-required.md research/youtube/ state/connector-health.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Gemini senses reply"
+          git push
+ messages/inbox-gemini.md; then
+            echo "queued=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "queued=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup Python
+        if: steps.pending.outputs.queued == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Enrich connector context
+        if: steps.pending.outputs.queued == 'true'
         env:
           SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
