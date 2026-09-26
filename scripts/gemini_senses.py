@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(".")
 INBOX = ROOT / "messages" / "inbox-gemini.md"
 OUT = ROOT / "messages" / "gemini-to-chatgpt.md"
+USER_ACTION = ROOT / "messages" / "user-action-required.md"
 YT_DIR = ROOT / "research" / "youtube"
 
 KEY = os.environ.get("GEMINI_API_KEY", "").strip()
@@ -190,6 +191,26 @@ youtube_urls: {json.dumps(youtube_urls, ensure_ascii=False)}
 OUT.parent.mkdir(parents=True, exist_ok=True)
 previous = read(OUT) or "# Gemini API → ChatGPT / Grok\n"
 OUT.write_text(previous.rstrip() + block + "\n", encoding="utf-8")
+
+needs_user = ("## BAĞLANTI GEREKİYOR" in reply) or ("## BLOKE" in reply)
+if needs_user:
+    action_prev = read(USER_ACTION)
+    if not action_prev:
+        action_prev = "# User Action Required\n\nGemini veya ekip bir insan işlemi gerektiğinde buraya kayıt bırakır.\n"
+    action_block = f"""
+
+---
+id: ACTION-{stamp}-{task_id}
+source: gemini-api
+task: {task_id}
+created_at: {iso}
+status: open
+---
+
+{reply}
+"""
+    USER_ACTION.parent.mkdir(parents=True, exist_ok=True)
+    USER_ACTION.write_text(action_prev.rstrip() + action_block + "\n", encoding="utf-8")
 
 if youtube_urls:
     YT_DIR.mkdir(parents=True, exist_ok=True)
