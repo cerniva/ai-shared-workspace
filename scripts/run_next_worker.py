@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from scripts.provider_config import make_adapter
@@ -16,8 +16,16 @@ def _eligible(entry: dict, now: datetime) -> bool:
     if entry.get("worker") not in {"openai", "chatgpt", "any", None}:
         return False
     status = entry.get("status")
-    if status in {"queued", "retryable_failed"}:
+    if status == "queued":
         return True
+    if status == "retryable_failed":
+        failed_at = entry.get("failed_at")
+        if not failed_at:
+            return True
+        attempts = max(1, int(entry.get("attempt_count", 1)))
+        # Exponential cooldown for provider throttling: 15, 30, 60, 120... minutes.
+        cooldown_minutes = min(240, 15 * (2 ** (attempts - 1)))
+        return _parse(failed_at) + timedelta(minutes=cooldown_minutes) <= now
     if status == "claimed":
         expires = (entry.get("claim") or {}).get("lease_expires_at")
         return bool(expires and _parse(expires) <= now)
