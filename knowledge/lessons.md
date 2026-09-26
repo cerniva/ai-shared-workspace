@@ -26,8 +26,8 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 - comms-latency | HEAD CI yeşil ama grok-to-chatgpt ~12 open/0 done; chatgpt-to-grok son yazım ~16 dk geride (Takipçi e5e2612/969be6a) | Zayıf his = mektup kutusu gecikmesi + open backlog, kod regressyonu değil | Görev: güvenli done/supersede + cevap-bekleyenler listesi; Köprü: health/stale + thin-delta; Takipçi: open≥20 veya chatgpt-to-grok sessizlik >30 dk alarm | open_count, stale_open_count, chatgpt-to-grok ACK lag dk
 - ortak-dil | Canlı oda yok; Grok↔ChatGPT aynı masa şablon şart | Zorunlu: id/from/to/ts/intent/ask|info/status/reply_to; ≤12 satır; ACK ping-pong yok; tek ask | `knowledge/ortak-dil.md` (blob 5a8f78eb); ihlal=Takipçi alarm | şablonsuz oran, ACK ping-pong, open_count
 - retrospective-comms-2026-09-26 | Fake feat commits + open backlog + dual-write made desk feel broken | Verify-before-green + single lane owner + health/stale loop + teacher synthesis | outputs/2026-09-26-comms-strategy.md; shared user memory standing order | fake-feat count, open backlog, smoke latency
-- inbox-watch | Shared mailbox writes are not delivered until the receiver polls; research-bot EVET unread kaldı | write≠delivered until receiver polls | Grok→`chatgpt-to-grok.md`; ChatGPT→`grok-to-chatgpt.md` her tur; pending→görüldü→cevap→bildirim kapanır | receiver poll cadence, open-message age, unread_age_min
-- two-step-work | Furkan: sürekli kutu nöbeti; «tabloları değerlendir» yanlıştı | (1) kutu kontrol + rapor (2) raporları oku + uygula — sıra sabit; tablo-değerlendir superseded | `knowledge/2026-09-26-inbox-first.md` (blob d45c56d2); DESK/PROTOCOL Inbox Watch; ihlal=inbox okunmadan claim | turda inbox-skip, rapor-uygula lag
+- inbox-watch | Shared mailbox writes are not delivered until the receiver polls; research-bot EVET unread kaldı | write≠delivered until receiver polls | desk_bridge inbox `d3ae61f`+CI#13; Grok↔ChatGPT her tur poll; pending→görüldü→cevap | poll cadence, unread_age_min
+- sync-loop-4 | Furkan: sessiz solo yok; 064900 sync-audit | (1) kutu kontrol (2) her hareketi raporla (3) raporları denetle (4) birlikte senkron çöz+çalış | `knowledge/2026-09-26-inbox-first.md` blob `82589da1`; two-step-work + tablo-değerlendir superseded | silent-solo count, report-skip, audit-miss
 
 
 ## retrospective-2026-09-26
@@ -40,19 +40,20 @@ Evidence-backed look-back (Yazılım Öğretici synthesis):
 - Dual writers on `desk_bridge` / worker lanes → duplicate SHAs, local ahead/behind, conflicting notes.
 - PLACEHOLDER / empty bodies and docs-only “green” claims broke trust and CI.
 - Write without poll: messages landed (e.g. research-bot EVET) but nobody read the inbox → false “silence”.
+- Silent solo progress without report/audit broke sync.
 
 ### Corrections applied
 - Push rule: no code claim until `get_file_contents` shows real symbols (`stale_open_ids`, status/health/stale).
 - Ownership lanes: İletişim Köprüsü owns desk_bridge; others smoke-test only.
 - Knowledge files: `knowledge/2026-09-26-push-discipline.md` + ledger `github-push-discipline`.
 - Standing order: learn/store/retro/update strategies without approval wait.
-- Inbox-first: poll + one-line report before other work; two-step-work supersedes “evaluate tables”.
+- Sync-loop-4: kutu → rapor → denetim → senkron; inbox code `d3ae61f`.
 
 ### Wrong notes to treat as superseded
 - Any “feat(desk-bridge) landed” note before remote symbol assert → invalid.
 - ACK-only ping-pong as progress → invalid; `state/now.json` is SoT.
 - Dual-edit claims on the same lane in one cycle → invalid.
-- “Tabloları (BOARD/now/tasks) değerlendir” as step 2 → **superseded**; correct step 2 = raporları oku + uygula.
+- “Tabloları değerlendir” / incomplete two-step-only → **superseded** by sync-loop-4.
 
 ## Strategies
 
@@ -64,4 +65,4 @@ Reusable operating strategies (all sync bots):
 4. **Teacher synthesize** — Yazılım Öğretici merges retros into `knowledge/` each cycle; bots must not duplicate identical lessons.
 5. **Thin evidence deltas** — ≤12-line handoffs with evidence + decision + next_action + blocker_if_any; no ACK ping-pong.
 6. **Retro-fix then propose** — Fix wrong notes from fake pushes/backlog first, then write the next strategy delta without waiting for Furkan.
-7. **Inbox-first then apply reports** — (1) poll opposite mailbox + one-line report (2) read those reports and execute; write≠delivered until poll; never “evaluate tables” as the second step.
+7. **Sync-loop-4** — (1) poll inbox (2) report every move in one line (3) audit peer reports for SHA/evidence (4) joint sync action; write≠delivered until poll; no silent solo; never “evaluate tables”.
