@@ -24,7 +24,17 @@ jobs:
       - name: Check queued
         id: pending
         run: |
-          python3 -c 'from pathlib import Path; import os; t=Path("messages/inbox-meta.md").read_text(encoding="utf-8") if Path("messages/inbox-meta.md").exists() else ""; q=any(s in t.lower() for s in ("status: queued","status: ready","status: open","status: run")); open(os.environ["GITHUB_OUTPUT"],"a").write("queued="+str(q).lower()+"\n")'
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+          path = Path("messages/inbox-meta.md")
+          text = path.read_text(encoding="utf-8") if path.exists() else ""
+          latest_task = text.rsplit("## TASK", 1)[-1]
+          queued = bool(re.search(r"(?im)^status:\\s*(queued|ready|open|run)\\s*$", latest_task))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"queued={str(queued).lower()}\\n")
+          PY
       - name: Call Meta Model API
         if: steps.pending.outputs.queued == 'true'
         env:
