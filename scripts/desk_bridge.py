@@ -245,6 +245,52 @@ def stale_open_ids(channel: str, older_than_hours: float = STALE_HOURS) -> list[
     return stale
 
 
+
+def open_backlog_rows(channel: str | None = None) -> list[dict]:
+    """Open messages across channels: channel, id, created_at, age_hours."""
+    names = [channel] if channel else sorted(CHANNELS)
+    now = now_tr()
+    rows: list[dict] = []
+    for name in names:
+        if name not in CHANNELS:
+            continue
+        path, _, _ = CHANNELS[name]
+        if not path.exists():
+            continue
+        blocks = _parse_blocks(path.read_text(encoding="utf-8"))
+        for b in blocks:
+            if b.get("status") != "open" or "id" not in b:
+                continue
+            created_s = b.get("created_at", "")
+            created = _parse_created_at(created_s)
+            if created is None:
+                age = None
+            else:
+                age = round((now - created).total_seconds() / 3600.0, 2)
+            rows.append(
+                {
+                    "channel": name,
+                    "id": b["id"],
+                    "created_at": created_s,
+                    "age_hours": age,
+                }
+            )
+    rows.sort(key=lambda r: (r["created_at"] or "", r["channel"], r["id"]))
+    return rows
+
+
+def format_backlog(channel: str | None = None) -> str:
+    rows = open_backlog_rows(channel)
+    lines = [
+        f"{r['channel']}\t{r['id']}\t{r['created_at']}\t{r['age_hours']}"
+        for r in rows
+    ]
+    ages = [r["age_hours"] for r in rows if r["age_hours"] is not None]
+    oldest = max(ages) if ages else None
+    lines.append(f"total_open={len(rows)}\toldest_open_age_hours={oldest}")
+    return "\n".join(lines)
+
+
 def channel_health(channel: str | None = None) -> dict:
     """Per-channel status plus problems (missing file, open_count high, stale opens)."""
     names = [channel] if channel else sorted(CHANNELS)
@@ -265,11 +311,20 @@ def channel_health(channel: str | None = None) -> dict:
             problems.append(f"open_count_high:{name}:{st['open']}")
         if stale:
             problems.append(f"stale_opens:{name}:{len(stale)}")
+    total_open = sum(ch.get("open", 0) for ch in channels_out.values())
+    ages = [
+        r["age_hours"]
+        for r in open_backlog_rows(channel)
+        if r.get("age_hours") is not None
+    ]
+    oldest_age = max(ages) if ages else None
     return {
         "healthy": not problems,
         "problems": problems,
         "channels": channels_out,
         "stale_hours": STALE_HOURS,
+        "total_open": total_open,
+        "oldest_open_age_hours": oldest_age,
     }
 
 
@@ -293,13 +348,13 @@ def main() -> None:
         "command",
         nargs="?",
         default="send",
-        help="send (default) | latest | open | list-channels | status | health | stale",
+        help="send (default) | latest | open | list-channels | status | health | stale | backlog",
     )
     p.add_argument(
         "channel",
         nargs="?",
         choices=sorted(CHANNELS),
-        help="channel name (required for send/latest/open/status/stale)",
+        help="channel name (required for send/latest/open/status/stale; optional for health/backlog)",
     )
     p.add_argument("--from", dest="frm")
     p.add_argument("--to")
@@ -337,6 +392,9 @@ def main() -> None:
     if cmd in CHANNELS and channel is None:
         channel = cmd
         cmd = "send"
+    if cmd == "backlog":
+        print(format_backlog(channel))
+        return
     if cmd == "health":
         print(json.dumps(channel_health(channel), ensure_ascii=False, indent=2))
         return

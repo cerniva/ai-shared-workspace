@@ -218,6 +218,72 @@ class DeskBridgeTests(unittest.TestCase):
         self.assertIn("problems", health)
         self.assertEqual(set(health["channels"].keys()), {"grok-to-chatgpt"})
 
+    def test_backlog_rows_and_summary(self):
+        mid_a = db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "backlog a", status="open"
+        )
+        mid_b = db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "backlog b", status="open"
+        )
+        db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "done skip", status="done"
+        )
+        path_a = self.msg_dir / "grok-to-chatgpt.md"
+        text_a = path_a.read_text(encoding="utf-8")
+        old = (db.now_tr() - dt.timedelta(hours=5)).isoformat(timespec="seconds")
+        text_a2 = re.sub(
+            rf"(id: {re.escape(mid_a)}.*?created_at: )[^\n]+",
+            rf"\g<1>{old}",
+            text_a,
+            count=1,
+            flags=re.S,
+        )
+        path_a.write_text(text_a2, encoding="utf-8")
+
+        rows = db.open_backlog_rows()
+        ids = {r["id"] for r in rows}
+        self.assertIn(mid_a, ids)
+        self.assertIn(mid_b, ids)
+        self.assertEqual(len(rows), 2)
+        row_a = next(r for r in rows if r["id"] == mid_a)
+        self.assertEqual(row_a["channel"], "grok-to-chatgpt")
+        self.assertAlmostEqual(row_a["age_hours"], 5.0, delta=0.2)
+
+        formatted = db.format_backlog()
+        self.assertIn(mid_a, formatted)
+        self.assertIn("total_open=2", formatted)
+        self.assertIn("oldest_open_age_hours=", formatted)
+
+        only = db.open_backlog_rows("chatgpt-to-grok")
+        self.assertEqual([r["id"] for r in only], [mid_b])
+        self.assertIn("total_open=1", db.format_backlog("chatgpt-to-grok"))
+
+    def test_health_summary_total_open(self):
+        mid = db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "health open", status="open"
+        )
+        path = self.msg_dir / "grok-to-chatgpt.md"
+        text = path.read_text(encoding="utf-8")
+        old = (db.now_tr() - dt.timedelta(hours=3)).isoformat(timespec="seconds")
+        text2 = re.sub(
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
+            rf"\g<1>{old}",
+            text,
+            count=1,
+            flags=re.S,
+        )
+        path.write_text(text2, encoding="utf-8")
+        health = db.channel_health()
+        self.assertEqual(health["total_open"], 1)
+        self.assertIsInstance(health["oldest_open_age_hours"], float)
+        self.assertAlmostEqual(health["oldest_open_age_hours"], 3.0, delta=0.2)
+        single = db.channel_health("grok-to-chatgpt")
+        self.assertEqual(single["total_open"], 1)
+        empty = db.channel_health("inbox-gemini")
+        self.assertEqual(empty["total_open"], 0)
+        self.assertIsNone(empty["oldest_open_age_hours"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
