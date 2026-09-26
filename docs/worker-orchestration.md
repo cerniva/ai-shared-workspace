@@ -65,6 +65,12 @@ Rules:
 - Workers cannot self-review or self-apply results.
 - Only ChatGPT `accept` / `merge` reviews can become applied lessons.
 
+## Red-team fixes (2026-09-26)
+
+1. **Concurrent claim race** — `work_queue.py` wraps load-modify-save in exclusive `fcntl.flock`. `complete` / `fail` require `worker=` matching the active lease owner; expired leases cannot complete.
+2. **Strict JSON** — `worker_adapters.py` requires exactly: `evidence`, `factual_findings`, `hypotheses`, `recommendation`, `confidence`, `next_action`. Missing / wrong type / extra keys → `NonRetryableProviderError`.
+3. **Retry / review semantics** — Retryable failures stay `retryable_failed` until `max_attempts`; then `dead_letter`. Non-retryable → `blocked`. `review_gate` never applies on `reject`; only ChatGPT `accept` / `merge` call `mark_applied`.
+
 ## Verification
 
 ```bash
