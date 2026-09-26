@@ -23,7 +23,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Unit tests
         run: python3 -m unittest tests.test_tinyfish_senses tests.test_firecrawl_fallback
       - name: Compile workers
