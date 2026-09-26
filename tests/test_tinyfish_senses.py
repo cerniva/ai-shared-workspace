@@ -24,5 +24,25 @@ class ParseTests(unittest.TestCase):
         self.assertFalse(ok)
 
 
+class BrowserTests(unittest.TestCase):
+    def test_payload_is_bounded(self):
+        task = {"mode": "browser", "url": "https://example.com", "goal": "Open pricing"}
+        payload = t.build_browser_payload(task)
+        self.assertEqual(payload["url"], "https://example.com")
+        self.assertEqual(payload["goal"], "Open pricing")
+        self.assertEqual(payload["browser_profile"], "lite")
+        self.assertEqual(payload["agent_config"]["max_steps"], 50)
+        self.assertEqual(payload["agent_config"]["max_duration_seconds"], 300)
+
+    def test_prohibited_goals_block(self):
+        goals = ["buy this product", "publish this post", "delete my account", "change password", "submit secret key", "bypass 2FA", "solve CAPTCHA", "login to admin"]
+        for goal in goals:
+            self.assertTrue(t.browser_block_reason({"mode": "browser", "goal": goal}), goal)
+
+    def test_fetch_not_browser_payload(self):
+        with self.assertRaises(ValueError):
+            t.build_browser_payload({"mode": "fetch", "url": "https://example.com", "goal": "click"})
+
+
 if __name__ == "__main__":
     unittest.main()
