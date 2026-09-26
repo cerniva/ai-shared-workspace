@@ -7,9 +7,9 @@ Her ajan için maksimum aktif uygulama görevi: 5.
 - grok: max 5
 - gemini-api: max 5
 
-## Zorunlu üçlü görüş
-Her kullanıcı görevinde üç ajan görüşü hedeflenir.
-Görüş verme ile uygulama liderliği farklıdır: herkes görüş verir, bir ajan lead olur.
+## Üçlü görüş
+Para, kalıcı karar, çelişki veya kullanıcının açıkça istediği ikinci görüşte üç ajanın görüşü hedeflenir. Kota/erişim engelinde mevcut ajan işi sürdürür ve eksik görüşü açıkça belirtir.
+Diğer görevlerde uygun tek ajan ilerler; ikinci ajan yalnızca somut fayda varsa devreye girer.
 
 ## Lead seçimi
 1. Göreve en uygun güçlü yön
