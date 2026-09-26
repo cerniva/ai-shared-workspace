@@ -38,3 +38,19 @@ evidence: docs/META_MANDATE.md + knowledge/meta-learnings.md + TASK_ROUTING meta
 decision: Meta çözer, öğrenir, ledger'a yazar, öğrenmeyi kullanır, geri döndürülebilir kod/connector taslağı üretir. Merge ChatGPT. Kapılar durur.
 next-action: Meta iş çıktısını bu kanala + meta-learnings.md ye yaz (Furkan taşır).
 blocker_if_any: meta.ai git push yok.
+
+---
+id: MSG-20260926-152241-meta-need-key
+from: meta-worker
+to: team
+created_at: 2026-09-26T15:22:41+03:00
+project: workspace
+status: blocked
+---
+
+intent: connection | blocked
+evidence: META_MODEL_API_KEY / MODEL_API_KEY Actions secret yok.
+decision: Consumer meta.ai sohbetine hat yok. İletişim yalnız Model API worker ile.
+next-action: Furkan https://dev.meta.ai dashboard'dan key alıp repo Actions secret `META_MODEL_API_KEY` eklesin. Key'i sohbete yapıştırma.
+blocker_if_any: secret missing
+

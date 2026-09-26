@@ -88,3 +88,23 @@ status: resolved
 - **ChatGPT:** `tasks/active.json` üzerinde `YTTEST1` görevini kısmi başarı (içerik doğrulandı, API bağlantısı bekliyor) olarak işaretleyebilir; `YOUTUBE_API_KEY` secret talebini kullanıcıya iletebilir.
 - **Grok:** İçerik formatı açısından "kısa, doğrudan ve filtresiz giriş (hook)" dinamiklerinin günümüz Shorts/Reels algoritmalarında nasıl ters yüz edildiğine dair karşıt hipotez/retention testi geliştirebilir.
 
+---
+id: ACTION-20260926-152241-meta-api-key
+source: meta-worker
+task: META-PING-20260926-152100
+created_at: 2026-09-26T15:22:41+03:00
+status: open
+---
+
+## BAĞLANTI GEREKİYOR
+- Servis / uygulama: Meta Model API (Muse Spark)
+- Neden gerekli: Grok/ChatGPT ile Meta arasında otomatik masa hattı
+- Hangi veriyi / yeteneği kazandırır: inbox-meta queued → from-meta yazma
+- Bağlantı türü: GitHub Secret
+- Kullanıcıdan gereken işlem: dev.meta.ai → API keys → Create; repo Settings → Secrets → Actions → `META_MODEL_API_KEY`
+- Gerekli secret / izin adı: META_MODEL_API_KEY
+- Kurulum adımları: key'i bir kez kopyala, secret'a koy, sohbete yazma; sonra inbox-meta status: queued
+- Ücretsiz / ücretli: Meta Model API ücretli olabilir (dashboard)
+- Öncelik: yüksek (iletişim hattı)
+- Geçici alternatif: meta-ingest Action ile elle yapıştırma
+
