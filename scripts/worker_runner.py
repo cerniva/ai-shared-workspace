@@ -59,18 +59,18 @@ def run_job(
     try:
         result = adapter.run(claimed)
     except MissingCredential as exc:
-        return queue.fail(job_id, str(exc), retryable=False, now=now)
+        return queue.fail(job_id, str(exc), retryable=False, worker=worker, now=now)
     except (ProviderNotConfigured, NonRetryableProviderError) as exc:
-        return queue.fail(job_id, str(exc), retryable=False, now=now)
+        return queue.fail(job_id, str(exc), retryable=False, worker=worker, now=now)
     except RetryableProviderError as exc:
-        state = queue.fail(job_id, str(exc), retryable=True, now=now)
+        state = queue.fail(job_id, str(exc), retryable=True, worker=worker, now=now)
         if state["status"] == "dead_letter" and dead_letter_path is not None:
             _record_dead_letter(Path(dead_letter_path), state, str(exc), now)
         return state
     except Exception as exc:
-        state = queue.fail(job_id, f"unexpected provider error: {exc}", retryable=True, now=now)
+        state = queue.fail(job_id, f"unexpected provider error: {exc}", retryable=True, worker=worker, now=now)
         if state["status"] == "dead_letter" and dead_letter_path is not None:
             _record_dead_letter(Path(dead_letter_path), state, str(exc), now)
         return state
 
-    return queue.complete(job_id, result, now=now)
+    return queue.complete(job_id, result, worker=worker, now=now)

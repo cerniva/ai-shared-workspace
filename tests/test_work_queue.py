@@ -50,19 +50,19 @@ class WorkQueueTests(unittest.TestCase):
         self.assertEqual(claimed["attempt_count"], 1)
         self.assertEqual(claimed["claim"]["worker"], "grok")
 
-        completed = self.queue.complete("job-1", {"finding": "ok"}, now=now)
+        completed = self.queue.complete("job-1", {"finding": "ok"}, worker="grok", now=now)
         self.assertEqual(completed["status"], "completed")
         self.assertEqual(completed["result"], {"finding": "ok"})
 
     def test_illegal_transition_is_rejected(self):
         with self.assertRaises(InvalidTransition):
-            self.queue.complete("job-1", {"finding": "not claimed"})
+            self.queue.complete("job-1", {"finding": "not claimed"}, worker="grok")
 
     def test_duplicate_completion_is_idempotent(self):
         now = datetime(2026, 9, 26, 3, 1, tzinfo=UTC)
         self.queue.claim("job-1", "grok", now=now)
-        first = self.queue.complete("job-1", {"finding": "first"}, now=now)
-        second = self.queue.complete("job-1", {"finding": "second"}, now=now)
+        first = self.queue.complete("job-1", {"finding": "first"}, worker="grok", now=now)
+        second = self.queue.complete("job-1", {"finding": "second"}, worker="grok", now=now)
         self.assertEqual(second, first)
         reloaded = json.loads(self.path.read_text(encoding="utf-8"))
         self.assertEqual(reloaded["items"][0]["result"], {"finding": "first"})
@@ -82,7 +82,7 @@ class WorkQueueTests(unittest.TestCase):
     def test_retryable_failure_returns_job_to_retryable_state(self):
         now = datetime(2026, 9, 26, 3, 1, tzinfo=UTC)
         self.queue.claim("job-1", "grok", now=now)
-        failed = self.queue.fail("job-1", "temporary provider error", retryable=True, now=now)
+        failed = self.queue.fail("job-1", "temporary provider error", retryable=True, worker="grok", now=now)
         self.assertEqual(failed["status"], "retryable_failed")
         self.assertEqual(failed["blocker"], "temporary provider error")
 
@@ -93,7 +93,7 @@ class WorkQueueTests(unittest.TestCase):
     def test_non_retryable_failure_is_blocked(self):
         now = datetime(2026, 9, 26, 3, 1, tzinfo=UTC)
         self.queue.claim("job-1", "grok", now=now)
-        failed = self.queue.fail("job-1", "missing credentials", retryable=False, now=now)
+        failed = self.queue.fail("job-1", "missing credentials", retryable=False, worker="grok", now=now)
         self.assertEqual(failed["status"], "blocked")
         with self.assertRaises(InvalidTransition):
             self.queue.claim("job-1", "grok", now=now + timedelta(seconds=1))
@@ -103,7 +103,7 @@ class WorkQueueTests(unittest.TestCase):
         queue = WorkQueue(self.path)
         now = datetime(2026, 9, 26, 3, 1, tzinfo=UTC)
         queue.claim("job-1", "grok", now=now)
-        failed = queue.fail("job-1", "temporary provider error", retryable=True, now=now)
+        failed = queue.fail("job-1", "temporary provider error", retryable=True, worker="grok", now=now)
         self.assertEqual(failed["status"], "dead_letter")
 
 

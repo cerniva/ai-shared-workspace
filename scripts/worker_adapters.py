@@ -98,6 +98,16 @@ def _prompt(job: dict[str, Any]) -> str:
     )
 
 
+REQUIRED_RESULT_KEYS = frozenset({
+    "evidence",
+    "factual_findings",
+    "hypotheses",
+    "recommendation",
+    "confidence",
+    "next_action",
+})
+
+
 def _parse_json_text(text: str) -> dict[str, Any]:
     cleaned = text.strip()
     if cleaned.startswith("```"):
@@ -113,27 +123,66 @@ def _parse_json_text(text: str) -> dict[str, Any]:
         raise NonRetryableProviderError("provider returned non-JSON worker result") from exc
     if not isinstance(value, dict):
         raise NonRetryableProviderError("provider returned invalid worker result")
-    return value
+    return _validate_strict_result(value)
+
+
+def _validate_strict_result(payload: dict[str, Any]) -> dict[str, Any]:
+    """Reject missing keys, wrong types, or unexpected extras (NonRetryable)."""
+    keys = set(payload.keys())
+    missing = REQUIRED_RESULT_KEYS - keys
+    if missing:
+        raise NonRetryableProviderError(
+            f"provider result missing required keys: {sorted(missing)}"
+        )
+    extra = keys - REQUIRED_RESULT_KEYS
+    if extra:
+        raise NonRetryableProviderError(
+            f"provider result has unexpected keys: {sorted(extra)}"
+        )
+
+    evidence = payload["evidence"]
+    if not isinstance(evidence, list):
+        raise NonRetryableProviderError("evidence must be a list")
+    for item in evidence:
+        if not isinstance(item, dict):
+            raise NonRetryableProviderError("evidence items must be objects")
+
+    for list_key in ("factual_findings", "hypotheses"):
+        value = payload[list_key]
+        if not isinstance(value, list):
+            raise NonRetryableProviderError(f"{list_key} must be a list")
+        for item in value:
+            if not isinstance(item, str):
+                raise NonRetryableProviderError(f"{list_key} items must be strings")
+
+    if not isinstance(payload["recommendation"], str):
+        raise NonRetryableProviderError("recommendation must be a string")
+    if not isinstance(payload["next_action"], str):
+        raise NonRetryableProviderError("next_action must be a string")
+
+    confidence = payload["confidence"]
+    if isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
+        raise NonRetryableProviderError("confidence must be a number")
+    if not 0.0 <= float(confidence) <= 1.0:
+        raise NonRetryableProviderError("confidence must be between 0 and 1")
+
+    return payload
 
 
 def _normalized_from_payload(
     payload: dict[str, Any], *, provider: str, model: str, job_id: str, started: datetime, duration_ms: int, usage: dict[str, Any]
 ) -> dict[str, Any]:
-    confidence = payload.get("confidence", 0.0)
-    try:
-        confidence = max(0.0, min(1.0, float(confidence)))
-    except (TypeError, ValueError):
-        confidence = 0.0
+    # payload already strict-validated by _parse_json_text
     return normalized_result(
         provider=provider,
         model=model,
         job_id=job_id,
-        evidence=payload.get("evidence") if isinstance(payload.get("evidence"), list) else [],
-        factual_findings=payload.get("factual_findings") if isinstance(payload.get("factual_findings"), list) else [],
-        hypotheses=payload.get("hypotheses") if isinstance(payload.get("hypotheses"), list) else [],
-        recommendation=str(payload.get("recommendation", "")),
-        confidence=confidence,
-        next_action=str(payload.get("next_action", "")),
+        evidence=list(payload["evidence"]),
+        factual_findings=list(payload["factual_findings"]),
+        hypotheses=list(payload["hypotheses"]),
+        recommendation=payload["recommendation"],
+        confidence=float(payload["confidence"]),
+        next_action=payload["next_action"],
         started_at=started,
         duration_ms=duration_ms,
         usage=usage,
