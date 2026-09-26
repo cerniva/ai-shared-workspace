@@ -142,6 +142,39 @@ class WorkQueue:
         self._save(data)
         return deepcopy(entry)
 
+    def mark_reviewed(
+        self,
+        job_id: str,
+        review: dict[str, Any],
+        *,
+        now: datetime | None = None,
+    ) -> dict[str, Any]:
+        data = self._load()
+        entry = self._find(data, job_id)
+        self.validate_transition(entry.get("status"), "reviewed")
+        entry["status"] = "reviewed"
+        entry["review"] = deepcopy(review)
+        entry["reviewed_at"] = _iso(now or datetime.now(UTC))
+        self._save(data)
+        return deepcopy(entry)
+
+    def mark_applied(
+        self,
+        job_id: str,
+        *,
+        now: datetime | None = None,
+    ) -> dict[str, Any]:
+        data = self._load()
+        entry = self._find(data, job_id)
+        self.validate_transition(entry.get("status"), "applied")
+        review = entry.get("review") or {}
+        if review.get("verdict") not in {"accept", "merge"}:
+            raise InvalidTransition("only accepted or merged reviews can be applied")
+        entry["status"] = "applied"
+        entry["applied_at"] = _iso(now or datetime.now(UTC))
+        self._save(data)
+        return deepcopy(entry)
+
     def fail(
         self,
         job_id: str,
