@@ -1,5 +1,6 @@
 [build]
-  publish = "."
+  command = "mkdir -p site && cp index.html site/index.html"
+  publish = "site"
 
 [[redirects]]
   from = "/*"
