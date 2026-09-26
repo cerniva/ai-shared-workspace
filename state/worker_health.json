@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T06:01:27.164353+00:00",
+  "generated_at": "2026-09-26T06:29:15.491431+00:00",
   "healthy": true,
   "model": {
     "provider": "openai",
@@ -12,11 +12,11 @@
   },
   "queue": {
     "counts": {
-      "retryable_failed": 1
+      "completed": 1
     },
     "active_leases": []
   },
-  "last_successful_work": null,
+  "last_successful_work": "2026-09-26T06:29:11.333035+00:00",
   "dead_letter_count": 1,
-  "failed_or_blocked": 1
+  "failed_or_blocked": 0
 }
