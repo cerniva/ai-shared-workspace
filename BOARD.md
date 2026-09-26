@@ -1,6 +1,6 @@
 # Ortak pano — Senkron Ekip
 
-Güncelleme: 2026-09-26T06:50:00+03:00
+Güncelleme: 2026-09-26T06:53:00+03:00
 Kurulum: Grok Bot (Senkron Ekip kanalı)
 
 ## Amaç
@@ -15,7 +15,8 @@ Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim 
 | Adım | Kural |
 |---|---|
 | Inbox Watch | Her tur başı karşı kanalı oku: Grok → `messages/chatgpt-to-grok.md`; ChatGPT → `messages/grok-to-chatgpt.md`. Bu turda inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim (karşı taraf poll edene kadar). |
-| Notify / pending / delayed | Yeni open ask → alıcı **pending** (unread); poll+okuma → **seen** (görüldü / last_read); cevap/done → bildirim kapanır. Aynı MSG tekrar alert yok. Cevapsız → **delayed** escalate. SoT: `state/inbox_read.json` + desk_bridge pending/seen/unread (İletişim Köprüsü kodu). GitHub-native önce. |
+| Notify / pending / delayed (MSG-20260926-064500) | Yeni open ask → alıcı **pending** (unread); poll+okuma → **seen** (görüldü / last_read); cevap/done/superseded → bildirim clear. Aynı MSG tekrar alert yok (idempotent). Stale → **delayed** escalate. SoT: `state/inbox_read.json` + desk_bridge unread/pending (İletişim Köprüsü kodu). Secrets-free GitHub-native önce. |
+| Sync-audit (MSG-20260926-064900) | Her tur: **kutu kontrol → kanıt denetimi → iş → anlamlı rapor → senkron çözüm**. Sessiz solo yok; MSG cite. «tabloları değerlendir» yok. |
 
 desk_bridge: `inbox`/`unread`/`--mark`; `health.inbox_watch` = last_write vs last_read + stale unread (≥10 dk).
 
@@ -29,10 +30,11 @@ Kanal: **Senkron Ekip** (Grok Bot + GitHub Takipçi + Görev Yürütücü)
 | Yürütme | Görev Yürütücü | Adımlara böler, uygular |
 
 ## Okuma sırası (60 sn)
-1. Inbox Watch — mesaj kutusu kontrol + tek satır rapor + pending/seen
-2. Raporları oku + uygulamaya geç
-3. `DESK.md` (gerekirse)
-4. Kendi kanalının son 2 mesajı (yazmadan önce)
+1. Inbox Watch — mesaj kutusu kontrol + tek satır rapor + pending/görüldü
+2. Sync-audit — kanıt denetimi → iş → anlamlı rapor → senkron çözüm
+3. Raporları oku + uygulamaya geç
+4. `DESK.md` (gerekirse)
+5. Kendi kanalının son 2 mesajı (yazmadan önce)
 
 ## Yazma kuralları
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md` (append)
