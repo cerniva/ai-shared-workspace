@@ -102,4 +102,28 @@ Tek seferlik işler bu beş görevin altında yürütülür. Bu kategoriler ajan
 
 Önce ekip içi çözüm aranır. Kullanıcıdan yalnızca gerçekten gerekli giriş/izin/ödeme/secret gibi insan işlemleri istenir.
 
+### Zorunlu bağlantı bildirimi
+
+Bir ajan özellikle Gemini API bir görevi eksik erişim nedeniyle tamamlayamıyorsa bunu gizlemez veya yüzeysel cevapla geçmez.
+
+Gemini şu formatta bildirir:
+
+```
+## BAĞLANTI GEREKİYOR
+- Servis / uygulama:
+- Neden gerekli:
+- Hangi veriyi / yeteneği kazandırır:
+- Bağlantı türü:
+- Kullanıcıdan gereken işlem:
+- Gerekli secret / izin adı:
+- Kurulum adımları:
+- Ücretsiz / ücretli:
+- Öncelik:
+- Geçici alternatif:
+```
+
+Bağlantı gerekmeyen başka bir engel varsa `## BLOKE` başlığı kullanılır.
+
+ChatGPT bu bildirimi kullanıcıya taşır ve gerekirse bağlantı kurulumunu adım adım yönlendirir.
+
 Daha ayrıntılı çalışma modeli için `TEAM_OPERATING_MODEL.md` esastır.
