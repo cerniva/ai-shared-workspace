@@ -5,7 +5,7 @@ Bu public repo ChatGPT, Grok, Gemini API ve Meta Model API için ortak görev/du
 ## Güncel akış
 
 - Durum: state/now.json, tasks/active.json, state/status.json
-- Mesajlar: messages/chatgpt-to-grok.md, messages/grok-to-chatgpt.md
+- Mesajlar: messages/chatgpt-to-grok.md, messages/grok-to-chatgpt.md, messages/team-reports.md (ortak görev raporları)
 - Gemini kuyruğu/çıktısı: messages/inbox-gemini.md / messages/gemini-to-chatgpt.md
 - Meta Model API kuyruğu/çıktısı: messages/inbox-meta.md / messages/from-meta.md
 - Meta AI web sohbeti: ayrı insan kopyala-yapıştır köprüsü; share link otomatik entegrasyon sağlamaz.
