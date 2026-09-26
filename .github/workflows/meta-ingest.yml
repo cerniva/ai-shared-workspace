@@ -1,0 +1,79 @@
+name: meta-ingest
+
+on:
+  workflow_dispatch:
+    inputs:
+      body:
+        description: "Meta AI output to commit into messages/from-meta.md"
+        required: true
+        type: string
+      source:
+        description: "source label"
+        required: false
+        default: "workflow_dispatch"
+        type: string
+  issues:
+    types: [opened, edited]
+
+concurrency:
+  group: meta-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve body
+        id: src
+        env:
+          EVENT: ${{ github.event_name }}
+          DISPATCH_BODY: ${{ github.event.inputs.body }}
+          DISPATCH_SOURCE: ${{ github.event.inputs.source }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+        run: |
+          python3 - <<'PY'
+          import os
+          event = os.environ.get("EVENT", "")
+          if event == "workflow_dispatch":
+              body = os.environ.get("DISPATCH_BODY") or ""
+              source = os.environ.get("DISPATCH_SOURCE") or "workflow_dispatch"
+              run = True
+          else:
+              labels = (os.environ.get("ISSUE_LABELS") or "").lower()
+              title = os.environ.get("ISSUE_TITLE") or ""
+              run = ("meta" in labels) or title.lower().startswith("[meta]")
+              body = os.environ.get("ISSUE_BODY") or ""
+              source = f"issue:{os.environ.get('ISSUE_TITLE', '')[:60]}"
+          out = os.environ["GITHUB_OUTPUT"]
+          with open(out, "a", encoding="utf-8") as f:
+              f.write(f"run={'true' if run else 'false'}\n")
+              f.write(f"source={source}\n")
+          Path = __import__("pathlib").Path
+          Path("/tmp/meta_body.txt").write_text(body, encoding="utf-8")
+          print("run", run, "chars", len(body))
+          PY
+
+      - name: Ingest
+        if: steps.src.outputs.run == 'true'
+        env:
+          META_SOURCE: ${{ steps.src.outputs.source }}
+        run: |
+          export META_BODY="$(cat /tmp/meta_body.txt)"
+          python3 scripts/meta_ingest.py
+
+      - name: Commit
+        if: steps.src.outputs.run == 'true'
+        run: |
+          git config user.name "meta-ingest-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add messages/from-meta.md
+          git diff --cached --quiet && exit 0
+          git commit -m "meta-ingest: append from-meta.md"
+          git push
