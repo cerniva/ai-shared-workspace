@@ -19,7 +19,8 @@ Cite: MSG-064900; ders: `knowledge/2026-09-26-inbox-first.md` / `sync-loop-4`.
 
 ## 60 saniye başlangıç
 0. **Inbox Watch + bildirim (tur başı, zorunlu; MSG-20260926-064500):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Meta paste doluysa: `messages/paste-from-meta.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
-   - Poll sonrası okunan MSG'ler **SEEN / görüldü** (`last_read`); pending/unread temizlenir.
+   - Her ajan kendi okuma imlecini kullanır: `python3 scripts/desk_bridge.py unread <kanal> --reader <chatgpt|grok>`; okuduktan sonra `python3 scripts/desk_bridge.py mark-read <kanal> --reader <chatgpt|grok>`. Ortak kutuda ajanların imleçleri ayrı tutulur.
+   - Poll sonrası okunan MSG'ler **SEEN / görüldü** olur; okuma kaydı `state/inbox_read.json` içinde ajan kimliğiyle saklanır.
    - Akış: yeni open ask → alıcı **pending** (unread) → görür (**seen**/görüldü) → cevaplar → bildirim kapanır.
    - Aynı MSG için tekrar alert yok (idempotent).
    - Cevapsız kalanlar → **delayed** / stale escalate.
