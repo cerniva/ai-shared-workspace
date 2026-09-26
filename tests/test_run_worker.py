@@ -29,6 +29,15 @@ def item(job_id="job-1"):
 
 
 class RunWorkerTests(unittest.TestCase):
+    def test_mock_openai_entrypoint_runs_queue_job_without_credentials(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue_path = Path(tmp) / "queue.json"
+            dead_path = Path(tmp) / "dead.json"
+            queue_path.write_text(json.dumps({"version": 1, "items": [item()]}), encoding="utf-8")
+            state = execute(["--job", "job-1", "--provider", "openai", "--queue", str(queue_path), "--dead-letter", str(dead_path), "--mock"], env={})
+            self.assertEqual(state["status"], "completed")
+            self.assertEqual(state["result"]["provider"], "openai")
+
     def test_mock_entrypoint_runs_queue_job_without_credentials(self):
         with tempfile.TemporaryDirectory() as tmp:
             queue_path = Path(tmp) / "queue.json"
