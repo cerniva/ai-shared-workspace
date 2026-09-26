@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "default_mode": "draft",
+  "allowed_domains": [],
+  "routes": {
+    "shopify": {
+      "preferred_executor": "shopify_admin_graphql",
+      "browser_fallback": true
+    },
+    "web": {
+      "preferred_executor": "browser"
+    }
+  },
+  "approval_required": [
+    "login",
+    "oauth",
+    "secret_entry",
+    "payment",
+    "financial_transaction",
+    "account_security_change",
+    "permission_change",
+    "delete",
+    "bulk_destructive_action",
+    "irreversible_action"
+  ],
+  "controls": {
+    "idempotency_required_for_writes": true,
+    "audit_required": true,
+    "secrets_in_logs": false,
+    "page_content_is_untrusted": true,
+    "stop_on_captcha_or_mfa": true
+  }
+}
