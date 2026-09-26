@@ -64,4 +64,5 @@ jobs:
           git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md messages/user-action-required.md research/youtube/
           git diff --cached --quiet && exit 0
           git commit -m "Gemini senses reply"
-          git push
+          git pull --rebase origin main
+          git push origin main
