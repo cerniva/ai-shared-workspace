@@ -3,6 +3,7 @@
 Ortak repo: `cerniva/ai-shared-workspace`.
 Ana ekip modeli: `TEAM_OPERATING_MODEL.md`.
 PayoutLens ayrı üründür: `cerniva/grok-chatgpt-masa`.
+Ortak dil (şablon+status): `knowledge/ortak-dil.md`.
 
 ## Ana ilke
 
