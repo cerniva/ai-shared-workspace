@@ -65,3 +65,13 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** shopify
 - **Son kontrol tarihi:** 2026-09-26
 - **Not:** Bir otomasyon denemesi başarısız olduğundan son kontrol manuel doğrulama gerektiriyor.
+
+### 2026-09-26 — YouTube Data API connector doğrulandı
+- **Kaynak:** GitHub Actions canlı test YTTEST2
+- **Alan:** youtube-growth | research
+- **Ne öğrendik:** YOUTUBE_API_KEY ile çalışan YouTube connector canlı testte video başlığı, kanal, yayın tarihi, görüntülenme/beğeni/yorum sayıları, kanal istatistikleri ve yorum verilerini başarıyla çekti.
+- **Kanıt düzeyi:** doğrulandı
+- **Uygulama:** CORE-03 ve CORE-01 görevlerinde rakip kanal/video analizi, yorum madenciliği ve yapılandırılmış YouTube araştırması.
+- **İlgili proje:** content / research-learning
+- **Son kontrol tarihi:** 2026-09-26
+- **Not:** İlk test import yolu nedeniyle başarısız oldu; import düzeltmesi sonrası PASS.
