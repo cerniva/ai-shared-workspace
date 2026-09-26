@@ -1,10 +1,12 @@
 # Inbox → Gemini API
 
+Bu dosya Gemini API için genel amaçlı görev kutusudur.
+
 ## TASK
-status: queued
+status: idle
 id: YTTEST1
-from: chatgpt
+from: system
 project: content
-url: https://youtu.be/jNQXAC9IVRw
+url:
 prompt: |
-  Check YouTube Data API context for this public video. Return title, channel, available statistics, and PASS or FAIL.
+  Son görev işlendi: MSG-20260926-032050-gemini-api
