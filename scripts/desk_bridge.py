@@ -26,7 +26,7 @@ CHANNELS: dict[str, tuple[Path, str | FrozenSet[str] | None, str]] = {
 }
 VALID_STATUS = {"open", "done", "blocked", "queued"}
 STALE_HOURS = 24
-INBOX_WATCH_CHANNELS = ("chatgpt-to-grok", "grok-to-chatgpt")
+INBOX_WATCH_CHANNELS = ("chatgpt-to-grok", "grok-to-chatgpt", "chatgpt-to-gemini", "gemini-to-chatgpt")
 INBOX_UNREAD_ALARM_MINUTES = 10
 INBOX_READ_PATH = ROOT / "state" / "inbox_read.json"
 DELIVERY_PATH = ROOT / "state" / "message_delivery.json"
@@ -107,7 +107,7 @@ def mark_delivery(channel: str, mid: str, status: str, *, force: bool = False) -
 
 
 def mark_pending_on_append(channel: str, mid: str, status: str, in_reply_to: str | None) -> None:
-    if status == "open": mark_delivery(channel, mid, "pending")
+    if status in ("open", "queued"): mark_delivery(channel, mid, "pending")
     if in_reply_to and in_reply_to != "null":
         parent = load_delivery_state()["messages"].get(in_reply_to) or {}
         mark_delivery(parent.get("channel") or channel, in_reply_to, "answered", force=True)
@@ -211,7 +211,7 @@ def load_inbox_read_state() -> dict:
     except (OSError, json.JSONDecodeError): return {}
 
 
-def save_inbox_read_state(state: dict) -> None:
+def save_inbox_read_state(state: dict) -> dict:
     INBOX_READ_PATH.parent.mkdir(parents=True, exist_ok=True); INBOX_READ_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
