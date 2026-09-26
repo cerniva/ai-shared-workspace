@@ -130,18 +130,10 @@ class DeskBridgeTests(unittest.TestCase):
 
     def test_latest_and_open(self):
         db.append_message(
-            "grok-to-chatgpt",
-            "grok",
-            "chatgpt",
-            "first",
-            status="done",
+            "grok-to-chatgpt", "grok", "chatgpt", "first", status="done"
         )
         mid2 = db.append_message(
-            "grok-to-chatgpt",
-            "grok-bot",
-            "chatgpt",
-            "second open",
-            status="open",
+            "grok-to-chatgpt", "grok-bot", "chatgpt", "second open", status="open"
         )
         latest = db.latest_message("grok-to-chatgpt")
         self.assertIn(mid2, latest)
@@ -204,8 +196,7 @@ class DeskBridgeTests(unittest.TestCase):
         text = path.read_text(encoding="utf-8")
         old = (db.now_tr() - dt.timedelta(hours=48)).isoformat(timespec="seconds")
         text2 = re.sub(
-            rf"(id: {re.escape(mid)}.*?created_at: )[^
-]+",
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
             rf"\g<1>{old}",
             text,
             count=1,
@@ -242,8 +233,7 @@ class DeskBridgeTests(unittest.TestCase):
         text_a = path_a.read_text(encoding="utf-8")
         old = (db.now_tr() - dt.timedelta(hours=5)).isoformat(timespec="seconds")
         text_a2 = re.sub(
-            rf"(id: {re.escape(mid_a)}.*?created_at: )[^
-]+",
+            rf"(id: {re.escape(mid_a)}.*?created_at: )[^\n]+",
             rf"\g<1>{old}",
             text_a,
             count=1,
@@ -277,8 +267,7 @@ class DeskBridgeTests(unittest.TestCase):
         text = path.read_text(encoding="utf-8")
         old = (db.now_tr() - dt.timedelta(hours=3)).isoformat(timespec="seconds")
         text2 = re.sub(
-            rf"(id: {re.escape(mid)}.*?created_at: )[^
-]+",
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
             rf"\g<1>{old}",
             text,
             count=1,
@@ -323,8 +312,7 @@ class DeskBridgeTests(unittest.TestCase):
         text = path.read_text(encoding="utf-8")
         old = (db.now_tr() - dt.timedelta(minutes=15)).isoformat(timespec="seconds")
         text2 = re.sub(
-            rf"(id: {re.escape(mid)}.*?created_at: )[^
-]+",
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
             rf"\g<1>{old}",
             text,
             count=1,
@@ -349,8 +337,7 @@ class DeskBridgeTests(unittest.TestCase):
         text = path.read_text(encoding="utf-8")
         old = (db.now_tr() - dt.timedelta(minutes=20)).isoformat(timespec="seconds")
         text2 = re.sub(
-            rf"(id: {re.escape(mid)}.*?created_at: )[^
-]+",
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
             rf"\g<1>{old}",
             text,
             count=1,
