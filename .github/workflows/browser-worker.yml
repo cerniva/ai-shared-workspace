@@ -1,0 +1,33 @@
+name: Browser Worker
+on:
+  workflow_dispatch:
+    inputs:
+      task_json:
+        description: "Browser task JSON"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r browser_worker/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Write task
+        env:
+          TASK_JSON: ${{ inputs.task_json }}
+        run: python -c "import os,pathlib; pathlib.Path('task.json').write_text(os.environ['TASK_JSON'])"
+      - name: Run browser
+        run: python browser_worker/worker.py task.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-worker-${{ github.run_id }}
+          path: browser-artifacts/
+          if-no-files-found: ignore
