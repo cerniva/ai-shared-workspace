@@ -1,5 +1,6 @@
 site/
 state/connector-health.json
+state/*.lock
 __pycache__/
 *.pyc
 .env

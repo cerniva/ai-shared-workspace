@@ -1,5 +1,7 @@
 import json
+import multiprocessing as mp
 import tempfile
+import time
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -31,6 +33,23 @@ def item(job_id="job-1", **overrides):
     }
     base.update(overrides)
     return base
+
+
+class SlowSaveQueue(WorkQueue):
+    def _save(self, data):
+        time.sleep(0.15)
+        super()._save(data)
+
+
+def _concurrent_claim(path, start, out):
+    queue = SlowSaveQueue(path)
+    start.wait()
+    try:
+        queue.claim("job-1", "grok")
+    except InvalidTransition:
+        out.put("rejected")
+    else:
+        out.put("claimed")
 
 
 class WorkQueueTests(unittest.TestCase):
@@ -105,6 +124,20 @@ class WorkQueueTests(unittest.TestCase):
         queue.claim("job-1", "grok", now=now)
         failed = queue.fail("job-1", "temporary provider error", retryable=True, now=now)
         self.assertEqual(failed["status"], "dead_letter")
+
+    def test_concurrent_claim_allows_exactly_one_owner(self):
+        start = mp.Event()
+        out = mp.Queue()
+        workers = [mp.Process(target=_concurrent_claim, args=(str(self.path), start, out)) for _ in range(2)]
+        for proc in workers:
+            proc.start()
+        start.set()
+        for proc in workers:
+            proc.join(timeout=5)
+            self.assertEqual(proc.exitcode, 0)
+
+        outcomes = sorted(out.get(timeout=1) for _ in workers)
+        self.assertEqual(outcomes, ["claimed", "rejected"])
 
 
 if __name__ == "__main__":
