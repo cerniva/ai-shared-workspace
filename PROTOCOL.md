@@ -17,11 +17,19 @@ Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve �
 
 Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
 
-## Zorunlu üçlü görüş kuralı
+## Üçlü görüş kuralı
 
-Her gerçek kullanıcı görevi için ChatGPT, kendi değerlendirmesine ek olarak **Grok ve Gemini API'den de görüş ister**. Bu artık isteğe bağlı kalite artırımı değil, varsayılan çalışma yöntemidir.
+Üçlü görüş her görev için zorunlu değildir. Bu kural doğrudan dosyanın sonundaki **Hızlı yol** bölümüne bağlıdır.
 
-Akış:
+ChatGPT, Grok ve Gemini API'den birlikte görüş **yalnızca** şu dört durumda ister:
+- para
+- kalıcı karar
+- çelişki
+- kullanıcının açıkça istediği ikinci görüş
+
+Bu dört koşul yoksa en uygun tek ajan görevi yürütür; gerekirse kısa handoff yapar. Üçlü görüş gerekmeyen bir iş, diğer ajanların cevabını beklemek için bloklanmaz.
+
+Üçlü görüş gerektiğinde akış:
 1. ChatGPT görevi anlar ve ilk çerçeveyi kurar.
 2. Aynı hedef Grok'a gönderilir; alternatif fikir, itiraz, risk ve kör nokta aranır.
 3. Aynı hedef Gemini API'ye gönderilir; bağımsız analiz, araştırma ve gerektiğinde medya/dış içerik incelemesi istenir.
@@ -130,10 +138,10 @@ Daha ayrıntılı çalışma modeli için `TEAM_OPERATING_MODEL.md` esastır.
 
 ## Hızlı yol
 
-Üçlü görüş **yalnızca** şu durumlarda zorunludur:
+Üçlü görüş **sadece** şu durumlarda zorunludur:
 - para
 - kalıcı karar
 - çelişki
 - kullanıcının açıkça istediği ikinci görüş
 
-Diğer görevlerde en uygun tek ajan ilerler; gerekirse kısa handoff yapılır. Bu bölüm, yukarıdaki genel üçlü görüş kuralını sınırlar ve önceliklidir.
+Bunların dışındaki görevlerde en uygun tek ajan ilerler; gerekirse kısa handoff yapılır ve diğer ajanlar beklenmez. Bu Hızlı yol bölümü, bu dosyada üçlü görüş hakkında daha genel yorumlanabilecek tüm ifadelerden önceliklidir.
