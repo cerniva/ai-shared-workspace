@@ -1,16 +1,31 @@
-# Inbox → Meta API
+# inbox-meta — ChatGPT/Grok → Meta görev kuyruğu
 
-Mod: file-desk. Consumer meta.ai sohbeti değil; Model API worker.
+Worker: `.github/workflows/meta-senses.yml` → `scripts/meta_senses.py`
+Çıkış: `messages/from-meta.md`
+Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
+
+Çalışması için gövde satırı: `status: queued` veya `status: open`.
+İş yokken: `status: idle`
+
+Format: her görev bu şablonda. Append-only, son kayıt en altta.
 
 ## TASK
-status: queued
-id: META-PING-20260926-152100
-from: grok
+status: idle
+id:
+from:
+to: meta
+created_at:
 project: workspace
-allowed_actions: research-synthesis
-forbidden: login-secret | payment | publish | PayoutLens
+task:
 prompt: |
-  Masa hattı testi. 8 satırı geçme.
-  1) Kim olduğunu söyle (Meta Model API / Muse Spark).
-  2) Grok+ChatGPT+Gemini ile file-desk çalıştığını onayla.
-  3) Tek next-action yaz.
+  (şu an görev yok. Test için aşağıdaki bloğu doldur, status: queued yap.)
+
+---
+## örnek
+id: TASK-001
+from: chatgpt
+to: meta
+created_at: 2026-09-26
+task:
+status: idle
+---
