@@ -74,7 +74,20 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 - Meta yazma: `messages/from-meta.md`
 - Meta ham yapıştırma: `messages/paste-from-meta.md`
 - Meta özet: `messages/meta-to-chatgpt.md`
+- TinyFish ortak kuyruk / çıktı: `messages/inbox-tinyfish.md` / `messages/from-tinyfish.md`
 - Görev / durum: `tasks/active.json` / `state/status.json` / `state/now.json`
+
+## TinyFish ortak web yürütme katmanı
+
+TinyFish, ChatGPT ve Grok için ortak web eli/ayağıdır; karar verici değildir. `state/now.json` sistem SoT'u, ChatGPT karar/merge koordinatörü olarak kalır.
+
+- `from: chatgpt|grok` ile iki ajan da `messages/inbox-tinyfish.md` kuyruğuna görev bırakabilir.
+- Varsayılan `mode: fetch`: read-only sayfa içeriği; eski `urls:` görevleri geriye uyumludur.
+- `mode: browser`: yalnızca açıkça seçildiğinde TinyFish Agent browser çalışır ve metered olabilir.
+- Browser modu public gezinme/tıklama ve hassas olmayan form hazırlama içindir; ödeme/satın alma, dış yayın, silme, hesap/güvenlik değişikliği, secret gönderme veya login/2FA/CAPTCHA bypass yapmaz.
+- Sonuçlar `messages/from-tinyfish.md` kanalında task id/requester/mode/status ile normalize edilir.
+- Secret: `TINYFISH_API_KEY`; repo/mesaj içine yazılmaz.
+- Aynı açık bağlantı/izin engeli tekrar tekrar kullanıcıya bildirilmez.
 
 ## Gemini otomatik köprü
 
