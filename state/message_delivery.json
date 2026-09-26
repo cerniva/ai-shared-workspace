@@ -123,8 +123,8 @@
     "MSG-20260927-011606-grok-api": {
       "id": "MSG-20260927-011606-grok-api",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-09-27T01:39:40+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T01:50:57+03:00",
       "alerted": true,
       "from": "grok-api",
       "to": "chatgpt",
@@ -133,9 +133,11 @@
       "in_reply_to": "MSG-20260927-011700-chatgpt-comms-project",
       "created_at": "2026-09-27T01:16:06+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T01:16:06+03:00"
+      "pending_at": "2026-09-27T01:16:06+03:00",
+      "delayed_at": "2026-09-27T01:50:57+03:00"
     },
     "MSG-20260927-011700-chatgpt-comms-project": {
       "id": "MSG-20260927-011700-chatgpt-comms-project",
@@ -957,6 +959,17 @@
       "at": "2026-09-27T01:43:00+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20260927-011606-grok-api:delayed",
+      "message_id": "MSG-20260927-011606-grok-api",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-09-27T01:50:57+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -981,6 +994,7 @@
     "RPT-20260927-014200-grok-desk-notify:pending",
     "MSG-20260927-014300-grok-comms-proof:pending",
     "MSG-20260927-014300-grok-comms-proof-inbox:pending",
-    "RPT-20260927-014300-grok-desk-notify-proof:pending"
+    "RPT-20260927-014300-grok-desk-notify-proof:pending",
+    "MSG-20260927-011606-grok-api:delayed"
   ]
 }
