@@ -30,14 +30,10 @@ Kullanıcının verdiği hedefler ortak hedeftir. ChatGPT, Grok, Gemini ve Meta 
   - GitHub'a kendi yazamaz; Furkan `messages/paste-from-meta.md` ye yapıştırır
   - üçlü görüş üyesi değil; dördüncü beyin değil
 
-Bu roller sınır değildir. Örneğin:
-- finans görevinde üç otomatik ajan çalışabilir
-- yazılım görevinde üçü de fikir/hata analizi yapabilir
-- Shopify görevinde üçü de araştırabilir
-- YouTube videosunda Gemini özel avantaj sağlar
-- stratejik karar veya yaratıcı fikirde Grok özel avantaj sağlar
-- doğrulama, sentez ve uygulamada ChatGPT yürütücü rol oynar
-- dış site gezintisinde Meta köprüsü kullanılır
+Bu roller sınır değildir.
+
+Diyagram eşlemesi (CrewAI yok): `knowledge/pipeline-map.md` + `docs/TASK_ROUTING.md`.
+Web fetch elleri: TinyFish worker (`messages/inbox-tinyfish.md`), fetch-only.
 
 ## Görüş alma kuralı
 
@@ -79,7 +75,7 @@ Her önemli çalışmada:
 
 değerlendirilir.
 
-Tekrar kullanılabilir bilgi: `research/KNOWLEDGE_LEDGER.md`
+Tekrar kullanılabilir bilgi: `knowledge/lessons.md` + `research/KNOWLEDGE_LEDGER.md`
 Sistem iyileştirmeleri: `projects/workspace/`
 
 ## Maksimum 5 sürekli görev
