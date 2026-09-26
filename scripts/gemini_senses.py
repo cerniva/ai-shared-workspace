@@ -19,6 +19,7 @@ ROOT = Path(".")
 INBOX = ROOT / "messages" / "inbox-gemini.md"
 OUT = ROOT / "messages" / "gemini-to-chatgpt.md"
 USER_ACTION = ROOT / "messages" / "user-action-required.md"
+RATE_LIMIT = ROOT / "state" / "gemini-api-cooldown.json"
 YT_DIR = ROOT / "research" / "youtube"
 
 KEY = os.environ.get("GEMINI_API_KEY", "").strip()
@@ -226,6 +227,7 @@ req = urllib.request.Request(
 data = None
 reply = None
 last_error = None
+daily_quota_hit = False
 
 for attempt, delay in enumerate([0, 5, 15, 30], start=1):
     if delay:
@@ -239,8 +241,19 @@ for attempt, delay in enumerate([0, 5, 15, 30], start=1):
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")[:4000]
         last_error = f"Gemini API HTTP {exc.code} hatası:\n\n{body}"
-        # A daily quota is not fixed by four rapid calls; retry on a later run.
-        if exc.code == 429 and "GenerateRequestsPerDayPerProjectPerModel" in body:
+        # Daily free-tier quota exhaustion must not be retried on every hourly schedule.
+        if exc.code == 429 and "GenerateRequestsPerDayPerModel" in body:
+            blocked_until = dt.datetime.now(dt.timezone.utc) + dt.timedelta(hours=24)
+            RATE_LIMIT.parent.mkdir(parents=True, exist_ok=True)
+            RATE_LIMIT.write_text(
+                json.dumps({
+                    "blocked_until": blocked_until.isoformat(timespec="seconds").replace("+00:00", "Z"),
+                    "reason": "Gemini API daily free-tier request quota exceeded",
+                    "task_id": task_id,
+                }, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            daily_quota_hit = True
             break
         if exc.code not in (429, 500, 502, 503, 504):
             break
@@ -250,9 +263,12 @@ for attempt, delay in enumerate([0, 5, 15, 30], start=1):
         print(f"Gemini çağrı hatası; deneme {attempt}/4")
 
 if data is None:
-    # Keep queued tasks intact so scheduled runs can retry without human intervention.
-    # An API error must not be recorded as completed work.
+    # Keep queued tasks intact, but defer daily-quota failures for 24 hours.
+    # The workflow commits RATE_LIMIT so hourly schedules do not burn requests.
     print(last_error or "Gemini API başarısız oldu.", file=sys.stderr)
+    if daily_quota_hit:
+        print("Günlük Gemini kotası dolu; görev kuyrukta tutuldu ve 24 saat ertelendi.")
+        sys.exit(0)
     sys.exit(1)
 else:
     candidates = data.get("candidates") or []
