@@ -4,7 +4,7 @@ Worker: `.github/workflows/meta-senses.yml` → `scripts/meta_senses.py`
 Çıkış: `messages/from-meta.md`
 Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
 
-Çalışması için gövde satırı: `status: queued` veya `status: open`.
+Çalışması için gövde satırı: `status: blocked` veya `status: open`.
 İş yokken: `status: idle`
 
 Format: her görev bu şablonda. Append-only, son kayıt en altta.
@@ -20,4 +20,4 @@ task: multi-agent-automation-plan
 prompt: |
   Furkan asks the four assistants to plan requirements for a real AI automation system. Review the provided Meta AI share proposal and the existing repo bridge context if available. Assess only what your actual API can do; do not claim browser access unless verified. Report: existing pieces, what the Meta AI web share does not provide, safe minimal architecture, exact blockers/user actions. No code changes, no secrets, no PayoutLens, no Shopify writes.
 
-billing_verified: reported by user on 2026-09-26; task requeued.
+blocker: Meta API still returned HTTP 402 billing_not_configured after dashboard verification.
