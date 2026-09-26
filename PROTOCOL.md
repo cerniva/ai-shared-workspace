@@ -151,3 +151,9 @@ Max 5 standing: research-learning, finance-intelligence, content-growth, commerc
 - Gemini API günlük kota hatası alırsa görev kuyrukta kalır; `state/gemini-api-cooldown.json` içindeki `blocked_until` saatine kadar workflow API çağrısını atlar.
 - Kotalı dönemde route adımı ve kuyruk değişiklikleri yine commit edilir; görev silinmez veya tamamlandı sayılmaz.
 - Güncel testte kota kilidi aktifken Actions başarılı tamamlandı, Gemini API adımı atlandı. Günlük limit bittiği için Gemini denetim yanıtı henüz alınamadı; Gemini consumer sohbetinden elle gönderilen yanıt ayrı kanıttır.
+
+
+## Aşamalı raporlama SOP (TSK-20260927-001)
+`DESK.md` içindeki aşamalı raporlama adımları tüm anlamlı görevlerde uygulanır. Her kilometre taşı task ID ile ortak rapora yazılır: başlangıç; araştırma/kaynak bulundu; kaynak okundu ve kanıt denetlendi; bilgi karşı tarafa verildi; alıcı gördü; inceledi; kullandı veya gerekçeyle kullanmadı; uygulama başladı; engel/yardım istendi; çözüm başladı; test edildi; öğrenme depoya eklendi; handoff ve tamamlanma. Her kayıt zaman, aktör, durum, kanıt ve tek sonraki adımı taşır.
+
+`seen` yalnızca gerçek okuma imleciyle kanıtlanır. `reviewed`, `used` ve `not_used` ayrı karar kayıtlarıdır; cevap yazılması bunların yerine geçmez. Yeni kaynaklar araştırma ledger'ına erişim tarihi, desteklediği bulgu ve işteki fayda/eksikliğiyle işlenir. Uygun alt işler sahipleri arasında bölünür, ortak engel birlikte çözülür. Her ajanın uygun turunda diğerinin yeni raporları okunur ve ilgili bulguya handoff ile yanıt verilir; gerçek zamanlı arka plan izleme iddiası yapılmaz. Mevcut teslim taşıması poll-ledger olduğundan sohbet push bildirimi değildir.
