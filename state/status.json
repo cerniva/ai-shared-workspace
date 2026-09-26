@@ -14,12 +14,30 @@
   "gemini_bridge": "github-actions-api",
   "gemini_bridge_state": "ready",
   "gemini_secret_name": "GEMINI_API_KEY",
-  "updated_at": "2026-09-26T03:21:52+03:00",
+  "updated_at": "2026-09-26T03:27:00+03:00",
   "youtube_data_api": {
     "state": "ready",
     "secret_name": "YOUTUBE_API_KEY",
     "connector": "scripts/connectors/youtube_client.py",
     "last_test": "YTTEST2",
     "last_test_result": "PASS"
+  },
+  "shopify_admin_api": {
+    "state": "prepared-awaiting-credentials",
+    "connector": "scripts/connectors/shopify_client.py",
+    "required_secrets": [
+      "SHOPIFY_STORE",
+      "SHOPIFY_CLIENT_ID",
+      "SHOPIFY_CLIENT_SECRET"
+    ]
+  },
+  "youtube_analytics_api": {
+    "state": "prepared-awaiting-oauth",
+    "connector": "scripts/connectors/youtube_analytics_client.py",
+    "required_secrets": [
+      "YT_ANALYTICS_CLIENT_ID",
+      "YT_ANALYTICS_CLIENT_SECRET",
+      "YT_ANALYTICS_REFRESH_TOKEN"
+    ]
   }
 }
