@@ -10,6 +10,9 @@ from scripts.worker_adapters import (
     GrokAdapter,
     MissingCredential,
     MockAdapter,
+    NonRetryableProviderError,
+    _parse_json_text,
+    _validate_strict_result,
 )
 
 
@@ -48,6 +51,72 @@ class WorkerAdapterTests(unittest.TestCase):
         with self.assertRaises(MissingCredential):
             adapter.run(JOB)
         self.assertEqual(adapter.request_count, 0)
+
+
+VALID_PAYLOAD = {
+    "evidence": [{"type": "url", "value": "https://example.com"}],
+    "factual_findings": ["fact one"],
+    "hypotheses": ["maybe"],
+    "recommendation": "ship carefully",
+    "confidence": 0.7,
+    "next_action": "chatgpt_review",
+}
+
+
+class StrictJsonContractTests(unittest.TestCase):
+    def test_valid_payload_passes(self):
+        out = _validate_strict_result(dict(VALID_PAYLOAD))
+        self.assertEqual(out["confidence"], 0.7)
+
+    def test_missing_key_is_non_retryable(self):
+        payload = dict(VALID_PAYLOAD)
+        del payload["next_action"]
+        with self.assertRaises(NonRetryableProviderError) as ctx:
+            _validate_strict_result(payload)
+        self.assertIn("missing required keys", str(ctx.exception))
+        self.assertIn("next_action", str(ctx.exception))
+
+    def test_extra_key_is_non_retryable(self):
+        payload = dict(VALID_PAYLOAD)
+        payload["surprise"] = True
+        with self.assertRaises(NonRetryableProviderError) as ctx:
+            _validate_strict_result(payload)
+        self.assertIn("unexpected keys", str(ctx.exception))
+
+    def test_wrong_type_is_non_retryable(self):
+        payload = dict(VALID_PAYLOAD)
+        payload["evidence"] = "not-a-list"
+        with self.assertRaises(NonRetryableProviderError) as ctx:
+            _validate_strict_result(payload)
+        self.assertIn("evidence must be a list", str(ctx.exception))
+
+    def test_confidence_bool_rejected(self):
+        payload = dict(VALID_PAYLOAD)
+        payload["confidence"] = True
+        with self.assertRaises(NonRetryableProviderError):
+            _validate_strict_result(payload)
+
+    def test_parse_json_text_enforces_contract(self):
+        import json
+        with self.assertRaises(NonRetryableProviderError):
+            _parse_json_text(json.dumps({"recommendation": "only"}))
+        ok = _parse_json_text(json.dumps(VALID_PAYLOAD))
+        self.assertEqual(ok["next_action"], "chatgpt_review")
+
+    def test_grok_adapter_rejects_loose_json(self):
+        def transport(url, headers, payload, timeout):
+            return {
+                "model": "grok-test",
+                "output": [{
+                    "type": "message",
+                    "content": [{"type": "output_text", "text": '{"recommendation": "loose"}'}],
+                }],
+                "usage": {},
+            }
+
+        adapter = GrokAdapter(api_key="test-key", model="grok-test", transport=transport)
+        with self.assertRaises(NonRetryableProviderError):
+            adapter.run(JOB)
 
 
 if __name__ == "__main__":
