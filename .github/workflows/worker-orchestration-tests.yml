@@ -10,6 +10,12 @@ on:
       - 'scripts/review_gate.py'
       - 'scripts/provider_config.py'
       - 'scripts/run_worker.py'
+      - 'scripts/run_next_worker.py'
+      - 'scripts/worker_health.py'
+      - '.github/workflows/ai-worker-gpt56.yml'
+      - 'scripts/run_next_worker.py'
+      - 'scripts/worker_health.py'
+      - '.github/workflows/ai-worker-gpt56.yml'
       - 'tests/**'
       - '.github/workflows/worker-orchestration-tests.yml'
   pull_request:
