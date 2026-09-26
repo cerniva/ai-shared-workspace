@@ -10,6 +10,7 @@ from scripts.worker_adapters import (
     GrokAdapter,
     MissingCredential,
     MockAdapter,
+    OpenAIAdapter,
     NonRetryableProviderError,
     _parse_json_text,
     _validate_strict_result,
@@ -39,6 +40,22 @@ class WorkerAdapterTests(unittest.TestCase):
         self.assertIsInstance(result["next_action"], str)
         self.assertIn("timing", result)
         self.assertIn("usage", result)
+
+    def test_openai_missing_secret_blocks_before_request(self):
+        adapter = OpenAIAdapter(api_key="", model="gpt-5.6-sol")
+        with self.assertRaises(MissingCredential):
+            adapter.run(JOB)
+        self.assertEqual(adapter.request_count, 0)
+
+    def test_openai_adapter_parses_responses_output(self):
+        import json
+        def transport(url, headers, payload, timeout):
+            self.assertEqual(url, "https://api.openai.com/v1/responses")
+            self.assertEqual(payload["model"], "gpt-5.6-sol")
+            return {"model": "gpt-5.6-sol", "output": [{"type": "message", "content": [{"type": "output_text", "text": json.dumps(VALID_PAYLOAD)}]}], "usage": {"input_tokens": 10, "output_tokens": 5}}
+        result = OpenAIAdapter(api_key="test-key", model="gpt-5.6-sol", transport=transport).run(JOB)
+        self.assertEqual(result["provider"], "openai")
+        self.assertEqual(result["model"], "gpt-5.6-sol")
 
     def test_grok_missing_secret_blocks_before_request(self):
         adapter = GrokAdapter(api_key="", model="grok-test")
