@@ -7,14 +7,33 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 ### YYYY-MM-DD — Konu
 - **Kaynak:** URL / dosya / video
 - **Alan:** finance | youtube-growth | shopify | content | other
-- **Ne öğrendik:** 
+- **Ne öğrendik:**
 - **Kanıt düzeyi:** doğrulandı | kaynak iddiası | deney/yorum
-- **Uygulama:** 
-- **İlgili proje:** 
-- **Son kontrol tarihi:** 
-- **Not:** 
+- **Uygulama:**
+- **İlgili proje:**
+- **Son kontrol tarihi:**
+- **Not:**
 
 > Eski öğrenmeler sessizce silinmez. Geçersiz kalan bilgi tarih ve gerekçeyle güncellenir.
+
+## Meta masa — 2026-09-26
+
+| Tarih | Kaynak | Doğrulama | Durum |
+|---|---|---|---|
+| 2026-09-26 | docs/META_MANDATE.md | Okundu, 4 kişilik ekip | OK |
+| 2026-09-26 | messages/from-meta.md | Append-only kanal | OK |
+| 2026-09-26 | Push engeli | meta.ai push yok; Actions `GITHUB_TOKEN` yazar | Çözüldü (ingest/senses) |
+| 2026-09-26 | META_MODEL_API_KEY | Actions secret | Eksik — Spark worker blocked |
+
+### 2026-09-26 — Meta 4. üye + file-desk yazma
+- **Kaynak:** META_MANDATE.md, from-meta.md, meta-senses.yml, meta-ingest.yml
+- **Alan:** other
+- **Ne öğrendik:** Consumer sohbetler ortak değil. Meta çıkışı `from-meta.md`. Push meta.ai'den gelmez; Action yazar. Model API hattı secret ister.
+- **Kanıt düzeyi:** doğrulandı (worker need-key MSG-20260926-152241)
+- **Uygulama:** görev `inbox-meta.md`; öğrenme `knowledge/meta-learnings.md`; şablon ortak-dil v1.2
+- **İlgili proje:** workspace
+- **Son kontrol tarihi:** 2026-09-26
+- **Not:** META_BRIDGE_TOKEN / ikinci workflow yok.
 
 ### 2026-09-26 — Ortak hafıza merkezi GitHub
 - **Kaynak:** ai-shared-workspace canlı kurulum ve round-trip testleri
@@ -64,7 +83,7 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **Uygulama:** önce ödeme/checkout ve draft kontrolü, sonra yayın.
 - **İlgili proje:** shopify
 - **Son kontrol tarihi:** 2026-09-26
-- **Not:** Bir otomasyon denemesi başarısız olduğundan son kontrol manuel doğrulama gerektiriyor.
+- **Not:** Bir otomasyon denemesi başarısız olduğundndan son kontrol manuel doğrulama gerektiriyor.
 
 ### 2026-09-26 — YouTube Data API connector doğrulandı
 - **Kaynak:** GitHub Actions canlı test YTTEST2
