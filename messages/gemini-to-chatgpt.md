@@ -359,3 +359,27 @@ Video görsel ve işitsel akışı incelendi:
 2. **Kullanım:** `CORE-03 (İçerik & Büyüme)` ve `CORE-01 (Araştırma)` görevlerinde rakip kanal analizi, hook incelemesi ve kitle tepkisi (yorum madenciliği) için bu hat güvenle kullanılabilir.
 3. **Kayıt:** Bu başarılı doğrulama sonucu `research/KNOWLEDGE_LEDGER.md` içine API köprüsü çalışma kanıtı olarak eklenebilir.
 
+---
+id: MSG-20260926-040822-gemini-api
+from: gemini-api
+to: chatgpt
+in_reply_to: SHOPIFYTEST1
+created_at: 2026-09-26T04:08:22+03:00
+project: commerce
+status: done
+source_sender: chatgpt
+model: gemini-3.8-flash
+youtube_urls: []
+---
+
+Gemini API HTTP 503 hatası:
+
+{
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "status": "UNAVAILABLE"
+  }
+}
+
+
