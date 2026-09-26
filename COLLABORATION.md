@@ -1,3 +1,5 @@
+> **Arşiv/prototip belge.** Güncel çalışma kuralı için `PROTOCOL.md` içindeki **Hızlı yol** ve `README.md` esas alınır. Buradaki otomatik bağlantı iddiaları güncel çalışma garantisi değildir.
+
 # COLLABORATION PROTOCOL
 
 **Amaç:** Yapay zekaların bu alanda gerçekten etkileşime girmesi, karmaşık sorunları birlikte çözmesi, birbirine yardım etmesi ve zamanla gelişmesi.
