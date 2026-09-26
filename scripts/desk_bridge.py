@@ -10,6 +10,13 @@ from pathlib import Path
 from typing import FrozenSet
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def _rel(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
 CHANNELS: dict[str, tuple[Path, str | FrozenSet[str] | None, str]] = {
     "grok-to-chatgpt": (ROOT / "messages" / "grok-to-chatgpt.md", frozenset({"grok", "grok-bot"}), "chatgpt"),
     "chatgpt-to-grok": (ROOT / "messages" / "chatgpt-to-grok.md", "chatgpt", "grok"),
@@ -145,7 +152,7 @@ def open_message_ids(channel: str) -> list[str]:
 def channel_status(channel: str) -> dict:
     path, _, _ = CHANNELS[channel]; blocks = _parse_blocks(path.read_text(encoding="utf-8")) if path.exists() else []
     counts = {s: sum(b.get("status") == s for b in blocks) for s in VALID_STATUS}; last = blocks[-1] if blocks else {}
-    return {"channel": channel, "total": len(blocks), **counts, "latest_id": last.get("id"), "latest_created_at": last.get("created_at"), "path": str(path.relative_to(ROOT))}
+    return {"channel": channel, "total": len(blocks), **counts, "latest_id": last.get("id"), "latest_created_at": last.get("created_at"), "path": _rel(path)}
 
 
 def stale_open_ids(channel: str, older_than_hours: float = STALE_HOURS) -> list[str]:
@@ -189,7 +196,7 @@ def delivery_summary() -> dict:
     refresh_delayed(); state = load_delivery_state(); counts = {s: 0 for s in DELIVERY_STATUSES}; by = {s: [] for s in DELIVERY_STATUSES}
     for mid, entry in state["messages"].items():
         if entry.get("status") in counts: counts[entry["status"]] += 1; by[entry["status"]].append(mid)
-    return {"counts": counts, "by_status": by, "total": sum(counts.values()), "path": str(DELIVERY_PATH.relative_to(ROOT))}
+    return {"counts": counts, "by_status": by, "total": sum(counts.values()), "path": _rel(DELIVERY_PATH)}
 
 
 def format_delivery() -> str:
@@ -210,7 +217,7 @@ def save_inbox_read_state(state: dict) -> None:
 
 def channel_last_write_meta(channel: str) -> dict:
     path, _, _ = CHANNELS[channel]; blocks = _parse_blocks(path.read_text(encoding="utf-8")) if path.exists() else []; last = blocks[-1] if blocks else {}
-    return {"channel": channel, "last_write_at": last.get("created_at"), "last_write_id": last.get("id"), "path": str(path.relative_to(ROOT))}
+    return {"channel": channel, "last_write_at": last.get("created_at"), "last_write_id": last.get("id"), "path": _rel(path)}
 
 
 def unread_message_rows(channel: str | None = None) -> list[dict]:
@@ -271,7 +278,7 @@ def channel_health(channel: str | None = None) -> dict:
 
 
 def list_channels() -> str:
-    return "\n".join(f"{n}\tfrom={'any' if e is None else ','.join(sorted(_allowed(e)))}\tto={t}\t{p.relative_to(ROOT)}" for n,(p,e,t) in sorted(CHANNELS.items()))
+    return "\n".join(f"{n}\tfrom={'any' if e is None else ','.join(sorted(_allowed(e)))}\tto={t}\t{_rel(p)}" for n,(p,e,t) in sorted(CHANNELS.items()))
 
 
 def main() -> None:
