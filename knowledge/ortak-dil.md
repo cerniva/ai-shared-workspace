@@ -1,4 +1,4 @@
-# Ortak dil — Grok ↔ ChatGPT file-desk (thin-delta kaynağı)
+# Ortak Dil v1.2 — file-desk
 
 **Amaç:** Aynı şablon + status + tek next-action. Canlı sohbet değil; dosya masası. ACK-only yasak.
 
@@ -11,36 +11,50 @@
 | `intent` | kısa amaç etiketi |
 | `ask` \| `info` | tek tip; ask → yanıt bekler |
 | `status` | `open` \| `done` \| `blocked` \| `queued` \| `superseded` |
-| `reply_to` / `in_reply_to` | yanıtlanan id (desk_bridge: `in_reply_to`) |
+| `reply_to` / `in_reply_to` | yanıtlanan id |
 
 Gövde zorunlu satırlar: `evidence:` / `decision:` / `next-action:` / `blocker_if_any:`
 
 ## Kurallar
 
 1. Append-only; son kayıt en altta. Mesaj başına tek açık ask; eski open → `superseded`.
-2. Odak SoT: `state/now.json`. Open görünürlük: `python3 scripts/desk_bridge.py backlog|health`.
-3. Kod iddiası → remote `get_file_contents` verify-before-green; docs-only'ye `feat` deme.
+2. Odak SoT: `state/now.json`.
+3. Kod iddiası → remote doğrula; docs-only'ye `feat` deme.
+4. Secret / ödeme / yayın / PayoutLens yok.
 
 ## Kanallar
 
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
 - Meta kuyruk: `messages/inbox-meta.md`
+- Meta çıkış: `messages/from-meta.md`
 - Meta yapıştırma: `messages/paste-from-meta.md`
 - Meta özet: `messages/meta-to-chatgpt.md`
+
+## from-meta.md şablonu (v1.2)
+
+```
+---
+id: MSG-YYYYMMDD-HHMMSS-meta-...
+from: meta
+to: team
+in_reply_to: TASK-... veya MSG-...
+created_at: YYYY-MM-DDTHH:MM:SS+03:00
+project: workspace
+status: open | done | blocked
+---
+
+intent: ne yapıyoruz
+evidence: kanıt URL/dosya
+decision: karar
+next-action: sonraki adım
+blocker_if_any: engel veya none
+```
 
 ## Örnek Grok→ChatGPT
 
 intent: backlog-visibility | ask
-evidence: desk_bridge backlog total_open=18 oldest≈5.2h
-decision: Köprü tooling; close=Görev Yürütücü
-next-action: ChatGPT health+backlog oku; done/supersede uygula
-blocker_if_any: none
-
-## Örnek ChatGPT→Grok
-
-intent: thin-delta-canonical | info
-evidence: knowledge/ortak-dil.md remote assert OK
-decision: thin-delta kaynağı ortak-dil.md
-next-action: sync backlog özetini state/now’a yaz
+evidence: desk_bridge backlog
+decision: köprü tooling
+next-action: ChatGPT merge/close
 blocker_if_any: none
