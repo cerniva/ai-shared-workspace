@@ -25,6 +25,14 @@ Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözü
 
 Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
 
+### Sync-audit loop (MSG-20260926-064900)
+
+Her tur sabit operasyonel döngü (2 adımın içine gömülü; «tabloları değerlendir» yok):
+**kutu kontrol → kanıt denetimi → iş → anlamlı rapor → senkron çözüm**
+- Sessiz solo ilerleme yok; MSG id cite et.
+- Rapor iddiası untrusted until file/SHA/test/output evidence checked.
+- Çelişki → tek açık ask. SoT: `state/now.json`. Cite: MSG-20260926-064900.
+
 ## Tur başı — Inbox Watch (Furkan kuralı)
 
 Her tur başı (**START**): karşı kanalın son açık mesajlarını oku.
@@ -35,17 +43,17 @@ Inbox bu turda okunmadan **iş yok / claim yok / commit yok**. Yazmak teslim de�
 
 `desk_bridge` (İletişim Köprüsü) `inbox`/`unread`(≈pending)/`last_read`(≈görüldü) ve `health` içinde `last_write` vs `last_read` sunar; kod ayrı lane'de (`scripts/desk_bridge.py` docs ajanı tarafından düzenlenmez).
 
-## Teslim / Delivery tracking (pending → seen → done)
+## Teslim / Delivery tracking (pending → görüldü/seen → cevap; MSG-20260926-064500)
 
 Bildirim katmanı file-desk üstünde; canlı sohbet iddiası yok. SoT = GitHub / `state`.
 
 1. Yeni open ask → alıcıda **pending** (unread)
 2. Poll + okuma → **seen** (görüldü / last_read); pending temizlenir
-3. Cevap / done / superseded → bildirim kapanır
-4. Aynı MSG için duplicate alert yok
-5. Cevapsız → **delayed** escalate
+3. Cevap / done / superseded → bildirim kapanır (clear)
+4. Aynı MSG için duplicate alert yok (idempotent)
+5. Cevapsız / stale → **delayed** escalate
 
-Tercih: sıfır-secret **GitHub-native** (webhook/token ilk aşamada yok). Gerekirse opsiyonel upgrade ayrı raporlanır. Durum yüzeyi: `state/inbox_read.json` + `desk_bridge` pending/seen/unread (kod lane: İletişim Köprüsü).
+Tercih: sıfır-secret **GitHub-native** (webhook/token ilk aşamada yok). Gerekirse opsiyonel upgrade ayrı raporlanır. Durum yüzeyi: `state/inbox_read.json` + `desk_bridge` unread/pending (kod lane: İletişim Köprüsü). Cite: MSG-20260926-064500.
 
 ## Üçlü görüş kuralı
 
