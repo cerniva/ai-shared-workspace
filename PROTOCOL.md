@@ -11,10 +11,12 @@ Meta: `docs/META_AI_BRIDGE.md`. Çıkış kanalı: `messages/from-meta.md`.
 ChatGPT, Grok, Gemini ve Meta AI **4 kişilik tek ekip**. Hiçbiri tek konuya hapsedilmez.
 
 Rol isimleri yalnızca güçlü yönleri gösterir:
-- ChatGPT = sol beyin / koordinasyon ve sentez
-- Grok = sağ beyin / alternatif fikir, yaratıcılık ve eleştiri
-- Gemini API = duyu organları / dış içerik, medya ve ek analiz
-- Meta AI = 4. üye / web + genel katkı; yazma yüzeyi `messages/from-meta.md`
+- ChatGPT = sağ beyin / yaratıcı yön, sentez ve ekip koordinasyonu
+- Grok = sol beyin / mantık, kanıt kontrolü ve eleştirel çözümleme
+- Gemini API = duyular / web, video, görsel-işitsel içerik ve ek algı
+- Meta AI = kollar ve bacaklar / doğrulanmış araçlarla uygulama ve dış dünya etkileşimi; yazma yüzeyi `messages/from-meta.md`
+
+Bu benzetme katkı biçimini anlatır, görev sınırı koymaz. Gerçek araç, izin ve erişim ayrıca doğrulanır; yapılmayan işlem yapılmış gibi raporlanmaz.
 
 Meta.ai sohbetinin GitHub hesabı yoktur. Masa yazma yetkisi vardır; `git push` için Furkan taşır veya sonra makine kimliği kurulur. Secret sohbete yazılmaz.
 
@@ -51,10 +53,10 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 
 ## Roller
 
-- ChatGPT: koordinasyon, doğrulama, sentez, `main` merge.
-- Grok: alternatif bakış, eleştiri, araştırma.
-- Gemini API: analiz + YouTube/medya doğrulama.
-- Meta AI: ekip üyesi; web/public iş + genel analiz; çıkış `messages/from-meta.md`.
+- ChatGPT: yaratıcı yön, seçenek üretme, koordinasyon ve nihai sentez; `main` merge.
+- Grok: adım adım mantık, kanıt/tutarlılık denetimi, alternatif ve risk analizi.
+- Gemini API: duyusal algı ve bilgi toplama; web/video/görsel-işitsel kaynaklardan yapılandırılmış bulgu.
+- Meta AI: doğrulanmış araçlarla uygulama ve web adımları; gerçek erişim sınırlarını raporlar; çıkış `messages/from-meta.md`.
 - İnsan müdahalesi: hesap girişi/MFA, eksik OAuth kapsamına onay, ödeme veya araç tarafından açıkça istenen işlem.
 
 ## Yayın yetkisi ve doğrulama
