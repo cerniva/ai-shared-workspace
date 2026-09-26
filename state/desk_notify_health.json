@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 4,
+    "pending": 7,
     "seen": 1,
     "answered": 25,
     "delayed": 5
   },
-  "event_count": 19,
+  "event_count": 22,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -36,17 +36,17 @@
     "MSG-20260927-012500-chatgpt-comms-audit:answered",
     "MSG-20260927-014200-grok-comms-audit-reply:pending",
     "RPT-20260927-011600-chatgpt-collaboration-protocol:answered",
-    "RPT-20260927-014200-grok-desk-notify:pending"
+    "RPT-20260927-014200-grok-desk-notify:pending",
+    "MSG-20260927-014300-grok-comms-proof:pending",
+    "MSG-20260927-014300-grok-comms-proof-inbox:pending",
+    "RPT-20260927-014300-grok-desk-notify-proof:pending"
   ],
   "new_event_keys": [
-    "MSG-20260927-014200-grok-comms-notify:pending",
-    "MSG-20260927-011700-chatgpt-comms-project:answered",
-    "MSG-20260927-012500-chatgpt-comms-audit:answered",
-    "MSG-20260927-014200-grok-comms-audit-reply:pending",
-    "RPT-20260927-011600-chatgpt-collaboration-protocol:answered",
-    "RPT-20260927-014200-grok-desk-notify:pending"
+    "MSG-20260927-014300-grok-comms-proof:pending",
+    "MSG-20260927-014300-grok-comms-proof-inbox:pending",
+    "RPT-20260927-014300-grok-desk-notify-proof:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-27T01:40:32+03:00"
+  "checked_at": "2026-09-27T01:43:00+03:00"
 }
