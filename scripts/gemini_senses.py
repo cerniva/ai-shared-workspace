@@ -10,7 +10,7 @@ import urllib.request
 from pathlib import Path
 
 try:
-    from scripts.connectors.youtube_client import compact_video_bundle, YouTubeDataError
+    from connectors.youtube_client import compact_video_bundle, YouTubeDataError
 except Exception:
     compact_video_bundle = None
     YouTubeDataError = RuntimeError
