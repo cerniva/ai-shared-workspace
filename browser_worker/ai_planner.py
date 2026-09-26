@@ -1,4 +1,5 @@
 import json, os, sys
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 SYSTEM = """Convert the user's authorized browser objective into deterministic Playwright worker steps.
@@ -11,18 +12,60 @@ For login/authentication boundaries, navigate to the page if useful but stop bef
 Use only http/https URLs explicitly present in the objective or clearly required by the named public site.
 """
 
-def plan(objective):
-    key=os.getenv("OPENAI_API_KEY","").strip()
-    if not key: raise SystemExit("OPENAI_API_KEY is missing")
-    model=os.getenv("OPENAI_MODEL","gpt-5.6-sol")
-    payload={"model":model,"input":SYSTEM+"\nOBJECTIVE:\n"+objective,"reasoning":{"effort":"medium"},"store":False}
-    req=Request("https://api.openai.com/v1/responses",data=json.dumps(payload).encode(),headers={"Authorization":"Bearer "+key,"Content-Type":"application/json"},method="POST")
-    with urlopen(req,timeout=90) as r: data=json.load(r)
-    out="".join(p.get("text","") for o in data.get("output",[]) if o.get("type")=="message" for p in o.get("content",[]) if p.get("type")=="output_text").strip()
-    if out.startswith("```"): out="\n".join(out.splitlines()[1:-1])
-    task=json.loads(out)
-    if not isinstance(task.get("steps"),list): raise ValueError("planner returned invalid task")
+def _clean(text):
+    text=text.strip()
+    if text.startswith("```"):
+        lines=text.splitlines()
+        text="\n".join(lines[1:-1]).strip()
+    task=json.loads(text)
+    if not isinstance(task,dict) or not isinstance(task.get("steps"),list):
+        raise ValueError("planner returned invalid task")
     return task
+
+def _post(url, headers, payload, timeout=90):
+    req=Request(url,data=json.dumps(payload).encode("utf-8"),headers={"Content-Type":"application/json",**headers},method="POST")
+    with urlopen(req,timeout=timeout) as r:
+        return json.load(r)
+
+def _openai(objective):
+    key=os.getenv("OPENAI_API_KEY","").strip()
+    if not key: raise RuntimeError("OPENAI_API_KEY missing")
+    model=os.getenv("OPENAI_MODEL","gpt-5.6-sol")
+    data=_post("https://api.openai.com/v1/responses",{"Authorization":"Bearer "+key},{"model":model,"input":SYSTEM+"\nOBJECTIVE:\n"+objective,"reasoning":{"effort":"medium"},"store":False})
+    text="".join(p.get("text","") for o in data.get("output",[]) if o.get("type")=="message" for p in o.get("content",[]) if p.get("type")=="output_text")
+    return _clean(text)
+
+def _grok(objective):
+    key=os.getenv("XAI_API_KEY","").strip()
+    if not key: raise RuntimeError("XAI_API_KEY missing")
+    model=os.getenv("XAI_MODEL","grok-4.7")
+    data=_post("https://api.x.ai/v1/responses",{"Authorization":"Bearer "+key},{"model":model,"input":SYSTEM+"\nOBJECTIVE:\n"+objective,"store":False})
+    text="".join(p.get("text","") for o in data.get("output",[]) if o.get("type")=="message" for p in o.get("content",[]) if p.get("type")=="output_text")
+    return _clean(text)
+
+def _gemini(objective):
+    key=os.getenv("GEMINI_API_KEY","").strip()
+    if not key: raise RuntimeError("GEMINI_API_KEY missing")
+    model=os.getenv("GEMINI_MODEL","gemini-3.8-flash")
+    data=_post("https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent",{"x-goog-api-key":key},{"contents":[{"parts":[{"text":SYSTEM+"\nOBJECTIVE:\n"+objective}]}]})
+    candidates=data.get("candidates") or []
+    text=""
+    if candidates:
+        text="".join(str(p.get("text","")) for p in (candidates[0].get("content") or {}).get("parts",[]) if "text" in p)
+    return _clean(text)
+
+def plan(objective):
+    errors=[]
+    for name,fn in (("openai",_openai),("grok",_grok),("gemini",_gemini)):
+        try:
+            task=fn(objective)
+            task["planner_provider"]=name
+            return task
+        except (HTTPError,URLError,TimeoutError,RuntimeError,ValueError,json.JSONDecodeError) as exc:
+            status=getattr(exc,"code",None)
+            errors.append(name+":"+((str(status)+" ") if status else "")+str(exc))
+            print("planner fallback: "+errors[-1],file=sys.stderr)
+    raise SystemExit("all planner providers failed: "+" | ".join(errors))
 
 if __name__=="__main__":
     objective=os.getenv("BROWSER_OBJECTIVE") or " ".join(sys.argv[1:])
