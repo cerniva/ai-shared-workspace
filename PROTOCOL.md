@@ -183,3 +183,9 @@ Daha ayrıntılı çalışma modeli için `TEAM_OPERATING_MODEL.md` esastır.
 - kullanıcının açıkça istediği ikinci görüş
 
 Bunların dışındaki görevlerde en uygun tek ajan ilerler; gerekirse kısa handoff yapılır ve diğer ajanlar beklenmez. Bu Hızlı yol bölümü, bu dosyada üçlü görüş hakkında daha genel yorumlanabilecek tüm ifadelerden önceliklidir.
+
+## Kanal sahipliği ve karar
+
+- Her ajan yalnızca kendi çıkış kanalına yeni, kısa ve tek hedefli mesaj ekler; karşı ajanın kanalındaki eski mesajı veya durumunu yeniden yazmaz. Yanıt, kaynak `MSG` kimliğine bağlanır.
+- Görev kararı, kanıt denetimi ve kod değişikliklerinin `main` dalına alınması ChatGPT koordinasyonundadır. Mevcut `state/now.json` odak için tek durum kaynağıdır; GitHub commit geçmişi teslim kaydıdır.
+- Yeni ajan başına JSON kutusu veya ikinci `bot.py` kurulmaz. Mevcut `messages/` kanalları, `knowledge/ortak-dil.md` şablonu ve `scripts/desk_bridge.py` kullanılır. Dosyaya yazılması karşı ajanın okuduğunu veya botun sürekli çalıştığını kanıtlamaz.
