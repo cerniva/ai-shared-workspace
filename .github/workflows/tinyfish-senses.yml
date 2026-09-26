@@ -1,0 +1,34 @@
+name: tinyfish-senses
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - messages/inbox-tinyfish.md
+      - scripts/tinyfish_senses.py
+
+concurrency:
+  group: tinyfish-senses
+  cancel-in-progress: false
+
+jobs:
+  run-tinyfish:
+    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run TinyFish fetch
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+        run: python3 scripts/tinyfish_senses.py
+      - name: Commit result
+        run: |
+          git config user.name "tinyfish-senses-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add messages/from-tinyfish.md messages/inbox-tinyfish.md messages/user-action-required.md
+          git diff --cached --quiet && exit 0
+          git commit -m "tinyfish-senses: desk fetch"
+          git push
