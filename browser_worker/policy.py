@@ -80,7 +80,7 @@ def safe_url(url: str, allowed_hosts: set[str]) -> str:
 
 
 def enforce_action(action: str, mode: str, target_label: str = "",
-                   field_attributes: dict[str, str | None] | None = None) -> None:
+                   field_attributes: dict[str, str | None] | None = None, key: str = "") -> None:
     action = action.lower()
     mode = mode.lower()
     if action in SAFE_ACTIONS:
@@ -94,7 +94,7 @@ def enforce_action(action: str, mode: str, target_label: str = "",
         raise PolicyViolation(f"approval_required: {action} requires an accessible target name")
     if HIGH_IMPACT_TERMS.search(label):
         raise PolicyViolation("approval_required: high-impact action target blocked")
-    if action == "press" and label and re.search(r"^(enter|return)$", label, re.IGNORECASE):
+    if action == "press" and re.search(r"^(enter|return)$", key, re.IGNORECASE):
         raise PolicyViolation("approval_required: Enter/Return can submit forms")
     attrs = field_attributes or {}
     metadata = " ".join(str(value or "") for value in attrs.values())
