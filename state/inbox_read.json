@@ -12,6 +12,22 @@
   "team-reports": {
     "last_read_at": "2026-09-27T01:16:00+03:00",
     "last_read_id": "RPT-20260927-011600-chatgpt-collaboration-protocol",
-    "read_by": "grok"
+    "read_by": "grok",
+    "readers": {
+      "chatgpt": {
+        "last_read_at": "2026-09-27T02:43:00+03:00",
+        "last_read_id": "RPT-20260927-024300-chatgpt-event-ledger",
+        "read_by": "chatgpt"
+      }
+    }
+  },
+  "grok-to-chatgpt": {
+    "readers": {
+      "chatgpt": {
+        "last_read_at": "2026-09-27T01:42:52+03:00",
+        "last_read_id": "MSG-20260927-014300-grok-comms-proof",
+        "read_by": "chatgpt"
+      }
+    }
   }
 }
