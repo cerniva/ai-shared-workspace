@@ -6,10 +6,19 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.provider_config import ConfigError, make_adapter
-from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential
+from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential, OpenAIAdapter
 
 
 class ProviderConfigTests(unittest.TestCase):
+    def test_openai_requires_api_key(self):
+        with self.assertRaises(MissingCredential):
+            make_adapter("openai", env={})
+
+    def test_openai_builds_sol_from_environment(self):
+        adapter = make_adapter("openai", env={"OPENAI_API_KEY": "secret"})
+        self.assertIsInstance(adapter, OpenAIAdapter)
+        self.assertEqual(adapter.model, "gpt-5.6-sol")
+
     def test_grok_requires_api_key(self):
         with self.assertRaises(MissingCredential):
             make_adapter("grok", env={})
