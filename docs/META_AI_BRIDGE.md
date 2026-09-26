@@ -1,29 +1,33 @@
-# Meta AI — 4. ekip üyesi
+# Meta AI — ekip üyesi ve gerçek erişim sınırları
 
-Tarih: 2026-09-26
-Rol: tam ekip üyesi. Yazma yüzeyi: `messages/from-meta.md` (sahip kanal).
+Güncelleme: 2026-09-26  
+Kaynak: Meta AI'ın consumer sohbetinde bildirdiği mevcut araçlar ve sınırlar.
 
-## Yazma yetkisi (masa)
+## Rol
 
-Meta'nın kendi çıkış kanalı var. Grok/ChatGPT/Gemini bu kanalın içeriğini Meta mesajı sayar.
-Karar/merge hâlâ ChatGPT; para / yayın / login / PayoutLens kapısı durur.
+Meta AI, ekipte “kollar ve bacaklar” benzetmesini yalnızca kendi sohbetinde gerçekten bağlı araçlarla sınırlı biçimde karşılar. Bu rol, GitHub'a veya kullanıcının hesaplarına erişim olduğu anlamına gelmez.
 
-## GitHub gerçeği
+## Consumer sohbetin bildirdiği araçlar
 
-meta.ai sohbetinin GitHub hesabı yok. Token public repo'ya yazılmaz.
-Fiili commit yolu şimdilik: Furkan Meta metnini `messages/from-meta.md` sonuna yapıştırır (veya paste-from-meta → from-meta taşınır).
-Makine kimliği (ayrı GitHub user + collaborator veya Actions secret) olmadan Meta sunucusu `git push` atamaz. Bu secret sohbete yapıştırılmaz.
+- Web araması, sosyal içerik araması ve yer araması.
+- Kullanıcının herkese açık Instagram içeriğini görüntüleme.
+- Görsel ve video üretimi.
+- Geçici `/mnt/data/` Python çalışma alanında analiz veya dosya üretimi; çıktı kullanıcıya indirme bağlantısı olarak verilebilir.
 
-## Dosyalar
+Bu oturumda takvim, e-posta, kişiler veya Google Drive bağlantısı olmadığını bildirdi. GitHub connector'ı, GitHub dosyalarına yazma/commit, başka hesapları yönetme veya kalıcı arka plan görevi de yok.
 
-| Dosya | İş |
-|---|---|
-| `messages/inbox-meta.md` | diğer ajan → Meta görev |
-| `messages/from-meta.md` | Meta çıkış / yazma kanalı |
-| `messages/paste-from-meta.md` | ham yapıştırma |
-| `messages/meta-to-chatgpt.md` | masa özeti |
+## Ortak masaya aktarım
 
-## Kapılar
+Consumer sohbetin yanıtları kendiliğinden repoya gitmez. Furkan mesajı Meta sohbetine taşır; yanıtı `messages/from-meta.md` kanalına yapıştırır. Ham yanıt geçici olarak `messages/paste-from-meta.md` içinde tutulabilir. ChatGPT iddiaları ve varsa verilen kaynakları kontrol eder.
 
-Yasak: login, OAuth, ödeme, yayın, silme, PayoutLens, secret.
-İzinli: araştırma, analiz, public web, taslak, ekip mesajı.
+## Ayrı API otomasyonu
+
+`messages/inbox-meta.md` ve `scripts/meta_senses.py`, consumer Meta sohbetinden ayrı bir Meta Model API worker'ıdır. API secret/faturalandırması gerekir. Daha önce worker için `402 billing_not_configured` hatası kaydedildi. Bu hata consumer sohbetin araçlarını doğrulamaz veya kısıtlamaz; iki ortam birbirine karıştırılmaz.
+
+## Çalışma kuralları
+
+- Yalnızca gerçekten kullanılan araçla yapılmış işlemi raporla.
+- GitHub'a doğrudan yazdığını veya arka planda çalıştığını iddia etme.
+- Bağlı olmayan hesapları bağlı varsayma.
+- Secret, parola, ödeme bilgisi veya hassas kişisel veriyi sohbete/repo'ya koyma.
+- Araştırma katkılarında kaynakları ve tarihleri ekle; geçici dosyanın linkini teslim et.
