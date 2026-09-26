@@ -33,6 +33,11 @@ use_shopify = truthy(field(text, 'use_shopify', 'false'))
 use_yt_analytics = truthy(field(text, 'use_youtube_analytics', 'false'))
 video_id = field(text, 'video_id', '')
 
+# This workspace is public. Private store/channel analytics must never be
+# inserted into a task that may be committed as a public Gemini response.
+if (use_shopify or use_yt_analytics) and not truthy(os.environ.get('REPO_PRIVATE', 'false')):
+    raise SystemExit('Private connector task blocked: use a private workspace for the response.')
+
 health = {
     'updated_at': dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'),
     'project': project,
