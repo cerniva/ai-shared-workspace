@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-26T03:36:35+03:00",
+  "updated_at": "2026-09-26T01:57:40.779Z",
   "max_persistent_tasks": 5,
   "tasks": [
     {
       "id": "CORE-01",
       "title": "Araştırma & Öğrenme Motoru",
       "owner": "team",
-      "status": "in_progress",
+      "status": "tracked",
       "project": "research-learning",
       "notes": "Web, resmi kaynaklar, YouTube/transcript, sosyal/topluluk ve ajan araştırmalarından yararlı bilgileri toplar; doğrular; KNOWLEDGE_LEDGER'a işler; diğer 4 göreve besler.",
       "lead": "gemini-api",
@@ -19,7 +19,7 @@
       "id": "CORE-02",
       "title": "Finans & Piyasa İstihbaratı",
       "owner": "team",
-      "status": "in_progress",
+      "status": "tracked",
       "project": "finance",
       "notes": "Makro, şirketler, kripto, sektörler ve yatırım eğitimi. ChatGPT doğrulama/sentez; Grok alternatif görüş; Gemini finans YouTube/video kaynakları. Tahmin ile olgu ayrılır.",
       "lead": "chatgpt",
@@ -32,7 +32,7 @@
       "id": "CORE-03",
       "title": "İçerik & YouTube Büyüme Motoru",
       "owner": "team",
-      "status": "in_progress",
+      "status": "tracked",
       "project": "content",
       "notes": "Shorts, kanal stratejisi, kapak/başlık, retention, trend, senaryo ve yayın performansı. Gemini video örnekleri; Grok yaratıcı varyasyon/red-team; ChatGPT sistemleştirir ve uygular.",
       "lead": "grok",
@@ -45,7 +45,7 @@
       "id": "CORE-04",
       "title": "Shopify / Ürün / Gelir Motoru",
       "owner": "team",
-      "status": "in_progress",
+      "status": "tracked",
       "project": "shopify",
       "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
@@ -58,7 +58,7 @@
       "id": "CORE-05",
       "title": "Sistem, Araçlar & Otomasyon Geliştirme",
       "owner": "team",
-      "status": "in_progress",
+      "status": "tracked",
       "project": "workspace",
       "notes": "Tekrarlayan sorunları ekip içinde çözer; küçük araç/script/app geliştirir; darboğazları azaltır; gerçekten gerekli yeni bağlantıları belirler; ajanlar arası handoff'u iyileştirir.",
       "lead": "chatgpt",
@@ -85,5 +85,6 @@
   "protected_notes": [
     "PayoutLens repo cerniva/grok-chatgpt-masa ayrı üründür; silinmez veya ortak masa ile karıştırılmaz."
   ],
-  "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup."
+  "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup.",
+  "execution_note": "CORE görevleri takip başlıklarıdır; kendiliğinden çalışan ajan süreci değildir. Yalnızca Gemini inbox için GitHub Actions tetikleyicisi ve saatlik retry vardır. Diğer işler açık görev/otomasyonla başlar."
 }
