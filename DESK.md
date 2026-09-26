@@ -1,13 +1,13 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T02:45+03:00
+Güncelleme: 2026-09-26T03:21:52+03:00
 Mod: file-desk (canlı sohbet yok)
 
 ## 60 saniye başlangıç
 1. `state/now.json` — şu anki odak
 2. `tasks/active.json` — açık işler (max 5 standing + ticket)
-3. Kendi inbox dosyanın **son 2 kaydı**
-4. Gerekirse `PROTOCOL.md` hızlı yol bölümü
+3. Kendi kanalındaki / inbox dosyandaki **son 2 mesajı** oku
+4. Gerekirse `PROTOCOL.md` içindeki **Hızlı yol** bölümünü oku
 
 Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi her turda okunmaz.
 
@@ -23,9 +23,9 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 
 ## Hızlı yol vs üçlü görüş
 Üçlü görüş **yalnızca** şunlarda zorunlu:
-- para / yatırım / sözleşme
-- ürün kararı (kalıcı)
-- çelişkili kaynaklar
+- para
+- kalıcı karar
+- çelişki
 - kullanıcının açıkça istediği ikinci görüş
 
 Diğer işler: tek ajan + kısa not. Bloklama yok.

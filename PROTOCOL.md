@@ -127,3 +127,13 @@ Bağlantı gerekmeyen başka bir engel varsa `## BLOKE` başlığı kullanılır
 ChatGPT bu bildirimi kullanıcıya taşır ve gerekirse bağlantı kurulumunu adım adım yönlendirir.
 
 Daha ayrıntılı çalışma modeli için `TEAM_OPERATING_MODEL.md` esastır.
+
+## Hızlı yol
+
+Üçlü görüş **yalnızca** şu durumlarda zorunludur:
+- para
+- kalıcı karar
+- çelişki
+- kullanıcının açıkça istediği ikinci görüş
+
+Diğer görevlerde en uygun tek ajan ilerler; gerekirse kısa handoff yapılır. Bu bölüm, yukarıdaki genel üçlü görüş kuralını sınırlar ve önceliklidir.

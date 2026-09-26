@@ -1,0 +1,22 @@
+{
+  "updated_at": "2026-09-26T03:21:52+03:00",
+  "focus": "desk-efficiency",
+  "active_task_id": "TSK-20260926-005",
+  "owner": "chatgpt",
+  "startup": {
+    "read": [
+      "state/now.json",
+      "tasks/active.json",
+      "own channel/inbox: last 2 messages"
+    ],
+    "message_limit": 2
+  },
+  "fast_path": {
+    "triple_review_only_for": [
+      "money",
+      "permanent-decision",
+      "conflict",
+      "explicit-second-opinion"
+    ]
+  }
+}
