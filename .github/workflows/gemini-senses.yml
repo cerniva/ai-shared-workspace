@@ -9,7 +9,8 @@ on:
     paths:
       - messages/inbox-gemini.md
       - messages/chatgpt-to-gemini.md
-      - scripts/route_gemini_inbox.py\n      - state/gemini-api-cooldown.json
+      - scripts/route_gemini_inbox.py
+      - state/gemini-api-cooldown.json
 
 concurrency:
   group: gemini-senses
