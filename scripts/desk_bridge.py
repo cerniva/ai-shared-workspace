@@ -38,6 +38,7 @@ INBOX_WATCH_CHANNELS = (
     "chatgpt-to-gemini",
     "gemini-to-chatgpt",
     "shared-inbox",
+    "team-reports",
 )
 INBOX_UNREAD_ALARM_MINUTES = 10
 INBOX_READ_PATH = ROOT / "state" / "inbox_read.json"
@@ -257,6 +258,13 @@ def mark_delivery(
     if not force and prev.get("status") == "answered" and status in ("pending", "seen", "delayed"):
         return prev
     if prev.get("status") == status:
+        if status == "seen" and read_by:
+            readers = list(prev.get("seen_by") or [])
+            if read_by not in readers:
+                readers.append(read_by)
+                prev["seen_by"] = readers
+                msgs[mid] = prev
+                save_delivery_state(state)
         return prev
     if prev.get("status") == "answered" and status != "answered":
         return prev
@@ -518,21 +526,26 @@ def channel_last_write_meta(channel: str) -> dict:
     return {"channel": channel, "last_write_at": last.get("created_at"), "last_write_id": last.get("id"), "path": _rel(path)}
 
 
-def unread_message_rows(channel: str | None = None) -> list[dict]:
+def unread_message_rows(channel: str | None = None, reader: str | None = None) -> list[dict]:
     names = [channel] if channel else list(INBOX_WATCH_CHANNELS)
     state = load_inbox_read_state()
     now = now_tr()
     out = []
     watch = _watch_map()
     for name in names:
-        if name not in watch and name not in CHANNELS:
-            continue
         if name not in watch:
             continue
         path = watch[name]
         if not path.exists():
             continue
-        last = _parse_created_at(str((state.get(name) or {}).get("last_read_at") or ""))
+        channel_state = state.get(name) or {}
+        readers = channel_state.get("readers") or {}
+        cursor = readers.get(reader) if reader else None
+        if cursor is None:
+            # Read legacy cursors only for their recorded reader. Never inherit
+            # another agent's shared-inbox cursor.
+            cursor = channel_state if not reader or channel_state.get("read_by") == reader else {}
+        last = _parse_created_at(str(cursor.get("last_read_at") or ""))
         for block in _blocks_for(name):
             created = _parse_created_at(block.get("created_at", ""))
             if not created or (last and created <= last) or "id" not in block:
@@ -543,7 +556,7 @@ def unread_message_rows(channel: str | None = None) -> list[dict]:
 
 def mark_seen_for_unread(channel: str | None = None, reader: str | None = None) -> list[str]:
     ids = []
-    for row in unread_message_rows(channel):
+    for row in unread_message_rows(channel, reader=reader):
         current = (load_delivery_state()["messages"].get(row["id"]) or {}).get("status")
         if current == "answered":
             continue
@@ -562,16 +575,21 @@ def mark_inbox_read(channel: str | None = None, reader: str | None = None) -> di
         if name not in watch:
             continue
         meta = channel_last_write_meta(name)
-        state[name] = {
+        cursor = {
             "last_read_at": meta.get("last_write_at") or stamp,
             "last_read_id": meta.get("last_write_id"),
             "read_by": reader,
         }
+        if reader:
+            channel_state = state.setdefault(name, {})
+            channel_state.setdefault("readers", {})[reader] = cursor
+        else:
+            state[name] = cursor
     return save_inbox_read_state(state)
 
 
-def format_inbox(channel: str | None = None) -> str:
-    rows = unread_message_rows(channel)
+def format_inbox(channel: str | None = None, reader: str | None = None) -> str:
+    rows = unread_message_rows(channel, reader=reader)
     lines = [f"{row['channel']}\t{row['id']}\t{row['created_at']}\t{row['age_hours']}" for row in rows] + [f"unread_total={len(rows)}"]
     state = load_inbox_read_state()
     now = now_tr()
@@ -580,12 +598,14 @@ def format_inbox(channel: str | None = None) -> str:
     for name in names:
         if name not in watch:
             continue
-        if name in INBOX_WATCH_CHANNELS and name not in CHANNELS and name != "team-reports":
-            continue
-        unread = unread_message_rows(name)
+        channel_state = state.get(name) or {}
+        cursor = (channel_state.get("readers") or {}).get(reader) if reader else None
+        if cursor is None:
+            cursor = channel_state if not reader or channel_state.get("read_by") == reader else {}
+        unread = unread_message_rows(name, reader=reader)
         ages = [(now - parsed).total_seconds() / 60 for row in unread if (parsed := _parse_created_at(row["created_at"]))]
         meta = channel_last_write_meta(name)
-        lines.append(f"{name}\tlast_write={meta.get('last_write_at')}\tlast_read={(state.get(name) or {}).get('last_read_at')}\tunread_age_min={round(max(ages), 1) if ages else None}")
+        lines.append(f"{name}\treader={reader or 'legacy'}\tlast_write={meta.get('last_write_at')}\tlast_read={cursor.get('last_read_at')}\tunread_age_min={round(max(ages), 1) if ages else None}")
     return "\n".join(lines)
 
 
@@ -836,7 +856,7 @@ def main() -> None:
         print(format_backlog(channel if channel in CHANNELS else None))
         return
     if cmd in {"inbox", "unread"}:
-        print(format_inbox(channel))
+        print(format_inbox(channel, reader=args.reader))
         if args.mark:
             mark_inbox_read(channel, reader=args.reader)
         return
