@@ -709,8 +709,8 @@
     "RPT-20260927-014300-grok-desk-notify-proof": {
       "id": "RPT-20260927-014300-grok-desk-notify-proof",
       "channel": "team-reports",
-      "status": "delayed",
-      "updated_at": "2026-09-27T02:20:50+03:00",
+      "status": "answered",
+      "updated_at": "2026-09-27T02:33:15+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -720,10 +720,28 @@
       "created_at": "2026-09-27T01:43:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "answered"
       ],
       "pending_at": "2026-09-27T01:43:00+03:00",
-      "delayed_at": "2026-09-27T02:20:50+03:00"
+      "answered_at": "2026-09-27T02:33:15+03:00"
+    },
+    "RPT-20260927-023000-chatgpt-notify-audit-cursor": {
+      "id": "RPT-20260927-023000-chatgpt-notify-audit-cursor",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-09-27T02:33:15+03:00",
+      "alerted": true,
+      "from": "chatgpt",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "RPT-20260927-014300-grok-desk-notify-proof",
+      "created_at": "2026-09-27T02:30:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-09-27T02:30:00+03:00"
     }
   },
   "events": [
@@ -1048,6 +1066,28 @@
       "at": "2026-09-27T02:20:50+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20260927-014300-grok-desk-notify-proof:answered",
+      "message_id": "RPT-20260927-014300-grok-desk-notify-proof",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "team-reports",
+      "at": "2026-09-27T02:33:15+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-023000-chatgpt-notify-audit-cursor:pending",
+      "message_id": "RPT-20260927-023000-chatgpt-notify-audit-cursor",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-09-27T02:33:15+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1079,6 +1119,8 @@
     "RPT-20260927-014200-grok-desk-notify:delayed",
     "MSG-20260927-014300-grok-comms-proof:delayed",
     "MSG-20260927-014300-grok-comms-proof-inbox:delayed",
-    "RPT-20260927-014300-grok-desk-notify-proof:delayed"
+    "RPT-20260927-014300-grok-desk-notify-proof:delayed",
+    "RPT-20260927-014300-grok-desk-notify-proof:answered",
+    "RPT-20260927-023000-chatgpt-notify-audit-cursor:pending"
   ]
 }
