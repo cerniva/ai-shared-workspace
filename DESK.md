@@ -3,13 +3,14 @@
 Güncelleme: 2026-09-26T15:04:00+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
+Ortak rapor: `messages/team-reports.md`
 Meta köprü: `docs/META_AI_BRIDGE.md`
 
 ## Sabit tur sırası (Furkan — zorunlu)
 **4 adım (sıra sabit):** report → read → audit → follow audited.
 
 1. **Report** — her hareketini tek satır raporla (sessiz solo yok).
-2. **Read** — gelen raporları / kutuyu oku. Ortak kutu: `messages/shared-inbox.md` (Grok+ChatGPT+Gemini+Meta paste).
+2. **Read** — gelen raporları / kutuyu oku. Ortak kutu: `messages/shared-inbox.md`; görev raporu kanalı: `messages/team-reports.md`.
 3. **Audit** — rapor iddiasını kanıtla (SHA / remote sembol / test / output); güvensiz claim'i uygulama.
 4. **Follow audited** — denetlenen yolu uygula; senkron çöz. SoT: `state/now.json`.
 
@@ -34,6 +35,7 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 ## Kim ne yazar
 | Kanal | Dosya |
 |---|---|
+| Ortak görev raporları | messages/team-reports.md |
 | Grok → ChatGPT | messages/grok-to-chatgpt.md |
 | ChatGPT → Grok | messages/chatgpt-to-grok.md |
 | ChatGPT → Gemini | messages/chatgpt-to-gemini.md |
@@ -45,6 +47,9 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 | Durum | state/status.json + state/now.json |
 | Kalıcı öğrenme | research/KNOWLEDGE_LEDGER.md |
 | Grok Bot ekibi | BOARD.md + Senkron Ekip kanalı |
+
+## Her görev raporu
+Her anlamlı görev sonunda işi yapan ajan `messages/team-reports.md` dosyasına completed/evidence/decision-or-conflict/knowledge/sources/next-action alanlarıyla kısa rapor ekler. Yeni göreve başlarken karşı ajanın son ilgili raporları okunur. Çelişki varsa kanıtla yanıtlanır; bağımsız alt işler varsa sahiplik bölünür. Dosya kanalı canlı sohbet veya arka plan görevi değildir.
 
 ## desk_bridge (İletişim Köprüsü)
 Kod ayrı lane'de gelir (`scripts/desk_bridge.py` — bu dosyayı docs ajanı düzenlemez). Yüzey: `inbox` / `unread` (≈pending) / `last_read` (≈görüldü/seen) + `health` içinde `last_write` vs `last_read`. Delivery SoT: `state/inbox_read.json`. Operasyonel şablon/status: `knowledge/ortak-dil.md`.
