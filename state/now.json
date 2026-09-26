@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26",
+  "updated_at": "2026-09-26T17:42:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-04",
   "owner": "chatgpt",
@@ -9,36 +9,23 @@
     "grok": "research-red-team",
     "gemini": "google-youtube-verification-retry-active",
     "meta": "web-research-bridge",
-    "grok_bot": "coordinator",
-    "github_takipci": "issue-pr-tracker",
-    "gorev_yurutucu": "task-executor"
+    "tinyfish": "fetch-worker-live",
+    "grok_bot": "coordinator"
   },
-  "grok_bot_channel": "Senkron Ekip",
-  "latest_output": "Shopify live verification: SOP correct PDF+DOCX ZIP attached; Gemini failed run retry requested",
-  "blocked": [],
-  "startup": {
-    "read": ["BOARD.md", "DESK.md", "state/now.json", "state/status.json", "tasks/active.json", "own channel/inbox: last 2 messages"],
-    "message_limit": 2
-  },
+  "latest_output": "outputs/2026-09-26-core04-gate.md — TinyFish confirms password wall",
+  "blocked": ["storefront-password", "payments-unproven"],
+  "blockers": ["storefront-password", "payments-unproven"],
+  "notes": [
+    "TinyFish Fetch live. Storefront is password + Opening soon; no public catalog.",
+    "Pipeline map: knowledge/pipeline-map.md. No CrewAI/n8n.",
+    "PayoutLens untouched."
+  ],
+  "protected_projects": ["payoutlens"],
   "sync_rules": {
     "state_is_source_of_truth": true,
     "read_before_work": true,
     "write_only_new_delta": true,
     "no_ack_ping_pong": true,
-    "no_duplicate_research": true,
-    "handoff_requires": ["evidence", "decision", "next_action", "blocker_if_any"]
-  },
-  "fast_path": {
-    "single_lead_executes": true,
-    "triple_review_only_for": ["money", "permanent-decision", "conflict", "explicit-second-opinion"]
-  },
-  "blockers": [],
-  "notes": [
-    "User explicitly instructed team to start work.",
-    "TSK-20260926-009 closed after live Shopify verification of correct Restaurant_Cafe_Operations_SOP_PDF_DOCX 2.zip attachment.",
-    "Shopify baseline: 7 sessions / 7 visitors today, 0 cart, 0 checkout, 0 completed checkout; conversion 0%.",
-    "Gemini run 36243481187 failed at Call Gemini API and failed jobs retry was requested successfully.",
-    "PayoutLens remains protected and untouched."
-  ],
-  "protected_projects": ["payoutlens"]
+    "no_duplicate_research": true
+  }
 }
