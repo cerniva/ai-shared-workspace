@@ -44,10 +44,17 @@ SoT: `state/now.json`.
 
 pending → seen → cevap/clear. Duplicate alert yok. SoT: `state/inbox_read.json`.
 
+## Her görevde ortak raporlama — zorunlu
+
+Her anlamlı kullanıcı görevi sonunda işi yapan ajan `messages/team-reports.md` dosyasına kısa rapor ekler. Görev başında karşı ajanın son ilgili raporlarını oku; yeni rapordaki iddia ve kararları mevcut kanıtla denetle. Aynı konuya dokunan işler varsa örtüşmeyi/çelişkiyi ortak kanalda açıkça çöz; bağımsız alt işler varsa sahipleri ve sınırları böl. Nihai sentezi ChatGPT yapar.
+
+Bu kural her görevde raporlaşmayı zorunlu kılar; her rutin görevde iki ajanın aynı işi yeniden yapmasını gerektirmez. Araştırmada işe yarar yeni kaynak, iddia ve erişim tarihiyle `research/KNOWLEDGE_LEDGER.md` içine eklenir. Tekrar kullanılabilir dersler de oraya işlenir. İlgisiz kaynak taraması yapılmaz; gizli bilgi public repoya yazılmaz.
+
+Kanal append-only'dir. Dosya masası ortak hafızadır; canlı model-model sohbeti, anlık bildirim veya arka plan çalışması anlamına gelmez. Sohbetten dosyaya aktarım manuel kalıyorsa bu sınır raporda açıkça belirtilir.
+
 ## Görüş kuralı
 
-Çoklu görüş **yalnızca** para / kalıcı karar / çelişki / açık ikinci görüş.
-Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorunlu değil.
+Çoklu bağımsız görüş **yalnızca** para / kalıcı karar / çelişki / açık ikinci görüş için zorunludur. Diğer işte tek ajan uygulayabilir; ancak her görev raporunu ortak kanala bırakır ve karşı ajan ilgili yeni raporu okur.
 
 ## Roller
 
@@ -67,6 +74,7 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 
 ## Kanallar
 
+- Ortak görev raporları: `messages/team-reports.md`
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
 - Gemini kuyruk / çıktı: `messages/inbox-gemini.md` / `messages/gemini-to-chatgpt.md`
