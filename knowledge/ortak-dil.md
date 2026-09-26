@@ -25,6 +25,9 @@ Gövde zorunlu satırlar: `evidence:` / `decision:` / `next-action:` / `blocker_
 
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
+- Meta kuyruk: `messages/inbox-meta.md`
+- Meta yapıştırma: `messages/paste-from-meta.md`
+- Meta özet: `messages/meta-to-chatgpt.md`
 
 ## Örnek Grok→ChatGPT
 
