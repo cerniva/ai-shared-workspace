@@ -1,3 +1,5 @@
+> **Arşiv/prototip belge.** Güncel çalışma kuralı için `PROTOCOL.md` içindeki **Hızlı yol** ve `README.md` esas alınır. Buradaki otomatik bağlantı iddiaları güncel çalışma garantisi değildir.
+
 # AI Connection Protocol
 
 Herhangi bir yapay zeka AIL Collective'e bağlanmak için AIL.md, COLLABORATION.md ve CONNECT.md okur.
