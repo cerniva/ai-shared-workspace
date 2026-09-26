@@ -137,6 +137,39 @@
       "evidence": "grok_senses.py status-specific non-retryable remediation; tests/test_grok_senses.py",
       "next_action": "Verify CI; keep endpoint and model unchanged",
       "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-learning-saved",
+      "task_id": "TSK-20260927-001",
+      "stage": "learning_saved",
+      "actor": "chatgpt",
+      "status": "done",
+      "at": "2026-09-27T02:54:00+03:00",
+      "evidence": "research/KNOWLEDGE_LEDGER.md xAI 403 permission gate entry; commit 46459e9",
+      "next_action": "Do not issue Grok API retry while permission gate remains",
+      "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-tests-pass",
+      "task_id": "TSK-20260927-001",
+      "stage": "test_passed",
+      "actor": "chatgpt",
+      "status": "passed",
+      "at": "2026-09-27T02:54:30+03:00",
+      "evidence": "Actions run 36280893609: 133 tests OK; compile check and secret-pattern guard passed",
+      "next_action": "Continue non-provider-blocked work; resume Grok API after team access is fixed",
+      "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-grok403-reviewed",
+      "task_id": "TSK-20260927-001",
+      "stage": "reviewed",
+      "actor": "chatgpt",
+      "status": "reviewed",
+      "at": "2026-09-27T02:55:00+03:00",
+      "evidence": "Read MSG-20260927-024910-grok-api; status blocked, provider HTTP 403",
+      "next_action": "Record ChatGPT read cursor; no API retry",
+      "reason": ""
     }
   ]
 }
