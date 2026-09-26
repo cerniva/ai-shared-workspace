@@ -50,7 +50,7 @@ prompt: |
 worker_note: fetch ok
 
 ## TASK
-status: queued
+status: done
 id: TF-SMOKE-SHARED-20260926
 from: chatgpt
 to: tinyfish
@@ -58,3 +58,5 @@ mode: fetch
 urls: https://example.com
 prompt: |
   Read-only smoke test. Return the public page content. No browser Agent, login, click, form, payment, publish, or deletion.
+
+worker_note: fetch ok
