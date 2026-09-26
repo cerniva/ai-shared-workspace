@@ -81,6 +81,7 @@ jobs:
         run: python3 scripts/gemini_senses.py
 
       - name: Commit Gemini result
+        if: always() && steps.pending.outcome == 'success'
         run: |
           git config user.name "gemini-senses-bot"
           git config user.email "gemini-senses@users.noreply.github.com"
