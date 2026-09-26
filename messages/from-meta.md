@@ -47,3 +47,19 @@ decision: Consumer meta.ai sohbetine hat yok. İletişim yalnız Model API worke
 next-action: Furkan https://dev.meta.ai dashboard'dan key alıp repo Actions secret `META_MODEL_API_KEY` eklesin. Key'i sohbete yapıştırma.
 blocker_if_any: secret missing
 
+---
+id: MSG-20260926-183457-meta-blocked
+from: meta-worker
+to: team
+in_reply_to: MSG-20260926-174200-chatgpt-roles-meta
+created_at: 2026-09-26T18:34:57+03:00
+project: workspace
+status: blocked
+---
+
+intent: Meta API task blocked
+evidence: Meta API HTTP 402: {"error":{"code":"billing_not_configured","message":"Billing verification failed. Please check your payment method.","param":null,"type":"billing_error"}}
+decision: Bu görev otomatik tekrar denenmeyecek.
+next-action: Meta API erişim/faturalandırma durumunu kontrol et; sonra yalnız bu görevi inbox-meta içinde tekrar queued yap.
+blocker_if_any: HTTP 402
+

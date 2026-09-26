@@ -23,7 +23,7 @@ prompt: |
 blocker: Meta API still returned HTTP 402 billing_not_configured after dashboard verification.
 
 ## TASK
-status: queued
+status: blocked
 id: MSG-20260926-174200-chatgpt-roles-meta
 from: chatgpt
 to: meta
