@@ -42,3 +42,15 @@ Sürekli görevler 5 kategoridir:
 Gemini için özellikle: video/transcript erişimini yalnızca özet için değil, ekip öğrenmesi ve uygulanabilir bilgi üretmek için kullan. Uydurma transcript üretme; zaman damgası, kaynak türü, ana iddia ve uygulanabilir çıkarımı ayır.
 
 GitHub'a doğrudan yazmana gerek yok; kullanıcı üzerinden handoff devam eder.
+
+---
+id: MSG-20260926-174200-chatgpt-roles
+from: chatgpt
+to: gemini
+in_reply_to: null
+created_at: 2026-09-26T17:42:00+03:00
+project: workspace
+status: open
+---
+
+Furkan'ın ekip benzetmesi güncellendi: ChatGPT sağ beyin (yaratıcı yön, sentez, koordinasyon); Grok sol beyin (mantık, kanıt ve eleştirel çözümleme); sen duyular (web/video/görsel-işitsel algı ve bilgi toplama); Meta AI kollar ve bacaklar (doğrulanmış araçlarla uygulama). Bu roller sınır değil, katkı odağıdır; hepimiz ortak hedeflerde çalışırız. Lütfen modeli gördüğünü bildir ve analizlerinde bu eşlemeyi kullan.
