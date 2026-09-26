@@ -34,6 +34,9 @@ VALID_STATUS = {"open", "done", "blocked", "queued"}
 STALE_HOURS = 24
 _MSG_SPLIT = re.compile(r"(?m)^---\s*$")
 _OPEN_HIGH = 20
+INBOX_WATCH_CHANNELS = ("chatgpt-to-grok", "grok-to-chatgpt")
+INBOX_UNREAD_ALARM_MINUTES = 10
+INBOX_READ_PATH = ROOT / "state" / "inbox_read.json"
 
 
 def now_tr() -> dt.datetime:
@@ -291,11 +294,174 @@ def format_backlog(channel: str | None = None) -> str:
     return "\n".join(lines)
 
 
+
+def load_inbox_read_state() -> dict:
+    if not INBOX_READ_PATH.exists():
+        return {}
+    try:
+        data = json.loads(INBOX_READ_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def save_inbox_read_state(state: dict) -> None:
+    INBOX_READ_PATH.parent.mkdir(parents=True, exist_ok=True)
+    INBOX_READ_PATH.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def channel_last_write_meta(channel: str) -> dict:
+    path, _, _ = CHANNELS[channel]
+    try:
+        rel = str(path.relative_to(ROOT))
+    except ValueError:
+        rel = str(path)
+    meta = {
+        "channel": channel,
+        "last_write_at": None,
+        "last_write_id": None,
+        "path": rel,
+    }
+    if not path.exists():
+        return meta
+    blocks = _parse_blocks(path.read_text(encoding="utf-8"))
+    if not blocks:
+        return meta
+    last = blocks[-1]
+    meta["last_write_at"] = last.get("created_at")
+    meta["last_write_id"] = last.get("id")
+    return meta
+
+
+def unread_message_rows(channel: str | None = None) -> list[dict]:
+    """Messages newer than last_read on watched channels (or one channel)."""
+    names = [channel] if channel else list(INBOX_WATCH_CHANNELS)
+    state = load_inbox_read_state()
+    now = now_tr()
+    rows: list[dict] = []
+    for name in names:
+        if name not in CHANNELS:
+            continue
+        path, _, _ = CHANNELS[name]
+        if not path.exists():
+            continue
+        entry = state.get(name) or {}
+        last_read_at = _parse_created_at(str(entry.get("last_read_at") or ""))
+        blocks = _parse_blocks(path.read_text(encoding="utf-8"))
+        for b in blocks:
+            if "id" not in b:
+                continue
+            created_s = b.get("created_at", "")
+            created = _parse_created_at(created_s)
+            if created is None:
+                continue
+            if last_read_at is not None and created <= last_read_at:
+                continue
+            age_h = round((now - created).total_seconds() / 3600.0, 2)
+            rows.append(
+                {
+                    "channel": name,
+                    "id": b["id"],
+                    "created_at": created_s,
+                    "age_hours": age_h,
+                }
+            )
+    rows.sort(key=lambda r: (r["created_at"] or "", r["channel"], r["id"]))
+    return rows
+
+
+def format_inbox(channel: str | None = None) -> str:
+    rows = unread_message_rows(channel)
+    lines = [
+        f"{r['channel']}\t{r['id']}\t{r['created_at']}\t{r['age_hours']}"
+        for r in rows
+    ]
+    lines.append(f"unread_total={len(rows)}")
+    state = load_inbox_read_state()
+    names = [channel] if channel else list(INBOX_WATCH_CHANNELS)
+    now = now_tr()
+    for name in names:
+        if name not in CHANNELS:
+            continue
+        meta = channel_last_write_meta(name)
+        entry = state.get(name) or {}
+        last_read = entry.get("last_read_at")
+        unread = unread_message_rows(name)
+        if unread:
+            ages_min = []
+            for r in unread:
+                created = _parse_created_at(r.get("created_at", ""))
+                if created is not None:
+                    ages_min.append((now - created).total_seconds() / 60.0)
+            age_min = round(max(ages_min), 1) if ages_min else None
+        else:
+            age_min = None
+        lines.append(
+            f"{name}\tlast_write={meta.get('last_write_at')}\t"
+            f"last_read={last_read}\tunread_age_min={age_min}"
+        )
+    return "\n".join(lines)
+
+
+def mark_inbox_read(channel: str | None = None) -> dict:
+    names = [channel] if channel else list(INBOX_WATCH_CHANNELS)
+    state = load_inbox_read_state()
+    now_s = now_tr().isoformat(timespec="seconds")
+    for name in names:
+        if name not in CHANNELS:
+            continue
+        meta = channel_last_write_meta(name)
+        state[name] = {
+            "last_read_at": meta.get("last_write_at") or now_s,
+            "last_read_id": meta.get("last_write_id"),
+        }
+    save_inbox_read_state(state)
+    return state
+
+
+def _inbox_watch_for_channel(
+    name: str, state: dict, now: dt.datetime
+) -> tuple[dict, str | None]:
+    """Build inbox_watch stats + optional problem token for one watched channel."""
+    meta = channel_last_write_meta(name)
+    entry = state.get(name) or {}
+    unread = unread_message_rows(name)
+    unread_age_minutes = None
+    if unread:
+        ages = []
+        for r in unread:
+            created = _parse_created_at(r.get("created_at", ""))
+            if created is not None:
+                ages.append((now - created).total_seconds() / 60.0)
+        if ages:
+            unread_age_minutes = round(max(ages), 1)
+    watch = {
+        "last_write_at": meta.get("last_write_at"),
+        "last_write_id": meta.get("last_write_id"),
+        "last_read_at": entry.get("last_read_at"),
+        "last_read_id": entry.get("last_read_id"),
+        "unread_count": len(unread),
+        "unread_age_minutes": unread_age_minutes,
+    }
+    problem = None
+    if (
+        unread_age_minutes is not None
+        and unread_age_minutes >= INBOX_UNREAD_ALARM_MINUTES
+    ):
+        problem = f"inbox_unread:{name}:{int(unread_age_minutes)}"
+    return watch, problem
+
+
 def channel_health(channel: str | None = None) -> dict:
-    """Per-channel status plus problems (missing file, open_count high, stale opens)."""
+    """Per-channel status plus problems (missing file, opens, stale, inbox unread)."""
     names = [channel] if channel else sorted(CHANNELS)
     channels_out: dict[str, dict] = {}
     problems: list[str] = []
+    inbox_state = load_inbox_read_state()
+    now = now_tr()
     for name in names:
         if name not in CHANNELS:
             problems.append(f"unknown_channel:{name}")
@@ -304,6 +470,11 @@ def channel_health(channel: str | None = None) -> dict:
         st = channel_status(name)
         stale = stale_open_ids(name, STALE_HOURS) if path.exists() else []
         entry = {**st, "stale_open_ids": stale, "stale_open_count": len(stale)}
+        if name in INBOX_WATCH_CHANNELS:
+            watch, inbox_problem = _inbox_watch_for_channel(name, inbox_state, now)
+            entry["inbox_watch"] = watch
+            if inbox_problem:
+                problems.append(inbox_problem)
         channels_out[name] = entry
         if not path.exists():
             problems.append(f"missing_file:{name}")
@@ -326,6 +497,7 @@ def channel_health(channel: str | None = None) -> dict:
         "total_open": total_open,
         "oldest_open_age_hours": oldest_age,
     }
+
 
 
 def list_channels() -> str:
@@ -378,6 +550,11 @@ def main() -> None:
         action="store_true",
         help="print channels and exit",
     )
+    p.add_argument(
+        "--mark",
+        action="store_true",
+        help="with inbox/unread: advance last_read after listing",
+    )
     a = p.parse_args()
 
     if a.list_channels or a.command == "list-channels":
@@ -394,6 +571,11 @@ def main() -> None:
         cmd = "send"
     if cmd == "backlog":
         print(format_backlog(channel))
+        return
+    if cmd in ("inbox", "unread"):
+        print(format_inbox(channel))
+        if getattr(a, "mark", False):
+            mark_inbox_read(channel)
         return
     if cmd == "health":
         print(json.dumps(channel_health(channel), ensure_ascii=False, indent=2))
@@ -420,7 +602,7 @@ def main() -> None:
     if cmd == "stale":
         ids = stale_open_ids(channel, older_than_hours=a.hours)
         if ids:
-            print("\n".join(ids))
+            print("\n".join(ids)
         else:
             print("(none)")
         return
