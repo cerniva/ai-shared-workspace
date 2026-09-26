@@ -109,6 +109,24 @@ status: {status}
     return message_id
 
 
+def blocked_next_action(error: Exception) -> str:
+    """Give safe, status-specific remediation without exposing credentials."""
+    match = re.search(r"HTTP\\s+(\\d{3})", str(error), flags=re.IGNORECASE)
+    code = match.group(1) if match else ""
+    if code == "403":
+        return (
+            "xAI docs: API key/team permission is missing or the team is blocked. "
+            "Check the key's team API/model access in xAI Console; never paste the key."
+        )
+    if code == "401":
+        return "Check that GitHub Actions uses a valid XAI_API_KEY secret; never paste its value."
+    if code == "404":
+        return "Check the xAI endpoint and model name against the current API reference."
+    if code == "400":
+        return "Check the request arguments against the xAI API reference; do not retry unchanged."
+    return "Inspect the provider status and error documentation; do not retry unchanged."
+
+
 def main() -> int:
     task = unanswered_task()
     if not task:
@@ -157,8 +175,9 @@ def main() -> int:
         append_reply(
             task,
             f"intent: grok-api | blocked\nevidence: {type(exc).__name__}: {exc}\n"
-            "decision: Bu görev otomatik tekrar denenmeyecek.\n"
-            "next-action: XAI erişimini veya isteğin biçimini düzeltip yeni görev gönder.",
+            "decision: Değişmeden otomatik tekrar yapılmayacak.\n"
+            f"next-action: {blocked_next_action(exc)}\n"
+            "sources: https://docs.x.ai/developers/debugging (checked 2026-09-27)",
             status="blocked",
         )
         print(f"Grok task blocked: {exc}")
