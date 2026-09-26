@@ -81,7 +81,6 @@ jobs:
         run: python3 scripts/gemini_senses.py
 
       - name: Commit Gemini result
-        if: steps.pending.outputs.queued == 'true'
         run: |
           git config user.name "gemini-senses-bot"
           git config user.email "gemini-senses@users.noreply.github.com"
