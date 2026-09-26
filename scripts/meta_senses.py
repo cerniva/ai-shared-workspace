@@ -39,7 +39,7 @@ def append(path: Path, header: str, block: str) -> None:
     path.write_text(prev.rstrip() + "\n" + block + "\n", encoding="utf-8")
 
 
-TASK_MARKER = re.compile(r"(?m)^## TASK[ \\t]*$")
+TASK_MARKER = re.compile(r"(?m)^## TASK$")
 
 def task_blocks(text: str) -> list[tuple[int, int, str]]:
     marks = list(TASK_MARKER.finditer(text))
@@ -66,9 +66,9 @@ def mark_task_status(text: str, task_id: str, status: str) -> str:
                 if line.strip().startswith("status:"):
                     indent = line[:len(line) - len(line.lstrip())]
                     lines[i] = indent + f"status: {status}"
-                    updated = "\\n".join(lines)
-                    if block.endswith("\\n"):
-                        updated += "\\n"
+                    updated = chr(10).join(lines)
+                    if block.endswith(chr(10)):
+                        updated += chr(10)
                     return text[:start] + updated + text[end:]
             raise ValueError(f"status missing for Meta task {task_id}")
     raise ValueError(f"Meta task not found: {task_id}")
