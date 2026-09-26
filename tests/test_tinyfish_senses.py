@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from scripts import tinyfish_senses as t
 
 
@@ -60,6 +61,23 @@ class ResultTests(unittest.TestCase):
                 self.assertEqual(t.ACTION.read_text().count("status: open"), 2)
             finally:
                 t.ACTION = old
+
+
+class RoutingTests(unittest.TestCase):
+    def test_routes_fetch_and_browser_once(self):
+        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"ok": 2}) as browser_call:
+            status, _, _ = t.execute_task({"mode": "fetch", "urls": ["https://example.com"]}, "k")
+            self.assertEqual(status, "done"); fetch_call.assert_called_once(); browser_call.assert_not_called()
+        with patch.object(t, "fetch", return_value={"ok": 1}) as fetch_call, patch.object(t, "run_browser", return_value={"ok": 2}) as browser_call:
+            status, _, _ = t.execute_task({"mode": "browser", "url": "https://example.com", "goal": "read pricing"}, "k")
+            self.assertEqual(status, "done"); browser_call.assert_called_once(); fetch_call.assert_not_called()
+
+    def test_http_classification(self):
+        self.assertEqual(t.classify_http_status(401)[0], "api-permission")
+        self.assertEqual(t.classify_http_status(403)[0], "api-permission")
+        self.assertEqual(t.classify_http_status(402)[0], "credits-plan")
+        self.assertEqual(t.classify_http_status(429)[0], "transient")
+        self.assertEqual(t.classify_http_status(503)[0], "transient")
 
 
 if __name__ == "__main__":
