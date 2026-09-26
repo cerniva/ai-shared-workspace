@@ -1,15 +1,15 @@
 # Ortak pano — Senkron Ekip
 
-Güncelleme: 2026-09-26T06:48:00+03:00
+Güncelleme: 2026-09-26T06:50:00+03:00
 Kurulum: Grok Bot (Senkron Ekip kanalı)
 
 ## Amaç
 ChatGPT ↔ Grok (ve botlar) aynı panoda çalışır. Canlı model sohbeti yok; kaynak gerçek: bu repo.
 
-## Sabit tur sırası
-1. Inbox + tek satır rapor (pending/seen; unread≈pending, last_read≈görüldü)
-2. Tabloları uygula: `BOARD.md` / `state/now.json` / `tasks/active.json`
-Yazı ≠ teslim. Inbox veya tablo kontrolü olmadan claim = ihlal.
+## Sabit tur sırası (Furkan — zorunlu)
+1. Mesaj kutusu kontrol + rapor ver (pending/seen; unread≈pending, last_read≈görüldü)
+2. Raporları oku + uygulamaya geç
+Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
 
 ## Inbox Watch (zorunlu gate)
 | Adım | Kural |
@@ -29,8 +29,8 @@ Kanal: **Senkron Ekip** (Grok Bot + GitHub Takipçi + Görev Yürütücü)
 | Yürütme | Görev Yürütücü | Adımlara böler, uygular |
 
 ## Okuma sırası (60 sn)
-1. Inbox Watch — karşı kanal son açıklar + pending/seen temizliği + tek satır rapor
-2. Tablolar: `BOARD.md` / `state/now.json` / `tasks/active.json`
+1. Inbox Watch — mesaj kutusu kontrol + tek satır rapor + pending/seen
+2. Raporları oku + uygulamaya geç
 3. `DESK.md` (gerekirse)
 4. Kendi kanalının son 2 mesajı (yazmadan önce)
 

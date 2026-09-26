@@ -1,13 +1,13 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T06:47:43+03:00
+Güncelleme: 2026-09-26T06:50:00+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
 
 ## Sabit tur sırası (Furkan — zorunlu)
-1. **Inbox + tek satır rapor:** karşı kanalı oku; pending/seen (unread≈pending, last_read≈görüldü) işaretle; kısa rapor.
-2. **Raporları oku + uygula:** gelen/üretilen raporları oku ve **uygulamaya geç** (yalnızca okuma değil).
-Yazı ≠ teslim; poll+rapor zorunlu. Inbox okumadan veya raporları uygulamadan claim = ihlal.
+1. **Mesaj kutusu kontrol + rapor ver** (inbox-first; pending/seen; unread≈pending, last_read≈görüldü).
+2. **Raporları oku + uygulamaya geç.**
+Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
 
 ## 60 saniye başlangıç
 0. **Inbox Watch + bildirim (tur başı, zorunlu):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
@@ -16,9 +16,10 @@ Yazı ≠ teslim; poll+rapor zorunlu. Inbox okumadan veya raporları uygulamadan
    - Aynı MSG için tekrar alert yok (idempotent).
    - Cevapsız kalanlar → **delayed** escalate.
    - SoT: `state/inbox_read.json` + `desk_bridge` pending/seen/unread (kod: İletişim Köprüsü; docs ajanı `scripts/desk_bridge.py` düzenlemez). GitHub-native önce (webhook/token yok).
-1. **Raporları oku + uygula** (standing order #2) — outputs/reports/handoff raporlarını uygula.
-2. `BOARD.md` / `state/now.json` / `tasks/active.json` — bağlam (standing order değil).
-3. Gerekirse `PROTOCOL.md` **Hızlı yol** + Inbox / Delivery tracking.
+1. `BOARD.md` — Grok Bot Senkron Ekip panosu (Inbox Watch + Notify satırları)
+2. `state/now.json` — şu anki odak
+3. `tasks/active.json` — açık işler (max 5 standing + ticket)
+4. Gerekirse `PROTOCOL.md` içindeki **Hızlı yol** + tur-başı inbox / Delivery tracking kuralını oku
 
 Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi her turda okunmaz (karşı kanal son açıklar hariç).
 
