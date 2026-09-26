@@ -1,3 +1,6 @@
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 import urllib.error
@@ -29,6 +32,10 @@ class EventBridgeTests(unittest.TestCase):
         record = {"task_id": "T4", "run_id": "R4", "requested_by": "gemini", "mode": "browser", "status": "running", "routed_event_keys": []}; err = urllib.error.HTTPError("u", 401, "no", {}, None)
         with patch.object(b, "remote_status", side_effect=err): updated = b.reconcile_record(record, "k")
         self.assertEqual(updated["status"], "blocked"); self.assertEqual(updated["reason_code"], "api-permission")
+    def test_direct_script_entrypoint_runs_from_repo_root(self):
+        env = dict(os.environ); env["TINYFISH_API_KEY"] = "test-key-not-secret"
+        result = subprocess.run([sys.executable, "scripts/tinyfish_event_bridge.py"], cwd=ROOT, env=env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
 class WorkflowContractTests(unittest.TestCase):
     def test_senses_persists_run_ledger(self): self.assertIn("state/tinyfish-runs.json", (ROOT / ".github/workflows/tinyfish-senses.yml").read_text())
@@ -37,10 +44,8 @@ class WorkflowContractTests(unittest.TestCase):
 
 class ProtocolContractTests(unittest.TestCase):
     def test_protocol_documents_event_bridge_invariants(self):
-        text = (ROOT / "PROTOCOL.md").read_text().lower()
-        self.assertIn("state/tinyfish-runs.json", text)
+        text = (ROOT / "PROTOCOL.md").read_text().lower(); self.assertIn("state/tinyfish-runs.json", text)
         for requester in ("chatgpt", "grok", "gemini", "meta"): self.assertIn(requester, text)
-        self.assertIn("aynı task id", text)
-        self.assertIn("ikinci browser", text)
+        self.assertIn("aynı task id", text); self.assertIn("ikinci browser", text)
 
 if __name__ == "__main__": unittest.main()
