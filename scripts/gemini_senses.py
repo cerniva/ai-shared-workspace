@@ -55,15 +55,16 @@ def select_active_task(text: str) -> str:
 def mark_task_done(text: str, task_id: str) -> str:
     for start, end, block in task_blocks(text):
         if field(block, "id") == task_id:
-            updated, count = re.subn(
-                r"(?mi)^([ \\t]*status[ \\t]*:[ \\t]*)[^\\r\\n]+",
-                r"\\1done",
-                block,
-                count=1,
-            )
-            if count != 1:
-                raise ValueError(f"status missing for Gemini task {task_id}")
-            return text[:start] + updated + text[end:]
+            lines = block.splitlines()
+            for i, line in enumerate(lines):
+                if line.strip().startswith("status:"):
+                    indent = line[:len(line) - len(line.lstrip())]
+                    lines[i] = indent + "status: done"
+                    updated = "\n".join(lines)
+                    if block.endswith("\n"):
+                        updated += "\n"
+                    return text[:start] + updated + text[end:]
+            raise ValueError(f"status missing for Gemini task {task_id}")
     raise ValueError(f"Gemini task not found: {task_id}")
 
 def extract_youtube_urls(text: str) -> list[str]:
