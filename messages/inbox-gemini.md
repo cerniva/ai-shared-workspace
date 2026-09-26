@@ -1,12 +1,10 @@
 # Inbox → Gemini API
 
-Bu dosya Gemini API için genel amaçlı görev kutusudur.
-
 ## TASK
-status: idle
-id: SHOPIFYTEST2
-from: system
+status: queued
+id: SHOPIFYTEST3
+from: chatgpt
 project: commerce
-url:
+use_shopify: true
 prompt: |
-  Son görev işlendi: MSG-20260926-041116-gemini-api
+  Shopify connector health check after secret correction.
