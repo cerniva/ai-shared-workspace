@@ -80,5 +80,49 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(t.classify_http_status(503)[0], "transient")
 
 
+class LedgerTests(unittest.TestCase):
+    def test_missing_ledger_loads_empty(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(t.load_ledger(Path(d) / "missing.json"), {})
+
+    def test_record_start_and_terminal_preserve_identity(self):
+        ledger = {}
+        record = t.record_run_start(ledger, {"id": "B1", "requested_by": "grok", "mode": "browser"}, "run-7")
+        self.assertEqual(record["status"], "running")
+        self.assertEqual(record["run_id"], "run-7")
+        self.assertEqual(record["routed_event_keys"], [])
+        done = t.record_terminal(ledger, "B1", "done", "")
+        self.assertEqual(done["run_id"], "run-7")
+        self.assertEqual(done["status"], "done")
+
+    def test_running_browser_is_not_started_twice(self):
+        task = {"id": "B1", "requested_by": "chatgpt", "mode": "browser", "url": "https://example.com", "goal": "read pricing"}
+        ledger = {"B1": {"task_id": "B1", "requested_by": "chatgpt", "mode": "browser", "status": "running", "run_id": "run-1", "updated_at": "x", "last_error": "", "routed_event_keys": []}}
+        with patch.object(t, "run_browser") as call:
+            status, data, reason = t.execute_task(task, "k", ledger=ledger)
+        self.assertEqual(status, "running")
+        self.assertEqual(data["run_id"], "run-1")
+        call.assert_not_called()
+
+    def test_terminal_task_is_not_executed_again(self):
+        task = {"id": "F1", "requested_by": "chatgpt", "mode": "fetch", "urls": ["https://example.com"]}
+        ledger = {"F1": {"task_id": "F1", "requested_by": "chatgpt", "mode": "fetch", "status": "done", "run_id": "", "updated_at": "x", "last_error": "", "routed_event_keys": []}}
+        with patch.object(t, "fetch") as call:
+            status, _, _ = t.execute_task(task, "k", ledger=ledger)
+        self.assertEqual(status, "done")
+        call.assert_not_called()
+
+    def test_transient_error_records_retryable_without_user_blocker(self):
+        task = {"id": "B2", "requested_by": "grok", "mode": "browser", "url": "https://example.com", "goal": "read pricing"}
+        ledger = {}
+        err = __import__("urllib.error").error.HTTPError("u", 503, "busy", {}, None)
+        with patch.object(t, "run_browser", side_effect=err), patch.object(t, "append_action_once") as action:
+            status, data, _ = t.execute_task(task, "k", ledger=ledger)
+        self.assertEqual(status, "retryable")
+        self.assertEqual(data["reason_code"], "transient")
+        self.assertEqual(ledger["B2"]["status"], "retryable")
+        action.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()
