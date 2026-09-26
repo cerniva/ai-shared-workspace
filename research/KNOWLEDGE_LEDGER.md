@@ -75,3 +75,23 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** content / research-learning
 - **Son kontrol tarihi:** 2026-09-26
 - **Not:** İlk test import yolu nedeniyle başarısız oldu; import düzeltmesi sonrası PASS.
+
+### 2026-09-26 — Dijital ürün teslim dosyası başlıkla eşleşmeli
+- **Kaynak:** Shopify canlı ürün/dijital teslim dosyası okuması; kütüphanedeki SOP ZIP içeriği
+- **Alan:** shopify
+- **Ne öğrendik:** Mağazada dokuz ürünün tamamı draft. Yedi dijital ürünün dosyası bağlı; Restaurant & Café Operations SOP + Checklist Pack ürününe yanlışlıkla Restaurant_Reels_Hooks_PDF_DOCX.zip bağlanmış. Doğru Restaurant_Cafe_Operations_SOP_PDF_DOCX.zip dosyası mevcut ve içinde ilgili PDF ile DOCX doğrulandı.
+- **Kanıt düzeyi:** doğrulandı
+- **Uygulama:** Bu ürün yayınlanmadan önce yanlış ek kaldırılıp doğru ZIP bağlanmalı; ardından alıcı teslimi canlı olarak yeniden okunmalı. Her dijital üründe ürün vaadi, dosya adı ve ZIP içeriği birlikte kontrol edilmeli.
+- **İlgili proje:** CORE-04 / shopify
+- **Son kontrol tarihi:** 2026-09-26
+- **Not:** Mevcut araçlar dosya ekleyebiliyor ama yanlış eki kaldırma işlemini sunmuyor. Sadece ikinci dosyayı eklemek hatayı çözmez.
+
+### 2026-09-26 — Kullanıcının Gemini önceliği değişti
+- **Kaynak:** kullanıcının son açık talimatı
+- **Alan:** other
+- **Ne öğrendik:** Gemini OAuth/ek kurulum işi beklemeye alındı; ChatGPT ve Grok ile somut CORE işlerine devam edilecek.
+- **Kanıt düzeyi:** kullanıcı talimatı
+- **Uygulama:** Gemini inbox idle ve görev yönlendirmesi güncellendi.
+- **İlgili proje:** CORE-05 / workspace
+- **Son kontrol tarihi:** 2026-09-26
+- **Not:** İleride kullanıcı yeniden isterse mevcut köprü ayrıca değerlendirilebilir.
