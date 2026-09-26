@@ -1,20 +1,16 @@
-# Inbox → Meta AI (insan köprüsü)
+# Inbox → Meta API
 
-Mod: file-desk. Meta sohbet worker yok; API worker ayrı belgede (`docs/META_WORKER.md`).
-Furkan `prompt` u Meta AI'ya taşır. Sonucu `messages/paste-from-meta.md` ye yapıştırır.
-
-Akış:
-1. Grok veya ChatGPT buraya `status: queued` görev yazar
-2. Furkan prompt'u Meta AI sohbetine kopyalar
-3. Meta cevabını `messages/paste-from-meta.md` altına yapıştırır
-4. Grok/ChatGPT paste'i okur, özeti `messages/meta-to-chatgpt.md` ye append eder
+Mod: file-desk. Consumer meta.ai sohbeti değil; Model API worker.
 
 ## TASK
-status: idle
-id:
-from:
-project:
-allowed_actions: public-web-read | form-fill-draft | screenshot-evidence | research-synthesis
-forbidden: login-secret | payment | publish | irreversible-write | PayoutLens
+status: queued
+id: META-PING-20260926-152100
+from: grok
+project: workspace
+allowed_actions: research-synthesis
+forbidden: login-secret | payment | publish | PayoutLens
 prompt: |
-  (boş — ChatGPT veya Grok queued görev yazar)
+  Masa hattı testi. 8 satırı geçme.
+  1) Kim olduğunu söyle (Meta Model API / Muse Spark).
+  2) Grok+ChatGPT+Gemini ile file-desk çalıştığını onayla.
+  3) Tek next-action yaz.
