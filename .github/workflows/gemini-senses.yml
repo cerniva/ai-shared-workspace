@@ -9,7 +9,7 @@ on:
     paths:
       - messages/inbox-gemini.md
       - messages/chatgpt-to-gemini.md
-      - scripts/route_gemini_inbox.py
+      - scripts/route_gemini_inbox.py\n      - state/gemini-api-cooldown.json
 
 concurrency:
   group: gemini-senses
@@ -32,7 +32,25 @@ jobs:
       - name: Check pending task
         id: pending
         run: |
-          python3 -c 'from pathlib import Path; import os,re; text = Path("messages/inbox-gemini.md").read_text(); tasks = re.split(r"(?m)^## TASK[ \t]*$", text)[1:]; active = re.compile(r"(?mi)^[ \t]*status[ \t]*:[ \t]*(queued|ready|open|run)[ \t]*$"); queued = any(active.search(task) for task in tasks); open(os.environ["GITHUB_OUTPUT"], "a").write("queued=" + str(queued).lower() + "\n")'
+          python3 - <<'PY'
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import json, os, re
+          text = Path("messages/inbox-gemini.md").read_text(encoding="utf-8")
+          tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$")
+          queued = any(active.search(task) for task in tasks)
+          cooldown = Path("state/gemini-api-cooldown.json")
+          if queued and cooldown.exists():
+              try:
+                  until = datetime.fromisoformat(json.loads(cooldown.read_text(encoding="utf-8"))["blocked_until"].replace("Z", "+00:00"))
+                  queued = datetime.now(timezone.utc) >= until.astimezone(timezone.utc)
+              except (KeyError, ValueError, TypeError, json.JSONDecodeError):
+                  queued = False
+                  print("Gemini cooldown file is invalid; skipping API call for safety.")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"queued={str(queued).lower()}\\n")
+          PY
 
       - name: Setup Python
         if: steps.pending.outputs.queued == 'true'
@@ -66,7 +84,7 @@ jobs:
         run: |
           git config user.name "gemini-senses-bot"
           git config user.email "gemini-senses@users.noreply.github.com"
-          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md messages/user-action-required.md research/youtube/
+          git add messages/gemini-to-chatgpt.md messages/inbox-gemini.md messages/user-action-required.md research/youtube/ state/gemini-api-cooldown.json
           git diff --cached --quiet && exit 0
           git commit -m "Gemini senses reply"
           git pull --rebase origin main
