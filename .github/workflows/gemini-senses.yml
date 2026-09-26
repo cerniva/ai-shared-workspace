@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - messages/inbox-gemini.md
+      - messages/chatgpt-to-gemini.md
+      - scripts/route_gemini_inbox.py
 
 concurrency:
   group: gemini-senses
@@ -23,6 +25,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Route chatgpt-to-gemini into inbox
+        run: python3 scripts/route_gemini_inbox.py
 
       - name: Check pending task
         id: pending
