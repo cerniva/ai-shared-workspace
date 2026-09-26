@@ -39,33 +39,53 @@ def append(path: Path, header: str, block: str) -> None:
     path.write_text(prev.rstrip() + "\n" + block + "\n", encoding="utf-8")
 
 
-def mark_idle(task_id: str, project: str, note: str) -> None:
-    INBOX.write_text(
-        "# Inbox → Meta API\n\n"
-        "## TASK\n"
-        "status: idle\n"
-        f"id: {task_id}\n"
-        "from: system\n"
-        f"project: {project}\n"
-        "prompt: |\n"
-        f"  {note}\n",
-        encoding="utf-8",
-    )
+TASK_MARKER = re.compile(r"(?m)^## TASK[ \\t]*$")
 
+def task_blocks(text: str) -> list[tuple[int, int, str]]:
+    marks = list(TASK_MARKER.finditer(text))
+    blocks = []
+    for i, match in enumerate(marks):
+        start = match.start()
+        end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+        blocks.append((start, end, text[start:end]))
+    return blocks
+
+
+def select_active_task(text: str) -> str:
+    for _, _, block in task_blocks(text):
+        if field(block, "status", "idle").lower() in ACTIVE:
+            return block
+    return ""
+
+
+def mark_task_status(text: str, task_id: str, status: str) -> str:
+    for start, end, block in task_blocks(text):
+        if field(block, "id") == task_id:
+            lines = block.splitlines()
+            for i, line in enumerate(lines):
+                if line.strip().startswith("status:"):
+                    indent = line[:len(line) - len(line.lstrip())]
+                    lines[i] = indent + f"status: {status}"
+                    updated = "\\n".join(lines)
+                    if block.endswith("\\n"):
+                        updated += "\\n"
+                    return text[:start] + updated + text[end:]
+            raise ValueError(f"status missing for Meta task {task_id}")
+    raise ValueError(f"Meta task not found: {task_id}")
 
 inbox = read(INBOX)
 if not inbox:
     print("no inbox-meta.md")
     sys.exit(0)
 
-status = field(inbox, "status", "idle").lower()
-if status not in ACTIVE:
-    print(f"inbox status={status!r}; skip")
+task_text = select_active_task(inbox)
+if not task_text:
+    print("inbox içinde bekleyen Meta görevi yok; skip")
     sys.exit(0)
 
-task_id = field(inbox, "id") or "meta-task"
-project = field(inbox, "project", "workspace")
-sender = field(inbox, "from", "team")
+task_id = field(task_text, "id") or "meta-task"
+project = field(task_text, "project", "workspace")
+sender = field(task_text, "from", "team")
 now = dt.datetime.now(dt.timezone(dt.timedelta(hours=3)))
 stamp = now.strftime("%Y%m%d-%H%M%S")
 iso = now.isoformat(timespec="seconds")
@@ -110,7 +130,8 @@ status: open
 - Geçici alternatif: meta-ingest Action ile elle yapıştırma
 """
     append(USER_ACTION, "# User Action Required\n", action)
-    print("secret missing; action written")
+    INBOX.write_text(mark_task_status(inbox, task_id, "blocked"), encoding="utf-8")
+    print("secret missing; task blocked and action written")
     sys.exit(0)
 
 team = "\n\n".join(
@@ -131,7 +152,7 @@ BAĞLAM:
 {team}
 
 GÖREV:
-{inbox}
+{task_text}
 """
 
 payload = {"model": MODEL, "input": prompt}
@@ -149,9 +170,32 @@ try:
     with urllib.request.urlopen(req, timeout=180) as resp:
         raw = json.loads(resp.read().decode("utf-8"))
 except urllib.error.HTTPError as exc:
-    body = exc.read().decode("utf-8", errors="replace")[:2000]
-    print(f"Meta API HTTP {exc.code}\n{body}", file=sys.stderr)
-    sys.exit(1)
+    body = exc.read().decode("utf-8", errors="replace")[:1000]
+    if exc.code == 429 or exc.code >= 500:
+        print(f"Meta API HTTP {exc.code}; görev geçici hata nedeniyle kuyrukta tutuldu.", file=sys.stderr)
+        sys.exit(1)
+    note = f"Meta API HTTP {exc.code}: {body}"
+    blocked = f"""
+---
+id: MSG-{stamp}-meta-blocked
+from: meta-worker
+to: team
+in_reply_to: {task_id}
+created_at: {iso}
+project: {project}
+status: blocked
+---
+
+intent: Meta API task blocked
+evidence: {note}
+decision: Bu görev otomatik tekrar denenmeyecek.
+next-action: Meta API erişim/faturalandırma durumunu kontrol et; sonra yalnız bu görevi inbox-meta içinde tekrar queued yap.
+blocker_if_any: HTTP {exc.code}
+"""
+    append(OUT, "# Meta AI çıkış kanalı\n", blocked)
+    INBOX.write_text(mark_task_status(inbox, task_id, "blocked"), encoding="utf-8")
+    print(f"Meta API HTTP {exc.code}; task {task_id} blocked without retry")
+    sys.exit(0)
 except Exception as exc:
     print(f"Meta API call failed: {exc}", file=sys.stderr)
     sys.exit(1)
@@ -191,5 +235,5 @@ model: {MODEL}
 {reply}
 """
 append(OUT, "# Meta AI çıkış kanalı\n", block)
-mark_idle(task_id, project, f"işlendi: {msg_id}")
+INBOX.write_text(mark_task_status(inbox, task_id, "done"), encoding="utf-8")
 print(f"Meta yanıtı kaydedildi: {msg_id}; {len(reply)} karakter")
