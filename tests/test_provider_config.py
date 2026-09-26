@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.provider_config import ConfigError, make_adapter
-from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential, OpenAIAdapter
+from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MetaAdapter, MissingCredential, OpenAIAdapter
 
 
 class ProviderConfigTests(unittest.TestCase):
@@ -26,6 +26,15 @@ class ProviderConfigTests(unittest.TestCase):
     def test_gemini_requires_api_key(self):
         with self.assertRaises(MissingCredential):
             make_adapter("gemini", env={})
+
+    def test_meta_requires_api_key(self):
+        with self.assertRaises(MissingCredential):
+            make_adapter("meta", env={})
+
+    def test_meta_builds_from_environment(self):
+        adapter = make_adapter("meta", env={"META_MODEL_API_KEY": "secret"})
+        self.assertIsInstance(adapter, MetaAdapter)
+        self.assertEqual(adapter.model, "muse-spark-1.3")
 
     def test_unknown_provider_is_rejected(self):
         with self.assertRaises(ConfigError):
