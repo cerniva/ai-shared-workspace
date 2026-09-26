@@ -59,11 +59,11 @@ def public_code_context(spec: str) -> str:
             continue
         body = read(ROOT / name, min(5000, remaining))
         if body:
-            chunks.append(f"### {name}\\n{body}")
+            chunks.append(f"### {name}\n{body}")
             remaining -= len(body)
         if remaining <= 0:
             break
-    return "\\n\\n".join(chunks)
+    return "\n\n".join(chunks)
 
 if not INBOX.exists():
     sys.exit("messages/inbox-gemini.md bulunamadı.")
