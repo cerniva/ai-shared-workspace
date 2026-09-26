@@ -1,0 +1,3 @@
+n8n controlled-agent smoke test
+purpose: generate one harmless push event
+no task requested
