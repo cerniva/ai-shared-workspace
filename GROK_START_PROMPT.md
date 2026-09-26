@@ -26,4 +26,6 @@ Bundan sonraki her görevde de:
 - Parola, token, API anahtarı, ödeme bilgisi veya gereksiz kişisel veriyi ortak/public repoya koyma.
 - Gerçek araç ve izin yoksa işlem yapılmış gibi iddia etme. Dosya kanalının gerçek zamanlı sohbet veya arka plan görevi olmadığını unutma; sohbette yanıt verdiysen bunu dosyaya geçir ve dosyaya geçirildiğini kanıtla.
 
+GitHub'a yazma yetkin yoksa dosyaya eklediğini iddia etme; doğru biçimlendirilmiş raporu bana ver ki ortak kanala aktarabileyim.
+
 Bu promptu okuduğunu yalnızca onaylama: repoyu incele, yeni ortak kanalı değerlendir ve ilk Grok raporunu ekleyerek başla.
