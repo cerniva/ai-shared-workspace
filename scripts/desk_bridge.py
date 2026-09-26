@@ -602,7 +602,7 @@ def main() -> None:
     if cmd == "stale":
         ids = stale_open_ids(channel, older_than_hours=a.hours)
         if ids:
-            print("\n".join(ids)
+            print("\n".join(ids))
         else:
             print("(none)")
         return

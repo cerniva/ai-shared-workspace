@@ -45,9 +45,14 @@ class DeskBridgeTests(unittest.TestCase):
                 "gemini",
             ),
         }
+        self._orig_inbox_path = db.INBOX_READ_PATH
+        self.state_dir = self.base / "state"
+        self.state_dir.mkdir()
+        db.INBOX_READ_PATH = self.state_dir / "inbox_read.json"
 
     def tearDown(self):
         db.CHANNELS = self._orig
+        db.INBOX_READ_PATH = self._orig_inbox_path
         self.tmp.cleanup()
 
     def test_grok_bot_alias_accepted(self):
@@ -283,6 +288,93 @@ class DeskBridgeTests(unittest.TestCase):
         self.assertEqual(empty["total_open"], 0)
         self.assertIsNone(empty["oldest_open_age_hours"])
 
+
+
+
+    def test_inbox_unread_after_write_empty_after_mark(self):
+        mid = db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "inbox ping", status="open"
+        )
+        rows = db.unread_message_rows("chatgpt-to-grok")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["id"], mid)
+        formatted = db.format_inbox("chatgpt-to-grok")
+        self.assertIn(mid, formatted)
+        self.assertIn("unread_total=1", formatted)
+        db.mark_inbox_read("chatgpt-to-grok")
+        rows2 = db.unread_message_rows("chatgpt-to-grok")
+        self.assertEqual(rows2, [])
+        self.assertIn("unread_total=0", db.format_inbox("chatgpt-to-grok"))
+        state = db.load_inbox_read_state()
+        self.assertEqual(state["chatgpt-to-grok"]["last_read_id"], mid)
+
+    def test_health_red_when_inbox_unread_older_than_10_min(self):
+        mid = db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "stale unread", status="open"
+        )
+        path = self.msg_dir / "grok-to-chatgpt.md"
+        text = path.read_text(encoding="utf-8")
+        old = (db.now_tr() - dt.timedelta(minutes=15)).isoformat(timespec="seconds")
+        text2 = re.sub(
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
+            rf"\g<1>{old}",
+            text,
+            count=1,
+            flags=re.S,
+        )
+        path.write_text(text2, encoding="utf-8")
+        health = db.channel_health("grok-to-chatgpt")
+        ch = health["channels"]["grok-to-chatgpt"]
+        self.assertIn("inbox_watch", ch)
+        self.assertEqual(ch["inbox_watch"]["unread_count"], 1)
+        self.assertGreaterEqual(ch["inbox_watch"]["unread_age_minutes"], 10)
+        self.assertFalse(health["healthy"])
+        self.assertTrue(
+            any(p.startswith("inbox_unread:grok-to-chatgpt:") for p in health["problems"])
+        )
+
+    def test_health_green_after_mark_inbox_read(self):
+        mid = db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "will mark", status="open"
+        )
+        path = self.msg_dir / "chatgpt-to-grok.md"
+        text = path.read_text(encoding="utf-8")
+        old = (db.now_tr() - dt.timedelta(minutes=20)).isoformat(timespec="seconds")
+        text2 = re.sub(
+            rf"(id: {re.escape(mid)}.*?created_at: )[^\n]+",
+            rf"\g<1>{old}",
+            text,
+            count=1,
+            flags=re.S,
+        )
+        path.write_text(text2, encoding="utf-8")
+        red = db.channel_health("chatgpt-to-grok")
+        self.assertFalse(red["healthy"])
+        db.mark_inbox_read("chatgpt-to-grok")
+        green = db.channel_health("chatgpt-to-grok")
+        watch = green["channels"]["chatgpt-to-grok"]["inbox_watch"]
+        self.assertEqual(watch["unread_count"], 0)
+        self.assertIsNone(watch["unread_age_minutes"])
+        self.assertFalse(
+            any(p.startswith("inbox_unread:") for p in green["problems"])
+        )
+        self.assertTrue(green["healthy"])
+
+    def test_format_inbox_cli_path_via_functions(self):
+        db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "cli path a", status="open"
+        )
+        db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "cli path b", status="open"
+        )
+        out = db.format_inbox()
+        self.assertIn("unread_total=2", out)
+        self.assertIn("last_write=", out)
+        self.assertIn("last_read=", out)
+        self.assertIn("unread_age_min=", out)
+        db.mark_inbox_read()
+        out2 = db.format_inbox()
+        self.assertIn("unread_total=0", out2)
 
 
 if __name__ == "__main__":
