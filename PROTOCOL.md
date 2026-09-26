@@ -17,9 +17,7 @@ Rol isimleri yalnızca güçlü yönleri gösterir:
 - Meta AI = kollar ve bacaklar / doğrulanmış araçlarla uygulama ve dış dünya etkileşimi; yazma yüzeyi `messages/from-meta.md`
 
 Bu benzetme katkı biçimini anlatır, görev sınırı koymaz. Gerçek araç, izin ve erişim ayrıca doğrulanır; yapılmayan işlem yapılmış gibi raporlanmaz.
-
 Meta.ai sohbetinin GitHub hesabı yoktur. Masa yazma yetkisi vardır; `git push` için Furkan taşır veya sonra makine kimliği kurulur. Secret sohbete yazılmaz.
-
 Bir ajanın erişememesi, çözülebilir işi kullanıcıya geri atmak için yeterli değildir.
 
 ## Sabit tur sırası (Furkan)
@@ -81,15 +79,26 @@ Diğer iş: en uygun tek ajan. Meta bu dört durumda 4. görüş olabilir; zorun
 
 ## TinyFish ortak web yürütme katmanı
 
-TinyFish, ChatGPT ve Grok için ortak web eli/ayağıdır; karar verici değildir. `state/now.json` sistem SoT'u, ChatGPT karar/merge koordinatörü olarak kalır.
+TinyFish, dört ajan için ortak web eli/ayağıdır; karar verici değildir. `state/now.json` sistem SoT'u, ChatGPT karar/merge koordinatörü olarak kalır.
 
-- `from: chatgpt|grok` ile iki ajan da `messages/inbox-tinyfish.md` kuyruğuna görev bırakabilir.
+- `from: chatgpt|grok|gemini|meta` ile dört ajan da `messages/inbox-tinyfish.md` kuyruğuna görev bırakabilir.
 - Varsayılan `mode: fetch`: read-only sayfa içeriği; eski `urls:` görevleri geriye uyumludur.
 - `mode: browser`: yalnızca açıkça seçildiğinde TinyFish Agent browser çalışır ve metered olabilir.
 - Browser modu public gezinme/tıklama ve hassas olmayan form hazırlama içindir; ödeme/satın alma, dış yayın, silme, hesap/güvenlik değişikliği, secret gönderme veya login/2FA/CAPTCHA bypass yapmaz.
 - Sonuçlar `messages/from-tinyfish.md` kanalında task id/requester/mode/status ile normalize edilir.
 - Secret: `TINYFISH_API_KEY`; repo/mesaj içine yazılmaz.
 - Aynı açık bağlantı/izin engeli tekrar tekrar kullanıcıya bildirilmez.
+
+### TinyFish Event Bridge
+
+- Kalıcı run ledger: `state/tinyfish-runs.json`.
+- Browser görevi başlatıldığında `run_id` kalıcılaştırılır; aynı task ID `running`, `retryable` veya terminal durumdayken ikinci browser run açılmaz.
+- Yaşam döngüsü: `queued → running → done|failed|blocked`; geçici 429/5xx için `retryable` kullanılır.
+- Terminal event `task_id + run_id + status` anahtarıyla yalnız bir kez yönlendirilir.
+- ChatGPT sonucu `messages/shared-inbox.md`, Grok `messages/chatgpt-to-grok.md`, Gemini `messages/inbox-gemini.md`, Meta `messages/inbox-meta.md` üzerinden alır.
+- 401/403 API izin ve 402 kredi/plan engelleri deduplikasyonlu kullanıcı aksiyonu üretir. 429/5xx kullanıcı bildirimi spam'i üretmez.
+- GitHub ortak masa kaynak gerçektir; event bridge yalnız anlamlı durum değişikliklerini taşır.
+- Webhook hızlı yolu ileride eklenebilir; şu anda aktif değildir.
 
 ## Gemini otomatik köprü
 

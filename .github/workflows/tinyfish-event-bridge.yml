@@ -1,0 +1,31 @@
+name: tinyfish-event-bridge
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *'
+
+concurrency:
+  group: tinyfish-event-bridge
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconcile TinyFish lifecycle events
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+        run: python3 scripts/tinyfish_event_bridge.py
+      - name: Commit meaningful deltas
+        run: |
+          git config user.name "tinyfish-event-bridge-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/tinyfish-runs.json state/now.json messages/from-tinyfish.md messages/shared-inbox.md messages/chatgpt-to-grok.md messages/inbox-gemini.md messages/inbox-meta.md messages/user-action-required.md
+          git diff --cached --quiet && exit 0
+          git commit -m "tinyfish-event-bridge: reconcile lifecycle"
+          git pull --rebase origin main
+          git push
