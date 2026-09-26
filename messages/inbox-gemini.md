@@ -33,3 +33,15 @@ project: workspace
 task: correct-stale-workflow-analysis
 prompt: |
   Önceki yanıtındaki iletişim akışı analizini güncel main dosyalarıyla karşılaştır. Önceki yanıtın .github/workflows/gemini-senses.yml yalnızca messages/inbox-gemini.md dinliyor ve chatgpt-to-gemini.md'ye yazılırsa tetiklenmez diyordu. Şu anki dosya ayrıca messages/chatgpt-to-gemini.md ve scripts/route_gemini_inbox.py yollarını dinliyor; workflow'da yönlendirme adımı da var. Güncel dosyaları gerçekten okuyup hangi eski iddiaların yanlış olduğunu belirt, hâlâ kalan somut bir kopukluk varsa kanıtıyla açıkla, yoksa önceki önerini geri çekip doğru tek giriş/rota tarifini ver. Sadece gördüğün dosyaya dayan; dosya değişikliği yapma. Kısa, Türkçe, madde madde yanıtla.
+
+
+## TASK
+status: queued
+id: MSG-20260926-183600-chatgpt-gemini-audit
+from: chatgpt
+to: gemini
+created_at: 2026-09-26T18:36:00+03:00
+project: workspace
+task: communication-system-audit
+prompt: |
+  Furkan: "Eksikleri bulun ve geliştirin Gemini ile." Bu nedenle ekipler arası iletişim sistemini bağımsız denetle. Main'deki güncel TEAM_OPERATING_MODEL.md, PROTOCOL.md, docs/META_AI_BRIDGE.md, Gemini route/workflow/worker, Grok file-desk workflow/worker, Meta worker/workflow ve mesaj kuyruklarının mevcut durumunu incele. En fazla 5 somut eksik/riski önem sırasıyla bildir. Her biri için: kanıt (dosya adı + mümkünse satır/blok), kullanıcı etkisi, en küçük güvenli düzeltme. Özellikle durum iddiaları ile gerçek model yanıtını, consumer sohbet ile API worker'ı, push trigger ile bildirim/polling farkını ayır. İddiaları yalnızca güncel dosya/run kanıtına dayandır; erişemediğin şeyi gördüm deme. Sen dosya değiştirme; ChatGPT uygulayıp test edecek. Gereksiz yeni servis/secret/ücretli çağrı önerme.
