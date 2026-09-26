@@ -30,8 +30,9 @@ jobs:
           import re
           path = Path("messages/inbox-meta.md")
           text = path.read_text(encoding="utf-8") if path.exists() else ""
-          latest_task = text.rsplit("## TASK", 1)[-1]
-          queued = bool(re.search(r"(?im)^status:\s*(queued|ready|open|run)\s*$", latest_task))
+          tasks = re.split(r"(?m)^## TASK[ \t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \t]*status[ \t]*:[ \t]*(queued|ready|open|run)[ \t]*$")
+          queued = any(active.search(task) for task in tasks)
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
               output.write(f"queued={str(queued).lower()}\n")
           PY
