@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T17:42:00+03:00",
+  "updated_at": "2026-09-26T17:50:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-04",
   "owner": "chatgpt",
@@ -12,11 +12,15 @@
     "tinyfish": "fetch-worker-live",
     "grok_bot": "coordinator"
   },
-  "latest_output": "outputs/2026-09-26-core04-gate.md — TinyFish confirms password wall",
+  "latest_output": "outputs/2026-09-26-core04-payment-product-audit.md — payments scope-limited; 3 digital + pet roller verified draft",
   "blocked": ["storefront-password", "payments-unproven"],
   "blockers": ["storefront-password", "payments-unproven"],
   "notes": [
     "TinyFish Fetch live. Storefront is password + Opening soon; no public catalog.",
+    "Shopify read: paymentSettings wallets empty; Shopify Payments account unreadable because connector lacks read_shopify_payments scope. Payment enablement remains unproven.",
+    "Pet roller is DRAFT and no exact EUR 2.99 product exists; current pet roller variants start at EUR 3.71. No write performed.",
+    "SOP EUR 17.90, Food Cost EUR 14.90, Social Kit EUR 9.90 are all DRAFT. No publish performed.",
+    "Next TinyFish storefront/product fetch waits until payments verified + intended products ready; avoid duplicate password-wall fetch.",
     "Pipeline map: knowledge/pipeline-map.md. No CrewAI/n8n.",
     "PayoutLens untouched."
   ],
