@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T01:57:40.779Z",
+  "updated_at": "2026-09-26T02:12:32.158Z",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -8,10 +8,9 @@
       "owner": "team",
       "status": "tracked",
       "project": "research-learning",
-      "notes": "Web, resmi kaynaklar, YouTube/transcript, sosyal/topluluk ve ajan araştırmalarından yararlı bilgileri toplar; doğrular; KNOWLEDGE_LEDGER'a işler; diğer 4 göreve besler.",
-      "lead": "gemini-api",
+      "notes": "Resmi kaynaklar, bağlantılı araçlar ve geçmiş sonuçlardan doğrulanmış öğrenmeleri kaydet; somut göreve uygula. Gemini kullanıcının talimatı üzerine beklemede.",
+      "lead": "chatgpt",
       "backups": [
-        "chatgpt",
         "grok"
       ]
     },
@@ -21,10 +20,9 @@
       "owner": "team",
       "status": "tracked",
       "project": "finance",
-      "notes": "Makro, şirketler, kripto, sektörler ve yatırım eğitimi. ChatGPT doğrulama/sentez; Grok alternatif görüş; Gemini finans YouTube/video kaynakları. Tahmin ile olgu ayrılır.",
+      "notes": "Makro, şirketler, kripto, sektörler ve yatırım eğitimi. ChatGPT doğrulama/sentez; Grok alternatif görüş;  Tahmin ile olgu ayrılır.",
       "lead": "chatgpt",
       "backups": [
-        "gemini-api",
         "grok"
       ]
     },
@@ -34,10 +32,9 @@
       "owner": "team",
       "status": "tracked",
       "project": "content",
-      "notes": "Shorts, kanal stratejisi, kapak/başlık, retention, trend, senaryo ve yayın performansı. Gemini video örnekleri; Grok yaratıcı varyasyon/red-team; ChatGPT sistemleştirir ve uygular.",
+      "notes": "Shorts, kanal stratejisi, kapak/başlık, retention, trend, senaryo ve yayın performansı.  Grok yaratıcı varyasyon/red-team; ChatGPT sistemleştirir ve uygular.",
       "lead": "grok",
       "backups": [
-        "gemini-api",
         "chatgpt"
       ]
     },
@@ -50,8 +47,7 @@
       "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
       "backups": [
-        "grok",
-        "gemini-api"
+        "grok"
       ]
     },
     {
@@ -63,7 +59,6 @@
       "notes": "Tekrarlayan sorunları ekip içinde çözer; küçük araç/script/app geliştirir; darboğazları azaltır; gerçekten gerekli yeni bağlantıları belirler; ajanlar arası handoff'u iyileştirir.",
       "lead": "chatgpt",
       "backups": [
-        "gemini-api",
         "grok"
       ]
     },
@@ -86,5 +81,5 @@
     "PayoutLens repo cerniva/grok-chatgpt-masa ayrı üründür; silinmez veya ortak masa ile karıştırılmaz."
   ],
   "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup.",
-  "execution_note": "CORE görevleri takip başlıklarıdır; kendiliğinden çalışan ajan süreci değildir. Yalnızca Gemini inbox için GitHub Actions tetikleyicisi ve saatlik retry vardır. Diğer işler açık görev/otomasyonla başlar."
+  "execution_note": "CORE başlıkları takip amaçlıdır. Gemini kullanıcının talimatı üzerine beklemede; ChatGPT/Grok uygun somut görevlerde ilerler. Otomatik çalışan sürekli ajan yoktur."
 }
