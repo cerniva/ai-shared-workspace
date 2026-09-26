@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 6,
+    "pending": 0,
     "seen": 1,
     "answered": 25,
-    "delayed": 6
+    "delayed": 12
   },
-  "event_count": 23,
+  "event_count": 29,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -40,12 +40,23 @@
     "MSG-20260927-014300-grok-comms-proof:pending",
     "MSG-20260927-014300-grok-comms-proof-inbox:pending",
     "RPT-20260927-014300-grok-desk-notify-proof:pending",
-    "MSG-20260927-011606-grok-api:delayed"
+    "MSG-20260927-011606-grok-api:delayed",
+    "MSG-20260927-014200-grok-comms-notify:delayed",
+    "MSG-20260927-014200-grok-comms-audit-reply:delayed",
+    "RPT-20260927-014200-grok-desk-notify:delayed",
+    "MSG-20260927-014300-grok-comms-proof:delayed",
+    "MSG-20260927-014300-grok-comms-proof-inbox:delayed",
+    "RPT-20260927-014300-grok-desk-notify-proof:delayed"
   ],
   "new_event_keys": [
-    "MSG-20260927-011606-grok-api:delayed"
+    "MSG-20260927-014200-grok-comms-notify:delayed",
+    "MSG-20260927-014200-grok-comms-audit-reply:delayed",
+    "RPT-20260927-014200-grok-desk-notify:delayed",
+    "MSG-20260927-014300-grok-comms-proof:delayed",
+    "MSG-20260927-014300-grok-comms-proof-inbox:delayed",
+    "RPT-20260927-014300-grok-desk-notify-proof:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-27T01:50:57+03:00"
+  "checked_at": "2026-09-27T02:20:50+03:00"
 }
