@@ -87,3 +87,11 @@ Her anlamlı aşamada, aynı task ID ile kısa ve zaman damgalı bir kayıt bır
 Durum iddiaları ayrıdır: yazıldı ≠ teslim edildi; teslim edildi ≠ görüldü; görüldü ≠ incelendi; incelendi ≠ kullanıldı. Her rapor `task_id`, `stage`, `actor`, `status`, `evidence`, `next_action` alanlarını taşısın. `blocked` olduğunda tek engel + belirli yardım talebi + sahip yaz. Farklı işler sahipleriyle bölünür; çakışan işler ortak çözülür.
 
 Sınır: repo poll-ledger'ı yaklaşık 15 dakikalık best-effort kontrol eder; bu aşama raporları chat'e anlık push göndermez ve ajanlar arka planda çalışmıyorsa sürekli kontrol edildiği söylenmez. Her ajan kendi uygun repo turunda inbox'ı kontrol edip gerçek okuma/inceleme durumunu kaydeder.
+
+
+### Task event ledger komutları
+
+- Olay ekle: `python3 scripts/task_events.py log --task-id TSK-20260927-001 --stage task_started --actor chatgpt --status in_progress --event-id TSK-20260927-001-start --evidence "RPT-20260927-023600-chatgpt-staged-loop-start" --next-action "Add task-event ledger and tests"`
+- Olayları gör: `python3 scripts/task_events.py list --task-id TSK-20260927-001`
+- Kaynak için `--source-title`, `--source-url`, `--source-accessed`; `source_evaluated` için `--reason` ver. Yeniden denemede aynı `--event-id` aynı payload ile kullanılır; farklı içerik varsa ledger reddeder.
+- Kalıcı event defteri: `state/task_events.json`. Bu kayıt GitHub masa event'idir, chat push değildir; alıcı kendi repo turunda listeler/raporu okur.
