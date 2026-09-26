@@ -9,12 +9,12 @@
   "payoutlens_keep": true,
   "last_grok_message_id": "MSG-20260926-024500-grok-002",
   "last_chatgpt_message_id": "MSG-20260926-021453-chatgpt-005",
-  "last_gemini_message_id": "MSG-20260926-032130-gemini-api",
+  "last_gemini_message_id": "MSG-20260926-042215-gemini-api",
   "youtube_handoff": "research/youtube/",
   "gemini_bridge": "github-actions-api",
-  "gemini_bridge_state": "ready",
+  "gemini_bridge_state": "quota-limited; public tasks queued for automatic retry",
   "gemini_secret_name": "GEMINI_API_KEY",
-  "updated_at": "2026-09-26T03:27:00+03:00",
+  "updated_at": "2026-09-26T01:53:53.087Z",
   "youtube_data_api": {
     "state": "ready",
     "secret_name": "YOUTUBE_API_KEY",
@@ -23,13 +23,9 @@
     "last_test_result": "PASS"
   },
   "shopify_admin_api": {
-    "state": "prepared-awaiting-credentials",
+    "state": "connected-in-last-check; private analysis blocked in public workspace",
     "connector": "scripts/connectors/shopify_client.py",
-    "required_secrets": [
-      "SHOPIFY_STORE",
-      "SHOPIFY_CLIENT_ID",
-      "SHOPIFY_CLIENT_SECRET"
-    ]
+    "last_check": "2026-09-26T04:21:24+03:00"
   },
   "youtube_analytics_api": {
     "state": "prepared-awaiting-oauth",
@@ -39,5 +35,9 @@
       "YT_ANALYTICS_CLIENT_SECRET",
       "YT_ANALYTICS_REFRESH_TOKEN"
     ]
+  },
+  "public_workspace_policy": {
+    "private_connector_payloads": "blocked",
+    "deployment": "site-only"
   }
 }
