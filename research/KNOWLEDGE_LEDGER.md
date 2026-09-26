@@ -124,3 +124,14 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** workspace
 - **Son kontrol tarihi:** 2026-09-27
 - **Not:** TinyFish `*/10` cron'u masa bildirimi değildir. Hızlı yol durur; ikinci hub yok.
+
+
+### 2026-09-27 — xAI API 403: takım/izin kapısı
+- **Kaynak:** https://docs.x.ai/developers/debugging (erişim 2026-09-27); https://docs.x.ai/overview (erişim 2026-09-27); repo `.github/workflows/grok-file-desk.yml`, `scripts/grok_senses.py`, `scripts/worker_adapters.py`.
+- **Alan:** provider-reliability
+- **Ne öğrendik:** xAI'nin resmî hata tablosunda HTTP 403, API key/team'in işlem izni olmaması veya team'in bloke olması anlamına gelir; 401 kimlik doğrulama, 404 ise model veya endpoint bulunamamasıdır. Güncel örnek `POST https://api.x.ai/v1/responses`, `Authorization: Bearer ...`, model `grok-4.7` kullanır. Mevcut Action logunda secret değeri GitHub tarafından maskelenmiş, model `grok-4.7`, sonuç 403'tür. Bu kanıt secret değerini görmeyi gerektirmez ve anahtarın hangi team/izne bağlı olduğunu tek başına belirlemez.
+- **Kanıt düzeyi:** doğrulandı (xAI resmî docs + run 36280608297 logu + mevcut workflow/adapter kodu).
+- **Uygulama:** İstek yolu/modeli dokümante edilmiş biçimde; 403'ü kodda körlemesine retry veya model değiştirerek aşmaya çalışma. `grok_senses.py` artık 403 için team/API izinlerini ve team blok durumunu kontrol etmeyi, anahtarı paylaşmamayı açıkça söyler. xAI Console takım erişimi değişmeden API worker'dan başarılı yanıt beklenmemeli.
+- **İlgili proje:** TSK-20260927-001 / CORE-05.
+- **Son kontrol tarihi:** 2026-09-27
+- **Not:** API worker ve Grok consumer sohbeti farklı kanallardır. 403, consumer sohbetinin durumunu göstermez.
