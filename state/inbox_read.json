@@ -36,8 +36,8 @@
   "grok-to-chatgpt": {
     "readers": {
       "chatgpt": {
-        "last_read_at": "2026-09-27T01:42:52+03:00",
-        "last_read_id": "MSG-20260927-014300-grok-comms-proof",
+        "last_read_at": "2026-09-27T02:49:10+03:00",
+        "last_read_id": "MSG-20260927-024910-grok-api",
         "read_by": "chatgpt"
       }
     }
