@@ -32,7 +32,7 @@ jobs:
       - name: Check pending task
         id: pending
         run: |
-          python3 -c 'from pathlib import Path; import os; queued = "status: queued" in Path("messages/inbox-gemini.md").read_text(); open(os.environ["GITHUB_OUTPUT"], "a").write("queued=" + str(queued).lower() + "\n")'
+          python3 -c 'from pathlib import Path; import os,re; text = Path("messages/inbox-gemini.md").read_text(); tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]; active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$"); queued = any(active.search(task) for task in tasks); open(os.environ["GITHUB_OUTPUT"], "a").write("queued=" + str(queued).lower() + "\\n")'
 
       - name: Setup Python
         if: steps.pending.outputs.queued == 'true'
