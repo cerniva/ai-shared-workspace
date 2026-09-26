@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Copy latest actionable chatgpt-to-gemini letter into inbox-gemini.
+"""Route the oldest actionable chatgpt-to-gemini letter not yet in the inbox.
 
-Gemini worker only watches inbox-gemini.md. Letters in chatgpt-to-gemini.md
-never started a run. This keeps one hub: file-desk + existing worker.
+The workflow listens to both the letter file and inbox; this routes messages
+into the worker queue without skipping older open letters.
 """
 from __future__ import annotations
 
@@ -34,29 +34,30 @@ def parse_blocks(text: str) -> list[dict[str, str]]:
     return out
 
 
-def latest_actionable(path: Path) -> dict[str, str] | None:
+def actionable_letters(path: Path) -> list[dict[str, str]]:
     if not path.exists():
-        return None
-    blocks = parse_blocks(path.read_text(encoding="utf-8"))
-    for block in reversed(blocks):
-        if block.get("status", "").lower() in ACTIONABLE:
-            return block
-    return None
+        return []
+    return [
+        block for block in parse_blocks(path.read_text(encoding="utf-8"))
+        if block.get("status", "").lower() in ACTIONABLE
+    ]
 
 
 def inbox_already_has(mid: str) -> bool:
     if not INBOX.exists() or not mid:
         return False
-    return mid in INBOX.read_text(encoding="utf-8")
+    pattern = re.compile(rf"(?m)^id:[ \\t]*{re.escape(mid)}[ \\t]*$")
+    return bool(pattern.search(INBOX.read_text(encoding="utf-8")))
 
 
 def route() -> str:
-    letter = latest_actionable(LETTER)
+    letters = actionable_letters(LETTER)
+    letter = next((item for item in letters if not inbox_already_has(item.get("id", ""))), None)
     if not letter:
+        if letters:
+            return f"noop:already-routed:{letters[0].get('id', '')}"
         return "noop:no-actionable-letter"
     mid = letter["id"]
-    if inbox_already_has(mid):
-        return f"noop:already-routed:{mid}"
     prompt = letter.get("body") or ""
     task = (
         "\n## TASK\n"
