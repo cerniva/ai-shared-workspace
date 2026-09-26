@@ -1,0 +1,6 @@
+site/
+state/connector-health.json
+__pycache__/
+*.pyc
+.env
+.env.*
