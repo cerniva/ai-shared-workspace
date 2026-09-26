@@ -1,0 +1,6 @@
+{
+  "blocked_until": "2026-09-27T15:36:17Z",
+  "reason": "Gemini API returned HTTP 429 for GenerateRequestsPerDayPerModel-FreeTier (limit 20)",
+  "task_id": "MSG-20260926-183600-chatgpt-gemini-audit",
+  "recorded_at": "2026-09-26T15:36:17Z"
+}\n
