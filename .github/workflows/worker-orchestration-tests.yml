@@ -1,0 +1,48 @@
+name: worker-orchestration-tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/work_queue.py'
+      - 'scripts/worker_adapters.py'
+      - 'scripts/worker_runner.py'
+      - 'scripts/review_gate.py'
+      - 'scripts/provider_config.py'
+      - 'scripts/run_worker.py'
+      - 'tests/**'
+      - '.github/workflows/worker-orchestration-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/work_queue.py'
+      - 'scripts/worker_adapters.py'
+      - 'scripts/worker_runner.py'
+      - 'scripts/review_gate.py'
+      - 'scripts/provider_config.py'
+      - 'scripts/run_worker.py'
+      - 'tests/**'
+      - '.github/workflows/worker-orchestration-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit and integration tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Compile check
+        run: python3 -m compileall -q scripts tests
+      - name: Secret-pattern guard
+        shell: bash
+        run: |
+          if grep -RInE '(xai-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|sk-[A-Za-z0-9_-]{20,})' scripts tests state; then
+            echo 'Potential committed secret pattern detected'
+            exit 1
+          fi
