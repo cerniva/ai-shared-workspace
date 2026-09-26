@@ -1,17 +1,34 @@
 {
-  "updated_at": "2026-09-26T02:15:01.405Z",
-  "focus": "commerce-growth",
-  "active_task_id": "TSK-20260926-009",
+  "updated_at": "2026-09-26T05:35:00+03:00",
+  "focus": "payoutlens",
+  "active_task_id": "CORE-05",
   "owner": "team",
+  "operating_mode": "shared-state",
+  "agents": {
+    "chatgpt": "orchestrator-executor",
+    "grok": "research-red-team",
+    "gemini": "google-youtube-verification"
+  },
   "startup": {
     "read": [
       "state/now.json",
+      "state/status.json",
       "tasks/active.json",
+      "knowledge/lessons.md",
       "own channel/inbox: last 2 messages"
     ],
     "message_limit": 2
   },
+  "sync_rules": {
+    "state_is_source_of_truth": true,
+    "read_before_work": true,
+    "write_only_new_delta": true,
+    "no_ack_ping_pong": true,
+    "no_duplicate_research": true,
+    "handoff_requires": ["evidence", "decision", "next_action", "blocker_if_any"]
+  },
   "fast_path": {
+    "single_lead_executes": true,
     "triple_review_only_for": [
       "money",
       "permanent-decision",
