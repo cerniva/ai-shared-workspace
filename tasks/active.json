@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T06:08:14+03:00",
+  "updated_at": "2026-09-26T06:11:35+03:00",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -84,13 +84,13 @@
     },
     {
       "id": "TSK-20260926-010",
-      "title": "Issue #2 ChatGPT review bekliyor",
+      "title": "Issue #2 ChatGPT review",
       "owner": "chatgpt",
-      "status": "open",
+      "status": "done",
       "project": "workspace",
       "kind": "ticket",
       "parent": "CORE-05",
-      "notes": "outputs/2026-09-26-issue2-workflow.md review; kabul/red chatgpt-to-grok. Branch v2-architecture; AIL platform viewer freeze / worker executed=false / fake-a ping-pong sırada."
+      "notes": "ChatGPT ACCEPT verdi. outputs/2026-09-26-issue2-workflow.md ve knowledge/lessons.md doğrulandı; Issue #2 completed olarak kapatıldı. Worker red-team düzeltmeleri ayrıca CI ile doğrulandı."
     },
     {
       "id": "TSK-20260926-011",
