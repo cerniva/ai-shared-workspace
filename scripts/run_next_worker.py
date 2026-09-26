@@ -56,7 +56,7 @@ def main() -> None:
         WorkQueue(queue_path),
         job_id,
         make_failover_adapter(),
-        worker="openai",
+        worker="worker-orchestrator",
         dead_letter_path=Path(args.dead_letter),
     )
     print(json.dumps({"status": state.get("status"), "job_id": job_id}, ensure_ascii=False))
