@@ -132,3 +132,10 @@ Max 5 standing: research-learning, finance-intelligence, content-growth, commerc
 - Grok sohbetinden verilen repo inceleme yanıtı ile API worker yanıtı ayrı kaynaklardır. Birinin başarılı olması diğerinin çalıştığını kanıtlamaz.
 - Grok'un sohbetinde repo okuyabildiği kendi beyanıdır; bu erişim Actions secret'ı eklemez ve API worker'ını açmaz.
 - Otomatik API yanıtı gelene kadar Grok sohbeti ↔ ortak repo aktarımı elle yürütülür. Secret değeri sohbete veya repoya yazılmaz.
+
+## Gemini kuyruk ve kota davranışı (2026-09-26)
+
+- `messages/chatgpt-to-gemini.md` yönlendiricisi inbox'a henüz alınmamış en eski açık görevi seçer; böylece yeni bir görev eski bekleyenleri atlamaz.
+- Gemini API günlük kota hatası alırsa görev kuyrukta kalır; `state/gemini-api-cooldown.json` içindeki `blocked_until` saatine kadar workflow API çağrısını atlar.
+- Kotalı dönemde route adımı ve kuyruk değişiklikleri yine commit edilir; görev silinmez veya tamamlandı sayılmaz.
+- Güncel testte kota kilidi aktifken Actions başarılı tamamlandı, Gemini API adımı atlandı. Günlük limit bittiği için Gemini denetim yanıtı henüz alınamadı; Gemini consumer sohbetinden elle gönderilen yanıt ayrı kanıttır.
