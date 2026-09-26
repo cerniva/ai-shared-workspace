@@ -1,0 +1,36 @@
+name: meta-bridge-auto
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload_b64:
+        description: "base64 encoded Meta message body"
+        required: true
+        type: string
+  repository_dispatch:
+    types: [meta-message]
+
+concurrency:
+  group: meta-bridge-auto
+  cancel-in-progress: false
+
+jobs:
+  append:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ingest
+        env:
+          META_SOURCE: ${{ github.event_name }}
+          META_BODY_B64: ${{ github.event.inputs.payload_b64 || github.event.client_payload.content_b64 }}
+        run: python3 scripts/meta_ingest.py
+      - name: Commit
+        run: |
+          git config user.name "meta-bridge-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add messages/from-meta.md
+          git diff --cached --quiet && exit 0
+          git commit -m "auto: meta-bridge $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

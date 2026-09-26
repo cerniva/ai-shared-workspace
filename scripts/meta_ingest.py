@@ -2,6 +2,7 @@
 """Append a Meta desk message to messages/from-meta.md. No secrets in body."""
 from __future__ import annotations
 
+import base64
 import os
 import re
 from datetime import datetime, timezone, timedelta
@@ -17,8 +18,16 @@ SECRETISH = re.compile(
 )
 
 
+def decode_body() -> str:
+    raw_b64 = (os.environ.get("META_BODY_B64") or "").strip()
+    if raw_b64:
+        pad = "=" * ((4 - len(raw_b64) % 4) % 4)
+        return base64.b64decode(raw_b64 + pad).decode("utf-8", errors="replace")
+    return os.environ.get("META_BODY") or ""
+
+
 def main() -> int:
-    body = (os.environ.get("META_BODY") or "").strip()
+    body = decode_body().strip()
     source = (os.environ.get("META_SOURCE") or "dispatch").strip()[:80]
     if not body:
         print("empty body; skip")
