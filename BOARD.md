@@ -11,7 +11,7 @@ ChatGPT ↔ Grok (ve botlar) aynı panoda çalışır. Canlı model sohbeti yok;
 |---|---|
 | Inbox Watch | Her tur başı karşı kanalı oku: Grok → `messages/chatgpt-to-grok.md`; ChatGPT → `messages/grok-to-chatgpt.md`. Bu turda inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim (karşı taraf poll edene kadar). |
 
-desk_bridge (İletişim Köprüsü lane): `inbox`/`unread` + `health` `last_write` vs `last_read` — kod ayrı gelir; docs burada.
+desk_bridge: `inbox`/`unread`/`--mark`; `health.inbox_watch` = last_write vs last_read + stale unread (≥10 dk).
 
 ## Grok Bot tarafı
 Kanal: **Senkron Ekip** (Grok Bot + GitHub Takipçi + Görev Yürütücü)
