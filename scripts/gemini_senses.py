@@ -44,6 +44,27 @@ def extract_youtube_urls(text: str) -> list[str]:
             clean.append(u)
     return clean[:10]
 
+def public_code_context(spec: str) -> str:
+    """Include only explicitly selected public code; never arbitrary workspace paths."""
+    chunks = []
+    remaining = 16000
+    for raw_path in spec.split(",")[:4]:
+        name = raw_path.strip()
+        parts = Path(name).parts
+        if not name or ".." in parts or Path(name).is_absolute():
+            continue
+        if not name.startswith(("scripts/", ".github/workflows/", "docs/")):
+            continue
+        if Path(name).suffix not in {".py", ".yml", ".yaml", ".md"}:
+            continue
+        body = read(ROOT / name, min(5000, remaining))
+        if body:
+            chunks.append(f"### {name}\\n{body}")
+            remaining -= len(body)
+        if remaining <= 0:
+            break
+    return "\\n\\n".join(chunks)
+
 if not INBOX.exists():
     sys.exit("messages/inbox-gemini.md bulunamadı.")
 
@@ -67,6 +88,7 @@ task_id = field(inbox, "id") or "gemini-task"
 project = field(inbox, "project", "workspace")
 sender = field(inbox, "from", "chatgpt")
 youtube_urls = extract_youtube_urls(inbox)
+code_context = public_code_context(field(inbox, "context_files"))
 
 youtube_data_context = ""
 if youtube_urls:
@@ -93,13 +115,10 @@ if youtube_urls:
 
 team_context = "\n\n".join(
     x for x in [
-        read(ROOT / "TEAM_OPERATING_MODEL.md", 10000),
-        read(ROOT / "PROTOCOL.md", 10000),
-        read(ROOT / "research" / "SOURCES.md", 6000),
-        read(ROOT / "research" / "KNOWLEDGE_LEDGER.md", 8000),
-        read(ROOT / "reports" / "LATEST.md", 12000),
-        read(ROOT / "docs" / "TASK_ROUTING.md", 6000),
-        read(ROOT / "tasks" / "agent_capacity.json", 4000),
+        read(ROOT / "TEAM_OPERATING_MODEL.md", 3500),
+        read(ROOT / "PROTOCOL.md", 7500),
+        read(ROOT / "research" / "SOURCES.md", 2000),
+        read(ROOT / "research" / "KNOWLEDGE_LEDGER.md", 2500),
     ] if x
 )
 
@@ -112,6 +131,9 @@ ORTAK BAĞLAM:
 
 GÖREV:
 {inbox}
+
+SEÇİLEN HALKA AÇIK KOD BAĞLAMI:
+{code_context}
 
 YOUTUBE DATA API BAĞLAMI:
 {youtube_data_context}
