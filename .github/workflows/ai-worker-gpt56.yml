@@ -7,7 +7,7 @@ on:
       - 'state/work_queue.json'
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '*/15 * * * *'
 
 concurrency:
   group: ai-worker-gpt56
