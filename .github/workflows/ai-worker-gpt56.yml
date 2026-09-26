@@ -32,9 +32,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run one queued job
-        run: python3 scripts/run_next_worker.py
+        run: python3 -m scripts.run_next_worker
       - name: Health snapshot
-        run: python3 scripts/worker_health.py > state/worker_health.json
+        run: python3 -m scripts.worker_health > state/worker_health.json
       - name: Persist worker delta
         shell: bash
         run: |
