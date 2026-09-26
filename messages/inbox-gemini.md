@@ -47,3 +47,5 @@ prompt: |
   Furkan: "Eksikleri bulun ve geliştirin Gemini ile." Bu nedenle ekipler arası iletişim sistemini bağımsız denetle. Main'deki güncel TEAM_OPERATING_MODEL.md, PROTOCOL.md, docs/META_AI_BRIDGE.md, Gemini route/workflow/worker, Grok file-desk workflow/worker, Meta worker/workflow ve mesaj kuyruklarının mevcut durumunu incele. En fazla 5 somut eksik/riski önem sırasıyla bildir. Her biri için: kanıt (dosya adı + mümkünse satır/blok), kullanıcı etkisi, en küçük güvenli düzeltme. Özellikle durum iddiaları ile gerçek model yanıtını, consumer sohbet ile API worker'ı, push trigger ile bildirim/polling farkını ayır. İddiaları yalnızca güncel dosya/run kanıtına dayandır; erişemediğin şeyi gördüm deme. Sen dosya değiştirme; ChatGPT uygulayıp test edecek. Gereksiz yeni servis/secret/ücretli çağrı önerme.
 
 <!-- cooldown gate verification -->
+
+<!-- verify cooldown queue commit -->
