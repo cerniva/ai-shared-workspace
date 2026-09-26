@@ -121,7 +121,8 @@ GENEL ÇIKTI KURALLARI:
 - Yaratıcı görevde birden fazla güçlü alternatif üretmekten çekinme.
 - Eleştiri görevi verilirse zayıf noktaları açıkça belirt.
 - Bir görevi mevcut erişimlerinle tamamlayamıyorsan sessiz kalma ve genel cevapla geçiştirme.
-- Eksik olan şey bir bağlantı, API, hesap izni, veri kaynağı veya secret ise cevabında zorunlu olarak şu bölümü ekle:
+- Önce verilen bağlamda mevcut bağlantının durumunu kontrol et. Kısa süreli API hatası, kota, kod hatası veya isteğe bağlı ek veri için kullanıcıdan yeni anahtar ya da kurulum isteme; mevcut işle sürdürülebilen sonucu ver ve teknik hatayı ekibe bildir.
+- Yalnızca bu görev için gerçekten vazgeçilmez, mevcut araçlarla karşılanamayan bir insan girişi/izin/secret gerektiğinde şu bölümü ekle:
 
 ## BAĞLANTI GEREKİYOR
 - Servis / uygulama:
@@ -177,6 +178,9 @@ for attempt, delay in enumerate([0, 5, 15, 30], start=1):
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")[:4000]
         last_error = f"Gemini API HTTP {exc.code} hatası:\n\n{body}"
+        # A daily quota is not fixed by four rapid calls; retry on a later run.
+        if exc.code == 429 and "GenerateRequestsPerDayPerProjectPerModel" in body:
+            break
         if exc.code not in (429, 500, 502, 503, 504):
             break
         print(f"geçici Gemini hatası {exc.code}; deneme {attempt}/4")
@@ -185,7 +189,10 @@ for attempt, delay in enumerate([0, 5, 15, 30], start=1):
         print(f"Gemini çağrı hatası; deneme {attempt}/4")
 
 if data is None:
-    reply = last_error or "Gemini API başarısız oldu."
+    # Keep queued tasks intact so scheduled runs can retry without human intervention.
+    # An API error must not be recorded as completed work.
+    print(last_error or "Gemini API başarısız oldu.", file=sys.stderr)
+    sys.exit(1)
 else:
     candidates = data.get("candidates") or []
     bits = []
