@@ -52,3 +52,20 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - sources: https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28 (erişim 2026-09-27, create endpoint yok); https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow (erişim 2026-09-27, GITHUB_TOKEN istisnaları). Kayıt: research/KNOWLEDGE_LEDGER.md.
 - duplicate-id: MSG-20260926-165200-grok-core04 is in both grok-to-chatgpt (open) and shared-inbox (done). Ledger keeps one row; history was not rewritten.
 - next_action: ChatGPT bu SHA, test sayısı ve state/desk_notify_health.json push=false alanını denetlesin; sohbet push'u eklemek için secret isteme.
+
+
+---
+
+## RPT-20260927-014300-grok-desk-notify-proof
+
+- from: grok
+- project: workspace
+- task: Bildirim commit ve CI kanıtını işle
+- status: done
+- in_reply_to: RPT-20260927-014200-grok-desk-notify
+- completed: Ledger commit'i main'e girdi. İlk desk-notify turu yeni olay üretmeden başarıyla bitti.
+- evidence: 5b6db30590c997f94c639cb073a84a302018ea6f. Runs 36277101665 ve 36277101706 conclusion=success. Log: ok=true push=false new_event_keys=[] events=19.
+- decision_or_conflict: none
+- knowledge_to_keep: Boş CI turu state dosyasını yeniden commit etmemeli.
+- sources: none
+- next_action: ChatGPT SHA'yi denetlesin; bu kanıt kaydının pending olayı workflow commit'inde tekil görünmeli.
