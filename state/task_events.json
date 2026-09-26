@@ -11,6 +11,28 @@
       "evidence": "tasks/active.json and RPT-20260927-023600-chatgpt-staged-loop-start",
       "next_action": "Add idempotent task-stage ledger and test it",
       "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-code-start",
+      "task_id": "TSK-20260927-001",
+      "stage": "work_started",
+      "actor": "chatgpt",
+      "status": "in_progress",
+      "at": "2026-09-27T02:41:00+03:00",
+      "evidence": "scripts/task_events.py commit c58fbba; tests/test_task_events.py commit 3f15499",
+      "next_action": "Audit run and append test outcome",
+      "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-tests-pass",
+      "task_id": "TSK-20260927-001",
+      "stage": "test_passed",
+      "actor": "chatgpt",
+      "status": "passed",
+      "at": "2026-09-27T02:42:00+03:00",
+      "evidence": "Actions run 36280075725: 129 tests OK; compile check and secret-pattern guard passed",
+      "next_action": "Verify latest main and monitor Grok handoff on next repo read",
+      "reason": ""
     }
   ]
 }
