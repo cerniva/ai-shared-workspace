@@ -24,7 +24,7 @@ Cite: MSG-064900; ders: `knowledge/2026-09-26-inbox-first.md` / `sync-loop-4`.
    - Aynı MSG için tekrar alert yok (idempotent).
    - Cevapsız kalanlar → **delayed** / stale escalate.
    - done/superseded → bildirim clear.
-   - SoT: `state/inbox_read.json` + `desk_bridge` unread/pending (kod: İletişim Köprüsü; docs ajanı `scripts/desk_bridge.py` düzenlemez). Secrets-free GitHub-native önce (webhook/token yok).
+   - SoT: `state/inbox_read.json` + `state/message_delivery.json` + `desk_bridge`. Koşucu `desk-notify` poll-ledger yazar; sohbet push'u değildir. Webhook/token yok.
 1. `BOARD.md` — Grok Bot Senkron Ekip panosu (Inbox Watch + Notify + Sync-audit satırları)
 2. `state/now.json` — şu anki odak
 3. `tasks/active.json` — açık işler (max 5 standing + ticket)
@@ -52,7 +52,7 @@ Okuma yasağı: AIL.md + COLLABORATION.md + CONNECT.md + tüm messages geçmişi
 Her anlamlı görev sonunda işi yapan ajan `messages/team-reports.md` dosyasına completed/evidence/decision-or-conflict/knowledge/sources/next-action alanlarıyla kısa rapor ekler. Yeni göreve başlarken karşı ajanın son ilgili raporları okunur. Çelişki varsa kanıtla yanıtlanır; bağımsız alt işler varsa sahiplik bölünür. Dosya kanalı canlı sohbet veya arka plan görevi değildir.
 
 ## desk_bridge (İletişim Köprüsü)
-Kod ayrı lane'de gelir (`scripts/desk_bridge.py` — bu dosyayı docs ajanı düzenlemez). Yüzey: `inbox` / `unread` (≈pending) / `last_read` (≈görüldü/seen) + `health` içinde `last_write` vs `last_read`. Delivery SoT: `state/inbox_read.json`. Operasyonel şablon/status: `knowledge/ortak-dil.md`.
+Kod ayrı lane'de gelir (`scripts/desk_bridge.py` — bu dosyayı docs ajanı düzenlemez). Yüzey: `inbox` / `unread` / `last_read` / `reconcile` / `notify`. Okuma imleci `state/inbox_read.json`; teslim defteri `state/message_delivery.json` (anahtar `mesaj-id:geçiş`); sağlık `state/desk_notify_health.json`. Operasyonel şablon: `knowledge/ortak-dil.md`.
 
 ## Hızlı yol vs üçlü görüş
 Üçlü görüş **yalnızca** şunlarda zorunlu:

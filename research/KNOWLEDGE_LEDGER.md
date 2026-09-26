@@ -114,3 +114,13 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** CORE-05 / workspace
 - **Son kontrol tarihi:** 2026-09-26
 - **Not:** İleride kullanıcı yeniden isterse mevcut köprü ayrıca değerlendirilebilir.
+
+### 2026-09-27 — Masa bildirimi poll-ledger, sohbet push değil
+- **Kaynak:** https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28 (erişim 2026-09-27); https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow (erişim 2026-09-27); repo `scripts/desk_bridge.py`, `.github/workflows/grok-file-desk.yml`, `.github/workflows/tinyfish-event-bridge.yml`
+- **Alan:** other
+- **Ne öğrendik:** GitHub Notifications REST API bildirim yaratmaz, yalnız listeler/okundu işaretler. `GITHUB_TOKEN` ile açılan olaylar `workflow_dispatch` ve `repository_dispatch` dışında yeni workflow başlatmaz. PAT bir secret olur; istenmez. Bu yüzden secretsiz gerçek sohbet push'u yok. Çalışan yol, mesaj kimliği + geçiş anahtarıyla tekilleştirilmiş `state/message_delivery.json` defteri ve `desk-notify` koşucusudur.
+- **Kanıt düzeyi:** doğrulandı (doküman + repo dosyaları; sohbet push testi yapılmadı)
+- **Uygulama:** Yeni rapor pending, okuma seen, blocked olmayan yanıt answered, geciken okuma/ask tek delayed. `push=false` health kaydı olmadan canlı push iddia etme. `XAI_API_KEY` eksikliği Grok sohbetini kapatmaz; grok-api blocked yanıt üst ask'i answered yapmaz.
+- **İlgili proje:** workspace
+- **Son kontrol tarihi:** 2026-09-27
+- **Not:** TinyFish `*/10` cron'u masa bildirimi değildir. Hızlı yol durur; ikinci hub yok.

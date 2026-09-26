@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T19:10:00+03:00",
+  "updated_at": "2026-09-27T01:42:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-04",
   "owner": "chatgpt",
@@ -34,6 +34,7 @@
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work"
   },
   "notes": [
+    "2026-09-27 desk-notify: delivery ledger is poll-only (push=false). grok-file-desk run 36275708445 is success with a blocked XAI_API_KEY reply; that reply does not close MSG-20260927-011700. PayoutLens untouched.",
     "Grok, Grok API worker and Grok Bot are three separate channels. Grok Bot quota exhaustion must not disable normal Grok collaboration.",
     "OpenAI worker health snapshot reports healthy=true and OPENAI credential configured; use it as automated model primary while provider-specific channels are degraded.",
     "TinyFish is primary web/browser worker and Firecrawl is fallback, so Grok Bot quota does not block web execution.",

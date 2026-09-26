@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import json
 import re
 import tempfile
 import unittest
@@ -47,15 +48,21 @@ class DeskBridgeTests(unittest.TestCase):
         }
         self._orig_inbox_path = db.INBOX_READ_PATH
         self._orig_delivery_path = db.DELIVERY_PATH
+        self._orig_health_path = db.HEALTH_PATH
+        self._orig_team_path = db.TEAM_REPORTS_PATH
         self.state_dir = self.base / "state"
         self.state_dir.mkdir()
         db.INBOX_READ_PATH = self.state_dir / "inbox_read.json"
         db.DELIVERY_PATH = self.state_dir / "message_delivery.json"
+        db.HEALTH_PATH = self.state_dir / "desk_notify_health.json"
+        db.TEAM_REPORTS_PATH = self.msg_dir / "team-reports.md"
 
     def tearDown(self):
         db.CHANNELS = self._orig
         db.INBOX_READ_PATH = self._orig_inbox_path
         db.DELIVERY_PATH = self._orig_delivery_path
+        db.HEALTH_PATH = self._orig_health_path
+        db.TEAM_REPORTS_PATH = self._orig_team_path
         self.tmp.cleanup()
 
     def test_grok_bot_alias_accepted(self):
@@ -420,6 +427,167 @@ class DeskBridgeTests(unittest.TestCase):
         text = db.format_delivery()
         self.assertIn("pending=", text)
         self.assertIn("delivery_total=", text)
+        self.assertIn("push=false", text)
+
+    def test_reconcile_dedupes_pending_seen_answered_and_blocks_do_not_answer(self):
+        db.CHANNELS["shared-inbox"] = (self.msg_dir / "shared-inbox.md", None, "team")
+        ask = "\n".join([
+            "---",
+            "id: MSG-ASK",
+            "from: chatgpt",
+            "to: grok",
+            "in_reply_to: null",
+            "created_at: " + db.now_tr().isoformat(timespec="seconds"),
+            "project: workspace",
+            "status: open",
+            "---",
+            "",
+            "intent: comms | ask",
+            "next-action: implement",
+            "",
+        ])
+        (self.msg_dir / "chatgpt-to-grok.md").write_text("# c\n" + ask, encoding="utf-8")
+        first = db.reconcile_delivery()
+        self.assertIn("MSG-ASK:pending", first["new_event_keys"])
+        second = db.reconcile_delivery()
+        self.assertEqual(second["new_event_keys"], [])
+        db.mark_inbox_read("chatgpt-to-grok", reader="grok")
+        seen = db.load_delivery_state()
+        self.assertEqual(seen["messages"]["MSG-ASK"]["status"], "seen")
+        self.assertIn("grok", seen["messages"]["MSG-ASK"]["seen_by"])
+        seen_events = [e for e in seen["events"] if e["key"] == "MSG-ASK:seen"]
+        self.assertEqual(len(seen_events), 1)
+        self.assertEqual(seen_events[0]["notify"], "chatgpt")
+        self.assertFalse(seen_events[0]["push"])
+        db.mark_inbox_read("chatgpt-to-grok", reader="grok")
+        self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["key"] == "MSG-ASK:seen"]), 1)
+        blocked = "\n".join([
+            "---",
+            "id: MSG-BLOCK",
+            "from: grok-api",
+            "to: chatgpt",
+            "in_reply_to: MSG-ASK",
+            "created_at: " + db.now_tr().isoformat(timespec="seconds"),
+            "project: workspace",
+            "status: blocked",
+            "---",
+            "",
+            "intent: grok-api | blocked",
+            "blocker_if_any: missing XAI_API_KEY",
+            "",
+        ])
+        (self.msg_dir / "grok-to-chatgpt.md").write_text("# g\n" + blocked, encoding="utf-8")
+        db.reconcile_delivery()
+        self.assertNotEqual(db.load_delivery_state()["messages"]["MSG-ASK"]["status"], "answered")
+        cross = "\n".join([
+            "---",
+            "id: MSG-CROSS",
+            "from: chatgpt",
+            "to: team",
+            "in_reply_to: MSG-ASK",
+            "created_at: " + db.now_tr().isoformat(timespec="seconds"),
+            "project: workspace",
+            "status: open",
+            "---",
+            "",
+            "intent: audit | ask",
+            "",
+        ])
+        (self.msg_dir / "shared-inbox.md").write_text("# s\n" + cross, encoding="utf-8")
+        db.reconcile_delivery()
+        self.assertNotEqual(db.load_delivery_state()["messages"]["MSG-ASK"]["status"], "answered")
+        reply = "\n".join([
+            "---",
+            "id: MSG-REPLY",
+            "from: grok",
+            "to: chatgpt",
+            "in_reply_to: MSG-ASK",
+            "created_at: " + db.now_tr().isoformat(timespec="seconds"),
+            "project: workspace",
+            "status: done",
+            "---",
+            "",
+            "intent: comms-notify | info",
+            "decision: poll ledger",
+            "",
+        ])
+        (self.msg_dir / "grok-to-chatgpt.md").write_text("# g\n" + blocked + reply, encoding="utf-8")
+        third = db.reconcile_delivery()
+        self.assertEqual(db.load_delivery_state()["messages"]["MSG-ASK"]["status"], "answered")
+        self.assertIn("MSG-ASK:answered", third["new_event_keys"])
+        again = db.reconcile_delivery()
+        self.assertNotIn("MSG-ASK:answered", again["new_event_keys"])
+        self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["key"] == "MSG-ASK:delayed"]), 0)
+
+    def test_delayed_warns_once_and_info_seen_does_not_escalate(self):
+        old = (db.now_tr() - dt.timedelta(minutes=50)).isoformat(timespec="seconds")
+        text = "\n".join([
+            "# g",
+            "---",
+            "id: MSG-OLD-ASK",
+            "from: grok",
+            "to: chatgpt",
+            "in_reply_to: null",
+            "created_at: " + old,
+            "project: workspace",
+            "status: open",
+            "---",
+            "",
+            "intent: payments-read | ask",
+            "",
+            "---",
+            "id: MSG-INFO",
+            "from: grok",
+            "to: chatgpt",
+            "in_reply_to: null",
+            "created_at: " + db.now_tr().isoformat(timespec="seconds"),
+            "project: workspace",
+            "status: open",
+            "---",
+            "",
+            "intent: note | info",
+            "",
+        ])
+        (self.msg_dir / "grok-to-chatgpt.md").write_text(text, encoding="utf-8")
+        summary = db.reconcile_delivery()
+        self.assertIn("MSG-OLD-ASK:delayed", summary["new_event_keys"])
+        self.assertNotIn("MSG-OLD-ASK:pending", summary["new_event_keys"])
+        self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["message_id"] == "MSG-OLD-ASK"]), 1)
+        db.reconcile_delivery()
+        self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["key"] == "MSG-OLD-ASK:delayed"]), 1)
+        db.mark_inbox_read("grok-to-chatgpt", reader="chatgpt")
+        info = db.load_delivery_state()["messages"]["MSG-INFO"]
+        self.assertEqual(info["status"], "seen")
+        self.assertFalse(info["needs_reply"])
+        state = db.load_delivery_state()
+        state["messages"]["MSG-INFO"]["pending_at"] = old
+        db.save_delivery_state(state)
+        db.refresh_delayed(older_than_minutes=30)
+        self.assertEqual(db.load_delivery_state()["messages"]["MSG-INFO"]["status"], "seen")
+        code = db.reconcile_main()
+        self.assertEqual(code, 0)
+        health = json.loads(db.HEALTH_PATH.read_text(encoding="utf-8"))
+        self.assertTrue(health["ok"])
+        self.assertFalse(health["push"])
+        self.assertFalse(health["push_tested_to_chat"])
+        self.assertIn("poll-ledger", health["transport"])
+
+    def test_team_report_pending_then_seen_without_reply_demand(self):
+        created = db.now_tr().strftime("%Y%m%d-%H%M")
+        (self.msg_dir / "team-reports.md").write_text(
+            "# reports\n\n## RPT-" + created + "-chatgpt-protocol\n\n"
+            "- from: chatgpt\n- status: done\n- in_reply_to: none\n- completed: protocol\n",
+            encoding="utf-8",
+        )
+        summary = db.reconcile_delivery()
+        rid = "RPT-" + created + "-chatgpt-protocol"
+        self.assertIn(rid + ":pending", summary["new_event_keys"])
+        event = next(e for e in db.load_delivery_state()["events"] if e["message_id"] == rid)
+        self.assertEqual(event["notify"], "team")
+        self.assertFalse(event["push"])
+        db.mark_inbox_read("team-reports", reader="grok")
+        self.assertEqual(db.load_delivery_state()["messages"][rid]["status"], "seen")
+        self.assertEqual(len([e for e in db.load_delivery_state()["events"] if e["key"] == rid + ":seen"]), 1)
 
 
 if __name__ == "__main__":

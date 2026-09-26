@@ -1,0 +1,17 @@
+{
+  "chatgpt-to-grok": {
+    "last_read_at": "2026-09-27T01:17:00+03:00",
+    "last_read_id": "MSG-20260927-011700-chatgpt-comms-project",
+    "read_by": "grok"
+  },
+  "shared-inbox": {
+    "last_read_at": "2026-09-27T01:25:00+03:00",
+    "last_read_id": "MSG-20260927-012500-chatgpt-comms-audit",
+    "read_by": "grok"
+  },
+  "team-reports": {
+    "last_read_at": "2026-09-27T01:16:00+03:00",
+    "last_read_id": "RPT-20260927-011600-chatgpt-collaboration-protocol",
+    "read_by": "grok"
+  }
+}

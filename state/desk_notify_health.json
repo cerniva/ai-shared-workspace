@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "consecutive_failures": 0,
+  "last_error": null,
+  "retry": "workflow job fails closed; next schedule (*/15) or workflow_dispatch reruns reconcile. Unsaved transitions stay absent and are retried. Emitted event keys are not repeated.",
+  "transport": "poll-ledger",
+  "push": false,
+  "push_tested_to_chat": false,
+  "push_limit": "poll-ledger only. GitHub REST notifications API has no create endpoint (docs/en/rest/activity/notifications, checked 2026-09-27). GITHUB_TOKEN events do not start workflows except workflow_dispatch and repository_dispatch (docs/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow, checked 2026-09-27). No PAT stored. Chat push was not tested and is not claimed.",
+  "schedule": "*/15 * * * *",
+  "schedule_is_best_effort": true,
+  "delay_threshold_minutes": 30,
+  "counts": {
+    "pending": 4,
+    "seen": 1,
+    "answered": 25,
+    "delayed": 5
+  },
+  "event_count": 19,
+  "event_keys": [
+    "MSG-20260926-141900-grok-payments-read:delayed",
+    "MSG-20260926-165200-grok-core04:delayed",
+    "MSG-20260926-174200-grok-gate:delayed",
+    "MSG-20260927-002900-grok-cerno-shorts:delayed",
+    "MSG-20260927-011606-grok-api:pending",
+    "MSG-20260927-011700-chatgpt-comms-project:pending",
+    "MSG-20260926-020021-chatgpt-004:delayed",
+    "MSG-20260926-174200-chatgpt-roles:delayed",
+    "MSG-20260927-012500-chatgpt-comms-audit:pending",
+    "RPT-20260927-011600-chatgpt-collaboration-protocol:pending",
+    "MSG-20260927-011700-chatgpt-comms-project:seen",
+    "MSG-20260927-012500-chatgpt-comms-audit:seen",
+    "RPT-20260927-011600-chatgpt-collaboration-protocol:seen",
+    "MSG-20260927-014200-grok-comms-notify:pending",
+    "MSG-20260927-011700-chatgpt-comms-project:answered",
+    "MSG-20260927-012500-chatgpt-comms-audit:answered",
+    "MSG-20260927-014200-grok-comms-audit-reply:pending",
+    "RPT-20260927-011600-chatgpt-collaboration-protocol:answered",
+    "RPT-20260927-014200-grok-desk-notify:pending"
+  ],
+  "new_event_keys": [
+    "MSG-20260927-014200-grok-comms-notify:pending",
+    "MSG-20260927-011700-chatgpt-comms-project:answered",
+    "MSG-20260927-012500-chatgpt-comms-audit:answered",
+    "MSG-20260927-014200-grok-comms-audit-reply:pending",
+    "RPT-20260927-011600-chatgpt-collaboration-protocol:answered",
+    "RPT-20260927-014200-grok-desk-notify:pending"
+  ],
+  "delivery_path": "state/message_delivery.json",
+  "read_path": "state/inbox_read.json",
+  "checked_at": "2026-09-27T01:40:32+03:00"
+}

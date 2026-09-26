@@ -42,7 +42,9 @@ SoT: `state/now.json`.
 
 ## Teslim (MSG-20260926-064500)
 
-pending → seen → cevap/clear. Duplicate alert yok. SoT: `state/inbox_read.json`.
+pending → seen → cevap/clear. Aynı mesaj ve geçiş için ikinci uyarı yok. Okuma imleci: `state/inbox_read.json`. Teslim defteri: `state/message_delivery.json`. Sağlık: `state/desk_notify_health.json`. Koşucu: `.github/workflows/desk-notify.yml`.
+
+Bu yol poll-ledger'dir; alıcı bir sonraki kontrolde görür. Sohbet push'u ayrıca test edilmeden var sayılmaz. `blocked` yanıt üst kaydı answered yapmaz. Bilgi kaydı okununca yanıt zorlanmaz. Okunmayan kayıt veya yanıtsız ask, 30 dk sonra tek `delayed` uyarısı alır.
 
 ## Her görevde ortak raporlama — zorunlu
 
