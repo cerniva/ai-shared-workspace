@@ -46,13 +46,16 @@ class DeskBridgeTests(unittest.TestCase):
             ),
         }
         self._orig_inbox_path = db.INBOX_READ_PATH
+        self._orig_delivery_path = db.DELIVERY_PATH
         self.state_dir = self.base / "state"
         self.state_dir.mkdir()
         db.INBOX_READ_PATH = self.state_dir / "inbox_read.json"
+        db.DELIVERY_PATH = self.state_dir / "message_delivery.json"
 
     def tearDown(self):
         db.CHANNELS = self._orig
         db.INBOX_READ_PATH = self._orig_inbox_path
+        db.DELIVERY_PATH = self._orig_delivery_path
         self.tmp.cleanup()
 
     def test_grok_bot_alias_accepted(self):
@@ -123,6 +126,7 @@ class DeskBridgeTests(unittest.TestCase):
                 "x",
                 status="wip",
             )
+        self.assertIn("invalid status", str(ctx.exception))
 
     def test_latest_and_open(self):
         db.append_message(
@@ -377,5 +381,55 @@ class DeskBridgeTests(unittest.TestCase):
         self.assertIn("unread_total=0", out2)
 
 
+    def test_delivery_pending_seen_answered(self):
+        mid = db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "notify me", status="open"
+        )
+        st = db.load_delivery_state()["messages"][mid]
+        self.assertEqual(st["status"], "pending")
+        self.assertTrue(st["alerted"])
+        again = db.mark_delivery("chatgpt-to-grok", mid, "pending")
+        self.assertEqual(again["status"], "pending")
+        db.mark_inbox_read("chatgpt-to-grok")
+        self.assertEqual(db.load_delivery_state()["messages"][mid]["status"], "seen")
+        reply = db.append_message(
+            "grok-to-chatgpt",
+            "grok",
+            "chatgpt",
+            "reply body",
+            status="open",
+            in_reply_to=mid,
+        )
+        msgs = db.load_delivery_state()["messages"]
+        self.assertEqual(msgs[mid]["status"], "answered")
+        self.assertEqual(msgs[reply]["status"], "pending")
+
+    def test_delivery_delayed_and_health(self):
+        mid = db.append_message(
+            "grok-to-chatgpt", "grok", "chatgpt", "aging ask", status="open"
+        )
+        state = db.load_delivery_state()
+        old = (db.now_tr() - dt.timedelta(minutes=45)).isoformat(timespec="seconds")
+        state["messages"][mid]["pending_at"] = old
+        state["messages"][mid]["updated_at"] = old
+        db.save_delivery_state(state)
+        delayed = db.refresh_delayed(older_than_minutes=30)
+        self.assertIn(mid, delayed)
+        self.assertEqual(db.load_delivery_state()["messages"][mid]["status"], "delayed")
+        health = db.channel_health("grok-to-chatgpt")
+        self.assertIn("delivery", health)
+        self.assertTrue(any(p.startswith("delivery_delayed:") for p in health["problems"]))
+        self.assertFalse(health["healthy"])
+
+    def test_format_delivery(self):
+        db.append_message(
+            "chatgpt-to-grok", "chatgpt", "grok", "fmt delivery", status="open"
+        )
+        text = db.format_delivery()
+        self.assertIn("pending=", text)
+        self.assertIn("delivery_total=", text)
+
+
 if __name__ == "__main__":
     unittest.main()
+
