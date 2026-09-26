@@ -243,6 +243,56 @@ class SecretGuardedAdapter(WorkerAdapter):
         raise NotImplementedError
 
 
+class OpenAIAdapter(SecretGuardedAdapter):
+    provider = "openai"
+
+    def __init__(
+        self,
+        api_key: str | None,
+        model: str = "gpt-5.6-sol",
+        *,
+        reasoning_effort: str = "medium",
+        transport: Transport | None = None,
+        timeout: float = 90.0,
+    ):
+        super().__init__(api_key, model, transport=transport, timeout=timeout)
+        self.reasoning_effort = reasoning_effort
+
+    def _request(self, job: dict[str, Any]) -> dict[str, Any]:
+        started = datetime.now(UTC)
+        tick = perf_counter()
+        response = self.transport(
+            "https://api.openai.com/v1/responses",
+            {"Authorization": f"Bearer {self.api_key}"},
+            {
+                "model": self.model,
+                "input": _prompt(job),
+                "reasoning": {"effort": self.reasoning_effort},
+                "store": False,
+            },
+            self.timeout,
+        )
+        text = ""
+        for output in response.get("output", []):
+            if output.get("type") != "message":
+                continue
+            for part in output.get("content", []):
+                if part.get("type") == "output_text":
+                    text += str(part.get("text", ""))
+        if not text:
+            raise NonRetryableProviderError("openai response contained no output_text")
+        parsed = _parse_json_text(text)
+        return _normalized_from_payload(
+            parsed,
+            provider=self.provider,
+            model=str(response.get("model") or self.model),
+            job_id=job["id"],
+            started=started,
+            duration_ms=int((perf_counter() - tick) * 1000),
+            usage=response.get("usage") if isinstance(response.get("usage"), dict) else {},
+        )
+
+
 class GrokAdapter(SecretGuardedAdapter):
     provider = "grok"
 
