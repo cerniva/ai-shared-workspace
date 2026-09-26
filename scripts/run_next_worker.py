@@ -5,7 +5,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from scripts.provider_config import make_adapter
+from scripts.provider_config import make_failover_adapter
 from scripts.work_queue import WorkQueue, _parse
 from scripts.worker_runner import run_job
 
@@ -55,7 +55,7 @@ def main() -> None:
     state = run_job(
         WorkQueue(queue_path),
         job_id,
-        make_adapter("openai"),
+        make_failover_adapter(),
         worker="openai",
         dead_letter_path=Path(args.dead_letter),
     )
