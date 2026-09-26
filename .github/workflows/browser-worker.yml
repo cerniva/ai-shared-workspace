@@ -38,7 +38,7 @@ jobs:
         run: python -m json.tool task.json
       - name: Execute browser actions
         run: python browser_worker/worker.py task.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: ai-browser-worker-${{ github.run_id }}
