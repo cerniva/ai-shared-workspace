@@ -10,7 +10,7 @@ Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
 Format: her görev bu şablonda. Append-only, son kayıt en altta.
 
 ## TASK
-status: queued
+status: blocked
 id: CORE-05-META-CAPABILITY-PLAN-20260926
 from: chatgpt
 to: meta
@@ -20,4 +20,4 @@ task: multi-agent-automation-plan
 prompt: |
   Furkan asks the four assistants to plan requirements for a real AI automation system. Review the provided Meta AI share proposal and the existing repo bridge context if available. Assess only what your actual API can do; do not claim browser access unless verified. Report: existing pieces, what the Meta AI web share does not provide, safe minimal architecture, exact blockers/user actions. No code changes, no secrets, no PayoutLens, no Shopify writes.
 
-# Re-trigger after the API secret was added (2026-09-26).
+blocker: Meta Model API returned HTTP 402 billing_not_configured; billing verification failed. Requeue only after billing is verified in Meta dashboard.
