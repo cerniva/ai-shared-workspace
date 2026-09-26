@@ -44,7 +44,7 @@ jobs:
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Compile check
-        run: find scripts tests -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
+        run: find scripts tests browser_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
       - name: Secret-pattern guard
         shell: bash
         run: |
