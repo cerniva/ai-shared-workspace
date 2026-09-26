@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T02:12:32.158Z",
+  "updated_at": "2026-09-26T02:14:55.712Z",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -71,6 +71,16 @@
       "kind": "ticket",
       "parent": "CORE-05",
       "notes": "DESK 60 saniye başlangıç, state/now odak, hızlı yol protokolü ve masa durum senkronizasyonu tamamlandı."
+    },
+    {
+      "id": "TSK-20260926-009",
+      "title": "SOP dijital teslim dosyası eşleşmesini düzelt",
+      "owner": "chatgpt",
+      "status": "blocked",
+      "project": "shopify",
+      "kind": "ticket",
+      "parent": "CORE-04",
+      "notes": "SOP ürününe Reels Hooks ZIP bağlanmış. Doğru SOP PDF+DOCX ZIP kütüphanede doğrulandı. Mevcut Shopify aracı yanlış dosyayı kaldırma işlemini desteklemiyor; yanlış ek kaldırılıp doğru dosya bağlandıktan sonra teslim tekrar okunmalı. Ürün draft kalmalı."
     }
   ],
   "completed_setup": [
