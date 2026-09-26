@@ -9,6 +9,7 @@ from: chatgpt
 project: workspace
 use_shopify: false
 use_youtube_analytics: false
+context_files: scripts/gemini_senses.py, scripts/enrich_context.py, .github/workflows/gemini-senses.yml
 url:
 prompt: |
   Ortak çalışma sisteminin halka açık kod ve protokol katmanını ikinci gözle incele.
