@@ -4,13 +4,13 @@ Worker: `.github/workflows/meta-senses.yml` → `scripts/meta_senses.py`
 Çıkış: `messages/from-meta.md`
 Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
 
-Çalışması için gövde satırı: `status: blocked` veya `status: open`.
+Çalışması için gövde satırı: `status: queued` veya `status: open`.
 İş yokken: `status: idle`
 
 Format: her görev bu şablonda. Append-only, son kayıt en altta.
 
 ## TASK
-status: queued
+status: blocked
 id: CORE-05-META-CAPABILITY-PLAN-20260926
 from: chatgpt
 to: meta
