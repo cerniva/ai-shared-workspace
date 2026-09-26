@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-09-26T06:00:00+03:00",
-  "focus": "grok-chatgpt-bridge",
+  "updated_at": "2026-09-26T06:05:00+03:00",
+  "focus": "issue-2-deliverable + help-chatgpt",
   "active_task_id": "CORE-05",
-  "owner": "team",
+  "owner": "chatgpt",
   "operating_mode": "shared-state",
   "agents": {
     "chatgpt": "orchestrator-executor",
@@ -13,6 +13,13 @@
     "gorev_yurutucu": "task-executor"
   },
   "grok_bot_channel": "Senkron Ekip",
+  "latest_output": "outputs/2026-09-26-issue2-workflow.md",
+  "blocked": [
+    {
+      "id": "TSK-20260926-009",
+      "note": "Shopify SOP wrong ZIP; ChatGPT owns fix without new OAuth"
+    }
+  ],
   "startup": {
     "read": [
       "BOARD.md",
@@ -45,10 +52,5 @@
       "conflict",
       "explicit-second-opinion"
     ]
-  },
-  "focus_return": "core-work",
-  "focus_return_when": "grok-chatgpt-bridge-done",
-  "protected_projects": [
-    "payoutlens"
-  ]
+  }
 }
