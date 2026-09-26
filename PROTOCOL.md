@@ -78,7 +78,7 @@ Gemini API köprüsü **genel amaçlıdır**.
 8. ChatGPT/Grok sonucu okuyup doğrular, karşılaştırır ve uygular.
 
 Gerekli secret: `GEMINI_API_KEY`.
-Secret hiçbir zaman repo veya sohbet içine yazılmaz.
+Secret hiçbir zaman repo veya sohbet içine yazılmaz. Bu repo herkese açıktır: özel Shopify/YouTube Analytics verisi ve bu verilerden üretilen yanıtlar burada işlenmez. Özel veri görevleri private çalışma alanı kurulana kadar bloke edilir; yeni anahtar isteyerek bu engel aşılmaz.
 
 ## Kullanıcı talimatı paylaşımı
 
