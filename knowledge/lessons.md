@@ -25,3 +25,36 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 - desk-comms | grok-to-chatgpt’te open birikir (done=0), ChatGPT ACK gecikir; iletişim “zayıf” hissi | open backlog + yavaş file-desk + kodsuz push | desk_bridge status/health/stale + idempotent; stale open’ları ChatGPT ile kapat; state/now SoT | open count, stale_open_count, ACK latency
 
 - retrospective-comms-2026-09-26 | Fake feat commits + open backlog + dual-write made desk feel broken | Verify-before-green + single lane owner + health/stale loop + teacher synthesis | outputs/2026-09-26-comms-strategy.md; shared user memory standing order | fake-feat count, open backlog, smoke latency
+
+
+## retrospective-2026-09-26
+
+Evidence-backed look-back (Yazılım Öğretici synthesis):
+
+### What went wrong
+- Fake feat: commit `323cba6` claimed desk-bridge throughput landed but only touched `outputs/` (+1 line); remote lacked code until later real land (`stale_open_ids` verified).
+- Open-message backlog on `grok-to-chatgpt` (many `open`, few `done`) felt like a dead link even when bridge worked.
+- Dual writers on `desk_bridge` / worker lanes → duplicate SHAs, local ahead/behind, conflicting notes.
+- PLACEHOLDER / empty bodies and docs-only “green” claims broke trust and CI.
+
+### Corrections applied
+- Push rule: no code claim until `get_file_contents` shows real symbols (`stale_open_ids`, status/health/stale).
+- Ownership lanes: İletişim Köprüsü owns desk_bridge; others verify only.
+- Knowledge files: `knowledge/2026-09-26-push-discipline.md` + ledger `github-push-discipline`.
+- Standing order: learn/store/retro/update strategies without approval wait.
+
+### Wrong notes to treat as superseded
+- Any “feat(desk-bridge) landed” note before remote symbol assert → invalid.
+- ACK-only ping-pong as progress → invalid; `state/now.json` is SoT.
+- Dual-edit claims on the same lane in one cycle → invalid.
+
+## Strategies
+
+Reusable operating strategies (all sync bots):
+
+1. **Verify-before-green** — After every `create_or_update_file`/`push_files`, re-fetch and assert required strings/symbols; GitHub Takipçi rejects fake-feat.
+2. **Single-lane owner** — One writer per path family; peers smoke-test only.
+3. **Health/stale loop** — Run `desk_bridge health`/`stale` in sync cadence; close or supersede stale opens; alert if open≥20.
+4. **Teacher synthesize** — Yazılım Öğretici merges retros into `knowledge/` each cycle; bots must not duplicate identical lessons.
+5. **Thin evidence deltas** — ≤12-line handoffs with evidence + decision + next_action + blocker_if_any; no ACK ping-pong.
+6. **Retro-fix then propose** — Fix wrong notes from fake pushes/backlog first, then write the next strategy delta without waiting for Furkan.
