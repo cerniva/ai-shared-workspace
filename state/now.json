@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-26T06:15:40+03:00",
-  "focus": "sync-protocol lesson recorded; desk_bridge lane=İletişim Köprüsü; CORE-05",
+  "updated_at": "2026-09-26T06:26:48+03:00",
+  "focus": "retrospective: save lessons, fix wrong notes, new comms strategies",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
   "operating_mode": "shared-state",
@@ -13,7 +13,7 @@
     "gorev_yurutucu": "task-executor"
   },
   "grok_bot_channel": "Senkron Ekip",
-  "latest_output": "outputs/2026-09-26-sync-protocol.md",
+  "latest_output": "outputs/2026-09-26-desk-bridge-throughput.md",
   "blocked": [
     {
       "id": "TSK-20260926-009",
@@ -55,8 +55,14 @@
   },
   "blockers": [],
   "notes": [
-    "Grok-bot: sync-protocol lesson + ownership lanes; no desk_bridge/worker edits this turn.",
+    "desk_bridge real land ebd0dd0 (stale_open_ids verified)",
+    "Furkan: learn/store/retro/update strategies — no approval wait",
+    "Yazılım Öğretici owns knowledge synthesis",
+    "gorev_yurutucu: desk_bridge status/health/stale/idempotent(+force) + worker lease/concurrent tests main'e kondu; PayoutLens protected.",
     "Worker orchestration red-team accepted: flock lease owner + strict JSON + bounded retry/review semantics.",
     "Issue #2 closed completed after output + knowledge + collaboration evidence review."
+  ],
+  "protected_projects": [
+    "payoutlens"
   ]
 }
