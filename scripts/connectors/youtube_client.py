@@ -14,10 +14,11 @@ class YouTubeDataError(RuntimeError):
 def _get(path: str, params: dict) -> dict:
     if not API_KEY:
         raise YouTubeDataError("YOUTUBE_API_KEY secret eksik.")
-    q = dict(params)
-    q["key"] = API_KEY
-    url = f"{BASE}/{path}?{urllib.parse.urlencode(q, doseq=True)}"
-    req = urllib.request.Request(url, headers={"Accept": "application/json"})
+    url = f"{BASE}/{path}?{urllib.parse.urlencode(params, doseq=True)}"
+    req = urllib.request.Request(url, headers={
+        "Accept": "application/json",
+        "x-goog-api-key": API_KEY,
+    })
     try:
         with urllib.request.urlopen(req, timeout=90) as r:
             return json.loads(r.read().decode("utf-8"))
