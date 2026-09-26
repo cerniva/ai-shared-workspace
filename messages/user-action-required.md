@@ -25,7 +25,7 @@ id: ACTION-20260926-032050-YTTEST1
 source: gemini-api
 task: YTTEST1
 created_at: 2026-09-26T03:20:50+03:00
-status: open
+status: resolved
 ---
 
 # Rapor: Görev YTTEST1 (YouTube Video & API Analizi)
