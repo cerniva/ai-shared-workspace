@@ -7,6 +7,7 @@ on:
       - 'scripts/shared_web_worker.py'
       - 'tests/test_tinyfish_senses.py'
       - 'tests/test_firecrawl_fallback.py'
+      - '.github/workflows/firecrawl-fallback.yml'
       - '.github/workflows/web-worker-tests.yml'
   push:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - 'scripts/shared_web_worker.py'
       - 'tests/test_tinyfish_senses.py'
       - 'tests/test_firecrawl_fallback.py'
+      - '.github/workflows/firecrawl-fallback.yml'
       - '.github/workflows/web-worker-tests.yml'
 
 jobs:
