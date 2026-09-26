@@ -6,7 +6,7 @@ Secret: `TINYFISH_API_KEY` (sohbete yazılmaz)
 Mod: fetch-only. Agent/Browser/login/publish yok.
 
 ## TASK
-status: queued
+status: done
 id: CORE-04-TF-STOREFRONT-20260926
 from: grok
 to: tinyfish
@@ -17,3 +17,5 @@ prompt: |
   Public storefront fetch only. Report password wall vs catalog. No login, no click, no payment.
 
 worker_note: retry after TINYFISH_API_KEY setup
+
+worker_note: fetch ok
