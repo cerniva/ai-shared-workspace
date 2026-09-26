@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TinyFish fetch worker. Read-only. No login, publish, or paid Agent runs."""
+"""TinyFish shared web worker: free Fetch by default, explicit guarded browser mode."""
 from __future__ import annotations
 
 import json
@@ -49,6 +49,48 @@ def urls_from(block: str) -> list[str]:
         if host in ALLOWED_HOSTS or host.endswith(".myshopify.com"):
             clean.append(url.rstrip(")]."))
     return clean
+
+
+def multiline_field(block: str, name: str) -> str:
+    m = re.search(rf"(?im)^{re.escape(name)}:\s*\|\s*$", block)
+    if not m:
+        return field(block, name)
+    lines = []
+    for line in block[m.end():].splitlines():
+        if not line.strip():
+            if lines:
+                lines.append("")
+            continue
+        if not re.match(r"^\s+", line):
+            break
+        lines.append(re.sub(r"^\s{1,2}", "", line))
+    return "\n".join(lines).strip()
+
+
+def parse_task(block: str) -> dict[str, object]:
+    return {
+        "id": field(block, "id") or f"TF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}",
+        "requested_by": (field(block, "from") or "chatgpt").lower(),
+        "mode": (field(block, "mode") or "fetch").lower(),
+        "urls": urls_from(block),
+        "url": field(block, "url"),
+        "goal": multiline_field(block, "goal"),
+        "status": (field(block, "status") or "").lower(),
+    }
+
+
+def validate_task(task: dict[str, object]) -> tuple[bool, str]:
+    mode = str(task.get("mode", "fetch"))
+    if mode not in {"fetch", "browser"}:
+        return False, f"unsupported mode: {mode}"
+    if mode == "fetch" and not task.get("urls"):
+        return False, "fetch requires at least one allowlisted URL"
+    if mode == "browser":
+        if not task.get("url"):
+            return False, "browser requires url"
+        if not task.get("goal"):
+            return False, "browser requires goal"
+    return True, ""
 
 
 def append_action(reason: str) -> None:
