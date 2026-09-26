@@ -23,6 +23,17 @@ class NextWorkerTests(unittest.TestCase):
             ]}), encoding="utf-8")
             self.assertEqual(select_job(path), "high")
 
+    def test_retryable_failure_respects_exponential_cooldown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "queue.json"
+            path.write_text(json.dumps({"version": 1, "items": [{
+                "id": "rate-limited", "worker": "openai", "status": "retryable_failed",
+                "priority": 100, "attempt_count": 2,
+                "failed_at": "2026-09-26T01:00:00+00:00"
+            }]}), encoding="utf-8")
+            self.assertIsNone(select_job(path, now=datetime(2026, 9, 26, 1, 29, tzinfo=timezone.utc)))
+            self.assertEqual(select_job(path, now=datetime(2026, 9, 26, 1, 30, tzinfo=timezone.utc)), "rate-limited")
+
     def test_expired_lease_is_reclaimable(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "queue.json"
