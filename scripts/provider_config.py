@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from collections.abc import Mapping
 
-from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential, OpenAIAdapter, RetryableProviderError
+from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MetaAdapter, MissingCredential, OpenAIAdapter, RetryableProviderError
 
 
 class ConfigError(RuntimeError):
@@ -32,6 +32,11 @@ def make_adapter(provider: str, *, env: Mapping[str, str] | None = None):
         if not key or not key.strip():
             raise MissingCredential("gemini API credential is missing")
         return GeminiAdapter(api_key=key, model=values.get("GEMINI_MODEL", "gemini-3.6-flash"))
+    if provider == "meta":
+        key = values.get("META_MODEL_API_KEY")
+        if not key or not key.strip():
+            raise MissingCredential("meta API credential is missing")
+        return MetaAdapter(api_key=key, model=values.get("META_MODEL", "muse-spark-1.3"))
     raise ConfigError(f"unknown provider: {provider}")
 
 
@@ -62,6 +67,8 @@ def make_failover_adapter(*, env: Mapping[str, str] | None = None):
         adapters.append(make_adapter("grok", env=values))
     if values.get("GEMINI_API_KEY", "").strip():
         adapters.append(make_adapter("gemini", env=values))
+    if values.get("META_MODEL_API_KEY", "").strip():
+        adapters.append(make_adapter("meta", env=values))
     if not adapters:
         raise MissingCredential("no AI provider credential is configured")
     return FailoverAdapter(adapters)
