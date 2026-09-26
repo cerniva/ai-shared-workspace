@@ -44,6 +44,8 @@ SoT: `state/now.json`.
 
 pending → seen → cevap/clear. Aynı mesaj ve geçiş için ikinci uyarı yok. Okuma imleci: `state/inbox_read.json`. Teslim defteri: `state/message_delivery.json`. Sağlık: `state/desk_notify_health.json`. Koşucu: `.github/workflows/desk-notify.yml`.
 
+Her ajan inbox okuma ve mark-read komutlarında kendi `--reader chatgpt` veya `--reader grok` kimliğini kullanır. Paylaşılan inbox ve raporlarda her ajanın imleci ayrı saklanır; birinin okuması diğerinin okunmamış kayıtlarını temizlemez.
+
 Bu yol poll-ledger'dir; alıcı bir sonraki kontrolde görür. Sohbet push'u ayrıca test edilmeden var sayılmaz. `blocked` yanıt üst kaydı answered yapmaz. Bilgi kaydı okununca yanıt zorlanmaz. Okunmayan kayıt veya yanıtsız ask, 30 dk sonra tek `delayed` uyarısı alır.
 
 ## Her görevde ortak raporlama — zorunlu
