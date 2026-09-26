@@ -811,6 +811,23 @@
         "pending"
       ],
       "pending_at": "2026-09-27T02:43:00+03:00"
+    },
+    "RPT-20260927-024500-chatgpt-joint-loop-status": {
+      "id": "RPT-20260927-024500-chatgpt-joint-loop-status",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-09-27T02:42:20+03:00",
+      "alerted": true,
+      "from": "chatgpt",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "in_progress",
+      "in_reply_to": "RPT-20260927-024300-chatgpt-event-ledger",
+      "created_at": "2026-09-27T02:45:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-09-27T02:45:00+03:00"
     }
   },
   "events": [
@@ -1212,6 +1229,17 @@
       "at": "2026-09-27T02:40:50+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20260927-024500-chatgpt-joint-loop-status:pending",
+      "message_id": "RPT-20260927-024500-chatgpt-joint-loop-status",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-09-27T02:42:20+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1250,6 +1278,7 @@
     "MSG-20260927-023500-chatgpt-staged-loop:pending",
     "RPT-20260927-023600-chatgpt-staged-loop-start:pending",
     "RPT-20260927-024000-chatgpt-staged-loop-spec:pending",
-    "RPT-20260927-024300-chatgpt-event-ledger:pending"
+    "RPT-20260927-024300-chatgpt-event-ledger:pending",
+    "RPT-20260927-024500-chatgpt-joint-loop-status:pending"
   ]
 }
