@@ -1,0 +1,49 @@
+name: ai-worker-gpt56
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'state/work_queue.json'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+concurrency:
+  group: ai-worker-gpt56
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: gpt-5.6-sol
+      OPENAI_REASONING_EFFORT: medium
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run one queued job
+        run: python3 scripts/run_next_worker.py
+      - name: Health snapshot
+        run: python3 scripts/worker_health.py > state/worker_health.json
+      - name: Persist worker delta
+        shell: bash
+        run: |
+          if git diff --quiet -- state/work_queue.json state/dead_letter.json state/worker_health.json; then
+            exit 0
+          fi
+          git config user.name "ai-worker-bot"
+          git config user.email "ai-worker-bot@users.noreply.github.com"
+          git add state/work_queue.json state/dead_letter.json state/worker_health.json
+          git commit -m "worker: persist queue and health delta"
+          git pull --rebase origin main
+          git push origin HEAD:main
