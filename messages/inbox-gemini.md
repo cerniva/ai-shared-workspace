@@ -3,10 +3,16 @@
 Bu dosya Gemini API için genel amaçlı görev kutusudur.
 
 ## TASK
-status: idle
-id: SHOPIFYTEST3
-from: system
+status: queued
+id: CORE-04-GEMINI-RETRY-20260926
+from: chatgpt
 project: commerce
+use_shopify: true
 url:
 prompt: |
-  Son görev işlendi: MSG-20260926-042215-gemini-api
+  Mevcut Shopify bağlantısının sağladığı mağaza ve ürün verilerini incele.
+  Ürünlerin satışa açılmasını engelleyen somut eksikleri ve ekip tarafından
+  doğrudan çözülebilen adımları kısa bir öncelik listesiyle bildir.
+  Yeni API anahtarı veya kullanıcı kurulumu istemeden önce mevcut bağlantı
+  sağlık durumunu ve verilen veriyi kontrol et. Shopify'da değişiklik yapma.
+  Kota/servis hatası varsa bunu kullanıcı aksiyonu gibi sunma.
