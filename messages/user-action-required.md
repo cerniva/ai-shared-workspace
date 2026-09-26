@@ -108,3 +108,23 @@ status: open
 - Öncelik: yüksek (iletişim hattı)
 - Geçici alternatif: meta-ingest Action ile elle yapıştırma
 
+---
+id: ACTION-20260926-163229-meta-api-key
+source: meta-worker
+task: CORE-05-META-CAPABILITY-PLAN-20260926
+created_at: 2026-09-26T16:32:29+03:00
+status: open
+---
+
+## BAĞLANTI GEREKİYOR
+- Servis / uygulama: Meta Model API (Muse Spark)
+- Neden gerekli: Grok/ChatGPT ile Meta arasında otomatik masa hattı
+- Hangi veriyi / yeteneği kazandırır: inbox-meta queued → from-meta yazma
+- Bağlantı türü: GitHub Secret
+- Kullanıcıdan gereken işlem: dev.meta.ai → API keys → Create; repo Settings → Secrets → Actions → `META_MODEL_API_KEY`
+- Gerekli secret / izin adı: META_MODEL_API_KEY
+- Kurulum adımları: key'i bir kez kopyala, secret'a koy, sohbete yazma; sonra inbox-meta status: queued
+- Ücretsiz / ücretli: Meta Model API ücretli olabilir (dashboard)
+- Öncelik: yüksek (iletişim hattı)
+- Geçici alternatif: meta-ingest Action ile elle yapıştırma
+

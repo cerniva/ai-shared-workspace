@@ -31,3 +31,19 @@ evidence: 4 kişi; ücretsiz yol
 decision: rapor→oku→ledger→çöz veya neden
 next-action: Grok ACK yazıldı (from-grok + RPT-001)
 blocker_if_any: none
+
+---
+id: MSG-20260926-163229-meta-need-key
+from: meta-worker
+to: team
+created_at: 2026-09-26T16:32:29+03:00
+project: workspace
+status: blocked
+---
+
+intent: connection | blocked
+evidence: META_MODEL_API_KEY / MODEL_API_KEY Actions secret yok.
+decision: Consumer meta.ai sohbetine hat yok. İletişim yalnız Model API worker ile.
+next-action: Furkan https://dev.meta.ai dashboard'dan key alıp repo Actions secret `META_MODEL_API_KEY` eklesin. Key'i sohbete yapıştırma.
+blocker_if_any: secret missing
+
