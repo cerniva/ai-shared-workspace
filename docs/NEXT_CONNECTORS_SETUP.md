@@ -1,5 +1,7 @@
 # Shopify Admin API + YouTube Analytics API Setup
 
+> Güvenlik durumu: Bu repo herkese açıktır. Özel Shopify/YouTube Analytics verisini public Gemini çıktılarına yazmamak için worker bu bayrakları public repoda durdurur. Kimlik bilgileri mevcut olsa bile özel veri analizi için ayrı bir private çalışma alanı ve orada sonuç saklama yolu kurulmalıdır. Sırları veya refresh tokenı görev dosyalarına yazmayın.
+
 ## Shopify Admin API
 
 Worker connector: `scripts/connectors/shopify_client.py`
