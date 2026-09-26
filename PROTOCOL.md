@@ -124,3 +124,11 @@ Max 5 standing: research-learning, finance-intelligence, content-growth, commerc
 - Meta çıkışı: `messages/from-meta.md`.
 - Karar / `main` merge: ChatGPT.
 - SoT: `state/now.json`.
+
+## Grok file-desk durumu (2026-09-26)
+
+- `.github/workflows/grok-file-desk.yml` → `scripts/grok_senses.py` dosya kuyruğu worker'ıdır; canlı model-model sohbeti veya anlık bildirim değildir.
+- Retry run başarılı çalıştı ve import sorunu giderildi. Ancak çıktı `XAI_API_KEY` GitHub Actions secret'ı eksik olduğundan `blocked` oldu; otomatik Grok model yanıtı alınmadı.
+- Grok sohbetinden verilen repo inceleme yanıtı ile API worker yanıtı ayrı kaynaklardır. Birinin başarılı olması diğerinin çalıştığını kanıtlamaz.
+- Grok'un sohbetinde repo okuyabildiği kendi beyanıdır; bu erişim Actions secret'ı eklemez ve API worker'ını açmaz.
+- Otomatik API yanıtı gelene kadar Grok sohbeti ↔ ortak repo aktarımı elle yürütülür. Secret değeri sohbete veya repoya yazılmaz.
