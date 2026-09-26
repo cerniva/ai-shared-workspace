@@ -10,22 +10,12 @@ Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
 Format: her görev bu şablonda. Append-only, son kayıt en altta.
 
 ## TASK
-status: idle
-id:
-from:
-to: meta
-created_at:
-project: workspace
-task:
-prompt: |
-  (şu an görev yok. Test için aşağıdaki bloğu doldur, status: queued yap.)
-
----
-## örnek
-id: TASK-001
+status: queued
+id: CORE-05-META-CAPABILITY-PLAN-20260926
 from: chatgpt
 to: meta
-created_at: 2026-09-26
-task:
-status: idle
----
+created_at: 2026-09-26T15:54:00+03:00
+project: workspace
+task: multi-agent-automation-plan
+prompt: |
+  Furkan asks the four assistants to plan requirements for a real AI automation system. Review the provided Meta AI share proposal and the existing repo bridge context if available. Assess only what your actual API can do; do not claim browser access unless verified. Report: existing pieces, what the Meta AI web share does not provide, safe minimal architecture, exact blockers/user actions. No code changes, no secrets, no PayoutLens, no Shopify writes.
