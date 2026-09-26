@@ -128,3 +128,18 @@ status: open
 - Öncelik: yüksek (iletişim hattı)
 - Geçici alternatif: meta-ingest Action ile elle yapıştırma
 
+
+---
+id: ACTION-20260926-140326-tinyfish
+source: tinyfish-worker
+status: open
+created_at: 2026-09-26T14:03:26.541293+00:00
+---
+
+## BAĞLANTI GEREKİYOR
+- Servis: TinyFish Fetch API
+- Secret adı: TINYFISH_API_KEY
+- Nereye: GitHub → cerniva/ai-shared-workspace → Settings → Secrets → Actions
+- Anahtar: agent.tinyfish.ai/api-keys (sohbete yapıştırma)
+- Neden: TINYFISH_API_KEY missing; fetch skipped.
+- ChatGPT plugin OAuth şart değil; masa worker yeterli.
