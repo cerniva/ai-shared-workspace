@@ -7,7 +7,7 @@ id: ACTION-20260926-030500-youtube-data-api
 source: chatgpt
 task: CORE-03
 created_at: 2026-09-26T03:05:00+03:00
-status: open
+status: resolved
 ---
 
 ## BAĞLANTI GEREKİYOR
