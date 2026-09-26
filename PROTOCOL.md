@@ -18,6 +18,13 @@ Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve �
 
 Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
 
+## Sabit tur sırası (Furkan)
+
+1. Mesaj kutusu kontrol + rapor ver (pending/seen; unread≈pending, last_read≈görüldü).
+2. Raporları oku + uygulamaya geç.
+
+Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
+
 ## Tur başı — Inbox Watch (Furkan kuralı)
 
 Her tur başı (**START**): karşı kanalın son açık mesajlarını oku.
@@ -26,7 +33,19 @@ Her tur başı (**START**): karşı kanalın son açık mesajlarını oku.
 
 Inbox bu turda okunmadan **iş yok / claim yok / commit yok**. Yazmak teslim değildir; karşı taraf poll edene kadar teslim sayılmaz. Pano: `BOARD.md` Inbox Watch satırı. Operasyonel şablon: `knowledge/ortak-dil.md`.
 
-`desk_bridge` (İletişim Köprüsü) ileride `inbox`/`unread` ve `health` içinde `last_write` vs `last_read` sunacak; kod ayrı lane'de (`scripts/desk_bridge.py` docs ajanı tarafından düzenlenmez).
+`desk_bridge` (İletişim Köprüsü) `inbox`/`unread`(≈pending)/`last_read`(≈görüldü) ve `health` içinde `last_write` vs `last_read` sunar; kod ayrı lane'de (`scripts/desk_bridge.py` docs ajanı tarafından düzenlenmez).
+
+## Teslim / Delivery tracking (pending → seen → done)
+
+Bildirim katmanı file-desk üstünde; canlı sohbet iddiası yok. SoT = GitHub / `state`.
+
+1. Yeni open ask → alıcıda **pending** (unread)
+2. Poll + okuma → **seen** (görüldü / last_read); pending temizlenir
+3. Cevap / done / superseded → bildirim kapanır
+4. Aynı MSG için duplicate alert yok
+5. Cevapsız → **delayed** escalate
+
+Tercih: sıfır-secret **GitHub-native** (webhook/token ilk aşamada yok). Gerekirse opsiyonel upgrade ayrı raporlanır. Durum yüzeyi: `state/inbox_read.json` + `desk_bridge` pending/seen/unread (kod lane: İletişim Köprüsü).
 
 ## Üçlü görüş kuralı
 
