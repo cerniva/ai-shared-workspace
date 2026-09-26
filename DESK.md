@@ -73,3 +73,17 @@ Diğer işler: tek ajan + kısa not. Bloklama yok. Meta üçlü görüşe dahil 
 
 ## Kullanıcıya dönme eşiği
 Sadece secret, ödeme, hesap girişi, fiziksel eylem veya Meta yapıştırma. "Erişemiyorum" yetmez.
+
+
+## Aşamalı görev raporlama (TSK-20260927-001)
+Her anlamlı aşamada, aynı task ID ile kısa ve zaman damgalı bir kayıt bırak; raporları `messages/team-reports.md` içine ekle. Her küçük edit için ayrı rapor üretme; yeni kanıt, durum, engel, karar veya handoff olduğunda raporla.
+
+1. **Başla:** task ID, amaç, sahibi, kapsam ve tek sonraki adım.
+2. **Araştır:** araştırma başlangıcı; kaynağı bulunca başlık/URL/yayın ve erişim tarihi; okuyup doğrulayınca bulgu/kanıt. Bilgi karşı tarafa iletildiyse mesaj/rapor ID'sini ver.
+3. **Karşı taraf işlemi:** yalnızca gerçek inbox okuması `seen` sayılır. Ardından `reviewed` (incelendi), `used` veya `not_used` + kısa gerekçe ayrı raporlanır. Sırf dosyaya yazıldı diye görülmüş/okunmuş varsayılmaz.
+4. **Uygula ve yardım:** işe başlama, bağımsız alt görev sahipliği, engel/yardım talebi (kime, hangi kanıt, beklenen çıktı), çözümü başlatma ve sonucu ayrı kilometre taşı olarak yaz.
+5. **Öğren ve kapat:** işe yarayan/yaramayan kaynağı ve nedenini `research/KNOWLEDGE_LEDGER.md` içine ekle; test/çıktı kanıtı, karar, kalan engel ve sonraki adımla tamamlanma raporu ver.
+
+Durum iddiaları ayrıdır: yazıldı ≠ teslim edildi; teslim edildi ≠ görüldü; görüldü ≠ incelendi; incelendi ≠ kullanıldı. Her rapor `task_id`, `stage`, `actor`, `status`, `evidence`, `next_action` alanlarını taşısın. `blocked` olduğunda tek engel + belirli yardım talebi + sahip yaz. Farklı işler sahipleriyle bölünür; çakışan işler ortak çözülür.
+
+Sınır: repo poll-ledger'ı yaklaşık 15 dakikalık best-effort kontrol eder; bu aşama raporları chat'e anlık push göndermez ve ajanlar arka planda çalışmıyorsa sürekli kontrol edildiği söylenmez. Her ajan kendi uygun repo turunda inbox'ı kontrol edip gerçek okuma/inceleme durumunu kaydeder.
