@@ -43,6 +43,21 @@ class RouteGeminiInboxTests(unittest.TestCase):
         self.assertIn("MSG-test-1", text)
         self.assertEqual(route.route(), "noop:already-routed:MSG-test-1")
 
+    def test_older_unrouted_letter_is_not_starved_by_newer_routed_letter(self):
+        route.LETTER.write_text(
+            "\n---\nid: MSG-old\nfrom: chatgpt\nto: gemini\nstatus: open\n---\n\nold task\n"
+            "\n---\nid: MSG-new\nfrom: chatgpt\nto: gemini\nstatus: open\n---\n\nnew task\n",
+            encoding="utf-8",
+        )
+        route.INBOX.write_text(
+            "# Inbox\n\n## TASK\nstatus: idle\nid: none\n"
+            "\n## TASK\nstatus: queued\nid: MSG-new\n",
+            encoding="utf-8",
+        )
+        result = route.route()
+        self.assertEqual(result, "routed:MSG-old")
+        self.assertIn("id: MSG-old", route.INBOX.read_text(encoding="utf-8"))
+
     def test_done_letter_noop(self):
         route.LETTER.write_text(
             "\n---\nid: MSG-done\nfrom: chatgpt\nto: gemini\nstatus: done\n---\n\nold\n",
