@@ -6,6 +6,19 @@ on:
         description: "Tell the AI what to do in the browser"
         required: true
         type: string
+      allowed_hosts:
+        description: "Comma-separated hostnames this run may visit (for example, example.com)"
+        required: true
+        default: "example.com"
+        type: string
+      execution_mode:
+        description: "Read-only by default; interactive enables named low-impact clicks and fills"
+        required: true
+        default: "read_only"
+        type: choice
+        options:
+          - read_only
+          - interactive
 permissions:
   contents: read
 jobs:
@@ -13,13 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: gpt-5.6-sol
-      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-      XAI_MODEL: grok-4.7
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GEMINI_MODEL: gemini-3.8-flash
       BROWSER_OBJECTIVE: ${{ inputs.objective }}
+      BROWSER_ALLOWED_HOSTS: ${{ inputs.allowed_hosts }}
+      BROWSER_EXECUTION_MODE: ${{ inputs.execution_mode }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v7
@@ -29,6 +38,13 @@ jobs:
       - run: python -m playwright install --with-deps chromium
       - name: AI plans browser actions
         shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-5.6-sol
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          XAI_MODEL: grok-4.7
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-3.8-flash
         run: |
           if ! python browser_worker/ai_planner.py > task.json; then
             echo "AI providers unavailable; using local fallback planner" >&2
