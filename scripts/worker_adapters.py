@@ -326,6 +326,40 @@ class GrokAdapter(SecretGuardedAdapter):
         )
 
 
+class MetaAdapter(SecretGuardedAdapter):
+    """Meta Model API research worker; no browser or site actions."""
+    provider = "meta"
+
+    def _request(self, job: dict[str, Any]) -> dict[str, Any]:
+        started = datetime.now(UTC)
+        tick = perf_counter()
+        response = self.transport(
+            "https://api.meta.ai/v1/responses",
+            {"Authorization": f"Bearer {self.api_key}"},
+            {"model": self.model, "input": _prompt(job)},
+            self.timeout,
+        )
+        text = ""
+        for output in response.get("output", []):
+            if output.get("type") != "message":
+                continue
+            for part in output.get("content", []):
+                if part.get("type") == "output_text":
+                    text += str(part.get("text", ""))
+        if not text:
+            raise NonRetryableProviderError("meta response contained no output_text")
+        parsed = _parse_json_text(text)
+        return _normalized_from_payload(
+            parsed,
+            provider=self.provider,
+            model=str(response.get("model") or self.model),
+            job_id=job["id"],
+            started=started,
+            duration_ms=int((perf_counter() - tick) * 1000),
+            usage=response.get("usage") if isinstance(response.get("usage"), dict) else {},
+        )
+
+
 class GeminiAdapter(SecretGuardedAdapter):
     provider = "gemini"
 
