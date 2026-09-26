@@ -10,6 +10,7 @@ from scripts.worker_adapters import (
     GrokAdapter,
     MissingCredential,
     MockAdapter,
+    MetaAdapter,
     OpenAIAdapter,
     NonRetryableProviderError,
     _parse_json_text,
@@ -62,6 +63,23 @@ class WorkerAdapterTests(unittest.TestCase):
         with self.assertRaises(MissingCredential):
             adapter.run(JOB)
         self.assertEqual(adapter.request_count, 0)
+
+    def test_meta_missing_secret_blocks_before_request(self):
+        adapter = MetaAdapter(api_key="", model="muse-spark-1.3")
+        with self.assertRaises(MissingCredential):
+            adapter.run(JOB)
+        self.assertEqual(adapter.request_count, 0)
+
+    def test_meta_adapter_parses_responses_output(self):
+        import json
+        def transport(url, headers, payload, timeout):
+            self.assertEqual(url, "https://api.meta.ai/v1/responses")
+            self.assertEqual(payload["model"], "muse-spark-1.3")
+            self.assertEqual(headers["Authorization"], "Bearer test-key")
+            return {"model": "muse-spark-1.3", "output": [{"type": "message", "content": [{"type": "output_text", "text": json.dumps(VALID_PAYLOAD)}]}], "usage": {"input_tokens": 10}}
+        result = MetaAdapter(api_key="test-key", model="muse-spark-1.3", transport=transport).run(JOB)
+        self.assertEqual(result["provider"], "meta")
+        self.assertEqual(result["job_id"], "job-1")
 
     def test_gemini_missing_secret_blocks_before_request(self):
         adapter = GeminiAdapter(api_key=None, model="gemini-test")
