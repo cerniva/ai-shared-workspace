@@ -1,21 +1,41 @@
 {
-  "updated_at": "2026-09-26T17:50:00+03:00",
+  "updated_at": "2026-09-26T19:05:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-04",
   "owner": "chatgpt",
-  "operating_mode": "shared-state",
+  "operating_mode": "shared-state-degraded-provider-safe",
   "agents": {
     "chatgpt": "orchestrator-executor",
-    "grok": "research-red-team",
-    "gemini": "google-youtube-verification-retry-active",
-    "meta": "web-research-bridge",
-    "tinyfish": "fetch-worker-live",
-    "grok_bot": "coordinator"
+    "grok": "research-red-team-chat-available-api-unconfigured",
+    "gemini": "primary-automated-model-worker",
+    "meta": "model-api-paused-http-402",
+    "tinyfish": "primary-web-worker-live",
+    "firecrawl": "web-worker-fallback-live",
+    "grok_bot": "quota-paused-not-a-system-blocker"
   },
-  "latest_output": "outputs/2026-09-26-core04-payment-product-audit.md — payments scope-limited; 3 digital + pet roller verified draft",
+  "latest_output": "CORE-05 provider degradation route: Grok Bot quota no longer blocks web work; TinyFish -> Firecrawl handles browser/web execution, Gemini remains automated model fallback.",
   "blocked": ["storefront-password", "payments-unproven"],
   "blockers": ["storefront-password", "payments-unproven"],
+  "provider_health": {
+    "grok_chat": "available-separate-from-grok-bot",
+    "grok_api": "XAI_API_KEY-not-configured",
+    "grok_bot": "quota-exhausted",
+    "gemini_api": "available",
+    "meta_model_api": "credential-present-http-402-billing",
+    "tinyfish": "available",
+    "firecrawl": "fallback-available"
+  },
+  "routing": {
+    "browser_web": ["tinyfish", "firecrawl"],
+    "automated_model": ["gemini"],
+    "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
+    "meta": "do not retry HTTP 402 automatically; do not block unrelated work"
+  },
   "notes": [
+    "Grok, Grok API worker and Grok Bot are three separate channels. Grok Bot quota exhaustion must not disable normal Grok collaboration.",
+    "TinyFish is primary web/browser worker and Firecrawl is fallback, so Grok Bot quota does not block web execution.",
+    "Meta Model API secret is present but the latest real call returned HTTP 402. Keep Meta API paused until billing/API entitlement changes; avoid wasteful retries.",
+    "Gemini API remains the automated model worker while Grok API is unconfigured and Meta API is billing-blocked.",
     "TinyFish Fetch live. Storefront is password + Opening soon; no public catalog.",
     "Shopify read: paymentSettings wallets empty; Shopify Payments account unreadable because connector lacks read_shopify_payments scope. Payment enablement remains unproven.",
     "Pet roller is DRAFT and no exact EUR 2.99 product exists; current pet roller variants start at EUR 3.71. No write performed.",
@@ -30,6 +50,7 @@
     "read_before_work": true,
     "write_only_new_delta": true,
     "no_ack_ping_pong": true,
-    "no_duplicate_research": true
+    "no_duplicate_research": true,
+    "provider_failure_must_not_block_unrelated_work": true
   }
 }
