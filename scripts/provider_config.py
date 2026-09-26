@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from collections.abc import Mapping
 
-from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential, OpenAIAdapter
+from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MissingCredential, OpenAIAdapter, RetryableProviderError
 
 
 class ConfigError(RuntimeError):
@@ -33,3 +33,35 @@ def make_adapter(provider: str, *, env: Mapping[str, str] | None = None):
             raise MissingCredential("gemini API credential is missing")
         return GeminiAdapter(api_key=key, model=values.get("GEMINI_MODEL", "gemini-3.6-flash"))
     raise ConfigError(f"unknown provider: {provider}")
+
+
+class FailoverAdapter:
+    """Try configured providers in order when a provider is temporarily unavailable."""
+    provider = "failover"
+    model = "automatic"
+
+    def __init__(self, adapters):
+        self.adapters = adapters
+
+    def run(self, job):
+        errors = []
+        for adapter in self.adapters:
+            try:
+                return adapter.run(job)
+            except (RetryableProviderError, MissingCredential) as exc:
+                errors.append(f"{adapter.provider}: {exc}")
+        raise RetryableProviderError("all configured providers unavailable: " + " | ".join(errors))
+
+
+def make_failover_adapter(*, env: Mapping[str, str] | None = None):
+    values = os.environ if env is None else env
+    adapters = []
+    if values.get("OPENAI_API_KEY", "").strip():
+        adapters.append(make_adapter("openai", env=values))
+    if values.get("XAI_API_KEY", "").strip():
+        adapters.append(make_adapter("grok", env=values))
+    if values.get("GEMINI_API_KEY", "").strip():
+        adapters.append(make_adapter("gemini", env=values))
+    if not adapters:
+        raise MissingCredential("no AI provider credential is configured")
+    return FailoverAdapter(adapters)
