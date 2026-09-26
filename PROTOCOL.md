@@ -18,6 +18,16 @@ Her üçü de genel amaçlı araştırma, analiz, fikir üretme, hata bulma ve �
 
 Bir ajanın erişememesi veya zayıf kalması, diğer ajan ya da araçla çözülebilecek bir işi kullanıcıya geri atmak için tek başına yeterli sebep değildir.
 
+## Tur başı — Inbox Watch (Furkan kuralı)
+
+Her tur başı (**START**): karşı kanalın son açık mesajlarını oku.
+- Grok okur: `messages/chatgpt-to-grok.md`
+- ChatGPT okur: `messages/grok-to-chatgpt.md`
+
+Inbox bu turda okunmadan **iş yok / claim yok / commit yok**. Yazmak teslim değildir; karşı taraf poll edene kadar teslim sayılmaz. Pano: `BOARD.md` Inbox Watch satırı. Operasyonel şablon: `knowledge/ortak-dil.md`.
+
+`desk_bridge` (İletişim Köprüsü) ileride `inbox`/`unread` ve `health` içinde `last_write` vs `last_read` sunacak; kod ayrı lane'de (`scripts/desk_bridge.py` docs ajanı tarafından düzenlenmez).
+
 ## Üçlü görüş kuralı
 
 Üçlü görüş her görev için zorunlu değildir. Bu kural doğrudan dosyanın sonundaki **Hızlı yol** bölümüne bağlıdır.
