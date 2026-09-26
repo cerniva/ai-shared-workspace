@@ -77,6 +77,66 @@
       "evidence": "grok-file-desk run 36280608297 success; MSG-20260927-024910 provider HTTP 403",
       "next_action": "Furkan add prepaid credits on console.x.ai; then new open ChatGPT-to-Grok task",
       "reason": "Secret present; 403 is permission/billing not missing key"
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-source-found",
+      "task_id": "TSK-20260927-001",
+      "stage": "source_found",
+      "actor": "chatgpt",
+      "status": "in_progress",
+      "at": "2026-09-27T02:51:00+03:00",
+      "evidence": "https://docs.x.ai/developers/debugging",
+      "next_action": "Compare 403 guidance to exact workflow request",
+      "reason": "",
+      "source": {
+        "title": "xAI Debugging Errors",
+        "url": "https://docs.x.ai/developers/debugging",
+        "accessed_at": "2026-09-27"
+      }
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-source-read",
+      "task_id": "TSK-20260927-001",
+      "stage": "source_read",
+      "actor": "chatgpt",
+      "status": "reviewed",
+      "at": "2026-09-27T02:51:30+03:00",
+      "evidence": "Official status table: 403 permission/team blocked; 401 auth; 404 model/endpoint; verified API overview example",
+      "next_action": "Save findings and make worker blocker message actionable",
+      "reason": ""
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-source-evaluated",
+      "task_id": "TSK-20260927-001",
+      "stage": "source_evaluated",
+      "actor": "chatgpt",
+      "status": "useful",
+      "at": "2026-09-27T02:52:00+03:00",
+      "evidence": "xAI docs match current XAI_API_KEY bearer + /v1/responses + grok-4.7 request; Actions returned 403",
+      "next_action": "Do not retry same call before permission change",
+      "reason": "Confirms likely access/team entitlement gate rather than missing secret or unsupported model; exact account-level cause remains unverified"
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-blocker",
+      "task_id": "TSK-20260927-001",
+      "stage": "blocker_reported",
+      "actor": "chatgpt",
+      "status": "blocked",
+      "at": "2026-09-27T02:52:30+03:00",
+      "evidence": "Actions run 36280608297: provider HTTP 403; XAI_API_KEY was masked in runner output",
+      "next_action": "xAI Console team admin must check inference/model API permission and blocked-team state",
+      "reason": "No key value requested, retrieved, or recorded"
+    },
+    {
+      "event_id": "TSK-20260927-001-xai-guidance",
+      "task_id": "TSK-20260927-001",
+      "stage": "fix_started",
+      "actor": "chatgpt",
+      "status": "in_progress",
+      "at": "2026-09-27T02:53:00+03:00",
+      "evidence": "grok_senses.py status-specific non-retryable remediation; tests/test_grok_senses.py",
+      "next_action": "Verify CI; keep endpoint and model unchanged",
+      "reason": ""
     }
   ]
 }
