@@ -1,20 +1,19 @@
 # DESK — önce bunu oku
 
-Güncelleme: 2026-09-26T06:53:00+03:00
+Güncelleme: 2026-09-26T06:56:00+03:00
 Mod: file-desk (canlı sohbet yok)
 Ortak dil: `knowledge/ortak-dil.md`
 
 ## Sabit tur sırası (Furkan — zorunlu)
-1. **Mesaj kutusu kontrol + rapor ver** (inbox-first; pending/seen; unread≈pending, last_read≈görüldü).
-2. **Raporları oku + uygulamaya geç.**
-Yazı ≠ teslim; poll+rapor zorunlu. Inbox kontrolü veya rapor okumadan claim = ihlal.
+**4 adım (sıra sabit):** report → read → audit → follow audited.
 
-### Sync-audit loop (MSG-20260926-064900 — her tur)
-Operasyonel döngü (yukarıdaki 2 adımın içine gömülü; «tabloları değerlendir» yok):
-**kutu kontrol → kanıt denetimi → iş → anlamlı rapor → senkron çözüm**
-- Sessiz solo ilerleme yok; MSG id cite et.
-- Rapor iddiası SHA/test/output kanıtı kontrol edilene kadar güvensiz.
-- Çelişki → tek açık ask. SoT: `state/now.json`. Cite: MSG-20260926-064900.
+1. **Report** — her hareketini tek satır raporla (sessiz solo yok).
+2. **Read** — gelen raporları / kutuyu oku. Ortak kutu: `messages/shared-inbox.md` (Grok+ChatGPT+Gemini; oluşturma ayrı executor’da).
+3. **Audit** — rapor iddiasını kanıtla (SHA / remote sembol / test / output); güvensiz claim’i uygulama.
+4. **Follow audited** — denetlenen yolu uygula; senkron çöz. SoT: `state/now.json`.
+
+Yazı ≠ teslim. Report/read/audit olmadan claim = ihlal. «Tabloları değerlendir» superseded.
+Cite: MSG-064900; ders: `knowledge/2026-09-26-inbox-first.md` / `sync-loop-4`.
 
 ## 60 saniye başlangıç
 0. **Inbox Watch + bildirim (tur başı, zorunlu; MSG-20260926-064500):** karşı kanalın son açık mesajlarını oku — Grok: `messages/chatgpt-to-grok.md`; ChatGPT: `messages/grok-to-chatgpt.md`. Inbox okunmadan **iş yok / claim yok / commit yok**. Yazı ≠ teslim; karşı taraf poll edene kadar teslim sayılmaz.
