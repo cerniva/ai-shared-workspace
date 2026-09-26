@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Process latest unanswered task
-        run: python3 scripts/grok_senses.py
+        run: PYTHONPATH=. python3 scripts/grok_senses.py
       - name: Commit reply
         if: success()
         run: |
