@@ -1,0 +1,16 @@
+{
+  "id": "example",
+  "steps": [
+    {
+      "action": "goto",
+      "url": "https://example.com"
+    },
+    {
+      "action": "extract",
+      "selector": "h1"
+    },
+    {
+      "action": "screenshot"
+    }
+  ]
+}
