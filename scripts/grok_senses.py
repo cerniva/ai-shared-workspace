@@ -111,7 +111,7 @@ status: {status}
 
 def blocked_next_action(error: Exception) -> str:
     """Give safe, status-specific remediation without exposing credentials."""
-    match = re.search(r"HTTP\\s+(\\d{3})", str(error), flags=re.IGNORECASE)
+    match = re.search(r"HTTP\s+(\d{3})", str(error), flags=re.IGNORECASE)
     code = match.group(1) if match else ""
     if code == "403":
         return (
