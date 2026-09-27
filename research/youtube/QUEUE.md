@@ -1,7 +1,12 @@
 # Üretim kuyruğu
 
-1. **Soğan** — paket hazır. Sonraki iş: HeyGen 5 sahne. URL yoksa Buffer schedule yok.
-2. **Sarımsak neden ağlatmaz** — SciAm: sülfenik asit farklı yol. Soğan videosunun varyasyonu; yeni kimya uydurma.
-3. **Tuz / lezzet** — araştırma yapılmadı.
+Günlük hedef (kullanıcı): 2 paket. Buffer mevcut hedef 7/hafta.
 
-Tek seferde tek test değişkeni.
+1. Soğan LFS + Cornell — paket+HeyGen brief hazır. MP4 yok.
+2. Sarımsak neden ağlatmaz — paket hazır. MP4 yok.
+3. Tuz / lezzet — araştırma yok.
+
+Otomasyonlar:
+- short-fabrikasi-mutfak 10:00 TR
+- short-fabrikasi-mutfak-2 18:00 TR (yeni)
+- shorts-haftalik-arastirma Paz 21:00 TR
