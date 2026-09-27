@@ -1,5 +1,9 @@
 name: AI Browser Worker
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'state/claude-smoke-trigger.txt'
   workflow_dispatch:
     inputs:
       objective:
@@ -37,10 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BROWSER_OBJECTIVE: ${{ inputs.objective }}
-      BROWSER_ALLOWED_HOSTS: ${{ inputs.allowed_hosts }}
-      BROWSER_EXECUTION_MODE: ${{ inputs.execution_mode }}
-      BROWSER_PLANNER_PROVIDER: ${{ inputs.planner_provider }}
+      BROWSER_OBJECTIVE: ${{ github.event_name == 'workflow_dispatch' && inputs.objective || 'Go to https://example.com and extract the page title' }}
+      BROWSER_ALLOWED_HOSTS: ${{ github.event_name == 'workflow_dispatch' && inputs.allowed_hosts || 'example.com' }}
+      BROWSER_EXECUTION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_mode || 'read_only' }}
+      BROWSER_PLANNER_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.planner_provider || 'claude' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v7
