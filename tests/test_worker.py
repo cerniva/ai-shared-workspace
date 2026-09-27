@@ -28,6 +28,34 @@ class FakeClient:
         return f"s{self.sha_counter}"
 
 
+class RacingClient(FakeClient):
+    def __init__(self, dispatch, now):
+        super().__init__(dispatch)
+        self.status_reads = 0
+        self.now = now
+
+    def get_json(self, path):
+        if path == "state/runtime-status.json":
+            self.status_reads += 1
+            if self.status_reads == 1:
+                return {"version": 1, "items": []}, "s1"
+            self.status = {"version": 1, "items": [{
+                "idempotency_key": "RUNTIME-SMOKE:1",
+                "task_id": "RUNTIME-SMOKE",
+                "generation": 1,
+                "connector": "synthetic",
+                "operation": "echo",
+                "status": "running",
+                "started_at": self.now.isoformat(),
+                "claim_token": "other-worker",
+            }]}
+            return self.status, "s2"
+        return super().get_json(path)
+
+    def put_json(self, path, data, sha, message):
+        raise AssertionError("losing worker must not overwrite another active claim")
+
+
 class ExplodingConnector:
     def __init__(self):
         self.calls = 0
@@ -66,6 +94,15 @@ class WorkerTests(unittest.TestCase):
         self.assertEqual(first.succeeded, 1)
         self.assertEqual(second.skipped, 1)
         self.assertEqual(connector.calls, 1)
+
+    def test_racing_worker_loses_claim_without_executing_connector(self):
+        now = datetime(2026, 9, 27, tzinfo=timezone.utc)
+        client = RacingClient({"version": 1, "items": [self.task()]}, now)
+        connector = CountingConnector()
+        report = RuntimeWorker(self.settings(), client=client, connectors={"synthetic": connector}).cycle(now)
+        self.assertEqual(report.skipped, 1)
+        self.assertEqual(report.succeeded, 0)
+        self.assertEqual(connector.calls, 0)
 
     def test_recent_running_task_is_not_reexecuted(self):
         status = {"version": 1, "items": [{
