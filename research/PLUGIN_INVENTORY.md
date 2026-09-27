@@ -155,13 +155,13 @@ Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesin
 
 | Öncelik | Eklenti | Neden | Durum / kullanıcı adımı |
 | --- | --- | --- | --- |
-| 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Eklenti kurulu (2026-09-27); cihaz erişimi doğrulanmadı. FURKAN ELİNLE YAPMALISIN:** kendi bilgisayarındaki Remote MCP köprüsünü ve cihaz yetkisini tamamla. Bu oturumda uzaktan dosya/terminal aracı henüz sunulmadı; cihaz erişimim var demiyorum. |
+| 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Eklenti kurulu; kullanıcı henüz bilgisayar almadı.** Yerel cihaz kurulumu gündem dışı. Bu oturumda uzaktan dosya/terminal aracı görünmedi; bilgisayar erişimi yok. |
 | 2 | GSC Wizard | Mağaza arama sorguları, sayfa ve SEO verisi; Search Console mülkiyeti gerekir | **Eklenti kurulu; mülk/veri okunmadı. FURKAN ELİNLE YAPMALISIN:** Search Console mağaza mülkiyeti doğrulanmamışsa Google hesabında doğrula. Bu oturumda GSC Wizard'ın çağrılabilir aracı görünmedi; bağlantı açıldı diye veri var sanma. |
 | Sonra, ihtiyaç olursa | Supabase / Vercel | Veritabanı/kimlik doğrulama veya ayrı dağıtım hattı | Kurulu değil; Railway, Lovable ve GitHub zaten var. Somut proje gerektirmedikçe çoğaltma. |
 
 ## Bağlantı değişikliği — 2026-09-27
 
-Eklenti yönetimi Remote Desktop Commander için `installed=true` döndürdü; bu oturumun çağrılabilir araç listesinde uzaktan dosya/terminal aracı görünmedi. Dolayısıyla kurulum doğrulandı, bilgisayar erişimi doğrulanmadı. GSC Wizard eklentisi kurulu; Search Console mülkü/verisi doğrulanmadı.
+Eklenti yönetimi Remote Desktop Commander için `installed=true` döndürdü; kullanıcı 27 Eylül'de henüz bilgisayar almadığını düzeltti. Yerel cihaz kurulumu istenmeyecek. Bu oturumda çağrılabilir uzaktan dosya/terminal aracı da görünmedi. GSC Wizard eklentisi kurulu; Search Console mülkü/verisi doğrulanmadı.
 
 ## Denetim yöntemi
 
