@@ -1,6 +1,8 @@
 import os
 import tempfile
 import unittest
+from io import BytesIO
+from urllib.error import HTTPError
 from unittest.mock import patch
 
 from browser_worker import ai_planner
@@ -50,6 +52,22 @@ class AIPlannerProviderTests(unittest.TestCase):
         self.assertEqual(task["planner_provider"], "anthropic")
         anthropic.assert_called_once_with("test objective")
         openai.assert_not_called()
+
+    def test_post_surfaces_http_error_body_without_leaking_api_key(self):
+        secret = "sk-ant-api-secret-test"
+        body = b'{"type":"error","error":{"type":"invalid_request_error","message":"credit balance too low for sk-ant-api-secret-test"}}'
+        error = HTTPError("https://api.anthropic.com/v1/messages", 400, "Bad Request", None, BytesIO(body))
+
+        with patch.dict(os.environ, {"ANTHROPIC_API_KEY": secret}, clear=False), \
+             patch.object(ai_planner, "urlopen", side_effect=error):
+            with self.assertRaises(RuntimeError) as caught:
+                ai_planner._post("https://api.anthropic.com/v1/messages", {}, {"model": "claude-opus-5-5"})
+
+        message = str(caught.exception)
+        self.assertIn("HTTP 400", message)
+        self.assertIn("credit balance too low", message)
+        self.assertNotIn(secret, message)
+        self.assertIn("***", message)
 
     def test_anthropic_uses_wif_when_api_key_is_missing(self):
         response_text = '{"id":"ai-browser","steps":[]}'
