@@ -58,16 +58,20 @@ jobs:
           A3: ${{ secrets.ANTHROPIC_KEY }}
           A4: ${{ secrets.CLAUDE_KEY }}
           A5: ${{ secrets.ANTHROPIC_API }}
+          A6: ${{ secrets.ANTHROPIC }}
+          A7: ${{ secrets.ANTHROPIC_APIKEY }}
+          A8: ${{ secrets.ANTHROPIC_TOKEN }}
+          A9: ${{ secrets.CLAUDE_API }}
+          A10: ${{ secrets.CLAUDE }}
+          A11: ${{ secrets.CLAUDE_TOKEN }}
           OAUTH: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WIF_RULE: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
           WIF_ORG: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
         run: |
-          for name in A1 A2 A3 A4 A5 OAUTH; do
+          for name in A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 OAUTH; do
             if [ -n "${!name}" ]; then echo "$name=SET"; else echo "$name=UNSET"; fi
           done
           if [ -n "$WIF_RULE" ] && [ -n "$WIF_ORG" ]; then echo "WIF=CONFIGURED"; else echo "WIF=UNCONFIGURED"; fi
-      - run: pip install -r browser_worker/requirements.txt
-      - run: python -m playwright install --with-deps chromium
       - name: AI plans browser actions
         shell: bash
         env:
@@ -77,7 +81,7 @@ jobs:
           XAI_MODEL: grok-4.7
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: gemini-3.8-flash
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY || secrets.ANTHROPIC_KEY || secrets.CLAUDE_KEY || secrets.ANTHROPIC_API }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY || secrets.ANTHROPIC_KEY || secrets.CLAUDE_KEY || secrets.ANTHROPIC_API || secrets.ANTHROPIC || secrets.ANTHROPIC_APIKEY || secrets.ANTHROPIC_TOKEN || secrets.CLAUDE_API || secrets.CLAUDE || secrets.CLAUDE_TOKEN }}
           ANTHROPIC_MODEL: claude-opus-5-5
         run: |
           if ! python browser_worker/ai_planner.py > task.json; then
@@ -86,6 +90,8 @@ jobs:
           fi
       - name: Validate generated task
         run: python -m json.tool task.json
+      - run: pip install -r browser_worker/requirements.txt
+      - run: python -m playwright install --with-deps chromium
       - name: Execute browser actions
         run: python browser_worker/worker.py task.json
       - uses: actions/upload-artifact@v4
