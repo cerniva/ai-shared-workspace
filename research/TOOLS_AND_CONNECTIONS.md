@@ -93,3 +93,18 @@ Bu bağlantıları görevle eşleştirirken önce read-only proje/hesap kontrol�
 | TubeAlfred YouTube Search | 2026-09-27'de “professional cooking tips” sorgusu, son 1 ay Shorts/popularity filtresiyle çalıştırıldı; boş sonuç verdi ve 1 kredi kullandı (yanıtta 47 kredi kaldığı bildirildi). | Aynı sorguyu tekrar etme. Yalnızca somut niş örneği gerektiğinde ve kredi maliyetini gözeterek kullan; boş sonuçtan trend çıkarma. |
 
 Kredi notu: Bu denetimde TubeAlfred'e ait 1 araştırma kredisi kullanıldı; video üretim kredisi kullanılmadı. Bağlı araştırma araçlarını tekrar/boş sorgu için çağırma.
+
+
+## Araştırma kanalları — canlı envanter kontrolü, 2026-09-27
+
+| Kanal | Bu kontrolde doğrulanan durum | Kullanım ve sınır |
+| --- | --- | --- |
+| Shopify | Bağlı mağazanın temel bilgisi tekrar okundu; Basic plan, EUR para birimi ve Türkiye mağaza ülkesi döndü | Bağlantı çalışıyor; bu okuma tek başına mağazanın herkese açık olduğunu, ürün/satış bulunduğunu veya satış hunisi verisi geldiğini kanıtlamaz. İlgili turda gereken Shopify analitiğini ayrıca oku. |
+| Windsor.ai | Profil ve bağlı connector listesi okundu; Trial/non-paid profilinde YouTube, TikTok Organic, Instagram ve Facebook hesapları listelendi | Connector listesi hesap görünürlüğüdür, her platformdan güncel içerik/analitik verisinin döndüğü anlamına gelmez. Veri gerekiyorsa ilgili alanları keşfet ve read-only sorguyla doğrula. |
+| YouTube Help / Studio | Resmi Analytics ve Shorts ölçüm sayfaları 2026-09-27'de açıldı | Kamuya açık metrikleri özel kanal retention/geliriyle karıştırma; özel veri yalnızca yetkili araç gerçek sonuç döndürürse kullanılır. |
+| TikTok Creative Center | Resmi Trends yardım sayfası açıldı; Temmuz 2026 güncellemesi görüldü | Bölgesel/hashtag trendleri fikir sinyalidir; YouTube veya Shopify satış sonucunu kanıtlamaz. Ayrıntı giriş isteyebilir. |
+| Meta Ad Library Search | Bu oturumda herkese açık Meta reklam arama aracı mevcut | Yalnızca gerçekten sorgulanıp sonuç döndüyse reklam mesajı/formatı için kullan; gösterim, satış veya dönüşüm sonucu çıkarma. Bu envanter kontrolünde sorgu yapılmadı. |
+| Google Trends / Merchant Center | Google Trends metodoloji sayfası ve Merchant Center Popular Products dokümanı açıldı. Merchant Center hesabı/ürün feed'i doğrulanmadı. | Trends göreli 0–100 endeksi; Merchant Center raporu hesap gerektirir, Türkiye'yi destekler, iç kullanım şartlarına tabidir. |
+| Ubersuggest / vidIQ | Mevcut tarihli kayıt korunuyor: ücretsiz Ubersuggest hesabında izlenen proje yok; vidIQ kredisi 0 | Yalnızca görevle ilgiliyse ve güncel hak/kota uygunsa kullan. Ücretli/kredi tüketen rutin sorgu yapma. |
+
+Gelecek araştırmalarda her soruda en az bir uygun birincil/resmî web kaynağı kullan; varsa konuyla doğrudan ilgili bağlı kanalın verisini ikinci kanıt katmanı olarak doğrula. Kaynakları mekanik biçimde her turda topluca tarama: Shopify sorusunda Shopify/Google/Meta veya Merchant Center; Shorts sorusunda YouTube/Windsor/TikTok/YouTube arama kanallarından ilgili olanları seç. Kaynak, plugin veya hesap listede görünüyor diye kullanılmış sayma.
