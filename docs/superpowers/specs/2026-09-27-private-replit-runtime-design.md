@@ -13,6 +13,7 @@ The private runtime is not a second source of truth. It is an execution layer th
 ## Existing system constraints
 
 - `PROTOCOL.md` and `state/now.json` remain the authoritative public coordination source.
+- `tasks/active.json` remains the authoritative task catalogue; the runtime dispatch file only references task IDs from it.
 - Existing agent handoff files, task state, and GitHub Actions workflows remain in place.
 - Public repository files must never contain API keys, OAuth tokens, authenticated cookies/session data, customer/order details, or private Shopify/YouTube payloads.
 - Existing bounded GitHub Actions workers remain useful for finite jobs and retries; they are not replaced by the private runtime.
@@ -21,7 +22,7 @@ The private runtime is not a second source of truth. It is an execution layer th
 ## Goals for v1
 
 1. Connect a private Replit runtime to the existing GitHub coordination hub.
-2. Read a narrowly defined queue of executable tasks without changing the repo's source-of-truth model.
+2. Read a narrowly defined dispatch queue without changing the repo's source-of-truth model.
 3. Execute only explicitly allowlisted low-risk actions.
 4. Keep all credentials in Replit Secrets or an equivalent private environment store.
 5. Write back safe summaries, status, timestamps, and error codes without leaking sensitive payloads.
@@ -36,7 +37,8 @@ The private runtime is not a second source of truth. It is an execution layer th
 - No YouTube upload/publish operations.
 - No 24/7 promise until a persistent deployment and cost/budget policy are explicitly configured.
 - No replacement of the GitHub coordination protocol.
-- No second task database as a competing source of truth.
+- No second authoritative task database.
+- No GitHub webhook in v1; polling is deliberately simpler and easier to audit.
 
 ## Architecture
 
@@ -61,45 +63,67 @@ A private Replit app/runtime hosts:
 - secret access through Replit Secrets,
 - structured audit logging,
 - health endpoint,
-- idempotency/retry state.
+- idempotency/retry handling.
 
 No secret value is copied into GitHub, logs, prompts, or result summaries.
+
+### v1 transport and files
+
+v1 uses polling, not webhooks.
+
+- `tasks/active.json`: authoritative task catalogue. Existing semantics remain unchanged.
+- `tasks/runtime-dispatch.json`: non-sensitive execution queue. Every entry must reference an existing task ID in `tasks/active.json`; this file is not authoritative task state.
+- `state/runtime-status.json`: sanitized execution ledger used for idempotency and operator visibility.
+
+While the Replit runtime is active, it polls `tasks/runtime-dispatch.json` every 60 seconds. A manual worker cycle may also be triggered for testing. Sleeping or undeployed Replit instances therefore do not imply 24/7 execution.
+
+The worker writes `state/runtime-status.json` using the latest GitHub blob/content SHA and rejects or retries on a write conflict instead of overwriting concurrent changes.
 
 ### Communication model
 
 Primary flow:
 
-`ChatGPT / human -> GitHub coordination hub -> private Replit worker -> approved API/service -> sanitized result -> GitHub coordination hub`
+`ChatGPT / human -> tasks/active.json + tasks/runtime-dispatch.json -> private Replit worker -> approved API/service -> state/runtime-status.json -> ChatGPT / human`
 
-The runtime should prefer pull/poll or an authenticated webhook that consumes only the minimum public task metadata needed to dispatch work. The runtime must validate repository, task type, and action policy before execution.
+The runtime validates repository, referenced task ID, task type, connector, and action policy before execution.
 
-## Task contract
+## Dispatch contract
 
-The worker accepts only tasks that contain all of the following non-sensitive fields:
+Each `tasks/runtime-dispatch.json` item contains only non-sensitive fields:
 
-- stable task id,
-- task type from an allowlist,
-- target connector name,
-- requested operation name,
-- non-sensitive parameters or references,
-- created timestamp,
-- optional retry count.
+- `dispatch_id`: stable unique dispatch identifier,
+- `task_id`: existing ID from `tasks/active.json`,
+- `generation`: integer beginning at 1 and incremented only for an explicit re-execution,
+- `task_type`: value from an allowlist,
+- `connector`: target connector name,
+- `operation`: requested operation name,
+- `parameters`: non-sensitive parameters or public references only,
+- `created_at`: timestamp,
+- `status`: `queued`, `cancelled`, or `done`.
 
-Sensitive parameters must be resolved inside the private runtime from its own secret/config store or from an authenticated private connector. They must not be embedded in public task files.
+The idempotency key is `dispatch_id:generation`.
+
+Sensitive parameters are resolved inside the private runtime from its own secret/config store or from an authenticated private connector. They must not be embedded in public task files.
 
 ## Result contract
 
-The worker may write back:
+`state/runtime-status.json` stores sanitized records containing:
 
+- idempotency key,
+- dispatch id,
 - task id,
+- generation,
 - status: `queued`, `running`, `succeeded`, `failed`, or `blocked`,
 - started/finished timestamps,
 - safe human-readable summary,
 - machine-readable error code,
-- retryable: true/false,
-- optional public artifact/reference URL that contains no secret material.
+- `retryable`: true/false,
+- attempt count,
+- optional public artifact/reference URL containing no secret material.
 
 The worker must not write raw request/response bodies from private services unless they are explicitly sanitized.
+
+A `succeeded`, `blocked`, or non-retryable `failed` record is terminal for that idempotency key. Re-execution requires an explicit generation increment in the dispatch file.
 
 ## Security model
 
@@ -113,6 +137,8 @@ The worker must not write raw request/response bodies from private services unle
 ### Least privilege
 
 Each connector receives only the minimum scopes required for its approved actions. Read-only scopes are preferred until a write operation is deliberately added in a later design.
+
+The GitHub credential used by the worker is restricted to the approved repository and only the contents/actions needed by the bridge. It is stored only in the private runtime.
 
 ### Action policy
 
@@ -129,13 +155,14 @@ v1 enables only `read` and `prepare` by default. `write-low-risk` is disabled un
 
 Before execution, the worker validates:
 
-1. repository identity,
-2. task schema,
-3. task type allowlist,
-4. connector allowlist,
-5. action policy,
-6. idempotency key,
-7. secret availability without exposing the value.
+1. repository identity is exactly `cerniva/ai-shared-workspace`,
+2. dispatch schema,
+3. referenced `task_id` exists in `tasks/active.json`,
+4. task type allowlist,
+5. connector allowlist,
+6. operation/action policy,
+7. idempotency key has not reached a terminal state,
+8. required secret/configuration is present without exposing its value.
 
 Any validation failure returns `blocked` and performs no external action.
 
@@ -143,19 +170,19 @@ Any validation failure returns `blocked` and performs no external action.
 
 ### Idempotency
 
-Each task uses its stable task id as the base idempotency key. A completed task is not executed again unless a new explicit retry generation/version is created.
+The idempotency key is `dispatch_id:generation`. Before running an external action, the worker checks `state/runtime-status.json`. A terminal key is never executed again.
 
 ### Retries
 
-Only failures marked retryable may be retried. Retries use bounded backoff and a maximum attempt count. Authentication, policy, schema, or permission failures are non-retryable until configuration changes.
+Only failures marked retryable may be retried. v1 uses at most 3 attempts for a single idempotency key with bounded backoff. Authentication, policy, schema, missing-task, or permission failures are non-retryable until configuration changes or a new generation is explicitly issued.
 
 ### Health
 
-The runtime exposes a minimal health check that reports only:
+The runtime exposes a minimal `/health` check that reports only:
 
-- service up/down,
-- GitHub connectivity status,
-- connector configuration presence by boolean only,
+- service status,
+- GitHub connectivity boolean,
+- required connector configuration presence by boolean only,
 - last successful worker cycle timestamp.
 
 No secret values or private payload details appear in health output.
@@ -165,6 +192,7 @@ No secret values or private payload details appear in health output.
 Structured logs include:
 
 - timestamp,
+- idempotency key,
 - task id,
 - connector name,
 - operation name,
@@ -176,7 +204,7 @@ Logs must redact authorization headers, cookies, tokens, secret values, and priv
 
 ## Repository boundary
 
-The public repo may contain interface documentation, task schemas, policy, and sanitized result summaries.
+The public repo may contain interface documentation, task schemas, policy, dispatch references, and sanitized result summaries.
 
 The private runtime code/configuration may live in a private Replit workspace and, if later mirrored to GitHub, must use a private repository. The public repo must not receive a copy of private runtime secrets, private connector payloads, or authenticated session state.
 
@@ -184,10 +212,11 @@ The private runtime code/configuration may live in a private Replit workspace an
 
 Initial connector scope is intentionally small:
 
-- GitHub: read approved coordination files and write sanitized status/result summaries.
-- External services: no production write connector is required to prove v1.
+- GitHub: read `tasks/active.json` and `tasks/runtime-dispatch.json`; write sanitized `state/runtime-status.json`.
+- Synthetic connector: deterministic local `prepare` operation used only to prove the bridge without calling a paid model or external production service.
+- External production services: no write connector is required to prove v1.
 
-The first end-to-end acceptance test uses a harmless synthetic task that proves queue intake, policy validation, execution, sanitized result write-back, retry protection, and health reporting without spending model/video credits or touching Shopify/YouTube production data.
+The first end-to-end acceptance test uses the synthetic connector so it spends no model/video credits and touches no Shopify/YouTube production data.
 
 ## Rollout
 
@@ -196,8 +225,9 @@ The first end-to-end acceptance test uses a harmless synthetic task that proves 
 - private Replit runtime,
 - secret store wiring,
 - GitHub authentication,
-- task schema validation,
-- allowlist policy,
+- `tasks/runtime-dispatch.json` schema,
+- `state/runtime-status.json` schema,
+- validation and allowlist policy,
 - health/logging,
 - synthetic end-to-end task.
 
@@ -207,21 +237,24 @@ Add approved read/prepare connectors one at a time, with per-connector scopes an
 
 ### Phase 3 — browser/private service workers
 
-Only after Phase 1 and Phase 2 are stable, separately design authenticated browser sessions, Shopify/YouTube private operations, persistence, queue storage, budget controls, and long-running deployment.
+Only after Phase 1 and Phase 2 are stable, separately design authenticated browser sessions, Shopify/YouTube private operations, persistence beyond the public sanitized ledger, queue scaling, budget controls, and long-running deployment.
 
 ## Acceptance criteria for v1
 
 v1 is complete only when all of the following are demonstrated:
 
-1. A synthetic task appears in the public coordination hub with no sensitive payload.
-2. The private Replit runtime detects and validates it.
-3. The runtime executes exactly once.
-4. The runtime writes back a sanitized success result.
-5. Re-running the same task does not duplicate execution.
-6. A disallowed task is blocked before any external action.
-7. Missing secret/configuration is reported as a safe error without revealing a value.
-8. Health reporting works without exposing sensitive information.
-9. Logs contain no tokens, cookies, authorization headers, or private payloads.
+1. A synthetic dispatch references an existing task in `tasks/active.json` and contains no sensitive payload.
+2. The private Replit runtime detects it within one active polling cycle or a manual test cycle.
+3. The runtime validates repo, task reference, schema, allowlists, action policy, and idempotency.
+4. The synthetic operation executes exactly once.
+5. The runtime writes a sanitized success record to `state/runtime-status.json`.
+6. Re-reading the same `dispatch_id:generation` does not duplicate execution.
+7. A generation increment permits one deliberate re-execution.
+8. A disallowed or malformed dispatch is blocked before any external action.
+9. Missing secret/configuration is reported as a safe error without revealing a value.
+10. A simulated GitHub write conflict is retried without losing another writer's changes.
+11. `/health` reports only non-sensitive status.
+12. Logs contain no tokens, cookies, authorization headers, or private payloads.
 
 ## Design decision
 
@@ -230,5 +263,7 @@ Use the split architecture:
 - public GitHub repo = coordination, protocol, safe task/status data,
 - private Replit runtime = secrets and execution,
 - future private GitHub repo is optional for backing up runtime source code, but is not required for v1.
+
+Use polling for v1 rather than a webhook, and keep idempotency state in the sanitized public runtime ledger so restarts do not cause duplicate execution.
 
 This preserves the existing GitHub workflow, avoids duplicating the source of truth, and creates a safe path for progressively adding integrations later.
