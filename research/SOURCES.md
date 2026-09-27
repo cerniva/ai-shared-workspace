@@ -159,3 +159,21 @@ Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INV
 | YouTube Analytics veri gecikmesi | https://developers.google.com/youtube/analytics/data_model?hl=en | Google for Developers / YouTube Analytics API; son güncelleme 14 Eylül 2026 UTC | Windsor'da yeni Short için boş video-Analytics satırını erken performans sonucu sanmamak | Resmi belge Analytics verisinin gerçek zamanlı olmadığını ve tipik 48–72 saat geciktiğini söylüyor. Kamu view/like/comment metadata'sı daha güncel olabilir; retention veya gelir yerine geçmez |
 
 **Karar etkisi:** Yeni Short'un özel Analytics satırı ilk 48 saatte boşsa tekrar tekrar sonuç çıkarmaya çalışma; 48–72 saat penceresinden sonra engaged views, AVD/APV ve etkileşimleri değerlendir. Exa ile iki hedefli aramada 14 sonuç incelendi; özgün resmi sayfa 27 Eylül 2026'da açılarak doğrulandı.
+
+
+## Kaynak havuzu genişletmesi — 2026-09-27
+
+Bu kaynaklar 27 Eylül 2026'da resmî sayfaları açılarak doğrulandı; her araştırma turunda yalnızca soruya uygun olanları seç. Kaynağı listeye eklemek, o turda kullanıldığı anlamına gelmez.
+
+| Alan | URL | Sahip / tür | Kullanım ve sınır |
+| --- | --- | --- | --- |
+| YouTube içerik geliştirme | https://www.youtube.com/creators/resources/ | YouTube for Creators; resmî eğitim merkezi | Keşif sistemi, izleyiciye uygun içerik, Analytics, başlık/kapak ve Shorts'un ilk 1–2 saniyesi için temel rehber. Algoritmanın kesin formülü veya performans garantisi değildir. |
+| Google Trends metodolojisi | https://support.google.com/trends/answer/4365533?hl=en | Google Trends Help; resmî yöntem açıklaması | Arama ilgisinin örneklenip zaman/konuma göre 0–100 normalize edildiğini, düşük hacimli terimlerin 0 görünebildiğini ve Trends'in tek başına talep/satış kanıtı olmadığını doğrulamak. |
+| E-ticaret arama görünürlüğü | https://developers.google.com/search/docs/appearance/structured-data/product | Google Search Central; resmî teknik doküman, son güncelleme 2025-12-10 UTC | Ürün sayfası/merchant listing için yapılandırılmış veri, Merchant Center feed'i, fiyat, stok, kargo ve iade alanlarını kontrol etmek. Arama sonucunda gösterim garantisi veya ürün talebi kanıtı değildir. |
+
+### Her araştırma turunda kaynak kullanma kuralı — 2026-09-27
+
+- Önce bu dosyadaki konuya uygun, daha önce doğrulanmış bir kaynağı seç ve o turun analizinde gerçekten kullan. Shorts için kendi kanalının erişilebilir Analytics verisi + YouTube'un resmî ölçüm/eğitim sayfaları; Shopify için mağazanın erişilebilir analitiği + Shopify/Google'ın resmî dokümanı + uygun olduğunda pazar/tedarikçi kanıtı kullan.
+- Dışarıdan gelen iddia önemliyse özgün kaynağı aç; karar etkisi yüksekse bağımsız ikinci doğrulama ara. Arama sonucu, AI özeti veya bağlı eklentinin listede görünmesi tek başına doğrulama sayılmaz.
+- Her yeni araştırma sorusunda bir yeni kaynak adayı ara; yalnızca gerçekten yeni, konuyla ilgili, erişilebilir ve açıp doğruladığın kaynağı bu dizine ekle. Yeni ve yararlı kaynak bulunmazsa satır üretme; kullanılan mevcut URL'leri ve neden yeni kaynak eklenmediğini kısaca belirt.
+- Her araştırma raporunda yalnız fiilen kullanılan kaynakları URL, yayın/veri tarihi ve erişim tarihiyle yaz. Her turda tüm kaynakları tarama; aynı sorguyu/kanıtı gereksiz yere tekrarlama.
