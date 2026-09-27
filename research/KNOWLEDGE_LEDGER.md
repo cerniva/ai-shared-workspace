@@ -135,3 +135,13 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** TSK-20260927-001 / CORE-05.
 - **Son kontrol tarihi:** 2026-09-27
 - **Not:** API worker ve Grok consumer sohbeti farklı kanallardır. 403, consumer sohbetinin durumunu göstermez.
+
+### 2026-09-27 — SOP teslim engeli kapandı; parola dönemindeki oturumlar satış testi değildir
+- **Kaynak:** Shopify Digital Products canlı ürün okuması (2026-09-27); Shopify resmî yardım: https://help.shopify.com/en/manual/online-store/themes/password-page ve https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/overview-dashboard/using-the-overview-dashboard (erişim 2026-09-27).
+- **Alan:** shopify
+- **Ne öğrendik:** 2026-09-26 tarihli yukarıdaki SOP yanlış-ek kaydı tarihsel bulgudur. 2026-09-27 canlı okumada taslak SOP ürününün tek teslim eki `Restaurant_Cafe_Operations_SOP_PDF_DOCX 2.zip` (121510 bayt); yanlış Reels Hooks eki görünmüyor. Shopify resmî yardımına göre parola modu ürün sayfalarını ziyaretçi ve arama motorundan gizler; yönetici uygulamasından vitrin görüntüleme de oturum sayılabilir. 21–23 Eylül 2026 oturum ölçümü değişikliği dönemler arası kıyası ayrıca etkileyebilir.
+- **Kanıt düzeyi:** Dosya ve taslak durumu canlı doğrulandı. Önceki yerel ZIP içerik doğrulaması yeni Shopify yüklemesinin içerik doğrulaması sayılmaz. Parola modu güncel repo durum kaydına dayanır; bu kontrolde vitrin ayrıca açılmadı.
+- **Uygulama:** TSK-20260926-009 kapalı tutulur; SOP taslak kalır. Yeni ZIP'in içerik/teslim testi ile ödeme ve vitrin erişimi doğrulanmadan yayın önerilmez. Parola dönemindeki az sayıdaki oturumdan dönüşüm kararı çıkarılmaz.
+- **İlgili proje:** CORE-04 / shopify
+- **Son kontrol tarihi:** 2026-09-27
+- **İzlenecek ölçüm:** Vitrin açıldıktan ve ödeme doğrulandıktan sonra gerçek dış trafik, sepete ekleme, checkout ve sipariş; aynı ölçüm tanımıyla dönem kıyası.
