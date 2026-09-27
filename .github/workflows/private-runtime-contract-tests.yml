@@ -3,7 +3,7 @@ name: private-runtime-contract-tests
 on:
   push:
     branches:
-      - private-replit-runtime-v1
+      - 'private-replit-runtime-v1*'
     paths:
       - 'scripts/runtime_contract.py'
       - 'tests/test_runtime_contract.py'
