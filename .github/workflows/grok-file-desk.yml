@@ -35,4 +35,14 @@ jobs:
           git add messages/grok-to-chatgpt.md
           git diff --cached --quiet && exit 0
           git commit -m "grok: file-desk reply"
-          git push
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            git rebase --abort || true
+            if [ "$attempt" -lt 3 ]; then
+              sleep "$attempt"
+            fi
+          done
+          echo "Could not push the Grok reply after three synchronization attempts." >&2
+          exit 1
