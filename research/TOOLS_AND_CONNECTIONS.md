@@ -82,3 +82,14 @@ Bu bağlantıları görevle eşleştirirken önce read-only proje/hesap kontrol�
 - YouTube Analytics API verisi gerçek zamanlı değildir; tipik gecikme 48–72 saattir. Windsor'da yeni video için boş Analytics satırı bağlantı arızası veya sıfır performans olarak etiketlenmez.
 - Kamu video metadata'sı güncel views/likes/comments kontrolüne yarar; engaged views, AVD/APV, retention veya gelir yerine kullanılmaz.
 - Yeni video özel ölçümü için ilk karar penceresi 48–72 saat; saatlik kontrolde aynı boş sorgu sonucu yeni bulgu diye çoğaltılmaz.
+
+
+## Araştırma bağlantıları — 2026-09-27 kaynak denetimi
+
+| Araç / kanal | Gerçek kontrol | Kullanım ve sınır |
+| --- | --- | --- |
+| Exa Web Search | Resmî YouTube, Google Trends ve Google Search Central sayfalarını bulmak için kullanıldı; özgün URL'ler web aramasında açılarak kontrol edildi. | Kaynak keşfi için kullan; Exa sonucu nihai kanıt sayılmaz, özgün sayfayı aç. |
+| Windsor.ai | Bağlı kaynak listesi yeniden okundu: YouTube ve TikTok Organic hesapları görünür. Bu turda metrik verisi çekilmedi. | Hesap listelenmesi Analytics verisinin okunduğunu kanıtlamaz; her veri sorgusunda hesap, dönem ve dönen alanları ayrı doğrula. |
+| TubeAlfred YouTube Search | 2026-09-27'de “professional cooking tips” sorgusu, son 1 ay Shorts/popularity filtresiyle çalıştırıldı; boş sonuç verdi ve 1 kredi kullandı (yanıtta 47 kredi kaldığı bildirildi). | Aynı sorguyu tekrar etme. Yalnızca somut niş örneği gerektiğinde ve kredi maliyetini gözeterek kullan; boş sonuçtan trend çıkarma. |
+
+Kredi notu: Bu denetimde TubeAlfred'e ait 1 araştırma kredisi kullanıldı; video üretim kredisi kullanılmadı. Bağlı araştırma araçlarını tekrar/boş sorgu için çağırma.
