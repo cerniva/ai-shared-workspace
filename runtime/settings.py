@@ -8,6 +8,7 @@ from dataclasses import dataclass
 class Settings:
     github_token: str
     github_repo: str = "cerniva/ai-shared-workspace"
+    github_branch: str = "main"
     poll_seconds: int = 60
     runtime_id: str = "replit-runtime-v1"
 
@@ -15,6 +16,7 @@ class Settings:
     def from_env(cls, env: Mapping[str, str]) -> "Settings":
         token = (env.get("GITHUB_TOKEN") or "").strip()
         repo = (env.get("GITHUB_REPO") or "cerniva/ai-shared-workspace").strip()
+        branch = (env.get("GITHUB_BRANCH") or "main").strip() or "main"
         runtime_id = (env.get("RUNTIME_ID") or "replit-runtime-v1").strip()
         try:
             poll = int(env.get("POLL_SECONDS") or "60")
@@ -22,17 +24,18 @@ class Settings:
                 raise ValueError
         except (TypeError, ValueError):
             poll = 60
-        return cls(token, repo, poll, runtime_id)
+        return cls(token, repo, branch, poll, runtime_id)
 
     @property
     def ready_for_github(self) -> bool:
-        return bool(self.github_token and self.github_repo)
+        return bool(self.github_token and self.github_repo and self.github_branch)
 
     def __repr__(self) -> str:
         return (
             "Settings("
             f"github_configured={bool(self.github_token)!r}, "
             f"github_repo={self.github_repo!r}, "
+            f"github_branch={self.github_branch!r}, "
             f"poll_seconds={self.poll_seconds}, "
             f"runtime_id={self.runtime_id!r})"
         )
