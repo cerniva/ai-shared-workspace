@@ -1,3 +1,25 @@
+# Bugünkü denetim — 27 Eylül 2026, 07:30 Türkiye saati
+
+## Kontrol edilen durum ve yapılan düzeltmeler
+
+- **Buffer → Cerno YouTube:** Buffer Channels ekranında Cerno YouTube Channel bağlı; Free planda 1/3 kanal kullanılıyor. Bu ekranda kuyruk veya gönderilmiş video kontrol edilmedi; bugün Buffer üzerinden yayın yapıldığı doğrulanmadı.
+- **Supabase ve Vercel:** Eklenti bağlantı akışları tamamlandı. Bu oturumda eklenti araçları görünmediği için hesap/proje erişimi ayrıca doğrulanamadı; sır veya erişim anahtarı kaydedilmedi.
+- **Saatlik Araştırma ve Kütüphane:** Etkin, saatte bir. Son çalışma kaydı 05:57 Türkiye saati. Buffer bağlantı notunu okuması ve tetiklemenin sürekli izleme olmadığını belirtmesi eklendi.
+- **Shorts Viral Lab:** Etkin, her gün 16:00 Türkiye saati. Son çalışma kaydı 26 Eylül 19:19; 27 Eylül 16:00 çalışması henüz gelmedi. Buffer bağlı kanalını yayın yolu olarak kontrol etmesi; yükleme/kuyruk durumunu doğrulamadan yayımlandı dememesi eklendi. Bugün için tamamlanmış MP4 veya yayın doğrulaması yok.
+- **Birleşik Finans, Kripto ve Küresel Piyasa Radarı:** Etkin, saatlik. Bu görev anlık olay akışı sağlayamaz; her çalıştırma arasındaki gelişme gecikebilir. Son kontrolden bulunan önemli olayların ayrı maddelerle, olay saati ve kaynakla aktarılması; saat içi/anlık izleme garantisi verilmemesi eklendi.
+- **Kayıt düzeltmesi:** `research/TOOLS_AND_CONNECTIONS.md` Buffer, Supabase ve Vercel durumlarını içeriyor. `research/PLUGIN_INVENTORY.md` envanter satırları ve eski 124/2750 sayısının güncel toplam olmadığı notuyla düzeltildi. Bu rapor eski içerik korunarak öne eklendi.
+
+## Açık sınırlamalar
+
+- Buffer web hesabında kanal bağlantısı doğrulandı; Buffer’dan YouTube’a gerçek MP4 yükleme/yayınlama bu denetimde denenmedi. Günlük otomasyon çalışınca o görevde Buffer erişimi ve MP4 üretim/yayın adımları ayrıca doğrulanmalı.
+- Supabase ve Vercel’de bağlantı kurulmuş görünse de bu oturumda proje listesi okunmadı.
+- Birleşik finans radarı en fazla saatlik tetiklenir; önemli gelişme için sıfır gecikme garanti edilemez.
+- Saatlik çalışma kaydı, o saatteki tetiklemenin çalıştığını gösterir; her araştırma iddiasının ve dış eylemin tamamlandığını tek başına kanıtlamaz.
+
+**Manuel adım:** Şu anda kullanıcıdan bilgisayar kurulumu veya başka bir elle işlem gerekmiyor.
+
+---
+
 # 3 Günlük Ekip Raporu — 24–26 Eylül 2026
 
 ## 1) Son 3 günde yapılanlar
