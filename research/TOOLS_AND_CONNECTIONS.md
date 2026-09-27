@@ -64,3 +64,13 @@ Eklenti yönetiminde Remote Desktop Commander **installed=true** görünüyor. K
 ## GSC Wizard kurulum kontrolü — 2026-09-27
 
 Eklenti yönetimi **installed=true** döndürdü. Bu oturumun çağrılabilir araç listesinde GSC Wizard aracı henüz görünmedi; Search Console mülkü veya gerçek performans satırı okunamadı. Kurulum sonrası yeni oturumda read-only mülk listesiyle doğrulama gerekir.
+
+## Buffer, Supabase ve Vercel — 2026-09-27
+
+| Bağlantı | URL | Durum | Sınır |
+| --- | --- | --- | --- |
+| Buffer → Cerno YouTube | https://publish.buffer.com/settings/channels | Güvenli girişten sonra Buffer ayarlarında Cerno YouTube Channel, 1/3 bağlı kanal ve Free plan görüldü | ChatGPT Buffer eklentisi yok; MP4 yükleme, zamanlama ve otomatik yayın bu kontrolde yapılmadı |
+| Supabase | https://supabase.com/ | Kullanıcı eklenti bağlantısını tamamladı | Bu oturumda çağrılabilir aracı olmadığı için hesap/proje erişimi sınanmadı |
+| Vercel | https://vercel.com/ | Kullanıcı eklenti bağlantısını tamamladı | Bu oturumda çağrılabilir aracı olmadığı için hesap/proje erişimi sınanmadı |
+
+Bu bağlantıları görevle eşleştirirken önce read-only proje/hesap kontrolü yap; sır veya token kaydetme.
