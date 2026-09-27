@@ -105,3 +105,21 @@ Bu tablo, **kaynak adreslerini** kaydeder; her satırdaki kaynak her saat kullan
 3. Yeni, ilgili ve kullanılabilir bir kaynak bulursan uygun satır ekle; aynı turdaki analizde gerçekten kullan ve ilgili eski bir bağımsız kaynakla karşılaştır. Bulamazsan yeni satır uydurma; denenen aramayı ve kullanılan eski URL'leri raporla.
 4. Bulgu/deney kayıtlarına **kaynak URL'si + erişim tarihi + veri tarihi + kanıt/yorum ayrımı + değiştirdiği karar + sonraki ölçüm** ekle. Bir kaynak kullanılmaz veya geçersizleşirse satırı sessizce silme; durumunu ve nedenini güncelle.
 5. Erişim/depoya yazma başarısızsa yazıldı deme; raporda kopyalanabilir kaynak satırını ve engeli ver. Hesap, özel analitik ve ücretli API çağrısını doğrulanmış erişim olmadan varsayma.
+
+## Kod, yazılım, uzaktan web ve öğrenme kaynakları — 2026-09-27
+
+Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INVENTORY.md) ve [TOOLS_AND_CONNECTIONS.md](TOOLS_AND_CONNECTIONS.md). Eklenti sayfası, ilgili hizmet hesabına gerçek erişim kanıtı değildir.
+
+| Alan | Kaynak URL | Kullanım ve kontrol |
+| --- | --- | --- |
+| GitHub Actions | https://docs.github.com/en/actions | İş akışı, hata ayıklama, yetki ve dağıtım; kodun gerçek repo ve run kayıtlarıyla doğrula |
+| GitHub Secrets | https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets | Secret yapılandırma rehberi; secret değeri rapora veya açık depoya konmaz |
+| MDN | https://developer.mozilla.org/en-US/docs/Learn_web_development | Web geliştirme, HTML/CSS/JS öğrenme; kullanılan API'nin güncel belgesini ayrıca kontrol et |
+| Python | https://docs.python.org/3/ | Dil ve standart kütüphane için sürüme uygun resmi belge |
+| Hugging Face | https://huggingface.co/docs/hub/spaces-overview | Model/dataset/Spaces bilgisi; barındırma maliyetini ve donanım ihtiyacını ayrıca doğrula |
+| Exa | https://exa.ai/ | Yeni sayfa ve birincil kaynak keşfi; sonuç URL'sini açıp özgün metinle kontrol et |
+| Ubersuggest | https://neilpatel.com/ubersuggest/ | SEO konu/anahtar kelime adayı; ücretsiz hesap doğrulandı ama izlenen proje yok, tahmini hacmi satış sanma |
+| Context7 | https://context7.com/ | Kütüphane dokümantasyonu keşfi; proje sürümü ve orijinal dokümanla eşleştir |
+| GitHub ortak depo | https://github.com/cerniva/ai-shared-workspace | Mevcut kod, rapor ve önceki deneyler; her görevde önce gerçek branch/commit durumu okunur |
+
+**Uzaktan erişim ayrımı:** TinyFish (https://agent.tinyfish.ai/) yetkili web görevleri için ücretli bir araç olarak göründü; bu kullanıcının bilgisayarının masaüstüne otomatik erişim değildir. Remote Desktop Commander henüz kurulu değildir; kurulum ve cihaz yetkisi kullanıcı müdahalesi gerektirir. Tarayıcı otomasyonu, yerel bilgisayar terminali ve üretim API'lerini ayrı yetkiler olarak kaydet.
