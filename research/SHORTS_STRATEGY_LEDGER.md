@@ -29,3 +29,13 @@ Bu dosya yalnızca doğrulanmış kaynak, açık sınırlama ve uygulanabilir de
 - **Sonraki kurgu deneyi:** Aynı yaklaşık kısa süre/payoff yapısını koru; yalnızca ilk cümleyi tartışılabilir ikili soruya ve kapanışı “hangisi?” türü doğal yoruma dönüştür. Hedef davranış yorum üretmek; retention artışı garanti edilmez.
 - **Para kazanma:** Engaged/qualified views resmi olarak gelir/uygunlukta önemlidir; kanalın YPP durumu, Shorts Monetization Module kabulü ve gerçek gelir verisi okunmadı. Gelir doğrulanamadı.
 - **Sonraki ölçüm:** Video 72 saati doldurduktan sonra Windsor ile engaged views, ortalama süre/yüzde, beğeni, yorum, paylaşım ve abone kazanımını yeniden oku. Studio'ya özgü stayed-to-watch/swiped ve retention eğrisi dönmezse eksik bırak. Yeniden kontrol: 2026-09-28 03:52 TR sonrası.
+
+
+## 2026-09-27 09:00 TR — Yeni yayınlar görüldü; Analytics gecikmesi ayrıştırıldı
+
+- **Durum farkı:** Windsor kamu video metadatasında Mbappé videosuna ek olarak 19 saniyelik uçak penceresi Short'u ve 40 saniyelik Bitcoin pizza Short'u görüldü. Son video yaklaşık 10 saatlik ve çok küçük örneklemli; erken başarısızlık kararı verilmedi.
+- **Özel Analytics sınırı:** Video düzeyi özel Analytics sorgusu iki yeni video için boş döndü; yalnız eski Mbappé videosunda önceki değerler değişmeden geldi. Kamu view sayıları engaged view, retention veya gelir yerine kullanılmadı.
+- **Popüler örnek araştırması:** Exa'da 2026 tarihli futbol quiz Shorts örnekleri bulundu: [60 seconds to name these footballers](https://www.youtube.com/shorts/UTgv80Wwc9E) ve [How quickly can you name this Arsenal player?](https://www.youtube.com/shorts/oKE21CQVOsQ). Başlıkların izleyiciyi süreli bir göreve sokması format adayıdır; kamu sonuçlarında güvenilir retention/gelir veya görsel kesme verisi olmadığı için başarı nedeni sayılmadı.
+- **Karar/deney:** Bir sonraki özgün futbol brief'inde tek değişken olarak “ilk karede cevaplanabilir quiz + 3 saniyelik tahmin süresi + sonda cevap” kullan. Yorum çağrısı “kaçıncı saniyede bildin?” olsun. Alternatif açıklama: oyuncunun popülerliği ve Shorts dağıtımı sonuçları kurgu değişkeninden daha fazla etkileyebilir.
+- **Ölçüm:** Yeni videolar için veri oluştuğunda engaged views, AVD/APV, yorum, paylaşım ve abone kazanımını oku; Studio'dan stayed-to-watch/swiped ve retention eğrisi gelmiyorsa eksik bırak. Bitcoin videosu için ilk anlamlı kontrol 2026-09-29 02:21 TR sonrası; 72 saat dolmadan kesin karar yok.
+- **Para kazanma:** YPP, Shorts Monetization Module ve gelir verisi bu turda okunmadı; gelir doğrulanamadı.
