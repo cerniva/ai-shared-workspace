@@ -17,28 +17,22 @@ on:
         required: true
         default: "read_only"
         type: choice
-        options:
-          - read_only
-          - interactive
+        options: [read_only, interactive]
       browser_engine:
         description: "Browser execution engine"
         required: true
         default: "playwright"
         type: choice
-        options:
-          - playwright
-          - skyvern
+        options: [playwright, skyvern]
       planner_provider:
         description: "Choose which AI plans the browser steps"
         required: true
         default: "auto"
         type: choice
-        options:
-          - auto
-          - openai
-          - grok
-          - gemini
-          - claude
+        options: [auto, openai, grok, gemini, claude]
+  push:
+    branches: [fix/browser-worker-smoke-test]
+    paths: ['.github/workflows/browser-worker.yml']
 
 permissions:
   contents: read
@@ -48,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BROWSER_OBJECTIVE: ${{ inputs.objective }}
-      BROWSER_ALLOWED_HOSTS: ${{ inputs.allowed_hosts }}
-      BROWSER_EXECUTION_MODE: ${{ inputs.execution_mode }}
-      BROWSER_ENGINE: ${{ inputs.browser_engine }}
-      BROWSER_PLANNER_PROVIDER: ${{ inputs.planner_provider }}
+      BROWSER_OBJECTIVE: ${{ github.event_name == 'workflow_dispatch' && inputs.objective || 'Go to https://example.com and extract the page title' }}
+      BROWSER_ALLOWED_HOSTS: ${{ github.event_name == 'workflow_dispatch' && inputs.allowed_hosts || 'example.com' }}
+      BROWSER_EXECUTION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_mode || 'read_only' }}
+      BROWSER_ENGINE: ${{ github.event_name == 'workflow_dispatch' && inputs.browser_engine || 'skyvern' }}
+      BROWSER_PLANNER_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.planner_provider || 'auto' }}
       SKYVERN_API_KEY: ${{ secrets.SKYVERN_API_KEY }}
       ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
     steps:
