@@ -140,3 +140,13 @@ Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INV
 | Restoran maliyet | https://www.restaurant365.com/blog/calculating-food-costs-how-to-nail-down-this-ops-cost-enigma/ | Restaurant365; sektör yazılımı/eğitim içeriği | Reçete maliyeti, envanter, fiyat güncelleme ve veri giriş hatası problem alanını çapraz kontrol etmek | Ticari sağlayıcı; ileri sürdüğü anket/örnek sonuçlar özgün araştırma görülmeden bağımsız talep hacmi sayılmaz |
 
 **Erişim yöntemi ve fiilî kullanım:** Exa ile kaynak keşfi yapıldı, özgün URL'ler Exa fetch ile 27 Eylül 2026'da açıldı. Ücret/kota: bu turda ücretli video üretimi veya vidIQ kredisi kullanılmadı.
+
+
+### Yeni doğrulanmış kaynak kartı — 2026-09-27 09:00 TR
+
+| Alan | URL | Sahip / tür | Yeni kullanım | Kapsam ve güven sınırı |
+| --- | --- | --- | --- | --- |
+| Restoran verim/fire | https://foodbuyingguide.fns.usda.gov/Appendix/ResourceAppendixB | USDA Food and Nutrition Service; resmi verim rehberi | AP (satın alınan) miktarı EP (yenilebilir/hazır) miktara çevirme mantığını ve örneklerini ürün formüllerinde doğrulamak | ABD kamu yemek programı bağlamı ve ortalama verimler; Türkiye tedarikçisi, ürün kalitesi ve mutfak tekniğinin gerçek verimi yerine geçmez. Kullanıcı değeriyle ezilebilir referans olmalı |
+| Et/pişirme verimi | https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/cooking-yields/ | USDA Agricultural Research Service; resmi araştırma tablosu | Et ve kanatlıda pişirme sonrası ağırlık kaybı için referans veri kaynağı | 2014 tablosu; kesim, yöntem ve güncellik sınırı var. Gerçek mutfak testiyle doğrulanmadan kesin değer sayılmaz |
+
+**Karar etkisi:** Food Cost ürününe sabit “doğru verim” yazmak yerine kaynak etiketli başlangıç değeri + işletmenin kendi verim testini girebildiği alan tasarlanmalı. Exa ile 14 aday sonuç incelendi; iki özgün USDA sayfası 27 Eylül 2026'da doğrulandı.
