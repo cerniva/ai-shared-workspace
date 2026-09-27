@@ -192,3 +192,14 @@ Her araştırmada önce bu katalogdaki ilgili kaynağı seç, ardından konuya u
 | Merchant Center Popüler Ürünler | https://support.google.com/merchants/answer/13299535?hl=tr | Google Merchant Center Yardım; resmi ürün dokümantasyonu | Ülke/kategori bazında Google ürün popülerliği, fiyat aralığı ve stok önerileri | Hesap ve ürün verisi gerekir; veri haftalık güncellenebilir ve iki haftaya kadar gecikebilir. Türkiye desteklenen ülkeler arasındadır. Rapor verisi perakendecinin iç kullanımı içindir; yayımlama/yeniden satma yok. |
 
 **Bu taramada fiilen açılan resmi sayfalar:** YouTube Help Shorts Analytics; YouTube Analytics başlangıç rehberi; TikTok Creative Center Trends; Shopify Market Demand; Merchant Center Popular Products; Google Trends veri SSS. Shopify Market Demand ve YouTube Data API search.list kaynakları katalogda zaten bulunduğu için mükerrer kayıt açılmadı. Bu kaynaklar araştırma yöntemini destekler; tek başına ürün talebini, satış dönüşümünü veya viral başarıyı kanıtlamaz.
+
+
+### Yeni doğrulanmış bağlantı kaynağı — 2026-09-27 12:30 TR
+
+Metricool's live account read verified the Cerno YouTube brand connection and Europe/Istanbul timezone. The scheduling tool is available in this session; scheduling remains conditional on a finished video and a final post check.
+
+| Alan | URL | Sahip / tür | Uygun kullanım | Erişim ve güven sınırı |
+| --- | --- | --- | --- | --- |
+| YouTube yayın planlama | https://help.metricool.com/schedule-and-publish-on-youtube-gof0k | Metricool Help Center; resmi yardım belgesi, updated 2026-09-23 | Metricool ile YouTube videosu/Short planlama ve otomatik yayın gereklilikleri | Bağlı marka ve yayın yetkisi ayrıca doğrulanmalı; 3 dakikaya çok yakın Shorts işleme sonrası normal videoya dönüşebilir. |
+| Platform yayın biçimleri | https://help.metricool.com/scheduling-and-posting-options-by-social-network-cwmb3 | Metricool Help Center; resmi format rehberi | YouTube için dikey/kare Shorts biçimi ve sosyal ağ yayın özelliklerini karşılaştırma | API kısıtları değişebilir; güncel gönderim öncesi yeniden kontrol et. |
+
