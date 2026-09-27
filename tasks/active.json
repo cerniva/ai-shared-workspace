@@ -124,7 +124,7 @@
     "TSK-20260926-003"
   ],
   "protected_notes": [
-    "PayoutLens repo cerniva/grok-chatgpt-masa ayrı üründür; silinmez veya ortak masa ile karıştırılmaz."
+    "cerniva/grok-chatgpt-masa README ve içerik incelemesinde Grok + ChatGPT prompt aracı olarak görünüyor; PayoutLens kod deposu olduğu doğrulanmadı. PayoutLens konumunu bulmadan bu repoyu ürün kodu diye değiştirme."
   ],
   "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup.",
   "execution_note": "CORE başlıkları takip amaçlıdır. Kullanıcının işe başlayın talimatıyla ChatGPT/Grok/Gemini/Meta uygun somut görevlerde aktif çalışır; sürekli ajan iddiası yapılmaz, mevcut worker/bridge tetiklemeleri kullanılır."
