@@ -129,3 +129,14 @@ Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INV
 | Araç / bilgi | URL | Durum / kullanım |
 | --- | --- | --- |
 | Buffer YouTube Shorts rehberi | https://support.buffer.com/en-us/articles/using-youtube-shorts-with-buffer-Jl8iR6jIck | Otomatik ve bildirimli yayın farkı için resmi belge. Buffer hesabı/kanal yetkisi bu oturumda doğrulanmadı; mevcut Metricool/vidIQ ve doğrudan YouTube yetkisini test etmeden yeni araç ekleme. Bildirimli postu yayımlandı sayma. |
+
+
+### Yeni doğrulanmış kaynak kartları — 2026-09-27 08:05 TR
+
+| Alan | URL | Sahip / tür | Yeni kullanım | Kapsam ve güven sınırı |
+| --- | --- | --- | --- | --- |
+| Shorts ölçüm | https://blog.youtube/inside-youtube/engaged-views-youtube-explained/ | YouTube resmi blogu; 19 Ağustos 2026 | İlk karede başlayan genel view ile başlangıç saniyelerini aşan engaged view ayrımını doğrulamak; AVD/retention'ın engaged views'e dayandığını açıklamak | Resmi tanım; kanalın gerçek stayed-to-watch, YPP veya gelir durumunu göstermez |
+| Restoran maliyet | https://www.restaurantowner.com/public/DOWNLOAD-Menu-Recipe-Cost-Spreadsheet-Template.cfm | RestaurantOwner; uygulayıcı eğitim/ürün sayfası | Reçete maliyet aracındaki satın alma birimi→reçete birimi dönüşümü, güncel fiyatla yeniden hesaplama, porsiyon ve alt reçete özelliklerini karşılaştırmak | Rakip ürün sayfası; satış hacmi kanıtı değil. Sayfa kendi aracında yield hesabının olmadığını açıkça belirtiyor |
+| Restoran maliyet | https://www.restaurant365.com/blog/calculating-food-costs-how-to-nail-down-this-ops-cost-enigma/ | Restaurant365; sektör yazılımı/eğitim içeriği | Reçete maliyeti, envanter, fiyat güncelleme ve veri giriş hatası problem alanını çapraz kontrol etmek | Ticari sağlayıcı; ileri sürdüğü anket/örnek sonuçlar özgün araştırma görülmeden bağımsız talep hacmi sayılmaz |
+
+**Erişim yöntemi ve fiilî kullanım:** Exa ile kaynak keşfi yapıldı, özgün URL'ler Exa fetch ile 27 Eylül 2026'da açıldı. Ücret/kota: bu turda ücretli video üretimi veya vidIQ kredisi kullanılmadı.
