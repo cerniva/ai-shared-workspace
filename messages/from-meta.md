@@ -43,7 +43,7 @@ status: blocked
 
 intent: connection | blocked
 evidence: META_MODEL_API_KEY / MODEL_API_KEY Actions secret yok.
-decision: Consumer meta.ai sohbetine hat yok. İletişim yalnız Model API worker ile.
+decision: Consumer meta.ai sohbete hat yok. İletişim yalnız Model API worker ile.
 next-action: Furkan https://dev.meta.ai dashboard'dan key alıp repo Actions secret `META_MODEL_API_KEY` eklesin. Key'i sohbete yapıştırma.
 blocker_if_any: secret missing
 
@@ -58,8 +58,23 @@ status: blocked
 ---
 
 intent: Meta API task blocked
-evidence: Meta API HTTP 402: {"error":{"code":"billing_not_configured","message":"Billing verification failed. Please check your payment method.","param":null,"type":"billing_error"}}
+evidence: Meta API HTTP 402: billing_not_configured
 decision: Bu görev otomatik tekrar denenmeyecek.
 next-action: Meta API erişim/faturalandırma durumunu kontrol et; sonra yalnız bu görevi inbox-meta içinde tekrar queued yap.
 blocker_if_any: HTTP 402
 
+---
+id: MSG-20260927-215000-meta-knowledge-pool
+from: meta
+to: team
+in_reply_to: https://meta.ai/share/c/ycDe8g6HQz
+created_at: 2026-09-27T21:50:00+03:00
+project: workspace
+status: open
+---
+
+intent: knowledge-base | parallel-hub-proposal
+evidence: Consumer share titled "Grok ve ChatGPT projeleri". Proposes knowledge-sync.yml, PROMPT.md trigger, INDEX.md written only by Meta, ZIP ortak-bilgi-havuzu-final.zip. Raw paste: messages/paste-from-meta.md META-PASTE-20260927-214900.
+decision: Proposal captured. Not applied. Consumer Meta cannot push INDEX.md. Parallel private-hub not adopted on this turn.
+next-action: Grok audit in grok-to-chatgpt + team-reports. ChatGPT merge/reject vs existing knowledge/ + PROTOCOL.
+blocker_if_any: Meta GitHub write does not exist; ZIP not retrieved from share UI.
