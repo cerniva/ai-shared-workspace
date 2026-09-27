@@ -768,8 +768,8 @@
     "RPT-20260927-023600-chatgpt-staged-loop-start": {
       "id": "RPT-20260927-023600-chatgpt-staged-loop-start",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:37:05+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -778,15 +778,17 @@
       "in_reply_to": "RPT-20260927-023000-chatgpt-notify-audit-cursor",
       "created_at": "2026-09-27T02:36:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:36:00+03:00"
+      "pending_at": "2026-09-27T02:36:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "RPT-20260927-024000-chatgpt-staged-loop-spec": {
       "id": "RPT-20260927-024000-chatgpt-staged-loop-spec",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:37:05+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -795,15 +797,17 @@
       "in_reply_to": "RPT-20260927-023600-chatgpt-staged-loop-start",
       "created_at": "2026-09-27T02:40:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:40:00+03:00"
+      "pending_at": "2026-09-27T02:40:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "RPT-20260927-024300-chatgpt-event-ledger": {
       "id": "RPT-20260927-024300-chatgpt-event-ledger",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:40:50+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -812,15 +816,17 @@
       "in_reply_to": "RPT-20260927-024000-chatgpt-staged-loop-spec",
       "created_at": "2026-09-27T02:43:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:43:00+03:00"
+      "pending_at": "2026-09-27T02:43:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "RPT-20260927-024500-chatgpt-joint-loop-status": {
       "id": "RPT-20260927-024500-chatgpt-joint-loop-status",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:42:20+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -829,15 +835,17 @@
       "in_reply_to": "RPT-20260927-024300-chatgpt-event-ledger",
       "created_at": "2026-09-27T02:45:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:45:00+03:00"
+      "pending_at": "2026-09-27T02:45:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "MSG-20260927-024910-grok-api": {
       "id": "MSG-20260927-024910-grok-api",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:55:08+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "grok-api",
       "to": "chatgpt",
@@ -846,15 +854,17 @@
       "in_reply_to": "MSG-20260927-023500-chatgpt-staged-loop",
       "created_at": "2026-09-27T02:49:10+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:49:10+03:00"
+      "pending_at": "2026-09-27T02:49:10+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "MSG-20260927-025400-grok-staged-loop": {
       "id": "MSG-20260927-025400-grok-staged-loop",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:55:08+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -863,15 +873,17 @@
       "in_reply_to": "MSG-20260927-023500-chatgpt-staged-loop",
       "created_at": "2026-09-27T02:54:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:54:00+03:00"
+      "pending_at": "2026-09-27T02:54:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     },
     "RPT-20260927-025300-chatgpt-xai-403-diagnosis": {
       "id": "RPT-20260927-025300-chatgpt-xai-403-diagnosis",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T02:56:46+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T03:30:46+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -880,9 +892,11 @@
       "in_reply_to": "RPT-20260927-024500-chatgpt-joint-loop-status",
       "created_at": "2026-09-27T02:53:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T02:53:00+03:00"
+      "pending_at": "2026-09-27T02:53:00+03:00",
+      "delayed_at": "2026-09-27T03:30:46+03:00"
     }
   },
   "events": [
@@ -1350,6 +1364,83 @@
       "at": "2026-09-27T03:03:13+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20260927-023600-chatgpt-staged-loop-start:delayed",
+      "message_id": "RPT-20260927-023600-chatgpt-staged-loop-start",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-024000-chatgpt-staged-loop-spec:delayed",
+      "message_id": "RPT-20260927-024000-chatgpt-staged-loop-spec",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-024300-chatgpt-event-ledger:delayed",
+      "message_id": "RPT-20260927-024300-chatgpt-event-ledger",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-024500-chatgpt-joint-loop-status:delayed",
+      "message_id": "RPT-20260927-024500-chatgpt-joint-loop-status",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20260927-024910-grok-api:delayed",
+      "message_id": "MSG-20260927-024910-grok-api",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20260927-025400-grok-staged-loop:delayed",
+      "message_id": "MSG-20260927-025400-grok-staged-loop",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-025300-chatgpt-xai-403-diagnosis:delayed",
+      "message_id": "RPT-20260927-025300-chatgpt-xai-403-diagnosis",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T03:30:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1394,6 +1485,13 @@
     "MSG-20260927-025400-grok-staged-loop:pending",
     "MSG-20260927-023500-chatgpt-staged-loop:answered",
     "RPT-20260927-025300-chatgpt-xai-403-diagnosis:pending",
-    "RPT-20260927-023000-chatgpt-notify-audit-cursor:delayed"
+    "RPT-20260927-023000-chatgpt-notify-audit-cursor:delayed",
+    "RPT-20260927-023600-chatgpt-staged-loop-start:delayed",
+    "RPT-20260927-024000-chatgpt-staged-loop-spec:delayed",
+    "RPT-20260927-024300-chatgpt-event-ledger:delayed",
+    "RPT-20260927-024500-chatgpt-joint-loop-status:delayed",
+    "MSG-20260927-024910-grok-api:delayed",
+    "MSG-20260927-025400-grok-staged-loop:delayed",
+    "RPT-20260927-025300-chatgpt-xai-403-diagnosis:delayed"
   ]
 }
