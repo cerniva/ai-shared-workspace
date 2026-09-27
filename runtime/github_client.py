@@ -87,8 +87,9 @@ class GitHubContentsClient:
 
     def get_json(self, path: str):
         self._check()
+        url = self._url(path, include_ref=True)
         self._authorize_path(path, write=False)
-        status, _, body = self.transport.request("GET", self._url(path, include_ref=True), self._headers())
+        status, _, body = self.transport.request("GET", url, self._headers())
         if status != 200:
             self._raise_for_status(status)
         payload = json.loads(body.decode("utf-8"))
@@ -97,6 +98,7 @@ class GitHubContentsClient:
 
     def put_json(self, path: str, data, sha: str, message: str) -> str:
         self._check()
+        url = self._url(path)
         self._authorize_path(path, write=True)
         raw = (json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         body = json.dumps({
@@ -105,7 +107,7 @@ class GitHubContentsClient:
             "sha": sha,
             "branch": self.settings.github_branch,
         }).encode("utf-8")
-        status, _, response = self.transport.request("PUT", self._url(path), self._headers(), body)
+        status, _, response = self.transport.request("PUT", url, self._headers(), body)
         if status not in (200, 201):
             self._raise_for_status(status)
         payload = json.loads(response.decode("utf-8"))
