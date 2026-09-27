@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "updated_at": "2026-09-27",
+  "note": "Living source pool. Score and prune; do not treat as complete.",
+  "categories": {
+    "TREND": [
+      {"id": "google-trends", "url": "https://trends.google.com", "trust": 8, "status": "active"},
+      {"id": "youtube-search", "url": "https://www.youtube.com", "trust": 7, "status": "active"},
+      {"id": "reddit", "url": "https://www.reddit.com", "trust": 6, "status": "active"},
+      {"id": "x", "url": "https://x.com", "trust": 6, "status": "active"}
+    ],
+    "YOUTUBE": [
+      {"id": "yt-data-api", "url": "https://developers.google.com/youtube/v3", "trust": 8, "status": "needs_key"},
+      {"id": "yt-studio", "note": "channel analytics if signed-in human exports", "trust": 9, "status": "manual"}
+    ],
+    "TECH_AI": [
+      {"id": "google-blog", "url": "https://blog.google", "trust": 8, "status": "active"},
+      {"id": "openai-signals", "url": "https://openai.com", "trust": 8, "status": "active"},
+      {"id": "whoisusingai", "url": "https://whoisusingai.com/tracker", "trust": 6, "status": "active-verify"}
+    ],
+    "FINANCE": [
+      {"id": "company-ir", "note": "official IR pages first", "trust": 9, "status": "active"}
+    ],
+    "SCIENCE": [
+      {"id": "nasa", "url": "https://www.nasa.gov", "trust": 9, "status": "active"},
+      {"id": "nature", "url": "https://www.nature.com", "trust": 9, "status": "active"}
+    ],
+    "HISTORY": [
+      {"id": "archives", "note": "primary archives / museums", "trust": 8, "status": "active"}
+    ]
+  }
+}
