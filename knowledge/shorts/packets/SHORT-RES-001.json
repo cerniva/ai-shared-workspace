@@ -1,0 +1,51 @@
+{
+  "id": "SHORT-RES-001",
+  "topic": "Türkiye’de AI mesajlarının üçte birinden fazlası pratik rehberlik",
+  "why_selected": "Çok kaynak, özgün açı (arama rekoru değil kullanım kırılımı), Cerno pratik çizgisi, görsel rakam.",
+  "trend_or_evergreen": "mixed",
+  "hook": "Türkiye’de yapay zekaya yazılan her 3 mesajdan 1’inden fazlası ‘bunu nasıl yaparım’ diye soruluyor.",
+  "target_seconds": 34,
+  "sources": [
+    "OpenAI Signals / TR mesaj sınıfları (Haziran 2026 örneklemi; ikincil derleme: cankiran.com 2026-09-23)",
+    "Marketing Türkiye / Google TR arama bülteni (2026-09-19): Gemini +800%, AI Agents +3240%",
+    "whoisusingai tracker 2026-09-27: arama payı ChatGPT lider — kullanım sayısı değil"
+  ],
+  "competitor_note": "Rakip Shorts yüzde artışını okuyor; pratik-rehberlik payını bağlama.",
+  "unique_angle": "Rekor arama, insanların AI’yı ansiklopedi gibi değil iş bitirici gibi kullandığını göstermiyor. Kırılım gösteriyor.",
+  "script_beats": {
+    "0-2": "Hook: her 3 mesajdan 1+ pratik rehberlik",
+    "2-8": "OpenAI TR örneklemi: %35,6 pratik rehberlik, %20,5 bilgi arama",
+    "8-20": "Google TR: Gemini aramaları +800; ajan aramaları +3240 — ama bu kullanım değil arama",
+    "20-35": "Ters köşe: arama payı ile mesaj amacı aynı şey değil",
+    "35-45": "Sonuç + soru: sen AI’ya bilgi mi soruyorsun, iş mi bitirtiyorsun?"
+  },
+  "visual_plan": [
+    "0-2 büyük yüzde kartı",
+    "2-8 iki bar: pratik vs bilgi",
+    "8-20 Türkiye + arama okları (orijinal grafik, ekran kaydı değil)",
+    "20-35 ‘arama ≠ kullanım’ üst yazı",
+    "son kare soru"
+  ],
+  "audio_plan": {
+    "voice": "TR doğal, orta tempo, sayılarda vurgu",
+    "sfx": "hafif whoosh sahne değişiminde, çöp efekt yok",
+    "silence_forbidden": true
+  },
+  "title": "AI’ya yazılan 3 mesajdan 1’i iş sorusu",
+  "hashtags": ["#shorts", "#yapayzeka", "#chatgpt", "#turkiye"],
+  "prepublish_checklist": {
+    "facts_verified": true,
+    "sources_reliable": true,
+    "strong_first_2s": true,
+    "no_empty_intro": true,
+    "audio_planned": true,
+    "portrait_9_16_planned": true,
+    "not_previously_published": true,
+    "title_matches": true,
+    "rights_ok": true,
+    "publishable_quality_planned": true
+  },
+  "render_requested": false,
+  "expected_strength": "sayı + ters köşe + kanal uyumu",
+  "series_candidate": "Yapay zekanın bilinmeyen sayıları"
+}
