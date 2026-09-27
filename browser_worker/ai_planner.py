@@ -80,8 +80,12 @@ def _gemini(objective):
 
 def _anthropic_auth_headers():
     key=os.getenv("ANTHROPIC_API_KEY","").strip()
+    workspace_id=os.getenv("ANTHROPIC_WORKSPACE_ID","").strip()
     if key:
-        return {"x-api-key":key,"anthropic-version":"2023-06-01"}
+        headers={"x-api-key":key,"anthropic-version":"2023-06-01"}
+        if workspace_id:
+            headers["anthropic-workspace-id"]=workspace_id
+        return headers
 
     auth_token=os.getenv("ANTHROPIC_AUTH_TOKEN","").strip()
     if auth_token:
@@ -90,7 +94,6 @@ def _anthropic_auth_headers():
     rule_id=os.getenv("ANTHROPIC_FEDERATION_RULE_ID","").strip()
     organization_id=os.getenv("ANTHROPIC_ORGANIZATION_ID","").strip()
     service_account_id=os.getenv("ANTHROPIC_SERVICE_ACCOUNT_ID","").strip()
-    workspace_id=os.getenv("ANTHROPIC_WORKSPACE_ID","").strip()
     identity_token=os.getenv("ANTHROPIC_IDENTITY_TOKEN","").strip()
     token_file=os.getenv("ANTHROPIC_IDENTITY_TOKEN_FILE","").strip()
 
