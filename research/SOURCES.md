@@ -14,8 +14,8 @@ Bu dosya ortak çalışma masasının kullanacağı kaynak katmanlarını tanım
    - kritik iddialar mümkünse birincil kaynakla çapraz kontrol edilir
 
 3. **YouTube / video kaynakları**
-   - Gemini'nin doğrudan erişebildiği videolar, captions ve transcriptler
-   - ChatGPT'nin erişemediği veya okuyamadığı videolar için Gemini kaynak köprüsüdür
+   - Gerçek erişimi doğrulanan araçlarla okunabilen videolar, captions ve transcriptler
+   - Gemini yalnızca gerçekten çağrılabilir ve video içeriği döndürürse ek kaynak köprüsü olarak kullanılır
    - zaman damgalı bölüm notları, ana iddialar, veri noktaları ve uygulanabilir fikirler kaydedilir
 
 4. **Sosyal / topluluk / uzman görüşleri**
@@ -71,3 +71,37 @@ Bu döngü saatlik Araştırma ve Kütüphane çalışmasında uygulanır; kredi
 5. **Geri besleme:** Yeni görev/engel geldiğinde geçmiş raporlarda önceki denemeyi ara. Haftada bir, saatlik çalışmanın birinde, açık Shopify adayları ile Shorts hipotezlerini olgunlaşmış sonuçlarla karşılaştır; yanlış çıkanları gerekçeyle güncelle, eski bilgiyi sessizce silme. Sonraki video brief'i ve ürün seçiminde yalnızca güncel, dayanaklı dersleri kullan.
 
 Saatlik rapor kısa tutulur: **Shopify farkı | Shorts farkı | derinleştirilen soru | uygulanan karar/deney | sonraki kontrol**. Yeni doğrulanmış bulgu yoksa bu açıkça yazılır; araştırma yapılmış gibi yeni bilgi uydurulmaz.
+
+## URL kaynak dizini — 2026-09-27
+
+Bu tablo, **kaynak adreslerini** kaydeder; her satırdaki kaynak her saat kullanılmış veya hesaba bağlanmış demek değildir. Saatlik turda kullanılan sayfa ayrıca URL, erişim zamanı ve bulguyla raporlanır. Ücret, hesap veya kota gerektiren kaynağın verisini erişim doğrulanmadan kullanma.
+
+| Alan | Kaynak URL | Kullanım | Erişim durumu / sınır |
+| --- | --- | --- | --- |
+| Shorts | https://support.google.com/youtube/answer/12942217 | Shorts Analytics, izlemeyi seçme/kaydırma ve ölçüm açıklaması | Herkese açık belge; özel kanal verisi ayrı yetki ister |
+| Shorts | https://support.google.com/youtube/answer/11962757 | Studio Trends, arama ve Shorts içerik boşluğu açıklaması | Belge açık; kanalın Trends çıktısı için Studio erişimi gerekir |
+| Shorts | https://support.google.com/youtube/answer/12504220?hl=tr | Shorts para kazanma ve gelir paylaşımı kuralları | Herkese açık belge; gerçek kanal geliri ayrı yetki ister |
+| Shorts | https://creatoracademy.youtube.com/page/course/ypp?hl=en | YPP uygunluk ve başvuru koşulları | Herkese açık belge; kanalın YPP durumunu kanıtlamaz |
+| Shorts | https://www.youtube.com/results?search_query=shorts | Kamuya açık yeni video/format örneklerini konuya göre arama | Gerçek video URL'si, tarih, niş ve karşı örnek ayrıca kaydedilir |
+| Çapraz trend | https://ads.tiktok.com/creative/creativeCenter/trends | Hashtag, video ve yaratıcı format sinyalleri | Bölge/oturum sınırlaması olabilir; YouTube başarısı kanıtı değildir |
+| Talep | https://trends.google.com/explore | Ülke ve dönem bazında göreli arama ilgisi | Normalize endeks; satış veya mutlak hacim değildir |
+| Talep | https://trends.google.com/trending?geo=TR | Türkiye'de güncel arama eğilimleri | Geçici popülerlik; ürün/satış kanıtı değildir |
+| Shopify | https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/overview-dashboard | Analitik ölçümlerinin anlamı | Belge açık; mağaza verisi için yetki gerekir |
+| Shopify | https://www.shopify.com/blog/market-demand | Ürün pazar talebi değerlendirme yöntemleri | Yöntem/ikincil kaynak; mağaza satış kanıtı değildir |
+| Shopify | https://support.google.com/merchants/answer/13299535 | Merchant Center popüler ürün raporu | Belge açık; rapor verisi uygun bağlı hesap gerektirir |
+| Shopify | https://support.google.com/webmasters/answer/7576553 | Search Console tıklama ve gösterim ölçümü | Belge açık; site performansı için doğrulanmış erişim gerekir |
+| Akademik | https://openalex.org/works | Konuya göre çalışma, tarih ve atıf keşfi | Dizin; özgün çalışma ve yöntem ayrıca okunur |
+| Akademik | https://search.crossref.org/ | DOI ve yayın bilgisi doğrulama | Dizin/üst veri; tek başına çalışma sonucu değildir |
+| Akademik | https://pubmed.ncbi.nlm.nih.gov/ | Sağlık ve yaşam bilimleri yayın araması | Konuya uygunsa; özgün metin ayrıca doğrulanır |
+| Akademik | https://pmc.ncbi.nlm.nih.gov/ | Erişilebilir özgün bilimsel tam metin | Çalışma kalitesi ve örneklem ayrıca değerlendirilir |
+| Açık veri | https://datasetsearch.research.google.com/ | Yeni veri seti keşfi | Asıl yayımlayıcı, yöntem ve veri tarihi doğrulanır |
+| Açık veri | https://ourworldindata.org/ | Genel eğilim ve kaynaklı veri görselleştirmesi | Altta yatan asıl veri kurumu ayrıca kontrol edilir |
+| YouTube API | https://developers.google.com/youtube/v3/docs/search/list | Sistemli kamuya açık video araması için dokümantasyon | Gerçek API kimliği/kota erişimi doğrulanmadan kullanılmaz |
+
+### Saatlik ekleme ve kullanım kuralı
+
+1. Önce bu dizini ve ilgili eski kayıtları oku; o turdaki Shorts ve Shopify sorularına yarayan mevcut URL'leri seç.
+2. Her turda somut soruyla ilgili **yeni** bir kaynak ara. URL'yi aç, sahibini, yayın/veri tarihini, ülke/kapsamını, erişim koşulunu ve önceki kaynaklardan farklı ne öğrettiğini doğrula.
+3. Yeni, ilgili ve kullanılabilir bir kaynak bulursan uygun satır ekle; aynı turdaki analizde gerçekten kullan ve ilgili eski bir bağımsız kaynakla karşılaştır. Bulamazsan yeni satır uydurma; denenen aramayı ve kullanılan eski URL'leri raporla.
+4. Bulgu/deney kayıtlarına **kaynak URL'si + erişim tarihi + veri tarihi + kanıt/yorum ayrımı + değiştirdiği karar + sonraki ölçüm** ekle. Bir kaynak kullanılmaz veya geçersizleşirse satırı sessizce silme; durumunu ve nedenini güncelle.
+5. Erişim/depoya yazma başarısızsa yazıldı deme; raporda kopyalanabilir kaynak satırını ve engeli ver. Hesap, özel analitik ve ücretli API çağrısını doğrulanmış erişim olmadan varsayma.
