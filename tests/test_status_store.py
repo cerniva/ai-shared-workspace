@@ -36,6 +36,14 @@ class StatusStoreTests(unittest.TestCase):
         self.assertEqual(done["status"], "succeeded")
         self.assertTrue(store.is_terminal("A:1"))
 
+    def test_recent_running_entry_is_active_but_stale_one_is_not(self):
+        data = {"version": 1, "items": [{
+            "idempotency_key": "A:1", "status": "running", "started_at": "2026-09-27T00:00:00+00:00"
+        }]}
+        store = StatusStore(data, "sha0")
+        self.assertTrue(store.is_active_running("A:1", datetime(2026, 9, 27, 0, 4, tzinfo=timezone.utc), lease_seconds=300))
+        self.assertFalse(store.is_active_running("A:1", datetime(2026, 9, 27, 0, 6, tzinfo=timezone.utc), lease_seconds=300))
+
     def test_conflict_refetch_merges_without_overwriting_unrelated_rows(self):
         store = StatusStore({"version": 1, "items": []}, "stale")
         now = datetime(2026, 9, 27, tzinfo=timezone.utc)
