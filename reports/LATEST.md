@@ -1,3 +1,15 @@
+# Araştırma farkı — 27 Eylül 2026, 09:00 Türkiye saati
+
+- Windsor iki yeni yayımlanmış Short'u kamu metadatasında gördü; özel Analytics iki yeni video için henüz veri döndürmedi. En yeni video yaklaşık 10 saatlik ve örneklem çok küçük olduğu için başarısız sayılmadı.
+- Mbappé Short'unun özel ölçümü değişmedi; önceki bulgu tekrar yeni sonuç diye yazılmadı. Studio'ya özgü stayed-to-watch/swiped ve retention eğrisi hâlâ yok.
+- 2026 futbol quiz örneklerinde ilk karede süreli görev/cevap tahmini formatı görüldü. Bir sonraki brief için tek değişken: 3 saniyelik tahmin süresi ve “kaçıncı saniyede bildin?” yorumu.
+- USDA Food Buying Guide ve USDA ARS pişirme verimi kaynakları doğrulandı. Food Cost kararı “sabit verim tablosu”ndan “kaynak etiketli başlangıç değeri + işletmenin kendi ölçümüyle override” yapısına daraltıldı.
+- Shopify hunisinde yeni sepet, checkout, sipariş veya satış sinyali yok. Fiyat, yayın, ödeme veya canlı tema değişikliği yapılmadı.
+- Figma kimliği tekrar doğrulandı: Starter/View; dosya anahtarı olmadığı için tasarım değişikliği yapılmadı. Seçilen app-6a6c6ebc8f74819197497c772358751b için bu oturumda çağrılabilir araç görünmedi; erişilmiş sayılmadı.
+- Sonraki kontrol: Bitcoin Short'u 72 saatini doldurduktan sonra 29 Eylül 02:21 TR sonrası; Food Cost taslağına dosya erişimi oluştuğunda.
+
+---
+
 # Araştırma farkı — 27 Eylül 2026, 08:05 Türkiye saati
 
 - Windsor YouTube veri yolu yeniden çalıştı ve yayımlanmış Short için video düzeyinde views, engaged views, ortalama izleme süresi/yüzdesi, etkileşim ve abone değişimi döndürdü. Özel kanal sayıları herkese açık repoya kaydedilmedi.
