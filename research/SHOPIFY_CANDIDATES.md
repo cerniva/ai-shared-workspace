@@ -20,3 +20,12 @@ Aday bulunması yayın kararı değildir. Her satırda talep, rekabet, dosya/ted
 - **Karar farkı:** “Sadece reçete maliyeti” yeterince farklı değil. Aday ancak **satın alma birimi → yenilebilir miktar/fire → porsiyon maliyeti → hedef satış fiyatı** akışını özgün ve kolay kullanımlı biçimde doğrulayabilirse ilerletilecek.
 - **Sınırlama:** Bunlar rakip ve ticari sektör kaynaklarıdır; satış hacmi veya hedef müşterinin ödeme isteği değildir. Mevcut taslak dosyanın bu özellikleri içerip içermediği bu turda okunmadı.
 - **Uygulama/ölçüm:** Aday havuzu daraltıldı; fiyat/yayın yapılmadı. Sonraki tetikleyici, taslak dosya içeriğinin okunabilmesi veya küçük kafe/restoran kullanıcılarından yenilebilir verim/fire ihtiyacına dair nitelikli geri bildirim gelmesi. Yeniden kontrol: dosya erişimi oluştuğunda; en geç 2026-10-04 haftalık aday incelemesinde.
+
+
+## 2026-09-27 09:00 TR — Resmi verim kaynağı bulundu; ürün kapsamı netleşti
+
+- **Yeni kanıt:** USDA Food Buying Guide, AP (satın alınan) ile EP (yenilebilir/hazır) miktarını ayırıyor ve ürün biçimine göre verim hesap örnekleri veriyor. USDA ARS ayrıca et ve kanatlı için pişirme verimi tabloları yayımlıyor.
+- **Karar farkı:** Ürün yalnız manuel fire yüzdesi alanı değil, **kaynak etiketli referans verim + kullanıcı ölçümüyle geçersiz kılma** yapısı sunmalı. Böylece başlangıç kolaylaşır fakat ortalama ABD verisi Türkiye'deki tedarikçi/ürün/mutfak tekniği için kesin doğru gibi sunulmaz.
+- **Sınırlama:** Resmi kaynak, hedef müşterinin ödeme isteğini veya Türkiye pazar talebini kanıtlamaz. Mevcut taslak dosyanın formülleri ve lisansı hâlâ okunmadı.
+- **Mağaza ölçümü:** 24–27 Eylül hunisinde yeni sepet, checkout, sipariş veya satış sinyali oluşmadı; küçük örneklem ve parola/ödeme engeli devam ediyor.
+- **Sonraki tetikleyici:** Taslak dosya erişildiğinde AP→EP formülünü, birim dönüşümünü, kullanıcı override alanını ve kaynak notunu doğrula. Talep doğrulanmadan fiyat/yayın yok.
