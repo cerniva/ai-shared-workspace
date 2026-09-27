@@ -44,11 +44,14 @@ class GitHubContentsClient:
         if not self.settings.ready_for_github:
             raise GitHubConfigError("github configuration missing")
 
-    def _url(self, path: str) -> str:
+    def _url(self, path: str, *, include_ref: bool = False) -> str:
         if path.startswith(("http://", "https://")) or ".." in path.split("/"):
             raise ValueError("path must be repository-relative")
         safe_path = parse.quote(path, safe="/")
-        return f"https://api.github.com/repos/{self.settings.github_repo}/contents/{safe_path}"
+        base = f"https://api.github.com/repos/{self.settings.github_repo}/contents/{safe_path}"
+        if include_ref:
+            return f"{base}?{parse.urlencode({'ref': self.settings.github_branch})}"
+        return base
 
     def _headers(self):
         return {
@@ -70,7 +73,7 @@ class GitHubContentsClient:
 
     def get_json(self, path: str):
         self._check()
-        status, _, body = self.transport.request("GET", self._url(path), self._headers())
+        status, _, body = self.transport.request("GET", self._url(path, include_ref=True), self._headers())
         if status != 200:
             self._raise_for_status(status)
         payload = json.loads(body.decode("utf-8"))
@@ -84,6 +87,7 @@ class GitHubContentsClient:
             "message": message,
             "content": base64.b64encode(raw).decode("ascii"),
             "sha": sha,
+            "branch": self.settings.github_branch,
         }).encode("utf-8")
         status, _, response = self.transport.request("PUT", self._url(path), self._headers(), body)
         if status not in (200, 201):
