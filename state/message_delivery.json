@@ -920,8 +920,8 @@
     "MSG-20260927-215100-grok-meta-share-audit": {
       "id": "MSG-20260927-215100-grok-meta-share-audit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-09-27T21:51:41+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T22:33:34+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -930,15 +930,17 @@
       "in_reply_to": "MSG-20260927-215000-meta-knowledge-pool",
       "created_at": "2026-09-27T21:51:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T21:51:00+03:00"
+      "pending_at": "2026-09-27T21:51:00+03:00",
+      "delayed_at": "2026-09-27T22:33:34+03:00"
     },
     "RPT-20260927-215100-grok-meta-share-audit": {
       "id": "RPT-20260927-215100-grok-meta-share-audit",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-27T21:51:58+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-27T22:33:34+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -947,9 +949,11 @@
       "in_reply_to": "none",
       "created_at": "2026-09-27T21:51:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-27T21:51:00+03:00"
+      "pending_at": "2026-09-27T21:51:00+03:00",
+      "delayed_at": "2026-09-27T22:33:34+03:00"
     }
   },
   "events": [
@@ -1538,6 +1542,28 @@
       "at": "2026-09-27T21:51:58+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20260927-215100-grok-meta-share-audit:delayed",
+      "message_id": "MSG-20260927-215100-grok-meta-share-audit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-09-27T22:33:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20260927-215100-grok-meta-share-audit:delayed",
+      "message_id": "RPT-20260927-215100-grok-meta-share-audit",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-27T22:33:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1593,6 +1619,8 @@
     "RPT-20260927-chatgpt-shorts-preflight:pending",
     "RPT-20260927-chatgpt-shorts-preflight:delayed",
     "MSG-20260927-215100-grok-meta-share-audit:pending",
-    "RPT-20260927-215100-grok-meta-share-audit:pending"
+    "RPT-20260927-215100-grok-meta-share-audit:pending",
+    "MSG-20260927-215100-grok-meta-share-audit:delayed",
+    "RPT-20260927-215100-grok-meta-share-audit:delayed"
   ]
 }
