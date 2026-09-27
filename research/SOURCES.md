@@ -177,3 +177,18 @@ Bu kaynaklar 27 Eylül 2026'da resmî sayfaları açılarak doğrulandı; her ar
 - Dışarıdan gelen iddia önemliyse özgün kaynağı aç; karar etkisi yüksekse bağımsız ikinci doğrulama ara. Arama sonucu, AI özeti veya bağlı eklentinin listede görünmesi tek başına doğrulama sayılmaz.
 - Her yeni araştırma sorusunda bir yeni kaynak adayı ara; yalnızca gerçekten yeni, konuyla ilgili, erişilebilir ve açıp doğruladığın kaynağı bu dizine ekle. Yeni ve yararlı kaynak bulunmazsa satır üretme; kullanılan mevcut URL'leri ve neden yeni kaynak eklenmediğini kısaca belirt.
 - Her araştırma raporunda yalnız fiilen kullanılan kaynakları URL, yayın/veri tarihi ve erişim tarihiyle yaz. Her turda tüm kaynakları tarama; aynı sorguyu/kanıtı gereksiz yere tekrarlama.
+
+
+## Kaynak genişletme — Shopify ve Shorts — 2026-09-27
+
+Her araştırmada önce bu katalogdaki ilgili kaynağı seç, ardından konuya uygun yeni resmi/özgün kaynağı keşfet. Her kaynağı her turda kullanmak gerekmez: soruyla ilgili olanları dönüşümlü kullan; çapraz-platform sinyalini hedef platformun başarısı gibi sunma. Yeni kartı yalnızca URL açılıp içerik doğrulandıysa ekle; URL zaten varsa kopyalama, erişim/tarih/kapsam değiştiyse mevcut kartı güncelle.
+
+| Kaynak | URL | Sahip / tür | Uygun kullanım | Erişim ve güven sınırı |
+| --- | --- | --- | --- | --- |
+| YouTube Shorts Analytics ölçüleri | https://support.google.com/youtube/answer/12942217?hl=en | YouTube Help; resmi ürün dokümantasyonu | Shorts için shown in feed, chose to view/swiped away, trafik kaynakları ve popüler videoları yorumlama | Kanalın özel ölçümleri için yetkili Studio/Windsor verisi gerekir; kamuya açık view sayısı bunların yerine geçmez. |
+| YouTube Analytics ve Trends sekmesi | https://support.google.com/youtube/answer/9002587?hl=en | YouTube Help; resmi ürün dokümantasyonu | Analytics raporlarını, Trends sekmesini, engaged views ve revenue sekmelerini doğru yere bağlama | Bazı raporlar sınırlı olabilir veya mobilde görünmeyebilir; gelir raporu YPP erişimine bağlıdır. |
+| TikTok Creative Center Trends | https://ads.tiktok.com/resources/help/article/how-to-use-trends?lang=en | TikTok for Business Help; Temmuz 2026 güncellemesi | Hashtag trendi, sektör/zaman filtresi, ilgili videolar, izleyici içgörüsü ve bölgesel popülerlik | Ayrıntılı kişiselleştirme için giriş gerekebilir; TikTok trendi YouTube başarısının kanıtı değildir. |
+| Google Trends verisi nasıl hesaplanır | https://support.google.com/trends/answer/4365533?hl=tr | Google Trends Yardım; resmi metodoloji açıklaması | Arama ilgisini coğrafya ve döneme göre karşılaştırma | Örneklenmiş ve 0–100'e normalize göreli ilgi; mutlak arama hacmi veya satış değildir. |
+| Merchant Center Popüler Ürünler | https://support.google.com/merchants/answer/13299535?hl=tr | Google Merchant Center Yardım; resmi ürün dokümantasyonu | Ülke/kategori bazında Google ürün popülerliği, fiyat aralığı ve stok önerileri | Hesap ve ürün verisi gerekir; veri haftalık güncellenebilir ve iki haftaya kadar gecikebilir. Türkiye desteklenen ülkeler arasındadır. Rapor verisi perakendecinin iç kullanımı içindir; yayımlama/yeniden satma yok. |
+
+**Bu taramada fiilen açılan resmi sayfalar:** YouTube Help Shorts Analytics; YouTube Analytics başlangıç rehberi; TikTok Creative Center Trends; Shopify Market Demand; Merchant Center Popular Products; Google Trends veri SSS. Shopify Market Demand ve YouTube Data API search.list kaynakları katalogda zaten bulunduğu için mükerrer kayıt açılmadı. Bu kaynaklar araştırma yöntemini destekler; tek başına ürün talebini, satış dönüşümünü veya viral başarıyı kanıtlamaz.
