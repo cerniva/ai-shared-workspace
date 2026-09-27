@@ -55,7 +55,7 @@ jobs:
           BROWSER_OBJECTIVE: 'Return an empty browser task with id ai-browser and steps array.'
           BROWSER_PLANNER_PROVIDER: claude
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
           ANTHROPIC_MODEL: claude-opus-5-5
         run: |
           set +e
