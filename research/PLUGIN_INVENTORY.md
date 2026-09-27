@@ -1,6 +1,6 @@
 # Eklenti ve bağlantı envanteri
 
-Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesine ait 2750 araç** sunuluyor. Bu sayı, hepsinin özel hesabına bağlı olduğu veya ücretsiz çalıştığı anlamına gelmez. “Araç görünür” satırları için henüz giriş ve veri okuması doğrulanmadı. Doğrulanan önemli bağlantıların kullanım notu: [TOOLS_AND_CONNECTIONS.md](TOOLS_AND_CONNECTIONS.md); araştırma URL'leri: [SOURCES.md](SOURCES.md).
+Kontrol: **2026-09-27, Türkiye saati**. Önceki envanter taramasında 124 eklenti/araç ailesi ve 2750 araç sayılmıştı; bu tur Supabase ile Vercel bağlantıları sonradan tamamlandığı için güncel toplam yeniden sayılmadı. Bu sayı, hepsinin özel hesabına bağlı olduğu veya ücretsiz çalıştığı anlamına gelmez. “Araç görünür” satırları için henüz giriş ve veri okuması doğrulanmadı. Doğrulanan önemli bağlantıların kullanım notu: [TOOLS_AND_CONNECTIONS.md](TOOLS_AND_CONNECTIONS.md); araştırma URL'leri: [SOURCES.md](SOURCES.md).
 
 ## Yazılım, dağıtım ve uzaktan web
 
@@ -21,6 +21,8 @@ Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesin
 | PageShare | 46 | Profil okundu; aktif kuruluş yok |
 | Parallel Search | 2 | Araç görünür; bu tur hesap/veri doğrulanmadı |
 | Railway | 26 | Hesap doğrulandı; proje yok |
+| Supabase | — | Eklenti bağlantısı tamamlandı; bu oturumda hesap/proje aracı görünmedi |
+| Vercel | — | Eklenti bağlantısı tamamlandı; bu oturumda hesap/proje aracı görünmedi |
 | Replit | 8 | Düzenlenebilir uygulama listesi boş |
 | Sites | 24 | Araç görünür; bu tur hesap/veri doğrulanmadı |
 | SiteTrax.io | 24 | Araç görünür; bu tur hesap/veri doğrulanmadı |
