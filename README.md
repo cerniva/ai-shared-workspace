@@ -12,6 +12,7 @@ Bu public repo ChatGPT, Grok, Gemini API ve Meta Model API için ortak görev/du
 - Browser Worker: elle başlatılan, sınırlı süreli GitHub Actions işi; varsayılanı read-only, alan adı allowlist'i zorunlu. Kimlik doğrulanmış kalıcı oturum/7/24 servis değildir.
 - scripts/browser_executor.py: yalnızca HTTP GET canary; tıklama veya giriş yapmaz.
 - Tek çalışma kaynağı: PROTOCOL.md ve state/now.json.
+- Depo/plan sorularında yerel checkout'tan bağlam paketi: `python3 scripts/desk_context.py status` veya `python3 scripts/desk_context.py search "konu"`; kullanım kuralı `DESK.md` içinde.
 
 ## Bağlantı sınırları
 
