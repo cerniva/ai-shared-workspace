@@ -150,3 +150,12 @@ Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INV
 | Et/pişirme verimi | https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/cooking-yields/ | USDA Agricultural Research Service; resmi araştırma tablosu | Et ve kanatlıda pişirme sonrası ağırlık kaybı için referans veri kaynağı | 2014 tablosu; kesim, yöntem ve güncellik sınırı var. Gerçek mutfak testiyle doğrulanmadan kesin değer sayılmaz |
 
 **Karar etkisi:** Food Cost ürününe sabit “doğru verim” yazmak yerine kaynak etiketli başlangıç değeri + işletmenin kendi verim testini girebildiği alan tasarlanmalı. Exa ile 14 aday sonuç incelendi; iki özgün USDA sayfası 27 Eylül 2026'da doğrulandı.
+
+
+### Yeni doğrulanmış kaynak kartı — 2026-09-27 12:10 TR
+
+| Alan | URL | Sahip / tarih | Fiilî kullanım | Güven sınırı ve karar etkisi |
+| --- | --- | --- | --- | --- |
+| YouTube Analytics veri gecikmesi | https://developers.google.com/youtube/analytics/data_model?hl=en | Google for Developers / YouTube Analytics API; son güncelleme 14 Eylül 2026 UTC | Windsor'da yeni Short için boş video-Analytics satırını erken performans sonucu sanmamak | Resmi belge Analytics verisinin gerçek zamanlı olmadığını ve tipik 48–72 saat geciktiğini söylüyor. Kamu view/like/comment metadata'sı daha güncel olabilir; retention veya gelir yerine geçmez |
+
+**Karar etkisi:** Yeni Short'un özel Analytics satırı ilk 48 saatte boşsa tekrar tekrar sonuç çıkarmaya çalışma; 48–72 saat penceresinden sonra engaged views, AVD/APV ve etkileşimleri değerlendir. Exa ile iki hedefli aramada 14 sonuç incelendi; özgün resmi sayfa 27 Eylül 2026'da açılarak doğrulandı.
