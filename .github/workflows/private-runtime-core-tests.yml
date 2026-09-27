@@ -5,7 +5,7 @@ on:
     branches: [private-replit-runtime-v1]
     paths:
       - 'runtime/**'
-      - 'app.py'
+      - 'app/**'
       - 'tests/test_settings.py'
       - 'tests/test_redaction.py'
       - 'tests/test_github_client.py'
@@ -18,7 +18,7 @@ on:
   pull_request:
     paths:
       - 'runtime/**'
-      - 'app.py'
+      - 'app/**'
       - 'tests/test_settings.py'
       - 'tests/test_redaction.py'
       - 'tests/test_github_client.py'
@@ -39,4 +39,4 @@ jobs:
       - name: Related regressions
         run: python3 -m unittest tests.test_runtime_contract tests.test_browser_policy tests.test_end_to_end_worker_flow -v
       - name: Compile runtime
-        run: python3 -m compileall runtime app.py
+        run: python3 -m compileall runtime app
