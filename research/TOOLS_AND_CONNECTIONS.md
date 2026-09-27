@@ -129,3 +129,11 @@ Read-only checks performed in this audit. No private performance numbers or acco
 | Birleşik Finans, Kripto ve Küresel Piyasa Radarı | One enabled hourly instance. | Older duplicate instance is paused. It remains a separate finance scope. |
 
 **Verimlilik kararı:** Saatlik araştırma her çalışmada tüm eklentileri taramaz. Önceki kaynak/rapor kaydını okur, bir derin araştırma sorusu seçer, uygun ücretsiz/gerçek erişilebilir kaynakları kullanır ve yalnızca yeni/karar değiştirici bulguyu raporlar. Her turda kaynak keşfi yapılır; ancak ekleme yalnızca kaynak doğrulanıp ilk kez yarar sağlıyorsa yapılır.
+
+
+## Video ve Shopify otomasyonu denetimi — 2026-09-27 12:34 TR
+
+- Shopify Analytics için yalnızca toplu oturum/sepet/checkout sorgusu başarıyla çalıştı; müşteri düzeyinde veri okunmadı veya kaydedilmedi. Bu, analitik okuma yolunun mevcut olduğunu doğrular; düşük örneklemden ürün/mağaza başarısı sonucu çıkarılmamalı.
+- InVideo araçları görünür; mevcut proje/ajan bilgisi önceki read-only kontrolde listelendi, ancak üretim kredisi veya yayınlanabilir MP4 bu denetimde sınanmadı. Üretimden önce hesap/kredi koşulunu gerçek araç yanıtıyla kontrol et.
+- Synthesia'da bu oturumun erişilebilir çalışma alanı yok; bu plana üretim yolu olarak eklenmemeli.
+- Güncel araç listesinde Buffer aracı ve doğrudan YouTube yükleme/yayınlama aracı yok. Buffer hesabının Cerno kanalına bağlı görünmesi, bu sohbetten yükleme yetkisi sağlamaz. Yeni bir oturumda bu araçlar gerçekten görünmedikçe her gün yükleme denemesi yapma; MP4'ü teslim et ve kullanıcıya manuel yükleme adımını bildir.
