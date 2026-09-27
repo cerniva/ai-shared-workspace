@@ -167,7 +167,9 @@ def plan(objective, provider=None):
     if provider == "auto":
         selected = providers
     elif provider in provider_map:
-        selected = ((provider, provider_map[provider]),)
+        selected = ((provider, provider_map[provider]),) + tuple(
+            item for item in providers if item[0] != provider
+        )
     else:
         raise ValueError("unsupported planner provider: "+provider)
 
