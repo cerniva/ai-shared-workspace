@@ -19,6 +19,17 @@ on:
         options:
           - read_only
           - interactive
+      planner_provider:
+        description: "Choose which AI plans the browser steps"
+        required: true
+        default: "auto"
+        type: choice
+        options:
+          - auto
+          - openai
+          - grok
+          - gemini
+          - claude
 permissions:
   contents: read
 jobs:
@@ -29,6 +40,7 @@ jobs:
       BROWSER_OBJECTIVE: ${{ inputs.objective }}
       BROWSER_ALLOWED_HOSTS: ${{ inputs.allowed_hosts }}
       BROWSER_EXECUTION_MODE: ${{ inputs.execution_mode }}
+      BROWSER_PLANNER_PROVIDER: ${{ inputs.planner_provider }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v7
