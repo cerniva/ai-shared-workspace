@@ -69,6 +69,18 @@ class AIPlannerProviderTests(unittest.TestCase):
         self.assertNotIn(secret, message)
         self.assertIn("***", message)
 
+    def test_anthropic_api_key_uses_workspace_header_when_configured(self):
+        env = {
+            "ANTHROPIC_API_KEY": "sk-ant-api-test",
+            "ANTHROPIC_WORKSPACE_ID": "wrkspc_test123",
+        }
+        with patch.dict(os.environ, env, clear=False):
+            headers = ai_planner._anthropic_auth_headers()
+
+        self.assertEqual(headers["x-api-key"], "sk-ant-api-test")
+        self.assertEqual(headers["anthropic-version"], "2023-06-01")
+        self.assertEqual(headers["anthropic-workspace-id"], "wrkspc_test123")
+
     def test_anthropic_uses_wif_when_api_key_is_missing(self):
         response_text = '{"id":"ai-browser","steps":[]}'
         with tempfile.NamedTemporaryFile("w", delete=False) as token_file:
