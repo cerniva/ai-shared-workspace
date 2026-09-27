@@ -39,3 +39,13 @@ Bu dosya yalnızca doğrulanmış kaynak, açık sınırlama ve uygulanabilir de
 - **Karar/deney:** Bir sonraki özgün futbol brief'inde tek değişken olarak “ilk karede cevaplanabilir quiz + 3 saniyelik tahmin süresi + sonda cevap” kullan. Yorum çağrısı “kaçıncı saniyede bildin?” olsun. Alternatif açıklama: oyuncunun popülerliği ve Shorts dağıtımı sonuçları kurgu değişkeninden daha fazla etkileyebilir.
 - **Ölçüm:** Yeni videolar için veri oluştuğunda engaged views, AVD/APV, yorum, paylaşım ve abone kazanımını oku; Studio'dan stayed-to-watch/swiped ve retention eğrisi gelmiyorsa eksik bırak. Bitcoin videosu için ilk anlamlı kontrol 2026-09-29 02:21 TR sonrası; 72 saat dolmadan kesin karar yok.
 - **Para kazanma:** YPP, Shorts Monetization Module ve gelir verisi bu turda okunmadı; gelir doğrulanamadı.
+
+
+## 2026-09-27 12:10 TR — API gecikmesi doğrulandı; erken boş satırın anlamı düzeltildi
+
+- **Yeni resmi kanıt:** Google'ın [YouTube Analytics API veri modeli](https://developers.google.com/youtube/analytics/data_model?hl=en) (son güncelleme 14 Eylül 2026 UTC), temel Analytics verisinin gerçek zamanlı olmadığını ve tipik olarak 48–72 saat geciktiğini; raporun yalnız tüm istenen metriklerin işlendiği son güne kadar veri içerdiğini belirtiyor.
+- **Gözlem:** Windsor sorgusunda uçak penceresi ve Bitcoin pizza Short'ları için özel Analytics satırı yine boş; kamu video metadata değerleri de önceki kontrolden değişmedi. Mbappé özel Analytics satırı değişmedi.
+- **Karar farkı:** Boş satır artık “performans yok” değil, **işlenmiş Analytics henüz hazır değil** olarak ele alınacak. Yeni videolarda 48 saat dolmadan engaged views/AVD sonucu aranmayacak; 72 saat dolmadan sürdür/değiştir kararı verilmeyecek.
+- **Popüler örnek / kurgu deneyi:** Bu turda yeni doğrulanmış örnek veya deney değişikliği yok; 09:00'daki süreli futbol quiz brief'i korunuyor.
+- **Para kazanma:** YPP, Shorts Monetization Module ve gelir verisi okunmadı; gelir doğrulanamadı.
+- **Sonraki ölçüm:** Uçak Short'u 28 Eylül 16:04 TR sonrası, Bitcoin Short'u 29 Eylül 02:21 TR sonrası yeniden değerlendir. Studio'ya özgü stayed-to-watch/swiped ve retention eğrisi Windsor'da yoksa eksik bırak.
