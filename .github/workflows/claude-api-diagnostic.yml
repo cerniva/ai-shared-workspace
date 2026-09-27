@@ -1,0 +1,39 @@
+name: Claude API Diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/claude-api-diagnostic.yml'
+      - 'state/claude-api-diagnostic.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Probe Claude API
+        shell: bash
+        env:
+          BROWSER_OBJECTIVE: 'Return an empty browser task with id ai-browser and steps array.'
+          BROWSER_PLANNER_PROVIDER: claude
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: claude-opus-5-5
+        run: |
+          set +e
+          python browser_worker/ai_planner.py >/tmp/claude-task.json 2>/tmp/claude-error.txt
+          rc=$?
+          if [ "$rc" -ne 0 ]; then
+            echo 'Claude diagnostic failed:'
+            cat /tmp/claude-error.txt
+            exit "$rc"
+          fi
+          echo 'Claude diagnostic succeeded:'
+          python -m json.tool /tmp/claude-task.json
