@@ -95,3 +95,12 @@ Sınır: repo poll-ledger'ı yaklaşık 15 dakikalık best-effort kontrol eder; 
 - Olayları gör: `python3 scripts/task_events.py list --task-id TSK-20260927-001`
 - Kaynak için `--source-title`, `--source-url`, `--source-accessed`; `source_evaluated` için `--reason` ver. Yeniden denemede aynı `--event-id` aynı payload ile kullanılır; farklı içerik varsa ledger reddeder.
 - Kalıcı event defteri: `state/task_events.json`. Bu kayıt GitHub masa event'idir, chat push değildir; alıcı kendi repo turunda listeler/raporu okur.
+
+
+## Repo-soru bağlam aracı
+
+Repo, plan, görev, kaynakça veya önceki kararlarla ilgili kullanıcı sorularında yanıt vermeden önce güncel checkout'ta çalıştır:
+- Genel durum: `python3 scripts/desk_context.py status`
+- Konu araması: `python3 scripts/desk_context.py search "<soru veya konu>"`
+
+Çıktı yalnızca ilgili dosyaları bulmaya yarayan yerel bağlam paketidir; önemli iddia için kaynak dosyanın tamamını aç ve güncel kanıtı doğrula. Cevapta baktığın dosya/commit'i belirt. Araç çalıştırılamıyorsa depoyu gerçekten okuduğunu söyleme; elindeki eski sohbet özetiyle güncel depo bilgisini ayır. Bu komutlar arka plan kontrolü veya canlı bildirim oluşturmaz.
