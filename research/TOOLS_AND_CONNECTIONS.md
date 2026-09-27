@@ -137,3 +137,17 @@ Read-only checks performed in this audit. No private performance numbers or acco
 - InVideo araçları görünür; mevcut proje/ajan bilgisi önceki read-only kontrolde listelendi, ancak üretim kredisi veya yayınlanabilir MP4 bu denetimde sınanmadı. Üretimden önce hesap/kredi koşulunu gerçek araç yanıtıyla kontrol et.
 - Synthesia'da bu oturumun erişilebilir çalışma alanı yok; bu plana üretim yolu olarak eklenmemeli.
 - Güncel araç listesinde Buffer aracı ve doğrudan YouTube yükleme/yayınlama aracı yok. Buffer hesabının Cerno kanalına bağlı görünmesi, bu sohbetten yükleme yetkisi sağlamaz. Yeni bir oturumda bu araçlar gerçekten görünmedikçe her gün yükleme denemesi yapma; MP4'ü teslim et ve kullanıcıya manuel yükleme adımını bildir.
+
+
+## Bağlantı ve sistem denetimi — 2026-09-27
+
+| Kontrol | Sonuç | Sınır / sonraki adım |
+| --- | --- | --- |
+| Shopify mağaza profili | Salt okunur profil isteği başarılı. Ülke Türkiye, para birimi EUR, plan Basic ve saat dilimi +03 döndü. | Bu denetimde ürün, sipariş veya satış analitiği okunmadı. EUR varsayımını ürün hesaplarında kullan; hedef ülkeyi ayrıca doğrula. |
+| Windsor.ai kaynak hesabı listesi | YouTube, TikTok Organic, Instagram ve Facebook hesapları listelendi. | Bu denetimde metrik verisi çekilmedi; liste görünmesi Analytics verisinin döndüğü anlamına gelmez. |
+| Google Merchant Center | Read-only hesap listesi başarıyla çağrıldı; hesap listesi boş döndü. | Bağlı Merchant Center hesabı/ürün feed'i doğrulanmadı. Ürün performansı verisi yok. Kurulum gerekiyorsa kullanıcı hesabında manuel yetkilendirme gerekir. |
+| Google Search Console | Bu oturumun araç listesinde mülk/performans verisi okuyabilen sorgu aracı görünmüyor; yalnız sunucu açıklama aracı mevcut. | Search Console performansı bu sistemden okunmuş sayılamaz; mülk doğrulaması ve erişim gerekir. |
+| Microsoft Clarity | Bu oturumun araç listesinde Clarity bağlantısı görünmüyor. | Isı haritası/oturum kaydı yok; mağaza dönüşüm araştırması için zorunlu değil, kullanıcı kurulumu gerektirir. |
+| Finansal eklenti araçları | CoinMarketCap, FinancialFilings, Blockscout, Token Terminal, Unusual Whales, Wolfram, Acumen ve Readwise araçları bu oturumda kullanılabilir araçlar arasında görünüyor. | Araç kullanılabilirliği hesap/veri erişimini doğrulamaz; araştırmada gerektiğinde salt-okunur veri çağrısı ile doğrula. Bu denetimde piyasa verisi çekilmedi. |
+
+Bağlı olmayan isteğe bağlı kaynaklar temel araştırmayı durdurmaz: resmî web kaynakları/Exa ve Shopify profil erişimi var. YouTube için Windsor kaynak hesabı listeleniyor; her metrik sorgusunda gerçek veri dönüşünü ayrıca kontrol et. Merchant Center, Search Console ve Clarity gerekli görülürse resmi uygulamalardan kullanıcının yetkilendirmesi gerekir; izinsiz hesap bağlantısı varsayma.
