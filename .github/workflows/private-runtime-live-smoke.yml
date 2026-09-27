@@ -1,0 +1,70 @@
+name: private-runtime-live-smoke
+
+on:
+  push:
+    branches: [private-replit-runtime-v1]
+    paths:
+      - '.github/workflows/private-runtime-live-smoke.yml'
+      - 'tasks/runtime-dispatch.json'
+      - 'runtime/**'
+      - 'app/**'
+
+permissions:
+  contents: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPO: cerniva/ai-shared-workspace
+      GITHUB_BRANCH: private-replit-runtime-v1
+      POLL_SECONDS: '60'
+      RUNTIME_ID: github-actions-smoke-v1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic task twice
+        run: |
+          python3 - <<'PY'
+          from runtime.settings import Settings
+          from runtime.worker import RuntimeWorker
+          import os
+
+          worker = RuntimeWorker(Settings.from_env(os.environ))
+          first = worker.cycle()
+          second = worker.cycle()
+          print('first', first)
+          print('second', second)
+          if first.failed or first.blocked or first.unready:
+              raise SystemExit('first cycle failed')
+          if first.succeeded != 1:
+              raise SystemExit(f'expected one success, got {first.succeeded}')
+          if second.succeeded != 0 or second.skipped < 1:
+              raise SystemExit('duplicate suppression failed')
+          PY
+      - name: Verify sanitized status
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          req = urllib.request.Request(
+              'https://api.github.com/repos/cerniva/ai-shared-workspace/contents/state/runtime-status.json?ref=private-replit-runtime-v1',
+              headers={
+                  'Authorization': f"Bearer {os.environ['GITHUB_TOKEN']}",
+                  'Accept': 'application/vnd.github+json',
+              },
+          )
+          import base64
+          with urllib.request.urlopen(req) as response:
+              payload = json.load(response)
+          data = json.loads(base64.b64decode(payload['content']).decode())
+          rows = [x for x in data['items'] if x.get('idempotency_key') == 'RUNTIME-SMOKE-20260927-001:1']
+          if len(rows) != 1 or rows[0].get('status') != 'succeeded':
+              raise SystemExit('sanitized success row missing')
+          text = json.dumps(rows[0])
+          if os.environ['GITHUB_TOKEN'] in text or 'Authorization:' in text or 'cookie' in text.lower():
+              raise SystemExit('sensitive data leaked into status')
+          print('sanitized status verified')
+          PY
