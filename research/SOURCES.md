@@ -245,3 +245,13 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 | YouTube izleyici tutma | https://support.google.com/youtube/answer/9314415?hl=en | Video düzeyinde retention grafiği ve izleyicinin ayrıldığı anları inceleme | YouTube'a göre rapor genellikle 1–2 günde işlenir; video düzeyinde Studio verisi gerekir |
 
 **Doğrulanmış teşhis (27 Eylül 2026):** Mağazanın herkese açık URL'si Opening soon sayfası döndürdü ve Shopify Admin API'de aktif/yayında ürün yok; ürün kayıtları taslak durumunda. Bu iki durum, dışarıdan ziyaret ve satış hunisi verisinin neden yok denecek kadar az olduğunu açıklıyor. YouTube tarafında Windsor ve Metricool marka erişimi çalıştı, fakat kısa video metrikleri seyrek ve Metricool'da bazı video performans alanları boş döndü. Bu kaynak kartı bağlantı tavsiyesi kadar analiz sınırını da kaydeder.
+
+
+### Yeni doğrulanmış kaynak — iyzico Shopify entegrasyonu — 2026-09-27
+
+| Alan | URL | Kaynak sahibi / tür | Kapsam ve sınırlamalar |
+| --- | --- | --- | --- |
+| Shopify ödeme entegrasyonu | https://docs.iyzico.com/platformlar/shopify | iyzico resmi entegrasyon dokümantasyonu | Shopify Admin > Ayarlar > Ödemeler > Ödeme yöntemi ekle > sağlayıcı ara: iyzico > Etkinleştir/Bağlan/Uygulamayı yükle; ardından iyzico panelindeki Ayarlar > Firma Ayarları bölümünden API/Güvenlik anahtarlarıyla kurulum ve Shopify'da etkinleştirme. Bu adımların uygulanabilmesi için aktif iyzico merchant başvurusu/uygun hesap gerekir. Anahtarlar kullanıcı tarafından gizli tutulmalı; sohbet veya depoya konmamalı. 27 Eylül 2026'da özgün sayfa açılıp doğrulandı. |
+| Shopify üçüncü taraf ödeme yöntemi | https://help.shopify.com/en/manual/payments/additional-payment-methods/activate-payment-methods | Shopify Help Center; resmi dokümantasyon | Admin içindeki ödeme yöntemi ekleme, uygulama kurma ve sağlayıcı hesabını bağlayıp etkinleştirme akışı. Bölgesel kullanılabilirlik ve sağlayıcı onayı ayrıca geçerlidir. 27 Eylül 2026'da açılıp doğrulandı. |
+
+**Yorum notu:** iyzico bakiyesine/kişisel hesaba ilişkin limit veya kimlik doğrulama bildirimi, Shopify mağazası için işyeri ödeme başvurusunun onaylandığını tek başına kanıtlamaz. Onay durumu merchant panelinden doğrulanır.
