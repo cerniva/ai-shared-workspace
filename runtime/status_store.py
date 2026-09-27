@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
+from uuid import uuid4
 
 from scripts.runtime_contract import idempotency_key
 from runtime.github_client import GitHubConflict
@@ -77,6 +78,7 @@ class StatusStore:
             "summary": "",
             "error_code": None,
             "retryable": False,
+            "claim_token": uuid4().hex,
         })
 
     def finish(self, key: str, *, status: str, summary: str, error_code: str | None,
@@ -91,17 +93,55 @@ class StatusStore:
         })
         return self._upsert(item)
 
-    def merge_and_write(self, client, max_attempts: int = 3) -> None:
+    @staticmethod
+    def _claim_conflicts(local_item, remote_item) -> bool:
+        if not remote_item:
+            return False
+        local_token = local_item.get("claim_token")
+        remote_token = remote_item.get("claim_token")
+        remote_status = remote_item.get("status")
+        local_status = local_item.get("status")
+
+        if local_status == "running":
+            if remote_status in TERMINAL:
+                return True
+            if remote_status == "running":
+                return not local_token or not remote_token or local_token != remote_token
+            return True
+
+        if local_status in TERMINAL:
+            if remote_status in TERMINAL:
+                return not local_token or not remote_token or local_token != remote_token
+            if remote_status == "running":
+                return not local_token or not remote_token or local_token != remote_token
+        return False
+
+    def merge_and_write(self, client, max_attempts: int = 3) -> bool:
         for _ in range(max_attempts):
             latest, sha = client.get_json(self.path)
             merged = deepcopy(latest)
             if merged.get("version") != 1 or not isinstance(merged.get("items"), list):
                 merged = {"version": 1, "items": []}
-            index = {item.get("idempotency_key"): item for item in merged["items"]}
-            local = {item.get("idempotency_key"): item for item in self.data["items"]}
+
+            remote_index = {item.get("idempotency_key"): item for item in merged["items"]}
+            local_index = {item.get("idempotency_key"): item for item in self.data["items"]}
+            rejected = False
             for key in self.dirty:
-                index[key] = deepcopy(local[key])
-            merged["items"] = list(index.values())
+                local_item = local_index[key]
+                remote_item = remote_index.get(key)
+                if self._claim_conflicts(local_item, remote_item):
+                    rejected = True
+                    continue
+                remote_index[key] = deepcopy(local_item)
+
+            if rejected:
+                merged["items"] = list(remote_index.values())
+                self.data = merged
+                self.sha = sha
+                self.dirty.clear()
+                return False
+
+            merged["items"] = list(remote_index.values())
             try:
                 new_sha = client.put_json(self.path, merged, sha, "runtime: update sanitized status")
             except GitHubConflict:
@@ -109,5 +149,5 @@ class StatusStore:
             self.data = merged
             self.sha = new_sha
             self.dirty.clear()
-            return
+            return True
         raise GitHubConflict("github content conflict")
