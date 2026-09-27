@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "items": []
+  "items": [
+    {
+      "id": "RUNTIME-SMOKE-20260927-001",
+      "generation": 1,
+      "task_type": "synthetic-smoke",
+      "connector": "synthetic",
+      "operation": "echo",
+      "action_class": "prepare",
+      "params": {
+        "message": "runtime bridge smoke test"
+      },
+      "created_at": "2026-09-27T21:08:00+03:00"
+    }
+  ]
 }
