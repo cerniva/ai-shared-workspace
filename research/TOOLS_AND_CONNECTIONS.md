@@ -13,6 +13,7 @@ Son kontrol: **2026-09-27, Türkiye saati**. Bu dosya araç ile dış hesap eri�
 | Windsor.ai → TikTok, Instagram, Facebook | https://windsor.ai/ | Bu platformların bağlı kaynak hesapları listelendi | Hesap görünürlüğü doğrulandı; içerik/özel analiz okunup değerlendirilmiş sayılmaz |
 | Metricool → YouTube | https://metricool.com/ | Markanın YouTube ağına bağlı kanal kimliği döndü | Planlama/analiz için aday; gerçek metrik kapsamı ayrıca sınanmalı |
 | Descript | https://www.descript.com/ | Bir Cerno video projesi listelendi | Video düzenleme/proje erişimi var; o projenin bitmiş veya yayınlanmış video olduğu doğrulanmadı |
+| InVideo | https://ai.invideo.io/ | “AI ile Shorts Üretimi - İlk Video” projesi ve içindeki ajan listelendi; üretimler listesi boş | Erişim var; mevcut projede hazır video/MP4 yok. Kullanıcı kredi koruma istediği için üretim çağrısı yalnızca yayınlanabilir brief ile ve bütçe koşulu doğrulanınca yapılır |
 
 ## Kullanılan halka açık araştırma yolları
 
