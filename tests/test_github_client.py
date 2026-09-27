@@ -19,7 +19,11 @@ class FakeTransport:
 
 class GitHubClientTests(unittest.TestCase):
     def settings(self):
-        return Settings.from_env({"GITHUB_TOKEN": "SECRET", "GITHUB_REPO": "cerniva/ai-shared-workspace"})
+        return Settings.from_env({
+            "GITHUB_TOKEN": "SECRET",
+            "GITHUB_REPO": "cerniva/ai-shared-workspace",
+            "GITHUB_BRANCH": "private-replit-runtime-v1",
+        })
 
     def test_get_and_put_json(self):
         encoded = base64.b64encode(json.dumps({"version": 1}).encode()).decode()
@@ -30,6 +34,9 @@ class GitHubClientTests(unittest.TestCase):
         self.assertEqual(sha, "old")
         self.assertEqual(c.put_json("state/runtime-status.json", data, sha, "update"), "new")
         self.assertTrue(all("cerniva/ai-shared-workspace" in call[1] for call in transport.calls))
+        self.assertIn("ref=private-replit-runtime-v1", transport.calls[0][1])
+        put_body = json.loads(transport.calls[1][3].decode())
+        self.assertEqual(put_body["branch"], "private-replit-runtime-v1")
 
     def test_rejects_arbitrary_url_path(self):
         c = GitHubContentsClient(self.settings(), transport=FakeTransport([]))
