@@ -69,6 +69,10 @@ class RuntimeWorker:
                 report.blocked += 1
                 if key:
                     store.begin(task, now)
+                    if not store.merge_and_write(client):
+                        report.skipped += 1
+                        report.blocked -= 1
+                        continue
                     store.finish(
                         key,
                         status="blocked",
@@ -83,9 +87,10 @@ class RuntimeWorker:
             decision = classify_task(task)
             key = idempotency_key(task)
             if not decision.allowed:
-                report.blocked += 1
                 store.begin(task, now)
-                store.merge_and_write(client)
+                if not store.merge_and_write(client):
+                    report.skipped += 1
+                    continue
                 store.finish(
                     key,
                     status="blocked",
@@ -95,10 +100,14 @@ class RuntimeWorker:
                     now=now,
                 )
                 store.merge_and_write(client)
+                report.blocked += 1
                 continue
 
             store.begin(task, now)
-            store.merge_and_write(client)
+            if not store.merge_and_write(client):
+                report.skipped += 1
+                continue
+
             connector = self.connectors.get(task["connector"])
             if connector is None:
                 store.finish(
@@ -125,9 +134,11 @@ class RuntimeWorker:
                     retryable=False,
                     now=now,
                 )
-                store.merge_and_write(client)
-                report.succeeded += 1
-                self.last_success_at = now.isoformat()
+                if store.merge_and_write(client):
+                    report.succeeded += 1
+                    self.last_success_at = now.isoformat()
+                else:
+                    report.failed += 1
             except Exception as exc:
                 store.finish(
                     key,
