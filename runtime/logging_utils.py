@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import json
 from datetime import datetime, timezone
 
 
@@ -11,3 +14,7 @@ def build_log_record(*, task_id, connector, operation, status, duration_ms, erro
         "duration_ms": duration_ms,
         "error_code": error_code,
     }
+
+
+def emit_log(record) -> None:
+    print(json.dumps(record, ensure_ascii=False, sort_keys=True), flush=True)
