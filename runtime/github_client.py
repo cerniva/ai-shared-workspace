@@ -36,6 +36,14 @@ class UrllibTransport:
 
 
 class GitHubContentsClient:
+    READABLE_PATHS = frozenset({
+        "tasks/runtime-dispatch.json",
+        "state/runtime-status.json",
+    })
+    WRITABLE_PATHS = frozenset({
+        "state/runtime-status.json",
+    })
+
     def __init__(self, settings, transport=None):
         self.settings = settings
         self.transport = transport or UrllibTransport()
@@ -43,6 +51,12 @@ class GitHubContentsClient:
     def _check(self):
         if not self.settings.ready_for_github:
             raise GitHubConfigError("github configuration missing")
+
+    @classmethod
+    def _authorize_path(cls, path: str, *, write: bool = False) -> None:
+        allowed = cls.WRITABLE_PATHS if write else cls.READABLE_PATHS
+        if path not in allowed:
+            raise PermissionError("runtime github path is not allowlisted")
 
     def _url(self, path: str, *, include_ref: bool = False) -> str:
         if path.startswith(("http://", "https://")) or ".." in path.split("/"):
@@ -73,6 +87,7 @@ class GitHubContentsClient:
 
     def get_json(self, path: str):
         self._check()
+        self._authorize_path(path, write=False)
         status, _, body = self.transport.request("GET", self._url(path, include_ref=True), self._headers())
         if status != 200:
             self._raise_for_status(status)
@@ -82,6 +97,7 @@ class GitHubContentsClient:
 
     def put_json(self, path: str, data, sha: str, message: str) -> str:
         self._check()
+        self._authorize_path(path, write=True)
         raw = (json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         body = json.dumps({
             "message": message,
