@@ -15,6 +15,19 @@ Son kontrol: **2026-09-27, Türkiye saati**. Bu dosya araç ile dış hesap eri�
 | Descript | https://www.descript.com/ | Bir Cerno video projesi listelendi | Video düzenleme/proje erişimi var; o projenin bitmiş veya yayınlanmış video olduğu doğrulanmadı |
 | InVideo | https://ai.invideo.io/ | “AI ile Shorts Üretimi - İlk Video” projesi ve içindeki ajan listelendi; üretimler listesi boş | Erişim var; mevcut projede hazır video/MP4 yok. Kullanıcı kredi koruma istediği için üretim çağrısı yalnızca yayınlanabilir brief ile ve bütçe koşulu doğrulanınca yapılır |
 
+## 2026-09-27 ek bağlantı kontrolü
+
+| Araç | URL | Doğrulanan durum | Sınır / sonraki adım |
+| --- | --- | --- | --- |
+| GitHub | https://github.com/cerniva/ai-shared-workspace | cerniva hesabı ve ortak repo okunuyor; kayıt dosyasına yazma çalışıyor | Ortak hafıza için kullan |
+| Exa Search | https://exa.ai/ | Resmi YouTube Help sayfasını URL ve alıntıyla arayıp döndürdü | Web keşfi için kullanılabilir; özgün sayfa ayrıca doğrulanır |
+| Ubersuggest | https://neilpatel.com/ubersuggest/ | Kimlik doğrulaması başarılı, ücretsiz hesap; izlenen proje listesi boş | Anahtar kelime/SEO araştırmasına aday; projeye özel izleme için proje kurulumu gerekir |
+| Figma | https://www.figma.com/ | Hesap ve Starter takım görünüyor; koltuk türü View | Dosya açma/düzenleme/üretim yeteneği belirli bir dosyada ayrıca doğrulanmalı; tasarım üretildi sayılmaz |
+| Synthesia | https://www.synthesia.io/ | Hesap kimliği doğrulandı fakat erişilebilir çalışma alanı listesi boş | Video üretimi kullanıma hazır değil; **FURKAN ELİNLE YAPMALISIN:** kullanmak istersen erişebildiğin bir çalışma alanını bağla/oluştur ve plan koşulunu kontrol et. Şimdi kredi/ücret harcanmadı |
+| Görsel oluşturma | https://chatgpt.com/ | Bu oturumda görsel üretim aracı mevcut | Bu kontrolde görsel oluşturulmadı; proje brief'i ve kullanım hakkı gerektiğinde ayrı üretim |
+
+Bu satırlar hesap durumu ile gerçek içerik erişimini ayırır; e-posta, anahtar ve özel hesap kimlikleri depoya yazılmaz.
+
 ## Kullanılan halka açık araştırma yolları
 
 | Yol | URL | Kullanım |
