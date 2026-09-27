@@ -60,3 +60,13 @@ prompt: |
   Read-only smoke test. Return the public page content. No browser Agent, login, click, form, payment, publish, or deletion.
 
 worker_note: fetch ok
+
+## TASK
+status: queued
+id: TF-LEDGER-SMOKE-20260927
+from: chatgpt
+to: tinyfish
+mode: fetch
+urls: https://example.com
+prompt: |
+  Read-only ledger smoke test. Fetch the public example page and persist terminal state. No browser Agent, login, click, form, payment, publish, or deletion.
