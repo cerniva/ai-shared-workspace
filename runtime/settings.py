@@ -4,19 +4,23 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 
 
+APPROVED_GITHUB_REPO = "cerniva/ai-shared-workspace"
+APPROVED_GITHUB_BRANCH = "private-replit-runtime-v1"
+
+
 @dataclass(frozen=True)
 class Settings:
     github_token: str
-    github_repo: str = "cerniva/ai-shared-workspace"
-    github_branch: str = "main"
+    github_repo: str = APPROVED_GITHUB_REPO
+    github_branch: str = APPROVED_GITHUB_BRANCH
     poll_seconds: int = 60
     runtime_id: str = "replit-runtime-v1"
 
     @classmethod
     def from_env(cls, env: Mapping[str, str]) -> "Settings":
         token = (env.get("GITHUB_TOKEN") or "").strip()
-        repo = (env.get("GITHUB_REPO") or "cerniva/ai-shared-workspace").strip()
-        branch = (env.get("GITHUB_BRANCH") or "main").strip() or "main"
+        repo = (env.get("GITHUB_REPO") or APPROVED_GITHUB_REPO).strip()
+        branch = (env.get("GITHUB_BRANCH") or APPROVED_GITHUB_BRANCH).strip() or APPROVED_GITHUB_BRANCH
         runtime_id = (env.get("RUNTIME_ID") or "replit-runtime-v1").strip()
         try:
             poll = int(env.get("POLL_SECONDS") or "60")
@@ -28,7 +32,11 @@ class Settings:
 
     @property
     def ready_for_github(self) -> bool:
-        return bool(self.github_token and self.github_repo and self.github_branch)
+        return bool(
+            self.github_token
+            and self.github_repo == APPROVED_GITHUB_REPO
+            and self.github_branch == APPROVED_GITHUB_BRANCH
+        )
 
     def __repr__(self) -> str:
         return (
