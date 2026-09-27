@@ -897,6 +897,23 @@
       ],
       "pending_at": "2026-09-27T02:53:00+03:00",
       "delayed_at": "2026-09-27T03:30:46+03:00"
+    },
+    "RPT-20260927-chatgpt-shorts-preflight": {
+      "id": "RPT-20260927-chatgpt-shorts-preflight",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-09-27T17:30:55+03:00",
+      "alerted": true,
+      "from": "chatgpt",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "partial; media review blocked",
+      "in_reply_to": "none",
+      "created_at": "",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-09-27T17:30:55+03:00"
     }
   },
   "events": [
@@ -1441,6 +1458,17 @@
       "at": "2026-09-27T03:30:46+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20260927-chatgpt-shorts-preflight:pending",
+      "message_id": "RPT-20260927-chatgpt-shorts-preflight",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-09-27T17:30:55+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1492,6 +1520,7 @@
     "RPT-20260927-024500-chatgpt-joint-loop-status:delayed",
     "MSG-20260927-024910-grok-api:delayed",
     "MSG-20260927-025400-grok-staged-loop:delayed",
-    "RPT-20260927-025300-chatgpt-xai-403-diagnosis:delayed"
+    "RPT-20260927-025300-chatgpt-xai-403-diagnosis:delayed",
+    "RPT-20260927-chatgpt-shorts-preflight:pending"
   ]
 }
