@@ -71,12 +71,14 @@ def _anthropic(objective):
     text="".join(str(block.get("text","")) for block in data.get("content",[]) if block.get("type")=="text")
     return _clean(text)
 
-PROVIDERS = (
-    ("openai", _openai),
-    ("grok", _grok),
-    ("gemini", _gemini),
-    ("anthropic", _anthropic),
-)
+
+def _providers():
+    return (
+        ("openai", _openai),
+        ("grok", _grok),
+        ("gemini", _gemini),
+        ("anthropic", _anthropic),
+    )
 
 
 def plan(objective, provider=None):
@@ -84,9 +86,10 @@ def plan(objective, provider=None):
     if provider == "claude":
         provider = "anthropic"
 
-    provider_map = dict(PROVIDERS)
+    providers = _providers()
+    provider_map = dict(providers)
     if provider == "auto":
-        selected = PROVIDERS
+        selected = providers
     elif provider in provider_map:
         selected = ((provider, provider_map[provider]),)
     else:
