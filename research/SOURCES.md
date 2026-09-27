@@ -223,3 +223,12 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 - Saatlik kontrol yeni veri/olay taramasıdır; her turda tüm göstergeleri/varlıkları veya aynı API'yi yeniden sorgulama. M2 ve COT gibi aylık/haftalık serileri yalnız yeni yayında/karar anında yenile.
 - CoinMarketCap, FinancialFilings, Token Terminal, Blockscout, Unusual Whales ve benzeri eklenti araçlarını yalnızca belirli veri boşluğunu kapatıyorsa kullan. Araç listede görünüyorsa bağlantı var demek değildir; veri gerçekten dönünce erişim doğrulanır.
 - Yeni bir finans kaynağı yalnızca yeni ve karar açısından faydalıysa, özgün sayfa doğrulandıktan sonra bu tabloya tarih ve sınırlamayla eklenir. Her turda kaynak sayısını artırma zorunluluğu yoktur.
+
+
+### Shopify oturum ölçümü güncellemesi — 2026-09-27
+
+| Alan | URL | Sahip / veri tarihi | Kullanım | Sınır |
+| --- | --- | --- | --- | --- |
+| Shopify analitiği | https://help.shopify.com/en/manual/reports-and-analytics/discrepancies/session-measurement-update | Shopify Help Center; ölçüm güncellemesi 21–23 Eylül 2026'da mağazalara yayımlandı; sayfa 27 Eylül 2026'da açılıp doğrulandı | Oturum, dönüşüm ve sepet hunisi metriklerinde güncelleme öncesi/sonrası karşılaştırmayı yorumlama; güncelleme sonrası yeni baz çizgisi kullanma | Oturum sayısı bot filtreleme ve gece yarısını aşan etkinlik ölçümünden etkilenebilir. Sayfa, sipariş ve satış toplamlarının bu güncellemeden etkilenmediğini belirtiyor. Mağazanın gerçek performansını tek başına kanıtlamaz. |
+
+**Karar etkisi (27 Eylül 2026):** 7 günlük Shopify oturum hunisi sorgusu 20–27 Eylül dönemini kapsıyor ve bu dönem 21–23 Eylül ölçüm geçişini aşıyor. Dönemler arası oturum/dönüşüm değişimi bu nedenle doğrudan performans değişimi diye yorumlanmamalı; sipariş/satışla birlikte, aynı ölçüm yöntemindeki güncelleme sonrası dönemler karşılaştırılmalı. Shopify resmi davranış raporu belgesi ayrıca dönüşüm hunisi aşamalarını ve oranların oturum paydasını tanımlıyor: https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports
