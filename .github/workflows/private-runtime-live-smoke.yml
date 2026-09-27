@@ -37,8 +37,10 @@ jobs:
           print('second', second)
           if first.failed or first.blocked or first.unready:
               raise SystemExit('first cycle failed')
-          if first.succeeded != 1:
-              raise SystemExit(f'expected one success, got {first.succeeded}')
+          if first.succeeded not in (0, 1):
+              raise SystemExit(f'unexpected success count: {first.succeeded}')
+          if first.succeeded == 0 and first.skipped < 1:
+              raise SystemExit('existing terminal task was not safely skipped')
           if second.succeeded != 0 or second.skipped < 1:
               raise SystemExit('duplicate suppression failed')
           PY
