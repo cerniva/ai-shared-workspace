@@ -104,3 +104,8 @@ Repo, plan, görev, kaynakça veya önceki kararlarla ilgili kullanıcı sorular
 - Konu araması: `python3 scripts/desk_context.py search "<soru veya konu>"`
 
 Çıktı yalnızca ilgili dosyaları bulmaya yarayan yerel bağlam paketidir; önemli iddia için kaynak dosyanın tamamını aç ve güncel kanıtı doğrula. Cevapta baktığın dosya/commit'i belirt. Araç çalıştırılamıyorsa depoyu gerçekten okuduğunu söyleme; elindeki eski sohbet özetiyle güncel depo bilgisini ayır. Bu komutlar arka plan kontrolü veya canlı bildirim oluşturmaz.
+
+
+## Önemli çoklu görevleri Grok'a devretme
+
+Kullanıcı aynı anda birden fazla görevi açıkça önemli olarak verdiğinde, işleri bağımsız parçalara ayır. ChatGPT kendi parçasını yürütür; Grok'a uygun bağımsız görev için kapsamı, teslim biçimi, kanıt beklentisi ve tek sonraki adımı belirten çalıştırılabilir promptu `messages/chatgpt-to-grok.md` kanalına yazar ve ortak projedeki kayıtla raporlar. Aynı işi gereksiz yere iki kez yaptırma. Promptun dosyaya yazılması, Grok'un okuduğu veya uyguladığı anlamına gelmez: alıcı okuma imleci/yanıtı doğrulanana kadar teslimi pending tut. Grok API `403`, sıfır kredi veya başka engel varsa görevi blocked olarak kaydet; otomatik tekrar deneme yapma ve kullanıcıya yalnız gerekli müdahaleyi bildir.
