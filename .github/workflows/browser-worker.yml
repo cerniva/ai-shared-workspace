@@ -23,6 +23,14 @@ on:
         options:
           - read_only
           - interactive
+      browser_engine:
+        description: "Browser execution engine"
+        required: true
+        default: "playwright"
+        type: choice
+        options:
+          - playwright
+          - skyvern
       planner_provider:
         description: "Choose which AI plans the browser steps"
         required: true
@@ -45,7 +53,9 @@ jobs:
       BROWSER_OBJECTIVE: ${{ github.event_name == 'workflow_dispatch' && inputs.objective || 'Go to https://example.com and extract the page title' }}
       BROWSER_ALLOWED_HOSTS: ${{ github.event_name == 'workflow_dispatch' && inputs.allowed_hosts || 'example.com' }}
       BROWSER_EXECUTION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_mode || 'read_only' }}
+      BROWSER_ENGINE: ${{ github.event_name == 'workflow_dispatch' && inputs.browser_engine || 'playwright' }}
       BROWSER_PLANNER_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.planner_provider || 'claude' }}
+      SKYVERN_API_KEY: ${{ secrets.SKYVERN_API_KEY }}
       ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
       ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
       ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
@@ -109,9 +119,19 @@ jobs:
       - name: Validate generated task
         run: python -m json.tool task.json
       - run: pip install -r browser_worker/requirements.txt
-      - run: python -m playwright install --with-deps chromium
+      - name: Validate browser engine
+        run: python -c "from browser_worker.engine_router import choose_engine; print(choose_engine({}))"
+      - name: Install Chromium for Playwright
+        if: ${{ env.BROWSER_ENGINE == 'playwright' }}
+        run: python -m playwright install --with-deps chromium
       - name: Execute browser actions
-        run: python browser_worker/worker.py task.json
+        shell: bash
+        run: |
+          if [ "$BROWSER_ENGINE" = "skyvern" ]; then
+            python browser_worker/skyvern_worker.py task.json
+          else
+            python browser_worker/worker.py task.json
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
