@@ -157,7 +157,7 @@ Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesin
 | --- | --- | --- | --- |
 | 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Eklenti kurulu; kullanıcı henüz bilgisayar almadı.** Yerel cihaz kurulumu gündem dışı. Bu oturumda uzaktan dosya/terminal aracı görünmedi; bilgisayar erişimi yok. |
 | 2 | GSC Wizard | Mağaza arama sorguları, sayfa ve SEO verisi; Search Console mülkiyeti gerekir | **Eklenti kurulu; mülk/veri okunmadı. FURKAN ELİNLE YAPMALISIN:** Search Console mağaza mülkiyeti doğrulanmamışsa Google hesabında doğrula. Bu oturumda GSC Wizard'ın çağrılabilir aracı görünmedi; bağlantı açıldı diye veri var sanma. |
-| Sonra, ihtiyaç olursa | Supabase / Vercel | Veritabanı/kimlik doğrulama veya ayrı dağıtım hattı | Kurulu değil; Railway, Lovable ve GitHub zaten var. Somut proje gerektirmedikçe çoğaltma. |
+| İsteğe bağlı | Supabase / Vercel | Veritabanı/kimlik doğrulama veya ayrı dağıtım hattı | 27 Eylül'de kullanıcı bağlantı kartlarıyla ikisini de bağladı. Bu oturumun çağrılabilir araç listesinde henüz yer almadıkları için hesap/proje/veri okuması doğrulanmadı. |
 
 ## Bağlantı değişikliği — 2026-09-27
 
@@ -170,3 +170,8 @@ Her yeni eklentide üç aşamayı ayrı kaydet: (1) araç görünür, (2) hesap 
 ## GSC Wizard kurulum kontrolü — 2026-09-27
 
 Eklenti yönetimi **installed=true** döndürdü. Bu oturumun çağrılabilir araç listesinde GSC Wizard aracı henüz görünmedi; Search Console mülkü veya gerçek performans satırı okunamadı. Kurulum sonrası yeni oturumda read-only mülk listesiyle doğrulama gerekir.
+
+## Yeni bağlantılar — 2026-09-27
+
+- Supabase ve Vercel: Kullanıcı bağlantı akışını tamamladı; eklenti araçları bu oturumun araç listesine yüklenmediğinden hesap veya proje erişimi ayrıca sınanmalı.
+- Buffer: ChatGPT eklenti aramasında bulunmadı. Buffer sitesinde güvenli oturum açma sonrası **Cerno YouTube Channel** bağlı kanal olarak görüldü (ücretsiz plan, 1/3 kanal). Bu, ChatGPT içinden otomatik yükleme yetkisi anlamına gelmez; yayın hattı ayrı doğrulanmalı.
