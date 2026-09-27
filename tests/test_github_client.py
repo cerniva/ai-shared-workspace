@@ -43,6 +43,16 @@ class GitHubClientTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             c.get_json("https://evil.example/data")
 
+    def test_restricts_runtime_file_access(self):
+        c = GitHubContentsClient(self.settings(), transport=FakeTransport([]))
+        with self.assertRaises(PermissionError):
+            c.get_json("README.md")
+        with self.assertRaises(PermissionError):
+            c.put_json("tasks/runtime-dispatch.json", {"version": 1, "items": []}, "old", "m")
+        with self.assertRaises(PermissionError):
+            c.put_json("README.md", {"x": 1}, "old", "m")
+        self.assertEqual(c.transport.calls, [])
+
     def test_safe_http_errors(self):
         for status, exc in ((401, GitHubAuthError), (403, GitHubAuthError), (404, GitHubNotFound), (409, GitHubConflict), (422, GitHubConflict)):
             c = GitHubContentsClient(self.settings(), transport=FakeTransport([(status, {"message": "SECRET"})]))
