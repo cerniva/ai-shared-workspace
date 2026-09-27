@@ -54,13 +54,62 @@ def _gemini(objective):
         text="".join(str(p.get("text","")) for p in (candidates[0].get("content") or {}).get("parts",[]) if "text" in p)
     return _clean(text)
 
-def _anthropic(objective):
+def _anthropic_auth_headers():
     key=os.getenv("ANTHROPIC_API_KEY","").strip()
-    if not key: raise RuntimeError("ANTHROPIC_API_KEY missing")
+    if key:
+        return {"x-api-key":key,"anthropic-version":"2023-06-01"}
+
+    auth_token=os.getenv("ANTHROPIC_AUTH_TOKEN","").strip()
+    if auth_token:
+        return {"Authorization":"Bearer "+auth_token,"anthropic-version":"2023-06-01"}
+
+    rule_id=os.getenv("ANTHROPIC_FEDERATION_RULE_ID","").strip()
+    organization_id=os.getenv("ANTHROPIC_ORGANIZATION_ID","").strip()
+    service_account_id=os.getenv("ANTHROPIC_SERVICE_ACCOUNT_ID","").strip()
+    workspace_id=os.getenv("ANTHROPIC_WORKSPACE_ID","").strip()
+    identity_token=os.getenv("ANTHROPIC_IDENTITY_TOKEN","").strip()
+    token_file=os.getenv("ANTHROPIC_IDENTITY_TOKEN_FILE","").strip()
+
+    if not identity_token and token_file:
+        try:
+            with open(token_file,"r",encoding="utf-8") as fh:
+                identity_token=fh.read().strip()
+        except OSError as exc:
+            raise RuntimeError("ANTHROPIC_IDENTITY_TOKEN_FILE unreadable") from exc
+
+    missing=[]
+    for name,value in (
+        ("ANTHROPIC_FEDERATION_RULE_ID",rule_id),
+        ("ANTHROPIC_ORGANIZATION_ID",organization_id),
+        ("ANTHROPIC_SERVICE_ACCOUNT_ID",service_account_id),
+        ("ANTHROPIC_IDENTITY_TOKEN",identity_token),
+    ):
+        if not value:
+            missing.append(name)
+    if missing:
+        raise RuntimeError("Anthropic auth missing: "+", ".join(missing))
+
+    payload={
+        "grant_type":"urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion":identity_token,
+        "federation_rule_id":rule_id,
+        "organization_id":organization_id,
+        "service_account_id":service_account_id,
+    }
+    if workspace_id:
+        payload["workspace_id"]=workspace_id
+
+    token_data=_post("https://api.anthropic.com/v1/oauth/token",{},payload)
+    access_token=str(token_data.get("access_token","")).strip()
+    if not access_token:
+        raise RuntimeError("Anthropic WIF token exchange returned no access_token")
+    return {"Authorization":"Bearer "+access_token,"anthropic-version":"2023-06-01"}
+
+def _anthropic(objective):
     model=os.getenv("ANTHROPIC_MODEL","claude-opus-5-5")
     data=_post(
         "https://api.anthropic.com/v1/messages",
-        {"x-api-key":key,"anthropic-version":"2023-06-01"},
+        _anthropic_auth_headers(),
         {
             "model":model,
             "max_tokens":4096,
