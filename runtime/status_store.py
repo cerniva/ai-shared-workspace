@@ -10,6 +10,15 @@ from runtime.github_client import GitHubConflict
 TERMINAL = frozenset({"succeeded", "failed", "blocked"})
 
 
+class RuntimeStatusError(RuntimeError):
+    pass
+
+
+def _validate_status_document(data) -> None:
+    if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("items"), list):
+        raise RuntimeStatusError("invalid runtime status document")
+
+
 def _iso(value: datetime) -> str:
     if value.tzinfo is None:
         value = value.replace(tzinfo=timezone.utc)
@@ -18,12 +27,11 @@ def _iso(value: datetime) -> str:
 
 class StatusStore:
     def __init__(self, data, sha: str, path: str = "state/runtime-status.json"):
+        _validate_status_document(data)
         self.data = deepcopy(data)
         self.sha = sha
         self.path = path
         self.dirty: set[str] = set()
-        if self.data.get("version") != 1 or not isinstance(self.data.get("items"), list):
-            self.data = {"version": 1, "items": []}
 
     @classmethod
     def from_client(cls, client, path: str = "state/runtime-status.json") -> "StatusStore":
@@ -119,9 +127,8 @@ class StatusStore:
     def merge_and_write(self, client, max_attempts: int = 3) -> bool:
         for _ in range(max_attempts):
             latest, sha = client.get_json(self.path)
+            _validate_status_document(latest)
             merged = deepcopy(latest)
-            if merged.get("version") != 1 or not isinstance(merged.get("items"), list):
-                merged = {"version": 1, "items": []}
 
             remote_index = {item.get("idempotency_key"): item for item in merged["items"]}
             local_index = {item.get("idempotency_key"): item for item in self.data["items"]}
