@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T00:06:32+03:00",
+  "updated_at": "2026-09-28T00:10:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -7,55 +7,76 @@
   "agents": {
     "chatgpt": "orchestrator-executor",
     "grok": "research-red-team-chat-available-api-http-403",
-    "gemini": "automated-model-secondary",
+    "gemini": "automated-model-primary-fallback-verified",
     "claude": "api-key-valid-credit-paused-not-a-system-blocker",
     "meta": "model-api-paused-http-402",
     "tinyfish": "primary-web-worker-live",
     "firecrawl": "web-worker-fallback-live",
     "grok_bot": "quota-paused-not-a-system-blocker",
-    "openai_worker": "automated-model-primary-healthy"
+    "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "API-first worker CI coverage expanded and run 36350288238 passed. Anthropic key validated with HTTP 200 on /v1/models; message generation is paused only by low Anthropic credit balance. Stale PRs #16, #17, #20 and #24 closed without merge.",
-  "blocked": ["storefront-password", "payments-unproven", "grok-api-http-403", "anthropic-api-credit-low"],
-  "blockers": ["storefront-password", "payments-unproven"],
+  "latest_output": "Skyvern planner compatibility fixed and merged in PR #25; worker-orchestration tests and CodeQL passed. Storefront password was changed by the user; the store remains private by plan while payment approval is pending.",
+  "blocked": [
+    "payments-unproven",
+    "grok-api-http-403",
+    "anthropic-api-credit-low",
+    "openai-api-credit-exhausted"
+  ],
+  "blockers": [
+    "payments-unproven"
+  ],
   "provider_health": {
-    "openai_worker": "healthy-credential-configured",
+    "openai_worker": "credential-present-http-429-credit-balance-exhausted",
     "grok_chat": "available-separate-from-grok-bot",
     "grok_api": "secret-present-http-403",
     "grok_bot": "quota-exhausted",
-    "gemini_api": "configured-secondary",
+    "gemini_api": "configured-planner-fallback-verified",
     "anthropic_api": "credential-valid-http-200-models-credit-too-low-for-messages",
     "meta_model_api": "credential-present-http-402-billing",
     "tinyfish": "available",
     "firecrawl": "fallback-available"
   },
   "routing": {
-    "browser_web": ["tinyfish", "firecrawl"],
-    "automated_model": ["openai", "gemini"],
-    "browser_planner_auto": ["openai", "grok", "gemini", "anthropic"],
+    "browser_web": [
+      "tinyfish",
+      "firecrawl"
+    ],
+    "automated_model": [
+      "gemini"
+    ],
+    "browser_planner_auto": [
+      "gemini",
+      "openai",
+      "grok",
+      "anthropic"
+    ],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
     "grok_api": "do not retry HTTP 403 automatically until prepaid credits or team permission change",
-    "anthropic_api": "credential is valid; do not retry message generation while credit balance is too low; do not block unrelated work"
+    "anthropic_api": "credential is valid; do not retry message generation while credit balance is too low; do not block unrelated work",
+    "openai_api": "do not retry automatically while HTTP 429 credit_balance_exhausted persists; Gemini fallback is verified"
   },
   "notes": [
+    "2026-09-28 00:10 TR: Skyvern smoke run 36349823688 exposed a planner/worker schema mismatch. PR #25 adapted read-only steps and added fail-closed tests; worker-orchestration run 36350519493 and CodeQL run 36350519461 passed.",
+    "2026-09-28 00:10 TR: OpenAI planner returned HTTP 429 credit_balance_exhausted in run 36349823688. Gemini produced the planner task successfully, so automatic routing uses Gemini until OpenAI credit state changes.",
+    "2026-09-27 23:31 TR: User changed the Shopify storefront password. Store remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
     "2026-09-28 00:06 TR: Anthropic API key validated against /v1/models with HTTP 200. Real message request is blocked only by low credit balance; Claude remains optional and non-blocking.",
     "2026-09-28 00:06 TR: API-first foundation is on main. Worker orchestration CI now watches, compiles and secret-scans orchestrator, research_worker, shorts_worker, shopify_worker and browser_worker; run 36350288238 passed.",
     "2026-09-28 cleanup: Claude diagnostic workflow is manual-only; obsolete Claude retry trigger files removed; stale PRs #16, #17, #20 and #24 closed without merge.",
     "2026-09-27 02:54 TR: XAI_API_KEY repo secret present. Latest API HTTP 403. Console credit was $0.00. Human prepaid credit gate.",
     "2026-09-27 desk-notify: poll-only (push=false). PayoutLens untouched.",
     "Grok, Grok API worker and Grok Bot are three separate channels.",
-    "OpenAI worker remains automated model primary while Grok API is 403 and Meta API is 402.",
     "TinyFish primary web worker; Firecrawl fallback.",
     "Meta Model API HTTP 402. No auto retry.",
-    "Storefront password + Opening soon; no public catalog.",
     "Shopify Payments unreadable without read_shopify_payments. Payment enablement unproven.",
     "Pet roller DRAFT; no exact EUR 2.99. No write.",
     "SOP / Food Cost / Social Kit DRAFT. No publish.",
     "Pipeline map: knowledge/pipeline-map.md. No CrewAI/n8n.",
     "PayoutLens untouched."
   ],
-  "protected_projects": ["payoutlens"],
+  "protected_projects": [
+    "payoutlens"
+  ],
   "sync_rules": {
     "state_is_source_of_truth": true,
     "read_before_work": true,
