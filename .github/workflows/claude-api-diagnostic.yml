@@ -19,12 +19,43 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: List accessible non-default Anthropic workspaces
+        shell: bash
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from urllib.error import HTTPError
+          from urllib.request import Request, urlopen
+
+          req = Request(
+              'https://api.anthropic.com/v1/organizations/workspaces?limit=100',
+              headers={
+                  'x-api-key': os.environ['ANTHROPIC_API_KEY'],
+                  'anthropic-version': '2023-06-01',
+              },
+          )
+          try:
+              with urlopen(req, timeout=30) as response:
+                  data = json.load(response)
+          except HTTPError as exc:
+              body = exc.read().decode('utf-8', 'replace')
+              print(f'workspace-list HTTP {exc.code}: {body}')
+              raise SystemExit(0)
+
+          workspaces = data.get('data') or []
+          print(f'non_default_workspace_count={len(workspaces)}')
+          for ws in workspaces:
+              print('workspace', ws.get('id'), ws.get('name'), 'archived=' + str(bool(ws.get('archived_at'))))
+          PY
       - name: Probe Claude API
         shell: bash
         env:
           BROWSER_OBJECTIVE: 'Return an empty browser task with id ai-browser and steps array.'
           BROWSER_PLANNER_PROVIDER: claude
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
           ANTHROPIC_MODEL: claude-opus-5-5
         run: |
           set +e
