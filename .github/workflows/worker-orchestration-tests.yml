@@ -12,7 +12,11 @@ on:
       - 'scripts/run_worker.py'
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
-      - 'browser_worker/ai_planner.py'
+      - 'browser_worker/**'
+      - 'orchestrator/**'
+      - 'research_worker/**'
+      - 'shorts_worker/**'
+      - 'shopify_worker/**'
       - '.github/workflows/ai-worker-gpt56.yml'
       - '.github/workflows/browser-worker.yml'
       - 'tests/**'
@@ -27,7 +31,11 @@ on:
       - 'scripts/run_worker.py'
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
-      - 'browser_worker/ai_planner.py'
+      - 'browser_worker/**'
+      - 'orchestrator/**'
+      - 'research_worker/**'
+      - 'shorts_worker/**'
+      - 'shopify_worker/**'
       - '.github/workflows/ai-worker-gpt56.yml'
       - '.github/workflows/browser-worker.yml'
       - 'tests/**'
@@ -48,11 +56,11 @@ jobs:
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Compile check
-        run: find scripts tests browser_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
+        run: find scripts tests browser_worker orchestrator research_worker shorts_worker shopify_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
       - name: Secret-pattern guard
         shell: bash
         run: |
-          if grep -RInE '(xai-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|sk-[A-Za-z0-9_-]{20,})' scripts tests state; then
+          if grep -RInE '(xai-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|sk-[A-Za-z0-9_-]{20,})' scripts tests state browser_worker orchestrator research_worker shorts_worker shopify_worker; then
             echo 'Potential committed secret pattern detected'
             exit 1
           fi
