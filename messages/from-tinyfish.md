@@ -26,3 +26,17 @@ created_at: 2026-09-26T14:40:39.906907+00:00
 ```json
 {"results": [{"url": "https://example.com", "final_url": "https://example.com", "title": "Example Domain", "description": null, "language": "en", "text": "This domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more", "author": null, "published_date": null, "latency_ms": 43.04292899905704, "format": "markdown"}], "errors": []}
 ```
+
+---
+id: TF-20260927-190040
+task_id: TF-LEDGER-SMOKE-20260927
+from: tinyfish
+requested_by: chatgpt
+mode: fetch
+status: done
+created_at: 2026-09-27T19:00:40.969198+00:00
+---
+
+```json
+{"results": [{"url": "https://example.com", "final_url": "https://example.com", "title": "Example Domain", "description": null, "language": "en", "text": "This domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more", "author": null, "published_date": null, "latency_ms": 37.6076710090274, "format": "markdown"}], "errors": []}
+```
