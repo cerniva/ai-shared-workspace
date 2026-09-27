@@ -203,3 +203,23 @@ Metricool's live account read verified the Cerno YouTube brand connection and Eu
 | YouTube yayın planlama | https://help.metricool.com/schedule-and-publish-on-youtube-gof0k | Metricool Help Center; resmi yardım belgesi, updated 2026-09-23 | Metricool ile YouTube videosu/Short planlama ve otomatik yayın gereklilikleri | Bağlı marka ve yayın yetkisi ayrıca doğrulanmalı; 3 dakikaya çok yakın Shorts işleme sonrası normal videoya dönüşebilir. |
 | Platform yayın biçimleri | https://help.metricool.com/scheduling-and-posting-options-by-social-network-cwmb3 | Metricool Help Center; resmi format rehberi | YouTube için dikey/kare Shorts biçimi ve sosyal ağ yayın özelliklerini karşılaştırma | API kısıtları değişebilir; güncel gönderim öncesi yeniden kontrol et. |
 
+
+
+## Finans ve piyasa için birincil kaynaklar — 2026-09-27
+
+Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saatlik kontrollerde yalnızca değişen/kararı etkileyen veri için ilgili kaynağı kullan; yayın sıklığı düşük verileri her saat yeniden çekme.
+
+| Alan | URL | Sahip / veri sıklığı | Kullanım ve sınır |
+| --- | --- | --- | --- |
+| ABD Hazine faizleri | https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve | U.S. Treasury; günlük | 2Y/10Y ve eğriyi izlemek. Par getirileri yaklaşık 15:30 ET bid-side indicative fiyatlardan türetilir; gerçekleşmiş işlem fiyatı değildir. |
+| ABD M2 | https://fred.stlouisfed.org/series/M2SL | FRED / Federal Reserve H.6; aylık, mevsimsellikten arındırılmış | Likidite eğilimi. Yüksek gecikmeli aylık seri; saatlik veri gibi yorumlama ve revizyonları kontrol et. |
+| Şirket bildirimleri | https://www.sec.gov/search-filings/edgar-application-programming-interfaces | U.S. SEC EDGAR APIs | SEC filing geçmişi ve XBRL finansal verisi. Bazı kalemler şirket bazında farklı dönem/birim bağlamına sahip olabilir; karşılaştırmada form, birim ve mali dönemi doğrula. |
+| Vadeli pozisyonlama | https://www.cftc.gov/MarketReports/CommitmentsofTraders/AbouttheCOTReports/index.htm | CFTC Commitments of Traders; haftalık | Açık pozisyondaki tüccar sınıflarını görmek. Veri Salı pozisyonunu yansıtır ve çoğunlukla Cuma yayımlanır; anlık piyasa akışı değildir. |
+| Türkiye beklentileri | https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb%2Btr/main%2Bmenu/istatistikler/egilim%2Banketleri/piyasa%2Bkatilimcilari%2Banketi | TCMB; aylık anket, zaman serisi EVDS'de | Türkiye enflasyon/faiz/döviz beklentileri. Anket beklentisidir, TCMB taahhüdü veya gerçekleşmiş veri değildir. |
+
+### Finans araştırmasında kaynak ve hız kuralı
+
+- Önce ilgili eski raporu ve bu kaynak dizinini oku. Her derin incelemede en az bir ilgili birincil kaynağı gerçekten kullan; kritik veya tartışmalı iddiada bağımsız ikinci doğrulama ekle.
+- Saatlik kontrol yeni veri/olay taramasıdır; her turda tüm göstergeleri/varlıkları veya aynı API'yi yeniden sorgulama. M2 ve COT gibi aylık/haftalık serileri yalnız yeni yayında/karar anında yenile.
+- CoinMarketCap, FinancialFilings, Token Terminal, Blockscout, Unusual Whales ve benzeri eklenti araçlarını yalnızca belirli veri boşluğunu kapatıyorsa kullan. Araç listede görünüyorsa bağlantı var demek değildir; veri gerçekten dönünce erişim doğrulanır.
+- Yeni bir finans kaynağı yalnızca yeni ve karar açısından faydalıysa, özgün sayfa doğrulandıktan sonra bu tabloya tarih ve sınırlamayla eklenir. Her turda kaynak sayısını artırma zorunluluğu yoktur.
