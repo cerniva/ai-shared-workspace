@@ -1,9 +1,6 @@
 name: AI Browser Worker
+
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'state/claude-auth-retry.txt'
   workflow_dispatch:
     inputs:
       objective:
@@ -42,64 +39,27 @@ on:
           - grok
           - gemini
           - claude
+
 permissions:
   contents: read
-  id-token: write
+
 jobs:
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BROWSER_OBJECTIVE: ${{ github.event_name == 'workflow_dispatch' && inputs.objective || 'Go to https://example.com and extract the page title' }}
-      BROWSER_ALLOWED_HOSTS: ${{ github.event_name == 'workflow_dispatch' && inputs.allowed_hosts || 'example.com' }}
-      BROWSER_EXECUTION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_mode || 'read_only' }}
-      BROWSER_ENGINE: ${{ github.event_name == 'workflow_dispatch' && inputs.browser_engine || 'playwright' }}
-      BROWSER_PLANNER_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.planner_provider || 'claude' }}
+      BROWSER_OBJECTIVE: ${{ inputs.objective }}
+      BROWSER_ALLOWED_HOSTS: ${{ inputs.allowed_hosts }}
+      BROWSER_EXECUTION_MODE: ${{ inputs.execution_mode }}
+      BROWSER_ENGINE: ${{ inputs.browser_engine }}
+      BROWSER_PLANNER_PROVIDER: ${{ inputs.planner_provider }}
       SKYVERN_API_KEY: ${{ secrets.SKYVERN_API_KEY }}
-      ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
-      ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
-      ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
-      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
-      ANTHROPIC_IDENTITY_TOKEN_FILE: /tmp/anthropic-github-oidc.jwt
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Probe Claude auth configuration
-        shell: bash
-        env:
-          A1: ${{ secrets.ANTHROPIC_API_KEY }}
-          A2: ${{ secrets.CLAUDE_API_KEY }}
-          A3: ${{ secrets.ANTHROPIC_KEY }}
-          A4: ${{ secrets.CLAUDE_KEY }}
-          A5: ${{ secrets.ANTHROPIC_API }}
-          A6: ${{ secrets.ANTHROPIC }}
-          A7: ${{ secrets.ANTHROPIC_APIKEY }}
-          A8: ${{ secrets.ANTHROPIC_TOKEN }}
-          A9: ${{ secrets.CLAUDE_API }}
-          A10: ${{ secrets.CLAUDE }}
-          A11: ${{ secrets.CLAUDE_TOKEN }}
-          OAUTH: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-        run: |
-          for name in A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 OAUTH; do
-            if [ -n "${!name}" ]; then echo "$name=SET"; else echo "$name=UNSET"; fi
-          done
-          if [ -n "$ANTHROPIC_FEDERATION_RULE_ID" ] && [ -n "$ANTHROPIC_ORGANIZATION_ID" ] && [ -n "$ANTHROPIC_SERVICE_ACCOUNT_ID" ]; then echo "WIF=CONFIGURED"; else echo "WIF=UNCONFIGURED"; fi
-      - name: Fetch GitHub OIDC token for Anthropic WIF
-        if: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID != '' && vars.ANTHROPIC_ORGANIZATION_ID != '' && vars.ANTHROPIC_SERVICE_ACCOUNT_ID != '' }}
-        shell: bash
-        run: |
-          python - <<'PY'
-          import json, os
-          from urllib.request import Request, urlopen
-          url = os.environ["ACTIONS_ID_TOKEN_REQUEST_URL"] + "&audience=https://api.anthropic.com"
-          req = Request(url, headers={"Authorization": "Bearer " + os.environ["ACTIONS_ID_TOKEN_REQUEST_TOKEN"]})
-          with urlopen(req, timeout=30) as response:
-              token = json.load(response)["value"]
-          with open(os.environ["ANTHROPIC_IDENTITY_TOKEN_FILE"], "w", encoding="utf-8") as fh:
-              fh.write(token)
-          PY
       - name: AI plans browser actions
         shell: bash
         env:
@@ -109,7 +69,7 @@ jobs:
           XAI_MODEL: grok-4.7
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: gemini-3.8-flash
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY || secrets.ANTHROPIC_KEY || secrets.CLAUDE_KEY || secrets.ANTHROPIC_API || secrets.ANTHROPIC || secrets.ANTHROPIC_APIKEY || secrets.ANTHROPIC_TOKEN || secrets.CLAUDE_API || secrets.CLAUDE || secrets.CLAUDE_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ANTHROPIC_MODEL: claude-opus-5-5
         run: |
           if ! python browser_worker/ai_planner.py > task.json; then
