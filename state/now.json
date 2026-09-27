@@ -45,20 +45,20 @@
       "gemini"
     ],
     "browser_planner_auto": [
-      "gemini",
       "openai",
       "grok",
+      "gemini",
       "anthropic"
     ],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
-    "grok_api": "do not retry HTTP 403 automatically until prepaid credits or team permission change",
-    "anthropic_api": "credential is valid; do not retry message generation while credit balance is too low; do not block unrelated work",
-    "openai_api": "do not retry automatically while HTTP 429 credit_balance_exhausted persists; Gemini fallback is verified"
+    "grok_api": "known HTTP 403 credit/spending gate; browser auto planner currently attempts Grok after OpenAI and falls through on failure",
+    "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
+    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner currently attempts OpenAI first and falls through on failure"
   },
   "notes": [
     "2026-09-28 00:10 TR: Skyvern smoke run 36349823688 exposed a planner/worker schema mismatch. PR #25 adapted read-only steps and added fail-closed tests; worker-orchestration run 36350519493 and CodeQL run 36350519461 passed.",
-    "2026-09-28 00:10 TR: OpenAI planner returned HTTP 429 credit_balance_exhausted in run 36349823688. Gemini produced the planner task successfully, so automatic routing uses Gemini until OpenAI credit state changes.",
+    "2026-09-28 00:10 TR: OpenAI planner returned HTTP 429 credit_balance_exhausted and Grok returned HTTP 403 in run 36349823688. Browser auto planner then fell through to Gemini, which produced the task successfully.",
     "2026-09-27 23:31 TR: User changed the Shopify storefront password. Store remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
     "2026-09-28 00:06 TR: Anthropic API key validated against /v1/models with HTTP 200. Real message request is blocked only by low credit balance; Claude remains optional and non-blocking.",
     "2026-09-28 00:06 TR: API-first foundation is on main. Worker orchestration CI now watches, compiles and secret-scans orchestrator, research_worker, shorts_worker, shopify_worker and browser_worker; run 36350288238 passed.",
