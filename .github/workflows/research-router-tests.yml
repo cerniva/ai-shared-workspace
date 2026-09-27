@@ -1,0 +1,20 @@
+name: Research Router Tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/research_router.py'
+      - 'tests/test_research_router.py'
+      - '.github/workflows/research-router-tests.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run research router tests
+        run: python -m unittest tests.test_research_router -v
