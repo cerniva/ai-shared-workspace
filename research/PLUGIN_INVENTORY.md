@@ -155,9 +155,13 @@ Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesin
 
 | Öncelik | Eklenti | Neden | Durum / kullanıcı adımı |
 | --- | --- | --- | --- |
-| 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Kurulu değil. FURKAN ELİNLE YAPMALISIN:** eklentiyi kurup kendi bilgisayarındaki Remote MCP köprüsünü yetkilendir. Cihaz ve kapsamı sen seçersin. Kurulmadan bilgisayarına eriştiğimi söylemeyeceğim. |
+| 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Eklenti kurulu (2026-09-27); cihaz erişimi doğrulanmadı. FURKAN ELİNLE YAPMALISIN:** kendi bilgisayarındaki Remote MCP köprüsünü ve cihaz yetkisini tamamla. Bu oturumda uzaktan dosya/terminal aracı henüz sunulmadı; cihaz erişimim var demiyorum. |
 | 2 | GSC Wizard | Mağaza arama sorguları, sayfa ve SEO verisi; Search Console mülkiyeti gerekir | **Kurulu değil. FURKAN ELİNLE YAPMALISIN:** mağaza sitesini Search Console'da doğrula ve eklenti bağlantısını yetkilendir. |
 | Sonra, ihtiyaç olursa | Supabase / Vercel | Veritabanı/kimlik doğrulama veya ayrı dağıtım hattı | Kurulu değil; Railway, Lovable ve GitHub zaten var. Somut proje gerektirmedikçe çoğaltma. |
+
+## Bağlantı değişikliği — 2026-09-27
+
+Eklenti yönetimi Remote Desktop Commander için `installed=true` döndürdü; bu oturumun çağrılabilir araç listesinde uzaktan dosya/terminal aracı görünmedi. Dolayısıyla kurulum doğrulandı, bilgisayar erişimi doğrulanmadı. GSC Wizard hâlâ kurulu değil.
 
 ## Denetim yöntemi
 
