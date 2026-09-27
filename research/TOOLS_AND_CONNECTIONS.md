@@ -59,4 +59,8 @@ Ayrıntılı URL dizini ve saatlik kaynak ekleme kuralı [SOURCES.md](SOURCES.md
 
 ## Remote Desktop Commander kontrolü — 2026-09-27
 
-Eklenti yönetiminde Remote Desktop Commander **installed=true** görünüyor. Bu oturumun çağrılabilir araç listesinde eklentinin dosya/terminal yetenekleri henüz görünmedi ve bir cihaz okunmadı. Eklenti kurulumu, bilgisayara erişim kanıtı değildir. **FURKAN ELİNLE YAPMALISIN:** yerel Remote MCP bağlantısını/cihaz yetkisini tamamla; ardından zararsız cihaz durumu okunarak erişim doğrulansın. GSC Wizard hâlâ bağlantı bekliyor.
+Eklenti yönetiminde Remote Desktop Commander **installed=true** görünüyor. Bu oturumun çağrılabilir araç listesinde eklentinin dosya/terminal yetenekleri henüz görünmedi ve bir cihaz okunmadı. Eklenti kurulumu, bilgisayara erişim kanıtı değildir. **FURKAN ELİNLE YAPMALISIN:** yerel Remote MCP bağlantısını/cihaz yetkisini tamamla; ardından zararsız cihaz durumu okunarak erişim doğrulansın. GSC Wizard eklentisi kurulu; Search Console mülkü/verisi doğrulanmadı.
+
+## GSC Wizard kurulum kontrolü — 2026-09-27
+
+Eklenti yönetimi **installed=true** döndürdü. Bu oturumun çağrılabilir araç listesinde GSC Wizard aracı henüz görünmedi; Search Console mülkü veya gerçek performans satırı okunamadı. Kurulum sonrası yeni oturumda read-only mülk listesiyle doğrulama gerekir.
