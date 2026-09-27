@@ -25,74 +25,21 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python - <<'PY'
-          import os
+          import os, re
           key = os.environ.get('ANTHROPIC_API_KEY','')
+          prefix = 'sk-ant-api03-'
+          body = key[len(prefix):] if key.startswith(prefix) else ''
           print('key_present=' + str(bool(key)))
           print('key_length=' + str(len(key)))
-          print('starts_with_sk_ant=' + str(key.startswith('sk-ant-')))
+          print('starts_with_sk_ant_api03=' + str(key.startswith(prefix)))
+          print('body_length=' + str(len(body)))
+          print('ascii_only=' + str(key.isascii()))
+          print('allowed_chars_only=' + str(bool(re.fullmatch(r'[A-Za-z0-9_-]+', key))))
           print('has_leading_or_trailing_whitespace=' + str(key != key.strip()))
           print('contains_internal_whitespace=' + str(any(ch.isspace() for ch in key.strip())))
+          print('contains_dot=' + str('.' in key))
+          print('contains_ellipsis=' + str('...' in key))
           print('looks_wrapped_in_quotes=' + str((len(key) >= 2) and key[0] in "\"'" and key[-1] == key[0]))
-          PY
-      - name: Probe key with Authorization bearer
-        shell: bash
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python - <<'PY'
-          import json, os
-          from urllib.error import HTTPError
-          from urllib.request import Request, urlopen
-          req = Request(
-              'https://api.anthropic.com/v1/messages',
-              data=json.dumps({
-                  'model':'claude-opus-5-5',
-                  'max_tokens':1,
-                  'messages':[{'role':'user','content':'ping'}],
-              }).encode('utf-8'),
-              headers={
-                  'Authorization':'Bearer ' + os.environ['ANTHROPIC_API_KEY'],
-                  'anthropic-version':'2023-06-01',
-                  'content-type':'application/json',
-              },
-              method='POST',
-          )
-          try:
-              with urlopen(req, timeout=30) as response:
-                  print('bearer_probe_status=' + str(response.status))
-          except HTTPError as exc:
-              body = exc.read().decode('utf-8','replace')
-              print(f'bearer_probe HTTP {exc.code}: {body}')
-          PY
-      - name: List accessible non-default Anthropic workspaces
-        shell: bash
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python - <<'PY'
-          import json, os
-          from urllib.error import HTTPError
-          from urllib.request import Request, urlopen
-
-          req = Request(
-              'https://api.anthropic.com/v1/organizations/workspaces?limit=100',
-              headers={
-                  'x-api-key': os.environ['ANTHROPIC_API_KEY'],
-                  'anthropic-version': '2023-06-01',
-              },
-          )
-          try:
-              with urlopen(req, timeout=30) as response:
-                  data = json.load(response)
-          except HTTPError as exc:
-              body = exc.read().decode('utf-8', 'replace')
-              print(f'workspace-list HTTP {exc.code}: {body}')
-              raise SystemExit(0)
-
-          workspaces = data.get('data') or []
-          print(f'non_default_workspace_count={len(workspaces)}')
-          for ws in workspaces:
-              print('workspace', ws.get('id'), ws.get('name'), 'archived=' + str(bool(ws.get('archived_at'))))
           PY
       - name: Probe Claude API
         shell: bash
