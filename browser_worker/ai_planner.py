@@ -54,9 +54,26 @@ def _gemini(objective):
         text="".join(str(p.get("text","")) for p in (candidates[0].get("content") or {}).get("parts",[]) if "text" in p)
     return _clean(text)
 
+def _anthropic(objective):
+    key=os.getenv("ANTHROPIC_API_KEY","").strip()
+    if not key: raise RuntimeError("ANTHROPIC_API_KEY missing")
+    model=os.getenv("ANTHROPIC_MODEL","claude-opus-5-5")
+    data=_post(
+        "https://api.anthropic.com/v1/messages",
+        {"x-api-key":key,"anthropic-version":"2023-06-01"},
+        {
+            "model":model,
+            "max_tokens":4096,
+            "system":SYSTEM,
+            "messages":[{"role":"user","content":"OBJECTIVE:\n"+objective}],
+        },
+    )
+    text="".join(str(block.get("text","")) for block in data.get("content",[]) if block.get("type")=="text")
+    return _clean(text)
+
 def plan(objective):
     errors=[]
-    for name,fn in (("openai",_openai),("grok",_grok),("gemini",_gemini)):
+    for name,fn in (("openai",_openai),("grok",_grok),("gemini",_gemini),("anthropic",_anthropic)):
         try:
             task=fn(objective)
             task["planner_provider"]=name
