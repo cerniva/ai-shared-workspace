@@ -1,10 +1,10 @@
 name: Claude API Diagnostic
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/claude-api-diagnostic.yml'
       - 'state/claude-api-diagnostic.txt'
 
 permissions:
@@ -19,63 +19,6 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - name: Inspect Claude key shape safely
-        shell: bash
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python - <<'PY'
-          import os, re
-          key = os.environ.get('ANTHROPIC_API_KEY','')
-          prefix = 'sk-ant-api03-'
-          body = key[len(prefix):] if key.startswith(prefix) else ''
-          print('key_present=' + str(bool(key)))
-          print('key_length=' + str(len(key)))
-          print('starts_with_sk_ant_api03=' + str(key.startswith(prefix)))
-          print('body_length=' + str(len(body)))
-          print('ascii_only=' + str(key.isascii()))
-          print('allowed_chars_only=' + str(bool(re.fullmatch(r'[A-Za-z0-9_-]+', key))))
-          print('has_leading_or_trailing_whitespace=' + str(key != key.strip()))
-          print('contains_internal_whitespace=' + str(any(ch.isspace() for ch in key.strip())))
-          print('contains_dot=' + str('.' in key))
-          print('contains_ellipsis=' + str('...' in key))
-          print('looks_wrapped_in_quotes=' + str((len(key) >= 2) and key[0] in "\"'" and key[-1] == key[0]))
-          PY
-      - name: Test exact and one-character-trim variants
-        shell: bash
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python - <<'PY'
-          import os
-          from urllib.error import HTTPError
-          from urllib.request import Request, urlopen
-
-          key = os.environ['ANTHROPIC_API_KEY']
-          variants = [('exact', key), ('trim_last_1', key[:-1])]
-          for label, candidate in variants:
-              req = Request(
-                  'https://api.anthropic.com/v1/models',
-                  headers={
-                      'x-api-key': candidate,
-                      'anthropic-version': '2023-06-01',
-                  },
-              )
-              try:
-                  with urlopen(req, timeout=30) as response:
-                      print(f'{label}_status={response.status}')
-              except HTTPError as exc:
-                  print(f'{label}_status={exc.code}')
-                  body = exc.read().decode('utf-8', 'replace')
-                  if 'API key is invalid' in body or 'invalid x-api-key' in body:
-                      print(f'{label}_auth=invalid')
-                  elif 'deactivated' in body:
-                      print(f'{label}_auth=deactivated')
-                  elif 'expired' in body:
-                      print(f'{label}_auth=expired')
-                  else:
-                      print(f'{label}_auth=other_error')
-          PY
       - name: Probe Claude API
         shell: bash
         env:
