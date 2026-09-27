@@ -123,3 +123,9 @@ Araç envanteri ve doğrulanmış hesap durumu: [PLUGIN_INVENTORY.md](PLUGIN_INV
 | GitHub ortak depo | https://github.com/cerniva/ai-shared-workspace | Mevcut kod, rapor ve önceki deneyler; her görevde önce gerçek branch/commit durumu okunur |
 
 **Uzaktan erişim ayrımı:** TinyFish (https://agent.tinyfish.ai/) yetkili web görevleri için ücretli bir araç olarak göründü; bu kullanıcının bilgisayarının masaüstüne otomatik erişim değildir. Remote Desktop Commander eklentisi kurulu görünse de kullanıcının henüz bilgisayarı yok; yerel cihaz bağlantısı gündem dışı. Mevcut bulut araçları kullanılacak. Tarayıcı otomasyonu, yerel bilgisayar terminali ve üretim API'lerini ayrı yetkiler olarak kaydet.
+
+## Yayın aracı adayları — 2026-09-27
+
+| Araç / bilgi | URL | Durum / kullanım |
+| --- | --- | --- |
+| Buffer YouTube Shorts rehberi | https://support.buffer.com/en-us/articles/using-youtube-shorts-with-buffer-Jl8iR6jIck | Otomatik ve bildirimli yayın farkı için resmi belge. Buffer hesabı/kanal yetkisi bu oturumda doğrulanmadı; mevcut Metricool/vidIQ ve doğrudan YouTube yetkisini test etmeden yeni araç ekleme. Bildirimli postu yayımlandı sayma. |
