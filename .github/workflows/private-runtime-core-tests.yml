@@ -1,0 +1,42 @@
+name: private-runtime-core-tests
+
+on:
+  push:
+    branches: [private-replit-runtime-v1]
+    paths:
+      - 'runtime/**'
+      - 'app/**'
+      - 'tests/test_settings.py'
+      - 'tests/test_redaction.py'
+      - 'tests/test_github_client.py'
+      - 'tests/test_policy.py'
+      - 'tests/test_status_store.py'
+      - 'tests/test_worker.py'
+      - 'tests/test_health.py'
+      - 'tests/test_app_cycle.py'
+      - '.github/workflows/private-runtime-core-tests.yml'
+  pull_request:
+    paths:
+      - 'runtime/**'
+      - 'app/**'
+      - 'tests/test_settings.py'
+      - 'tests/test_redaction.py'
+      - 'tests/test_github_client.py'
+      - 'tests/test_policy.py'
+      - 'tests/test_status_store.py'
+      - 'tests/test_worker.py'
+      - 'tests/test_health.py'
+      - 'tests/test_app_cycle.py'
+      - '.github/workflows/private-runtime-core-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Runtime core tests
+        run: python3 -m unittest tests.test_settings tests.test_redaction tests.test_github_client tests.test_policy tests.test_status_store tests.test_worker tests.test_health tests.test_app_cycle -v
+      - name: Related regressions
+        run: python3 -m unittest tests.test_runtime_contract tests.test_browser_policy tests.test_end_to_end_worker_flow -v
+      - name: Compile runtime
+        run: python3 -m compileall runtime app

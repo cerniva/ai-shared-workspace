@@ -1,0 +1,23 @@
+name: private-runtime-contract-tests
+
+on:
+  push:
+    branches:
+      - private-replit-runtime-v1
+    paths:
+      - 'scripts/runtime_contract.py'
+      - 'tests/test_runtime_contract.py'
+      - 'tasks/runtime-dispatch.json'
+      - 'state/runtime-status.json'
+      - 'docs/runtime/PRIVATE_RUNTIME_CONTRACT.md'
+      - '.github/workflows/private-runtime-contract-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Runtime contract tests
+        run: python3 -m unittest tests.test_runtime_contract -v
+      - name: Related regression tests
+        run: python3 -m unittest tests.test_browser_policy tests.test_end_to_end_worker_flow -v
