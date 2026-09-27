@@ -156,13 +156,17 @@ Kontrol: **2026-09-27, Türkiye saati**. Bu oturumda **124 eklenti/araç ailesin
 | Öncelik | Eklenti | Neden | Durum / kullanıcı adımı |
 | --- | --- | --- | --- |
 | 1 | Remote Desktop Commander | Kullanıcının kendi bilgisayarında yetkilendirdiği dosya sistemi ve terminale uzaktan erişim; GitHub ile kod işini tamamlar | **Eklenti kurulu (2026-09-27); cihaz erişimi doğrulanmadı. FURKAN ELİNLE YAPMALISIN:** kendi bilgisayarındaki Remote MCP köprüsünü ve cihaz yetkisini tamamla. Bu oturumda uzaktan dosya/terminal aracı henüz sunulmadı; cihaz erişimim var demiyorum. |
-| 2 | GSC Wizard | Mağaza arama sorguları, sayfa ve SEO verisi; Search Console mülkiyeti gerekir | **Kurulu değil. FURKAN ELİNLE YAPMALISIN:** mağaza sitesini Search Console'da doğrula ve eklenti bağlantısını yetkilendir. |
+| 2 | GSC Wizard | Mağaza arama sorguları, sayfa ve SEO verisi; Search Console mülkiyeti gerekir | **Eklenti kurulu; mülk/veri okunmadı. FURKAN ELİNLE YAPMALISIN:** Search Console mağaza mülkiyeti doğrulanmamışsa Google hesabında doğrula. Bu oturumda GSC Wizard'ın çağrılabilir aracı görünmedi; bağlantı açıldı diye veri var sanma. |
 | Sonra, ihtiyaç olursa | Supabase / Vercel | Veritabanı/kimlik doğrulama veya ayrı dağıtım hattı | Kurulu değil; Railway, Lovable ve GitHub zaten var. Somut proje gerektirmedikçe çoğaltma. |
 
 ## Bağlantı değişikliği — 2026-09-27
 
-Eklenti yönetimi Remote Desktop Commander için `installed=true` döndürdü; bu oturumun çağrılabilir araç listesinde uzaktan dosya/terminal aracı görünmedi. Dolayısıyla kurulum doğrulandı, bilgisayar erişimi doğrulanmadı. GSC Wizard hâlâ kurulu değil.
+Eklenti yönetimi Remote Desktop Commander için `installed=true` döndürdü; bu oturumun çağrılabilir araç listesinde uzaktan dosya/terminal aracı görünmedi. Dolayısıyla kurulum doğrulandı, bilgisayar erişimi doğrulanmadı. GSC Wizard eklentisi kurulu; Search Console mülkü/verisi doğrulanmadı.
 
 ## Denetim yöntemi
 
 Her yeni eklentide üç aşamayı ayrı kaydet: (1) araç görünür, (2) hesap kimliği/çalışma alanı okundu, (3) gerçek proje/veri döndü. Ücret/kredi ve yetki sınırını ayrıca yaz. Güvenli read-only çağrı olmadan “bağlı” deme. Tam araç listesi sonraki oturumlarda değişebilir; bu dosya tarihli envanterdir, otomatik canlı pano değildir. Özel kimlik bilgisi, ödeme veya token depoya konmaz.
+
+## GSC Wizard kurulum kontrolü — 2026-09-27
+
+Eklenti yönetimi **installed=true** döndürdü. Bu oturumun çağrılabilir araç listesinde GSC Wizard aracı henüz görünmedi; Search Console mülkü veya gerçek performans satırı okunamadı. Kurulum sonrası yeni oturumda read-only mülk listesiyle doğrulama gerekir.
