@@ -85,6 +85,29 @@ class WorkerTests(unittest.TestCase):
             "params": {"message": "hello"}, "created_at": "2026-09-27T00:00:00Z"
         }
 
+    def test_success_emits_structured_safe_log(self):
+        logs = []
+        client = FakeClient({"version": 1, "items": [self.task()]})
+        worker = RuntimeWorker(self.settings(), client=client, log_sink=logs.append)
+        report = worker.cycle(datetime(2026, 9, 27, tzinfo=timezone.utc))
+        self.assertEqual(report.succeeded, 1)
+        self.assertEqual(len(logs), 1)
+        row = logs[0]
+        self.assertEqual(set(row), {"timestamp", "task_id", "connector", "operation", "status", "duration_ms", "error_code"})
+        self.assertEqual(row["status"], "succeeded")
+        self.assertNotIn("SECRET", str(row))
+
+    def test_failure_emits_structured_safe_log(self):
+        logs = []
+        client = FakeClient({"version": 1, "items": [self.task()]})
+        worker = RuntimeWorker(self.settings(), client=client, connectors={"synthetic": ExplodingConnector()}, log_sink=logs.append)
+        report = worker.cycle(datetime(2026, 9, 27, tzinfo=timezone.utc))
+        self.assertEqual(report.failed, 1)
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0]["status"], "failed")
+        self.assertEqual(logs[0]["error_code"], "connector_error")
+        self.assertNotIn("SECRET", str(logs[0]))
+
     def test_valid_task_executes_once_and_second_cycle_skips(self):
         client = FakeClient({"version": 1, "items": [self.task()]})
         connector = CountingConnector()
