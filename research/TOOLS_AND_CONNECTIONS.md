@@ -108,3 +108,24 @@ Kredi notu: Bu denetimde TubeAlfred'e ait 1 araştırma kredisi kullanıldı; vi
 | Ubersuggest / vidIQ | Mevcut tarihli kayıt korunuyor: ücretsiz Ubersuggest hesabında izlenen proje yok; vidIQ kredisi 0 | Yalnızca görevle ilgiliyse ve güncel hak/kota uygunsa kullan. Ücretli/kredi tüketen rutin sorgu yapma. |
 
 Gelecek araştırmalarda her soruda en az bir uygun birincil/resmî web kaynağı kullan; varsa konuyla doğrudan ilgili bağlı kanalın verisini ikinci kanıt katmanı olarak doğrula. Kaynakları mekanik biçimde her turda topluca tarama: Shopify sorusunda Shopify/Google/Meta veya Merchant Center; Shorts sorusunda YouTube/Windsor/TikTok/YouTube arama kanallarından ilgili olanları seç. Kaynak, plugin veya hesap listede görünüyor diye kullanılmış sayma.
+
+
+
+## Saatlik plan ve araştırma bağlantıları denetimi — 2026-09-27 12:30 TR
+
+Read-only checks performed in this audit. No private performance numbers or account identifiers are recorded here.
+
+| Connection / plan | Verified result | Limits / fix |
+| --- | --- | --- |
+| GitHub — `cerniva/ai-shared-workspace` | Repository metadata and research files were readable; repository is public and authenticated permissions include push. | Avoid placing private account metrics, emails, API keys, or tokens in this public repository. |
+| Shopify | Read-only store-info call succeeded; connected store is Basic, EUR, Turkey, timezone +03. | This verifies the app connection only; it does not verify product, order, sales, or session analytics. |
+| Windsor.ai | Live profile is Trial/non-paid; connected YouTube, TikTok Organic, Instagram, and Facebook accounts are listed. YouTube field discovery and a 7-day read both succeeded for date, video, views, engaged views, average view duration, and subscribers gained. | Do not store the returned private channel metrics in this public repo. `chose_to_view/swiped`, retention curves, and YouTube revenue were not returned in the field check; use authorized Studio/API data if a task truly needs them.
+| Metricool | Read-only brand check confirmed the Cerno YouTube channel and Europe/Istanbul timezone. Scheduling tools are available in this session. | Daily video plan now prefers Metricool and verifies the scheduled post before reporting it. Buffer is visible in its website UI, but no Buffer connector is available in this tool session. Official guides are indexed in `SOURCES.md`. |
+| Ubersuggest | Auth status previously confirmed for free tier. | No tracked project; use only free relevant keyword/SERP data, not paid reports. |
+| TubeAlfred | In this audit, the public `trending_shorts` endpoint returned entries including long-form videos; the tool response charged 1 research credit and showed 49 remaining. | Do not treat that endpoint as a Shorts-only trend feed. Validate actual duration/format; use it only if a specific public example is worth the credit. A separate earlier query for professional cooking tips returned empty; do not repeat it. Credit balances are call-specific and can change. |
+| Google Trends / Merchant Center / Search Console | Public Google Trends and official Merchant Center documentation are available; Merchant Center account and Search Console property/data were not verified in this audit. | These accounts are optional for public research. Flag them only when private store-search or Merchant Center account data is needed. |
+| Saatlik Araştırma ve Kütüphane | Enabled, hourly, bound to this reporting conversation; it consults one highest-impact question and suppresses duplicate/no-change reports. | Older duplicate copy is paused; do not reactivate it. |
+| Video ve Shopify Otomasyonu | Enabled daily at 16:00 Istanbul. | Research creates evidence/brief; this plan owns the video and publication workflow, preventing duplicate Shorts briefs. |
+| Birleşik Finans, Kripto ve Küresel Piyasa Radarı | One enabled hourly instance. | Older duplicate instance is paused. It remains a separate finance scope. |
+
+**Verimlilik kararı:** Saatlik araştırma her çalışmada tüm eklentileri taramaz. Önceki kaynak/rapor kaydını okur, bir derin araştırma sorusu seçer, uygun ücretsiz/gerçek erişilebilir kaynakları kullanır ve yalnızca yeni/karar değiştirici bulguyu raporlar. Her turda kaynak keşfi yapılır; ancak ekleme yalnızca kaynak doğrulanıp ilk kez yarar sağlıyorsa yapılır.
