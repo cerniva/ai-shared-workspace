@@ -6,9 +6,9 @@ from runtime.worker import RuntimeWorker
 
 
 class FakeClient:
-    def __init__(self, dispatch):
+    def __init__(self, dispatch, status=None):
         self.dispatch = dispatch
-        self.status = {"version": 1, "items": []}
+        self.status = status or {"version": 1, "items": []}
         self.sha_counter = 1
         self.get_calls = 0
 
@@ -21,15 +21,11 @@ class FakeClient:
         raise AssertionError(path)
 
     def put_json(self, path, data, sha, message):
-        self.assert_status_path(path)
+        if path != "state/runtime-status.json":
+            raise AssertionError(path)
         self.status = data
         self.sha_counter += 1
         return f"s{self.sha_counter}"
-
-    @staticmethod
-    def assert_status_path(path):
-        if path != "state/runtime-status.json":
-            raise AssertionError(path)
 
 
 class ExplodingConnector:
@@ -70,6 +66,26 @@ class WorkerTests(unittest.TestCase):
         self.assertEqual(first.succeeded, 1)
         self.assertEqual(second.skipped, 1)
         self.assertEqual(connector.calls, 1)
+
+    def test_recent_running_task_is_not_reexecuted(self):
+        status = {"version": 1, "items": [{
+            "idempotency_key": "RUNTIME-SMOKE:1", "status": "running",
+            "started_at": "2026-09-27T00:00:00+00:00"
+        }]}
+        client = FakeClient({"version": 1, "items": [self.task()]}, status=status)
+        connector = CountingConnector()
+        report = RuntimeWorker(self.settings(), client=client, connectors={"synthetic": connector}).cycle(
+            datetime(2026, 9, 27, 0, 4, tzinfo=timezone.utc)
+        )
+        self.assertEqual(report.skipped, 1)
+        self.assertEqual(connector.calls, 0)
+
+    def test_future_contract_version_is_blocked_before_connector(self):
+        client = FakeClient({"version": 2, "items": [self.task()]})
+        connector = CountingConnector()
+        report = RuntimeWorker(self.settings(), client=client, connectors={"synthetic": connector}).cycle()
+        self.assertGreaterEqual(report.blocked, 1)
+        self.assertEqual(connector.calls, 0)
 
     def test_malformed_task_is_blocked_before_connector(self):
         bad = self.task(); bad.pop("operation")
