@@ -56,3 +56,7 @@ Ayrıntılı URL dizini ve saatlik kaynak ekleme kuralı [SOURCES.md](SOURCES.md
 2. Her gerçek kullanımı tarih, kaynak hesabının adı, sorgulanan dönem, metrik, kaynak URL'si ve sınırla raporla. Bağlı uygulama görünmesi ile gerçek veri okunmasını karıştırma.
 3. Saatlik araştırmada mevcut [SOURCES.md](SOURCES.md) URL'lerini ve eski deneyleri oku; değerli yeni kaynağı doğrulayınca URL dizinine ekle. Bir sonraki Shorts/video veya Shopify kararında kanıta bağla.
 4. Kredili video aracı yalnızca yayınlanabilir üretim için ve kullanıcının kredi koruma talimatına uygun kullanılır. Özel hesap bilgilerini açık depoya yazma.
+
+## Remote Desktop Commander kontrolü — 2026-09-27
+
+Eklenti yönetiminde Remote Desktop Commander **installed=true** görünüyor. Bu oturumun çağrılabilir araç listesinde eklentinin dosya/terminal yetenekleri henüz görünmedi ve bir cihaz okunmadı. Eklenti kurulumu, bilgisayara erişim kanıtı değildir. **FURKAN ELİNLE YAPMALISIN:** yerel Remote MCP bağlantısını/cihaz yetkisini tamamla; ardından zararsız cihaz durumu okunarak erişim doğrulansın. GSC Wizard hâlâ bağlantı bekliyor.
