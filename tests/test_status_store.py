@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timezone
 
 from runtime.github_client import GitHubConflict
-from runtime.status_store import StatusStore
+from runtime.status_store import RuntimeStatusError, StatusStore
 
 
 class FakeClient:
@@ -41,6 +41,11 @@ class ClaimClient:
 class StatusStoreTests(unittest.TestCase):
     def task(self):
         return {"id": "A", "generation": 1, "connector": "synthetic", "operation": "echo", "action_class": "prepare"}
+
+    def test_invalid_status_document_fails_closed(self):
+        for data in ({}, {"version": 2, "items": []}, {"version": 1, "items": {}}):
+            with self.assertRaises(RuntimeStatusError):
+                StatusStore(data, "sha0")
 
     def test_begin_finish_and_terminal_lookup(self):
         store = StatusStore({"version": 1, "items": []}, "sha0")
