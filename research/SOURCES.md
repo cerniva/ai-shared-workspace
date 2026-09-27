@@ -59,3 +59,15 @@ Her önemli kaynakta mümkünse:
 - daha sonra doğrulanması veya yeniden kontrol edilmesi gereken noktalar
 
 Yeniden kullanılabilir sonuçlar `research/KNOWLEDGE_LEDGER.md` dosyasına aktarılır.
+
+## Verimli araştırma ve öğrenme döngüsü — 2026-09-27
+
+Bu döngü saatlik Araştırma ve Kütüphane çalışmasında uygulanır; kredi harcaması veya yeni otomasyon gerektirmez.
+
+1. **Önce karar sorusu:** Son ilgili raporu ve bilgi kaydını oku. Shopify ve Shorts için her tur kısa bir değişiklik kontrolü yap. O turda en yüksek etkili **bir** soruyu derinleştir: “Bu yeni bilgi hangi kararı değiştirecek?” Sorunun cevabı önceki kayıtta güncelse aynı aramayı tekrarlama.
+2. **Kaynağı ihtiyaca göre seç:** Güncel kural/fiyat/ürün iddiası için resmi birincil kaynak; talep veya izleyici örüntüsü için gözlenebilir pazar/video verisi; önemli ve tartışmalı sonuç için bağımsız ikinci doğrulama. Kaynak tarihi ve URL'yi yaz. Ücretli/kredili aracı yalnızca ücretsiz kaynakların kapatamadığı somut boşluk için düşün; kredi sıfırken çağrıyı tekrarlama.
+3. **Bulguyu karara çevir:** Shopify adayına `ham → inceleniyor → doğrulandı → elendi` durumu ver; talep, tedarik, tam maliyet, marj, teslimat/iade ve haklar eksikse “doğrulandı” deme. Shorts fikrine `hipotez → üretim → yayın → olgunlaşmış ölçüm → sürdür/değiştir` durumu ver. Ölçüm yoksa sonuç “bekliyor” kalsın.
+4. **Yalnızca farkı kaydet:** Tarih, soru, yeni kanıt, güven düzeyi, önceki karara göre değişiklik, yapılan gerçek uygulama, ölçüm ve **sonraki kontrol tetikleyicisini/tarihini** yaz. Aynı makaleyi ve aynı dersi yeni kayıt gibi çoğaltma. Özel Shopify müşteri/ödeme verisini herkese açık repoya koyma.
+5. **Geri besleme:** Yeni görev/engel geldiğinde geçmiş raporlarda önceki denemeyi ara. Haftada bir, saatlik çalışmanın birinde, açık Shopify adayları ile Shorts hipotezlerini olgunlaşmış sonuçlarla karşılaştır; yanlış çıkanları gerekçeyle güncelle, eski bilgiyi sessizce silme. Sonraki video brief'i ve ürün seçiminde yalnızca güncel, dayanaklı dersleri kullan.
+
+Saatlik rapor kısa tutulur: **Shopify farkı | Shorts farkı | derinleştirilen soru | uygulanan karar/deney | sonraki kontrol**. Yeni doğrulanmış bulgu yoksa bu açıkça yazılır; araştırma yapılmış gibi yeni bilgi uydurulmaz.
