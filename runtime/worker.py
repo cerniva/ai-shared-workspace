@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from scripts.runtime_contract import idempotency_key, validate_dispatch_document, validate_dispatch_item
 from runtime.connectors import SyntheticConnector
 from runtime.github_client import GitHubContentsClient
+from runtime.logging_utils import build_log_record, emit_log
 from runtime.policy import classify_task
 from runtime.redaction import redact_text, sanitize_object
 from runtime.status_store import StatusStore
@@ -21,10 +23,11 @@ class CycleReport:
 
 
 class RuntimeWorker:
-    def __init__(self, settings, client=None, connectors=None):
+    def __init__(self, settings, client=None, connectors=None, log_sink=None):
         self.settings = settings
         self.client = client
         self.connectors = connectors or {"synthetic": SyntheticConnector()}
+        self.log_sink = log_sink or emit_log
         self.github_last_ok = False
         self.last_cycle_at = None
         self.last_success_at = None
@@ -32,6 +35,21 @@ class RuntimeWorker:
     @staticmethod
     def _now(now=None):
         return now or datetime.now(timezone.utc)
+
+    def _emit(self, task, *, status: str, error_code: str | None, started: float) -> None:
+        row = build_log_record(
+            task_id=task.get("id"),
+            connector=task.get("connector"),
+            operation=task.get("operation"),
+            status=status,
+            duration_ms=max(0, int((time.monotonic() - started) * 1000)),
+            error_code=error_code,
+        )
+        safe_row = sanitize_object(row, [self.settings.github_token])
+        try:
+            self.log_sink(safe_row)
+        except Exception:
+            pass
 
     def cycle(self, now=None) -> CycleReport:
         now = self._now(now)
@@ -56,6 +74,7 @@ class RuntimeWorker:
 
         store = StatusStore.from_client(client)
         for task in dispatch["items"]:
+            started = time.monotonic()
             errors = validate_dispatch_item(task)
             key = None
             if isinstance(task.get("id"), str) and isinstance(task.get("generation"), int):
@@ -63,6 +82,7 @@ class RuntimeWorker:
 
             if key and (store.is_terminal(key) or store.is_active_running(key, now)):
                 report.skipped += 1
+                self._emit(task, status="skipped", error_code=None, started=started)
                 continue
 
             if errors:
@@ -72,6 +92,7 @@ class RuntimeWorker:
                     if not store.merge_and_write(client):
                         report.skipped += 1
                         report.blocked -= 1
+                        self._emit(task, status="skipped", error_code="claim_lost", started=started)
                         continue
                     store.finish(
                         key,
@@ -82,6 +103,7 @@ class RuntimeWorker:
                         now=now,
                     )
                     store.merge_and_write(client)
+                self._emit(task, status="blocked", error_code="invalid_task", started=started)
                 continue
 
             decision = classify_task(task)
@@ -90,6 +112,7 @@ class RuntimeWorker:
                 store.begin(task, now)
                 if not store.merge_and_write(client):
                     report.skipped += 1
+                    self._emit(task, status="skipped", error_code="claim_lost", started=started)
                     continue
                 store.finish(
                     key,
@@ -101,11 +124,13 @@ class RuntimeWorker:
                 )
                 store.merge_and_write(client)
                 report.blocked += 1
+                self._emit(task, status="blocked", error_code=decision.code, started=started)
                 continue
 
             store.begin(task, now)
             if not store.merge_and_write(client):
                 report.skipped += 1
+                self._emit(task, status="skipped", error_code="claim_lost", started=started)
                 continue
 
             connector = self.connectors.get(task["connector"])
@@ -120,6 +145,7 @@ class RuntimeWorker:
                 )
                 store.merge_and_write(client)
                 report.blocked += 1
+                self._emit(task, status="blocked", error_code="connector_unavailable", started=started)
                 continue
 
             try:
@@ -137,8 +163,10 @@ class RuntimeWorker:
                 if store.merge_and_write(client):
                     report.succeeded += 1
                     self.last_success_at = now.isoformat()
+                    self._emit(task, status="succeeded", error_code=None, started=started)
                 else:
                     report.failed += 1
+                    self._emit(task, status="failed", error_code="terminal_claim_lost", started=started)
             except Exception as exc:
                 store.finish(
                     key,
@@ -150,5 +178,6 @@ class RuntimeWorker:
                 )
                 store.merge_and_write(client)
                 report.failed += 1
+                self._emit(task, status="failed", error_code="connector_error", started=started)
 
         return report
