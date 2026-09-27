@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T02:54:00+03:00",
+  "updated_at": "2026-09-28T00:06:32+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -8,14 +8,15 @@
     "chatgpt": "orchestrator-executor",
     "grok": "research-red-team-chat-available-api-http-403",
     "gemini": "automated-model-secondary",
+    "claude": "api-key-valid-credit-paused-not-a-system-blocker",
     "meta": "model-api-paused-http-402",
     "tinyfish": "primary-web-worker-live",
     "firecrawl": "web-worker-fallback-live",
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "automated-model-primary-healthy"
   },
-  "latest_output": "Grok chat ACCEPT on TSK-20260927-001 (MSG-20260927-025400). XAI_API_KEY present; grok-file-desk 36280608297 success; API HTTP 403.",
-  "blocked": ["storefront-password", "payments-unproven", "grok-api-http-403"],
+  "latest_output": "API-first worker CI coverage expanded and run 36350288238 passed. Anthropic key validated with HTTP 200 on /v1/models; message generation is paused only by low Anthropic credit balance. Stale PRs #16, #17, #20 and #24 closed without merge.",
+  "blocked": ["storefront-password", "payments-unproven", "grok-api-http-403", "anthropic-api-credit-low"],
   "blockers": ["storefront-password", "payments-unproven"],
   "provider_health": {
     "openai_worker": "healthy-credential-configured",
@@ -23,6 +24,7 @@
     "grok_api": "secret-present-http-403",
     "grok_bot": "quota-exhausted",
     "gemini_api": "configured-secondary",
+    "anthropic_api": "credential-valid-http-200-models-credit-too-low-for-messages",
     "meta_model_api": "credential-present-http-402-billing",
     "tinyfish": "available",
     "firecrawl": "fallback-available"
@@ -30,11 +32,16 @@
   "routing": {
     "browser_web": ["tinyfish", "firecrawl"],
     "automated_model": ["openai", "gemini"],
+    "browser_planner_auto": ["openai", "grok", "gemini", "anthropic"],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
-    "grok_api": "do not retry HTTP 403 automatically until prepaid credits or team permission change"
+    "grok_api": "do not retry HTTP 403 automatically until prepaid credits or team permission change",
+    "anthropic_api": "credential is valid; do not retry message generation while credit balance is too low; do not block unrelated work"
   },
   "notes": [
+    "2026-09-28 00:06 TR: Anthropic API key validated against /v1/models with HTTP 200. Real message request is blocked only by low credit balance; Claude remains optional and non-blocking.",
+    "2026-09-28 00:06 TR: API-first foundation is on main. Worker orchestration CI now watches, compiles and secret-scans orchestrator, research_worker, shorts_worker, shopify_worker and browser_worker; run 36350288238 passed.",
+    "2026-09-28 cleanup: Claude diagnostic workflow is manual-only; obsolete Claude retry trigger files removed; stale PRs #16, #17, #20 and #24 closed without merge.",
     "2026-09-27 02:54 TR: XAI_API_KEY repo secret present. Latest API HTTP 403. Console credit was $0.00. Human prepaid credit gate.",
     "2026-09-27 desk-notify: poll-only (push=false). PayoutLens untouched.",
     "Grok, Grok API worker and Grok Bot are three separate channels.",
