@@ -22,10 +22,34 @@ def _clean(text):
         raise ValueError("planner returned invalid task")
     return task
 
+def _sanitize_provider_error(text):
+    text=(text or "").strip()
+    for name in (
+        "OPENAI_API_KEY",
+        "XAI_API_KEY",
+        "GEMINI_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_AUTH_TOKEN",
+        "ANTHROPIC_IDENTITY_TOKEN",
+    ):
+        secret=os.getenv(name,"").strip()
+        if secret:
+            text=text.replace(secret,"***")
+    return text[:2000]
+
 def _post(url, headers, payload, timeout=90):
     req=Request(url,data=json.dumps(payload).encode("utf-8"),headers={"Content-Type":"application/json",**headers},method="POST")
-    with urlopen(req,timeout=timeout) as r:
-        return json.load(r)
+    try:
+        with urlopen(req,timeout=timeout) as r:
+            return json.load(r)
+    except HTTPError as exc:
+        try:
+            body=exc.read().decode("utf-8","replace")
+        except Exception:
+            body=""
+        body=_sanitize_provider_error(body)
+        detail=(": "+body) if body else ""
+        raise RuntimeError(f"HTTP {exc.code} {exc.reason}{detail}") from exc
 
 def _openai(objective):
     key=os.getenv("OPENAI_API_KEY","").strip()
