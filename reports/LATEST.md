@@ -1,3 +1,14 @@
+# Araştırma farkı — 27 Eylül 2026, 12:10 Türkiye saati
+
+- YouTube'un resmi Analytics API veri modeli, özel Analytics verisinin gerçek zamanlı olmadığını ve tipik 48–72 saat geciktiğini doğruladı. Windsor'da uçak ve Bitcoin Short'larının boş satırı artık sıfır performans değil “işlenmiş veri hazır değil” olarak sınıflandırılıyor.
+- Kamu video metadata değerleri ve Mbappé özel ölçümü önceki kontrolden değişmedi. Stayed-to-watch/swiped, retention eğrisi, YPP ve gelir verisi yok.
+- Shorts deneyi değişmedi: süreli futbol quiz brief'i korunuyor. Uçak videosu 28 Eylül 16:04 TR, Bitcoin videosu 29 Eylül 02:21 TR sonrasında ölçülecek.
+- Shopify hunisinde yeni doğrulanmış hareket veya ürün-talep kanıtı yok; fiyat, yayın, ödeme veya tema değişikliği yapılmadı.
+- Exa ile iki hedefli aramada 14 sonuç incelendi; Google'ın özgün resmi belgesi açılarak doğrulandı. Figma hesabı Starter/View olarak tekrar okundu; tasarım değişikliği yapılmadı.
+- app-6a6c6ebc8f74819197497c772358751b için çağrılabilir araç yine görünmedi; erişim var sayılmadı.
+
+---
+
 # Araştırma farkı — 27 Eylül 2026, 09:00 Türkiye saati
 
 - Windsor iki yeni yayımlanmış Short'u kamu metadatasında gördü; özel Analytics iki yeni video için henüz veri döndürmedi. En yeni video yaklaşık 10 saatlik ve örneklem çok küçük olduğu için başarısız sayılmadı.
