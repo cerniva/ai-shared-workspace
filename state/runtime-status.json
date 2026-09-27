@@ -3,14 +3,14 @@
     {
       "connector": "synthetic",
       "error_code": null,
-      "finished_at": null,
+      "finished_at": "2026-09-27T19:16:59.384850+00:00",
       "generation": 1,
       "idempotency_key": "RUNTIME-SMOKE-20260927-001:1",
       "operation": "echo",
       "retryable": false,
       "started_at": "2026-09-27T19:16:59.384850+00:00",
-      "status": "running",
-      "summary": "",
+      "status": "succeeded",
+      "summary": "runtime bridge smoke test",
       "task_id": "RUNTIME-SMOKE-20260927-001"
     }
   ],
