@@ -2,7 +2,7 @@ name: private-runtime-core-tests
 
 on:
   push:
-    branches: [private-replit-runtime-v1]
+    branches: ['private-replit-runtime-v1*']
     paths:
       - 'runtime/**'
       - 'app/**'
