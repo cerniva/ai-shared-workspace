@@ -24,5 +24,10 @@ Tek SoT: `state/now.json`. İletişim: `messages/*` + workers.
 3. Öğrenme: yeni dersi `knowledge/lessons.md` satırı; vektör DB yok
 4. TinyFish: queued fetch; Agent/login/publish yok
 
+## Shorts üretim kapısı (2026-09-27)
+Render öncesi: `scripts/shorts_research.py` + `knowledge/shorts/`.
+Render sonrası: `scripts/shorts_preflight.py`.
+Yayın: `scripts/youtube_upload.py` / Buffer taslak; otomatik public yok.
+
 ## Yasak
 İkinci protokol, CrewAI runtime, n8n'i SoT yapmak, Pinecone, canlı model-model sohbet iddiası, PayoutLens.
