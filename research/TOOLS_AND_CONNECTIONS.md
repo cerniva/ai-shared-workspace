@@ -74,3 +74,11 @@ Eklenti yönetimi **installed=true** döndürdü. Bu oturumun çağrılabilir ar
 | Vercel | https://vercel.com/ | Kullanıcı eklenti bağlantısını tamamladı | Bu oturumda çağrılabilir aracı olmadığı için hesap/proje erişimi sınanmadı |
 
 Bu bağlantıları görevle eşleştirirken önce read-only proje/hesap kontrolü yap; sır veya token kaydetme.
+
+
+## Windsor / YouTube Analytics gecikme kuralı — 2026-09-27 12:10 TR
+
+- Resmi kaynak: https://developers.google.com/youtube/analytics/data_model?hl=en (son güncelleme 2026-09-14 UTC).
+- YouTube Analytics API verisi gerçek zamanlı değildir; tipik gecikme 48–72 saattir. Windsor'da yeni video için boş Analytics satırı bağlantı arızası veya sıfır performans olarak etiketlenmez.
+- Kamu video metadata'sı güncel views/likes/comments kontrolüne yarar; engaged views, AVD/APV, retention veya gelir yerine kullanılmaz.
+- Yeni video özel ölçümü için ilk karar penceresi 48–72 saat; saatlik kontrolde aynı boş sorgu sonucu yeni bulgu diye çoğaltılmaz.
