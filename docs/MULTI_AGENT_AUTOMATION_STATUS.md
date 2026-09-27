@@ -1,33 +1,43 @@
 # AI automation system — verified status and remaining blockers
 
-Audit date: 2026-09-26  
+Audit date: 2026-09-28  
 Repository: cerniva/ai-shared-workspace  
 Owner: CORE-05
 
 ## Verified now
 
-- The repo already has one shared file desk, append-only agent channels, a task queue, and a source-of-truth state file. Keep this as the only coordination hub; do not add api.senkron.bot or a second protocol.
-- Gemini has a GitHub Actions worker. Its previous recorded run hit the free-tier quota limit (20 requests/day for the selected model). Furkan explicitly authorized Gemini for this one planning request; its new reply is not present yet.
-- Grok currently contributes through the repo handoff channel. The repo README says there is no always-running Grok worker.
-- A Meta Model API worker exists in scripts/meta_senses.py and .github/workflows/meta-senses.yml. It calls Muse Spark and writes to messages/from-meta.md; the last recorded worker output says META_MODEL_API_KEY is missing. This is a model API route, not the Meta AI share page or a browser session.
-- The Meta AI share page is analysis input only. It does not itself deploy a server, establish API credentials, or connect Shopify.
-- GitHub Actions Browser Worker can run a finite browser job. PR #10 added a hostname allowlist, read-only default, restricted interactive mode, sensitive-field and high-impact control blocks, and limited model keys to the planning step. It does not keep a logged-in browser session or run 24/7.
-- The lower-level scripts/browser_executor.py is only an HTTP GET canary. It does not click or log in.
-- The public repo's status explicitly blocks private Shopify connector payloads. Do not put private store data or credentials in public files.
-- No Railway project currently exists in the connected Railway workspace. A 24/7 service therefore has not been deployed.
+- GitHub remains the shared coordination and audit hub: state, task queue, agent message channels and bounded GitHub Actions jobs are the source of truth.
+- The API-first foundation is on `main`: `orchestrator/`, `research_worker/`, `shorts_worker/` and `shopify_worker/`, with integration tests for API preference, graceful degradation and irreversible-action gates.
+- `worker-orchestration-tests` watches, compiles and secret-scans the API-first worker modules plus `browser_worker/`. The expanded CI run `36350288238` passed.
+- Browser planning `auto` order is implemented as OpenAI → Grok → Gemini → Anthropic. Explicit provider selection remains deterministic rather than silently switching providers.
+- A verified Browser Worker smoke run showed the current provider state: OpenAI returned HTTP 429 `credit_balance_exhausted`, Grok returned HTTP 403 due credits/spending limit, and Gemini then successfully generated the browser task. These provider failures do not block Gemini or the local planner fallback.
+- Anthropic authentication is fixed: the current `ANTHROPIC_API_KEY` returned HTTP 200 from `/v1/models`. Claude message generation is paused only because the Anthropic credit balance is too low. Claude is optional and non-blocking.
+- Meta Model API remains paused on the last verified HTTP 402 billing response and must not block unrelated work.
+- The Browser Worker supports Playwright and guarded Skyvern execution. A Skyvern planner/worker schema mismatch found by smoke run `36349823688` was fixed in PR #25 by adapting deterministic read-only planner steps to Skyvern input and rejecting unsupported interactive steps fail-closed. Worker orchestration run `36350519493` passed after the fix.
+- TinyFish is the primary web worker in source-of-truth state; Firecrawl is the web fallback.
+- Claude diagnostic workflow is manual-only. Temporary Claude retry trigger files were removed after authentication was verified.
+- Stale PRs #16, #17, #20 and #24 were closed without merge after verification that they were obsolete, already resolved on `main`, or conflicted with the current explicit-provider contract. Issue #1 (initial test conversation) was closed as completed.
+- The Shopify storefront password is no longer a technical blocker. The store remains private/opening-soon by plan while payment readiness is still unproven.
 
-## Smallest practical path
+## Current routing
 
-1. Keep GitHub as the shared task/status record.
-2. Use GitHub Actions for bounded jobs and retries; keep model keys in Actions Secrets.
-3. Use the Meta paste bridge at no API cost when a one-off Meta AI opinion is enough. To automate Muse Spark, generate a Model API key at dev.meta.ai and add it only as the META_MODEL_API_KEY Actions secret.
-4. For frequent Gemini jobs, wait for quota reset or set a usage/billing limit in Google AI Studio. Do not enable paid usage without a spending limit.
-5. Before Shopify writes or logged-in browsing, move those workers and credentials to a private runtime/repository. Grant a Shopify app only the scopes the worker needs. Keep publish, payment, deletion, account-security and other high-impact actions out of unattended execution.
-6. Treat a 24/7 browser worker as a separate deployment: private host, authenticated queue endpoint, persistent database/queue, secret store, health checks, audit log, domain/action policy and explicit budget. The connected Railway account currently has zero projects, so this would create new infrastructure and may incur charges.
+1. Shared state and task coordination: GitHub repo state/desk/queue.
+2. Automated model work: Gemini is the currently verified healthy cloud planner route while OpenAI, Grok and Claude have provider-side credit/quota gates.
+3. Browser planner `auto`: OpenAI → Grok → Gemini → Anthropic. Failed providers fall through; if every cloud planner fails, the Browser Worker uses the local fallback planner.
+4. Browser execution: Playwright by default; guarded Skyvern is available when selected and configured.
+5. Web/research route: TinyFish primary, Firecrawl fallback.
+6. Provider billing/quota failures are isolated and must not stop unrelated workers.
 
-## Open items
+## Remaining external gates
 
-- CORE-05 multi-agent review: requests sent; independent Grok/Gemini/Meta responses have not all arrived.
-- Meta automatic worker: waiting on META_MODEL_API_KEY and a successful smoke test.
-- Gemini one-time review: queued; previous quota error must clear before a successful response.
-- Long-running authenticated browser actions: not yet deployable from the current public workspace. Code can be tested in Actions, but no private persistent runtime or authenticated session store is configured.
+- **YouTube publishing:** the last verified blocker is OAuth `invalid_grant`; a fresh refresh token from the same OAuth client with the required YouTube upload scope is needed before automated upload can work again. Repository code alone cannot renew that user authorization.
+- **Shopify launch:** payment readiness remains unproven. Do not claim the store is publicly launch-ready until payment approval/configuration is verified.
+- **OpenAI API:** latest verified planner state is HTTP 429 `credit_balance_exhausted`.
+- **xAI API:** latest verified state is HTTP 403 due credits/spending limit. Normal Grok chat/file-desk is a separate collaboration channel and should not be treated as down.
+- **Meta Model API:** latest verified state is HTTP 402 billing.
+- **Anthropic messages:** API key is valid, but message generation requires provider credit. Claude is optional and must not block Gemini/local fallback work.
+- **Long-running authenticated browser sessions:** GitHub Actions remains a finite-job runtime, not a persistent logged-in 24/7 browser service. Do not claim otherwise.
+
+## Operating rule
+
+Continue useful work through healthy routes without waiting on a failed provider. Never fabricate a provider response, never expose secrets, and keep payments, account-security changes, destructive actions and irreversible publishing behind the existing safety gates.
