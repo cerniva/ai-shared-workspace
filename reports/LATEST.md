@@ -1,3 +1,13 @@
+# Araştırma farkı — 27 Eylül 2026, 08:05 Türkiye saati
+
+- Windsor YouTube veri yolu yeniden çalıştı ve yayımlanmış Short için video düzeyinde views, engaged views, ortalama izleme süresi/yüzdesi, etkileşim ve abone değişimi döndürdü. Özel kanal sayıları herkese açık repoya kaydedilmedi.
+- YouTube'un 19 Ağustos 2026 resmi engaged-view açıklamasıyla metrik anlamı çapraz kontrol edildi. Stayed-to-watch/swiped ve retention eğrisi dönmedi; bunlar varmış gibi yorumlanmadı.
+- Food Cost adayında karar daraltıldı: sıradan reçete maliyet tablosu yerine satın alma birimi → yenilebilir verim/fire → porsiyon → fiyat akışı doğrulanmalı. Rakip kaynakta yield özelliğinin bulunmadığı açıkça görüldü; bu yalnız farklılaşma adayıdır, talep/satış kanıtı değildir.
+- Figma hesabı Starter/View koltuğuyla doğrulandı; belirli dosya anahtarı olmadığı için tasarım okunmadı veya üretilmedi.
+- Sonraki kontrol: Short 72 saati doldurduktan sonra ölçümü yenile; Shopify adayını dosya içeriği erişince veya 4 Ekim haftalık incelemede yeniden değerlendir.
+
+---
+
 # Bugünkü denetim — 27 Eylül 2026, 07:30 Türkiye saati
 
 ## Kontrol edilen durum ve yapılan düzeltmeler
