@@ -19,6 +19,21 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Inspect Claude key shape safely
+        shell: bash
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          key = os.environ.get('ANTHROPIC_API_KEY','')
+          print('key_present=' + str(bool(key)))
+          print('key_length=' + str(len(key)))
+          print('starts_with_sk_ant=' + str(key.startswith('sk-ant-')))
+          print('has_leading_or_trailing_whitespace=' + str(key != key.strip()))
+          print('contains_internal_whitespace=' + str(any(ch.isspace() for ch in key.strip())))
+          print('looks_wrapped_in_quotes=' + str((len(key) >= 2) and key[0] in "\"'" and key[-1] == key[0]))
+          PY
       - name: List accessible non-default Anthropic workspaces
         shell: bash
         env:
