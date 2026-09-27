@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 1,
     "answered": 28,
-    "delayed": 18
+    "delayed": 19
   },
-  "event_count": 50,
+  "event_count": 51,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -67,12 +67,13 @@
     "MSG-20260927-024910-grok-api:delayed",
     "MSG-20260927-025400-grok-staged-loop:delayed",
     "RPT-20260927-025300-chatgpt-xai-403-diagnosis:delayed",
-    "RPT-20260927-chatgpt-shorts-preflight:pending"
+    "RPT-20260927-chatgpt-shorts-preflight:pending",
+    "RPT-20260927-chatgpt-shorts-preflight:delayed"
   ],
   "new_event_keys": [
-    "RPT-20260927-chatgpt-shorts-preflight:pending"
+    "RPT-20260927-chatgpt-shorts-preflight:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-27T17:30:55+03:00"
+  "checked_at": "2026-09-27T18:02:10+03:00"
 }
