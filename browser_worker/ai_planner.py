@@ -71,9 +71,29 @@ def _anthropic(objective):
     text="".join(str(block.get("text","")) for block in data.get("content",[]) if block.get("type")=="text")
     return _clean(text)
 
-def plan(objective):
+PROVIDERS = (
+    ("openai", _openai),
+    ("grok", _grok),
+    ("gemini", _gemini),
+    ("anthropic", _anthropic),
+)
+
+
+def plan(objective, provider=None):
+    provider = (provider or os.getenv("BROWSER_PLANNER_PROVIDER", "auto")).strip().lower()
+    if provider == "claude":
+        provider = "anthropic"
+
+    provider_map = dict(PROVIDERS)
+    if provider == "auto":
+        selected = PROVIDERS
+    elif provider in provider_map:
+        selected = ((provider, provider_map[provider]),)
+    else:
+        raise ValueError("unsupported planner provider: "+provider)
+
     errors=[]
-    for name,fn in (("openai",_openai),("grok",_grok),("gemini",_gemini),("anthropic",_anthropic)):
+    for name,fn in selected:
         try:
             task=fn(objective)
             task["planner_provider"]=name
