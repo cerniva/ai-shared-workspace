@@ -35,7 +35,17 @@ def credentials_from_env():
         client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
         scopes=[UPLOAD_SCOPE],
     )
-    creds.refresh(Request())
+    try:
+        creds.refresh(Request())
+    except Exception as exc:
+        if "invalid_grant" in str(exc).lower():
+            raise RuntimeError(
+                "YOUTUBE_REFRESH_TOKEN was rejected (invalid_grant). Create a new refresh token "
+                "with the same OAuth Client ID and Client Secret stored in GitHub Actions, "
+                "authorize the correct YouTube channel with the youtube.upload scope, then "
+                "replace the YOUTUBE_REFRESH_TOKEN repository secret."
+            ) from exc
+        raise
     return creds
 
 
