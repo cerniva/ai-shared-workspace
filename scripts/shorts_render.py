@@ -1,24 +1,34 @@
 #!/usr/bin/env python3
-"""Credit-free Shorts renderer using local FFmpeg only.
+"""Credit-free Shorts renderer using local FFmpeg and optional offline eSpeak NG.
 
 It assembles existing local images/video, narration, optional music and optional
-SRT subtitles into a 1080x1920 H.264/AAC MP4. It does not call external media
-APIs, upload anything, or spend generation credits.
+SRT subtitles into a 1080x1920 H.264/AAC MP4. Narration can come from an
+existing audio file or be synthesized locally from text with eSpeak NG. It does
+not call external media/TTS APIs, upload anything, or spend generation credits.
 
 Usage:
   python3 scripts/shorts_render.py render.json output.mp4
 
-Manifest paths are resolved relative to the manifest file. Example:
+Manifest paths are resolved relative to the manifest file. Existing-audio example:
 {
   "target_seconds": 30,
   "visuals": [
     {"path": "assets/one.jpg", "duration": 4},
-    {"path": "assets/two.mp4", "duration": 6}
+    {"path": "assets/two.mp4", "duration": 26}
   ],
   "narration": "audio/voice.wav",
   "music": "audio/music.mp3",
   "music_volume": 0.10,
   "subtitles": "captions.srt"
+}
+
+Zero-credit text narration example:
+{
+  "target_seconds": 30,
+  "visuals": [{"path": "assets/one.jpg", "duration": 30}],
+  "narration_text": "Your narration text here.",
+  "narration_voice": "en-us",
+  "narration_speed": 165
 }
 """
 
@@ -26,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -37,9 +48,11 @@ VIDEO_FILTER = (
     "scale=1080:1920:force_original_aspect_ratio=increase,"
     "crop=1080:1920,setsar=1,fps=30,format=yuv420p"
 )
+VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
 
 
 def _resolve(base: Path, value: str, field: str) -> Path:
+    """Resolve a required manifest path relative to the manifest directory."""
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field} must be a non-empty path")
     path = Path(value)
@@ -52,7 +65,7 @@ def _resolve(base: Path, value: str, field: str) -> Path:
 
 
 def validate_spec(spec: dict, base_dir: Path) -> dict:
-    """Validate and normalize a render manifest without invoking FFmpeg."""
+    """Validate and normalize a render manifest without invoking external tools."""
     if not isinstance(spec, dict):
         raise ValueError("render spec must be a JSON object")
 
@@ -82,7 +95,31 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
         normalized_visuals.append({"path": path, "duration": duration, "kind": kind})
         total_visual_seconds += duration
 
-    narration = _resolve(base_dir, spec.get("narration"), "narration")
+    narration_value = spec.get("narration")
+    narration_text = spec.get("narration_text")
+    if narration_value and narration_text:
+        raise ValueError("use either narration or narration_text, not both")
+    if narration_value:
+        narration = _resolve(base_dir, narration_value, "narration")
+        narration_text = None
+    else:
+        narration = None
+        if not isinstance(narration_text, str) or not narration_text.strip():
+            raise ValueError("narration or narration_text is required")
+        narration_text = narration_text.strip()
+        if len(narration_text) > 5000:
+            raise ValueError("narration_text must be 5000 characters or fewer")
+
+    narration_voice = spec.get("narration_voice", "en-us")
+    if not isinstance(narration_voice, str) or not VOICE_RE.fullmatch(narration_voice):
+        raise ValueError("narration_voice contains unsupported characters")
+    try:
+        narration_speed = int(spec.get("narration_speed", 165))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("narration_speed must be an integer") from exc
+    if not 80 <= narration_speed <= 450:
+        raise ValueError("narration_speed must be between 80 and 450")
+
     music = _resolve(base_dir, spec["music"], "music") if spec.get("music") else None
     subtitles = _resolve(base_dir, spec["subtitles"], "subtitles") if spec.get("subtitles") else None
     if subtitles and subtitles.suffix.lower() != ".srt":
@@ -107,6 +144,9 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
     return {
         "visuals": normalized_visuals,
         "narration": narration,
+        "narration_text": narration_text,
+        "narration_voice": narration_voice,
+        "narration_speed": narration_speed,
         "music": music,
         "subtitles": subtitles,
         "music_volume": music_volume,
@@ -114,9 +154,10 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
     }
 
 
-def _run(args: list[str], *, cwd: Path | None = None) -> None:
+def _run(args: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+    """Run a media command with bounded execution time and readable failures."""
     try:
-        subprocess.run(
+        return subprocess.run(
             args,
             cwd=str(cwd) if cwd else None,
             capture_output=True,
@@ -125,19 +166,24 @@ def _run(args: list[str], *, cwd: Path | None = None) -> None:
             timeout=300,
         )
     except subprocess.CalledProcessError as exc:
-        detail = (exc.stderr or exc.stdout or "ffmpeg failed")[-4000:]
+        detail = (exc.stderr or exc.stdout or "command failed")[-4000:]
         raise RuntimeError(detail) from exc
     except subprocess.TimeoutExpired as exc:
-        raise RuntimeError("ffmpeg timed out") from exc
+        raise RuntimeError("media command timed out") from exc
 
 
-def _require_tools() -> None:
-    missing = [name for name in ("ffmpeg", "ffprobe") if not shutil.which(name)]
+def _require_tools(*, require_tts: bool = False) -> None:
+    """Fail before rendering when required local binaries are unavailable."""
+    names = ["ffmpeg", "ffprobe"]
+    if require_tts:
+        names.append("espeak-ng")
+    missing = [name for name in names if not shutil.which(name)]
     if missing:
         raise RuntimeError("Missing required tools: " + ", ".join(missing))
 
 
 def _render_segment(item: dict, output: Path) -> None:
+    """Normalize one image or video visual into a portrait H.264 segment."""
     path = item["path"]
     duration = item["duration"]
     if item["kind"] == "image":
@@ -157,9 +203,40 @@ def _render_segment(item: dict, output: Path) -> None:
     ])
 
 
+def _synthesize_narration(text: str, voice: str, speed: int, output: Path) -> None:
+    """Synthesize narration locally with eSpeak NG and verify audio was created."""
+    _run([
+        "espeak-ng",
+        "-v", voice,
+        "-s", str(speed),
+        "-w", str(output),
+        "--",
+        text,
+    ])
+    if not output.is_file() or output.stat().st_size == 0:
+        raise RuntimeError("offline narration produced no audio")
+
+
+def _probe_duration(path: Path) -> float:
+    """Return media duration in seconds using ffprobe."""
+    result = _run([
+        "ffprobe",
+        "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        str(path),
+    ])
+    try:
+        duration = float(result.stdout.strip())
+    except ValueError as exc:
+        raise RuntimeError(f"could not determine media duration: {path}") from exc
+    if duration <= 0:
+        raise RuntimeError(f"invalid media duration: {path}")
+    return duration
+
+
 def render(manifest_path: Path, output_path: Path) -> dict:
     """Render one Shorts manifest and return deterministic output metadata."""
-    _require_tools()
     manifest_path = Path(manifest_path).resolve()
     output_path = Path(output_path).resolve()
     if not manifest_path.is_file():
@@ -169,6 +246,7 @@ def render(manifest_path: Path, output_path: Path) -> dict:
     except json.JSONDecodeError as exc:
         raise ValueError("manifest is not valid JSON") from exc
     normalized = validate_spec(spec, manifest_path.parent)
+    _require_tools(require_tts=bool(normalized["narration_text"]))
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="shorts-render-") as temp_name:
@@ -190,10 +268,28 @@ def render(manifest_path: Path, output_path: Path) -> dict:
             "-c", "copy", str(visual_track),
         ])
 
+        narration_track = normalized["narration"]
+        narration_source = "file"
+        if normalized["narration_text"]:
+            narration_track = temp / "narration.wav"
+            _synthesize_narration(
+                normalized["narration_text"],
+                normalized["narration_voice"],
+                normalized["narration_speed"],
+                narration_track,
+            )
+            narration_seconds = _probe_duration(narration_track)
+            if narration_seconds > normalized["target_seconds"] + 0.05:
+                raise ValueError(
+                    "synthesized narration does not fit target_seconds: "
+                    f"{narration_seconds:.2f}s > {normalized['target_seconds']:.2f}s"
+                )
+            narration_source = "offline_tts"
+
         command = [
             "ffmpeg", "-y",
             "-i", str(visual_track),
-            "-i", str(normalized["narration"]),
+            "-i", str(narration_track),
         ]
         if normalized["music"]:
             command.extend(["-stream_loop", "-1", "-i", str(normalized["music"])])
@@ -233,11 +329,13 @@ def render(manifest_path: Path, output_path: Path) -> dict:
         "output": str(output_path),
         "target_seconds": normalized["target_seconds"],
         "visual_count": len(normalized["visuals"]),
+        "narration_source": narration_source,
         "credits_spent": 0,
     }
 
 
 def main() -> int:
+    """Parse CLI arguments, render one manifest, and return a shell exit code."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
     parser.add_argument("output", type=Path)

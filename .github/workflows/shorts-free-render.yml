@@ -1,0 +1,94 @@
+name: shorts-free-render
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest_path:
+        description: Path to a render manifest already in this repository
+        required: true
+        type: string
+      output_name:
+        description: MP4 artifact filename
+        required: false
+        default: short.mp4
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install local media tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Validate inputs
+        env:
+          MANIFEST: ${{ inputs.manifest_path }}
+          OUTPUT_NAME: ${{ inputs.output_name }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          root = Path.cwd().resolve()
+          manifest = Path(os.environ["MANIFEST"])
+          if manifest.is_absolute() or ".." in manifest.parts:
+              raise SystemExit("manifest_path must be a repository-relative path")
+          resolved = (root / manifest).resolve()
+          if root not in resolved.parents or not resolved.is_file():
+              raise SystemExit("manifest_path must point to an existing repository file")
+
+          output_name = os.environ["OUTPUT_NAME"]
+          if output_name.startswith(".") or not re.fullmatch(
+              r"[A-Za-z0-9._-]{1,120}\.mp4", output_name, re.IGNORECASE
+          ):
+              raise SystemExit("output_name must be a visible simple .mp4 filename")
+          PY
+
+      - name: Render credit-free Short
+        env:
+          MANIFEST: ${{ inputs.manifest_path }}
+          OUTPUT_NAME: ${{ inputs.output_name }}
+        run: |
+          mkdir -p artifacts
+          python3 scripts/shorts_render.py "$MANIFEST" "artifacts/$OUTPUT_NAME"
+
+      - name: Run technical preflight
+        env:
+          OUTPUT_NAME: ${{ inputs.output_name }}
+        run: |
+          set +e
+          python3 scripts/shorts_preflight.py "artifacts/$OUTPUT_NAME" > artifacts/preflight.json
+          code=$?
+          set -e
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            exit "$code"
+          fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("artifacts/preflight.json").read_text(encoding="utf-8"))
+          blockers = [
+              item for item in report.get("blockers", [])
+              if item != "independent_review_missing"
+          ]
+          if blockers:
+              raise SystemExit("technical preflight failed: " + ",".join(blockers))
+          print("Technical preflight passed; independent review is still required before publishing.")
+          PY
+
+      - name: Upload rendered Short and preflight report
+        uses: actions/upload-artifact@v4
+        with:
+          name: shorts-free-render
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 7
