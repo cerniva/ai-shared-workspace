@@ -33,6 +33,13 @@ CRITERIA = [
     "international",
     "channel_fit",
 ]
+OPTIONAL_DIMENSIONS = [
+    "monetization",
+    "engagement",
+    "low_production_cost",
+    "rights_safety",
+    "language_fit",
+]
 
 
 def load_json(path: Path):
@@ -54,7 +61,15 @@ def score_item(item: dict) -> dict:
         except (TypeError, ValueError):
             val = 0.0
         values.append(max(0.0, min(10.0, val)))
-    total = sum(values)
+    optional_values = []
+    for key in OPTIONAL_DIMENSIONS:
+        raw = scores.get(key, 5.0)
+        try:
+            val = float(raw)
+        except (TypeError, ValueError):
+            val = 0.0
+        optional_values.append(max(0.0, min(10.0, val)))
+    total = sum(values) + sum(optional_values)
     reliability = scores.get("reliability", 0)
     overused = scores.get("not_overused", 10)
     try:
@@ -135,6 +150,17 @@ def gate_packet(packet: dict) -> list[str]:
     for key in critical:
         if checklist.get(key) is not True:
             blockers.append("checklist_" + key)
+    if packet.get("free_render_requested") is True:
+        for key in ("language", "content_type", "narration_text"):
+            value = packet.get(key)
+            if not isinstance(value, str) or not value.strip():
+                blockers.append("missing_" + key)
+        media_queries = packet.get("media_queries")
+        if (
+            not isinstance(media_queries, list)
+            or not any(isinstance(query, str) and query.strip() for query in media_queries)
+        ):
+            blockers.append("missing_media_queries")
     if packet.get("render_requested"):
         blockers.append("render_requested_before_gate")
     return blockers
