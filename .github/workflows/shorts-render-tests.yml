@@ -48,4 +48,4 @@ jobs:
       - name: Full Python suite
         run: python3 -m pytest -q
       - name: Compile Shorts modules
-        run: python3 -m py_compile scripts/shorts_render.py scripts/shorts_media.py scripts/shorts_research.py
+        run: python3 -m py_compile scripts/shorts_render.py scripts/shorts_media.py scripts/shorts_research.py scripts/shorts_free_pipeline.py
