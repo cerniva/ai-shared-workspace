@@ -1,5 +1,4 @@
 name: shorts-render-tests
-# tdd-trigger: task1-red
 
 on:
   pull_request:
@@ -7,15 +6,16 @@ on:
       - 'scripts/shorts_*.py'
       - 'tests/test_shorts_*.py'
       - '.github/workflows/shorts-*.yml'
+      - 'research/youtube/SHORTS_SOP.md'
+      - 'knowledge/shorts/RESEARCH_MODULE.md'
   push:
     branches: [main]
     paths:
-      - 'scripts/shorts_render.py'
-      - 'tests/test_shorts_render.py'
-      - 'tests/test_shorts_render_tts.py'
-      - 'tests/test_shorts_free_render_workflow.py'
-      - '.github/workflows/shorts-free-render.yml'
-      - '.github/workflows/shorts-render-tests.yml'
+      - 'scripts/shorts_*.py'
+      - 'tests/test_shorts_*.py'
+      - '.github/workflows/shorts-*.yml'
+      - 'research/youtube/SHORTS_SOP.md'
+      - 'knowledge/shorts/RESEARCH_MODULE.md'
 
 permissions:
   contents: read
@@ -30,9 +30,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
           python3 -m pip install --disable-pip-version-check pytest
-      - name: Renderer tests
-        run: python3 -m unittest tests.test_shorts_render tests.test_shorts_render_tts tests.test_shorts_free_render_workflow -v
+      - name: Shorts focused tests
+        run: |
+          python3 -m unittest \
+            tests.test_shorts_media \
+            tests.test_shorts_research_free_render \
+            tests.test_shorts_free_pipeline \
+            tests.test_shorts_render \
+            tests.test_shorts_render_tts \
+            tests.test_shorts_free_render_workflow \
+            tests.test_shorts_free_build_workflow -v
       - name: Full Python suite
         run: python3 -m pytest -q
-      - name: Compile renderer
-        run: python3 -m py_compile scripts/shorts_render.py
+      - name: Compile Shorts pipeline
+        run: |
+          python3 -m py_compile \
+            scripts/shorts_media.py \
+            scripts/shorts_free_pipeline.py \
+            scripts/shorts_research.py \
+            scripts/shorts_render.py \
+            scripts/shorts_preflight.py
