@@ -1,0 +1,66 @@
+name: shorts-free-smoke-once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/shorts-free-smoke-once.yml'
+      - 'tests/fixtures/shorts_real_smoke_ice_float.json'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install local media tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Build real free-first Short
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/bundle
+          python3 scripts/shorts_free_pipeline.py \
+            tests/fixtures/shorts_real_smoke_ice_float.json \
+            artifacts/bundle \
+            artifacts/short-ice-float.mp4
+
+      - name: Run technical preflight
+        run: |
+          set +e
+          python3 scripts/shorts_preflight.py artifacts/short-ice-float.mp4 > artifacts/preflight.json
+          code=$?
+          set -e
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            exit "$code"
+          fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('artifacts/preflight.json').read_text(encoding='utf-8'))
+          blockers = [item for item in report.get('blockers', []) if item != 'independent_review_missing']
+          if blockers:
+              raise SystemExit('technical preflight failed: ' + ','.join(blockers))
+          print('Technical preflight passed; independent review remains required before publishing.')
+          PY
+
+      - name: Upload smoke artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shorts-free-smoke-once
+          path: |
+            artifacts/short-ice-float.mp4
+            artifacts/preflight.json
+            artifacts/bundle/provenance.json
+            artifacts/bundle/captions.srt
+            artifacts/bundle/render.json
+          if-no-files-found: error
+          retention-days: 7
