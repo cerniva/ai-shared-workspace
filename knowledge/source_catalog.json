@@ -15,7 +15,22 @@
       "reliability_limits": "Unix-only; does not coordinate independent GitHub runners or replace branch conflict checks",
       "source_id": "src_daa345ba503d7df0",
       "source_name": "Python fcntl documentation"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/rest/repos/contents",
+      "category": "remote-concurrency",
+      "cost_quota": "free",
+      "discovered_at": "2026-09-28T01:59:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T01:59:00+00:00",
+      "provenance": "verified",
+      "purpose": "Serialize repository content writes and require current blob SHA for updates",
+      "reliability_limits": "Contents API writes can conflict; independent writers must re-read current SHA and serialize updates",
+      "source_id": "src_e8107921e7c45aa8",
+      "source_name": "GitHub Repository Contents API"
     }
   ],
-  "updated_at": "2026-09-28T00:59:00+00:00"
+  "updated_at": "2026-09-28T02:00:55+00:00"
 }
