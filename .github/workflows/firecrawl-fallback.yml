@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: firecrawl-fallback
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   fallback:

@@ -9,8 +9,8 @@ on:
       - scripts/tinyfish_senses.py
 
 concurrency:
-  group: tinyfish-senses
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   run-tinyfish:

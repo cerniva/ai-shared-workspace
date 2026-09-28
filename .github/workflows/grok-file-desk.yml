@@ -8,8 +8,8 @@ on:
       - messages/chatgpt-to-grok.md
 
 concurrency:
-  group: grok-file-desk
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   reply:

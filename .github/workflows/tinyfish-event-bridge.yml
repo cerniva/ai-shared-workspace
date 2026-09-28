@@ -6,8 +6,8 @@ on:
     - cron: '*/10 * * * *'
 
 concurrency:
-  group: tinyfish-event-bridge
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   reconcile:
