@@ -66,14 +66,16 @@ def _emit_sentry(event: dict[str, Any], env: Mapping[str, str], exception: BaseE
         sentry_sdk.init(dsn=dsn)
         _sentry_initialized_dsn = dsn
 
-    if exception is not None:
+    raw_exception_opt_in = env.get("SENTRY_CAPTURE_RAW_EXCEPTIONS") == "1"
+    if exception is not None and raw_exception_opt_in:
         sentry_sdk.capture_exception(exception)
-    else:
-        level = "error" if event["level"] == "ERROR" else "info"
-        sentry_sdk.capture_message(
-            f"{event['event']} {json.dumps(event, ensure_ascii=False, sort_keys=True)}",
-            level=level,
-        )
+        return
+
+    level = "error" if event["level"] == "ERROR" else "info"
+    sentry_sdk.capture_message(
+        f"{event['event']} {json.dumps(event, ensure_ascii=False, sort_keys=True)}",
+        level=level,
+    )
 
 
 def _emit_langfuse(event: dict[str, Any], env: Mapping[str, str]) -> None:
@@ -106,6 +108,8 @@ def emit_event(
 
     Local JSONL is enabled with OBSERVABILITY_LOG_PATH. Sentry and Langfuse
     are optional sinks activated only when their credentials and SDKs exist.
+    Raw Sentry exception objects require SENTRY_CAPTURE_RAW_EXCEPTIONS=1;
+    otherwise only the sanitized event payload is sent.
     """
 
     values = os.environ if env is None else env
