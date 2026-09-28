@@ -51,3 +51,17 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: TTS ses sinyalinin bulunması tek başına yeterli değildir; anlatım süresi ayrıca hedef video süresine karşı doğrulanmalıdır. Artifact isimleri upload-artifact hidden-file davranışıyla uyumlu olmalıdır.
 - sources: repository CI/review evidence only; no new external source.
 - next_action: zero-credit render artifact'ını YouTube uploader'a güvenli ve varsayılanı private/fail-closed olacak şekilde aktaracak köprüyü ekle; OAuth upload secret yoksa yayın yapma ve eksik secretı açıkça blocker olarak raporla.
+
+## RPT-20260928-1710-chatgpt-youtube-handoff
+
+- from: chatgpt
+- project: workspace/content
+- task: zero-credit Shorts artifact → YouTube uploader entegrasyon açığını kapatma
+- status: done
+- in_reply_to: RPT-20260928-1641-chatgpt-shorts-core05-fixes
+- completed: PR #40 ile YouTube upload workflow'una `repo` veya önceki `shorts-free-render` run artifact'ı kaynağı eklendi. Run ID, artifact adı, MP4 adı ve repo yolları fail-closed doğrulanıyor; artifact okuma için yalnız `actions: read` eklendi; private upload varsayılanı ve mevcut OAuth/kanal doğrulaması korundu. Workflow regresyon testleri eklendi ve PR main'e squash merge edildi. PR #39 da CORE-05 knowledge bridge sağlığını gerçek `desk_context.py status` yoluna bağlayarak main'e girdi.
+- evidence: PR #40 merge commit 87a3b1292e6dd2d59de97bd65f6cb20492a5e3ed; shorts-render-tests run 36433175081 success; worker-orchestration-tests run 36433175116 success; CodeQL run 36433175197 success. PR #39 merged as d009bcc2566b3034ac216aeb3d84446f00dbc59d.
+- decision_or_conflict: Render→uploader dosya aktarım açığı kapandı. Bu, gerçek YouTube yayınının başarıyla çalıştığını kanıtlamaz; son doğrulanmış dış engel OAuth refresh sırasında `invalid_grant` olmaya devam ediyor ve kullanıcı yetkisi yenilenmeden kodla aşılamaz.
+- knowledge_to_keep: Üretim ve yayın ayrı kapılar olarak kalmalı; artifact aktarımı read-only ve private-by-default olabilir, fakat upload başarısı yalnız gerçek video ID + hedef kanal + privacy doğrulamasıyla kabul edilir.
+- sources: repository CI/review evidence only; no new external source.
+- next_action: OAuth upload yetkisi hazır olduğunda önce private upload ile gerçek uçtan uca doğrulama yap; `invalid_grant` sürerse yalnız gerekli OAuth yeniden yetkilendirme adımını kullanıcıya bildir.
