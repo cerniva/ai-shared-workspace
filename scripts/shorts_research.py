@@ -45,12 +45,10 @@ OPTIONAL_NEUTRAL_SCORE = 5.0
 
 
 def load_json(path: Path):
-    """Load one UTF-8 JSON document from disk."""
     return json.loads(path.read_text(encoding="utf-8"))
 
 
 def normalize(text: str) -> str:
-    """Normalize human text for lightweight duplicate detection."""
     return re.sub(r"\s+", " ", (text or "").strip().lower())
 
 
@@ -87,14 +85,12 @@ def score_item(item: dict) -> dict:
 
 
 def rank(candidates: list[dict]) -> list[dict]:
-    """Rank candidates by total score while preferring non-vetoed items."""
     ranked = sorted((score_item(c) for c in candidates), key=lambda x: x["total"], reverse=True)
     eligible = [c for c in ranked if not c["veto"]]
     return eligible or ranked
 
 
 def history_texts() -> list[str]:
-    """Return normalized non-empty decision-log lines for duplicate checks."""
     log = SHORTS / "decision-log.md"
     if not log.exists():
         return []
@@ -102,7 +98,6 @@ def history_texts() -> list[str]:
 
 
 def is_duplicate(title: str, hook: str) -> bool:
-    """Check whether a normalized title or hook already appears in history."""
     blob = "\n".join(history_texts())
     t, h = normalize(title), normalize(hook)
     if not t and not h:
@@ -178,7 +173,6 @@ def gate_packet(packet: dict) -> list[str]:
 
 
 def cmd_score(path: Path) -> int:
-    """Score candidate JSON and print ranked selection output."""
     data = load_json(path)
     ranked = rank(data.get("candidates") or [])
     out = {"schema": 1, "ranked": ranked, "selected": next((c for c in ranked if not c["veto"]), None)}
@@ -187,14 +181,12 @@ def cmd_score(path: Path) -> int:
 
 
 def cmd_dup(title: str, hook: str) -> int:
-    """Print duplicate status for a title/hook pair and return a shell code."""
     dup = is_duplicate(title, hook)
     print(json.dumps({"duplicate": dup}, ensure_ascii=False))
     return 2 if dup else 0
 
 
 def cmd_gate(path: Path) -> int:
-    """Evaluate one research packet and print its gate blockers."""
     packet = load_json(path)
     blockers = gate_packet(packet)
     ready = not blockers
@@ -203,7 +195,6 @@ def cmd_gate(path: Path) -> int:
 
 
 def main() -> int:
-    """Dispatch the score, duplicate-check, or packet-gate CLI command."""
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="cmd", required=True)
     p_score = sub.add_parser("score")
