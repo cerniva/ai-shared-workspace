@@ -154,10 +154,10 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
     }
 
 
-def _run(args: list[str], *, cwd: Path | None = None) -> None:
+def _run(args: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
     """Run a media command with bounded execution time and readable failures."""
     try:
-        subprocess.run(
+        return subprocess.run(
             args,
             cwd=str(cwd) if cwd else None,
             capture_output=True,
@@ -217,6 +217,24 @@ def _synthesize_narration(text: str, voice: str, speed: int, output: Path) -> No
         raise RuntimeError("offline narration produced no audio")
 
 
+def _probe_duration(path: Path) -> float:
+    """Return media duration in seconds using ffprobe."""
+    result = _run([
+        "ffprobe",
+        "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        str(path),
+    ])
+    try:
+        duration = float(result.stdout.strip())
+    except ValueError as exc:
+        raise RuntimeError(f"could not determine media duration: {path}") from exc
+    if duration <= 0:
+        raise RuntimeError(f"invalid media duration: {path}")
+    return duration
+
+
 def render(manifest_path: Path, output_path: Path) -> dict:
     """Render one Shorts manifest and return deterministic output metadata."""
     manifest_path = Path(manifest_path).resolve()
@@ -260,6 +278,12 @@ def render(manifest_path: Path, output_path: Path) -> dict:
                 normalized["narration_speed"],
                 narration_track,
             )
+            narration_seconds = _probe_duration(narration_track)
+            if narration_seconds > normalized["target_seconds"] + 0.05:
+                raise ValueError(
+                    "synthesized narration does not fit target_seconds: "
+                    f"{narration_seconds:.2f}s > {normalized['target_seconds']:.2f}s"
+                )
             narration_source = "offline_tts"
 
         command = [
