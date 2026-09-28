@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "agent_name": "CORE-05 Hercules Sentinel",
+  "allowed_repositories": ["cerniva/ai-shared-workspace"],
+  "access_mode": "read_only",
+  "schedule_enabled": false,
+  "required_report_fields": [
+    "trigger",
+    "scope",
+    "observed_state",
+    "evidence",
+    "severity",
+    "duplicate_or_conflict",
+    "recommended_action",
+    "requires_human",
+    "forbidden_action_detected",
+    "cost_or_limit_note"
+  ],
+  "supported_severities": ["info", "warning", "blocker"],
+  "unknown_action_policy": "fail_closed",
+  "forbidden_capabilities": [
+    "repo_write",
+    "branch_write",
+    "commit_write",
+    "pr_write",
+    "merge",
+    "secret_change",
+    "account_security_change",
+    "payment",
+    "financial_transaction",
+    "irreversible_publish",
+    "cross_repo_access"
+  ],
+  "allowed_actions": ["read", "analyze", "recommend"]
+}
