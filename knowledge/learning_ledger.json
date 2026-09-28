@@ -22,8 +22,30 @@
       ],
       "supersedes": null,
       "title": "Local and remote write locks are separate"
+    },
+    {
+      "claim": "GitHub Apps should request only the minimum permissions needed; Contents and Workflows permissions are separate capabilities.",
+      "decision": "For repository automation, grant Contents only when code/file access is required and add Workflows only when .github/workflows files must be edited.",
+      "domain": "identity-integration-security",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Treating a visible or installed GitHub App as proof of appropriately scoped access can overstate both capability and safety."
+      ],
+      "fallback_history": [
+        "If the required permission cannot be confirmed, keep the integration available_unverified and use read-only/manual review instead of expanding access."
+      ],
+      "learned_at": "2026-09-28T02:58:00+00:00",
+      "learning_id": "learn_b1ce3ec3c7f9abbf",
+      "next_measurement": "Compare the documented minimum with the actual installed app permissions when authorized account-level visibility is available.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_a2ab2e6f41d05d70"
+      ],
+      "supersedes": null,
+      "title": "Separate GitHub App Contents and Workflows permissions"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-09-28T02:02:24+00:00"
+  "updated_at": "2026-09-28T02:58:00+00:00"
 }
