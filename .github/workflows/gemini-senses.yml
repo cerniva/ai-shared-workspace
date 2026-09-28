@@ -13,8 +13,8 @@ on:
       - state/gemini-api-cooldown.json
 
 concurrency:
-  group: gemini-senses
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   run-gemini:
