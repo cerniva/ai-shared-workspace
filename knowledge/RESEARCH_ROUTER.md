@@ -43,3 +43,13 @@ Research -> ChatGPT synthesis -> Grok second check when required by team protoco
 - Parallel exposes Search, Task and Chat APIs plus Remote MCP.
 
 Provider availability and credentials must be checked at execution time; this document does not imply that every provider is authenticated.
+
+## Machine-readable shared catalog
+
+- `knowledge/source_catalog.json` is the central, schema-versioned source catalog. The existing Markdown files remain the human-readable, backward-compatible layer.
+- Use `python3 scripts/knowledge_bridge.py find <canonical-url-or-source-id>` before adding a source, then `add` only when it provides new decision value.
+- Stable IDs are derived from canonical URLs/tools. Tracking parameters are removed; duplicates are idempotent.
+- Catalog writes use a POSIX file lock, atomic replace, and immediate read-back verification. This protects concurrent processes in one checkout; independent Git branches still require normal merge-conflict checks.
+- Records distinguish `verified`, `user_reported`, and `unverified`; failures remain in `failure_note` instead of being silently erased.
+- Secrets, credentials, sensitive URL query parameters, and personal email addresses are rejected. Do not store PII in source metadata.
+- Validate with `python3 scripts/knowledge_bridge.py validate`. Other plans are not considered connected until they call this bridge and pass their own read -> write -> read-back test.
