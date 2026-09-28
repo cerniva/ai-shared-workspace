@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T00:10:00+03:00",
+  "updated_at": "2026-09-28T16:41:15+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,7 +15,7 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "Skyvern planner compatibility fixed and merged in PR #25; worker-orchestration tests and CodeQL passed. Storefront password was changed by the user; the store remains private by plan while payment approval is pending.",
+  "latest_output": "PR #34 merged: zero-credit FFmpeg Shorts rendering now supports offline eSpeak NG narration with truncation guards and a manual artifact workflow. PR #35/#36 merged: CORE-05 is connected to the shared knowledge bridge and touched-function docstrings were completed. Post-merge Shorts tests, worker orchestration tests and CodeQL passed.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
@@ -45,18 +45,21 @@
       "gemini"
     ],
     "browser_planner_auto": [
+      "gemini",
       "openai",
       "grok",
-      "gemini",
       "anthropic"
     ],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
-    "grok_api": "known HTTP 403 credit/spending gate; browser auto planner currently attempts Grok after OpenAI and falls through on failure",
+    "grok_api": "known HTTP 403 credit/spending gate; browser auto planner tries healthy Gemini first, then falls through to OpenAI, Grok and Anthropic as configured",
     "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
-    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner currently attempts OpenAI first and falls through on failure"
+    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
   },
   "notes": [
+    "2026-09-28 16:41 TR: PR #34 merged to main. Offline eSpeak NG narration, narration-duration fail-closed guard, hidden-artifact filename guard and manual zero-credit Shorts render/preflight artifact workflow are active. Post-merge Shorts tests, worker tests and CodeQL passed. This render workflow does not by itself publish to YouTube.",
+    "2026-09-28 16:41 TR: PR #35 and follow-up PR #36 merged. CORE-05 now uses the shared source/learning bridge; follow-up docstrings were added without behavior change and CI/CodeQL passed.",
+    "2026-09-28 16:41 TR: state routing corrected to match browser_worker/ai_planner.py: auto planner order is Gemini -> OpenAI -> Grok -> Anthropic.",
     "2026-09-28 00:10 TR: Skyvern smoke run 36349823688 exposed a planner/worker schema mismatch. PR #25 adapted read-only steps and added fail-closed tests; worker-orchestration run 36350519493 and CodeQL run 36350519461 passed.",
     "2026-09-28 00:10 TR: OpenAI planner returned HTTP 429 credit_balance_exhausted and Grok returned HTTP 403 in run 36349823688. Browser auto planner then fell through to Gemini, which produced the task successfully.",
     "2026-09-27 23:31 TR: User changed the Shopify storefront password. Store remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
