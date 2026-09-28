@@ -145,3 +145,12 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **İlgili proje:** CORE-04 / shopify
 - **Son kontrol tarihi:** 2026-09-27
 - **İzlenecek ölçüm:** Vitrin açıldıktan ve ödeme doğrulandıktan sonra gerçek dış trafik, sepete ekleme, checkout ve sipariş; aynı ölçüm tanımıyla dönem kıyası.
+
+### 2026-09-28 — Merkezi kaynak köprüsü henüz etkin değil
+- **Konu / ilgili plan:** Bilgi Kütüphanesi kaynak kataloğu ve planlar arası paylaşım.
+- **Kaynak/kanıt:** [PR #27](https://github.com/cerniva/ai-shared-workspace/pull/27) açık ve merge edilmemiş. Baş commit f0b9c933305565a3743d978eff16f01402ad5a18 için GitHub Actions worker-orchestration-tests ve CodeQL başarılı; CodeRabbit son yorumu incelemenin hâlâ sürdüğünü belirtiyor.
+- **Bulgu:** PR; canonical URL dedup, sabit kimlik, güvenli yerel atomik yazım/read-back doğrulama ve secret/PII reddi ekliyor. Ancak yalnızca bir checkout içindeki flock başka runner branch'leri arasındaki çakışmaları çözmez; PR dokümanı da bağımsız branch'ler için normal merge kontrolünün süreceğini söylüyor. Önerilen şema bu kütüphanenin istediği bazı alanları (related_plan, account_requirement, why_valuable, last_verified_at) ve erişim durumlarını (available_unverified, web_only, quota_limited) içermiyor.
+- **Güven sınırı:** Workflow testlerinin başarılı olması planların köprüyü çağırdığını veya kaynak ekleyebildiğini kanıtlamaz. PR merge edilmemiş; hiçbir plan için read → write → read-back entegrasyon testi yapılmadı.
+- **Ders / karar etkisi:** Açık PR'ı tamamlanmış köprü veya otomatik içe alım gibi raporlama. Ana dalda birleşme, şema eşlemesi ve plan başına read/write/read-back testi geçene kadar diğer planların adaylarını otomatik aktarılmış sayma. Bu Bilgi Kütüphanesi turunun kendi, elle incelenmiş kaynak kayıtları SOURCES.md içinde tutulabilir.
+- **Sonraki kontrol:** PR #27 merge durumu, yeni CodeRabbit sonucu ve bridge dosyalarının ana dalda bulunması; ardından her planın ilk yazma/okuma geri kontrolü.
+- **Gmail ayrımı:** Polar Analytics için gelen Google bildirimi yalnız profil alanlarını doğruluyor; mağaza veya Analytics erişimi kanıtlamıyor. HeyGen bildirimi video hazır diyor, ancak bu oturumda videonun MP4 olarak alındığı/yayımlandığı doğrulanmadı.
