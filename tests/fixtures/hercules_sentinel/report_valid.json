@@ -1,0 +1,17 @@
+{
+  "trigger": {
+    "provider": "github",
+    "event_type": "workflow_run",
+    "external_id": "36350519493"
+  },
+  "scope": "cerniva/ai-shared-workspace",
+  "observed_state": "worker-orchestration-tests failed",
+  "evidence": ["workflow_run:36350519493"],
+  "severity": "warning",
+  "duplicate_or_conflict": false,
+  "recommended_action": "inspect failed step",
+  "requires_human": false,
+  "forbidden_action_detected": false,
+  "cost_or_limit_note": "within configured pilot limits",
+  "action": "analyze"
+}
