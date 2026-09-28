@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T16:57:00+03:00",
+  "updated_at": "2026-09-28T17:10:10+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,15 +15,17 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "PR #37 merged: stale operator-facing automation status/dashboard claims were synchronized to verified repo state. PR #38 merged: safe alternative-first recovery is now a durable operating rule. Zero-credit Shorts rendering and the CORE-05 shared knowledge bridge remain on main with prior CI/CodeQL evidence.",
+  "latest_output": "PR #40 merged: the zero-credit Shorts render artifact can now be consumed by the existing YouTube uploader through a validated read-only artifact handoff, while private upload remains the default. PR #39 merged: CORE-05 shared knowledge health is now visible in the real desk status path. Actual YouTube publishing is still unverified because the last external OAuth refresh result was invalid_grant.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
     "anthropic-api-credit-low",
-    "openai-api-credit-exhausted"
+    "openai-api-credit-exhausted",
+    "youtube-oauth-invalid-grant"
   ],
   "blockers": [
-    "payments-unproven"
+    "payments-unproven",
+    "youtube-oauth-invalid-grant"
   ],
   "provider_health": {
     "openai_worker": "credential-present-http-429-credit-balance-exhausted",
@@ -57,6 +59,8 @@
     "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
   },
   "notes": [
+    "2026-09-28 17:10 TR: PR #40 merged. `.github/workflows/youtube-upload.yml` can now consume either a repo MP4 or a named artifact from a specific `shorts-free-render` run. Inputs fail closed, artifact access is read-only, private upload stays default, and existing YouTube OAuth/target-channel verification remains. PR CI: shorts-render-tests 36433175081, worker-orchestration-tests 36433175116 and CodeQL 36433175197 all passed. No YouTube video was claimed or published by this verification.",
+    "2026-09-28 17:10 TR: PR #39 merged. CORE-05 knowledge adapter health is now part of the operational `scripts/desk_context.py status` path with fail-closed tests instead of remaining test-only.",
     "2026-09-28 16:57 TR: PR #37 merged. docs/MULTI_AGENT_AUTOMATION_STATUS.md and app/index.html no longer advertise stale planner order, waiting agents, an empty knowledge base, or closed Issues #1/#2 as active. CodeQL run 36432118721 passed before merge.",
     "2026-09-28 16:57 TR: PR #38 merged. Alternative-first recovery is durable: search and apply a safe authorized fallback before surfacing a blocker; no blind retry or policy/security bypass; human action remains required for login/2FA/payment/sensitive permission/irreversible action or when reasonable alternatives are exhausted. CodeQL run 36432232859 passed.",
     "2026-09-28 16:41 TR: PR #34 merged to main. Offline eSpeak NG narration, narration-duration fail-closed guard, hidden-artifact filename guard and manual zero-credit Shorts render/preflight artifact workflow are active. Post-merge Shorts tests, worker tests and CodeQL passed. This render workflow does not by itself publish to YouTube.",
