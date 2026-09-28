@@ -21,6 +21,35 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
 
+      - name: Diagnose provider access
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from urllib.error import HTTPError, URLError
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+
+          probes = [
+              ("openverse", "https://api.openverse.org/v1/images/?q=ice&page_size=1", {}),
+              ("pexels", "https://api.pexels.com/v1/videos/search?query=ice&per_page=1", {"Authorization": os.environ.get("PEXELS_API_KEY", "")}),
+              ("pixabay", "https://pixabay.com/api/videos/?" + urlencode({"key": os.environ.get("PIXABAY_API_KEY", ""), "q": "ice", "per_page": 3}), {}),
+          ]
+          for name, url, headers in probes:
+              try:
+                  req = Request(url, headers=headers)
+                  with urlopen(req, timeout=10) as resp:
+                      print(f"{name}: http={resp.status}")
+              except HTTPError as exc:
+                  print(f"{name}: http={exc.code}")
+              except URLError as exc:
+                  print(f"{name}: urlerror={type(exc.reason).__name__}")
+              except Exception as exc:
+                  print(f"{name}: error={type(exc).__name__}")
+          PY
+
       - name: Build real free-first Short
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
