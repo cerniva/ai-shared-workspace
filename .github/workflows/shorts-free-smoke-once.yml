@@ -32,22 +32,32 @@ jobs:
           from urllib.parse import urlencode
           from urllib.request import Request, urlopen
 
+          browser_headers = {
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36",
+              "Accept": "application/json",
+          }
           probes = [
               ("openverse", "https://api.openverse.org/v1/images/?q=ice&page_size=1", {}),
               ("pexels", "https://api.pexels.com/v1/videos/search?query=ice&per_page=1", {"Authorization": os.environ.get("PEXELS_API_KEY", "")}),
               ("pixabay", "https://pixabay.com/api/videos/?" + urlencode({"key": os.environ.get("PIXABAY_API_KEY", ""), "q": "ice", "per_page": 3}), {}),
           ]
-          for name, url, headers in probes:
+
+          def status(url, headers):
               try:
                   req = Request(url, headers=headers)
                   with urlopen(req, timeout=10) as resp:
-                      print(f"{name}: http={resp.status}")
+                      return f"http={resp.status}"
               except HTTPError as exc:
-                  print(f"{name}: http={exc.code}")
+                  return f"http={exc.code}"
               except URLError as exc:
-                  print(f"{name}: urlerror={type(exc.reason).__name__}")
+                  return f"urlerror={type(exc.reason).__name__}"
               except Exception as exc:
-                  print(f"{name}: error={type(exc).__name__}")
+                  return f"error={type(exc).__name__}"
+
+          for name, url, auth_headers in probes:
+              print(f"{name}: default:{status(url, auth_headers)}")
+              merged = {**browser_headers, **auth_headers}
+              print(f"{name}: browser_headers:{status(url, merged)}")
           PY
 
       - name: Build real free-first Short
