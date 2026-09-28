@@ -150,9 +150,9 @@ def _anthropic(objective):
 
 def _providers():
     return (
+        ("gemini", _gemini),
         ("openai", _openai),
         ("grok", _grok),
-        ("gemini", _gemini),
         ("anthropic", _anthropic),
     )
 
