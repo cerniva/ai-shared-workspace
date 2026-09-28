@@ -1,3 +1,30 @@
+# Bilgi Kütüphanesi | 2026-09-28 04:03 TRT
+
+## ÖNEMLİ GMAIL BİLDİRİMİ
+- **Ortak bilgi köprüsü:** PR #27 açık, birleştirilmemiş. Head commit için test ve CodeQL başarıyla tamamlanmış; CodeRabbit'in son yorumu incelemenin sürdüğünü söylüyor. Diğer planların kaynakları otomatik içe aktarılıyor denemez.
+- **HeyGen:** “Mbappé: Biliyor muydun?” videosu 19 sn / 720p / 11.7 MB olarak hazır bildirildi. E-posta “3 gündür hazır” diyor; indirme veya YouTube yayını doğrulanmadı. HeyGen aracı bu oturumda dosyayı almaya yetecek sessionId sunmadı.
+- **Polar Analytics:** Google bildirimi yalnız ad, profil resmi ve e-posta paylaşımını doğruluyor; Shopify/Analytics erişimi değil.
+
+## YENİ KAYNAKLAR
+- [GitHub: authorized OAuth apps](https://docs.github.com/en/apps/oauth-apps/using-oauth-apps/reviewing-your-authorized-oauth-apps) ve [GitHub Apps izinlerini gözden geçirme/iptal](https://docs.github.com/en/apps/using-github-apps/reviewing-and-revoking-authorization-of-github-apps). Exa ile keşfedildi, özgün sayfalar 28 Eylül’de açıldı; resmi doküman. Kaynak kayıtlarında URL ve amaçla dedup kontrolü yapıldı.
+
+## GÜNCELLENEN/TEKİLLEŞTİRİLEN KAYNAK
+- İki GitHub güvenlik belgesi yeni, tekil kart olarak kaynak kataloğuna eklendi. Exa/GitHub/Gmail'in gerçek kullanım durumu araç envanterine işlendi.
+
+## YENİ BİLGİ
+- PR #27’nin otomasyon testleri ve CodeQL’i başarılı; bu yalnız PR koduna ilişkin CI kanıtı. PR açık olduğu ve plan-bağlantı testleri bulunmadığı için merkezi köprü etkin sayılmıyor.
+- Önerilen kaynak şemasında kütüphanenin beklediği bazı metadata alanları ve erişim statüleri eksik. Bu uyumsuzluk çözülmeden diğer planlara otomatik kaynak aktarımı yapılamaz.
+
+## KAYDEDİLEN DERS/KAYIT ENGELİ
+- Köprü PR #27’nin durumu, güven sınırları ve sonraki kontrolü Knowledge Ledger’a yazıldı. Engel: PR ana dala alınmamış, şema uyumu ve plan başına read/write/read-back testi yok.
+
+## KAYNAK AÇIĞI
+- Polar Analytics mağaza verisi yok; Google SSO bildirimi yalnız temel profil iznini gösteriyor.
+- HeyGen çıktısı e-postada hazır görünse de dosya indirme/yayın durumu erişilebilir araçla doğrulanmadı.
+
+## SONRAKİ KEŞİF
+- PR #27’nin merge/CodeRabbit sonucu; ardından bridge alan eşlemesi ve plan başına gerçek read/write/read-back testi. Gmail’deki hassas doğrulama kodları veya tokenlar rapor/kataloğa alınmadı.
+
 # Araştırma farkı — 27 Eylül 2026, 12:10 Türkiye saati
 
 - YouTube'un resmi Analytics API veri modeli, özel Analytics verisinin gerçek zamanlı olmadığını ve tipik 48–72 saat geciktiğini doğruladı. Windsor'da uçak ve Bitcoin Short'larının boş satırı artık sıfır performans değil “işlenmiş veri hazır değil” olarak sınıflandırılıyor.
