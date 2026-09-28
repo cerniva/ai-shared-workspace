@@ -60,6 +60,31 @@ class ObservabilityTests(unittest.TestCase):
         self.assertNotIn(secret_like, calls["messages"][0][0])
         self.assertIn("[REDACTED]", calls["messages"][0][0])
 
+    def test_sentry_raw_exception_requires_explicit_opt_in(self):
+        from scripts.observability import emit_event
+
+        calls = {"messages": [], "exceptions": []}
+        fake = types.ModuleType("sentry_sdk")
+        fake.init = lambda **kwargs: None
+        fake.capture_message = lambda message, **kwargs: calls["messages"].append((message, kwargs))
+        fake.capture_exception = lambda exc: calls["exceptions"].append(exc)
+
+        exception = RuntimeError("stack trace test without credentials")
+        env = {
+            "SENTRY_DSN": "https://public@example.invalid/3",
+            "SENTRY_CAPTURE_RAW_EXCEPTIONS": "1",
+        }
+        with patch.dict(sys.modules, {"sentry_sdk": fake}):
+            emit_event(
+                "worker.retryable_failed",
+                {"job_id": "job-1", "error": "stack trace test without credentials"},
+                env=env,
+                exception=exception,
+            )
+
+        self.assertEqual(calls["exceptions"], [exception])
+        self.assertEqual(calls["messages"], [])
+
     def test_emit_event_uses_langfuse_when_configured(self):
         from scripts.observability import emit_event
 
