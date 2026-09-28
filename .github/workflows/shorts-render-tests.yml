@@ -7,7 +7,9 @@ on:
       - 'tests/test_shorts_render.py'
       - 'tests/test_shorts_render_tts.py'
       - 'tests/test_shorts_free_render_workflow.py'
+      - 'tests/test_youtube_upload_workflow.py'
       - '.github/workflows/shorts-free-render.yml'
+      - '.github/workflows/youtube-upload.yml'
       - '.github/workflows/shorts-render-tests.yml'
   push:
     branches: [main]
@@ -16,7 +18,9 @@ on:
       - 'tests/test_shorts_render.py'
       - 'tests/test_shorts_render_tts.py'
       - 'tests/test_shorts_free_render_workflow.py'
+      - 'tests/test_youtube_upload_workflow.py'
       - '.github/workflows/shorts-free-render.yml'
+      - '.github/workflows/youtube-upload.yml'
       - '.github/workflows/shorts-render-tests.yml'
 
 permissions:
@@ -32,8 +36,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
           python3 -m pip install --disable-pip-version-check pytest
-      - name: Renderer tests
-        run: python3 -m unittest tests.test_shorts_render tests.test_shorts_render_tts tests.test_shorts_free_render_workflow -v
+      - name: Renderer and workflow tests
+        run: python3 -m unittest tests.test_shorts_render tests.test_shorts_render_tts tests.test_shorts_free_render_workflow tests.test_youtube_upload_workflow -v
       - name: Full Python suite
         run: python3 -m pytest -q
       - name: Compile renderer
