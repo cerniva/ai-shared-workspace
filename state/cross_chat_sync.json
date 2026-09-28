@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-28T16:49:00+03:00",
+  "status": "partial_bridge_active",
+  "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
+  "latest_user_side_deltas": [
+    {
+      "id": "user-20260928-pexels-key",
+      "topic": "free-first-shorts",
+      "status": "user_reported",
+      "fact": "User reported obtaining a Pexels API key in another conversation.",
+      "verification_needed": "Whether PEXELS_API_KEY is present and usable in the GitHub/worker environment has not been verified here.",
+      "secret_policy": "Never store or echo the key value."
+    },
+    {
+      "id": "user-20260928-free-first",
+      "topic": "video-shopify",
+      "status": "confirmed_user_decision",
+      "fact": "Free-first / zero-credit production is the default for Shorts; paid-credit generation tools are fallback only when justified by quality or revenue evidence."
+    },
+    {
+      "id": "user-20260928-work-email",
+      "topic": "accounts-integrations",
+      "status": "user_reported",
+      "fact": "User is actively setting up and testing a business email / Google Workspace account across integrations in other conversations.",
+      "verification_needed": "Provider-specific login and plugin compatibility must be verified before treating the work email as usable everywhere."
+    },
+    {
+      "id": "user-20260928-cross-chat-coordination",
+      "topic": "system",
+      "status": "confirmed_user_decision",
+      "fact": "New work performed in other conversations must be treated as input to the shared system and reconciled into central state instead of assuming each conversation is isolated."
+    }
+  ],
+  "sync_contract": {
+    "read_before_work": [
+      "state/now.json",
+      "state/cross_chat_sync.json"
+    ],
+    "reconcile_recent_user_context_when_available": true,
+    "live_system_state_overrides_stale_email_or_old_report": true,
+    "user_reported_facts_stay_user_reported_until_verified": true,
+    "write_only_new_delta": true,
+    "never_store_secrets_tokens_passwords_or_api_keys": true,
+    "do_not_duplicate_completed_or_unchanged_work": true
+  },
+  "limitations": [
+    "There is no guaranteed instant event push from every separate ChatGPT conversation into this repository.",
+    "Synchronization is eventual: a plan or coordinator must reconcile recent conversation context and persist the delta.",
+    "A conversation that never invokes the shared-state path may remain unseen until a reconciliation pass runs."
+  ]
+}
