@@ -263,3 +263,12 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 | github-authorized-github-apps | Reviewing and revoking authorization of GitHub Apps | Kimlik ve entegrasyon güvenliği | https://docs.github.com/en/apps/using-github-apps/reviewing-and-revoking-authorization-of-github-apps | GitHub Docs; keşif/doğrulama: Exa Search + Fetch | GitHub Apps izinlerini gözden geçirme/iptal etme; Sistem ve Araçlar / Bilgi Kütüphanesi | official | web_only | Doküman herkese açık; Exa kota bilgisi bu çağrıda görünmedi | Doküman için gerekmez; gerçek izin ekranı için GitHub hesabı gerekir | Organizasyon kısıtlarını da açıklar; bu hesapta uygulama izinleri ayrıca okunmadı | OAuth uygulamaları ile GitHub Apps için ayrı izin yüzeylerini ayırır | keşif 2026-09-28 04:03 TRT; doğrulama 2026-09-28 04:03 TRT; başarılı kullanım 2026-09-28 04:03 TRT | Yok |
 
 **Dedup kontrolü:** Bu iki canonical URL SOURCES.md içinde yoktu; aynı kaynak başlığı/amaçlı bir kayıt da bulunmadı. Exa arama sonuçları tek başına kanıt sayılmadı; iki özgün GitHub Docs sayfası açılarak doğrulandı. Makineye ait gerçek source_id ancak açık PR #27'deki katalog köprüsü ana dala alınıp çalıştığında üretilebilir; bu Markdown kayıtları için üstte sabit metinsel kimlik kullanıldı.
+
+
+### Shopify ödeme sağlayıcısı bölgesel kullanılabilirliği — 2026-09-28
+
+| source_name | canonical URL/tool | category | purpose | evidence_tier | access_status | cost/quota | reliability_limits | discovered_at | decision relevance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Understanding payment gateway availability | https://help.shopify.com/en/manual/payments/third-party-providers/payment-gateway-availability | Shopify ödeme operasyonu | Ödeme sağlayıcısını mağaza ülkesine göre Shopify'ın güncel bölgesel ağ geçidi listesinde doğrulama ve Admin'deki sağlayıcı görünürlüğünü ayırma | Tier 1 — Shopify Help Center resmi birincil dokümantasyonu; sayfa 2026-09-28'de açıldı | Public page opened and verified | Ücretsiz, public docs; API quota yok | Shopify kendi gateway listesine güncel kaynak diyor; mağazanın konumu/ödeme yapılandırması Admin'de farklı seçenek gösterebilir. Belge iyzico merchant başvurusunun kabulünü veya bu mağazadaki etkinleştirmeyi kanıtlamaz. | 2026-09-28 | iyzico entegrasyonundan önce Türkiye bölgesinde destek durumunu kontrol etmek; görünmüyorsa canlı ayarları değiştirmeden resmî desteğe yönelmek |
+
+**Dedup:** ortak Library'de canonical URL ile arama yapıldı; eşleşme görünmedi. Yalnızca ilgili Shopify ödeme kaynağı listesine eklendi.
