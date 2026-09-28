@@ -18,6 +18,8 @@ Set `SENTRY_CAPTURE_RAW_EXCEPTIONS=1` only after reviewing the workload's data-s
 
 Install `scripts/requirements-observability.txt` and provide `LANGFUSE_PUBLIC_KEY` plus `LANGFUSE_SECRET_KEY` through the runtime secret manager/environment. Langfuse receives sanitized worker lifecycle metadata as observations. Provider credentials and arbitrary job payloads are not intentionally included in the emitted metadata.
 
+Successful completion events may include only whitelisted provider telemetry: provider name, model name, duration in milliseconds, and numeric `input_tokens`, `output_tokens`, `total_tokens`, or `cost` values when the adapter returned them. Full model output, prompts, evidence, recommendations, and provider response bodies are not copied into observability events.
+
 If a self-hosted or non-default Langfuse endpoint is used, configure it using the Langfuse SDK's supported environment settings rather than committing endpoint credentials to the repository.
 
 ## Status rules
