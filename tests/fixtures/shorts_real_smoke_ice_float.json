@@ -1,0 +1,46 @@
+{
+  "topic": "Why ice floats",
+  "why_selected": "Evergreen science fact with a strong visual explanation and low production cost",
+  "trend_or_evergreen": "evergreen",
+  "hook": "Water breaks a rule most liquids follow.",
+  "target_seconds": 21,
+  "sources": [
+    "https://www.usgs.gov/water-science-school/science/water-density",
+    "https://prod-01-alb-www-noaa.woc.noaa.gov/jetstream/ocean/sea-water"
+  ],
+  "unique_angle": "Explain the molecular-density reason in under 25 seconds and connect it to winter survival in lakes",
+  "script_beats": [
+    "Most liquids get denser when they freeze",
+    "Water forms an open crystal lattice",
+    "The same mass takes up more space",
+    "Ice becomes less dense and floats",
+    "Floating ice helps insulate liquid water below"
+  ],
+  "visual_plan": [
+    "vertical close-up of ice floating in water",
+    "vertical frozen lake or winter water scene"
+  ],
+  "audio_plan": "Original narration with low-volume background ambience only if rights-safe",
+  "title": "Why Does Ice Float? The Weird Rule Water Breaks",
+  "hashtags": ["#science", "#water", "#shorts"],
+  "prepublish_checklist": {
+    "facts_verified": true,
+    "sources_reliable": true,
+    "strong_first_2s": true,
+    "no_empty_intro": true,
+    "audio_planned": true,
+    "portrait_9_16_planned": true,
+    "not_previously_published": true,
+    "title_matches": true,
+    "rights_ok": true,
+    "publishable_quality_planned": true
+  },
+  "free_render_requested": true,
+  "language": "en",
+  "content_type": "short_fact",
+  "narration_text": "Water does something most liquids don't. As it freezes, its molecules lock into an open crystal structure. That structure takes up more space, so ice becomes less dense than liquid water. Less dense things float. That same quirk helps lakes keep liquid water below the ice in winter.",
+  "media_queries": [
+    "ice cube floating in water vertical",
+    "frozen lake winter vertical"
+  ]
+}
