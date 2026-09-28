@@ -61,12 +61,12 @@ class FailoverAdapter:
 def make_failover_adapter(*, env: Mapping[str, str] | None = None):
     values = os.environ if env is None else env
     adapters = []
+    if values.get("GEMINI_API_KEY", "").strip():
+        adapters.append(make_adapter("gemini", env=values))
     if values.get("OPENAI_API_KEY", "").strip():
         adapters.append(make_adapter("openai", env=values))
     if values.get("XAI_API_KEY", "").strip():
         adapters.append(make_adapter("grok", env=values))
-    if values.get("GEMINI_API_KEY", "").strip():
-        adapters.append(make_adapter("gemini", env=values))
     if values.get("META_MODEL_API_KEY", "").strip():
         adapters.append(make_adapter("meta", env=values))
     if not adapters:
