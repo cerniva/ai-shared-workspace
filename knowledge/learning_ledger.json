@@ -1,6 +1,29 @@
 {
   "learnings": [
     {
+      "claim": "Per-workflow concurrency groups prevent duplicate runs of one workflow but do not serialize different workflows that push to the same branch.",
+      "decision": "Use one repo-main-writers group with queue max for all workflows that commit to main, while retaining pull-rebase as a secondary conflict check.",
+      "domain": "repository-concurrency",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Ten write-capable workflows used separate concurrency groups, allowing cross-workflow pushes to overlap."
+      ],
+      "fallback_history": [
+        "If a queued run reaches the 100-run limit or stalls, stop the unhealthy writer and preserve the existing pull-rebase conflict path."
+      ],
+      "learned_at": "2026-09-28T02:59:00+00:00",
+      "learning_id": "learn_481967ecf9c1f8dc",
+      "next_measurement": "Verify workflow validation, successful CI, and the next scheduled writer runs without push conflicts or canceled pending jobs.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_239d8d13df54e11d",
+        "src_e8107921e7c45aa8"
+      ],
+      "supersedes": null,
+      "title": "Repository writers need one queued concurrency group"
+    },
+    {
       "claim": "POSIX flock protects processes sharing one checkout, while GitHub Contents API updates require the current blob SHA and serialized remote writes.",
       "decision": "Keep local flock plus atomic replace; remote writers must read the current blob SHA, write serially, and re-read after conflicts.",
       "domain": "repository-concurrency",
@@ -47,5 +70,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-09-28T02:58:00+00:00"
+  "updated_at": "2026-09-28T03:02:50+00:00"
 }
