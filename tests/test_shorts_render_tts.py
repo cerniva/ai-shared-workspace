@@ -13,15 +13,18 @@ from scripts.shorts_render import render, validate_spec
 
 
 def run(args):
+    """Run a subprocess for integration assertions and return its completed result."""
     return subprocess.run(args, capture_output=True, text=True, check=True, timeout=120)
 
 
 def write_ppm(path: Path):
+    """Write a tiny deterministic PPM frame for renderer tests."""
     path.write_bytes(b"P6\n2 2\n255\n" + bytes([40, 80, 180] * 4))
 
 
 class ShortsRenderTtsTests(unittest.TestCase):
     def test_validate_spec_accepts_text_narration_without_audio_file(self):
+        """Accept text narration as a zero-credit alternative to an audio file."""
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
             image = base / "frame.ppm"
@@ -41,6 +44,7 @@ class ShortsRenderTtsTests(unittest.TestCase):
         "ffmpeg/ffprobe/espeak-ng required",
     )
     def test_render_creates_audible_mp4_from_text_narration(self):
+        """Render text narration into an MP4 with a detectable AAC audio stream."""
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
             image = base / "frame.ppm"
