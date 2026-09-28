@@ -135,7 +135,22 @@
       "reliability_limits": "Specifies container, codecs, channel layout, sample rate and bitrate. It does not prove that narration exists, is intelligible, matches the script, or is loud enough; those require separate content-level QC.",
       "source_id": "src_527e9618377fed71",
       "source_name": "YouTube recommended upload encoding settings"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/6373554?hl=en",
+      "category": "youtube-shorts-production-quality",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-09-28T06:05:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T06:05:00+00:00",
+      "provenance": "verified",
+      "purpose": "Use automatic-caption generation and manual review as an additional intelligibility check for the daily Shorts narration before publishing",
+      "reliability_limits": "Automatic captions can misrepresent speech and may be unavailable for reasons including poor sound, long silence, overlapping speakers or unsupported language. Caption presence alone does not prove narration loudness, sync, completeness or engagement.",
+      "source_id": "src_dba1a72aa5f4fc73",
+      "source_name": "YouTube automatic captioning"
     }
   ],
-  "updated_at": "2026-09-28T03:02:39+00:00"
+  "updated_at": "2026-09-28T06:05:00+00:00"
 }
