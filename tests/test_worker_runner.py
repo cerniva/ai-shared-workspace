@@ -42,7 +42,8 @@ class AlwaysRetryable:
 
 class SecretRetryable:
     def run(self, job):
-        raise RetryableProviderError("temporary outage sk-abcdefghijklmnopqrstuvwxyz123456")
+        secret_like = "sk-" + ("a" * 30)
+        raise RetryableProviderError(f"temporary outage {secret_like}")
 
 
 class WorkerRunnerTests(unittest.TestCase):
@@ -110,6 +111,7 @@ class WorkerRunnerTests(unittest.TestCase):
     def test_retryable_failure_observability_redacts_secret_like_text(self):
         self.write_items([item("job-1", max_attempts=2)])
         log_path = Path(self.tmp.name) / "observability.jsonl"
+        secret_like = "sk-" + ("a" * 30)
         with patch.dict(os.environ, {"OBSERVABILITY_LOG_PATH": str(log_path)}):
             state = run_job(
                 WorkQueue(self.queue_path),
@@ -122,7 +124,7 @@ class WorkerRunnerTests(unittest.TestCase):
 
         self.assertEqual(state["status"], "retryable_failed")
         raw = log_path.read_text(encoding="utf-8")
-        self.assertNotIn("sk-abcdefghijklmnopqrstuvwxyz123456", raw)
+        self.assertNotIn(secret_like, raw)
         events = self.read_observability_events(log_path)
         self.assertEqual([event["event"] for event in events], ["worker.started", "worker.retryable_failed"])
         self.assertEqual(events[-1]["error"], "temporary outage [REDACTED]")
