@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T17:10:00+03:00",
+  "updated_at": "2026-09-28T18:12:00+03:00",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -10,10 +10,7 @@
       "project": "research-learning",
       "notes": "Resmi kaynaklar, bağlantılı araçlar ve geçmiş sonuçlardan doğrulanmış öğrenmeleri kaydet; somut göreve uygula. Ortak source/learning bridge ana dalda ve operational status health yoluna bağlı; planlar bağımlı işten önce ortak state/kütüphaneyi okumalı.",
       "lead": "chatgpt",
-      "backups": [
-        "grok",
-        "gemini"
-      ]
+      "backups": ["grok", "gemini"]
     },
     {
       "id": "CORE-02",
@@ -23,9 +20,7 @@
       "project": "finance",
       "notes": "Makro, şirketler, kripto, sektörler ve yatırım eğitimi. ChatGPT doğrulama/sentez; Grok alternatif görüş; tahmin ile olgu ayrılır.",
       "lead": "chatgpt",
-      "backups": [
-        "grok"
-      ]
+      "backups": ["grok"]
     },
     {
       "id": "CORE-03",
@@ -33,12 +28,9 @@
       "owner": "team",
       "status": "active",
       "project": "content",
-      "notes": "Shorts araştırma/üretim/retention/yayın performansı. Free-first üretim varsayılan: lisanslı ücretsiz medya + yerel TTS + FFmpeg + preflight; ücretli üretim yalnız kanıtlı kalite/gelir gerekçesiyle fallback.",
+      "notes": "Shorts araştırma/üretim/retention/yayın performansı. Free-first üretim varsayılan: lisanslı ücretsiz medya + yerel TTS + FFmpeg + preflight; ücretli üretim yalnız kanıtlı kalite/gelir gerekçesiyle fallback. PR #45/#47/#52/#55 ana dala alındı; medya fallback, puanlama/gate, packet→bundle→render/build hattı ve non-finite score guard CI ile doğrulandı. Gerçek dış servis artifact smoke ve yayın ayrı doğrulama kapılarıdır.",
       "lead": "chatgpt",
-      "backups": [
-        "gemini",
-        "grok"
-      ]
+      "backups": ["gemini", "grok"]
     },
     {
       "id": "CORE-04",
@@ -48,9 +40,7 @@
       "project": "shopify",
       "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. Ödeme onayı kanıtlanana kadar canlı ödeme/reklam gibi riskli eylemler yok. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
-      "backups": [
-        "grok"
-      ]
+      "backups": ["grok"]
     },
     {
       "id": "CORE-05",
@@ -58,12 +48,9 @@
       "owner": "team",
       "status": "active",
       "project": "workspace",
-      "notes": "Tekrarlayan sorunları ekip içinde çözer; state/cross-chat reconciliation ve alternative-first recovery kurallarını uygular; küçük ve doğrulanabilir delta yapar; canlı durum eski mail/rapordan üstündür.",
+      "notes": "Tekrarlayan sorunları ekip içinde çözer; state/cross-chat reconciliation ve alternative-first recovery kurallarını uygular; küçük ve doğrulanabilir delta yapar; canlı durum eski mail/rapordan üstündür. PR #57 ile fail-open worker observability (sanitized local JSONL + optional Sentry/Langfuse) güncel main üzerinde worker CI ve CodeQL doğrulamasıyla birleştirildi; harici observability servisi gerçek event/read-back olmadan verified_connected sayılmaz.",
       "lead": "chatgpt",
-      "backups": [
-        "grok",
-        "gemini"
-      ]
+      "backups": ["grok", "gemini"]
     },
     {
       "id": "TSK-20260926-005",
@@ -114,11 +101,8 @@
       "kind": "ticket",
       "parent": "CORE-05",
       "lead": "chatgpt",
-      "backups": [
-        "grok",
-        "gemini"
-      ],
-      "notes": "Ortak state, delivery ledger, knowledge bridge, cross-chat reconciliation ve operational status health önemli ölçüde kuruldu. Kalan sınır: ayrı ChatGPT sohbetleri arasında garantili anlık push yok; eventual reconciliation kullanılır. Yeni işte önce state/now.json + state/cross_chat_sync.json oku, stale/duplicate işi açma, yalnız yeni delta raporla."
+      "backups": ["grok", "gemini"],
+      "notes": "Ortak state, delivery ledger, knowledge bridge, cross-chat reconciliation ve operational status health önemli ölçüde kuruldu. GitHub/Gmail bildirimleri koordinasyon sinyali olarak kullanılır fakat canlı GitHub/servis durumu kanoniktir. Ayrı ChatGPT sohbetleri arasında garantili anlık push yok; eventual reconciliation kullanılır. Yeni işte önce state/now.json + state/cross_chat_sync.json oku, stale/duplicate işi açma, yalnız yeni delta raporla."
     },
     {
       "id": "TSK-20260928-002",
@@ -129,11 +113,8 @@
       "kind": "ticket",
       "parent": "CORE-05",
       "lead": "chatgpt",
-      "backups": [
-        "gemini",
-        "grok"
-      ],
-      "notes": "Aktif uygulama PR #42. Pexels öncelikli ücretsiz/lisansı açık medya edinme; uygun doğrulanmış fallback; mevcut yerel eSpeak NG + FFmpeg + preflight zincirine bağlama. Test-first/TDD, secret değerini repo/loga yazmama, duplicate üretmeme, gerçek CI ve artefact doğrulaması olmadan DONE deme. PayoutLens kapsam dışı."
+      "backups": ["gemini", "grok"],
+      "notes": "Eski PR #42 referansı superseded. PR #45 medya sağlayıcı/fallback katmanını, PR #47 puanlama/free-render gate'i, PR #52 packet→free media→provenance/captions→FFmpeg build/workflow hattını, PR #55 non-finite scoring guard'ını ana dala taşıdı. İlgili worker/Shorts/CodeQL kontrolleri yeşil. Kalan doğrulama: gerçek yetkili workflow koşusunda MP4 artifact + preflight çıktısını üretip read-back doğrulamak; bu gerçekleşmeden gerçek üretim artefact'ı veya yayın DONE sayılmaz. PayoutLens kapsam dışı."
     },
     {
       "id": "TSK-20260928-003",
@@ -146,13 +127,10 @@
       "notes": "iyzico Risk/Karar incelemesi storefront görüntüleme şifresi istedi; admin bilgisi istemedi. Şifreyi doğrudan paylaşmak yerine basvuru@iyzico.com adresine geçici erişim veya başka güvenli doğrulama yöntemi soruldu. Yanıt bekleniyor; bu sırada ödeme dışı mağaza hazırlıkları devam eder. Kullanıcıdan şimdilik yeni işlem isteme."
     }
   ],
-  "completed_setup": [
-    "TSK-20260926-001",
-    "TSK-20260926-003"
-  ],
+  "completed_setup": ["TSK-20260926-001", "TSK-20260926-003"],
   "protected_notes": [
     "PayoutLens ayrı ve korunmuş projedir; konumu/iş kapsamı doğrulanmadan workspace veya commerce işiyle değiştirme."
   ],
-  "routing_note": "Canlı sağlayıcı/ajan sağlığı ve fallback sırası state/now.json'dan okunur. Bağımlı işlerde state/cross_chat_sync.json ile diğer sohbetlerden gelen kullanıcı-side deltalar uzlaştırılır. Aynı dosyada eşzamanlı edit yerine görev/branch sınırları ayrılır.",
+  "routing_note": "Canlı sağlayıcı/ajan sağlığı ve fallback sırası state/now.json'dan okunur. Bağımlı işlerde state/cross_chat_sync.json ile diğer sohbetlerden gelen kullanıcı-side deltalar uzlaştırılır. GitHub/Gmail bildirimleri yeni delta keşfi içindir; canlı repo/servis durumu eski mailden üstündür. Aynı dosyada eşzamanlı edit yerine görev/branch sınırları ayrılır.",
   "execution_note": "Kullanıcının talimatı: yarım kalan güvenli işleri bul ve başlat; sorunlarda önce yetkili düşük-riskli alternatifleri dene. Login/2FA/payment/legal/sensitive-permission/irreversible eylemler kullanıcı kapısı olarak kalır. Sürekli veya anlık ajan iletişimi varmış gibi iddia edilmez."
 }
