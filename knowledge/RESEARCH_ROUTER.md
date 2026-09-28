@@ -53,3 +53,13 @@ Provider availability and credentials must be checked at execution time; this do
 - Records distinguish `verified`, `user_reported`, and `unverified`; failures remain in `failure_note` instead of being silently erased.
 - Secrets, credentials, sensitive URL query parameters, and personal email addresses are rejected. Do not store PII in source metadata.
 - Validate with `python3 scripts/knowledge_bridge.py validate`. Other plans are not considered connected until they call this bridge and pass their own read -> write -> read-back test.
+
+## Machine-readable learning ledger
+
+- Reusable decisions and failures go to `knowledge/learning_ledger.json` through `scripts/learning_bridge.py`.
+- Every learning must reference at least one existing `source_id`; unknown sources fail closed.
+- Stable `learning_id` values deduplicate the normalized domain + claim. `supersedes` preserves history instead of silently rewriting it.
+- Store decision, outcome, next measurement, failure history, fallback history, evidence status, and provenance. Secret/PII rejection and atomic read-back rules are shared with the source catalog.
+- `knowledge/knowledge_index.json` is the routing index. Legacy Markdown remains readable, but a Markdown entry alone is not proof that a plan used the machine bridge.
+- Remote GitHub writers must read the current blob SHA and serialize Contents API updates. On HTTP 409/422, re-read state before one bounded retry; never overwrite a concurrent delta blindly.
+- Validate both layers with `python3 scripts/knowledge_bridge.py validate` and `python3 scripts/learning_bridge.py validate`.
