@@ -10,6 +10,7 @@ from typing import Any, Mapping
 UTC = timezone.utc
 
 _SENSITIVE_KEY = re.compile(r"(?i)(secret|token|password|authorization|api[_-]?key|dsn)")
+_SAFE_NUMERIC_SENSITIVE_KEYS = frozenset({"input_tokens", "output_tokens", "total_tokens"})
 _SECRET_PATTERNS = (
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
     re.compile(r"xai-[A-Za-z0-9_-]{20,}"),
@@ -31,6 +32,12 @@ def _redact_text(value: str) -> str:
 
 def _sanitize(value: Any, *, key: str | None = None) -> Any:
     if key is not None and _SENSITIVE_KEY.search(key):
+        if (
+            key.lower() in _SAFE_NUMERIC_SENSITIVE_KEYS
+            and isinstance(value, (int, float))
+            and not isinstance(value, bool)
+        ):
+            return value
         return "[REDACTED]"
     if isinstance(value, str):
         return _redact_text(value)
