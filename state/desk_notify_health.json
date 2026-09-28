@@ -14,9 +14,9 @@
     "pending": 1,
     "seen": 1,
     "answered": 28,
-    "delayed": 22
+    "delayed": 23
   },
-  "event_count": 58,
+  "event_count": 60,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -75,12 +75,15 @@
     "RPT-20260927-215100-grok-meta-share-audit:delayed",
     "MSG-20260928-154800-chatgpt-current-blockers:pending",
     "MSG-20260928-154800-chatgpt-current-blockers:delayed",
-    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:pending"
+    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:pending",
+    "RPT-20260928-1710-chatgpt-youtube-handoff:pending",
+    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed"
   ],
   "new_event_keys": [
-    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:pending"
+    "RPT-20260928-1710-chatgpt-youtube-handoff:pending",
+    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-28T16:48:36+03:00"
+  "checked_at": "2026-09-28T17:11:18+03:00"
 }
