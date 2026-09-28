@@ -10,8 +10,8 @@ on:
       - messages/inbox-meta.md
 
 concurrency:
-  group: meta-senses
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   run-meta:
