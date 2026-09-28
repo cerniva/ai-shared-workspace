@@ -298,3 +298,11 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 - Kalite kapısı: kötü ses kalitesi, uzun sessizlik, algılanamayan konuşma veya üst üste konuşma altyazının oluşmamasına ya da hatalı olmasına yol açabilir. Bu belirtiler varsa video yayınlanmaz ve seslendirme yeniden kontrol edilir.
 - Kritik sınır: otomatik altyazının oluşması ses seviyesini, senkronu, metnin eksiksizliğini veya izleyici etkileşimini tek başına kanıtlamaz; teknik probe ve normal dinleme kontrolü ayrıca zorunludur.
 - Dedup: canonical URL ortak `knowledge/source_catalog.json` kataloğunda tek kayıt olarak tutulur; bu bölüm yalnız plana yapılan referanstır.
+
+### Ortak kaynak referansı — Shorts özgünlük ve tekrar kalite kapısı — 2026-09-28
+
+- Ortak kaynak: `src_d9ad3569da502ff8` — [YouTube channel monetization policies](https://support.google.com/youtube/answer/1311392?hl=en).
+- Uygulama: özgün senaryo ve anlatım, belirgin eğitsel/eğlence değeri ve video bazında gerçek yaratıcı farklılık bulunmayan şablon tekrarları üretime alınmaz. Başka içerikten parça kullanılırsa anlamlı yorum veya ciddi dönüşüm gerekir.
+- Haklar sınırı: yeniden kullanım politikasına uygun görünmek telif izni sağlamaz; tüm görüntü ve ses öğelerinin ticari kullanım hakları ayrıca doğrulanır.
+- Ölçüm sınırı: bu politika kaynağı dağıtım, izlenme veya etkileşim artışı kanıtı değildir.
+- Dedup: canonical URL ortak `knowledge/source_catalog.json` kataloğunda tek kayıt olarak tutulur; bu bölüm yalnız plana yapılan referanstır.
