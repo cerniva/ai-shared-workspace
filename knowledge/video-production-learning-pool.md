@@ -5,143 +5,115 @@ Updated: 2026-09-29
 Scope: YouTube Shorts and reusable production lessons for scripting, editing, visuals, audio, packaging, publishing and analytics.
 
 ## Purpose
-This is the shared human-readable production knowledge pool. Video/Shopify, Bilgi Kütüphanesi, Sistem Geliştirmeleri and any future production automation should read this file before repeating research or making a production decision. Machine-readable canonical sources and durable learnings remain in `knowledge/source_catalog.json` and `knowledge/learning_ledger.json`.
+Shared production knowledge for Video/Shopify, Bilgi Kütüphanesi and Sistem Geliştirmeleri. Dedup before research. PayoutLens is out of scope.
 
 ## Research order — cost first
-1. Existing shared state/catalog and this learning pool; dedup first.
+1. Existing shared state/catalog and this pool.
 2. Public discovery/trend sources and cheap metadata.
-3. Transcript/captions, comments, related-video and community patterns.
+3. Transcripts/comments/community patterns.
 4. Owned-channel analytics.
-5. Expensive scene-by-scene or generative work only for finalists.
-Do not spend credits watching/generating every candidate. Filter cheaply, deepen only high-value examples.
+5. Expensive scene analysis/generation only for finalists.
 
-## Expanded discovery + production source stack — 2026-09-29
-These sources are reusable inputs, not automatic proof. Respect each source's access, license, quota and terms; verify asset-level rights before reuse.
+## Expanded discovery + production source stack
+Trend/idea discovery: Google/TinyFish, YouTube, vidIQ, Metricool, TikTok Creative Center, Instagram Reels, Google Trends, Reddit, Pinterest Trends, Exploding Topics, AnswerThePublic, Google Keyword Planner, Wikipedia Pageviews, GDELT, Product Hunt, GitHub Trending/public GitHub, SteamDB/public game data, YouTube Comments.
+Primary factual/media: Google Arts & Culture, NASA, NOAA and other official/first-party sources.
+Rights-aware assets: Wikimedia Commons, Internet Archive, Pexels, Pixabay, Mixkit, Freesound, YouTube Audio Library/supported Shorts audio. Verify item-level rights.
+Original production: Runway, Higgsfield, OpenArt, Canva, Remotion/programmatic video, Blender and legitimate TTS/voice tools.
 
-### Trend and idea discovery
-- Google/TinyFish: discover new sources, official pages, trends, competitors and product/topic candidates; snippets are discovery only.
-- YouTube: public video/channel/format/hook/theme observation plus official platform guidance.
-- vidIQ: YouTube keyword/trend/outlier/competitor research and owned analytics when connected.
-- Metricool: owned-channel scheduling/publishing and supported analytics when connected.
-- TikTok Creative Center: early short-form trend, hashtag, creative and ad-pattern discovery; treat as cross-platform hypothesis, not YouTube algorithm proof.
-- Instagram Reels: cross-platform visual format, hook, edit and audio-pattern discovery where publicly/legitimately accessible.
-- Google Trends: validate whether topic/search interest is rising, seasonal or regional.
-- Reddit: niche-community questions, pain points, reactions, language and emerging themes; community evidence is directional and must be verified for factual claims.
-- Pinterest Trends: visual trend discovery for food, satisfying, decor, DIY, fashion and aesthetics.
-- Exploding Topics: early-growing topic discovery; validate elsewhere before production.
-- AnswerThePublic / keyword-question tools: discover question-shaped hooks and audience queries; validate demand independently.
-- Google Keyword Planner: search-demand/topic comparison where accessible.
-- Wikipedia Pageviews: attention-spike signal for public topics; not factual proof by itself.
-- GDELT: global event/topic discovery; verify claims with primary/reputable sources.
-- Product Hunt: emerging tech/AI product ideas.
-- GitHub Trending/public GitHub signals: emerging developer/technology topics; use repository evidence for technical claims.
-- SteamDB/public game trend data: gaming-interest discovery; respect data/source limitations.
-- YouTube comments: learn audience reactions, unanswered questions and sequel opportunities; never treat comments alone as fact.
+## AUDIO SOURCE + TOOL CATALOG — 2026-09-29
+Purpose: eliminate silent/weak-audio Shorts while improving narration, ASMR/SFX, music, mixing and automated QC. `access_status` is conservative: a source mentioned/researched is not treated as connected until verified. Never spend paid credits merely to test a candidate when a free/local route can answer the same need.
 
-### Primary factual/media sources for original concepts
-- Google Arts & Culture: art/history/culture research and visual inspiration subject to item rights.
-- NASA: primary space/science facts and media; check asset-specific usage restrictions/credits.
-- NOAA: primary weather/ocean/nature data and media; check asset-specific terms.
-- Other official scientific/government/first-party sources: preferred for critical factual claims.
+### A. Music / SFX / ambience / Foley sources
+1. YouTube Audio Library — music + SFX; preferred YouTube-native rights-safe source; some tracks require attribution. Status: web/platform available; account workflow may require Studio access.
+2. YouTube supported Shorts audio — platform-native Short audio where intended use is covered. Status: platform available; use conditions must be checked.
+3. Freesound — SFX/ambience/foley under item-specific CC licenses. Status: web available; commercial use/attribution varies per item.
+4. Mixkit — stock music/SFX. Status: web available; verify current item/license terms.
+5. Pixabay Audio — music/SFX. Status: web available; verify current license/restrictions.
+6. Uppbeat — music/SFX catalog. Status: available_unverified for current account/quota; free tier is limited; verify licensing before monetized use.
+7. BBC Sound Effects Archive — large sound-effect archive. Status: web discovery; usage/license must be checked for each intended commercial use.
+8. ZapSplat — SFX/foley/ambience. Status: web discovery; account/license/attribution rules must be checked.
+9. Sonniss GDC bundles — professional SFX bundles. Status: web discovery; verify bundle-specific license.
+10. Openverse Audio — Creative Commons/public-domain audio discovery layer. Status: web discovery; verify original source/license.
+11. Free Music Archive — music discovery. Status: web discovery; item-level license required.
+12. Incompetech — music source. Status: web discovery; verify attribution/license for selected track.
+13. Bensound — music source. Status: web discovery; free/commercial conditions vary; verify selected license.
+14. Original recorded Foley — self-created crunch/sizzle/click/scrape/cut/pour/room tone. Status: preferred original route when feasible; record provenance.
+15. Original generated SFX/music — use only a generator whose output/commercial terms are verified. Status: tool-dependent.
 
-### Rights-aware raw asset discovery
-- Wikimedia Commons: media with explicit file-level license metadata; verify each file's license/attribution requirements.
-- Internet Archive: historical/public-domain-or-licensed media discovery; verify item-level rights, never assume the whole archive is public domain.
-- Pexels: stock photo/video discovery; verify current license and restrictions for the selected asset.
-- Pixabay: stock image/video/audio discovery; verify current asset/license restrictions.
-- Mixkit: stock video/music/SFX discovery; verify current item/license restrictions.
-- Freesound: SFX/ambience discovery; verify the individual Creative Commons/license and attribution requirements.
-- YouTube Audio Library / supported Shorts audio: preferred YouTube-native music/SFX route where the intended use is covered; verify track/use conditions.
+### B. Narration / TTS / voice sources
+16. eSpeak NG — local/offline zero-credit TTS; currently supported by `scripts/shorts_render.py`. Status: verified in code; quality fallback rather than preferred natural voice.
+17. Piper TTS — local/offline TTS candidate. Status: candidate/unverified in production environment.
+18. Kokoro TTS — open-weight/local TTS candidate with offline-capable implementations. Status: researched candidate; environment/voice/language quality must be tested before production default.
+19. ElevenLabs — natural TTS/SFX-capable service. Status: available_unverified; quota/cost/rights must be checked before use.
+20. Fish Audio — TTS/voice candidate. Status: available_unverified; verify plan, rights and access.
+21. Google Cloud Text-to-Speech — multilingual TTS candidate. Status: available_unverified; API/billing/quota required before use.
+22. Microsoft Azure AI Speech — neural multilingual TTS candidate. Status: available_unverified; API/billing/quota required before use.
+23. Coqui XTTS — local/customizable TTS research candidate. Status: unverified; check current project/license/model terms before use.
+24. MeloTTS — local/open-source TTS candidate. Status: unverified; test language quality/license before use.
+25. Legitimate connected TTS/voice tools — generic fallback category only; never clone a real person's voice without authorization and never treat availability as verified without a successful call.
 
-### Original production tools / methods
-- Runway, Higgsfield, OpenArt or other connected generation tools: generate original visual/video assets when permitted and cost-effective; do not imitate copyrighted source footage frame-for-frame.
-- Canva: 9:16 layouts, typography, simple motion, captions and branding when connected/available.
-- Remotion/programmatic video: deterministic 30-second compositions, timing, captions, reusable motion templates and QC-friendly renders when execution environment supports it.
-- Blender: original 3D scenes/animation where useful and feasible.
-- TTS/voice tools such as ElevenLabs-class services: original narration only when legitimately available; respect voice rights and cost. Do not clone a real person's voice without appropriate authorization.
+### C. Cleaning / mixing / mastering / editing
+26. FFmpeg — deterministic mix, AAC encode, filters, loudness/silence analysis. Status: core production dependency in repo.
+27. Adobe Podcast Enhance Speech — speech cleanup/enhancement candidate. Status: web/app capability candidate; verify access/limits before automation.
+28. Audacity — local editing, noise reduction, EQ/compression/limiting. Status: local software candidate.
+29. DaVinci Resolve Fairlight — professional mix, ducking, EQ, limiter/loudness. Status: desktop candidate; not assumed installed.
+30. Adobe Audition — professional audio cleanup/mix. Status: app candidate; access not assumed.
+31. REAPER — DAW/mixing candidate. Status: desktop candidate; license/install not assumed.
+32. DeepFilterNet — local AI speech/noise cleanup candidate. Status: unverified in environment.
+33. RNNoise — lightweight local noise suppression candidate. Status: unverified in environment.
+34. Rubber Band — time-stretch/pitch tool for fitting narration without crude truncation. Status: unverified in environment.
+35. SoX — command-line audio conversion/processing/QC candidate. Status: unverified in environment.
+36. Demucs — stem/voice/music separation for legitimate source material. Status: unverified; do not use to evade copyright restrictions.
 
-### Source routing rule
-Use cross-platform sources to DISCOVER a pattern; Google Trends/keyword/community signals to VALIDATE interest; YouTube + vidIQ to test YouTube relevance; official/primary sources to verify factual claims; rights-aware libraries or original generation for assets; YouTube/Metricool/vidIQ owned analytics to learn what actually works on our channel. Do not ask three tools the same question without a distinct role.
+### D. Automated QC / speech / signal analysis
+37. `scripts/shorts_preflight.py` — repository fail-closed technical gate: H.264, 9:16, AAC, full decode, audio signal plus independent review. Status: verified repo capability.
+38. FFmpeg `volumedetect` — current audio-signal measurement used by preflight. Status: implemented.
+39. FFmpeg `silencedetect` — candidate for long/unwanted silence detection. Status: planned enhancement, not yet claimed implemented.
+40. FFmpeg `loudnorm` / EBU R128 — candidate for loudness normalization. Status: FFmpeg capability; production integration not yet verified.
+41. FFmpeg `ebur128` — candidate loudness measurement/QC. Status: capability; integration unverified.
+42. Whisper — speech transcription/intelligibility/caption verification candidate. Status: candidate; local model/runtime not assumed available.
+43. Silero VAD — speech-region detection candidate. Status: unverified in environment.
+44. WebRTC VAD — speech/silence-region detection candidate. Status: unverified in environment.
+45. librosa — programmatic energy/beat/audio analysis candidate. Status: unverified in production environment.
+46. Essentia — programmatic loudness/rhythm/spectral analysis candidate. Status: unverified in environment.
+47. AudioSet — sound-event taxonomy/reference for classifying/describing SFX; not itself a rights-free production asset library. Status: research/reference.
 
-### Rights-first production rule
-A viral source is a benchmark, not a copy master. If direct reuse rights are not explicitly verified, extract only abstract lessons such as hook type, pacing, topic, shot function, payoff and audience question; create new script, visuals, narration/audio and edit. Asset source must be recorded with license/provenance when external media is used. Rights/originality/monetization gate overrides predicted views.
+### E. Generative audio / music research candidates
+48. AudioCraft / MusicGen — original music generation research candidate. Status: unverified; model/license/commercial-use terms must be checked before monetized production.
+49. Stable Audio Open — generative audio/SFX research candidate. Status: unverified; model/output license and runtime requirements must be checked.
 
-## External YouTube observations
-### VP-001 — fast question → answer → conflict → resolution
-A high-view educational example showed a direct curiosity question, early answer, small conflict/choice and clean resolution. Reusable hypothesis: factual Shorts can test a concrete first-second question, early answer and later surprise/choice. Validate with owned retention.
+### Audio routing and selection rules
+- Narration priority: verified natural free/local TTS -> legitimate quota-free/low-cost connected TTS -> eSpeak NG fallback. Never silently spend paid credits.
+- Satisfying/food priority: original Foley/ASMR first; then rights-verified SFX. Mechanism #2 Satisfying/ASMR and #40 sensory sound reward should influence sound design when selected.
+- Music priority: YouTube Audio Library / rights-verified original or licensed music. Music is optional; do not mask narration/ASMR just to fill silence.
+- External asset rule: store source/provenance/license/attribution requirement for each external audio asset. 'Free', 'royalty-free' or being widely reposted is not sufficient proof.
+- Commercial filter: reject non-commercial licenses for monetized Shorts unless separate commercial permission is verified.
+- Cost rule: free/local first; paid API/generation only for a finalist when it materially improves expected quality and is authorized.
 
-### VP-002 — huge views can coexist with monetization/originality risk
-Repeated AI-satisfying concepts can show demand but are not permission to clone. Apply originality/inauthentic/reused-content monetization gate.
-
-### VP-003 — packaging patterns worth testing, not copying
-Test one clear curiosity contrast + concrete visual object + payoff; validate against our channel rather than treating external virality as causal proof.
-
-### VP-004 — separate exposure views from engaged/qualified performance
-Do not optimize from raw public views alone. Prefer engaged/qualified views, stayed-to-watch/chose-to-view, retention/AVD, subscribers and monetization metrics when available.
-
-### VP-005 — hook and packaging are promises
-Initial seconds should deliver on the title/visual promise. Use retention to evaluate structure; tags are secondary to actual packaging/content.
-
-### VP-006 — no universal favored Shorts format
-Treat creator advice, TikTok/Reels patterns, vidIQ findings and viral examples as hypotheses, never as proof of a universal YouTube algorithm rule.
-
-### VP-007 — Metricool publish state is fail-closed
-A draft/pending/scheduled record is not proof of publication. Require remote publication evidence after due time.
-
-### VP-008 — scheduling time guard and duplicate protection
-Require a future timestamp and avoid duplicate upload paths. On schema/time errors fix the input rather than blind retry.
-
-### VP-009 — publication success is end-to-end
-States: MP4_EXISTS -> QA_PASS -> REMOTE_SCHEDULED -> REMOTE_PUBLISHED -> ANALYTICS_READY. QA requires playable 9:16 MP4, real audible audio, captions, A/V sync, decode, factual/originality/rights checks.
+### Mandatory audio production gate
+A Short must not reach upload/publish unless all applicable checks pass for the exact MP4 bytes:
+1. Audio stream exists and is AAC in final MP4.
+2. Full file decodes without media errors.
+3. Real audio signal exists; a silent track is a failure.
+4. Speech, when used, is intelligible by independent review; future automated transcription/VAD can supplement but not fabricate this evidence.
+5. A/V sync passes independent review.
+6. Music does not overpower narration or key ASMR/Foley.
+7. External audio provenance/license is recorded and monetized use is allowed.
+8. Preflight `ready=true` and SHA-256 matches the exact file sent to upload.
+9. Upload path must fail closed if preflight evidence is missing/mismatched.
+10. After publication, remote playback/audio should be checked when a supported authorized path exists; scheduling/HTTP success alone is not proof that viewers hear audio.
 
 ## Shorts production framework
-### VP-010 — 30-second standard
-Default planned Short is exactly 30 seconds and 9:16.
-
-### VP-011 — 200-idea pool is a production source
-Evaluate the researched 200-format pool before choosing a topic. Re-check current evidence and do not force a category just because it is listed.
-
-### VP-012 — 40 retention/engagement mechanisms are production rules
-Evaluate all 40 and deliberately combine the most relevant 3–5 for the chosen concept.
-
-### VP-013 — candidate selection order
-Current demand/performance evidence -> 30-second fit -> hook strength -> 3–5 mechanisms -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics learning.
-
-### VP-014 — satisfying food and transformation are priority lanes, not mandatory
-Satisfying food/bento/meal-prep and cleaning/detailing/transformation are strong lanes; choose another lane when evidence is stronger.
-
-### VP-015 — viral examples are benchmarks, not copy masters
-Analyze hook, pacing, scene order, curiosity, audio, captions, payoff, loop and reaction. Reuse media only within verified rights.
-
-### VP-016 — money + engagement constrained by rights
-Optimize engaged performance, retention, rewatch, engagement, subscriber impact and monetization eligibility. Rights/originality gate overrides high predicted views.
-
-### VP-017 — 30-second structural baseline
-0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s main payoff; 27–30 s loop or useful CTA/comment choice. Supersede when owned analytics proves a better structure.
-
-### VP-018 — learning loop
-After publication record content-idea ID/family, selected retention mechanisms, engaged views, stayed-to-watch/chose-to-view, retention/AVD/APV, rewatch, likes/comments/shares, subscribers and monetization signals. Promote only repeated owned-channel patterns.
-
-### VP-019 — expanded source stack is mandatory during discovery, selective during execution
-Before producing a Short, check whether the expanded source stack can materially improve topic discovery, demand validation, factual verification, rights-safe assets, audio or production. Use only the sources relevant to the current candidate; do not query every source mechanically. Record useful new sources/lessons in the shared catalog/ledger with canonical dedup.
-
-## Production gate
-1. Candidate evaluated against current evidence + 200-idea pool.
-2. Relevant 3–5 of the 40 mechanisms selected and recorded.
-3. 30 s / 9:16 plan.
-4. Rights/provenance and monetization gate passed.
-5. Playable MP4, real intelligible audio, captions and A/V sync.
-6. Claims fact-checked from appropriate evidence.
-7. External assets have verified item-level license/provenance or are original.
-8. One explicit learning hypothesis attached.
-9. Publish state verified remotely.
-10. Analytics fed back into the learning pool.
+- Default planned Short: exactly 30 seconds, 9:16.
+- Evaluate the researched 200-format idea pool before choosing a topic.
+- Evaluate all 40 retention/engagement mechanisms and combine the most relevant 3–5.
+- Candidate order: current demand/performance -> 30-second fit -> hook -> mechanisms -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics.
+- Satisfying food/bento/meal-prep and cleaning/detailing/transformation are priority lanes, not mandatory topics.
+- Viral examples are benchmarks, not copy masters.
+- Default structure hypothesis: 0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s payoff; 27–30 s loop or useful CTA/comment choice.
 
 ## Shared automation usage
-- Video/Shopify: primary consumer/producer of these lessons and sources.
-- Bilgi Kütüphanesi: canonical dedup/index owner; record stable source/provenance/access information.
-- Sistem Geliştirmeleri: improve tooling/QC/analytics routing and free-first source use.
-- Finans: only use production lessons for finance media; video popularity is never financial evidence.
+Video/Shopify must consult this pool before production. Bilgi Kütüphanesi owns canonical dedup/index. Sistem Geliştirmeleri improves tooling/QC. Finans may consume production lessons only for finance media; popularity is never financial evidence.
 
 ## Evidence discipline
-Public view counts change; one viral video does not prove causality; trend/search/community sources are discovery signals; copyrighted source material is analysis-only unless reuse rights are verified; strongest learning combines external patterns with owned analytics.
+Public virality does not prove causality. Trend/community sources are discovery signals. Rights must be verified per asset. Strongest learning combines external patterns with owned-channel analytics.
