@@ -72,3 +72,12 @@ Provider availability and credentials must be checked at execution time; this do
 - Video/Shopify is the primary producer/consumer; Bilgi Kütüphanesi deduplicates/promotes durable entries; Sistem Geliştirmeleri uses it for production tooling/QC; Finans may consume it only when creating finance media and must never treat popularity as market evidence.
 - Public video patterns are observations/hypotheses, not causal rules. Validate them against owned-channel analytics before promoting them to stable strategy.
 - Do not copy scripts, footage or distinctive creative expression from analyzed public videos.
+
+## Cross-chat synchronization
+
+- Before meaningful work, read both `state/now.json` and `state/cross_chat_sync.json`. Treat them as the shared coordination entrypoint, not the current chat transcript alone.
+- When recent user context from another conversation is available, reconcile it against live repository/service state before acting. Persist only new deltas; never duplicate unchanged tasks or stale failures.
+- A user-reported connection, API key creation, login, setting change or completed manual step remains `user_reported` until the target system is independently verified. Never store the secret/token/password/API-key value.
+- Live GitHub/CI/service status overrides stale email notifications and old chat reports. If an earlier failure has a later verified success, do not keep it as an open blocker.
+- If another conversation introduces a new task, decision, integration or manual completion that materially changes an active plan, update `state/cross_chat_sync.json` and the relevant task/state record before continuing dependent work.
+- There is no guaranteed instant push from every separate chat into the repository. Do not claim real-time synchronization. The coordinator must perform reconciliation passes; hourly plans provide eventual synchronization when they can access recent user context.
