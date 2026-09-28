@@ -23,6 +23,8 @@ on:
       - 'research_worker/**'
       - 'shorts_worker/**'
       - 'shopify_worker/**'
+      - 'hercules_sentinel/**'
+      - 'config/hercules_sentinel.json'
       - '.github/workflows/**'
       - 'tests/**'
       - '.github/workflows/worker-orchestration-tests.yml'
@@ -47,6 +49,8 @@ on:
       - 'research_worker/**'
       - 'shorts_worker/**'
       - 'shopify_worker/**'
+      - 'hercules_sentinel/**'
+      - 'config/hercules_sentinel.json'
       - '.github/workflows/**'
       - 'tests/**'
       - '.github/workflows/worker-orchestration-tests.yml'
@@ -66,11 +70,11 @@ jobs:
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Compile check
-        run: find scripts tests browser_worker orchestrator research_worker shorts_worker shopify_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
+        run: find scripts tests browser_worker orchestrator research_worker shorts_worker shopify_worker hercules_sentinel -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
       - name: Secret-pattern guard
         shell: bash
         run: |
-          if grep -RInE '(xai-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|sk-[A-Za-z0-9_-]{20,})' scripts tests state browser_worker orchestrator research_worker shorts_worker shopify_worker; then
+          if grep -RInE '(xai-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|sk-[A-Za-z0-9_-]{20,})' scripts tests state browser_worker orchestrator research_worker shorts_worker shopify_worker hercules_sentinel config/hercules_sentinel.json; then
             echo 'Potential committed secret pattern detected'
             exit 1
           fi
