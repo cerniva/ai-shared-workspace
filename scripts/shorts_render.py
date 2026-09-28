@@ -52,6 +52,7 @@ VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
 
 
 def _resolve(base: Path, value: str, field: str) -> Path:
+    """Resolve a required manifest path relative to the manifest directory."""
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field} must be a non-empty path")
     path = Path(value)
@@ -154,6 +155,7 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
 
 
 def _run(args: list[str], *, cwd: Path | None = None) -> None:
+    """Run a media command with bounded execution time and readable failures."""
     try:
         subprocess.run(
             args,
@@ -171,6 +173,7 @@ def _run(args: list[str], *, cwd: Path | None = None) -> None:
 
 
 def _require_tools(*, require_tts: bool = False) -> None:
+    """Fail before rendering when required local binaries are unavailable."""
     names = ["ffmpeg", "ffprobe"]
     if require_tts:
         names.append("espeak-ng")
@@ -180,6 +183,7 @@ def _require_tools(*, require_tts: bool = False) -> None:
 
 
 def _render_segment(item: dict, output: Path) -> None:
+    """Normalize one image or video visual into a portrait H.264 segment."""
     path = item["path"]
     duration = item["duration"]
     if item["kind"] == "image":
@@ -200,6 +204,7 @@ def _render_segment(item: dict, output: Path) -> None:
 
 
 def _synthesize_narration(text: str, voice: str, speed: int, output: Path) -> None:
+    """Synthesize narration locally with eSpeak NG and verify audio was created."""
     _run([
         "espeak-ng",
         "-v", voice,
@@ -306,6 +311,7 @@ def render(manifest_path: Path, output_path: Path) -> dict:
 
 
 def main() -> int:
+    """Parse CLI arguments, render one manifest, and return a shell exit code."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
     parser.add_argument("output", type=Path)
