@@ -10,8 +10,8 @@ on:
     - cron: '*/15 * * * *'
 
 concurrency:
-  group: ai-worker-gpt56
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 permissions:
   contents: write
