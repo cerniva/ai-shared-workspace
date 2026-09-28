@@ -14,6 +14,7 @@ class ShortsFreeRenderWorkflowTests(unittest.TestCase):
         self.assertIn("scripts/shorts_preflight.py", text)
         self.assertIn("espeak-ng", text)
         self.assertIn("actions/upload-artifact", text)
+        self.assertIn('output_name.startswith(".")', text)
         self.assertNotIn("youtube_upload.py", text)
         self.assertNotIn("secrets.", text)
         self.assertNotIn("OPENART", text.upper())
