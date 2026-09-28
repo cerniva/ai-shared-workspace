@@ -2,12 +2,15 @@
 """Upload a prepared Shorts MP4 to the configured YouTube channel.
 
 Requires YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, and YOUTUBE_REFRESH_TOKEN.
-The script never writes credentials to disk or prints token values.
+A matching ready=true preflight JSON is mandatory so silent/broken media cannot
+bypass the render QA gate. The script never writes credentials to disk or prints
+token values.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -23,30 +26,47 @@ def credentials_from_env():
     missing = [name for name in required if not os.environ.get(name)]
     if missing:
         raise RuntimeError("Missing required environment variables: " + ", ".join(missing))
-
     from google.auth.transport.requests import Request
     from google.oauth2.credentials import Credentials
-
-    creds = Credentials(
-        token=None,
-        refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
-        token_uri=TOKEN_URI,
-        client_id=os.environ["YOUTUBE_CLIENT_ID"],
-        client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
-        scopes=[UPLOAD_SCOPE],
-    )
+    creds = Credentials(token=None, refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"], token_uri=TOKEN_URI,
+                        client_id=os.environ["YOUTUBE_CLIENT_ID"], client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
+                        scopes=[UPLOAD_SCOPE])
     try:
         creds.refresh(Request())
     except Exception as exc:
         if "invalid_grant" in str(exc).lower():
-            raise RuntimeError(
-                "YOUTUBE_REFRESH_TOKEN was rejected (invalid_grant). Create a new refresh token "
-                "with the same OAuth Client ID and Client Secret stored in GitHub Actions, "
-                "authorize the correct YouTube channel with the youtube.upload scope, then "
-                "replace the YOUTUBE_REFRESH_TOKEN repository secret."
-            ) from exc
+            raise RuntimeError("YOUTUBE_REFRESH_TOKEN was rejected (invalid_grant). Create a new refresh token with the same OAuth Client ID and Client Secret stored in GitHub Actions, authorize the correct YouTube channel with the youtube.upload scope, then replace the YOUTUBE_REFRESH_TOKEN repository secret.") from exc
         raise
     return creds
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as src:
+        for chunk in iter(lambda: src.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def require_ready_preflight(video: Path, path: Path) -> dict:
+    """Require fail-closed QA evidence for the exact bytes being uploaded."""
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("preflight JSON is missing or invalid") from exc
+    if not isinstance(data, dict):
+        raise ValueError("preflight JSON must be an object")
+    if data.get("ready") is not True:
+        blockers = data.get("blockers") or []
+        raise ValueError("preflight is not ready; blockers: " + ", ".join(map(str, blockers)))
+    actual_sha = sha256_file(video)
+    if data.get("sha256") != actual_sha:
+        raise ValueError("preflight sha256 does not match the video being uploaded")
+    checks = data.get("checks") or {}
+    for key in ("video_h264", "portrait_9_16", "audio_aac", "full_decode", "audio_signal"):
+        if checks.get(key) is not True:
+            raise ValueError(f"preflight required check failed or missing: {key}")
+    return data
 
 
 def load_metadata(path: Path) -> dict:
@@ -64,21 +84,15 @@ def upload(video: Path, metadata: dict, publish: bool) -> dict:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
-
     creds = credentials_from_env()
     youtube = build("youtube", "v3", credentials=creds, cache_discovery=False)
-
     channel_response = youtube.channels().list(part="id", mine=True).execute()
     channels = channel_response.get("items", [])
     if not any(item.get("id") == CHANNEL_ID for item in channels):
         ids = ", ".join(item.get("id", "<missing>") for item in channels) or "none"
         raise RuntimeError(f"Authorized account does not own target channel {CHANNEL_ID}; found: {ids}")
-
     status = {"privacyStatus": "public" if publish else "private"}
-    body = {
-        "snippet": {"title": metadata["title"], "description": metadata["description"]},
-        "status": status,
-    }
+    body = {"snippet": {"title": metadata["title"], "description": metadata["description"]}, "status": status}
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
     request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
     response = None
@@ -89,11 +103,9 @@ def upload(video: Path, metadata: dict, publish: bool) -> dict:
                 print(f"Upload progress: {progress.progress() * 100:.0f}%", file=sys.stderr)
     except HttpError as exc:
         raise RuntimeError(f"YouTube upload failed (HTTP {exc.resp.status}). Check OAuth scope and API project status.") from exc
-
     video_id = response.get("id")
     if not video_id:
         raise RuntimeError("YouTube returned no video ID; upload cannot be verified.")
-
     verified = youtube.videos().list(part="snippet,status", id=video_id).execute().get("items", [])
     if not verified:
         raise RuntimeError(f"Upload {video_id} completed but could not be verified.")
@@ -111,15 +123,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=Path, help="Path to a finished MP4")
     parser.add_argument("metadata", type=Path, help="JSON file containing title and description")
+    parser.add_argument("--preflight", type=Path, required=True, help="Ready preflight JSON for this exact MP4")
     parser.add_argument("--publish", action="store_true", help="Publish publicly; default uploads privately")
     args = parser.parse_args()
-
     if not args.video.is_file() or args.video.suffix.lower() != ".mp4":
         parser.error("video must be an existing .mp4 file")
     if not args.metadata.is_file():
         parser.error("metadata JSON file does not exist")
-
+    if not args.preflight.is_file():
+        parser.error("preflight JSON file does not exist")
     try:
+        require_ready_preflight(args.video, args.preflight)
         result = upload(args.video, load_metadata(args.metadata), args.publish)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
