@@ -84,6 +84,16 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
         self.assertEqual(ranked[0]["title"], "strong optional")
         self.assertGreater(ranked[0]["total"], ranked[1]["total"])
 
+    def test_nan_reliability_uses_default_and_cannot_bypass_veto(self) -> None:
+        """NaN is invalid input and must not turn into a passing reliability score."""
+        item = {
+            "title": "invalid reliability",
+            "unique_angle": "still unique",
+            "scores": {**BASE_SCORES, "reliability": float("nan")},
+        }
+        scored = shorts_research.score_item(item)
+        self.assertTrue(scored["veto"])
+
     @patch("scripts.shorts_research.is_duplicate", return_value=False)
     def test_legacy_packet_does_not_require_free_render_fields(self, _duplicate) -> None:
         """Legacy packets must keep their existing gate contract."""
