@@ -282,3 +282,11 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 | src_a2ab2e6f41d05d70 | Choosing permissions for a GitHub App | Kimlik ve entegrasyon güvenliği | https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app | GitHub Docs; Exa Search + Fetch | GitHub App izinlerini en az ayrıcalıkla seçmek; Sistem ve Araçlar / Bilgi Kütüphanesi | official | web_only | Ücretsiz herkese açık belge; hesap/API kotası kullanılmadı | Doküman için gerekmez; kurulu uygulamaların gerçek izinleri için hesap görünürlüğü gerekir | İzin sınıflarını ve gerekli kabiliyetleri açıklar, bu hesaptaki uygulamalara verilmiş izinleri göstermez | Contents ile Workflows izinlerini ayırarak gereksiz geniş yetki vermeyi önler | keşif/doğrulama/başarılı kullanım 2026-09-28 05:58 TRT | Yok |
 
 **Dedup:** Canonical URL ve `src_a2ab2e6f41d05d70` merkezi katalogda aranarak tek kopya eklendi; yazma sonrası geri okuma geçti.
+
+
+### Ortak kaynak referansı — YouTube MP4 ses/codec kalite kapısı — 2026-09-28
+
+- Ortak kaynak: `src_527e9618377fed71` — [YouTube recommended upload encoding settings](https://support.google.com/youtube/answer/1722171?hl=en).
+- Kullanım: günlük Short MP4'ünde MP4/H.264 ile AAC-LC veya Opus, stereo kanal ve 48 kHz gibi teknik yükleme ayarlarını doğrulamak.
+- Kritik sınır: uygun codec ve ses akışının bulunması seslendirme bulunduğunu, anlaşılır olduğunu veya metinle eşleştiğini kanıtlamaz. Teknik probe'a ek olarak konuşma/transkript ve normal dinleme seviyesi kontrolü zorunludur.
+- Dedup: canonical URL ortak `knowledge/source_catalog.json` kataloğunda tek kayıt olarak tutulur; bu bölüm yalnız plana yapılan referanstır.
