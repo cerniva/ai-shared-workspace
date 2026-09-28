@@ -5,128 +5,143 @@ Updated: 2026-09-29
 Scope: YouTube Shorts and reusable production lessons for scripting, editing, visuals, audio, packaging, publishing and analytics.
 
 ## Purpose
-This is the shared human-readable production knowledge pool. Video/Shopify, Bilgi Kütüphanesi, Sistem Geliştirmeleri and any future production automation should read this file before repeating research or making a production decision. Use only relevant lessons; do not force video lessons into unrelated finance decisions.
-
-Machine-readable canonical sources and durable learnings remain in `knowledge/source_catalog.json` and `knowledge/learning_ledger.json`. When execution access is available, new reusable lessons should also be written through `scripts/knowledge_bridge.py` and `scripts/learning_bridge.py` and read back/validated before claiming that machine sync is complete.
+This is the shared human-readable production knowledge pool. Video/Shopify, Bilgi Kütüphanesi, Sistem Geliştirmeleri and any future production automation should read this file before repeating research or making a production decision. Machine-readable canonical sources and durable learnings remain in `knowledge/source_catalog.json` and `knowledge/learning_ledger.json`.
 
 ## Research order — cost first
-1. Public YouTube metadata/search results.
-2. Transcript/captions.
-3. Comments and related-video patterns when useful.
-4. Channel/video analytics for owned content.
-5. Expensive scene-by-scene visual analysis only for a small number of unusually strong/weak examples or when transcript/metadata cannot answer the production question.
+1. Existing shared state/catalog and this learning pool; dedup first.
+2. Public discovery/trend sources and cheap metadata.
+3. Transcript/captions, comments, related-video and community patterns.
+4. Owned-channel analytics.
+5. Expensive scene-by-scene or generative work only for finalists.
+Do not spend credits watching/generating every candidate. Filter cheaply, deepen only high-value examples.
 
-Do not spend credits watching every candidate. First filter cheaply, then deepen only on the highest-value examples.
+## Expanded discovery + production source stack — 2026-09-29
+These sources are reusable inputs, not automatic proof. Respect each source's access, license, quota and terms; verify asset-level rights before reuse.
 
-## External YouTube observations — 2026-09-28
+### Trend and idea discovery
+- Google/TinyFish: discover new sources, official pages, trends, competitors and product/topic candidates; snippets are discovery only.
+- YouTube: public video/channel/format/hook/theme observation plus official platform guidance.
+- vidIQ: YouTube keyword/trend/outlier/competitor research and owned analytics when connected.
+- Metricool: owned-channel scheduling/publishing and supported analytics when connected.
+- TikTok Creative Center: early short-form trend, hashtag, creative and ad-pattern discovery; treat as cross-platform hypothesis, not YouTube algorithm proof.
+- Instagram Reels: cross-platform visual format, hook, edit and audio-pattern discovery where publicly/legitimately accessible.
+- Google Trends: validate whether topic/search interest is rising, seasonal or regional.
+- Reddit: niche-community questions, pain points, reactions, language and emerging themes; community evidence is directional and must be verified for factual claims.
+- Pinterest Trends: visual trend discovery for food, satisfying, decor, DIY, fashion and aesthetics.
+- Exploding Topics: early-growing topic discovery; validate elsewhere before production.
+- AnswerThePublic / keyword-question tools: discover question-shaped hooks and audience queries; validate demand independently.
+- Google Keyword Planner: search-demand/topic comparison where accessible.
+- Wikipedia Pageviews: attention-spike signal for public topics; not factual proof by itself.
+- GDELT: global event/topic discovery; verify claims with primary/reputable sources.
+- Product Hunt: emerging tech/AI product ideas.
+- GitHub Trending/public GitHub signals: emerging developer/technology topics; use repository evidence for technical claims.
+- SteamDB/public game trend data: gaming-interest discovery; respect data/source limitations.
+- YouTube comments: learn audience reactions, unanswered questions and sequel opportunities; never treat comments alone as fact.
 
-### Observation VP-001 — fast question → answer → conflict → resolution
-Source: https://www.youtube.com/watch?v=I_DaRXgttkc
-Observed public metadata at research time: 35 s; about 170M views.
-Transcript structure:
-- 0:00 direct curiosity question: why ants walk in a line.
-- ~0:03–0:13 core explanation arrives quickly.
-- ~0:18 a simple conflict/choice is introduced.
-- ~0:20–0:30 correction + value/payoff.
-- ~0:30–0:33 clean resolution.
+### Primary factual/media sources for original concepts
+- Google Arts & Culture: art/history/culture research and visual inspiration subject to item rights.
+- NASA: primary space/science facts and media; check asset-specific usage restrictions/credits.
+- NOAA: primary weather/ocean/nature data and media; check asset-specific terms.
+- Other official scientific/government/first-party sources: preferred for critical factual claims.
 
-Reusable hypothesis, not a causal claim: for factual/educational Shorts, test a concrete question in the first second, deliver the promised answer early, then add a small conflict/surprise/choice before a clear resolution. Measure chose-to-view, first-seconds retention, average view duration and rewatch behavior before keeping the pattern.
+### Rights-aware raw asset discovery
+- Wikimedia Commons: media with explicit file-level license metadata; verify each file's license/attribution requirements.
+- Internet Archive: historical/public-domain-or-licensed media discovery; verify item-level rights, never assume the whole archive is public domain.
+- Pexels: stock photo/video discovery; verify current license and restrictions for the selected asset.
+- Pixabay: stock image/video/audio discovery; verify current asset/license restrictions.
+- Mixkit: stock video/music/SFX discovery; verify current item/license restrictions.
+- Freesound: SFX/ambience discovery; verify the individual Creative Commons/license and attribution requirements.
+- YouTube Audio Library / supported Shorts audio: preferred YouTube-native music/SFX route where the intended use is covered; verify track/use conditions.
 
-### Observation VP-002 — huge views can coexist with monetization/originality risk
-Discovery sample: https://www.youtube.com/watch?v=PBhWlr3nMBY
-Observed public metadata at research time: AI fruit/ASMR packaging, about 96M views, 2:16 duration. The same search surface showed several closely similar AI fruit-baby/satisfying concepts across different channels.
+### Original production tools / methods
+- Runway, Higgsfield, OpenArt or other connected generation tools: generate original visual/video assets when permitted and cost-effective; do not imitate copyrighted source footage frame-for-frame.
+- Canva: 9:16 layouts, typography, simple motion, captions and branding when connected/available.
+- Remotion/programmatic video: deterministic 30-second compositions, timing, captions, reusable motion templates and QC-friendly renders when execution environment supports it.
+- Blender: original 3D scenes/animation where useful and feasible.
+- TTS/voice tools such as ElevenLabs-class services: original narration only when legitimately available; respect voice rights and cost. Do not clone a real person's voice without appropriate authorization.
 
-Reusable decision: treat repeated AI-satisfying concepts as demand/packaging evidence only. Do not clone or mass-produce near-duplicate concepts merely because the view counts are high. Before production, apply the YouTube originality/inauthentic/reused-content monetization gate and require meaningful original scripting, structure, visual treatment or commentary.
+### Source routing rule
+Use cross-platform sources to DISCOVER a pattern; Google Trends/keyword/community signals to VALIDATE interest; YouTube + vidIQ to test YouTube relevance; official/primary sources to verify factual claims; rights-aware libraries or original generation for assets; YouTube/Metricool/vidIQ owned analytics to learn what actually works on our channel. Do not ask three tools the same question without a distinct role.
 
-### Observation VP-003 — packaging patterns worth testing, not copying
-High-view public examples repeatedly use:
-- binary curiosity framing such as “Cute or Creepy?”;
-- an immediately understandable visual noun in the title;
-- a strong sensory promise such as satisfying/ASMR;
-- short, concrete wording rather than abstract topic labels.
+### Rights-first production rule
+A viral source is a benchmark, not a copy master. If direct reuse rights are not explicitly verified, extract only abstract lessons such as hook type, pacing, topic, shot function, payoff and audience question; create new script, visuals, narration/audio and edit. Asset source must be recorded with license/provenance when external media is used. Rights/originality/monetization gate overrides predicted views.
 
-Reusable hypothesis: test titles/hooks with one clear curiosity contrast + one concrete visual object + one payoff. Do not assume this is universally causal; validate against our own channel data.
+## External YouTube observations
+### VP-001 — fast question → answer → conflict → resolution
+A high-view educational example showed a direct curiosity question, early answer, small conflict/choice and clean resolution. Reusable hypothesis: factual Shorts can test a concrete first-second question, early answer and later surprise/choice. Validate with owned retention.
 
-### Official rule VP-004 — separate exposure views from engaged/qualified performance
-Official YouTube guidance checked 2026-09-28: since 2026-08-24, a public view is counted when playback begins across formats. YPP earnings continue to use engaged Shorts views and YPP eligibility uses qualified Shorts views. Therefore do not optimize or report Shorts success from raw public views alone. Primary learning set: engaged views, stayed-to-watch/chose-to-view behavior, average view duration/retention, subscribers and monetization metrics when available.
-Sources:
-- https://support.google.com/youtubecreatorstudio/answer/2991785
-- https://support.google.com/youtubecreatorstudio/answer/12220281
+### VP-002 — huge views can coexist with monetization/originality risk
+Repeated AI-satisfying concepts can show demand but are not permission to clone. Apply originality/inauthentic/reused-content monetization gate.
 
-### Official rule VP-005 — hook and packaging are promises; tags are secondary
-Official YouTube recommendation guidance says initial seconds are a key stay/leave decision point, the intro should immediately deliver on the title/thumbnail promise, and retention should be used to evaluate structure. Titles/thumbnails/description matter for packaging; tags are mainly useful for spelling variants rather than being an essential discovery lever.
-Source: https://support.google.com/youtube/answer/16559650
+### VP-003 — packaging patterns worth testing, not copying
+Test one clear curiosity contrast + concrete visual object + payoff; validate against our channel rather than treating external virality as causal proof.
 
-### Official rule VP-006 — no universal favored Shorts format
-Official Shorts search/discovery guidance says YouTube does not inherently favor a particular Shorts format; ranking depends on performance and viewer personalization. Treat third-party creator advice, books, TikTok/Reels patterns, vidIQ findings and viral examples as discovery inputs/hypotheses, never as proof of a YouTube algorithm rule.
-Source: https://support.google.com/youtube/answer/11914225
+### VP-004 — separate exposure views from engaged/qualified performance
+Do not optimize from raw public views alone. Prefer engaged/qualified views, stayed-to-watch/chose-to-view, retention/AVD, subscribers and monetization metrics when available.
 
-### Operational rule VP-007 — Metricool publish state is fail-closed
-For the verified Metricool YouTube fallback, a production-ready scheduled Short must have `providers=[youtube]`, `youtubeData.type=short`, a real video media object/URL, required title and audience declaration, `draft=false`, and `autoPublish=true`. A record with `draft=true` or `autoPublish=false` is not an automated YouTube publication and must never be reported as published. Metricool `Pending` means scheduled/waiting, not published. After the due time, require remote planner/network evidence before reporting success.
-Source: https://help.metricool.com/wli-scheduler-endpoint-example-on-a-custom-backend-proxy-frko7
+### VP-005 — hook and packaging are promises
+Initial seconds should deliver on the title/visual promise. Use retention to evaluate structure; tags are secondary to actual packaging/content.
 
-### Operational rule VP-008 — scheduling time guard and duplicate protection
-Before creating/updating a scheduled publication, compare the requested Europe/Istanbul time with current time and require a future timestamp plus a small safety margin. A past timestamp can return HTTP 400. On 400, fix schema/input/time rather than retrying unchanged. On timeout/uncertain response, query Metricool/YouTube for the same UUID/media/title before creating another upload. Never use two upload paths for the same daily Short.
-Source: https://help.metricool.com/wli-scheduler-endpoint-example-on-a-custom-backend-proxy-frko7
+### VP-006 — no universal favored Shorts format
+Treat creator advice, TikTok/Reels patterns, vidIQ findings and viral examples as hypotheses, never as proof of a universal YouTube algorithm rule.
 
-### Operational rule VP-009 — publication success is an end-to-end state machine
-Do not collapse render, scheduling and publication into one success flag. Required states are: `MP4_EXISTS -> QA_PASS -> REMOTE_SCHEDULED -> REMOTE_PUBLISHED -> ANALYTICS_READY`. QA_PASS requires playable 9:16 MP4, H.264 video, AAC audio with a real non-silent signal, captions, A/V sync, complete decode, factual/originality/rights checks. A Metricool-accepted media URL does not prove audio or decode quality. Direct YouTube OAuth `invalid_grant` is not retried blindly; use the already-authorized Metricool fallback until OAuth is interactively repaired. Any failure remains explicit and cannot be promoted to DONE by a later unrelated step.
+### VP-007 — Metricool publish state is fail-closed
+A draft/pending/scheduled record is not proof of publication. Require remote publication evidence after due time.
 
-## Shorts production framework — 2026-09-29
+### VP-008 — scheduling time guard and duplicate protection
+Require a future timestamp and avoid duplicate upload paths. On schema/time errors fix the input rather than blind retry.
 
-### Rule VP-010 — 30-second standard
-Default production duration for every planned Short is exactly 30 seconds. Design hook, development, payoff and loop/CTA for this duration rather than stretching a weak idea. A platform capability to host longer Shorts is not a reason to lengthen production.
+### VP-009 — publication success is end-to-end
+States: MP4_EXISTS -> QA_PASS -> REMOTE_SCHEDULED -> REMOTE_PUBLISHED -> ANALYTICS_READY. QA requires playable 9:16 MP4, real audible audio, captions, A/V sync, decode, factual/originality/rights checks.
 
-### Rule VP-011 — 200-idea research pool is a production source
-Before choosing a topic, use the researched 200-format idea pool as a discovery/benchmark source. It spans satisfying food/bento, cleaning/detailing, transformations/restoration, crafts, experiments, quizzes/games, comparison/ranking, sports, gaming, travel, science/nature, collectibles, music/audio, storytelling, animation/AI and other tested demand families. Do not force a category merely because it is in the pool: re-check current public evidence and choose the strongest viable candidate.
+## Shorts production framework
+### VP-010 — 30-second standard
+Default planned Short is exactly 30 seconds and 9:16.
 
-### Rule VP-012 — 40 retention/engagement mechanisms are production rules
-Score candidate Shorts against the researched retention mechanisms and deliberately combine the most relevant 3–5 rather than inserting all of them. Mechanism set includes: transformation; satisfying/ASMR; curiosity gap; payoff/reveal; prediction/game; comparison; surprise/novelty; skill admiration; story/tension; community/debate; open loop; pattern interrupt; progress indicator; escalating difficulty; risk/failure possibility; twist; hidden detail; withheld information; micro-payoffs; countdown; forced choice; self-test; myth correction; expectation reversal; scale surprise; rarity; inaccessible-world access; visible craft skill; error-to-fix; problem-to-solution; before/after; anticipated impact moment; seamless loop; comment disagreement; identity/community signal; nostalgia; relatability; series/progression; viewer-directed next choice; sensory sound reward.
+### VP-011 — 200-idea pool is a production source
+Evaluate the researched 200-format pool before choosing a topic. Re-check current evidence and do not force a category just because it is listed.
 
-### Rule VP-013 — candidate selection order
-For each production cycle: current demand/performance evidence -> fit to 30 seconds -> hook strength -> choose 3–5 retention mechanisms -> production feasibility/cost -> rights/originality/monetization gate -> script/visual/audio plan -> QA -> publish -> analytics learning. Public search snippets are discovery only; critical claims should be checked against primary/official sources when possible.
+### VP-012 — 40 retention/engagement mechanisms are production rules
+Evaluate all 40 and deliberately combine the most relevant 3–5 for the chosen concept.
 
-### Rule VP-014 — satisfying food and transformation are priority lanes, not mandatory topics
-Satisfying food/bento/meal-prep and satisfying cleaning/detailing/transformation are validated priority lanes. Favor immediate visual payoff, fast 1–2 second process shots when appropriate, strong before/after contrast, natural sensory sound/ASMR when useful, curiosity, reveal and loop-friendly endings. Do not lock the channel to food or cleaning when another researched format has stronger current evidence.
+### VP-013 — candidate selection order
+Current demand/performance evidence -> 30-second fit -> hook strength -> 3–5 mechanisms -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics learning.
 
-### Rule VP-015 — viral examples are benchmarks, not copy masters
-Prioritize unusually successful/high-view examples for analysis of hook, pacing, scene order, curiosity, audio, captions, payoff, loop and audience reaction. If direct reuse rights are explicitly verified, material may be used only within those license/permission terms. Otherwise copyrighted footage/audio/scripts/distinctive expression are analysis-only: create original visuals, audio, narration and script. Never treat “many people repost it”, absence of a visible claim, or changing a few seconds as copyright or monetization clearance.
+### VP-014 — satisfying food and transformation are priority lanes, not mandatory
+Satisfying food/bento/meal-prep and cleaning/detailing/transformation are strong lanes; choose another lane when evidence is stronger.
 
-### Rule VP-016 — money + engagement optimization is constrained by rights
-Optimization objective is not raw views alone. Optimize for engaged/qualified performance, retention, rewatch, likes/comments/shares, subscriber impact and monetization eligibility while keeping copyright, reused-content and inauthentic/mass-produced-content risk acceptable. Rights/originality gate overrides a high predicted view count.
+### VP-015 — viral examples are benchmarks, not copy masters
+Analyze hook, pacing, scene order, curiosity, audio, captions, payoff, loop and reaction. Reuse media only within verified rights.
 
-### Rule VP-017 — 30-second structural baseline
-Default test structure: 0–2 s scroll-stopper/hook; 2–6 s curiosity/problem/prediction; 6–20 s rapid progress with useful micro-payoffs; 20–27 s main payoff/reveal; 27–30 s natural loop, concise CTA or comment choice only when it improves the concept. This is a hypothesis/template, not an algorithm law; supersede it when owned-channel retention data supports a better structure.
+### VP-016 — money + engagement constrained by rights
+Optimize engaged performance, retention, rewatch, engagement, subscriber impact and monetization eligibility. Rights/originality gate overrides high predicted views.
 
-### Rule VP-018 — learning loop
-After publication, prefer engaged views, stayed-to-watch/chose-to-view, first-seconds retention when available, average view duration, average percentage viewed, rewatch/loop evidence, likes, comments, shares, subscribers and monetization metrics. Record which topic family and retention mechanisms were used. Promote patterns only after repeated owned-channel evidence; do not infer causality from one viral external example.
+### VP-017 — 30-second structural baseline
+0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s main payoff; 27–30 s loop or useful CTA/comment choice. Supersede when owned analytics proves a better structure.
 
-## Existing official production guardrails
-- Technical upload encoding/QC source already cataloged: `src_527e9618377fed71`.
-- YouTube automatic-caption/intelligibility source already cataloged: `src_dba1a72aa5f4fc73`.
-- YouTube monetization/originality source already cataloged: `src_d9ad3569da502ff8`.
+### VP-018 — learning loop
+After publication record content-idea ID/family, selected retention mechanisms, engaged views, stayed-to-watch/chose-to-view, retention/AVD/APV, rewatch, likes/comments/shares, subscribers and monetization signals. Promote only repeated owned-channel patterns.
 
-Production gate:
-1. 9:16 playable MP4 exists.
-2. Duration is 30 seconds under the current production standard.
-3. Narration/audio is actually present and intelligible.
-4. Captions match speech closely enough for review.
-5. Visual/audio timing is synchronized.
-6. Claims are fact-checked.
-7. Originality/rights/monetization risk is acceptable.
-8. Candidate was evaluated against the 200-idea pool and relevant retention mechanisms.
-9. One explicit learning hypothesis is attached to the upload.
-10. After enough data, feed measured results back into this pool and supersede weak hypotheses rather than repeating them.
+### VP-019 — expanded source stack is mandatory during discovery, selective during execution
+Before producing a Short, check whether the expanded source stack can materially improve topic discovery, demand validation, factual verification, rights-safe assets, audio or production. Use only the sources relevant to the current candidate; do not query every source mechanically. Record useful new sources/lessons in the shared catalog/ledger with canonical dedup.
+
+## Production gate
+1. Candidate evaluated against current evidence + 200-idea pool.
+2. Relevant 3–5 of the 40 mechanisms selected and recorded.
+3. 30 s / 9:16 plan.
+4. Rights/provenance and monetization gate passed.
+5. Playable MP4, real intelligible audio, captions and A/V sync.
+6. Claims fact-checked from appropriate evidence.
+7. External assets have verified item-level license/provenance or are original.
+8. One explicit learning hypothesis attached.
+9. Publish state verified remotely.
+10. Analytics fed back into the learning pool.
 
 ## Shared automation usage
-- `Video ve Shopify Otomasyonu`: primary consumer and producer of video-production learnings. Must check this pool before topic/script/edit decisions and write new verified lessons after meaningful analysis.
-- `Bilgi Kütüphanesi`: dedup/index owner. Promote stable lessons into machine source/learning ledgers when write + read-back validation is actually available.
-- `Sistem Geliştirmeleri`: use this pool to improve production tooling, QC, analytics routing and low-cost research order; do not reinterpret creative observations as technical facts.
-- `Finans`: only consume a production lesson when creating finance-related media/report visuals; never use video popularity as financial evidence.
+- Video/Shopify: primary consumer/producer of these lessons and sources.
+- Bilgi Kütüphanesi: canonical dedup/index owner; record stable source/provenance/access information.
+- Sistem Geliştirmeleri: improve tooling/QC/analytics routing and free-first source use.
+- Finans: only use production lessons for finance media; video popularity is never financial evidence.
 
 ## Evidence discipline
-- Public view counts are snapshots and can change.
-- One successful video does not prove a causal formula.
-- Search-ranking/trending surfaces are discovery tools, not controlled experiments.
-- The strongest production learning comes from combining external patterns with our own retention/engagement/monetization results.
-- Copyrighted source material is for analysis only; do not copy scripts, footage or distinctive creative expression.
+Public view counts change; one viral video does not prove causality; trend/search/community sources are discovery signals; copyrighted source material is analysis-only unless reuse rights are verified; strongest learning combines external patterns with owned analytics.
