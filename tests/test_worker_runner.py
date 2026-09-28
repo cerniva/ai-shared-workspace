@@ -94,6 +94,14 @@ class WorkerRunnerTests(unittest.TestCase):
         self.assertEqual([event["event"] for event in events], ["worker.started", "worker.completed"])
         self.assertEqual(events[0]["job_id"], "job-1")
         self.assertEqual(events[0]["worker"], "grok")
+        completed = events[1]
+        self.assertEqual(completed["provider"], "grok")
+        self.assertEqual(completed["model"], "mock")
+        self.assertIsInstance(completed["duration_ms"], int)
+        self.assertEqual(
+            completed["usage"],
+            {"input_tokens": 0, "output_tokens": 0, "cost": 0},
+        )
 
     def test_retryable_failure_returns_retryable_failed(self):
         self.write_items([item("job-1", max_attempts=2)])
