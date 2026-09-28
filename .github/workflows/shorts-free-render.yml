@@ -46,8 +46,10 @@ jobs:
               raise SystemExit("manifest_path must point to an existing repository file")
 
           output_name = os.environ["OUTPUT_NAME"]
-          if not re.fullmatch(r"[A-Za-z0-9._-]{1,120}\.mp4", output_name, re.IGNORECASE):
-              raise SystemExit("output_name must be a simple .mp4 filename")
+          if output_name.startswith(".") or not re.fullmatch(
+              r"[A-Za-z0-9._-]{1,120}\.mp4", output_name, re.IGNORECASE
+          ):
+              raise SystemExit("output_name must be a visible simple .mp4 filename")
           PY
 
       - name: Render credit-free Short
