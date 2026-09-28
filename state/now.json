@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T17:10:10+03:00",
+  "updated_at": "2026-09-28T18:13:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,7 +15,7 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "PR #40 merged: the zero-credit Shorts render artifact can now be consumed by the existing YouTube uploader through a validated read-only artifact handoff, while private upload remains the default. PR #39 merged: CORE-05 shared knowledge health is now visible in the real desk status path. Actual YouTube publishing is still unverified because the last external OAuth refresh result was invalid_grant.",
+  "latest_output": "Free-first Shorts implementation is now consolidated on main: PR #45 added free media providers/fallbacks, PR #47 added monetization/free-production scoring and conditional gate fields, PR #52 completed the packet-to-free-media-to-provenance/captions-to-FFmpeg build workflow, and PR #55 fixed non-finite score handling. PR #57 added fail-open worker observability with sanitized local JSONL and optional Sentry/Langfuse sinks; worker CI and CodeQL passed. Real external Shorts artifact smoke and actual publishing remain separate unverified gates; latest known direct YouTube OAuth blocker is invalid_grant.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
@@ -39,19 +39,9 @@
     "firecrawl": "fallback-available"
   },
   "routing": {
-    "browser_web": [
-      "tinyfish",
-      "firecrawl"
-    ],
-    "automated_model": [
-      "gemini"
-    ],
-    "browser_planner_auto": [
-      "gemini",
-      "openai",
-      "grok",
-      "anthropic"
-    ],
+    "browser_web": ["tinyfish", "firecrawl"],
+    "automated_model": ["gemini"],
+    "browser_planner_auto": ["gemini", "openai", "grok", "anthropic"],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
     "grok_api": "known HTTP 403 credit/spending gate; browser auto planner tries healthy Gemini first, then falls through to OpenAI, Grok and Anthropic as configured",
@@ -59,22 +49,27 @@
     "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
   },
   "notes": [
-    "2026-09-28 17:10 TR: PR #40 merged. `.github/workflows/youtube-upload.yml` can now consume either a repo MP4 or a named artifact from a specific `shorts-free-render` run. Inputs fail closed, artifact access is read-only, private upload stays default, and existing YouTube OAuth/target-channel verification remains. PR CI: shorts-render-tests 36433175081, worker-orchestration-tests 36433175116 and CodeQL 36433175197 all passed. No YouTube video was claimed or published by this verification.",
-    "2026-09-28 17:10 TR: PR #39 merged. CORE-05 knowledge adapter health is now part of the operational `scripts/desk_context.py status` path with fail-closed tests instead of remaining test-only.",
-    "2026-09-28 16:57 TR: PR #37 merged. docs/MULTI_AGENT_AUTOMATION_STATUS.md and app/index.html no longer advertise stale planner order, waiting agents, an empty knowledge base, or closed Issues #1/#2 as active. CodeQL run 36432118721 passed before merge.",
-    "2026-09-28 16:57 TR: PR #38 merged. Alternative-first recovery is durable: search and apply a safe authorized fallback before surfacing a blocker; no blind retry or policy/security bypass; human action remains required for login/2FA/payment/sensitive permission/irreversible action or when reasonable alternatives are exhausted. CodeQL run 36432232859 passed.",
-    "2026-09-28 16:41 TR: PR #34 merged to main. Offline eSpeak NG narration, narration-duration fail-closed guard, hidden-artifact filename guard and manual zero-credit Shorts render/preflight artifact workflow are active. Post-merge Shorts tests, worker tests and CodeQL passed. This render workflow does not by itself publish to YouTube.",
-    "2026-09-28 16:41 TR: PR #35 and follow-up PR #36 merged. CORE-05 now uses the shared source/learning bridge; follow-up docstrings were added without behavior change and CI/CodeQL passed.",
+    "2026-09-28 18:12 TR: PR #57 merged on current main after stale PR #46 became conflict-prone. Fail-open worker observability now emits sanitized lifecycle events to optional local JSONL and optional Sentry/Langfuse sinks; external sink failures do not fail provider work. PR worker-orchestration run 36441438164 and CodeQL run 36441436119 passed. Sentry/Langfuse are not verified_connected without a real external event/read-back.",
+    "2026-09-28 18:01 TR: PR #55 merged the post-review non-finite score fix on current main. NaN/Infinity values fall back safely instead of bypassing Shorts reliability vetoes. Worker, Shorts and CodeQL checks on head b571952 passed; stale duplicate PRs #53/#54 were closed and the original PR #47 review thread was resolved.",
+    "2026-09-28 17:59 TR: PR #52 merged as the canonical conflict-safe completion of free-first Shorts Tasks 3-5. It adds packet-to-free-media acquisition, provenance/captions, local FFmpeg/eSpeak build workflow, SOP/policy and direct CLI regression coverage. Worker-orchestration, shorts-render-tests and CodeQL passed before merge. Duplicate/conflicting PRs #49/#50/#51/#56 were closed/superseded. A real external workflow artifact smoke is still required before claiming a real production MP4 from this path.",
+    "2026-09-28 17:45 TR: PR #45 merged free media provider/fallback support and PR #47 merged monetization/engagement/low-cost/right-safety/language-fit scoring plus conditional free-render gate fields. Live GitHub status supersedes intermediate failure emails.",
+    "2026-09-28 coordination: GitHub notification emails are treated as discovery/coordination signals only. Every failure/review is checked against live PR/commit/workflow/service state; superseded failures are not reopened, and duplicate branches are consolidated instead of developed in parallel.",
+    "2026-09-28 17:10 TR: PR #40 merged. `.github/workflows/youtube-upload.yml` can consume either a repo MP4 or a named artifact from a specific `shorts-free-render` run. Inputs fail closed, artifact access is read-only, private upload stays default, and existing YouTube OAuth/target-channel verification remains. No YouTube video was claimed or published by this verification.",
+    "2026-09-28 17:10 TR: PR #39 merged. CORE-05 knowledge adapter health is now part of operational `scripts/desk_context.py status` with fail-closed tests.",
+    "2026-09-28 16:57 TR: PR #37 merged. docs/MULTI_AGENT_AUTOMATION_STATUS.md and app/index.html no longer advertise stale planner order, waiting agents, an empty knowledge base, or closed Issues #1/#2 as active.",
+    "2026-09-28 16:57 TR: PR #38 merged. Alternative-first recovery is durable: search and apply a safe authorized fallback before surfacing a blocker; no blind retry or policy/security bypass; human action remains required for login/2FA/payment/sensitive permission/irreversible action or when reasonable alternatives are exhausted.",
+    "2026-09-28 16:41 TR: PR #34 merged to main. Offline eSpeak NG narration, narration-duration fail-closed guard, hidden-artifact filename guard and manual zero-credit Shorts render/preflight artifact workflow are active. This render workflow does not by itself publish to YouTube.",
+    "2026-09-28 16:41 TR: PR #35 and follow-up PR #36 merged. CORE-05 uses the shared source/learning bridge.",
     "2026-09-28 16:41 TR: state routing corrected to match browser_worker/ai_planner.py: auto planner order is Gemini -> OpenAI -> Grok -> Anthropic.",
-    "2026-09-28 00:10 TR: Skyvern smoke run 36349823688 exposed a planner/worker schema mismatch. PR #25 adapted read-only steps and added fail-closed tests; worker-orchestration run 36350519493 and CodeQL run 36350519461 passed.",
-    "2026-09-28 00:10 TR: OpenAI planner returned HTTP 429 credit_balance_exhausted and Grok returned HTTP 403 in run 36349823688. Browser auto planner then fell through to Gemini, which produced the task successfully.",
-    "2026-09-27 23:31 TR: User changed the Shopify storefront password. Store remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
-    "2026-09-28 00:06 TR: Anthropic API key validated against /v1/models with HTTP 200. Real message request is blocked only by low credit balance; Claude remains optional and non-blocking.",
-    "2026-09-28 00:06 TR: API-first foundation is on main. Worker orchestration CI now watches, compiles and secret-scans orchestrator, research_worker, shorts_worker, shopify_worker and browser_worker; run 36350288238 passed.",
-    "2026-09-28 cleanup: Claude diagnostic workflow is manual-only; obsolete Claude retry trigger files removed; stale PRs #16, #17, #20 and #24 closed without merge.",
-    "2026-09-27 02:54 TR: XAI_API_KEY repo secret present. Latest API HTTP 403. Console credit was $0.00. Human prepaid credit gate.",
+    "2026-09-28 00:10 TR: Skyvern smoke exposed a planner/worker schema mismatch. PR #25 adapted read-only steps and added fail-closed tests.",
+    "2026-09-28 00:10 TR: OpenAI planner HTTP 429 and Grok HTTP 403; browser auto planner fell through to Gemini successfully.",
+    "2026-09-27 23:31 TR: User changed Shopify storefront password. Store remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
+    "2026-09-28 00:06 TR: Anthropic API key validated against /v1/models with HTTP 200; message generation is credit-blocked only and non-blocking to other work.",
+    "2026-09-28 00:06 TR: API-first foundation is on main; worker orchestration CI watches/compiles/secret-scans orchestrator, research_worker, shorts_worker, shopify_worker and browser_worker.",
+    "2026-09-28 cleanup: Claude diagnostic workflow manual-only; obsolete retry files and stale PRs cleaned.",
+    "2026-09-27 02:54 TR: XAI_API_KEY repo secret present; latest API HTTP 403 and credit/spending gate remains external.",
     "2026-09-27 desk-notify: poll-only (push=false). PayoutLens untouched.",
-    "Grok, Grok API worker and Grok Bot are three separate channels.",
+    "Grok, Grok API worker and Grok Bot are separate channels.",
     "TinyFish primary web worker; Firecrawl fallback.",
     "Meta Model API HTTP 402. No auto retry.",
     "Shopify Payments unreadable without read_shopify_payments. Payment enablement unproven.",
@@ -83,9 +78,7 @@
     "Pipeline map: knowledge/pipeline-map.md. No CrewAI/n8n.",
     "PayoutLens untouched."
   ],
-  "protected_projects": [
-    "payoutlens"
-  ],
+  "protected_projects": ["payoutlens"],
   "sync_rules": {
     "state_is_source_of_truth": true,
     "read_before_work": true,
