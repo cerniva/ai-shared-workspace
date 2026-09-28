@@ -114,6 +114,17 @@ def _asset_suffix(asset: dict) -> str:
     return ".mp4" if asset.get("media_type") == "video" else ".jpg"
 
 
+def _asset_identity(item: dict) -> tuple[str, str] | None:
+    """Return a stable provider identity for a normalized asset."""
+    if not isinstance(item, dict):
+        return None
+    provider = item.get("provider")
+    asset_id = item.get("provider_asset_id")
+    if not isinstance(provider, str) or not isinstance(asset_id, str):
+        return None
+    return provider, asset_id
+
+
 def _load_packet(packet_path: Path) -> dict:
     """Load a packet and require a JSON object."""
     path = Path(packet_path)
@@ -161,24 +172,37 @@ def prepare_render_bundle(
 
     selected: list[dict] = []
     seen: set[tuple[str, str]] = set()
-    for query in queries:
+    result_sets: list[list[dict]] = []
+    for query in queries[:MAX_ASSETS]:
         results = search_free_media(query, env=env, limit=6)
+        result_sets.append(results if isinstance(results, list) else [])
+
+    # First preserve the packet's intended visual variety: at most one unique
+    # asset from each planned query before any query can consume extra slots.
+    for results in result_sets:
         for item in results:
-            if not isinstance(item, dict):
-                continue
-            provider = item.get("provider")
-            asset_id = item.get("provider_asset_id")
-            if not isinstance(provider, str) or not isinstance(asset_id, str):
-                continue
-            identity = (provider, asset_id)
-            if identity in seen:
+            identity = _asset_identity(item)
+            if identity is None or identity in seen:
                 continue
             seen.add(identity)
             selected.append(dict(item))
-            if len(selected) >= MAX_ASSETS:
-                break
+            break
         if len(selected) >= MAX_ASSETS:
             break
+
+    # Then fill any remaining slots deterministically in query/result order.
+    if len(selected) < MAX_ASSETS:
+        for results in result_sets:
+            for item in results:
+                identity = _asset_identity(item)
+                if identity is None or identity in seen:
+                    continue
+                seen.add(identity)
+                selected.append(dict(item))
+                if len(selected) >= MAX_ASSETS:
+                    break
+            if len(selected) >= MAX_ASSETS:
+                break
 
     if not selected:
         raise RuntimeError("no usable free media asset found")
