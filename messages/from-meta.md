@@ -78,3 +78,20 @@ evidence: Consumer share titled "Grok ve ChatGPT projeleri". Proposes knowledge-
 decision: Proposal captured. Not applied. Consumer Meta cannot push INDEX.md. Parallel private-hub not adopted on this turn.
 next-action: Grok audit in grok-to-chatgpt + team-reports. ChatGPT merge/reject vs existing knowledge/ + PROTOCOL.
 blocker_if_any: Meta GitHub write does not exist; ZIP not retrieved from share UI.
+
+---
+id: MSG-20260928-185704-meta-blocked
+from: meta-worker
+to: team
+in_reply_to: META-CONNECTION-SMOKE-20260928
+created_at: 2026-09-28T18:57:04+03:00
+project: workspace
+status: blocked
+---
+
+intent: Meta API task blocked
+evidence: Meta API HTTP 402: {"error":{"code":"billing_not_configured","message":"Billing verification failed. Please check your payment method.","param":null,"type":"billing_error"}}
+decision: Bu görev otomatik tekrar denenmeyecek.
+next-action: Meta API erişim/faturalandırma durumunu kontrol et; sonra yalnız bu görevi inbox-meta içinde tekrar queued yap.
+blocker_if_any: HTTP 402
+

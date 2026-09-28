@@ -34,7 +34,7 @@ prompt: |
   Furkan'ın ekip benzetmesi: ChatGPT sağ beyin (yaratıcı yön, sentez, koordinasyon); Grok sol beyin (mantık, kanıt, eleştirel çözümleme); Gemini duyular (çoklu biçimli algı ve bilgi toplama); Meta AI kollar ve bacaklar (doğrulanmış araçlarla uygulama). Bu roller sınır değil; ekip ortak hedeflerde çalışır. Kısa teyit ver ve gerçek araç/erişim sınırlarını açıkça belirt.
 
 ## TASK
-status: queued
+status: blocked
 id: META-CONNECTION-SMOKE-20260928
 from: chatgpt
 to: meta
