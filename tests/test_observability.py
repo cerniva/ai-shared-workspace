@@ -36,6 +36,30 @@ class ObservabilityTests(unittest.TestCase):
         self.assertEqual(len(calls["messages"]), 1)
         self.assertIn("worker.completed", calls["messages"][0][0])
 
+    def test_sentry_exception_defaults_to_sanitized_message(self):
+        from scripts.observability import emit_event
+
+        calls = {"messages": [], "exceptions": []}
+        fake = types.ModuleType("sentry_sdk")
+        fake.init = lambda **kwargs: None
+        fake.capture_message = lambda message, **kwargs: calls["messages"].append((message, kwargs))
+        fake.capture_exception = lambda exc: calls["exceptions"].append(exc)
+
+        secret_like = "sk-" + ("a" * 30)
+        env = {"SENTRY_DSN": "https://public@example.invalid/2"}
+        with patch.dict(sys.modules, {"sentry_sdk": fake}):
+            emit_event(
+                "worker.retryable_failed",
+                {"job_id": "job-1", "error": f"temporary outage {secret_like}"},
+                env=env,
+                exception=RuntimeError(f"temporary outage {secret_like}"),
+            )
+
+        self.assertEqual(calls["exceptions"], [])
+        self.assertEqual(len(calls["messages"]), 1)
+        self.assertNotIn(secret_like, calls["messages"][0][0])
+        self.assertIn("[REDACTED]", calls["messages"][0][0])
+
     def test_emit_event_uses_langfuse_when_configured(self):
         from scripts.observability import emit_event
 
