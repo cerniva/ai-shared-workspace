@@ -109,7 +109,7 @@ class ShortsFreePipelineTests(unittest.TestCase):
             provenance = json.loads(Path(result["provenance"]).read_text(encoding="utf-8"))
             self.assertEqual(
                 [(item["provider"], item["provider_asset_id"]) for item in provenance],
-                [("pexels", "same"), ("pexels", "unique-a"), ("pixabay", "unique-b")],
+                [("pexels", "same"), ("pixabay", "unique-b"), ("pexels", "unique-a")],
             )
 
     def test_pipeline_reserves_a_visual_slot_for_each_query_before_filling_extras(self):
