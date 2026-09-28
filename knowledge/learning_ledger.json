@@ -1,0 +1,29 @@
+{
+  "learnings": [
+    {
+      "claim": "POSIX flock protects processes sharing one checkout, while GitHub Contents API updates require the current blob SHA and serialized remote writes.",
+      "decision": "Keep local flock plus atomic replace; remote writers must read the current blob SHA, write serially, and re-read after conflicts.",
+      "domain": "repository-concurrency",
+      "evidence_status": "verified",
+      "failure_history": [
+        "A local file lock cannot coordinate independent GitHub runners or automation branches."
+      ],
+      "fallback_history": [
+        "On conflict, fetch the new blob SHA and reassess the delta before one bounded retry."
+      ],
+      "learned_at": "2026-09-28T01:59:00+00:00",
+      "learning_id": "learn_7dc5329187180a61",
+      "next_measurement": "Track HTTP 409 or 422 conflicts and verify successful read-back on the merged main branch.",
+      "outcome": "validated",
+      "provenance": "verified",
+      "source_ids": [
+        "src_daa345ba503d7df0",
+        "src_e8107921e7c45aa8"
+      ],
+      "supersedes": null,
+      "title": "Local and remote write locks are separate"
+    }
+  ],
+  "schema_version": 1,
+  "updated_at": "2026-09-28T02:02:24+00:00"
+}
