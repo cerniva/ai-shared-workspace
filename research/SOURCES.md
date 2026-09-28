@@ -290,3 +290,11 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 - Kullanım: günlük Short MP4'ünde MP4/H.264 ile AAC-LC veya Opus, stereo kanal ve 48 kHz gibi teknik yükleme ayarlarını doğrulamak.
 - Kritik sınır: uygun codec ve ses akışının bulunması seslendirme bulunduğunu, anlaşılır olduğunu veya metinle eşleştiğini kanıtlamaz. Teknik probe'a ek olarak konuşma/transkript ve normal dinleme seviyesi kontrolü zorunludur.
 - Dedup: canonical URL ortak `knowledge/source_catalog.json` kataloğunda tek kayıt olarak tutulur; bu bölüm yalnız plana yapılan referanstır.
+
+### Ortak kaynak referansı — Otomatik altyazı ve seslendirme kontrolü — 2026-09-28
+
+- Ortak kaynak: `src_dba1a72aa5f4fc73` — [YouTube automatic captioning](https://support.google.com/youtube/answer/6373554?hl=en).
+- Kullanım: günlük Short yayınından önce otomatik altyazı oluşumunu ve metnini, konuşmanın algılanabilirliği için ek bir kalite sinyali olarak incelemek; yanlış transkripsiyonu elle düzeltmek.
+- Kalite kapısı: kötü ses kalitesi, uzun sessizlik, algılanamayan konuşma veya üst üste konuşma altyazının oluşmamasına ya da hatalı olmasına yol açabilir. Bu belirtiler varsa video yayınlanmaz ve seslendirme yeniden kontrol edilir.
+- Kritik sınır: otomatik altyazının oluşması ses seviyesini, senkronu, metnin eksiksizliğini veya izleyici etkileşimini tek başına kanıtlamaz; teknik probe ve normal dinleme kontrolü ayrıca zorunludur.
+- Dedup: canonical URL ortak `knowledge/source_catalog.json` kataloğunda tek kayıt olarak tutulur; bu bölüm yalnız plana yapılan referanstır.
