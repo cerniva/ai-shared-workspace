@@ -49,3 +49,11 @@ Bu dosya yalnızca doğrulanmış kaynak, açık sınırlama ve uygulanabilir de
 - **Popüler örnek / kurgu deneyi:** Bu turda yeni doğrulanmış örnek veya deney değişikliği yok; 09:00'daki süreli futbol quiz brief'i korunuyor.
 - **Para kazanma:** YPP, Shorts Monetization Module ve gelir verisi okunmadı; gelir doğrulanamadı.
 - **Sonraki ölçüm:** Uçak Short'u 28 Eylül 16:04 TR sonrası, Bitcoin Short'u 29 Eylül 02:21 TR sonrası yeniden değerlendir. Studio'ya özgü stayed-to-watch/swiped ve retention eğrisi Windsor'da yoksa eksik bırak.
+
+
+## 2026-09-28 — 27 Eylül Short seslendirme ve analiz kaydı düzeltmesi
+
+- **Kullanıcı geri bildirimi / kalite kanıtı:** 27 Eylül için teslim edilen kısa videoda seslendirme yoktu; kullanıcı videoda sesi duymadığını bildirdi. MP4'te AAC ses akışının bulunması konuşma bulunduğunu kanıtlamıyor. Önceki kontrol bu farkı kaçırdı; çıktı ses kapısından geçmemeliydi.
+- **Kullanılan strateji, doğru sınırıyla:** Futbol quiz formatında ilk karede merak, kademeli ipucu/cevap payoff'u ve tek doğal yorum sorusu bir yaratıcı hipotez olarak kullanıldı. Bu tercih kanalın yeterli olgunluktaki, karşılaştırılabilir Shorts Analytics verisinden türetilmiş bir “kazanan format” değildi; A/B testi yapılmadı. Chose-to-view/swipe-away ve retention eğrisi gibi metrikler elde değildi. Dolayısıyla görüntülenme/etkileşim artışı iddiası yoktur.
+- **Ders / uygulanan kalite düzeltmesi:** “Audio stream exists” kontrolü yeterli değil. Sonraki videoda tam seslendirme metni ve ses dosyası üretim paketinde bulunmalı; birleştirilmiş MP4 konuşma içerdiği/transkriptle eşleştiği ve normal dinleme seviyesinde anlaşılır olduğu doğrulanmadan hazır veya yayınlanabilir sayılmamalı. Bu kayıt eski videoya geriye dönük ses eklenmiş veya yeniden yayınlanmış olduğu anlamına gelmez.
+- **Sonraki deney/ölçüm:** Bir sonraki tek günlük özgün videoda tek bir hook/format hipotezi açıkça etiketlensin. Yeterince olgunlaşmış Analytics sonrası aynı konu ailesindeki benzer videolarla engaged views, chose-to-view/swipe-away, izleme süresi/retention, yorum/paylaşım ve abone dönüşümü karşılaştırılsın. Veri yoksa sonuç “ölçülemedi” kalsın.
