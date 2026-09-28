@@ -172,3 +172,10 @@ Bağlı olmayan isteğe bağlı kaynaklar temel araştırmayı durdurmaz: resmî
 | Shared knowledge bridge / `knowledge/source_catalog.json` | verified_connected (yalnız Bilgi Kütüphanesi planı) | PR #27 ana dala birleşti. Merkezi katalog 6 tekil canonical URL içeriyor; 4 kaynak bu turda eklendi ve GitHub üzerinden yazma → geri okuma doğrulaması geçti | GitHub bağlantısı ve depo yazma yetkisi gerekir; bu turda ek ücret/kredi kullanılmadı | Diğer planların otomatik aktarımı henüz test edilmedi. Köprü şeması hâlâ `related_plan`, `account_requirement`, `why_valuable`, `last_verified_at` alanlarını ve istenen `available_unverified/web_only/quota_limited` durum adlarını yerel doğrulayıcıda karşılamıyor |
 
 **Gmail penceresi:** 28 Eylül 03:00–04:10 TRT. Önemli yeni iletiler: PR #27 için CodeRabbit inceleme bildirimi; HeyGen tamamlanmış video bildirimi; Polar Analytics Google oturum izni bildirimi. Mesaj gövdeleri, kodlar/tokenlar ve kişisel adresler depoya eklenmedi. Daha eski Xopero/Crowdin/DeepScan bildirimleri bu son bir saat penceresine dahil edilmedi.
+
+
+## Bilgi Kütüphanesi öğrenme defteri doğrulaması — 2026-09-28 05:58 TRT
+
+| Kaynak / araç | access_status | Doğrulanan durum | Maliyet/kota ve gereksinim | Sınır / sonraki doğrulama |
+| --- | --- | --- | --- | --- |
+| Machine-readable learning ledger / `knowledge/learning_ledger.json` | verified_connected (yalnız Bilgi Kütüphanesi planı) | PR #28 ana dala birleşti. `src_a2ab2e6f41d05d70` kaynağına bağlı `learn_b1ce3ec3c7f9abbf` dersi yazıldı ve geri okundu; 2 benzersiz öğrenme kaydı var | GitHub bağlantısı ve depo yazma yetkisi; ek ücret/kredi kullanılmadı | Diğer aktif planların kendi read → dedup → write → read-back testi yok; CodeRabbit birleşme sonrası bile pending görünüyor |
