@@ -93,6 +93,14 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
         self.assertEqual(blockers, [])
 
     @patch("scripts.shorts_research.is_duplicate", return_value=False)
+    def test_real_legacy_packet_remains_gate_compatible(self, _duplicate) -> None:
+        """The repository's existing SHORT-RES-001 packet must not gain new blockers."""
+        packet_path = shorts_research.SHORTS / "packets" / "SHORT-RES-001.json"
+        packet = shorts_research.load_json(packet_path)
+        self.assertFalse(packet.get("free_render_requested", False))
+        self.assertEqual(shorts_research.gate_packet(packet), [])
+
+    @patch("scripts.shorts_research.is_duplicate", return_value=False)
     def test_free_render_packet_requires_language_content_type_narration_and_queries(self, _duplicate) -> None:
         """Free rendering must fail before acquisition when packet inputs are incomplete."""
         packet = valid_packet()
