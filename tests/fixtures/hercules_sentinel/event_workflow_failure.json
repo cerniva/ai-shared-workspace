@@ -1,0 +1,6 @@
+{
+  "provider": "github",
+  "event_type": "workflow_run",
+  "repository": "cerniva/ai-shared-workspace",
+  "external_id": "36350519493"
+}
