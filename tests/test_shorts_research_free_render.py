@@ -54,6 +54,17 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
         self.assertFalse(scored["veto"])
         self.assertEqual(scored["missing_criteria"], [])
 
+    def test_non_finite_reliability_uses_fail_closed_default_and_vetoes(self) -> None:
+        """NaN reliability must never be promoted to a valid or maximum score."""
+        item = {
+            "title": "nan reliability",
+            "unique_angle": "still unique",
+            "scores": {**BASE_SCORES, "reliability": float("nan")},
+        }
+        scored = shorts_research.score_item(item)
+        self.assertTrue(scored["veto"])
+        self.assertEqual(scored["total"], sum(BASE_SCORES.values()) - 7 + 25.0)
+
     def test_equal_base_candidate_with_better_monetization_engagement_and_cost_ranks_higher(self) -> None:
         """Optional business/production signals should break otherwise equal base scores."""
         weak = {
