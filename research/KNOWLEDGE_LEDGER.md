@@ -165,3 +165,14 @@ Bu dosya, araştırmalardan çıkan ve sonraki görevlerde yeniden kullanılabil
 - **Önceki bilgiyle fark:** 04:10 TRT kaydındaki “PR açık, köprü etkin değil” durumu geçersizleşti. Yeni doğrulanmış durum: PR birleşti ve Bilgi Kütüphanesi planı için gerçek merkezi katalog yazma/geri okuma testi geçti.
 - **Strateji etkisi / uygulanan değişiklik:** OAuth yetki denetimi ve Shopify ödeme sağlayıcısı kaynakları merkezi kataloğa taşındı; SOURCES.md ve TOOLS_AND_CONNECTIONS.md içindeki eski köprü durumu düzeltildi. Diğer planların adayları, kendi entegrasyon testi geçene kadar otomatik alınmış sayılmayacak.
 - **Sonraki test/kullanım:** Bridge şemasını eksik metadata ve erişim durumlarıyla uyumlu hale getir; ardından her aktif plan için bir kaynakta read → dedup → write → read-back testi yap.
+
+
+### 2026-09-28 05:58 TRT — Makine-okunur öğrenme defteri ve GitHub App izin dersi
+- **Konu / ilgili plan:** Ortak öğrenme defteri, bağlantı güvenliği / Bilgi Kütüphanesi ve Sistem.
+- **Kaynak/URL:** [PR #28](https://github.com/cerniva/ai-shared-workspace/pull/28), [Choosing permissions for a GitHub App](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app).
+- **Bulgu ve kanıt:** PR #28 birleşti; worker-orchestration-tests ve CodeQL başarılı. `knowledge/learning_ledger.json` ana dalda okunabildi. Yeni resmî kaynak merkezi kataloğa `src_a2ab2e6f41d05d70` olarak, ders ise `learn_b1ce3ec3c7f9abbf` olarak yazıldı; iki dosya da geri okunarak tekillik doğrulandı.
+- **Güven sınırı:** CodeRabbit kontrolü pending; birleşmiş kod için tamamlanmış CodeRabbit incelemesi yok. Bu test yalnız Bilgi Kütüphanesi planının kaynak + öğrenme JSON yolunu doğrular; diğer planlar bağlı sayılmaz.
+- **Ders:** GitHub Apps varsayılan olarak yetkisizdir ve yalnız gereken minimum izinler seçilmelidir. Dosya/kod erişimi için Contents, `.github/workflows` düzenlemek için ayrıca Workflows izni gerekir; bir uygulamanın kurulu görünmesi bu izinlerin verildiğini kanıtlamaz.
+- **Önceki bilgiyle fark:** Önceki turda yalnız kaynak kataloğunun yazma/geri okuması doğrulanmıştı. Artık öğrenme defterine kaynak bağlantılı gerçek kayıt yazma/geri okuma da geçti.
+- **Strateji etkisi / uygulama:** GitHub bağlantıları değerlendirilirken “kurulu” yerine gerçek izin sınıfı esas alınacak; izin görülmüyorsa bağlantı `available_unverified` kalacak.
+- **Sonraki test:** Finance, Video-Shopify ve Sistem planlarının her biri için kaynak + öğrenme çiftinde bağımsız read → dedup → write → read-back testi.
