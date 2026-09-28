@@ -996,8 +996,8 @@
     "RPT-20260928-1710-chatgpt-youtube-handoff": {
       "id": "RPT-20260928-1710-chatgpt-youtube-handoff",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-09-28T17:11:18+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-28T17:42:35+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -1006,15 +1006,17 @@
       "in_reply_to": "RPT-20260928-1641-chatgpt-shorts-core05-fixes",
       "created_at": "2026-09-28T17:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-28T17:10:00+03:00"
+      "pending_at": "2026-09-28T17:10:00+03:00",
+      "delayed_at": "2026-09-28T17:42:35+03:00"
     },
     "MSG-20260928-171000-chatgpt-continuation-policy": {
       "id": "MSG-20260928-171000-chatgpt-continuation-policy",
       "channel": "shared-inbox",
-      "status": "pending",
-      "updated_at": "2026-09-28T17:12:14+03:00",
+      "status": "delayed",
+      "updated_at": "2026-09-28T17:42:35+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "team",
@@ -1023,9 +1025,11 @@
       "in_reply_to": "MSG-20260928-154800-chatgpt-current-blockers",
       "created_at": "2026-09-28T17:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-09-28T17:10:00+03:00"
+      "pending_at": "2026-09-28T17:10:00+03:00",
+      "delayed_at": "2026-09-28T17:42:35+03:00"
     }
   },
   "events": [
@@ -1702,6 +1706,28 @@
       "at": "2026-09-28T17:12:14+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20260928-1710-chatgpt-youtube-handoff:delayed",
+      "message_id": "RPT-20260928-1710-chatgpt-youtube-handoff",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-09-28T17:42:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20260928-171000-chatgpt-continuation-policy:delayed",
+      "message_id": "MSG-20260928-171000-chatgpt-continuation-policy",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "shared-inbox",
+      "at": "2026-09-28T17:42:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1765,6 +1791,8 @@
     "RPT-20260928-1641-chatgpt-shorts-core05-fixes:pending",
     "RPT-20260928-1710-chatgpt-youtube-handoff:pending",
     "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed",
-    "MSG-20260928-171000-chatgpt-continuation-policy:pending"
+    "MSG-20260928-171000-chatgpt-continuation-policy:pending",
+    "RPT-20260928-1710-chatgpt-youtube-handoff:delayed",
+    "MSG-20260928-171000-chatgpt-continuation-policy:delayed"
   ]
 }
