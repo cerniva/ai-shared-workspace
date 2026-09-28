@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T16:41:15+03:00",
+  "updated_at": "2026-09-28T16:57:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,7 +15,7 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "PR #34 merged: zero-credit FFmpeg Shorts rendering now supports offline eSpeak NG narration with truncation guards and a manual artifact workflow. PR #35/#36 merged: CORE-05 is connected to the shared knowledge bridge and touched-function docstrings were completed. Post-merge Shorts tests, worker orchestration tests and CodeQL passed.",
+  "latest_output": "PR #37 merged: stale operator-facing automation status/dashboard claims were synchronized to verified repo state. PR #38 merged: safe alternative-first recovery is now a durable operating rule. Zero-credit Shorts rendering and the CORE-05 shared knowledge bridge remain on main with prior CI/CodeQL evidence.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
@@ -57,6 +57,8 @@
     "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
   },
   "notes": [
+    "2026-09-28 16:57 TR: PR #37 merged. docs/MULTI_AGENT_AUTOMATION_STATUS.md and app/index.html no longer advertise stale planner order, waiting agents, an empty knowledge base, or closed Issues #1/#2 as active. CodeQL run 36432118721 passed before merge.",
+    "2026-09-28 16:57 TR: PR #38 merged. Alternative-first recovery is durable: search and apply a safe authorized fallback before surfacing a blocker; no blind retry or policy/security bypass; human action remains required for login/2FA/payment/sensitive permission/irreversible action or when reasonable alternatives are exhausted. CodeQL run 36432232859 passed.",
     "2026-09-28 16:41 TR: PR #34 merged to main. Offline eSpeak NG narration, narration-duration fail-closed guard, hidden-artifact filename guard and manual zero-credit Shorts render/preflight artifact workflow are active. Post-merge Shorts tests, worker tests and CodeQL passed. This render workflow does not by itself publish to YouTube.",
     "2026-09-28 16:41 TR: PR #35 and follow-up PR #36 merged. CORE-05 now uses the shared source/learning bridge; follow-up docstrings were added without behavior change and CI/CodeQL passed.",
     "2026-09-28 16:41 TR: state routing corrected to match browser_worker/ai_planner.py: auto planner order is Gemini -> OpenAI -> Grok -> Anthropic.",
