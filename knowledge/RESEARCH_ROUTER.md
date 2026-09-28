@@ -7,17 +7,24 @@ Updated: 2026-09-28
 Use the cheapest reliable source first, deepen only when needed, cross-check important claims, and save reusable source knowledge instead of repeating the same discovery work.
 
 ## Routing
-1. Fast/current public question -> OpenAI Web Search.
-2. Semantic/deep discovery -> Exa when available.
-3. Page extraction / JS-heavy sites / crawl -> Firecrawl when available.
-4. Broad ranked web retrieval / research API -> Parallel Search when available.
-5. Interactive website actions -> browser worker/TinyFish; do not use scraping when clicks/login/state changes are required.
-6. Existing project knowledge -> search `knowledge/` before new external research.
-7. Video/Shorts production decisions -> read `knowledge/video-production-learning-pool.md` before repeating external research; filter cheaply with public YouTube metadata/transcripts/comments, then use expensive scene-by-scene analysis only on a small high-value subset.
+1. Existing project knowledge -> search `state/`, `tasks/` and `knowledge/` first so recent verified work is reused before new external research.
+2. Fast/current public question -> OpenAI Web Search.
+3. Google/TinyFish Search -> discovery layer for new sources, trends, competitors, products, technical solutions and official pages; a search result/snippet is never sufficient evidence by itself for a critical claim.
+4. Semantic/deep discovery -> Exa when available.
+5. Page extraction / JS-heavy sites / crawl -> Firecrawl when available.
+6. Broad ranked web retrieval / research API -> Parallel Search when available.
+7. Interactive website actions -> browser worker/TinyFish; do not use scraping when clicks/login/state changes are required.
+8. YouTube public research -> use official YouTube/Creator/Help material for platform rules and public videos/channels for format, hook, topic and competitor observations.
+9. vidIQ -> YouTube keyword, trend, outlier, competitor and owned-channel analytics support; avoid duplicating the same discovery already answered by Google/TinyFish.
+10. Metricool -> owned YouTube scheduling/publishing and supported analytics; a planned post is not `DONE` until the publish/read-back succeeds.
+11. Video/Shorts production decisions -> read `knowledge/video-production-learning-pool.md` before repeating external research; filter cheaply with public YouTube metadata/transcripts/comments, then use expensive scene-by-scene analysis only on a small high-value subset.
 
 ## Verification rules
 - Important factual claims: prefer primary/official sources.
+- Search result snippets are discovery signals, not final evidence; open the underlying source before promoting a critical claim.
+- Official YouTube/Google platform documentation and owned-channel analytics outrank creator commentary for platform behavior.
 - Finance, payments, security, legal/compliance, permanent decisions: cross-check with at least 2 independent high-quality sources when practical.
+- A YouTube creator video is opinion/learning evidence for finance or technical claims unless the claim is independently verified from primary/high-quality sources.
 - Time-sensitive claims must carry retrieval/publication date when available.
 - If sources conflict, preserve the disagreement; do not silently merge it.
 - Never fabricate access, freshness, monitoring, citations, or completed actions.
@@ -27,20 +34,24 @@ Use the cheapest reliable source first, deepen only when needed, cross-check imp
 - Escalate only when the first source is incomplete, weak, blocked, stale, or the decision is high impact.
 - Cache reusable source notes in `knowledge/` with: topic, URL/source, date checked, strengths, weaknesses, and intended use.
 - Avoid duplicate searches when a recent verified result already answers the same question.
+- Google/TinyFish, YouTube and vidIQ have complementary roles: discovery -> video/platform evidence -> YouTube-specific metrics. Do not run all three merely to repeat the same search.
 - For public video research, prefer metadata/search -> transcript -> comments/related -> owned analytics -> targeted visual watch. Do not spend credits watching every candidate.
 
 ## Team flow
 Research -> ChatGPT synthesis -> Grok second check when required by team protocol -> Gemini after a decision when additional review is useful/required -> final decision/report.
 
 ## Domain source priorities
-- Code/software: official docs, repositories, release notes, issue trackers.
-- Finance/markets: regulator/exchange/company filings and official data first; then reputable financial reporting/research.
-- Shopify/e-commerce: Shopify/payment-provider/supplier official docs first; marketplace evidence and customer/community signals second.
-- Shorts/content: platform documentation + current platform/search evidence + channel/video performance data when authorized. Reusable production observations live in `knowledge/video-production-learning-pool.md`; external success patterns are hypotheses until our own analytics validate them.
+- Code/software: official docs, repositories, release notes, issue trackers; Google/TinyFish may discover them but the official technical source is authoritative.
+- Finance/markets: regulator/exchange/company filings and official data first; then reputable financial reporting/research. YouTube creator content remains opinion/learning unless independently verified; official institution/company channels are primary only for their own statements.
+- Shopify/e-commerce: Shopify/payment-provider/supplier official docs first; Google/SEO tools for demand and competitor discovery; marketplace evidence and customer/community signals second.
+- Shorts/content: platform documentation + Google/TinyFish discovery + YouTube/vidIQ trend/competitor evidence + authorized Metricool/YouTube analytics. Reusable production observations live in `knowledge/video-production-learning-pool.md`; external success patterns are hypotheses until our own analytics validate them.
 - Cooking/food safety: government/standards bodies, universities, recognized professional references.
 
 ## Current validated capabilities
 - OpenAI Responses API supports built-in web search and external/custom tools.
+- TinyFish Search returned official YouTube/Google results and TinyFish Fetch read public Google and YouTube surfaces on 2026-09-28.
+- vidIQ returned an authorized owned YouTube channel on 2026-09-28; paid analytics/research calls remain credit-sensitive and should be used only when decision value justifies them.
+- Metricool brand settings returned a connected YouTube network on 2026-09-28; publishing still requires a ready video and explicit authorized publish action.
 - Firecrawl supports search, scrape, map and crawl workflows.
 - Parallel exposes Search, Task and Chat APIs plus Remote MCP.
 
