@@ -6,6 +6,9 @@ on:
     paths:
       - 'scripts/work_queue.py'
       - 'scripts/knowledge_bridge.py'
+      - 'scripts/learning_bridge.py'
+      - 'knowledge/learning_ledger.json'
+      - 'knowledge/knowledge_index.json'
       - 'knowledge/source_catalog.json'
       - 'knowledge/RESEARCH_ROUTER.md'
       - 'scripts/worker_adapters.py'
@@ -28,6 +31,9 @@ on:
     paths:
       - 'scripts/work_queue.py'
       - 'scripts/knowledge_bridge.py'
+      - 'scripts/learning_bridge.py'
+      - 'knowledge/learning_ledger.json'
+      - 'knowledge/knowledge_index.json'
       - 'knowledge/source_catalog.json'
       - 'knowledge/RESEARCH_ROUTER.md'
       - 'scripts/worker_adapters.py'

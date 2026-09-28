@@ -1,0 +1,39 @@
+{
+  "layers": {
+    "legacy_human_lessons": {
+      "path": "knowledge/lessons.md",
+      "status": "backward-compatible"
+    },
+    "legacy_human_sources": {
+      "path": "research/SOURCES.md",
+      "status": "backward-compatible"
+    },
+    "machine_learnings": {
+      "dedup_key": "learning_id",
+      "path": "knowledge/learning_ledger.json",
+      "writer": "scripts/learning_bridge.py"
+    },
+    "machine_sources": {
+      "dedup_key": "source_id",
+      "path": "knowledge/source_catalog.json",
+      "writer": "scripts/knowledge_bridge.py"
+    }
+  },
+  "routing": {
+    "learning_write_order": [
+      "resolve-or-add-source",
+      "verify-source-id",
+      "add-learning",
+      "read-back",
+      "validate"
+    ],
+    "source_write_order": [
+      "find-canonical",
+      "add-if-new",
+      "read-back",
+      "validate"
+    ]
+  },
+  "schema_version": 1,
+  "updated_at": "2026-09-28T01:59:00+00:00"
+}
