@@ -161,7 +161,7 @@ Bağlı olmayan isteğe bağlı kaynaklar temel araştırmayı durdurmaz: resmî
 - **Ek kaynak erişimi:** Google Search Console mülk/verisi ve Merchant Center hesabı doğrulanmadı; bu oturumda Clarity analitik bağlantısı görünmüyor. Bunlar temel araştırmayı engellemez, ancak mağaza kamuya açıldıktan sonra arama gösterimleri, ürün feed'i ve sayfa davranışı için yararlı olabilir.
 - **Güvenli sonraki sıra:** (1) Kullanıcı, ürün/ödeme/adres/kargo/iade/şartlar ve iletişim bilgilerini gözden geçirir; (2) hazırsa Shopify admin'de Online Store erişimini Public/Launch store yapar; (3) Google & YouTube uygulamasıyla Merchant Center ürün eşitlemesini bağlar, Search Console mülkiyetini doğrular; (4) trafik başladıktan sonra aynı tarih aralığında Shopify analitiği ve gerekirse Clarity ile davranış ölçer. Public yayına alma ve ürünleri yayınlama dışarıya açık ticari değişiklik olduğundan otomasyon kendi başına yapmaz.
 
-## Bilgi Kütüphanesi bağlantı ve köprü doğrulaması — 2026-09-28 04:03 TRT
+## Bilgi Kütüphanesi bağlantı ve köprü doğrulaması — 2026-09-28 04:10 TRT
 
 | Kaynak / araç | access_status | Bu turda doğrulanan durum | Maliyet/kota ve gereksinim | Sınır / sonraki doğrulama |
 | --- | --- | --- | --- | --- |
@@ -171,4 +171,4 @@ Bağlı olmayan isteğe bağlı kaynaklar temel araştırmayı durdurmaz: resmî
 | Polar Analytics | available_unverified | Google güvenlik bildirimi yalnız profil bilgisi (ad, profil resmi, e-posta) paylaşıldığını gösteriyor | Ürün/analitik bağlanma durumu sorgulanmadı | Bu, Shopify/mağaza verisi veya Analytics erişimi anlamına gelmez; Polar connector/mağaza verisi doğrulanmadı |
 | Shared knowledge bridge PR #27 | blocked (ana dala geçiş için) | PR açık ve merge edilmemiş. Head SHA f0b9c933305565a3743d978eff16f01402ad5a18 için worker-orchestration-tests ve CodeQL başarılı; CodeRabbit yorumu inceleme sürüyor diyor | GitHub Actions/CodeRabbit durumu, kullanıcı hesabı ve depo ayarlarına bağlı | Diğer planların otomatik kaynak aktarımı tamamlanmış sayılmaz. Katalog şeması istenen related_plan, account_requirement, why_valuable, last_verified_at alanlarını ve istenen available_unverified/web_only/quota_limited durum adlarını henüz karşılamıyor; PR açık olduğundan bu turda plana bağlama/yazma testi yapılmadı |
 
-**Gmail penceresi:** 28 Eylül 03:00–04:03 TRT. Önemli yeni iletiler: PR #27 için CodeRabbit inceleme bildirimi; HeyGen tamamlanmış video bildirimi; Polar Analytics Google oturum izni bildirimi. Mesaj gövdeleri, kodlar/tokenlar ve kişisel adresler depoya eklenmedi. Daha eski Xopero/Crowdin/DeepScan bildirimleri bu son bir saat penceresine dahil edilmedi.
+**Gmail penceresi:** 28 Eylül 03:00–04:10 TRT. Önemli yeni iletiler: PR #27 için CodeRabbit inceleme bildirimi; HeyGen tamamlanmış video bildirimi; Polar Analytics Google oturum izni bildirimi. Mesaj gövdeleri, kodlar/tokenlar ve kişisel adresler depoya eklenmedi. Daha eski Xopero/Crowdin/DeepScan bildirimleri bu son bir saat penceresine dahil edilmedi.
