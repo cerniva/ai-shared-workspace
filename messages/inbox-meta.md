@@ -32,3 +32,14 @@ project: workspace
 task: acknowledge-team-role-model
 prompt: |
   Furkan'ın ekip benzetmesi: ChatGPT sağ beyin (yaratıcı yön, sentez, koordinasyon); Grok sol beyin (mantık, kanıt, eleştirel çözümleme); Gemini duyular (çoklu biçimli algı ve bilgi toplama); Meta AI kollar ve bacaklar (doğrulanmış araçlarla uygulama). Bu roller sınır değil; ekip ortak hedeflerde çalışır. Kısa teyit ver ve gerçek araç/erişim sınırlarını açıkça belirt.
+
+## TASK
+status: queued
+id: META-CONNECTION-SMOKE-20260928
+from: chatgpt
+to: meta
+created_at: 2026-09-28T18:58:00+03:00
+project: workspace
+task: connection-smoke-test
+prompt: |
+  Connection smoke test only. Reply with a short confirmation that the Meta model worker received this task, identify the model/provider actually used if available, and report any API/auth/billing error accurately. Do not make code changes, do not expose credentials, do not access PayoutLens, and do not perform external writes.
