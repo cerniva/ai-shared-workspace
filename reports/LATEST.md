@@ -1,3 +1,30 @@
+# Bilgi Kütüphanesi | 2026-09-28 05:22 TRT
+
+## YENİ KAYNAKLAR
+- [GitHub OAuth app scope’ları](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps): Resmî belge açılarak doğrulandı. `repo` kapsamının özel/açık depolarda geniş okuma-yazma, `workflow` kapsamının Actions iş akışı dosyalarını ekleme/güncelleme yetkisi verdiğini açıklar; bağlı uygulamalara fiilen verilen izinleri göstermez. Merkezi kimlik: `src_f0d89c2d1756987d`.
+- [Shopify ödeme sağlayıcısı kullanılabilirliği](https://help.shopify.com/en/manual/payments/third-party-providers/payment-gateway-availability): Resmî sayfa yeniden açıldı. Shopify, ülkeye göre güncel sağlayıcı listesinin birincil kontrol noktası olduğunu; Admin’de görünen seçeneklerin mevcut ödeme yapılandırmasına göre farklılaşabileceğini belirtiyor. Bu belge iyzico başvuru/onay kanıtı değildir. Merkezi kimlik: `src_7fdeed3f9ddd8166`.
+
+## GÜNCELLENEN/TEKİLLEŞTİRİLEN KAYNAK
+- PR [#27](https://github.com/cerniva/ai-shared-workspace/pull/27) ana dala birleşti. İki önceki GitHub izin kaynağı, yeni OAuth scope kaynağı ve Shopify ödeme kaynağı canonical URL + sabit `source_id` ile merkezi `knowledge/source_catalog.json` kataloğuna aktarıldı.
+- Yazma sonrası geri okuma geçti: katalogda 6 kaynak ve 6 benzersiz canonical URL var; ikinci kopya oluşmadı.
+
+## YENİ BİLGİ
+- “PR birleşti” ile “plan gerçekten bağlı” ayrımı test edildi: Bilgi Kütüphanesi planı için read → dedup → write → read-back yolu doğrulandı. Bu, diğer aktif planların otomatik kaynak aktarımını henüz kanıtlamıyor.
+- OAuth kaynakları için karar farkı: yalnız uygulama adını görmek yeterli değil; `repo`, `workflow`, organizasyon ve yönetim kapsamları ayrı risk yüzeyleri olarak değerlendirilmelidir.
+
+## KAYDEDİLEN DERS/KAYIT ENGELİ
+- SOURCES.md, TOOLS_AND_CONNECTIONS.md ve KNOWLEDGE_LEDGER.md tarihli yeni durumla güncellendi; eski 04:10 kaydı silinmedi, geçersizleştiği açıkça işlendi.
+- Kalan engel: bridge doğrulayıcısı `related_plan`, `account_requirement`, `why_valuable`, `last_verified_at` alanlarını ve istenen `available_unverified/web_only/quota_limited` durum adlarını henüz desteklemiyor.
+
+## KAYNAK AÇIĞI
+- Diğer aktif planlar için plan bazlı köprü testi yok; onların önceki kaynak adayları otomatik aktarılmış sayılmıyor.
+- Mevcut GitHub uygulamalarına verilmiş gerçek OAuth/GitHub App izin listesi okunmadı; resmî doküman yalnız denetim yöntemini ve kapsam anlamlarını doğruluyor.
+
+## SONRAKİ KEŞİF
+- Bridge şemasını eksik metadata/erişim durumlarıyla uyumlu hale getirip bir aktif planda ilk gerçek read → dedup → write → read-back entegrasyonunu doğrulamak.
+
+---
+
 # Bilgi Kütüphanesi | 2026-09-28 04:10 TRT
 
 ## ÖNEMLİ GMAIL BİLDİRİMİ
