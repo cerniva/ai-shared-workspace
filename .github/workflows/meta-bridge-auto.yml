@@ -11,8 +11,8 @@ on:
     types: [meta-message]
 
 concurrency:
-  group: meta-bridge-auto
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   append:
