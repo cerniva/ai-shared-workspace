@@ -3,12 +3,9 @@ name: shorts-render-tests
 on:
   pull_request:
     paths:
-      - 'scripts/shorts_render.py'
-      - 'tests/test_shorts_render.py'
-      - 'tests/test_shorts_render_tts.py'
-      - 'tests/test_shorts_free_render_workflow.py'
-      - '.github/workflows/shorts-free-render.yml'
-      - '.github/workflows/shorts-render-tests.yml'
+      - 'scripts/shorts_*.py'
+      - 'tests/test_shorts_*.py'
+      - '.github/workflows/shorts-*.yml'
   push:
     branches: [main]
     paths:
