@@ -67,6 +67,7 @@ class DeskContextHealthTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("CORE-05 knowledge bridge: VALID ", completed.stdout)
+        self.assertNotIn("CORE-05 knowledge bridge: ERROR", completed.stdout)
 
 
 if __name__ == "__main__":
