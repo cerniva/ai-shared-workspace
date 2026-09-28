@@ -5,7 +5,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from scripts.provider_config import ConfigError, make_adapter
+from scripts.provider_config import ConfigError, make_adapter, make_failover_adapter
 from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MetaAdapter, MissingCredential, OpenAIAdapter
 
 
@@ -49,6 +49,18 @@ class ProviderConfigTests(unittest.TestCase):
         adapter = make_adapter("gemini", env={"GEMINI_API_KEY": "secret", "GEMINI_MODEL": "gemini-current"})
         self.assertIsInstance(adapter, GeminiAdapter)
         self.assertEqual(adapter.model, "gemini-current")
+
+    def test_failover_prefers_gemini_before_known_degraded_providers(self):
+        adapter = make_failover_adapter(env={
+            "OPENAI_API_KEY": "openai-secret",
+            "XAI_API_KEY": "grok-secret",
+            "GEMINI_API_KEY": "gemini-secret",
+            "META_MODEL_API_KEY": "meta-secret",
+        })
+        self.assertEqual(
+            [item.provider for item in adapter.adapters],
+            ["gemini", "openai", "grok", "meta"],
+        )
 
 
 if __name__ == "__main__":
