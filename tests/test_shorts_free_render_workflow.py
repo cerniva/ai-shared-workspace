@@ -7,6 +7,7 @@ WORKFLOW = ROOT / ".github" / "workflows" / "shorts-free-render.yml"
 
 class ShortsFreeRenderWorkflowTests(unittest.TestCase):
     def test_manual_credit_free_render_workflow_is_fail_closed_for_publishing(self):
+        """Keep the free render workflow manual, secret-free, and non-publishing."""
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch", text)
         self.assertIn("scripts/shorts_render.py", text)
