@@ -13,8 +13,8 @@ on:
       - ".github/workflows/desk-notify.yml"
 
 concurrency:
-  group: desk-notify
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 permissions:
   contents: write
