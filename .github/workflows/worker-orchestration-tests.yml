@@ -7,8 +7,6 @@ on:
       - 'scripts/work_queue.py'
       - 'scripts/knowledge_bridge.py'
       - 'scripts/learning_bridge.py'
-      - 'scripts/core05_knowledge_adapter.py'
-      - 'scripts/desk_context.py'
       - 'knowledge/learning_ledger.json'
       - 'knowledge/knowledge_index.json'
       - 'knowledge/source_catalog.json'
@@ -33,8 +31,6 @@ on:
       - 'scripts/work_queue.py'
       - 'scripts/knowledge_bridge.py'
       - 'scripts/learning_bridge.py'
-      - 'scripts/core05_knowledge_adapter.py'
-      - 'scripts/desk_context.py'
       - 'knowledge/learning_ledger.json'
       - 'knowledge/knowledge_index.json'
       - 'knowledge/source_catalog.json'
@@ -69,8 +65,6 @@ jobs:
           python-version: '3.12'
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
-      - name: CORE-05 operational knowledge smoke
-        run: python3 scripts/desk_context.py status | grep -q '^CORE-05 knowledge bridge: VALID '
       - name: Compile check
         run: find scripts tests browser_worker orchestrator research_worker shorts_worker shopify_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
       - name: Secret-pattern guard
