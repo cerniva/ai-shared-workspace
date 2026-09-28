@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 from pathlib import Path
 
@@ -52,10 +53,12 @@ def normalize(text: str) -> str:
 
 
 def _bounded_score(raw, *, default: float) -> float:
-    """Convert one score to a bounded 0-10 value with an explicit fallback."""
+    """Convert one score to a finite bounded 0-10 value with an explicit fallback."""
     try:
         value = float(raw)
     except (TypeError, ValueError):
+        value = default
+    if not math.isfinite(value):
         value = default
     return max(0.0, min(10.0, value))
 
