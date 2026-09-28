@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.python.org/3/library/fcntl.html",
+      "category": "concurrency",
+      "cost_quota": "free",
+      "discovered_at": "2026-09-28T00:59:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T00:59:00+00:00",
+      "provenance": "verified",
+      "purpose": "POSIX flock semantics for concurrent local catalog writes",
+      "reliability_limits": "Unix-only; does not coordinate independent GitHub runners or replace branch conflict checks",
+      "source_id": "src_daa345ba503d7df0",
+      "source_name": "Python fcntl documentation"
+    }
+  ],
+  "updated_at": "2026-09-28T00:59:00+00:00"
+}
