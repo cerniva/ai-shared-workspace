@@ -1,0 +1,34 @@
+name: shorts-render-tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/shorts_render.py'
+      - 'tests/test_shorts_render.py'
+      - '.github/workflows/shorts-render-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/shorts_render.py'
+      - 'tests/test_shorts_render.py'
+      - '.github/workflows/shorts-render-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg and pytest
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python3 -m pip install --disable-pip-version-check pytest
+      - name: Renderer tests
+        run: python3 -m unittest tests.test_shorts_render -v
+      - name: Full Python suite
+        run: python3 -m pytest -q
+      - name: Compile renderer
+        run: python3 -m py_compile scripts/shorts_render.py
