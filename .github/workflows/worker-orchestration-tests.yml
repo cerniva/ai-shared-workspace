@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'scripts/work_queue.py'
+      - 'scripts/knowledge_bridge.py'
+      - 'knowledge/source_catalog.json'
+      - 'knowledge/RESEARCH_ROUTER.md'
       - 'scripts/worker_adapters.py'
       - 'scripts/worker_runner.py'
       - 'scripts/review_gate.py'
@@ -24,6 +27,9 @@ on:
   pull_request:
     paths:
       - 'scripts/work_queue.py'
+      - 'scripts/knowledge_bridge.py'
+      - 'knowledge/source_catalog.json'
+      - 'knowledge/RESEARCH_ROUTER.md'
       - 'scripts/worker_adapters.py'
       - 'scripts/worker_runner.py'
       - 'scripts/review_gate.py'
