@@ -3,25 +3,21 @@ name: shorts-render-tests
 on:
   pull_request:
     paths:
-      - 'scripts/shorts_render.py'
-      - 'tests/test_shorts_render.py'
-      - 'tests/test_shorts_render_tts.py'
-      - 'tests/test_shorts_free_render_workflow.py'
-      - 'tests/test_youtube_upload_workflow.py'
-      - '.github/workflows/shorts-free-render.yml'
+      - 'scripts/shorts_*.py'
+      - 'tests/test_shorts_*.py'
+      - '.github/workflows/shorts-*.yml'
       - '.github/workflows/youtube-upload.yml'
-      - '.github/workflows/shorts-render-tests.yml'
+      - 'research/youtube/SHORTS_SOP.md'
+      - 'knowledge/shorts/RESEARCH_MODULE.md'
   push:
     branches: [main]
     paths:
-      - 'scripts/shorts_render.py'
-      - 'tests/test_shorts_render.py'
-      - 'tests/test_shorts_render_tts.py'
-      - 'tests/test_shorts_free_render_workflow.py'
-      - 'tests/test_youtube_upload_workflow.py'
-      - '.github/workflows/shorts-free-render.yml'
+      - 'scripts/shorts_*.py'
+      - 'tests/test_shorts_*.py'
+      - '.github/workflows/shorts-*.yml'
       - '.github/workflows/youtube-upload.yml'
-      - '.github/workflows/shorts-render-tests.yml'
+      - 'research/youtube/SHORTS_SOP.md'
+      - 'knowledge/shorts/RESEARCH_MODULE.md'
 
 permissions:
   contents: read
@@ -37,8 +33,18 @@ jobs:
           sudo apt-get install -y ffmpeg espeak-ng
           python3 -m pip install --disable-pip-version-check pytest
       - name: Renderer and workflow tests
-        run: python3 -m unittest tests.test_shorts_render tests.test_shorts_render_tts tests.test_shorts_free_render_workflow tests.test_youtube_upload_workflow -v
+        run: >-
+          python3 -m unittest
+          tests.test_shorts_render
+          tests.test_shorts_render_tts
+          tests.test_shorts_free_render_workflow
+          tests.test_youtube_upload_workflow
+          tests.test_shorts_media
+          tests.test_shorts_research_free_render
+          tests.test_shorts_free_pipeline
+          tests.test_shorts_free_build_workflow
+          -v
       - name: Full Python suite
         run: python3 -m pytest -q
-      - name: Compile renderer
-        run: python3 -m py_compile scripts/shorts_render.py
+      - name: Compile Shorts modules
+        run: python3 -m py_compile scripts/shorts_render.py scripts/shorts_media.py scripts/shorts_free_pipeline.py scripts/shorts_research.py
