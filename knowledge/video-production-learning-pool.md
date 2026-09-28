@@ -61,6 +61,17 @@ Source: https://support.google.com/youtube/answer/16559650
 Official Shorts search/discovery guidance says YouTube does not inherently favor a particular Shorts format; ranking depends on performance and viewer personalization. Treat third-party creator advice, books, TikTok/Reels patterns, vidIQ findings and viral examples as discovery inputs/hypotheses, never as proof of a YouTube algorithm rule.
 Source: https://support.google.com/youtube/answer/11914225
 
+### Operational rule VP-007 — Metricool publish state is fail-closed
+For the verified Metricool YouTube fallback, a production-ready scheduled Short must have `providers=[youtube]`, `youtubeData.type=short`, a real video media object/URL, required title and audience declaration, `draft=false`, and `autoPublish=true`. A record with `draft=true` or `autoPublish=false` is not an automated YouTube publication and must never be reported as published. Metricool `Pending` means scheduled/waiting, not published. After the due time, require remote planner/network evidence before reporting success.
+Source: https://help.metricool.com/wli-scheduler-endpoint-example-on-a-custom-backend-proxy-frko7
+
+### Operational rule VP-008 — scheduling time guard and duplicate protection
+Before creating/updating a scheduled publication, compare the requested Europe/Istanbul time with current time and require a future timestamp plus a small safety margin. A past timestamp can return HTTP 400. On 400, fix schema/input/time rather than retrying unchanged. On timeout/uncertain response, query Metricool/YouTube for the same UUID/media/title before creating another upload. Never use two upload paths for the same daily Short.
+Source: https://help.metricool.com/wli-scheduler-endpoint-example-on-a-custom-backend-proxy-frko7
+
+### Operational rule VP-009 — publication success is an end-to-end state machine
+Do not collapse render, scheduling and publication into one success flag. Required states are: `MP4_EXISTS -> QA_PASS -> REMOTE_SCHEDULED -> REMOTE_PUBLISHED -> ANALYTICS_READY`. QA_PASS requires playable 9:16 MP4, H.264 video, AAC audio with a real non-silent signal, captions, A/V sync, complete decode, factual/originality/rights checks. A Metricool-accepted media URL does not prove audio or decode quality. Direct YouTube OAuth `invalid_grant` is not retried blindly; use the already-authorized Metricool fallback until OAuth is interactively repaired. Any failure remains explicit and cannot be promoted to DONE by a later unrelated step.
+
 ## Existing official production guardrails
 - Technical upload encoding/QC source already cataloged: `src_527e9618377fed71`.
 - YouTube automatic-caption/intelligibility source already cataloged: `src_dba1a72aa5f4fc73`.
