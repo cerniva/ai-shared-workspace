@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-28T16:49:00+03:00",
+  "updated_at": "2026-09-28T22:30:00+03:00",
   "status": "partial_bridge_active",
   "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
   "latest_user_side_deltas": [
@@ -30,6 +30,12 @@
       "topic": "system",
       "status": "confirmed_user_decision",
       "fact": "New work performed in other conversations must be treated as input to the shared system and reconciled into central state instead of assuming each conversation is isolated."
+    },
+    {
+      "id": "user-20260928-google-youtube-source-routing",
+      "topic": "research-content-system",
+      "status": "confirmed_user_decision",
+      "fact": "Google and YouTube are part of the shared source pool; TinyFish, vidIQ and Metricool have distinct discovery, YouTube-research, owned-analytics and publishing roles; duplicate research should be avoided across plans."
     }
   ],
   "sync_contract": {
