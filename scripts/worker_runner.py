@@ -11,6 +11,7 @@ from scripts.work_queue import WorkQueue
 from scripts.worker_adapters import MissingCredential, NonRetryableProviderError, ProviderNotConfigured, RetryableProviderError
 
 UTC = timezone.utc
+_USAGE_KEYS = ("input_tokens", "output_tokens", "total_tokens", "cost")
 
 
 def _write_json_atomic(path: Path, data: dict[str, Any]) -> None:
@@ -46,6 +47,38 @@ def _record_dead_letter(path: Path, state: dict[str, Any], reason: str, now: dat
     _write_json_atomic(path, data)
 
 
+def _safe_result_metadata(state: dict[str, Any]) -> dict[str, Any]:
+    result = state.get("result")
+    if not isinstance(result, dict):
+        return {}
+
+    metadata: dict[str, Any] = {}
+    for key in ("provider", "model"):
+        value = result.get(key)
+        if isinstance(value, str):
+            metadata[key] = value
+
+    timing = result.get("timing")
+    if isinstance(timing, dict):
+        duration_ms = timing.get("duration_ms")
+        if isinstance(duration_ms, (int, float)) and not isinstance(duration_ms, bool):
+            metadata["duration_ms"] = int(duration_ms)
+
+    usage = result.get("usage")
+    if isinstance(usage, dict):
+        safe_usage = {
+            key: value
+            for key in _USAGE_KEYS
+            if (value := usage.get(key)) is not None
+            and isinstance(value, (int, float))
+            and not isinstance(value, bool)
+        }
+        if safe_usage:
+            metadata["usage"] = safe_usage
+
+    return metadata
+
+
 def _observe(event_name: str, state: dict[str, Any], now: datetime, *, error: str | None = None, exception: BaseException | None = None) -> None:
     payload: dict[str, Any] = {
         "job_id": state.get("id"),
@@ -54,6 +87,8 @@ def _observe(event_name: str, state: dict[str, Any], now: datetime, *, error: st
         "attempt_count": state.get("attempt_count"),
         "status": state.get("status"),
     }
+    if event_name == "worker.completed":
+        payload.update(_safe_result_metadata(state))
     if error is not None:
         payload["error"] = error
     emit_event(event_name, payload, exception=exception, timestamp=now)
