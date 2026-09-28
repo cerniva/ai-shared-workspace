@@ -1,6 +1,6 @@
 # Cerno Shorts SOP
 
-Güncellendi: 2026-09-27. Analytics yoksa uydurma.
+Güncellendi: 2026-09-28. Analytics yoksa uydurma.
 
 ## Erişim
 
@@ -11,12 +11,12 @@ Güncellendi: 2026-09-27. Analytics yoksa uydurma.
 
 ## 8 adım
 
-1. Konu: 3+ aday, gerekçeli 1 seçim. Mutfak hattı öncelikli.
+1. Konu, format ve dil: 3+ aday, gerekçeli 1 seçim. Gelir potansiyeli, etkileşim, retention, telif/politika riski ve üretim maliyetini birlikte değerlendir; kalıcı niş veya dil önceliği yok.
 2. Kaynak: her iddia = URL + erişim tarihi. Çelişkiyi senaryodan çıkar.
 3. Format: 0–2s kanca, tek merak, yorum sorusu. Kopya görüntü yok.
 4. Paket: senaryo + sahne tablosu + 9:16 + ses + başlık + tek test değişkeni.
-5. Üretim: HeyGen grafik / ElevenLabs. Avatar varsa ayrıca yaz.
-6. Yayın: bitmiş MP4 + doğru kanal. Yoksa dur.
+5. Üretim: free-first. Önce Pexels/Pixabay gibi hakları açık ücretsiz medya + yerel ses + FFmpeg; kredi harcayan üreticiler yalnız doğrulanmış ihtiyaçta fallback.
+6. Yayın: araştırma gate → render → preflight → bağımsız review ayrımını koru; bitmiş ve onaylı MP4 + doğru kanal yoksa dur.
 7. +48–72s Studio: retention, swipe, avg view, yorum, abone.
 8. LOG satırı + sonraki videoda tek değişiklik.
 

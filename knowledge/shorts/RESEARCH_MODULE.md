@@ -6,11 +6,12 @@ Korunan bileşenler:
 - `scripts/shorts_preflight.py` (MP4 fail-closed gate)
 - `scripts/youtube_upload.py` + `.github/workflows/youtube-upload.yml`
 - Buffer taslak kuralı: otomatik public yayın yok
-- HyperFrames / kredi harcayan render yalnızca paket `gate` geçtikten sonra
+- Free-first üretim varsayılanı: Pexels/Pixabay gibi lisansı izlenebilir ücretsiz medya → yerel ses → FFmpeg.
+- HyperFrames / diğer kredi harcayan render yalnızca free-first yol yetersizse ve paket `gate` geçtikten sonra fallback.
 
 Akış:
 ARAŞTIR → HAVUZ (≥5 fikir) → PUANLA (`shorts_research.py score`) → SEÇ → DOĞRULA
-→ ÖZGÜN AÇI → HOOK → SENARYO → GÖRSEL/SES PLAN → `gate` → RENDER → preflight → kuyruk/yayın
+→ ÖZGÜN AÇI → HOOK → SENARYO → GÖRSEL/SES PLAN → `gate` → free-first medya → FFmpeg RENDER → preflight → independent review → kuyruk/yayın
 → performans kaydı (`decision-log.md`) → kaynak puanı (`source-pool.json`)
 
 Komutlar:
