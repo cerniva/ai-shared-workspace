@@ -1,7 +1,7 @@
 # Research Router & Source Library
 
 Status: active
-Updated: 2026-09-27
+Updated: 2026-09-28
 
 ## Goal
 Use the cheapest reliable source first, deepen only when needed, cross-check important claims, and save reusable source knowledge instead of repeating the same discovery work.
@@ -13,6 +13,7 @@ Use the cheapest reliable source first, deepen only when needed, cross-check imp
 4. Broad ranked web retrieval / research API -> Parallel Search when available.
 5. Interactive website actions -> browser worker/TinyFish; do not use scraping when clicks/login/state changes are required.
 6. Existing project knowledge -> search `knowledge/` before new external research.
+7. Video/Shorts production decisions -> read `knowledge/video-production-learning-pool.md` before repeating external research; filter cheaply with public YouTube metadata/transcripts/comments, then use expensive scene-by-scene analysis only on a small high-value subset.
 
 ## Verification rules
 - Important factual claims: prefer primary/official sources.
@@ -26,6 +27,7 @@ Use the cheapest reliable source first, deepen only when needed, cross-check imp
 - Escalate only when the first source is incomplete, weak, blocked, stale, or the decision is high impact.
 - Cache reusable source notes in `knowledge/` with: topic, URL/source, date checked, strengths, weaknesses, and intended use.
 - Avoid duplicate searches when a recent verified result already answers the same question.
+- For public video research, prefer metadata/search -> transcript -> comments/related -> owned analytics -> targeted visual watch. Do not spend credits watching every candidate.
 
 ## Team flow
 Research -> ChatGPT synthesis -> Grok second check when required by team protocol -> Gemini after a decision when additional review is useful/required -> final decision/report.
@@ -34,7 +36,7 @@ Research -> ChatGPT synthesis -> Grok second check when required by team protoco
 - Code/software: official docs, repositories, release notes, issue trackers.
 - Finance/markets: regulator/exchange/company filings and official data first; then reputable financial reporting/research.
 - Shopify/e-commerce: Shopify/payment-provider/supplier official docs first; marketplace evidence and customer/community signals second.
-- Shorts/content: platform documentation + current platform/search evidence + channel/video performance data when authorized.
+- Shorts/content: platform documentation + current platform/search evidence + channel/video performance data when authorized. Reusable production observations live in `knowledge/video-production-learning-pool.md`; external success patterns are hypotheses until our own analytics validate them.
 - Cooking/food safety: government/standards bodies, universities, recognized professional references.
 
 ## Current validated capabilities
@@ -63,3 +65,10 @@ Provider availability and credentials must be checked at execution time; this do
 - `knowledge/knowledge_index.json` is the routing index. Legacy Markdown remains readable, but a Markdown entry alone is not proof that a plan used the machine bridge.
 - Remote GitHub writers must read the current blob SHA and serialize Contents API updates. On HTTP 409/422, re-read state before one bounded retry; never overwrite a concurrent delta blindly.
 - Validate both layers with `python3 scripts/knowledge_bridge.py validate` and `python3 scripts/learning_bridge.py validate`.
+
+## Shared production pool
+
+- `knowledge/video-production-learning-pool.md` is the reusable production observation layer for Shorts/video work.
+- Video/Shopify is the primary producer/consumer; Bilgi Kütüphanesi deduplicates/promotes durable entries; Sistem Geliştirmeleri uses it for production tooling/QC; Finans may consume it only when creating finance media and must never treat popularity as market evidence.
+- Public video patterns are observations/hypotheses, not causal rules. Validate them against owned-channel analytics before promoting them to stable strategy.
+- Do not copy scripts, footage or distinctive creative expression from analyzed public videos.
