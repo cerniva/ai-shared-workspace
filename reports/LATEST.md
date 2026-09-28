@@ -1,3 +1,28 @@
+# Bilgi Kütüphanesi | 2026-09-28 05:58 TRT
+
+## ÖNEMLİ GMAIL BİLDİRİMİ
+- GitHub bildirimi doğrulandı: PR [#28](https://github.com/cerniva/ai-shared-workspace/pull/28) birleşti ve ortak makine-okunur öğrenme defteri ana dala eklendi. Worker testleri ile CodeQL başarılı; CodeRabbit durumu hâlâ pending, tamamlanmış inceleme gibi değerlendirilmedi.
+
+## YENİ KAYNAKLAR
+- [Choosing permissions for a GitHub App](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app): GitHub’ın resmî belgesi. Uygulamaların varsayılan olarak izinsiz olduğunu, minimum izin seçilmesi gerektiğini ve Contents ile Workflows yetkilerinin ayrı olduğunu doğruluyor. Merkezi kimlik: `src_a2ab2e6f41d05d70`.
+
+## GÜNCELLENEN/TEKİLLEŞTİRİLEN KAYNAK
+- Merkezi kaynak kataloğu 7 benzersiz canonical URL’ye çıktı. Yeni URL ve sabit kimlik için dedup kontrolü ve yazma sonrası geri okuma geçti.
+- Makine öğrenme defterine `learn_b1ce3ec3c7f9abbf` eklendi; defterde 2 benzersiz kayıt var ve kaynak referansı geçerli.
+
+## YENİ BİLGİ
+- Bilgi Kütüphanesi planı için hem kaynak kataloğu hem öğrenme defteri üzerinde gerçek read → dedup → write → read-back tamamlandı.
+- GitHub App’in kurulu görünmesi yeterli değil: kod/dosya erişimi için Contents, Actions iş akışlarını düzenlemek için ayrıca Workflows izni gerekir.
+
+## KAYDEDİLEN DERS/KAYIT ENGELİ
+- SOURCES.md, bağlantı envanteri, Markdown öğrenme defteri ve makine-okunur öğrenme defteri güncellendi.
+- Engel: Finance, Video-Shopify ve Sistem planlarının kendi köprü testleri yok; otomatik aktarım yaptıkları varsayılmıyor.
+
+## SONRAKİ KEŞİF
+- Bir sonraki aktif planda kaynak + öğrenme çiftini tekilleştirerek plan bazlı ilk köprü testini doğrulamak.
+
+---
+
 # Bilgi Kütüphanesi | 2026-09-28 05:22 TRT
 
 ## YENİ KAYNAKLAR
