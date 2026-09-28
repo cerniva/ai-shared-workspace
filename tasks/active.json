@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27",
+  "updated_at": "2026-09-28T17:10:00+03:00",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -8,7 +8,7 @@
       "owner": "team",
       "status": "tracked",
       "project": "research-learning",
-      "notes": "Resmi kaynaklar, bağlantılı araçlar ve geçmiş sonuçlardan doğrulanmış öğrenmeleri kaydet; somut göreve uygula. Gemini yeniden aktif; geçici API yoğunluklarında retry uygulanır.",
+      "notes": "Resmi kaynaklar, bağlantılı araçlar ve geçmiş sonuçlardan doğrulanmış öğrenmeleri kaydet; somut göreve uygula. Ortak source/learning bridge ana dalda ve operational status health yoluna bağlı; planlar bağımlı işten önce ortak state/kütüphaneyi okumalı.",
       "lead": "chatgpt",
       "backups": [
         "grok",
@@ -31,13 +31,13 @@
       "id": "CORE-03",
       "title": "İçerik & YouTube Büyüme Motoru",
       "owner": "team",
-      "status": "tracked",
+      "status": "active",
       "project": "content",
-      "notes": "Shorts, kanal stratejisi, kapak/başlık, retention, trend, senaryo ve yayın performansı. Grok yaratıcı varyasyon/red-team; Gemini Google/YouTube doğrulama; ChatGPT sistemleştirir.",
-      "lead": "grok",
+      "notes": "Shorts araştırma/üretim/retention/yayın performansı. Free-first üretim varsayılan: lisanslı ücretsiz medya + yerel TTS + FFmpeg + preflight; ücretli üretim yalnız kanıtlı kalite/gelir gerekçesiyle fallback.",
+      "lead": "chatgpt",
       "backups": [
         "gemini",
-        "chatgpt"
+        "grok"
       ]
     },
     {
@@ -46,7 +46,7 @@
       "owner": "team",
       "status": "active",
       "project": "shopify",
-      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. PayoutLens ayrı ürün olarak korunur.",
+      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. Ödeme onayı kanıtlanana kadar canlı ödeme/reklam gibi riskli eylemler yok. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
       "backups": [
         "grok"
@@ -58,10 +58,11 @@
       "owner": "team",
       "status": "active",
       "project": "workspace",
-      "notes": "Tekrarlayan sorunları ekip içinde çözer; küçük araç/script/app geliştirir; darboğazları azaltır; gerçekten gerekli yeni bağlantıları belirler; ajanlar arası handoff'u iyileştirir.",
+      "notes": "Tekrarlayan sorunları ekip içinde çözer; state/cross-chat reconciliation ve alternative-first recovery kurallarını uygular; küçük ve doğrulanabilir delta yapar; canlı durum eski mail/rapordan üstündür.",
       "lead": "chatgpt",
       "backups": [
-        "grok"
+        "grok",
+        "gemini"
       ]
     },
     {
@@ -102,7 +103,7 @@
       "project": "workspace",
       "kind": "ticket",
       "parent": "CORE-05",
-      "notes": "CORE leads: 01 ChatGPT/Grok · 02 ChatGPT/Grok · 03 Grok/Gemini · 04 ChatGPT/Grok · 05 ChatGPT/GrokBot. Overflow: GrokBot→Grok→Gemini. Kaynak: MSG-060500."
+      "notes": "Eski dağılım kaydı korunuyor; güncel sağlayıcı sağlık/routing bilgisi state/now.json tarafından belirlenir."
     },
     {
       "id": "TSK-20260927-001",
@@ -114,9 +115,35 @@
       "parent": "CORE-05",
       "lead": "chatgpt",
       "backups": [
+        "grok",
+        "gemini"
+      ],
+      "notes": "Ortak state, delivery ledger, knowledge bridge, cross-chat reconciliation ve operational status health önemli ölçüde kuruldu. Kalan sınır: ayrı ChatGPT sohbetleri arasında garantili anlık push yok; eventual reconciliation kullanılır. Yeni işte önce state/now.json + state/cross_chat_sync.json oku, stale/duplicate işi açma, yalnız yeni delta raporla."
+    },
+    {
+      "id": "TSK-20260928-002",
+      "title": "Free-first Shorts medya edinme ve build hattı",
+      "owner": "team",
+      "status": "active",
+      "project": "content+workspace",
+      "kind": "ticket",
+      "parent": "CORE-05",
+      "lead": "chatgpt",
+      "backups": [
+        "gemini",
         "grok"
       ],
-      "notes": "Plan: (1) her iş başlangıcında task ID/amaç/sahip/başlangıç raporu; (2) araştırma/okuma/denetim/uygulama/test/engel/yardım/öğrenme/geçiş/tamamlanma olaylarını zaman damgası ve kanıtla raporla; (3) diğer ajan mesajı gördüğünde, incelediğinde, bilgi/öneriyi kullandığında veya neden kullanmadığında ayrı kayıt düşsün; (4) blokajda yardım isteği + sahip + tek sonraki adım; (5) kaynak, erişim tarihi, iddia, kullanım sonucu ve tekrar kullanılabilir bilgiyi knowledge deposuna kaydet; (6) teslim/okundu/yanıt/yardım/çözüm/gecikme durumlarını idempotent ledger'da izle; (7) farklı görevleri sahip ve sınırla böl, örtüşen işi birlikte çöz; (8) testler ve Actions kanıtıyla doğrula. Koruma: poll-ledger'ı anlık push gibi sunma; arka plan/sohbet erişimi varmış gibi iddia etme. User'ın onay istememe talimatı, gerçek hesap girişi/secret/ödeme/geri alınamaz eylem gerektiren platform kapılarını aşmaz."
+      "notes": "Aktif uygulama PR #42. Pexels öncelikli ücretsiz/lisansı açık medya edinme; uygun doğrulanmış fallback; mevcut yerel eSpeak NG + FFmpeg + preflight zincirine bağlama. Test-first/TDD, secret değerini repo/loga yazmama, duplicate üretmeme, gerçek CI ve artefact doğrulaması olmadan DONE deme. PayoutLens kapsam dışı."
+    },
+    {
+      "id": "TSK-20260928-003",
+      "title": "iyzico site inceleme doğrulamasını çöz",
+      "owner": "chatgpt",
+      "status": "waiting_external",
+      "project": "shopify",
+      "kind": "ticket",
+      "parent": "CORE-04",
+      "notes": "iyzico Risk/Karar incelemesi storefront görüntüleme şifresi istedi; admin bilgisi istemedi. Şifreyi doğrudan paylaşmak yerine basvuru@iyzico.com adresine geçici erişim veya başka güvenli doğrulama yöntemi soruldu. Yanıt bekleniyor; bu sırada ödeme dışı mağaza hazırlıkları devam eder. Kullanıcıdan şimdilik yeni işlem isteme."
     }
   ],
   "completed_setup": [
@@ -124,8 +151,8 @@
     "TSK-20260926-003"
   ],
   "protected_notes": [
-    "cerniva/grok-chatgpt-masa README ve içerik incelemesinde Grok + ChatGPT prompt aracı olarak görünüyor; PayoutLens kod deposu olduğu doğrulanmadı. PayoutLens konumunu bulmadan bu repoyu ürün kodu diye değiştirme."
+    "PayoutLens ayrı ve korunmuş projedir; konumu/iş kapsamı doğrulanmadan workspace veya commerce işiyle değiştirme."
   ],
-  "routing_note": "Leads are provisional based on current tool access and strengths; Grok and Gemini reviews may adjust them. Each agent max 5 active execution subtasks; overflow goes to an available backup.",
-  "execution_note": "CORE başlıkları takip amaçlıdır. Kullanıcının işe başlayın talimatıyla ChatGPT/Grok/Gemini/Meta uygun somut görevlerde aktif çalışır; sürekli ajan iddiası yapılmaz, mevcut worker/bridge tetiklemeleri kullanılır."
+  "routing_note": "Canlı sağlayıcı/ajan sağlığı ve fallback sırası state/now.json'dan okunur. Bağımlı işlerde state/cross_chat_sync.json ile diğer sohbetlerden gelen kullanıcı-side deltalar uzlaştırılır. Aynı dosyada eşzamanlı edit yerine görev/branch sınırları ayrılır.",
+  "execution_note": "Kullanıcının talimatı: yarım kalan güvenli işleri bul ve başlat; sorunlarda önce yetkili düşük-riskli alternatifleri dene. Login/2FA/payment/legal/sensitive-permission/irreversible eylemler kullanıcı kapısı olarak kalır. Sürekli veya anlık ajan iletişimi varmış gibi iddia edilmez."
 }
