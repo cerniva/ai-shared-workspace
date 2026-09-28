@@ -33,6 +33,14 @@ CRITERIA = [
     "international",
     "channel_fit",
 ]
+OPTIONAL_CRITERIA = [
+    "monetization",
+    "engagement",
+    "low_production_cost",
+    "rights_safety",
+    "language_fit",
+]
+OPTIONAL_NEUTRAL_SCORE = 5.0
 
 
 def load_json(path: Path):
@@ -43,25 +51,27 @@ def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").strip().lower())
 
 
+def _bounded_score(raw, *, default: float) -> float:
+    """Convert one score to a bounded 0-10 value with an explicit fallback."""
+    try:
+        value = float(raw)
+    except (TypeError, ValueError):
+        value = default
+    return max(0.0, min(10.0, value))
+
+
 def score_item(item: dict) -> dict:
+    """Score a candidate while keeping new optional dimensions neutral for legacy data."""
     scores = item.get("scores") or {}
     missing = [k for k in CRITERIA if k not in scores]
-    values = []
-    for key in CRITERIA:
-        raw = scores.get(key, 0)
-        try:
-            val = float(raw)
-        except (TypeError, ValueError):
-            val = 0.0
-        values.append(max(0.0, min(10.0, val)))
-    total = sum(values)
-    reliability = scores.get("reliability", 0)
-    overused = scores.get("not_overused", 10)
-    try:
-        reliability = float(reliability)
-        overused = float(overused)
-    except (TypeError, ValueError):
-        reliability, overused = 0.0, 0.0
+    required_values = [_bounded_score(scores.get(key, 0), default=0.0) for key in CRITERIA]
+    optional_values = [
+        _bounded_score(scores.get(key, OPTIONAL_NEUTRAL_SCORE), default=OPTIONAL_NEUTRAL_SCORE)
+        for key in OPTIONAL_CRITERIA
+    ]
+    total = sum(required_values) + sum(optional_values)
+    reliability = _bounded_score(scores.get("reliability", 0), default=0.0)
+    overused = _bounded_score(scores.get("not_overused", 10), default=0.0)
     veto = reliability < 6 or overused < 4 or not item.get("unique_angle")
     return {
         **item,
@@ -92,7 +102,17 @@ def is_duplicate(title: str, hook: str) -> bool:
     return (t and t in blob) or (h and h in blob)
 
 
+def _valid_media_queries(value) -> bool:
+    """Return true only for a non-empty list containing non-empty string queries."""
+    return (
+        isinstance(value, list)
+        and bool(value)
+        and all(isinstance(item, str) and item.strip() for item in value)
+    )
+
+
 def gate_packet(packet: dict) -> list[str]:
+    """Return research blockers, adding free-render fields only when explicitly requested."""
     blockers = []
     required = [
         "topic",
@@ -112,6 +132,15 @@ def gate_packet(packet: dict) -> list[str]:
     for key in required:
         if not packet.get(key):
             blockers.append("missing_" + key)
+
+    if packet.get("free_render_requested") is True:
+        for key in ("language", "content_type", "narration_text"):
+            value = packet.get(key)
+            if not isinstance(value, str) or not value.strip():
+                blockers.append("missing_" + key)
+        if not _valid_media_queries(packet.get("media_queries")):
+            blockers.append("missing_media_queries")
+
     if is_duplicate(packet.get("title", ""), packet.get("hook", "")):
         blockers.append("duplicate_topic_or_hook")
     if packet.get("hook", "").lower().startswith(("merhaba", "bugün size", "bu videoda")):
