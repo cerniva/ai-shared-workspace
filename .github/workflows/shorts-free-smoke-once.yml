@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/shorts-free-smoke-once.yml'
       - 'tests/fixtures/shorts_real_smoke_ice_float.json'
+      - 'scripts/shorts_media.py'
 
 permissions:
   contents: read
@@ -20,49 +21,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
-
-      - name: Diagnose provider access
-        env:
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-        run: |
-          python3 - <<'PY'
-          import os
-          from urllib.error import HTTPError, URLError
-          from urllib.parse import urlencode
-          from urllib.request import Request, urlopen
-
-          app_headers = {
-              "User-Agent": "cerniva-shorts-media/1.0 (+https://github.com/cerniva/ai-shared-workspace)",
-              "Accept": "application/json",
-          }
-          browser_headers = {
-              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36",
-              "Accept": "application/json",
-          }
-          probes = [
-              ("openverse", "https://api.openverse.org/v1/images/?q=ice&page_size=1", {}),
-              ("pexels", "https://api.pexels.com/v1/videos/search?query=ice&per_page=1", {"Authorization": os.environ.get("PEXELS_API_KEY", "")}),
-              ("pixabay", "https://pixabay.com/api/videos/?" + urlencode({"key": os.environ.get("PIXABAY_API_KEY", ""), "q": "ice", "per_page": 3}), {}),
-          ]
-
-          def status(url, headers):
-              try:
-                  req = Request(url, headers=headers)
-                  with urlopen(req, timeout=10) as resp:
-                      return f"http={resp.status}"
-              except HTTPError as exc:
-                  return f"http={exc.code}"
-              except URLError as exc:
-                  return f"urlerror={type(exc.reason).__name__}"
-              except Exception as exc:
-                  return f"error={type(exc).__name__}"
-
-          for name, url, auth_headers in probes:
-              print(f"{name}: default:{status(url, auth_headers)}")
-              print(f"{name}: app_headers:{status(url, {**app_headers, **auth_headers})}")
-              print(f"{name}: browser_headers:{status(url, {**browser_headers, **auth_headers})}")
-          PY
 
       - name: Build real free-first Short
         env:
