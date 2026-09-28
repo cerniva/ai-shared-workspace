@@ -9,6 +9,7 @@ from scripts.core05_knowledge_adapter import CORE05_DOMAIN, Core05KnowledgeAdapt
 
 class Core05KnowledgeAdapterTests(unittest.TestCase):
     def setUp(self) -> None:
+        """Create isolated shared-store files for each integration test."""
         self.temp = tempfile.TemporaryDirectory()
         root = Path(self.temp.name)
         self.adapter = Core05KnowledgeAdapter(
@@ -17,9 +18,11 @@ class Core05KnowledgeAdapterTests(unittest.TestCase):
         )
 
     def tearDown(self) -> None:
+        """Remove the isolated files created for the integration test."""
         self.temp.cleanup()
 
     def test_source_and_learning_read_write_read_back(self) -> None:
+        """Verify source dedup plus source-linked learning write and read-back."""
         source, created = self.adapter.record_source({
             "source_name": "GitHub Actions docs",
             "canonical": "https://docs.github.com/en/actions?utm_source=core05#overview",
