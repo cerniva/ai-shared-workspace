@@ -131,6 +131,44 @@ class ObservabilityTests(unittest.TestCase):
         self.assertTrue(log_path.exists())
         self.assertIn("worker.started", log_path.read_text(encoding="utf-8"))
 
+    def test_payload_cannot_override_reserved_event_fields(self):
+        from scripts.observability import emit_event
+
+        event = emit_event(
+            "worker.completed",
+            {"event": "forged", "timestamp": "forged", "level": "ERROR", "job_id": "job-1"},
+            env={},
+        )
+
+        self.assertEqual(event["event"], "worker.completed")
+        self.assertEqual(event["level"], "DEFAULT")
+        self.assertNotEqual(event["timestamp"], "forged")
+
+    def test_local_log_is_owner_only(self):
+        from scripts.observability import emit_event
+
+        log_path = Path(self.tmp.name) / "events.jsonl"
+        emit_event("worker.started", {"job_id": "job-1"}, env={"OBSERVABILITY_LOG_PATH": str(log_path)})
+
+        self.assertEqual(log_path.stat().st_mode & 0o777, 0o600)
+
+    def test_sentry_disables_default_integrations(self):
+        from scripts import observability
+
+        observability._sentry_initialized_dsn = None
+        calls = []
+        fake = types.ModuleType("sentry_sdk")
+        fake.init = lambda **kwargs: calls.append(kwargs)
+        fake.capture_message = lambda message, **kwargs: None
+        fake.capture_exception = lambda exc: None
+
+        env = {"SENTRY_DSN": "https://public@example.invalid/hardening"}
+        with patch.dict(sys.modules, {"sentry_sdk": fake}):
+            observability.emit_event("worker.completed", {"job_id": "job-1"}, env=env)
+
+        self.assertFalse(calls[0]["default_integrations"])
+        self.assertFalse(calls[0]["auto_enabling_integrations"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -56,6 +56,8 @@ def _write_local(event: dict[str, Any], env: Mapping[str, str]) -> None:
         return
     path = Path(raw_path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    path.touch(mode=0o600, exist_ok=True)
+    path.chmod(0o600)
     with path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(event, ensure_ascii=False, sort_keys=True) + "\n")
 
@@ -70,7 +72,11 @@ def _emit_sentry(event: dict[str, Any], env: Mapping[str, str], exception: BaseE
     import sentry_sdk  # type: ignore
 
     if _sentry_initialized_dsn != dsn:
-        sentry_sdk.init(dsn=dsn)
+        sentry_sdk.init(
+            dsn=dsn,
+            default_integrations=False,
+            auto_enabling_integrations=False,
+        )
         _sentry_initialized_dsn = dsn
 
     raw_exception_opt_in = env.get("SENTRY_CAPTURE_RAW_EXCEPTIONS") == "1"
@@ -123,10 +129,10 @@ def emit_event(
     sanitized = _sanitize(dict(payload or {}))
     level = "ERROR" if any(marker in event_name for marker in ("failed", "dead_letter", "blocked", "error")) else "DEFAULT"
     event = {
+        **sanitized,
         "event": event_name,
         "timestamp": (timestamp or datetime.now(UTC)).astimezone(UTC).isoformat(),
         "level": level,
-        **sanitized,
     }
 
     for sink in (
