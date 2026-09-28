@@ -1,7 +1,7 @@
 # Video Production Learning Pool
 
 Status: active shared knowledge
-Updated: 2026-09-28
+Updated: 2026-09-29
 Scope: YouTube Shorts and reusable production lessons for scripting, editing, visuals, audio, packaging, publishing and analytics.
 
 ## Purpose
@@ -72,6 +72,35 @@ Source: https://help.metricool.com/wli-scheduler-endpoint-example-on-a-custom-ba
 ### Operational rule VP-009 — publication success is an end-to-end state machine
 Do not collapse render, scheduling and publication into one success flag. Required states are: `MP4_EXISTS -> QA_PASS -> REMOTE_SCHEDULED -> REMOTE_PUBLISHED -> ANALYTICS_READY`. QA_PASS requires playable 9:16 MP4, H.264 video, AAC audio with a real non-silent signal, captions, A/V sync, complete decode, factual/originality/rights checks. A Metricool-accepted media URL does not prove audio or decode quality. Direct YouTube OAuth `invalid_grant` is not retried blindly; use the already-authorized Metricool fallback until OAuth is interactively repaired. Any failure remains explicit and cannot be promoted to DONE by a later unrelated step.
 
+## Shorts production framework — 2026-09-29
+
+### Rule VP-010 — 30-second standard
+Default production duration for every planned Short is exactly 30 seconds. Design hook, development, payoff and loop/CTA for this duration rather than stretching a weak idea. A platform capability to host longer Shorts is not a reason to lengthen production.
+
+### Rule VP-011 — 200-idea research pool is a production source
+Before choosing a topic, use the researched 200-format idea pool as a discovery/benchmark source. It spans satisfying food/bento, cleaning/detailing, transformations/restoration, crafts, experiments, quizzes/games, comparison/ranking, sports, gaming, travel, science/nature, collectibles, music/audio, storytelling, animation/AI and other tested demand families. Do not force a category merely because it is in the pool: re-check current public evidence and choose the strongest viable candidate.
+
+### Rule VP-012 — 40 retention/engagement mechanisms are production rules
+Score candidate Shorts against the researched retention mechanisms and deliberately combine the most relevant 3–5 rather than inserting all of them. Mechanism set includes: transformation; satisfying/ASMR; curiosity gap; payoff/reveal; prediction/game; comparison; surprise/novelty; skill admiration; story/tension; community/debate; open loop; pattern interrupt; progress indicator; escalating difficulty; risk/failure possibility; twist; hidden detail; withheld information; micro-payoffs; countdown; forced choice; self-test; myth correction; expectation reversal; scale surprise; rarity; inaccessible-world access; visible craft skill; error-to-fix; problem-to-solution; before/after; anticipated impact moment; seamless loop; comment disagreement; identity/community signal; nostalgia; relatability; series/progression; viewer-directed next choice; sensory sound reward.
+
+### Rule VP-013 — candidate selection order
+For each production cycle: current demand/performance evidence -> fit to 30 seconds -> hook strength -> choose 3–5 retention mechanisms -> production feasibility/cost -> rights/originality/monetization gate -> script/visual/audio plan -> QA -> publish -> analytics learning. Public search snippets are discovery only; critical claims should be checked against primary/official sources when possible.
+
+### Rule VP-014 — satisfying food and transformation are priority lanes, not mandatory topics
+Satisfying food/bento/meal-prep and satisfying cleaning/detailing/transformation are validated priority lanes. Favor immediate visual payoff, fast 1–2 second process shots when appropriate, strong before/after contrast, natural sensory sound/ASMR when useful, curiosity, reveal and loop-friendly endings. Do not lock the channel to food or cleaning when another researched format has stronger current evidence.
+
+### Rule VP-015 — viral examples are benchmarks, not copy masters
+Prioritize unusually successful/high-view examples for analysis of hook, pacing, scene order, curiosity, audio, captions, payoff, loop and audience reaction. If direct reuse rights are explicitly verified, material may be used only within those license/permission terms. Otherwise copyrighted footage/audio/scripts/distinctive expression are analysis-only: create original visuals, audio, narration and script. Never treat “many people repost it”, absence of a visible claim, or changing a few seconds as copyright or monetization clearance.
+
+### Rule VP-016 — money + engagement optimization is constrained by rights
+Optimization objective is not raw views alone. Optimize for engaged/qualified performance, retention, rewatch, likes/comments/shares, subscriber impact and monetization eligibility while keeping copyright, reused-content and inauthentic/mass-produced-content risk acceptable. Rights/originality gate overrides a high predicted view count.
+
+### Rule VP-017 — 30-second structural baseline
+Default test structure: 0–2 s scroll-stopper/hook; 2–6 s curiosity/problem/prediction; 6–20 s rapid progress with useful micro-payoffs; 20–27 s main payoff/reveal; 27–30 s natural loop, concise CTA or comment choice only when it improves the concept. This is a hypothesis/template, not an algorithm law; supersede it when owned-channel retention data supports a better structure.
+
+### Rule VP-018 — learning loop
+After publication, prefer engaged views, stayed-to-watch/chose-to-view, first-seconds retention when available, average view duration, average percentage viewed, rewatch/loop evidence, likes, comments, shares, subscribers and monetization metrics. Record which topic family and retention mechanisms were used. Promote patterns only after repeated owned-channel evidence; do not infer causality from one viral external example.
+
 ## Existing official production guardrails
 - Technical upload encoding/QC source already cataloged: `src_527e9618377fed71`.
 - YouTube automatic-caption/intelligibility source already cataloged: `src_dba1a72aa5f4fc73`.
@@ -79,13 +108,15 @@ Do not collapse render, scheduling and publication into one success flag. Requir
 
 Production gate:
 1. 9:16 playable MP4 exists.
-2. Narration/audio is actually present and intelligible.
-3. Captions match speech closely enough for review.
-4. Visual/audio timing is synchronized.
-5. Claims are fact-checked.
-6. Originality/rights/monetization risk is acceptable.
-7. One explicit learning hypothesis is attached to the upload.
-8. After enough data, feed measured results back into this pool and supersede weak hypotheses rather than repeating them.
+2. Duration is 30 seconds under the current production standard.
+3. Narration/audio is actually present and intelligible.
+4. Captions match speech closely enough for review.
+5. Visual/audio timing is synchronized.
+6. Claims are fact-checked.
+7. Originality/rights/monetization risk is acceptable.
+8. Candidate was evaluated against the 200-idea pool and relevant retention mechanisms.
+9. One explicit learning hypothesis is attached to the upload.
+10. After enough data, feed measured results back into this pool and supersede weak hypotheses rather than repeating them.
 
 ## Shared automation usage
 - `Video ve Shopify Otomasyonu`: primary consumer and producer of video-production learnings. Must check this pool before topic/script/edit decisions and write new verified lessons after meaningful analysis.
