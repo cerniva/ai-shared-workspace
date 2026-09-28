@@ -11,6 +11,36 @@ from scripts import shorts_media
 class ShortsMediaTests(unittest.TestCase):
     """Define normalization, fallback, redaction, and download safety."""
 
+    @patch("scripts.shorts_media.urlopen")
+    def test_request_json_sends_explicit_app_headers_and_preserves_auth(self, urlopen) -> None:
+        """Provider API calls should identify the app and still keep provider auth headers."""
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def read(self):
+                return b"{}"
+
+        urlopen.return_value = FakeResponse()
+
+        result = shorts_media._request_json(
+            "https://api.example.test/search",
+            headers={"Authorization": "provider-key"},
+        )
+
+        self.assertEqual(result, {})
+        request = urlopen.call_args.args[0]
+        headers = {key.casefold(): value for key, value in request.header_items()}
+        self.assertEqual(
+            headers["user-agent"],
+            "cerniva-shorts-media/1.0 (+https://github.com/cerniva/ai-shared-workspace)",
+        )
+        self.assertEqual(headers["accept"], "application/json")
+        self.assertEqual(headers["authorization"], "provider-key")
+
     @patch("scripts.shorts_media._request_json")
     def test_pexels_video_response_normalizes_to_media_asset(self, request_json) -> None:
         """Pexels video search should emit the shared media-asset schema."""
