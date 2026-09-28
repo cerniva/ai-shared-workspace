@@ -39,7 +39,8 @@ jobs:
             tests.test_shorts_render \
             tests.test_shorts_render_tts \
             tests.test_shorts_free_render_workflow \
-            tests.test_shorts_free_build_workflow -v
+            tests.test_shorts_free_build_workflow \
+            tests.test_shorts_sop_policy -v
       - name: Full Python suite
         run: python3 -m pytest -q
       - name: Compile Shorts pipeline
