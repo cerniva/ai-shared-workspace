@@ -16,8 +16,8 @@ on:
     types: [opened, edited]
 
 concurrency:
-  group: meta-ingest
-  cancel-in-progress: false
+  group: repo-main-writers
+  queue: max
 
 jobs:
   ingest:
