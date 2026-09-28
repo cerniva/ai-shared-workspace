@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 2,
     "seen": 1,
     "answered": 28,
     "delayed": 23
   },
-  "event_count": 60,
+  "event_count": 61,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -77,13 +77,13 @@
     "MSG-20260928-154800-chatgpt-current-blockers:delayed",
     "RPT-20260928-1641-chatgpt-shorts-core05-fixes:pending",
     "RPT-20260928-1710-chatgpt-youtube-handoff:pending",
-    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed"
+    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed",
+    "MSG-20260928-171000-chatgpt-continuation-policy:pending"
   ],
   "new_event_keys": [
-    "RPT-20260928-1710-chatgpt-youtube-handoff:pending",
-    "RPT-20260928-1641-chatgpt-shorts-core05-fixes:delayed"
+    "MSG-20260928-171000-chatgpt-continuation-policy:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-28T17:11:18+03:00"
+  "checked_at": "2026-09-28T17:12:14+03:00"
 }
