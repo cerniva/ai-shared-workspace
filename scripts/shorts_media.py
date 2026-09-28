@@ -21,6 +21,10 @@ PEXELS_VIDEO_SEARCH = "https://api.pexels.com/v1/videos/search"
 PIXABAY_VIDEO_SEARCH = "https://pixabay.com/api/videos/"
 OPENVERSE_IMAGE_SEARCH = "https://api.openverse.org/v1/images/"
 DEFAULT_TIMEOUT = 15
+DEFAULT_API_HEADERS = {
+    "User-Agent": "cerniva-shorts-media/1.0 (+https://github.com/cerniva/ai-shared-workspace)",
+    "Accept": "application/json",
+}
 
 
 class MediaProviderError(RuntimeError):
@@ -47,7 +51,8 @@ def _redact_url(url: str) -> str:
 
 def _request_json(url: str, *, headers: Mapping[str, str] | None = None, timeout: int = DEFAULT_TIMEOUT) -> dict:
     """Fetch one JSON object with a bounded timeout."""
-    request = Request(url, headers=dict(headers or {}))
+    request_headers = {**DEFAULT_API_HEADERS, **dict(headers or {})}
+    request = Request(url, headers=request_headers)
     try:
         with urlopen(request, timeout=timeout) as response:
             payload = response.read()
