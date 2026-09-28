@@ -47,6 +47,20 @@ High-view public examples repeatedly use:
 
 Reusable hypothesis: test titles/hooks with one clear curiosity contrast + one concrete visual object + one payoff. Do not assume this is universally causal; validate against our own channel data.
 
+### Official rule VP-004 — separate exposure views from engaged/qualified performance
+Official YouTube guidance checked 2026-09-28: since 2026-08-24, a public view is counted when playback begins across formats. YPP earnings continue to use engaged Shorts views and YPP eligibility uses qualified Shorts views. Therefore do not optimize or report Shorts success from raw public views alone. Primary learning set: engaged views, stayed-to-watch/chose-to-view behavior, average view duration/retention, subscribers and monetization metrics when available.
+Sources:
+- https://support.google.com/youtubecreatorstudio/answer/2991785
+- https://support.google.com/youtubecreatorstudio/answer/12220281
+
+### Official rule VP-005 — hook and packaging are promises; tags are secondary
+Official YouTube recommendation guidance says initial seconds are a key stay/leave decision point, the intro should immediately deliver on the title/thumbnail promise, and retention should be used to evaluate structure. Titles/thumbnails/description matter for packaging; tags are mainly useful for spelling variants rather than being an essential discovery lever.
+Source: https://support.google.com/youtube/answer/16559650
+
+### Official rule VP-006 — no universal favored Shorts format
+Official Shorts search/discovery guidance says YouTube does not inherently favor a particular Shorts format; ranking depends on performance and viewer personalization. Treat third-party creator advice, books, TikTok/Reels patterns, vidIQ findings and viral examples as discovery inputs/hypotheses, never as proof of a YouTube algorithm rule.
+Source: https://support.google.com/youtube/answer/11914225
+
 ## Existing official production guardrails
 - Technical upload encoding/QC source already cataloged: `src_527e9618377fed71`.
 - YouTube automatic-caption/intelligibility source already cataloged: `src_dba1a72aa5f4fc73`.
