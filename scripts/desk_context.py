@@ -2,8 +2,8 @@
 """Build a compact, query-focused context pack from the shared workspace.
 
 Run from a checkout:
-  python3 scripts/desk_context.py status
-  python3 scripts/desk_context.py search "Grok API 403 credits"
+  python3 -m scripts.desk_context status
+  python3 -m scripts.desk_context search "Grok API 403 credits"
 The output is evidence for an agent to inspect; it does not contact agents or
 send notifications.
 """
