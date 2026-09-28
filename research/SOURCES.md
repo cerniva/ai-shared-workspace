@@ -273,3 +273,12 @@ Bu sayfalar 27 Eylül 2026'da resmî kaynaklarından açılıp doğrulandı. Saa
 | Understanding payment gateway availability | https://help.shopify.com/en/manual/payments/third-party-providers/payment-gateway-availability | Shopify ödeme operasyonu | Ödeme sağlayıcısını mağaza ülkesine göre Shopify'ın güncel bölgesel ağ geçidi listesinde doğrulama ve Admin'deki sağlayıcı görünürlüğünü ayırma | Tier 1 — Shopify Help Center resmi birincil dokümantasyonu; sayfa 2026-09-28'de açıldı | Public page opened and verified | Ücretsiz, public docs; API quota yok | Shopify kendi gateway listesine güncel kaynak diyor; mağazanın konumu/ödeme yapılandırması Admin'de farklı seçenek gösterebilir. Belge iyzico merchant başvurusunun kabulünü veya bu mağazadaki etkinleştirmeyi kanıtlamaz. | 2026-09-28 | iyzico entegrasyonundan önce Türkiye bölgesinde destek durumunu kontrol etmek; görünmüyorsa canlı ayarları değiştirmeden resmî desteğe yönelmek |
 
 **Dedup durumu:** PR #27 ana dala birleşti. Shopify ödeme sağlayıcısı kaynağı özgün sayfadan yeniden doğrulandı ve merkezi `knowledge/source_catalog.json` kataloğuna `src_7fdeed3f9ddd8166` kimliğiyle tek kopya olarak aktarıldı; yazma sonrası geri okuma geçti.
+
+
+## GitHub App en az ayrıcalık kaynağı — 2026-09-28 05:58 TRT
+
+| source_id | source_name | category | canonical_url | tool/plugin | purpose / related plan | evidence_tier | access_status | cost/quota | account requirement | reliability_limits | why valuable | discovered_at / last_verified_at / last_successful_use | failure_note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| src_a2ab2e6f41d05d70 | Choosing permissions for a GitHub App | Kimlik ve entegrasyon güvenliği | https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app | GitHub Docs; Exa Search + Fetch | GitHub App izinlerini en az ayrıcalıkla seçmek; Sistem ve Araçlar / Bilgi Kütüphanesi | official | web_only | Ücretsiz herkese açık belge; hesap/API kotası kullanılmadı | Doküman için gerekmez; kurulu uygulamaların gerçek izinleri için hesap görünürlüğü gerekir | İzin sınıflarını ve gerekli kabiliyetleri açıklar, bu hesaptaki uygulamalara verilmiş izinleri göstermez | Contents ile Workflows izinlerini ayırarak gereksiz geniş yetki vermeyi önler | keşif/doğrulama/başarılı kullanım 2026-09-28 05:58 TRT | Yok |
+
+**Dedup:** Canonical URL ve `src_a2ab2e6f41d05d70` merkezi katalogda aranarak tek kopya eklendi; yazma sonrası geri okuma geçti.
