@@ -38,6 +38,7 @@
   "free_render_requested": true,
   "language": "en",
   "content_type": "short_fact",
+  "narration_speed": 145,
   "narration_text": "Water does something most liquids don't. As it freezes, its molecules lock into an open crystal structure. That structure takes up more space, so ice becomes less dense than liquid water. Less dense things float. That same quirk helps lakes keep liquid water below the ice in winter.",
   "media_queries": [
     "ice cube floating in water vertical",
