@@ -109,8 +109,31 @@ class ShortsFreePipelineTests(unittest.TestCase):
             provenance = json.loads(Path(result["provenance"]).read_text(encoding="utf-8"))
             self.assertEqual(
                 [(item["provider"], item["provider_asset_id"]) for item in provenance],
-                [("pexels", "same"), ("pexels", "unique-a"), ("pixabay", "unique-b")],
+                [("pexels", "same"), ("pixabay", "unique-b"), ("pexels", "unique-a")],
             )
+
+    def test_pipeline_reserves_a_visual_slot_for_each_query_before_filling_extras(self):
+        first = [
+            asset("pexels", "forest-1"),
+            asset("pexels", "forest-2"),
+            asset("pexels", "forest-3"),
+        ]
+        second = [asset("pexels", "river-1")]
+        with tempfile.TemporaryDirectory() as td, \
+             patch.object(pipeline, "search_free_media", side_effect=[first, second]) as search, \
+             patch.object(pipeline, "download_asset", side_effect=fake_download):
+            base = Path(td)
+            result = pipeline.prepare_render_bundle(
+                self._write_packet(base, valid_packet()), base / "work", env={}
+            )
+            search.assert_has_calls([
+                call("vertical forest", env={}, limit=6),
+                call("vertical river", env={}, limit=6),
+            ])
+            provenance = json.loads(Path(result["provenance"]).read_text(encoding="utf-8"))
+            ids = [item["provider_asset_id"] for item in provenance]
+            self.assertEqual(ids[:2], ["forest-1", "river-1"])
+            self.assertEqual(len(ids), 3)
 
     def test_pipeline_writes_provenance_without_secrets(self):
         secret_env = {
