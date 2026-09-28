@@ -3,6 +3,36 @@
   "sources": [
     {
       "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/apps/oauth-apps/using-oauth-apps/reviewing-your-authorized-oauth-apps",
+      "category": "identity-integration-security",
+      "cost_quota": "free public documentation",
+      "discovered_at": "2026-09-28T01:10:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T02:12:00+00:00",
+      "provenance": "verified",
+      "purpose": "Review and revoke authorized OAuth apps for the Knowledge Library and system integrations",
+      "reliability_limits": "Explains account review and revocation; does not reveal which apps are currently authorized, and account settings require login",
+      "source_id": "src_1ab9dfce432fd86a",
+      "source_name": "GitHub authorized OAuth apps review"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/apps/using-github-apps/reviewing-and-revoking-authorization-of-github-apps",
+      "category": "identity-integration-security",
+      "cost_quota": "free public documentation",
+      "discovered_at": "2026-09-28T01:10:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T02:12:00+00:00",
+      "provenance": "verified",
+      "purpose": "Review and revoke GitHub App authorizations for the Knowledge Library and system integrations",
+      "reliability_limits": "Explains account review and revocation; does not reveal current app installations or permissions, and account settings require login",
+      "source_id": "src_6abcf2649edb582c",
+      "source_name": "GitHub App authorization review"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://docs.python.org/3/library/fcntl.html",
       "category": "concurrency",
       "cost_quota": "free",
@@ -30,7 +60,22 @@
       "reliability_limits": "Contents API writes can conflict; independent writers must re-read current SHA and serialize updates",
       "source_id": "src_e8107921e7c45aa8",
       "source_name": "GitHub Repository Contents API"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps",
+      "category": "identity-integration-security",
+      "cost_quota": "free public documentation",
+      "discovered_at": "2026-09-28T02:12:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-09-28T02:12:00+00:00",
+      "provenance": "verified",
+      "purpose": "Interpret OAuth scopes and assess least-privilege requirements for connected tools",
+      "reliability_limits": "Defines scope capabilities but does not expose the scopes granted to any current installation; account or API inspection is still required",
+      "source_id": "src_f0d89c2d1756987d",
+      "source_name": "GitHub OAuth app scopes"
     }
   ],
-  "updated_at": "2026-09-28T02:00:55+00:00"
+  "updated_at": "2026-09-28T02:12:00+00:00"
 }
