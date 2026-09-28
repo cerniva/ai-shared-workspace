@@ -53,8 +53,8 @@ class ShortsRenderTtsTests(unittest.TestCase):
             write_ppm(image)
             manifest.write_text(
                 json.dumps({
-                    "target_seconds": 1.5,
-                    "visuals": [{"path": "frame.ppm", "duration": 1.5}],
+                    "target_seconds": 3.0,
+                    "visuals": [{"path": "frame.ppm", "duration": 3.0}],
                     "narration_text": "Free narration is working.",
                     "narration_voice": "en-us",
                     "narration_speed": 165,
@@ -75,6 +75,32 @@ class ShortsRenderTtsTests(unittest.TestCase):
                 "-af", "volumedetect", "-vn", "-f", "null", "-"
             ]).stderr
             self.assertIn("mean_volume", volume)
+
+    @unittest.skipUnless(
+        shutil.which("ffmpeg") and shutil.which("ffprobe") and shutil.which("espeak-ng"),
+        "ffmpeg/ffprobe/espeak-ng required",
+    )
+    def test_render_rejects_text_narration_longer_than_target(self):
+        """Reject synthesized speech that would be truncated by the target duration."""
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            image = base / "frame.ppm"
+            manifest = base / "render.json"
+            output = base / "short.mp4"
+            write_ppm(image)
+            manifest.write_text(
+                json.dumps({
+                    "target_seconds": 0.5,
+                    "visuals": [{"path": "frame.ppm", "duration": 0.5}],
+                    "narration_text": "This narration is intentionally much too long to fit.",
+                    "narration_voice": "en-us",
+                    "narration_speed": 165,
+                }),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "does not fit target_seconds"):
+                render(manifest, output)
 
 
 if __name__ == "__main__":
