@@ -16,6 +16,8 @@ import subprocess
 import unicodedata
 from pathlib import Path
 
+from scripts.core05_knowledge_adapter import Core05KnowledgeAdapter
+
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = [
     "DESK.md",
@@ -102,8 +104,24 @@ def print_header(mode: str) -> None:
     print("This is a local snapshot; verify cited files before making current-state claims.")
 
 
+def core05_knowledge_health() -> str:
+    """Return fail-closed CORE-05 shared knowledge bridge health for operators."""
+    try:
+        result = Core05KnowledgeAdapter().validate()
+    except Exception as exc:
+        return f"CORE-05 knowledge bridge: ERROR ({type(exc).__name__}: {exc})"
+    if result.get("valid") is not True:
+        return "CORE-05 knowledge bridge: INVALID"
+    return (
+        "CORE-05 knowledge bridge: VALID "
+        f"sources={result['source_count']} learnings={result['learning_count']}"
+    )
+
+
 def status() -> None:
+    """Print the current operational baseline plus CORE-05 knowledge health."""
     print_header("status")
+    print(core05_knowledge_health())
     for rel in BASELINE:
         path = ROOT / rel
         text = read_text(path)
