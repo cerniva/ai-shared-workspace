@@ -13,12 +13,16 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 import unicodedata
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from scripts.core05_knowledge_adapter import Core05KnowledgeAdapter
 
-ROOT = Path(__file__).resolve().parents[1]
 BASELINE = [
     "DESK.md",
     "state/now.json",

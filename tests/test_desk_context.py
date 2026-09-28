@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import io
+import subprocess
+import sys
 import unittest
 from contextlib import redirect_stdout
+from pathlib import Path
 from unittest.mock import patch
 
 from scripts import desk_context
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class DeskContextHealthTests(unittest.TestCase):
@@ -49,6 +54,20 @@ class DeskContextHealthTests(unittest.TestCase):
             "CORE-05 knowledge bridge: VALID sources=1 learnings=1",
             output.getvalue(),
         )
+
+    def test_documented_status_command_runs_directly(self) -> None:
+        """The DESK.md command must work as a directly executed Python script."""
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "desk_context.py"), "status"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("CORE-05 knowledge bridge: VALID ", completed.stdout)
+        self.assertNotIn("CORE-05 knowledge bridge: ERROR", completed.stdout)
 
 
 if __name__ == "__main__":
