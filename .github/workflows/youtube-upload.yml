@@ -3,12 +3,36 @@ name: Upload YouTube Short
 on:
   workflow_dispatch:
     inputs:
-      video_path:
-        description: "Repo-relative path to the finished MP4 (for example outputs/shorts/today.mp4)"
+      source_mode:
+        description: "Read the MP4 from this repo or from a shorts-free-render artifact"
         required: true
+        default: repo
+        type: choice
+        options:
+          - repo
+          - render_artifact
+      video_path:
+        description: "Repo-relative MP4 path when source_mode=repo"
+        required: false
+        default: ""
+        type: string
+      render_run_id:
+        description: "GitHub Actions run ID of shorts-free-render when source_mode=render_artifact"
+        required: false
+        default: ""
+        type: string
+      render_artifact_name:
+        description: "Artifact name produced by shorts-free-render"
+        required: false
+        default: shorts-free-render
+        type: string
+      rendered_video_name:
+        description: "MP4 filename inside the render artifact"
+        required: false
+        default: short.mp4
         type: string
       metadata_path:
-        description: "Repo-relative path to a JSON file with title and description"
+        description: "Repo-relative JSON file with title and description"
         required: true
         type: string
       publish_publicly:
@@ -19,6 +43,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   upload:
@@ -27,6 +52,84 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Validate source inputs
+        env:
+          SOURCE_MODE: ${{ inputs.source_mode }}
+          VIDEO_PATH_INPUT: ${{ inputs.video_path }}
+          RENDER_RUN_ID: ${{ inputs.render_run_id }}
+          RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
+          RENDERED_VIDEO_NAME: ${{ inputs.rendered_video_name }}
+          METADATA_PATH: ${{ inputs.metadata_path }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          root = Path.cwd().resolve()
+
+          def repo_file(value: str, label: str, suffix: str) -> Path:
+              if not value or "\n" in value or "\r" in value:
+                  raise SystemExit(f"{label} must be a non-empty single-line repository path")
+              path = Path(value)
+              if path.is_absolute() or ".." in path.parts:
+                  raise SystemExit(f"{label} must be repository-relative")
+              resolved = (root / path).resolve()
+              if root not in resolved.parents or not resolved.is_file():
+                  raise SystemExit(f"{label} must point to an existing repository file")
+              if resolved.suffix.lower() != suffix:
+                  raise SystemExit(f"{label} must end with {suffix}")
+              return resolved
+
+          repo_file(os.environ["METADATA_PATH"], "metadata_path", ".json")
+          mode = os.environ["SOURCE_MODE"]
+          if mode == "repo":
+              repo_file(os.environ["VIDEO_PATH_INPUT"], "video_path", ".mp4")
+          elif mode == "render_artifact":
+              run_id = os.environ["RENDER_RUN_ID"]
+              if not re.fullmatch(r"[1-9][0-9]{0,19}", run_id):
+                  raise SystemExit("render_run_id must be a positive numeric GitHub Actions run ID")
+              artifact = os.environ["RENDER_ARTIFACT_NAME"]
+              if artifact.startswith(".") or not re.fullmatch(r"[A-Za-z0-9._-]{1,120}", artifact):
+                  raise SystemExit("render_artifact_name must be a visible simple artifact name")
+              video_name = os.environ["RENDERED_VIDEO_NAME"]
+              if video_name.startswith(".") or not re.fullmatch(
+                  r"[A-Za-z0-9._-]{1,120}\.mp4", video_name, re.IGNORECASE
+              ):
+                  raise SystemExit("rendered_video_name must be a visible simple .mp4 filename")
+          else:
+              raise SystemExit("unsupported source_mode")
+          PY
+
+      - name: Download credit-free render artifact
+        if: ${{ inputs.source_mode == 'render_artifact' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.render_artifact_name }}
+          path: downloaded-render
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.render_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Resolve upload video
+        env:
+          SOURCE_MODE: ${{ inputs.source_mode }}
+          VIDEO_PATH_INPUT: ${{ inputs.video_path }}
+          RENDERED_VIDEO_NAME: ${{ inputs.rendered_video_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$SOURCE_MODE" == "render_artifact" ]]; then
+            candidate="downloaded-render/$RENDERED_VIDEO_NAME"
+          else
+            candidate="$VIDEO_PATH_INPUT"
+          fi
+          if [[ ! -f "$candidate" ]]; then
+            echo "Resolved MP4 does not exist: $candidate" >&2
+            exit 1
+          fi
+          printf 'VIDEO_PATH=%s\n' "$candidate" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -41,7 +144,6 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          VIDEO_PATH: ${{ inputs.video_path }}
           METADATA_PATH: ${{ inputs.metadata_path }}
           PUBLISH_PUBLICLY: ${{ inputs.publish_publicly }}
         shell: bash
