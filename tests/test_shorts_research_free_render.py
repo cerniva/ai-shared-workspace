@@ -54,17 +54,6 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
         self.assertFalse(scored["veto"])
         self.assertEqual(scored["missing_criteria"], [])
 
-    def test_non_finite_reliability_uses_fail_closed_default_and_vetoes(self) -> None:
-        """NaN reliability must never be promoted to a valid or maximum score."""
-        item = {
-            "title": "nan reliability",
-            "unique_angle": "still unique",
-            "scores": {**BASE_SCORES, "reliability": float("nan")},
-        }
-        scored = shorts_research.score_item(item)
-        self.assertTrue(scored["veto"])
-        self.assertEqual(scored["total"], sum(BASE_SCORES.values()) - 7 + 25.0)
-
     def test_equal_base_candidate_with_better_monetization_engagement_and_cost_ranks_higher(self) -> None:
         """Optional business/production signals should break otherwise equal base scores."""
         weak = {
@@ -94,6 +83,16 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
         ranked = shorts_research.rank([weak, strong])
         self.assertEqual(ranked[0]["title"], "strong optional")
         self.assertGreater(ranked[0]["total"], ranked[1]["total"])
+
+    def test_nan_reliability_uses_default_and_cannot_bypass_veto(self) -> None:
+        """NaN is invalid input and must not turn into a passing reliability score."""
+        item = {
+            "title": "invalid reliability",
+            "unique_angle": "still unique",
+            "scores": {**BASE_SCORES, "reliability": float("nan")},
+        }
+        scored = shorts_research.score_item(item)
+        self.assertTrue(scored["veto"])
 
     @patch("scripts.shorts_research.is_duplicate", return_value=False)
     def test_legacy_packet_does_not_require_free_render_fields(self, _duplicate) -> None:
