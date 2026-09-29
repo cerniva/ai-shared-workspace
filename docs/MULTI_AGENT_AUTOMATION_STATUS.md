@@ -1,6 +1,6 @@
 # AI automation system — verified status and remaining blockers
 
-Audit date: 2026-09-28  
+Audit date: 2026-09-29  
 Repository: cerniva/ai-shared-workspace  
 Owner: CORE-05
 
@@ -43,3 +43,10 @@ Owner: CORE-05
 ## Operating rule
 
 Continue useful work through healthy routes without waiting on a failed provider. Never fabricate a provider response, never expose secrets, and keep payments, account-security changes, destructive actions and irreversible publishing behind the existing safety gates.
+
+
+## Red/yellow cleanup note
+
+- Current main CI is green for worker orchestration, Shorts rendering, web worker, Gemini senses, desk-notify and CodeQL.
+- Provider credit/billing/auth failures are external gates, not software defects; routing avoids making them block unrelated work.
+- The OIDC feeder was reviewed against the official GitHub reference. No current workflow requires OIDC, so no trust-policy or permission change is being made speculatively.
