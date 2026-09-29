@@ -27,6 +27,18 @@ def test_invalid_ttl_fails_closed():
     assert effective_status(evidence, now=now) == ("failed", "invalid_ttl")
 
 
+def test_non_finite_ttl_fails_closed():
+    now = datetime.now(timezone.utc)
+    evidence = HealthEvidence("worker", "healthy", now.isoformat(), ttl_seconds=float("nan"))
+    assert effective_status(evidence, now=now) == ("failed", "invalid_ttl")
+
+
+def test_future_timestamp_fails_closed():
+    now = datetime.now(timezone.utc)
+    evidence = HealthEvidence("worker", "healthy", (now + timedelta(seconds=1)).isoformat(), ttl_seconds=300)
+    assert effective_status(evidence, now=now) == ("failed", "future_evidence_timestamp")
+
+
 def test_unknown_status_fails_closed():
     now = datetime.now(timezone.utc)
     evidence = HealthEvidence("worker", "mystery", now.isoformat(), ttl_seconds=300)
