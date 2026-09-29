@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run Firecrawl keyless fallback if needed
         run: python3 scripts/shared_web_worker.py
       - name: Commit fallback result
