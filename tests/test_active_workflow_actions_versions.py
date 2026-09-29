@@ -9,11 +9,16 @@ ACTIVE_WORKFLOWS = (
     ".github/workflows/ai-worker-gpt56.yml",
     ".github/workflows/desk-notify.yml",
     ".github/workflows/gemini-senses.yml",
+    ".github/workflows/codeql.yml",
+    ".github/workflows/worker-orchestration-tests.yml",
+    ".github/workflows/shorts-render-tests.yml",
+    ".github/workflows/shorts-free-smoke-once.yml",
+    ".github/workflows/youtube-upload.yml",
 )
 
 
 class ActiveWorkflowActionsVersionTests(unittest.TestCase):
-    def test_active_scheduled_workflows_use_checkout_v7(self) -> None:
+    def test_active_workflows_use_checkout_v7(self) -> None:
         for relative in ACTIVE_WORKFLOWS:
             text = (ROOT / relative).read_text(encoding="utf-8")
             with self.subTest(workflow=relative):
