@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29T03:12:00+03:00",
+  "updated_at": "2026-09-29T05:04:00+03:00",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -28,7 +28,7 @@
       "owner": "team",
       "status": "active",
       "project": "content",
-      "notes": "Shorts araştırma/üretim/retention/yayın performansı. Free-first üretim varsayılan: lisanslı ücretsiz medya + yerel TTS + FFmpeg + preflight; ücretli üretim yalnız kanıtlı kalite/gelir gerekçesiyle fallback. PR #45/#47/#52/#55 ana dala alındı; medya fallback, puanlama/gate, packet→bundle→render/build hattı ve non-finite score guard CI ile doğrulandı. Gerçek dış servis artifact smoke ve yayın ayrı doğrulama kapılarıdır.",
+      "notes": "Shorts araştırma/üretim/retention/yayın performansı. Free-first üretim varsayılan: lisanslı ücretsiz medya + yerel TTS + FFmpeg + fail-closed preflight; ücretli üretim yalnız kanıtlı kalite/gelir gerekçesiyle fallback. Gerçek free-first workflow smoke koşusunda MP4 artifact + preflight üretildi ve read-back doğrulandı. YouTube doğrudan yayın ise ayrı external auth kapısıdır; Metricool sosyal ağı canlı doğrulamada bağlı değildir; vidIQ owned-channel erişimi araştırma/analytics için kullanılabilir ancak doğrulanmış video-upload yolu değildir.",
       "lead": "chatgpt",
       "backups": ["gemini", "grok"]
     },
@@ -38,7 +38,7 @@
       "owner": "team",
       "status": "active",
       "project": "shopify",
-      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. Ödeme onayı kanıtlanana kadar canlı ödeme/reklam gibi riskli eylemler yok. PayoutLens ayrı ürün olarak korunur.",
+      "notes": "Ürün araştırması, mağaza dönüşümü, dijital ürünler, teklif/fiyat, SEO, müşteri kazanımı ve gelir fırsatları. Shopify store/analytics connector canlıdır. Ödeme onayı/readiness kanıtlanana kadar canlı ödeme/reklam gibi riskli eylemler yok; payment readiness yazılım kırmızısı değil external/unverified waiting olarak tutulur. PayoutLens ayrı ürün olarak korunur.",
       "lead": "chatgpt",
       "backups": ["grok"]
     },
@@ -48,7 +48,7 @@
       "owner": "team",
       "status": "active",
       "project": "workspace",
-      "notes": "Tekrarlayan sorunları ekip içinde çözer; state/cross-chat reconciliation ve alternative-first recovery kurallarını uygular; küçük ve doğrulanabilir delta yapar; canlı durum eski mail/rapordan üstündür. PR #57 ile fail-open worker observability (sanitized local JSONL + optional Sentry/Langfuse) güncel main üzerinde worker CI ve CodeQL doğrulamasıyla birleştirildi; harici observability servisi gerçek event/read-back olmadan verified_connected sayılmaz.",
+      "notes": "Tekrarlayan sorunları ekip içinde çözer; state/cross-chat reconciliation ve alternative-first recovery kurallarını uygular; küçük ve doğrulanabilir delta yapar; canlı durum eski mail/rapordan üstündür. PR #87 Metricool/desk-health truth düzeltmesini ana dala taşıdı. Main commit 7b142d3 Gemini CLI free-first executor smoke yolunu ekledi; worker-orchestration, Gemini CLI smoke ve CodeQL yeşil. OpenAI/xAI/Anthropic/Meta kredi-billing durumları sağlıklı Gemini/TinyFish/Firecrawl/local fallback'ler nedeniyle degraded_non_blocking sınıfındadır; credentialed Gemini CLI dispatch ayrıca read-back olmadan full verified sayılmaz.",
       "lead": "chatgpt",
       "backups": ["grok", "gemini"]
     },
@@ -102,7 +102,7 @@
       "parent": "CORE-05",
       "lead": "chatgpt",
       "backups": ["grok", "gemini"],
-      "notes": "Ortak state, delivery ledger, knowledge bridge, cross-chat reconciliation ve operational status health önemli ölçüde kuruldu. GitHub/Gmail bildirimleri koordinasyon sinyali olarak kullanılır fakat canlı GitHub/servis durumu kanoniktir. Ayrı ChatGPT sohbetleri arasında garantili anlık push yok; eventual reconciliation kullanılır. Yeni işte önce state/now.json + state/cross_chat_sync.json oku, stale/duplicate işi açma, yalnız yeni delta raporla."
+      "notes": "Ortak state, delivery ledger, knowledge bridge, cross-chat reconciliation ve operational status health önemli ölçüde kuruldu. GitHub ve kullanılabilir canlı connector bildirimleri koordinasyon sinyali olabilir fakat canlı GitHub/servis durumu kanoniktir. Gmail şu anda zorunlu bağımlılık değildir ve erişilemez olduğunda döngüyü bloklamaz. Ayrı ChatGPT sohbetleri arasında garantili anlık push yok; eventual reconciliation kullanılır. Yeni işte önce state/now.json + state/cross_chat_sync.json oku, stale/duplicate işi açma, yalnız yeni delta raporla."
     },
     {
       "id": "TSK-20260928-002",
@@ -124,13 +124,13 @@
       "project": "shopify",
       "kind": "ticket",
       "parent": "CORE-04",
-      "notes": "iyzico Risk/Karar incelemesi storefront görüntüleme şifresi istedi; admin bilgisi istemedi. Şifreyi doğrudan paylaşmak yerine basvuru@iyzico.com adresine geçici erişim veya başka güvenli doğrulama yöntemi soruldu. Yanıt bekleniyor; bu sırada ödeme dışı mağaza hazırlıkları devam eder. Kullanıcıdan şimdilik yeni işlem isteme."
+      "notes": "iyzico Risk/Karar incelemesi storefront görüntüleme şifresi istedi; admin bilgisi istemedi. Şifreyi doğrudan paylaşmak yerine basvuru@iyzico.com adresine geçici erişim veya başka güvenli doğrulama yöntemi soruldu. Yanıt bekleniyor; bu sırada ödeme dışı mağaza hazırlıkları devam eder. Kullanıcıdan şimdilik yeni işlem isteme. Gmail şu anda kullanılamadığı için aynı durum için mail kontrolü isteme veya sistemi bloklama."
     }
   ],
   "completed_setup": ["TSK-20260926-001", "TSK-20260926-003"],
   "protected_notes": [
     "PayoutLens ayrı ve korunmuş projedir; konumu/iş kapsamı doğrulanmadan workspace veya commerce işiyle değiştirme."
   ],
-  "routing_note": "Canlı sağlayıcı/ajan sağlığı ve fallback sırası state/now.json'dan okunur. Bağımlı işlerde state/cross_chat_sync.json ile diğer sohbetlerden gelen kullanıcı-side deltalar uzlaştırılır. GitHub/Gmail bildirimleri yeni delta keşfi içindir; canlı repo/servis durumu eski mailden üstündür. Aynı dosyada eşzamanlı edit yerine görev/branch sınırları ayrılır.",
-  "execution_note": "Kullanıcının talimatı: yarım kalan güvenli işleri bul ve başlat; sorunlarda önce yetkili düşük-riskli alternatifleri dene. Login/2FA/payment/legal/sensitive-permission/irreversible eylemler kullanıcı kapısı olarak kalır. Sürekli veya anlık ajan iletişimi varmış gibi iddia edilmez."
+  "routing_note": "Canlı sağlayıcı/ajan sağlığı ve fallback sırası state/now.json'dan okunur. Bağımlı işlerde state/cross_chat_sync.json ile diğer sohbetlerden gelen kullanıcı-side deltalar uzlaştırılır. Uygun bildirim sinyalleri yeni delta keşfi içindir; canlı repo/servis durumu eski bildirimden üstündür. Gmail erişimi yoksa zorunlu değildir. Aynı dosyada eşzamanlı edit yerine görev/branch sınırları ayrılır.",
+  "execution_note": "Kullanıcının talimatı: yarım kalan güvenli işleri bul ve başlat; sorunlarda önce yetkili düşük-riskli alternatifleri dene ve tek tek raporlamak yerine turdaki güvenle çözülebilen tüm kırmızı/sarıları tamamla. Login/2FA/payment/legal/sensitive-permission/irreversible eylemler kullanıcı kapısı olarak kalır. Sürekli veya anlık ajan iletişimi varmış gibi iddia edilmez."
 }
