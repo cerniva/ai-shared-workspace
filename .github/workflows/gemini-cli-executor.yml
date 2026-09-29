@@ -1,0 +1,69 @@
+name: gemini-cli-executor
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Authorized repository task for Gemini CLI"
+        required: true
+        type: string
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/gemini-cli-executor.yml
+
+concurrency:
+  group: gemini-cli-executor
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Verify Gemini CLI executor
+        run: npx --yes @google/gemini-cli@0.39.1 --version
+
+  execute:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Require configured free-first credential
+        shell: bash
+        run: |
+          test -n "$GEMINI_API_KEY" || { echo 'GEMINI_API_KEY is not configured'; exit 2; }
+      - name: Run Gemini CLI in sandboxed headless mode
+        env:
+          TASK_PROMPT: ${{ inputs.prompt }}
+        shell: bash
+        run: |
+          npx --yes @google/gemini-cli@0.39.1 \
+            --sandbox \
+            --approval-mode plan \
+            --output-format json \
+            -p "$TASK_PROMPT" > gemini-cli-result.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('gemini-cli-result.json').read_text(encoding='utf-8'))
+          if data.get('error'):
+              raise SystemExit(f"Gemini CLI error: {data['error']}")
+          if not data.get('response'):
+              raise SystemExit('Gemini CLI returned no response')
+          print('Gemini CLI execution verified; response received.')
+          PY
