@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""One-shot helper for the verified terminal-delivery desk bridge fix."""
 from pathlib import Path
 
 path = Path("scripts/desk_bridge.py")
