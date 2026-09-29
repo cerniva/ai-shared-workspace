@@ -52,8 +52,8 @@ def build_health(now: datetime | None = None) -> dict:
             "readiness_checked": False,
         },
         "routing": {
-            "failover_order": ["gemini", "openai", "grok", "meta"],
-            "configured_providers": configured,
+            "worker_failover_order": ["gemini", "openai", "grok", "meta"],
+            "configured_worker_providers": configured,
         },
         "github": {"actions_repository": os.environ.get("GITHUB_REPOSITORY"), "token_available": bool(os.environ.get("GITHUB_TOKEN"))},
         "queue": {"counts": counts, "active_leases": active_leases},
