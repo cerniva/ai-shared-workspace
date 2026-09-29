@@ -25,6 +25,12 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn("preflight_path must be empty when source_mode=render_artifact", text)
         self.assertIn('preflight="downloaded-render/preflight.json"', text)
         self.assertIn('python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH"', text)
+        self.assertNotIn('--preflight "$PREFLIGHT_PATH" --preflight "$PREFLIGHT_PATH"', text)
+
+    def test_resolve_upload_video_has_one_source_mode_env_entry(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        section = text.split("- name: Resolve upload video", 1)[1].split("- name:", 1)[0]
+        self.assertEqual(section.count("SOURCE_MODE: ${{ inputs.source_mode }}"), 1)
 
     def test_repo_mode_still_requires_existing_repo_relative_mp4_and_metadata(self):
         """Preserve the original repo-file upload path with traversal checks."""
