@@ -12,11 +12,11 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 1,
-    "answered": 28,
-    "delayed": 26
+    "seen": 0,
+    "answered": 36,
+    "delayed": 19
   },
-  "event_count": 65,
+  "event_count": 72,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -82,19 +82,32 @@
     "RPT-20260928-1710-chatgpt-youtube-handoff:delayed",
     "MSG-20260928-171000-chatgpt-continuation-policy:delayed",
     "MSG-20260929-040300-core05-oidc-feeder:pending",
-    "MSG-20260929-040300-core05-oidc-feeder:delayed"
+    "MSG-20260929-040300-core05-oidc-feeder:delayed",
+    "MSG-20260927-011606-grok-api:answered",
+    "MSG-20260927-014200-grok-comms-notify:answered",
+    "MSG-20260927-024910-grok-api:answered",
+    "MSG-20260927-025400-grok-staged-loop:answered",
+    "MSG-20260927-014200-grok-comms-audit-reply:answered",
+    "MSG-20260927-014300-grok-comms-proof-inbox:answered",
+    "MSG-20260929-040300-core05-oidc-feeder:answered"
   ],
   "new_event_keys": [
-    "MSG-20260929-040300-core05-oidc-feeder:delayed"
+    "MSG-20260927-011606-grok-api:answered",
+    "MSG-20260927-014200-grok-comms-notify:answered",
+    "MSG-20260927-024910-grok-api:answered",
+    "MSG-20260927-025400-grok-staged-loop:answered",
+    "MSG-20260927-014200-grok-comms-audit-reply:answered",
+    "MSG-20260927-014300-grok-comms-proof-inbox:answered",
+    "MSG-20260929-040300-core05-oidc-feeder:answered"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-29T04:52:31+03:00",
+  "checked_at": "2026-09-29T05:19:34+03:00",
   "historical_counts": {
     "pending": 0,
-    "seen": 1,
-    "answered": 28,
-    "delayed": 26
+    "seen": 0,
+    "answered": 36,
+    "delayed": 19
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 87,
