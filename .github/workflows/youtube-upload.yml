@@ -56,7 +56,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate source inputs
         env:
@@ -128,7 +128,6 @@ jobs:
           SOURCE_MODE: ${{ inputs.source_mode }}
           VIDEO_PATH_INPUT: ${{ inputs.video_path }}
           RENDERED_VIDEO_NAME: ${{ inputs.rendered_video_name }}
-          SOURCE_MODE: ${{ inputs.source_mode }}
           PREFLIGHT_PATH: ${{ inputs.preflight_path }}
         shell: bash
         run: |
@@ -155,7 +154,7 @@ jobs:
           printf 'PREFLIGHT_PATH=%s\n' "$preflight" >> "$GITHUB_ENV"
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -179,7 +178,7 @@ jobs:
             fi
           done
           if [[ "$PUBLISH_PUBLICLY" == "true" ]]; then
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --preflight "$PREFLIGHT_PATH" --publish
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --publish
           else
             python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH"
           fi
