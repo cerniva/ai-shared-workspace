@@ -33,8 +33,6 @@ def _parse_time(value: str) -> datetime:
 def effective_status(evidence: HealthEvidence, *, now: datetime | None = None) -> tuple[str, str]:
     if evidence.status not in VALID_STATUSES:
         return "failed", "unknown_status"
-    if evidence.status != "healthy":
-        return evidence.status, evidence.detail or evidence.status
     try:
         checked = _parse_time(evidence.checked_at)
     except (AttributeError, TypeError, ValueError):
@@ -45,6 +43,8 @@ def effective_status(evidence: HealthEvidence, *, now: datetime | None = None) -
     current = current.astimezone(timezone.utc)
     if checked > current:
         return "failed", "future_evidence_timestamp"
+    if evidence.status != "healthy":
+        return evidence.status, evidence.detail or evidence.status
     try:
         ttl = float(evidence.ttl_seconds)
         if not isfinite(ttl):
