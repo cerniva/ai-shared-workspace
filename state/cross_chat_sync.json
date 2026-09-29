@@ -1,14 +1,21 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-29T04:52:31+03:00",
+  "updated_at": "2026-09-30T01:55:00+03:00",
   "status": "partial_bridge_active",
   "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
   "latest_user_side_deltas": [
     {
+      "id": "user-20260930-gmail-reactivated",
+      "topic": "accounts-integrations",
+      "status": "verified_live",
+      "fact": "User restored Gmail access. The ChatGPT Gmail connector was live-read successfully on 2026-09-30; Gmail coordination scans may resume, while email remains a discovery signal and live GitHub/service state remains authoritative.",
+      "secret_policy": "Never store or request password, token, recovery code, API key, 2FA or CAPTCHA values."
+    },
+    {
       "id": "user-20260929-gmail-paused",
       "topic": "accounts-integrations",
-      "status": "confirmed_user_decision",
-      "fact": "User cannot do anything with Gmail right now. Gmail/Google-mail access must be treated as paused and non-blocking; do not retry login/OAuth or require Gmail for unrelated automation until the user restores access.",
+      "status": "superseded",
+      "fact": "User previously paused Gmail. This decision was superseded after Gmail connector access was restored and live-read successfully on 2026-09-30.",
       "secret_policy": "Never store or request password, token, recovery code, or API key values."
     },
     {
@@ -28,9 +35,9 @@
     {
       "id": "user-20260928-work-email",
       "topic": "accounts-integrations",
-      "status": "superseded-for-current-operation",
+      "status": "historical_unverified",
       "fact": "User previously reported setting up and testing a business email / Google Workspace account across integrations.",
-      "verification_needed": "Do not treat that account as currently usable while the newer Gmail-paused decision is active."
+      "verification_needed": "Current verified Gmail access does not by itself verify this separate business-email account."
     },
     {
       "id": "user-20260928-cross-chat-coordination",
@@ -40,22 +47,19 @@
     }
   ],
   "sync_contract": {
-    "read_before_work": [
-      "state/now.json",
-      "state/cross_chat_sync.json"
-    ],
+    "read_before_work": ["state/now.json", "state/cross_chat_sync.json"],
     "reconcile_recent_user_context_when_available": true,
     "live_system_state_overrides_stale_email_or_old_report": true,
     "user_reported_facts_stay_user_reported_until_verified": true,
     "write_only_new_delta": true,
     "never_store_secrets_tokens_passwords_or_api_keys": true,
     "do_not_duplicate_completed_or_unchanged_work": true,
-    "paused_connector_must_not_block_unrelated_work": true
+    "connector_failure_must_not_block_unrelated_work": true
   },
   "limitations": [
     "There is no guaranteed instant event push from every separate ChatGPT conversation into this repository.",
     "Synchronization is eventual: a plan or coordinator must reconcile recent conversation context and persist the delta.",
     "A conversation that never invokes the shared-state path may remain unseen until a reconciliation pass runs.",
-    "Gmail is currently paused by user decision and is not a usable coordination dependency."
+    "Gmail is verified accessible through the current ChatGPT connector, but email is not authoritative for PR, commit, workflow, issue, review or live-service status."
   ]
 }
