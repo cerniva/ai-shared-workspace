@@ -25,7 +25,7 @@ class ShortsFreeBuildWorkflowTests(unittest.TestCase):
     def test_build_workflow_uploads_mp4_preflight_and_provenance_artifacts(self):
         """A successful build must preserve the render and its audit files."""
         text = BUILD_WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("actions/upload-artifact@v4", text)
+        self.assertIn("actions/upload-artifact@v7", text)
         self.assertIn("artifacts/preflight.json", text)
         self.assertIn("artifacts/bundle/provenance.json", text)
         self.assertIn("artifacts/bundle/captions.srt", text)
