@@ -83,10 +83,8 @@
     "MSG-20260928-171000-chatgpt-continuation-policy:delayed",
     "MSG-20260929-040300-core05-oidc-feeder:done"
   ],
-  "new_event_keys": [
-    "MSG-20260929-040300-core05-oidc-feeder:done"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-09-29T04:04:36+03:00"
+  "checked_at": "2026-09-29T04:25:00+03:00"
 }
