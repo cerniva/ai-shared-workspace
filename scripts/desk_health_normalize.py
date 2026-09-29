@@ -16,13 +16,26 @@ ID_RE = re.compile(r"(?m)^id:\s*(\S+)\s*$")
 RPT_RE = re.compile(r"(?m)^##\s+(RPT-\S+)\s*$")
 SPLIT_RE = re.compile(r"(?m)^---\s*$")
 TERMINAL_SOURCE_STATUSES = {"done", "blocked", "superseded"}
+ACTIVE_SOURCE_FILES = (
+    "grok-to-chatgpt.md",
+    "chatgpt-to-grok.md",
+    "inbox-gemini.md",
+    "gemini-to-chatgpt.md",
+    "chatgpt-to-gemini.md",
+    "shared-inbox.md",
+    "team-reports.md",
+)
+
+
+def _active_source_paths(messages_dir: Path) -> list[Path]:
+    return [messages_dir / name for name in ACTIVE_SOURCE_FILES if (messages_dir / name).exists()]
 
 
 def collect_active_ids(messages_dir: Path = MESSAGES_DIR) -> set[str]:
     ids: set[str] = set()
     if not messages_dir.exists():
         return ids
-    for path in messages_dir.glob("*.md"):
+    for path in _active_source_paths(messages_dir):
         text = path.read_text(encoding="utf-8", errors="replace")
         ids.update(ID_RE.findall(text))
         ids.update(RPT_RE.findall(text))
@@ -33,7 +46,7 @@ def collect_message_source_statuses(messages_dir: Path = MESSAGES_DIR) -> dict[s
     found: dict[str, str] = {}
     if not messages_dir.exists():
         return found
-    for path in messages_dir.glob("*.md"):
+    for path in _active_source_paths(messages_dir):
         parts = SPLIT_RE.split(path.read_text(encoding="utf-8", errors="replace"))
         i = 1
         while i + 1 < len(parts):
@@ -87,7 +100,7 @@ def normalize_health(health: dict, ledger: dict, active_ids: set[str]) -> dict:
     out = dict(health)
     out["historical_counts"] = historical
     out["counts"] = active
-    out["counts_scope"] = "active message/report source IDs only; historical_counts preserves full ledger totals"
+    out["counts_scope"] = "desk_bridge active source files only; historical_counts preserves full ledger totals"
     out["active_source_id_count"] = len(active_ids)
     out["schedule"] = "0 * * * *"
     out["retry"] = (
