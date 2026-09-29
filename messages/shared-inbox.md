@@ -162,3 +162,18 @@ evidence: `state/cross_chat_sync.json` and RESEARCH_ROUTER now require cross-cha
 decision: Every agent/worker should read `state/now.json` + `state/cross_chat_sync.json` before dependent work. Find the highest-value unfinished safe task and continue it rather than reopening solved/stale work. Before surfacing a blocker, try an authorized low-risk alternative/fallback and verify the outcome. Do not duplicate work already active in another branch/chat; hand off through shared state/messages. Never bypass login/2FA/payment/legal/sensitive-permission/irreversible gates. Never store secrets. PayoutLens untouched.
 next-action: Primary implementation stays on PR #42: complete free media provider acquisition with Pexels first and a verified fallback path, then feed selected media into the existing zero-credit eSpeak/FFmpeg/preflight chain with TDD and CI evidence. Parallel research/red-team may improve provider/license/fallback logic without editing the same files concurrently. CORE-04 waits for iyzico reply while continuing non-payment preparation. Report only new deltas and actual verified failures/successes.
 blocker_if_any: No current user action for iyzico until the alternative-verification reply arrives. Separate ChatGPT chats still have eventual, not guaranteed instant, synchronization.
+
+---
+id: MSG-20260929-040300-core05-oidc-feeder
+from: system-source-research
+to: CORE-05
+created_at: 2026-09-29T04:03:00+03:00
+project: workspace
+status: open
+---
+
+intent: verified-technical-feeder | identity-hardening
+evidence: GitHub official OIDC reference verified 2026-09-29; new source note `knowledge/system-sources/github-actions-oidc-immutable-claims-2026-09-29.md` (commit 9ae407bc6867f9bf001c837ad6317cb5e868b974). Repositories created after 2026-07-15 use immutable owner/repository IDs in default OIDC subject; older repos retain prior format unless opted in.
+decision: No implementation by feeder. CORE-05 should inventory only providers that support GitHub OIDC and compare short-lived federation against existing long-lived secrets; inspect this repo's actual subject format before any trust-policy change.
+next-action: CORE-05 execution queue: non-destructively inspect current workflow permissions, repository OIDC subject behavior and provider OIDC support; only then propose a scoped migration/test.
+blocker_if_any: This feeder did not verify repo creation date/current OIDC subject or provider support. No user action requested. PayoutLens untouched.
