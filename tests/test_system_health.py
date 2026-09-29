@@ -39,6 +39,17 @@ def test_future_timestamp_fails_closed():
     assert effective_status(evidence, now=now) == ("failed", "future_evidence_timestamp")
 
 
+def test_failed_evidence_with_invalid_timestamp_fails_closed():
+    evidence = HealthEvidence("worker", "failed", "not-a-time", detail="worker_failed")
+    assert effective_status(evidence) == ("failed", "invalid_evidence_timestamp")
+
+
+def test_failed_evidence_with_future_timestamp_fails_closed():
+    now = datetime.now(timezone.utc)
+    evidence = HealthEvidence("worker", "failed", (now + timedelta(seconds=1)).isoformat(), detail="worker_failed")
+    assert effective_status(evidence, now=now) == ("failed", "future_evidence_timestamp")
+
+
 def test_unknown_status_fails_closed():
     now = datetime.now(timezone.utc)
     evidence = HealthEvidence("worker", "mystery", now.isoformat(), ttl_seconds=300)
