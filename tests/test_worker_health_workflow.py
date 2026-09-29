@@ -12,6 +12,7 @@ from scripts import worker_health
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "ai-worker-gpt56.yml"
+SNAPSHOT = ROOT / "state" / "worker_health.json"
 
 
 class WorkerHealthWorkflowTests(unittest.TestCase):
@@ -43,6 +44,12 @@ class WorkerHealthWorkflowTests(unittest.TestCase):
         self.assertEqual(result["routing"]["worker_failover_order"], ["gemini", "openai", "grok", "meta"])
         self.assertTrue(result["routing"]["configured_worker_providers"]["gemini"])
         self.assertTrue(result["routing"]["configured_worker_providers"]["openai"])
+
+    def test_persisted_snapshot_keeps_provider_readiness_explicit(self) -> None:
+        snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        self.assertEqual(snapshot["health_scope"], "queue-and-dead-letter-structure-only")
+        self.assertFalse(snapshot["provider_readiness_checked"])
+        self.assertFalse(snapshot["model"]["readiness_checked"])
 
 
 if __name__ == "__main__":
