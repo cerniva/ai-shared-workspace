@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T18:13:00+03:00",
+  "updated_at": "2026-09-29T03:00:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,7 +15,7 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "Free-first Shorts implementation is now consolidated on main: PR #45 added free media providers/fallbacks, PR #47 added monetization/free-production scoring and conditional gate fields, PR #52 completed the packet-to-free-media-to-provenance/captions-to-FFmpeg build workflow, and PR #55 fixed non-finite score handling. PR #57 added fail-open worker observability with sanitized local JSONL and optional Sentry/Langfuse sinks; worker CI and CodeQL passed. Real external Shorts artifact smoke and actual publishing remain separate unverified gates; latest known direct YouTube OAuth blocker is invalid_grant.",
+  "latest_output": "Verified on main: free-first Shorts real smoke produced MP4 + preflight artifact successfully. PR #67 hardened provider-failure resilience. PR #69 fixed the YouTube upload workflow so the existing exact-byte preflight gate is actually passed to the uploader for repo and render-artifact sources. YouTube publishing remains separately gated by OAuth/channel verification.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
@@ -49,7 +49,7 @@
     "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
   },
   "notes": [
-    "2026-09-28 18:12 TR: PR #57 merged on current main after stale PR #46 became conflict-prone. Fail-open worker observability now emits sanitized lifecycle events to optional local JSONL and optional Sentry/Langfuse sinks; external sink failures do not fail provider work. PR worker-orchestration run 36441438164 and CodeQL run 36441436119 passed. Sentry/Langfuse are not verified_connected without a real external event/read-back.",
+    "2026-09-29 03:00 TR: PR #67 real free-first smoke produced MP4 + preflight artifact and passed unit/preflight checks; PR #69 fixed the YouTube upload workflow preflight handoff.\n    "2026-09-28 18:12 TR: PR #57 merged on current main after stale PR #46 became conflict-prone. Fail-open worker observability now emits sanitized lifecycle events to optional local JSONL and optional Sentry/Langfuse sinks; external sink failures do not fail provider work. PR worker-orchestration run 36441438164 and CodeQL run 36441436119 passed. Sentry/Langfuse are not verified_connected without a real external event/read-back.",
     "2026-09-28 18:01 TR: PR #55 merged the post-review non-finite score fix on current main. NaN/Infinity values fall back safely instead of bypassing Shorts reliability vetoes. Worker, Shorts and CodeQL checks on head b571952 passed; stale duplicate PRs #53/#54 were closed and the original PR #47 review thread was resolved.",
     "2026-09-28 17:59 TR: PR #52 merged as the canonical conflict-safe completion of free-first Shorts Tasks 3-5. It adds packet-to-free-media acquisition, provenance/captions, local FFmpeg/eSpeak build workflow, SOP/policy and direct CLI regression coverage. Worker-orchestration, shorts-render-tests and CodeQL passed before merge. Duplicate/conflicting PRs #49/#50/#51/#56 were closed/superseded. A real external workflow artifact smoke is still required before claiming a real production MP4 from this path.",
     "2026-09-28 17:45 TR: PR #45 merged free media provider/fallback support and PR #47 merged monetization/engagement/low-cost/right-safety/language-fit scoring plus conditional free-render gate fields. Live GitHub status supersedes intermediate failure emails.",
