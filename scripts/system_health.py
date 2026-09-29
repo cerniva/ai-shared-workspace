@@ -36,9 +36,16 @@ def effective_status(evidence: HealthEvidence, *, now: datetime | None = None) -
         return evidence.status, evidence.detail or evidence.status
     try:
         checked = _parse_time(evidence.checked_at)
-    except (TypeError, ValueError):
+    except (AttributeError, TypeError, ValueError):
         return "failed", "invalid_evidence_timestamp"
-    current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
-    if evidence.ttl_seconds < 0 or (current - checked).total_seconds() > evidence.ttl_seconds:
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    current = current.astimezone(timezone.utc)
+    try:
+        stale = evidence.ttl_seconds < 0 or (current - checked).total_seconds() > evidence.ttl_seconds
+    except TypeError:
+        return "failed", "invalid_ttl"
+    if stale:
         return "degraded", "stale_green"
     return "healthy", evidence.detail or "fresh_evidence"
