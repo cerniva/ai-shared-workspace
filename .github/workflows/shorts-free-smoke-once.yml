@@ -6,6 +6,7 @@ on:
       - '.github/workflows/shorts-free-smoke-once.yml'
       - 'tests/fixtures/shorts_real_smoke_ice_float.json'
       - 'scripts/shorts_media.py'
+  workflow_dispatch:
 
 permissions:
   contents: read
