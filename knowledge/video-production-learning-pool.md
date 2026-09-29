@@ -14,6 +14,13 @@ Shared production knowledge for Video/Shopify, Bilgi Kütüphanesi and Sistem Ge
 4. Owned-channel analytics.
 5. Expensive scene analysis/generation only for finalists.
 
+## Topic reuse and visual originality — mandatory
+- A successful or similar topic/content family may be revisited when current demand, owned analytics or a new test hypothesis justifies it.
+- A new Short must not reuse the same footage, shot sequence, or visual asset set from the previous Short as its production basis. Use newly sourced/created rights-safe visuals or genuinely new footage.
+- Topic reuse does not make a derivative re-edit acceptable: require a new hook/angle or viewer value, a new edit/scene plan, and a new testable hypothesis.
+- Record prior-video similarity and the new visual provenance so duplicate-footage checks can fail closed before publish.
+- Rights/license/originality/monetization checks still apply to every new asset. Cropping, mirroring, trimming, recoloring, speed changes or a few replacement shots do not turn reused footage into a new original Short.
+
 ## Expanded discovery + production source stack
 Trend/idea discovery: Google/TinyFish, YouTube, vidIQ, Metricool, TikTok Creative Center, Instagram Reels, Google Trends, Reddit, Pinterest Trends, Exploding Topics, AnswerThePublic, Google Keyword Planner, Wikipedia Pageviews, GDELT, Product Hunt, GitHub Trending/public GitHub, SteamDB/public game data, YouTube Comments.
 Primary factual/media: Google Arts & Culture, NASA, NOAA and other official/first-party sources.
@@ -186,6 +193,7 @@ Before publish, verify: no accidental black/frozen frames; no unintended duplica
 - Candidate order: current demand/performance -> 30-second fit -> hook -> mechanisms -> editing plan -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics.
 - Satisfying food/bento/meal-prep and cleaning/detailing/transformation are priority lanes, not mandatory topics.
 - Viral examples are benchmarks, not copy masters.
+- Topic families may repeat when justified, but the new Short must use a fresh visual set/footage and deliver a new angle/value/hypothesis; same-footage re-edits fail the originality gate.
 - Default structure hypothesis: 0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s payoff; 27–30 s loop or useful CTA/comment choice.
 
 ## Shared automation usage
