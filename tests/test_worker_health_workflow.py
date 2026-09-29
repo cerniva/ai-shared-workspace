@@ -40,9 +40,9 @@ class WorkerHealthWorkflowTests(unittest.TestCase):
         self.assertEqual(result["health_scope"], "queue-and-dead-letter-structure-only")
         self.assertFalse(result["provider_readiness_checked"])
         self.assertFalse(result["model"]["readiness_checked"])
-        self.assertEqual(result["routing"]["failover_order"], ["gemini", "openai", "grok", "meta"])
-        self.assertTrue(result["routing"]["configured_providers"]["gemini"])
-        self.assertTrue(result["routing"]["configured_providers"]["openai"])
+        self.assertEqual(result["routing"]["worker_failover_order"], ["gemini", "openai", "grok", "meta"])
+        self.assertTrue(result["routing"]["configured_worker_providers"]["gemini"])
+        self.assertTrue(result["routing"]["configured_worker_providers"]["openai"])
 
 
 if __name__ == "__main__":
