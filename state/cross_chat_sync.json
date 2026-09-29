@@ -1,9 +1,16 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-28T16:49:00+03:00",
+  "updated_at": "2026-09-29T04:52:31+03:00",
   "status": "partial_bridge_active",
   "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
   "latest_user_side_deltas": [
+    {
+      "id": "user-20260929-gmail-paused",
+      "topic": "accounts-integrations",
+      "status": "confirmed_user_decision",
+      "fact": "User cannot do anything with Gmail right now. Gmail/Google-mail access must be treated as paused and non-blocking; do not retry login/OAuth or require Gmail for unrelated automation until the user restores access.",
+      "secret_policy": "Never store or request password, token, recovery code, or API key values."
+    },
     {
       "id": "user-20260928-pexels-key",
       "topic": "free-first-shorts",
@@ -21,9 +28,9 @@
     {
       "id": "user-20260928-work-email",
       "topic": "accounts-integrations",
-      "status": "user_reported",
-      "fact": "User is actively setting up and testing a business email / Google Workspace account across integrations in other conversations.",
-      "verification_needed": "Provider-specific login and plugin compatibility must be verified before treating the work email as usable everywhere."
+      "status": "superseded-for-current-operation",
+      "fact": "User previously reported setting up and testing a business email / Google Workspace account across integrations.",
+      "verification_needed": "Do not treat that account as currently usable while the newer Gmail-paused decision is active."
     },
     {
       "id": "user-20260928-cross-chat-coordination",
@@ -42,11 +49,13 @@
     "user_reported_facts_stay_user_reported_until_verified": true,
     "write_only_new_delta": true,
     "never_store_secrets_tokens_passwords_or_api_keys": true,
-    "do_not_duplicate_completed_or_unchanged_work": true
+    "do_not_duplicate_completed_or_unchanged_work": true,
+    "paused_connector_must_not_block_unrelated_work": true
   },
   "limitations": [
     "There is no guaranteed instant event push from every separate ChatGPT conversation into this repository.",
     "Synchronization is eventual: a plan or coordinator must reconcile recent conversation context and persist the delta.",
-    "A conversation that never invokes the shared-state path may remain unseen until a reconciliation pass runs."
+    "A conversation that never invokes the shared-state path may remain unseen until a reconciliation pass runs.",
+    "Gmail is currently paused by user decision and is not a usable coordination dependency."
   ]
 }

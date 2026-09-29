@@ -41,6 +41,12 @@ class WorkflowContractTests(unittest.TestCase):
     def test_senses_persists_run_ledger(self): self.assertIn("state/tinyfish-runs.json", (ROOT / ".github/workflows/tinyfish-senses.yml").read_text())
     def test_event_bridge_workflow_is_bounded_and_scoped(self):
         text = (ROOT / ".github/workflows/tinyfish-event-bridge.yml").read_text(); self.assertIn("group: repo-main-writers", text); self.assertIn("queue: max", text); self.assertIn("TINYFISH_API_KEY", text); self.assertIn("python3 scripts/tinyfish_event_bridge.py", text); self.assertIn("state/tinyfish-runs.json", text); self.assertIn("messages/from-tinyfish.md", text); self.assertNotIn("tinyfish_senses.py\n", text)
+    def test_event_bridge_is_event_first_with_hourly_fallback(self):
+        text = (ROOT / ".github/workflows/tinyfish-event-bridge.yml").read_text()
+        self.assertIn("cron: '0 * * * *'", text)
+        self.assertNotIn("*/10 * * * *", text)
+        self.assertIn("push:", text)
+        self.assertIn("'state/tinyfish-runs.json'", text)
 
 class ProtocolContractTests(unittest.TestCase):
     def test_protocol_documents_event_bridge_invariants(self):
