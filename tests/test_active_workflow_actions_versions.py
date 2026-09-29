@@ -14,6 +14,18 @@ ACTIVE_WORKFLOWS = (
     ".github/workflows/shorts-render-tests.yml",
     ".github/workflows/shorts-free-smoke-once.yml",
     ".github/workflows/youtube-upload.yml",
+    ".github/workflows/meta-senses.yml",
+    ".github/workflows/grok-file-desk.yml",
+    ".github/workflows/tinyfish-senses.yml",
+    ".github/workflows/meta-bridge-auto.yml",
+    ".github/workflows/firecrawl-fallback.yml",
+    ".github/workflows/claude-api-diagnostic.yml",
+    ".github/workflows/tinyfish-event-bridge.yml",
+    ".github/workflows/meta-ingest.yml",
+    ".github/workflows/shorts-free-render.yml",
+    ".github/workflows/browser-worker.yml",
+    ".github/workflows/shorts-free-build.yml",
+    ".github/workflows/web-worker-tests.yml",
 )
 
 
