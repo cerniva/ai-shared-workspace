@@ -31,6 +31,13 @@ def test_stale_healthy_requires_retest():
     assert decision.requires_retest is True
 
 
+def test_invalid_healthy_evidence_never_authorizes_repair():
+    invalid = HealthEvidence("worker", "healthy", "not-a-time", ttl_seconds=300)
+    decision = decide_action(invalid, target="scripts/worker.py", repair="restart_worker")
+    assert decision.action == "manual_review"
+    assert decision.requires_retest is False
+
+
 def test_unknown_repair_fails_closed():
     assert decide_action(ev("failed"), target="scripts/worker.py", repair="delete_everything").action == "manual_review"
 
