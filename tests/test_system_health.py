@@ -15,6 +15,18 @@ def test_stale_healthy_becomes_degraded_stale_green():
     assert effective_status(evidence, now=now) == ("degraded", "stale_green")
 
 
+def test_naive_now_is_interpreted_as_utc():
+    checked = datetime(2026, 9, 29, 8, 0, tzinfo=timezone.utc)
+    evidence = HealthEvidence("worker", "healthy", checked.isoformat(), ttl_seconds=300)
+    assert effective_status(evidence, now=datetime(2026, 9, 29, 8, 4)) == ("healthy", "fresh_evidence")
+
+
+def test_invalid_ttl_fails_closed():
+    now = datetime.now(timezone.utc)
+    evidence = HealthEvidence("worker", "healthy", now.isoformat(), ttl_seconds="bad")
+    assert effective_status(evidence, now=now) == ("failed", "invalid_ttl")
+
+
 def test_unknown_status_fails_closed():
     now = datetime.now(timezone.utc)
     evidence = HealthEvidence("worker", "mystery", now.isoformat(), ttl_seconds=300)
