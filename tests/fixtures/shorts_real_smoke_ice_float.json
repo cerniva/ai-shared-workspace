@@ -1,28 +1,29 @@
 {
-  "topic": "Why ice floats",
-  "why_selected": "Evergreen science fact with a strong visual explanation and low production cost",
+  "topic": "Why ice floats and lakes do not freeze solid",
+  "why_selected": "Evergreen science fact with immediate visual payoff, strong curiosity gap, low production cost, and rights-safe stock-media availability",
   "trend_or_evergreen": "evergreen",
-  "hook": "Water breaks a rule most liquids follow.",
-  "target_seconds": 21,
+  "hook": "If ice sank, winter could wipe out entire lake ecosystems.",
+  "target_seconds": 24,
   "sources": [
     "https://www.usgs.gov/water-science-school/science/water-density",
     "https://prod-01-alb-www-noaa.woc.noaa.gov/jetstream/ocean/sea-water"
   ],
-  "unique_angle": "Explain the molecular-density reason in under 25 seconds and connect it to winter survival in lakes",
+  "unique_angle": "Start with the consequence, reveal the density mechanism, then loop back to why floating ice protects life below",
   "script_beats": [
-    "Most liquids get denser when they freeze",
-    "Water forms an open crystal lattice",
-    "The same mass takes up more space",
-    "Ice becomes less dense and floats",
-    "Floating ice helps insulate liquid water below"
+    "Hook with what would happen if ice sank",
+    "Water expands into an open crystal structure when it freezes",
+    "Ice becomes less dense than liquid water",
+    "Floating ice forms an insulating surface layer",
+    "Loop back to why this strange rule protects lake life"
   ],
   "visual_plan": [
-    "vertical close-up of ice floating in water",
-    "vertical frozen lake or winter water scene"
+    "vertical close-up of ice floating in clear water",
+    "vertical frozen lake surface with visible open water or ice edge",
+    "vertical winter lake or pond wildlife scene"
   ],
-  "audio_plan": "Original narration with low-volume background ambience only if rights-safe",
-  "title": "Why Does Ice Float? The Weird Rule Water Breaks",
-  "hashtags": ["#science", "#water", "#shorts"],
+  "audio_plan": "Original offline narration with clear audible voice; no copyrighted music required",
+  "title": "If Ice Sank, Lakes Could Freeze Solid",
+  "hashtags": ["#science", "#water", "#nature", "#shorts"],
   "prepublish_checklist": {
     "facts_verified": true,
     "sources_reliable": true,
@@ -38,10 +39,11 @@
   "free_render_requested": true,
   "language": "en",
   "content_type": "short_fact",
-  "narration_speed": 145,
-  "narration_text": "Water does something most liquids don't. As it freezes, its molecules lock into an open crystal structure. That structure takes up more space, so ice becomes less dense than liquid water. Less dense things float. That same quirk helps lakes keep liquid water below the ice in winter.",
+  "narration_speed": 155,
+  "narration_text": "If ice sank, lakes could freeze from the bottom up. But water breaks the usual rule. When it freezes, its molecules lock into an open crystal structure, taking up more space. That makes ice less dense, so it floats. The floating layer then insulates the liquid water below, helping lake life survive winter.",
   "media_queries": [
-    "ice cube floating in water vertical",
-    "frozen lake winter vertical"
+    "ice floating in water vertical",
+    "frozen lake winter vertical",
+    "winter lake nature vertical"
   ]
 }
