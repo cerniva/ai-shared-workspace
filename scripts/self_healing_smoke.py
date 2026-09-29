@@ -4,9 +4,14 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from health_controller import decide_action
-from provider_router import ProviderCandidate, select_provider
-from system_health import HealthEvidence, effective_status
+try:
+    from scripts.health_controller import decide_action
+    from scripts.provider_router import ProviderCandidate, select_provider
+    from scripts.system_health import HealthEvidence, effective_status
+except ImportError:
+    from health_controller import decide_action
+    from provider_router import ProviderCandidate, select_provider
+    from system_health import HealthEvidence, effective_status
 
 
 def main() -> int:
