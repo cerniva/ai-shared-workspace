@@ -9,6 +9,7 @@ on:
     paths:
       - "messages/**"
       - "scripts/desk_bridge.py"
+      - "scripts/desk_health_normalize.py"
       - "state/inbox_read.json"
       - ".github/workflows/desk-notify.yml"
 
@@ -32,6 +33,11 @@ jobs:
         id: reconcile
         continue-on-error: true
         run: python3 scripts/desk_bridge.py reconcile
+      - name: Normalize live desk health metadata
+        id: normalize
+        if: always()
+        continue-on-error: true
+        run: python3 scripts/desk_health_normalize.py
       - name: Commit ledger delta
         if: always()
         run: |
@@ -42,6 +48,6 @@ jobs:
           git commit -m "desk-notify: persist delivery ledger"
           git pull --rebase origin main
           git push
-      - name: Fail closed when reconcile failed
-        if: steps.reconcile.outcome == 'failure'
+      - name: Fail closed when reconciliation failed
+        if: steps.reconcile.outcome == 'failure' || steps.normalize.outcome == 'failure'
         run: exit 1
