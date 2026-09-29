@@ -1,5 +1,6 @@
 {
   "desk": "ai-shared-workspace",
+  "live_state_source": "state/now.json",
   "agents": [
     "chatgpt",
     "grok",
@@ -7,37 +8,55 @@
   ],
   "payoutlens_repo": "cerniva/grok-chatgpt-masa",
   "payoutlens_keep": true,
-  "last_grok_message_id": "MSG-20260926-024500-grok-002",
-  "last_chatgpt_message_id": "MSG-20260926-021453-chatgpt-005",
-  "last_gemini_message_id": "MSG-20260926-042215-gemini-api",
   "youtube_handoff": "research/youtube/",
-  "gemini_bridge": "github-actions-api",
-  "gemini_bridge_state": "paused-by-user",
-  "gemini_secret_name": "GEMINI_API_KEY",
-  "updated_at": "2026-09-26T02:12:40.828Z",
+  "updated_at": "2026-09-29T04:52:31+03:00",
+  "gemini_bridge": {
+    "transport": "github-actions-api",
+    "state": "configured-planner-fallback-verified",
+    "note": "Current live routing is defined in state/now.json; an expired historical cooldown file does not by itself mean Gemini is blocked."
+  },
+  "gmail": {
+    "state": "paused-by-user",
+    "blocking": false,
+    "retry_policy": "do-not-retry-or-require-gmail-until-user-restores-access"
+  },
   "youtube_data_api": {
-    "state": "ready",
-    "secret_name": "YOUTUBE_API_KEY",
+    "state": "historically-passed-public-data-only",
     "connector": "scripts/connectors/youtube_client.py",
-    "last_test": "YTTEST2",
-    "last_test_result": "PASS"
+    "last_recorded_test": "YTTEST2",
+    "last_recorded_result": "PASS",
+    "scope_limit": "API-key/public-data readiness does not authorize upload, Studio, or owned analytics. Reverify before relying on account-scoped access."
+  },
+  "youtube_publish": {
+    "state": "blocked-external-auth",
+    "direct_oauth": "invalid_grant",
+    "metricool_fallback": "disconnected-live-check-2026-09-29",
+    "policy": "Production and QC continue; publish remains fail-closed until one authorized path is live and remote read-back succeeds."
+  },
+  "metricool": {
+    "brand_id": "7082876",
+    "state": "brand-reachable-no-social-network-connected",
+    "verified_at": "2026-09-29T04:40:00+03:00",
+    "blocking_scope": "youtube-publish-only"
   },
   "shopify_admin_api": {
-    "state": "connected-in-last-check; private analysis blocked in public workspace",
+    "state": "last-known-connected-not-reverified-this-turn",
     "connector": "scripts/connectors/shopify_client.py",
-    "last_check": "2026-09-26T04:21:24+03:00"
+    "last_recorded_check": "2026-09-26T04:21:24+03:00",
+    "scope_limit": "Do not infer current write access, payment approval, or live storefront state from the old check."
   },
   "youtube_analytics_api": {
-    "state": "prepared-awaiting-oauth",
+    "state": "not-live",
     "connector": "scripts/connectors/youtube_analytics_client.py",
-    "required_secrets": [
-      "YT_ANALYTICS_CLIENT_ID",
-      "YT_ANALYTICS_CLIENT_SECRET",
-      "YT_ANALYTICS_REFRESH_TOKEN"
-    ]
+    "reason": "account OAuth is not currently usable; do not claim owned analytics from this path without a fresh successful read-back"
   },
+  "external_blockers": [
+    "payments-unproven",
+    "youtube-publish-auth-unavailable"
+  ],
   "public_workspace_policy": {
     "private_connector_payloads": "blocked",
-    "deployment": "site-only"
+    "deployment": "site-only",
+    "secrets": "never-store-values"
   }
 }
