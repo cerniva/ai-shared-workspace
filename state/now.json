@@ -1,42 +1,51 @@
 {
-  "updated_at": "2026-09-29T03:00:00+03:00",
+  "updated_at": "2026-09-29T04:56:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
   "operating_mode": "shared-state-degraded-provider-safe",
   "agents": {
     "chatgpt": "orchestrator-executor",
-    "grok": "research-red-team-chat-available-api-http-403",
+    "grok": "research-red-team-chat-available-api-credit-degraded-nonblocking",
     "gemini": "automated-model-primary-fallback-verified",
     "claude": "api-key-valid-credit-paused-not-a-system-blocker",
-    "meta": "model-api-paused-http-402",
+    "meta": "model-api-paused-http-402-not-a-system-blocker",
     "tinyfish": "primary-web-worker-live",
     "firecrawl": "web-worker-fallback-live",
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "Verified on main: free-first Shorts real smoke produced MP4 + preflight artifact successfully. PR #67 hardened provider-failure resilience. PR #69 fixed the YouTube upload workflow so the existing exact-byte preflight gate is actually passed to the uploader for repo and render-artifact sources. YouTube publishing remains separately gated by OAuth/channel verification.",
+  "latest_output": "Red/yellow reconciliation verified: PR #87 merged Metricool/desk-health truth fixes; main commit 7b142d3 added a free-first Gemini CLI executor smoke path; worker-orchestration, Gemini CLI smoke and CodeQL passed on that main head. Direct YouTube automated upload remains externally gated by OAuth/channel authorization, while the owned channel remains available for research/analytics through vidIQ. Shopify is connected for store/analytics reads, but payment readiness is still unverified and is not classified as a software blocker.",
   "blocked": [
-    "payments-unproven",
-    "grok-api-http-403",
-    "anthropic-api-credit-low",
-    "openai-api-credit-exhausted",
-    "youtube-oauth-invalid-grant"
+    "youtube-direct-publish-auth-external"
   ],
   "blockers": [
-    "payments-unproven",
-    "youtube-oauth-invalid-grant"
+    "youtube-direct-publish-auth-external"
+  ],
+  "waiting_external": [
+    "shopify-payment-readiness-unverified"
+  ],
+  "degraded_non_blocking": [
+    "openai-api-credit-exhausted",
+    "grok-api-credit-spending-gate",
+    "anthropic-api-credit-low",
+    "meta-model-api-billing-paused",
+    "grok-bot-quota-paused",
+    "metricool-youtube-network-disconnected"
   ],
   "provider_health": {
-    "openai_worker": "credential-present-http-429-credit-balance-exhausted",
+    "openai_worker": "credential-present-http-429-credit-balance-exhausted-nonblocking",
     "grok_chat": "available-separate-from-grok-bot",
-    "grok_api": "secret-present-http-403",
-    "grok_bot": "quota-exhausted",
+    "grok_api": "secret-present-http-403-credit-spending-gate-nonblocking",
+    "grok_bot": "quota-exhausted-nonblocking",
     "gemini_api": "configured-planner-fallback-verified",
-    "anthropic_api": "credential-valid-http-200-models-credit-too-low-for-messages",
-    "meta_model_api": "credential-present-http-402-billing",
+    "gemini_cli_executor": "cli-smoke-verified-on-main-dispatch-execution-not-yet-readback-verified",
+    "anthropic_api": "credential-valid-http-200-models-credit-too-low-for-messages-nonblocking",
+    "meta_model_api": "credential-present-http-402-billing-nonblocking",
     "tinyfish": "available",
-    "firecrawl": "fallback-available"
+    "firecrawl": "fallback-available",
+    "vidiq_youtube": "owned-channel-authorization-visible-for-research-analytics",
+    "metricool_youtube": "connector-installed-no-social-network-connected"
   },
   "routing": {
     "browser_web": ["tinyfish", "firecrawl"],
@@ -44,11 +53,14 @@
     "browser_planner_auto": ["gemini", "openai", "grok", "anthropic"],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
-    "grok_api": "known HTTP 403 credit/spending gate; browser auto planner tries healthy Gemini first, then falls through to OpenAI, Grok and Anthropic as configured",
-    "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
-    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks"
+    "grok_api": "known HTTP 403 credit/spending gate; healthy Gemini is first in browser auto planner, so this does not block unrelated work",
+    "anthropic_api": "credential is valid; message generation is credit-blocked, but Anthropic is a late fallback and does not block unrelated work",
+    "openai_api": "known HTTP 429 credit_balance_exhausted; provider failure does not block healthy Gemini or later fallbacks",
+    "youtube_publish": "direct GitHub upload remains auth-gated; Metricool is disconnected; vidIQ authorization is usable for owned-channel analytics/metadata capabilities but no verified video-upload action is exposed",
+    "shopify": "store/analytics connector is live; payment approval/configuration remains an external readiness check, not a software failure"
   },
   "notes": [
+    "2026-09-29 04:56 TR: Red/yellow state reconciled. PR #87 merged live Metricool-disconnected and desk-health normalization truth. Main commit 7b142d3 Gemini CLI smoke, worker-orchestration and CodeQL passed. Provider credit/billing failures are degraded fallbacks, not global blockers. Only direct YouTube automated publishing remains an active external auth blocker; Shopify payment readiness remains waiting/unverified rather than a technical blocker.",
     "2026-09-29 03:00 TR: PR #67 real free-first smoke produced MP4 + preflight artifact and passed unit/preflight checks; PR #69 fixed the YouTube upload workflow preflight handoff.",
     "2026-09-28 18:12 TR: PR #57 merged on current main after stale PR #46 became conflict-prone. Fail-open worker observability now emits sanitized lifecycle events to optional local JSONL and optional Sentry/Langfuse sinks; external sink failures do not fail provider work. PR worker-orchestration run 36441438164 and CodeQL run 36441436119 passed. Sentry/Langfuse are not verified_connected without a real external event/read-back.",
     "2026-09-28 18:01 TR: PR #55 merged the post-review non-finite score fix on current main. NaN/Infinity values fall back safely instead of bypassing Shorts reliability vetoes. Worker, Shorts and CodeQL checks on head b571952 passed; stale duplicate PRs #53/#54 were closed and the original PR #47 review thread was resolved.",
