@@ -35,6 +35,11 @@ on:
         description: "Repo-relative JSON file with title and description"
         required: true
         type: string
+      preflight_path:
+        description: "Repo-relative ready preflight JSON when source_mode=repo; artifact mode uses preflight.json from the render artifact"
+        required: false
+        default: ""
+        type: string
       publish_publicly:
         description: "Make the video public after upload (otherwise upload privately)"
         required: true
@@ -61,6 +66,7 @@ jobs:
           RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
           RENDERED_VIDEO_NAME: ${{ inputs.rendered_video_name }}
           METADATA_PATH: ${{ inputs.metadata_path }}
+          PREFLIGHT_PATH: ${{ inputs.preflight_path }}
         run: |
           python3 - <<'PY'
           import os
@@ -84,6 +90,11 @@ jobs:
 
           repo_file(os.environ["METADATA_PATH"], "metadata_path", ".json")
           mode = os.environ["SOURCE_MODE"]
+          preflight = os.environ["PREFLIGHT_PATH"]
+          if mode == "repo":
+              repo_file(preflight, "preflight_path", ".json")
+          elif preflight:
+              raise SystemExit("preflight_path must be empty when source_mode=render_artifact; use the artifact's preflight.json")
           if mode == "repo":
               repo_file(os.environ["VIDEO_PATH_INPUT"], "video_path", ".mp4")
           elif mode == "render_artifact":
@@ -117,6 +128,8 @@ jobs:
           SOURCE_MODE: ${{ inputs.source_mode }}
           VIDEO_PATH_INPUT: ${{ inputs.video_path }}
           RENDERED_VIDEO_NAME: ${{ inputs.rendered_video_name }}
+          SOURCE_MODE: ${{ inputs.source_mode }}
+          PREFLIGHT_PATH: ${{ inputs.preflight_path }}
         shell: bash
         run: |
           set -euo pipefail
@@ -129,7 +142,17 @@ jobs:
             echo "Resolved MP4 does not exist: $candidate" >&2
             exit 1
           fi
+          if [[ "$SOURCE_MODE" == "render_artifact" ]]; then
+            preflight="downloaded-render/preflight.json"
+          else
+            preflight="$PREFLIGHT_PATH"
+          fi
+          if [[ ! -f "$preflight" ]]; then
+            echo "Resolved preflight JSON does not exist: $preflight" >&2
+            exit 1
+          fi
           printf 'VIDEO_PATH=%s\n' "$candidate" >> "$GITHUB_ENV"
+          printf 'PREFLIGHT_PATH=%s\n' "$preflight" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -156,7 +179,7 @@ jobs:
             fi
           done
           if [[ "$PUBLISH_PUBLICLY" == "true" ]]; then
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --publish
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --preflight "$PREFLIGHT_PATH" --publish
           else
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH"
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH"
           fi

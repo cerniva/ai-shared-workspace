@@ -21,6 +21,10 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn("default: false", text)
         self.assertIn('if [[ "$PUBLISH_PUBLICLY" == "true" ]]', text)
         self.assertIn("scripts/youtube_upload.py", text)
+        self.assertIn("preflight_path:", text)
+        self.assertIn("preflight_path must be empty when source_mode=render_artifact", text)
+        self.assertIn('preflight="downloaded-render/preflight.json"', text)
+        self.assertIn('python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH"', text)
 
     def test_repo_mode_still_requires_existing_repo_relative_mp4_and_metadata(self):
         """Preserve the original repo-file upload path with traversal checks."""
@@ -29,6 +33,7 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn('repo_file(os.environ["VIDEO_PATH_INPUT"], "video_path", ".mp4")', text)
         self.assertIn('path.is_absolute() or ".." in path.parts', text)
         self.assertIn("Missing GitHub Actions secret", text)
+        self.assertIn('repo_file(preflight, "preflight_path", ".json")', text)
 
 
 if __name__ == "__main__":
