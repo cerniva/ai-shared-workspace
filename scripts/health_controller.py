@@ -13,6 +13,12 @@ except ImportError:
     from system_health import HealthEvidence, effective_status, is_protected_target
 
 SAFE_REPAIRS = {"restart_worker", "reconcile_state", "refresh_health", "rerun_failed_job"}
+INVALID_EVIDENCE_REASONS = {
+    "unknown_status",
+    "invalid_evidence_timestamp",
+    "future_evidence_timestamp",
+    "invalid_ttl",
+}
 
 
 @dataclass(frozen=True)
@@ -34,8 +40,8 @@ def decide_action(evidence: HealthEvidence, *, target: str, repair: str | None =
         return ControllerDecision("no_action", "healthy")
     if status == "degraded":
         return ControllerDecision("retest", status_reason or "degraded_requires_fresh_evidence", True)
-    if status != "failed" or status_reason == "unknown_status":
-        return ControllerDecision("manual_review", "unknown_status")
+    if status != "failed" or status_reason in INVALID_EVIDENCE_REASONS:
+        return ControllerDecision("manual_review", status_reason or "invalid_evidence")
     if repair not in SAFE_REPAIRS:
         return ControllerDecision("manual_review", "repair_not_allowlisted")
     return ControllerDecision("repair_then_retest", repair or "safe_repair", True)
