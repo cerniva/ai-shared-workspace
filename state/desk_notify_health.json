@@ -2,16 +2,16 @@
   "ok": true,
   "consecutive_failures": 0,
   "last_error": null,
-  "retry": "workflow job fails closed; next schedule (*/15) or workflow_dispatch reruns reconcile. Unsaved transitions stay absent and are retried. Emitted event keys are not repeated.",
+  "retry": "workflow job fails closed; next hourly schedule or workflow_dispatch reruns reconcile. Unsaved transitions stay absent and are retried. Emitted event keys are not repeated.",
   "transport": "poll-ledger",
   "push": false,
   "push_tested_to_chat": false,
   "push_limit": "poll-ledger only. GitHub REST notifications API has no create endpoint (docs/en/rest/activity/notifications, checked 2026-09-27). GITHUB_TOKEN events do not start workflows except workflow_dispatch and repository_dispatch (docs/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow, checked 2026-09-27). No PAT stored. Chat push was not tested and is not claimed.",
-  "schedule": "*/15 * * * *",
+  "schedule": "0 * * * *",
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 1,
     "answered": 28,
     "delayed": 25
@@ -81,10 +81,10 @@
     "MSG-20260928-171000-chatgpt-continuation-policy:pending",
     "RPT-20260928-1710-chatgpt-youtube-handoff:delayed",
     "MSG-20260928-171000-chatgpt-continuation-policy:delayed",
-    "MSG-20260929-040300-core05-oidc-feeder:pending"
+    "MSG-20260929-040300-core05-oidc-feeder:done"
   ],
   "new_event_keys": [
-    "MSG-20260929-040300-core05-oidc-feeder:pending"
+    "MSG-20260929-040300-core05-oidc-feeder:done"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
