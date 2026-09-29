@@ -86,7 +86,7 @@ jobs:
           PY
 
       - name: Upload rendered Short and preflight report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: shorts-free-render
           path: artifacts/
