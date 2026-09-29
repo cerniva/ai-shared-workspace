@@ -3,8 +3,36 @@ name: CodeQL code scanning
 on:
   push:
     branches: [main]
+    paths:
+      - '**/*.py'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+      - 'package*.json'
+      - '.github/workflows/codeql.yml'
   pull_request:
     branches: [main]
+    paths:
+      - '**/*.py'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+      - 'package*.json'
+      - '.github/workflows/codeql.yml'
   schedule:
     - cron: '23 4 * * 1'
 
