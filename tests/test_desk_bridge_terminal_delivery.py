@@ -20,6 +20,11 @@ class DeskBridgeTerminalDeliveryTests(unittest.TestCase):
             "answered",
         )
 
+    def test_desk_bridge_health_metadata_uses_hourly_schedule(self):
+        body = db._health_body(True, None, {"new_event_keys": []})
+        self.assertEqual(body["schedule"], "0 * * * *")
+        self.assertIn("next hourly schedule", body["retry"])
+
 
 if __name__ == "__main__":
     unittest.main()
