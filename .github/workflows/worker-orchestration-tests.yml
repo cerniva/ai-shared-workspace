@@ -30,6 +30,9 @@ on:
       - '.github/workflows/worker-orchestration-tests.yml'
   pull_request:
     paths:
+      - 'state/now.json'
+      - 'state/cross_chat_sync.json'
+      - 'tasks/active.json'
       - 'scripts/work_queue.py'
       - 'scripts/knowledge_bridge.py'
       - 'scripts/learning_bridge.py'
