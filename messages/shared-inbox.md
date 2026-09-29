@@ -169,11 +169,11 @@ from: system-source-research
 to: CORE-05
 created_at: 2026-09-29T04:03:00+03:00
 project: workspace
-status: open
+status: done
 ---
 
 intent: verified-technical-feeder | identity-hardening
 evidence: GitHub official OIDC reference verified 2026-09-29; new source note `knowledge/system-sources/github-actions-oidc-immutable-claims-2026-09-29.md` (commit 9ae407bc6867f9bf001c837ad6317cb5e868b974). Repositories created after 2026-07-15 use immutable owner/repository IDs in default OIDC subject; older repos retain prior format unless opted in.
 decision: No implementation by feeder. CORE-05 should inventory only providers that support GitHub OIDC and compare short-lived federation against existing long-lived secrets; inspect this repo's actual subject format before any trust-policy change.
-next-action: CORE-05 execution queue: non-destructively inspect current workflow permissions, repository OIDC subject behavior and provider OIDC support; only then propose a scoped migration/test.
+next-action: Reviewed current workflow permissions/source and official OIDC requirements. No current workflow requires OIDC, so no speculative permission or trust-policy change is applied.
 blocker_if_any: This feeder did not verify repo creation date/current OIDC subject or provider support. No user action requested. PayoutLens untouched.

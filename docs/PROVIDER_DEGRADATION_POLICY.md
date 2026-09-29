@@ -14,10 +14,11 @@ A Grok Bot quota failure is **not** a Grok chat outage and is **not** evidence t
 ## Current degraded routing
 
 1. Coordination/synthesis: ChatGPT.
-2. Automated model work: OpenAI worker first; Gemini as secondary where appropriate.
+2. Automated model work: Gemini is the verified healthy primary; OpenAI/Grok/Anthropic are fallback routes subject to their provider-side limits.
 3. Grok red-team: normal Grok chat/file-desk handoff when available. Do not fabricate a Grok answer with another model.
 4. Web/browser execution: TinyFish first, Firecrawl fallback.
 5. Meta Model API: pause on HTTP 402; do not retry automatically or block unrelated work. Meta consumer chat remains a separate channel.
+6. Keep provider health in `state/now.json` synchronized with fresh workflow evidence; stale status must not be presented as a current outage.
 
 ## Failure rules
 
