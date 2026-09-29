@@ -9,6 +9,12 @@ from scripts.work_queue import _parse
 
 UTC = timezone.utc
 ROOT = Path(__file__).resolve().parents[1]
+PROVIDER_ENV = (
+    ("gemini", "GEMINI_API_KEY"),
+    ("openai", "OPENAI_API_KEY"),
+    ("grok", "XAI_API_KEY"),
+    ("meta", "META_MODEL_API_KEY"),
+)
 
 
 def build_health(now: datetime | None = None) -> dict:
@@ -31,13 +37,23 @@ def build_health(now: datetime | None = None) -> dict:
             stamp = item.get("completed_at") or item.get("reviewed_at") or item.get("applied_at")
             if stamp and (last_success is None or stamp > last_success):
                 last_success = stamp
+
+    configured = {provider: bool(os.environ.get(name, "").strip()) for provider, name in PROVIDER_ENV}
     return {
         "generated_at": now.isoformat(),
         "healthy": bool(queue.get("version") == 1 and dead.get("version") == 1),
+        "health_scope": "queue-and-dead-letter-structure-only",
+        "provider_readiness_checked": False,
+        "provider_note": "Credential presence is configuration evidence only; provider HTTP/quota/readiness is tracked separately and this snapshot makes no live provider-health claim.",
         "model": {
             "provider": "openai",
             "model": os.environ.get("OPENAI_MODEL", "gpt-5.6-sol"),
-            "credential_configured": bool(os.environ.get("OPENAI_API_KEY")),
+            "credential_configured": configured["openai"],
+            "readiness_checked": False,
+        },
+        "routing": {
+            "failover_order": ["gemini", "openai", "grok", "meta"],
+            "configured_providers": configured,
         },
         "github": {"actions_repository": os.environ.get("GITHUB_REPOSITORY"), "token_available": bool(os.environ.get("GITHUB_TOKEN"))},
         "queue": {"counts": counts, "active_leases": active_leases},
