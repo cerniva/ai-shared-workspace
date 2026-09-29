@@ -103,11 +103,87 @@ A Short must not reach upload/publish unless all applicable checks pass for the 
 9. Upload path must fail closed if preflight evidence is missing/mismatched.
 10. After publication, remote playback/audio should be checked when a supported authorized path exists; scheduling/HTTP success alone is not proof that viewers hear audio.
 
+## EDITING TECHNIQUE CATALOG — 2026-09-29
+Purpose: choose edits because they serve attention, comprehension, pacing, payoff or continuity—not because an effect exists. YouTube's official Shorts editor supports clip trim/reorder, precise timeline editing, timed text, voiceover, volume control and beat-sync; these capabilities validate the production primitives, but they do not prove that any named editing technique causes higher retention. Treat the technique-to-performance link as a testable hypothesis and learn from owned analytics.
+
+### Core cuts and continuity
+1. Jump cut — remove dead time/repetition while preserving meaning.
+2. Hard cut — direct scene change with no decorative transition.
+3. Action cut / cut on action — change shot during motion to preserve momentum.
+4. Match cut — connect similar shape, motion, framing or concept across scenes.
+5. Smash cut — abrupt contrast for surprise/comedy/intensity.
+6. J-cut — next scene's audio starts before its picture.
+7. L-cut — previous scene's audio continues under the next picture.
+8. Sound bridge — use continuous/anticipatory sound to connect scenes.
+9. POV continuity — preserve viewer orientation/perspective across cuts.
+10. Eyeline/direction continuity — preserve movement and gaze direction unless deliberate disorientation is the point.
+
+### Pace and compression
+11. Progress montage — compress a longer process into visible milestones.
+12. Montage compression — condense many informational steps into a short sequence.
+13. Speed ramp — accelerate low-value motion and/or slow the decisive moment when clarity benefits.
+14. Timelapse / hyperlapse — compress long transformations or travel/process time.
+15. Freeze frame — pause on a critical detail/question/error.
+16. Frame hold + zoom — hold and magnify a detail the viewer may miss.
+17. Reverse — reverse motion only when it adds clarity, surprise or loop value.
+18. Looped action — repeat a satisfying/important motion sparingly.
+19. Beat cut — align selected edits with musical rhythm when music serves the concept.
+20. Sound-hit cut — align an edit/reveal with a legitimate impact/Foley cue.
+
+### Attention and visual reset
+21. Punch-in / digital zoom — emphasize a detail, reaction or key phrase.
+22. Macro reveal — withhold then reveal close detail/texture.
+23. Pattern interrupt — deliberately break an established visual/audio rhythm.
+24. Visual reset — materially change framing, scale, angle, background or information state.
+25. Split screen — show simultaneous comparison/progress.
+26. Side-by-side A/B — make before/after, cheap/expensive, correct/wrong or other contrast legible.
+27. Picture-in-picture — keep reaction/explanation/context visible over primary footage.
+28. Foreground wipe — hide a cut behind a passing object when continuity benefits.
+29. Mask transition — use an object/shape as a motivated transition.
+30. Whip transition — use rapid directional motion to bridge shots; avoid when it reduces comprehension.
+31. Rack-focus transition — use focus change to shift attention/bridge scenes when footage supports it.
+
+### Curiosity, narrative and payoff
+32. Flash-forward — show a small fragment of the result early without exhausting the payoff.
+33. Open-loop editing — introduce a question/promise that later shots genuinely resolve.
+34. Delayed reveal — postpone the full answer/result while delivering enough progress to avoid baiting.
+35. Micro-payoff — deliver intermediate rewards before the main payoff.
+36. Escalation edit — make successive beats meaningfully stronger/harder/larger/more consequential.
+37. Expectation reversal — reveal a legitimate outcome that contradicts the viewer's reasonable prediction.
+38. False ending — briefly signal completion before a genuine extra beat; use sparingly, never deceptive padding.
+39. Callback — return to an earlier object/question/line to create closure.
+40. Seamless loop — make the ending naturally connect to the opening when replay adds value.
+
+### Text and information editing
+41. Text reveal — stage information instead of dumping it all at once.
+42. Kinetic typography — animate text only when motion reinforces meaning/timing.
+43. Caption emphasis — selectively emphasize critical words; preserve readability.
+44. Object-tracked text — anchor labels/context to a moving subject when it improves understanding.
+45. Timed captions/text — synchronize text appearance/disappearance to the relevant spoken or visual beat.
+46. Minimal-text mode — omit nonessential text when visual action and sound already communicate clearly.
+
+### Audio-led editing
+47. Silence drop — deliberately reduce/cut audio immediately before an important sound/reveal when contrast helps.
+48. Audio ducking — lower music/background under narration, Foley or key sensory sound.
+49. Foley-sync edit — align cut/action with the actual or rights-safe recreated sound event.
+50. Voiceover-led B-roll — let narration carry continuity while visuals change to evidence/context.
+
+### Editing selection rule
+- Do not apply all techniques. For each Short, evaluate the catalog and select only techniques with a defined job.
+- Record selected techniques and intended job: `technique -> attention/comprehension/pacing/payoff/continuity`.
+- Content-family routing examples: satisfying/food favors action cuts, macro reveal, progress montage, Foley-sync, micro-payoffs, silence drop and loop; transformation/restoration favors before/after comparison, progress montage, match/action cuts and escalation; quiz/factual favors question/open-loop, timed text, progressive clues, pattern interrupt, delayed reveal and callback; gaming/high-action favors action cuts, POV continuity, selective punch-ins, sound-hit cuts and readable captions.
+- Never use random high-frequency cuts, zooms or transitions merely to simulate retention. Every cut should remove low-value time, introduce new information, redirect attention, preserve continuity or strengthen a promised payoff.
+- Default 30-second structural hypothesis remains 0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s main payoff; 27–30 s loop/useful CTA. Override only when the concept or owned analytics supports a better structure.
+
+### Editing QA gate
+Before publish, verify: no accidental black/frozen frames; no unintended duplicate frames/scenes; captions/text remain inside safe readable areas and are synchronized; transitions do not obscure critical information; pacing has no unexplained dead segment; final payoff fulfills the opening promise; loop is natural if used; A/V sync and audio QA pass; exact MP4 passes the existing technical preflight. Editing style is then evaluated post-publication with owned Shorts analytics rather than assumed successful.
+
 ## Shorts production framework
 - Default planned Short: exactly 30 seconds, 9:16.
 - Evaluate the researched 200-format idea pool before choosing a topic.
 - Evaluate all 40 retention/engagement mechanisms and combine the most relevant 3–5.
-- Candidate order: current demand/performance -> 30-second fit -> hook -> mechanisms -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics.
+- Evaluate all 50 editing techniques and select only the techniques that serve a defined role; record the selected set.
+- Candidate order: current demand/performance -> 30-second fit -> hook -> mechanisms -> editing plan -> feasibility/cost -> rights/originality/monetization -> script/visual/audio -> QA -> publish -> analytics.
 - Satisfying food/bento/meal-prep and cleaning/detailing/transformation are priority lanes, not mandatory topics.
 - Viral examples are benchmarks, not copy masters.
 - Default structure hypothesis: 0–2 s hook; 2–6 s curiosity/problem/prediction; 6–20 s progress + micro-payoffs; 20–27 s payoff; 27–30 s loop or useful CTA/comment choice.
