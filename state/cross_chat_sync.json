@@ -1,9 +1,28 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-28T16:49:00+03:00",
+  "updated_at": "2026-09-29T05:05:00+03:00",
   "status": "partial_bridge_active",
   "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
   "latest_user_side_deltas": [
+    {
+      "id": "user-20260929-batch-red-yellow",
+      "topic": "system",
+      "status": "confirmed_user_decision",
+      "fact": "When resolving red/yellow issues, do not stop and report after each fix; in each safe execution pass, continue through all independently solvable red/yellow issues, verify them, then send one consolidated report."
+    },
+    {
+      "id": "user-20260929-gmail-unavailable-now",
+      "topic": "accounts-integrations",
+      "status": "confirmed_user_constraint",
+      "fact": "Gmail cannot be used by the user right now; Gmail steps must be skipped and must not block GitHub, Shorts, Shopify or system work.",
+      "secret_policy": "Do not request or store Gmail credentials, passwords, verification codes or recovery secrets."
+    },
+    {
+      "id": "user-20260929-four-main-automations",
+      "topic": "automation",
+      "status": "verified_current_configuration",
+      "fact": "The intended active automation set is exactly four main plans: Finans; Video ve Shopify Otomasyonu; Bilgi Kütüphanesi; Sistem Geliştirmeleri. Duplicate/legacy feeders and Email Monitor remain disabled."
+    },
     {
       "id": "user-20260928-pexels-key",
       "topic": "free-first-shorts",
@@ -21,9 +40,9 @@
     {
       "id": "user-20260928-work-email",
       "topic": "accounts-integrations",
-      "status": "user_reported",
-      "fact": "User is actively setting up and testing a business email / Google Workspace account across integrations in other conversations.",
-      "verification_needed": "Provider-specific login and plugin compatibility must be verified before treating the work email as usable everywhere."
+      "status": "superseded_for_current_execution",
+      "fact": "User previously reported setting up/testing a business email / Google Workspace account across integrations.",
+      "verification_needed": "Do not treat it as currently usable; the newer user-20260929-gmail-unavailable-now constraint governs current execution."
     },
     {
       "id": "user-20260928-cross-chat-coordination",
@@ -40,9 +59,11 @@
     "reconcile_recent_user_context_when_available": true,
     "live_system_state_overrides_stale_email_or_old_report": true,
     "user_reported_facts_stay_user_reported_until_verified": true,
+    "newer_user_constraint_supersedes_older_user_report_for_current_execution": true,
     "write_only_new_delta": true,
     "never_store_secrets_tokens_passwords_or_api_keys": true,
-    "do_not_duplicate_completed_or_unchanged_work": true
+    "do_not_duplicate_completed_or_unchanged_work": true,
+    "do_not_report_after_each_individual_fix_when_more_safe_red_yellow_work_remains": true
   },
   "limitations": [
     "There is no guaranteed instant event push from every separate ChatGPT conversation into this repository.",
