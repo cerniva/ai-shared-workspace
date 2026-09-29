@@ -713,12 +713,12 @@ def _health_body(ok: bool, error: str | None, summary: dict | None) -> dict:
         "ok": ok,
         "consecutive_failures": failures,
         "last_error": error,
-        "retry": "workflow job fails closed; next schedule (*/15) or workflow_dispatch reruns reconcile. Unsaved transitions stay absent and are retried. Emitted event keys are not repeated.",
+        "retry": "workflow job fails closed; next hourly schedule (0 * * * *) or workflow_dispatch reruns reconcile. Unsaved transitions stay absent and are retried. Emitted event keys are not repeated.",
         "transport": "poll-ledger",
         "push": False,
         "push_tested_to_chat": False,
         "push_limit": PUSH_LIMIT,
-        "schedule": "*/15 * * * *",
+        "schedule": "0 * * * *",
         "schedule_is_best_effort": True,
         "delay_threshold_minutes": DELAYED_AFTER_MINUTES,
         "counts": counts,
@@ -757,6 +757,10 @@ def _desired_status(channel: str, block: dict, replies: set[str], existing: dict
     msg_status = (block.get("status") or "").lower()
     mid = block["id"]
     if mid in replies or msg_status == "superseded":
+        return "answered"
+    # Terminal source messages clear stale pending/seen/delayed delivery state.
+    # Team reports remain broadcast records that require reader acknowledgement.
+    if channel != "team-reports" and msg_status in {"done", "blocked"}:
         return "answered"
     if existing.get("status") == "answered":
         return "answered"
