@@ -6,6 +6,13 @@ on:
       - '.github/workflows/shorts-free-smoke-once.yml'
       - 'tests/fixtures/shorts_real_smoke_ice_float.json'
       - 'scripts/shorts_media.py'
+      - 'scripts/shorts_free_pipeline.py'
+      - 'scripts/shorts_render.py'
+      - 'scripts/shorts_research.py'
+      - 'scripts/shorts_preflight.py'
+      - 'tests/test_shorts_free_pipeline.py'
+      - 'tests/test_shorts_media.py'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,6 +28,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Run free-first unit tests
+        run: |
+          python3 -m unittest -v tests.test_shorts_media tests.test_shorts_free_pipeline
 
       - name: Build real free-first Short
         env:

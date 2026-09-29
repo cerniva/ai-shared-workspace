@@ -173,8 +173,13 @@ def prepare_render_bundle(
     selected: list[dict] = []
     seen: set[tuple[str, str]] = set()
     result_sets: list[list[dict]] = []
+    provider_failures: list[str] = []
     for query in queries[:MAX_ASSETS]:
-        results = search_free_media(query, env=env, limit=6)
+        try:
+            results = search_free_media(query, env=env, limit=6)
+        except RuntimeError as exc:
+            provider_failures.append(f"{query}: {exc}")
+            results = []
         result_sets.append(results if isinstance(results, list) else [])
 
     # First preserve the packet's intended visual variety: at most one unique
@@ -205,6 +210,9 @@ def prepare_render_bundle(
                 break
 
     if not selected:
+        detail = "; ".join(provider_failures)
+        if detail:
+            raise RuntimeError("no usable free media asset found; provider failures: " + detail)
         raise RuntimeError("no usable free media asset found")
 
     local_assets: list[Path] = []
