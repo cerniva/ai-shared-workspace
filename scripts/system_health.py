@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from math import isfinite
 
 VALID_STATUSES = {"healthy", "degraded", "external_wait", "disabled_optional", "failed"}
 
@@ -42,9 +43,14 @@ def effective_status(evidence: HealthEvidence, *, now: datetime | None = None) -
     if current.tzinfo is None:
         current = current.replace(tzinfo=timezone.utc)
     current = current.astimezone(timezone.utc)
+    if checked > current:
+        return "failed", "future_evidence_timestamp"
     try:
-        stale = evidence.ttl_seconds < 0 or (current - checked).total_seconds() > evidence.ttl_seconds
-    except TypeError:
+        ttl = float(evidence.ttl_seconds)
+        if not isfinite(ttl):
+            return "failed", "invalid_ttl"
+        stale = ttl < 0 or (current - checked).total_seconds() > ttl
+    except (TypeError, ValueError, OverflowError):
         return "failed", "invalid_ttl"
     if stale:
         return "degraded", "stale_green"
