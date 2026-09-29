@@ -1034,7 +1034,7 @@
     "MSG-20260929-040300-core05-oidc-feeder": {
       "id": "MSG-20260929-040300-core05-oidc-feeder",
       "channel": "shared-inbox",
-      "status": "pending",
+      "status": "done",
       "updated_at": "2026-09-29T04:04:36+03:00",
       "alerted": true,
       "from": "system-source-research",
