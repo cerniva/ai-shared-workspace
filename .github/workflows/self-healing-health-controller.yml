@@ -1,0 +1,35 @@
+name: self-healing-health-controller
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/system_health.py'
+      - 'scripts/provider_router.py'
+      - 'scripts/health_controller.py'
+      - 'scripts/health_observability.py'
+      - 'tests/test_system_health.py'
+      - 'tests/test_provider_router.py'
+      - 'tests/test_health_controller.py'
+      - 'tests/test_health_integration.py'
+      - '.github/workflows/self-healing-health-controller.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Focused controller tests
+        run: python -m pytest -q tests/test_system_health.py tests/test_provider_router.py tests/test_health_controller.py tests/test_health_integration.py
+      - name: Compile check
+        run: python -m py_compile scripts/system_health.py scripts/provider_router.py scripts/health_controller.py scripts/health_observability.py
+      - name: PayoutLens exclusion guard
+        run: |
+          git diff --name-only origin/${{ github.base_ref }}...HEAD | tee /tmp/changed
+          if grep -i 'payoutlens' /tmp/changed; then echo 'Protected PayoutLens path changed' >&2; exit 1; fi
