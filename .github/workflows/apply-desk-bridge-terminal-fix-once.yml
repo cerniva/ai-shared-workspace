@@ -1,0 +1,39 @@
+name: apply-desk-bridge-terminal-fix-once
+
+on:
+  push:
+    branches:
+      - chatgpt/fix-desk-terminal-delivery-current-main
+    paths:
+      - scripts/apply_desk_bridge_terminal_fix.py
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: chatgpt/fix-desk-terminal-delivery-current-main
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Apply focused desk bridge fix
+        run: python3 scripts/apply_desk_bridge_terminal_fix.py
+      - name: Verify focused regression tests
+        run: python3 -m unittest -v tests.test_desk_bridge_terminal_delivery tests.test_desk_bridge
+      - name: Commit verified implementation
+        shell: bash
+        run: |
+          if git diff --quiet -- scripts/desk_bridge.py; then
+            echo 'No desk_bridge.py delta produced' >&2
+            exit 2
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/desk_bridge.py
+          git commit -m 'fix: clear stale delayed delivery for terminal messages'
+          git push origin HEAD:chatgpt/fix-desk-terminal-delivery-current-main
