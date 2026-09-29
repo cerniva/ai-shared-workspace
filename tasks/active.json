@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T18:12:00+03:00",
+  "updated_at": "2026-09-29T03:12:00+03:00",
   "max_persistent_tasks": 5,
   "tasks": [
     {
@@ -114,7 +114,7 @@
       "parent": "CORE-05",
       "lead": "chatgpt",
       "backups": ["gemini", "grok"],
-      "notes": "Eski PR #42 referansı superseded. PR #45 medya sağlayıcı/fallback katmanını, PR #47 puanlama/free-render gate'i, PR #52 packet→free media→provenance/captions→FFmpeg build/workflow hattını, PR #55 non-finite scoring guard'ını ana dala taşıdı. İlgili worker/Shorts/CodeQL kontrolleri yeşil. Kalan doğrulama: gerçek yetkili workflow koşusunda MP4 artifact + preflight çıktısını üretip read-back doğrulamak; bu gerçekleşmeden gerçek üretim artefact'ı veya yayın DONE sayılmaz. PayoutLens kapsam dışı."
+      "notes": "Eski PR #42 referansı superseded. PR #45 medya sağlayıcı/fallback katmanını, PR #47 puanlama/free-render gate'i, PR #52 packet→free media→provenance/captions→FFmpeg build/workflow hattını, PR #55 non-finite scoring guard'ını ana dala taşıdı. İlgili worker/Shorts/CodeQL kontrolleri yeşil. Gerçek free-first smoke workflow'unda MP4 artifact + preflight üretildi ve read-back doğrulandı; üretim hattı doğrulandı. YouTube yayın kapısı OAuth/kanal doğrulamasından ayrı tutulur ve yayın başarı kanıtı olmadan DONE sayılmaz. PayoutLens kapsam dışı."
     },
     {
       "id": "TSK-20260928-003",
