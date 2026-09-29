@@ -1,6 +1,7 @@
 import datetime as dt
 
 from scripts.desk_health_normalize import (
+    collect_active_ids,
     collect_message_source_statuses,
     normalize_health,
     reconcile_terminal_delivery,
@@ -78,3 +79,12 @@ updated
         encoding="utf-8",
     )
     assert collect_message_source_statuses(tmp_path)["MSG-1"] == "done"
+
+
+def test_active_ids_ignore_archives_and_unwatched_message_files(tmp_path):
+    (tmp_path / "shared-inbox.md").write_text("---\nid: MSG-live\nstatus: open\n---\nbody\n", encoding="utf-8")
+    (tmp_path / "team-reports.md").write_text("## RPT-live\n- status: done\n", encoding="utf-8")
+    (tmp_path / "team-reports-archive-20260927.md").write_text("## RPT-old\n- status: done\n", encoding="utf-8")
+    (tmp_path / "user-action-required.md").write_text("---\nid: MSG-manual\nstatus: open\n---\nbody\n", encoding="utf-8")
+
+    assert collect_active_ids(tmp_path) == {"MSG-live", "RPT-live"}
