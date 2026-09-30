@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Prepare and render a zero-paid-credit Short from an approved research packet.
 
-This orchestration layer acquires free/licensed media, writes provenance and
-captions, creates a manifest for ``scripts.shorts_render``, and renders one MP4.
-It never uploads or publishes content.
+Production bundles are video-only. Still-image fallbacks are intentionally
+rejected so a successful run cannot silently degrade into a slideshow.
+This orchestration layer never uploads or publishes content.
 """
 from __future__ import annotations
 
@@ -23,16 +23,18 @@ from scripts.shorts_media import download_asset, search_free_media
 from scripts.shorts_render import render
 from scripts.shorts_research import gate_packet
 
-SUPPORTED_VISUAL_SUFFIXES = {
-    ".jpg", ".jpeg", ".png", ".webp", ".bmp", ".ppm",
-    ".mp4", ".mov", ".mkv", ".webm", ".m4v", ".avi",
-}
+SUPPORTED_VIDEO_SUFFIXES = {".mp4", ".mov", ".mkv", ".webm", ".m4v", ".avi"}
 MAX_ASSETS = 3
 VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
 
 
 def default_espeak_voice(language: str, explicit_voice: str | None = None) -> str:
-    """Choose a validated local eSpeak voice for a packet language."""
+    """Choose a validated local eSpeak voice for a packet language.
+
+    Kept for backward compatibility only; higher-quality production narration
+    is gated separately and must not be treated as QA-passed merely because
+    eSpeak rendered successfully.
+    """
     if explicit_voice is not None:
         if not isinstance(explicit_voice, str) or not VOICE_RE.fullmatch(explicit_voice.strip()):
             raise ValueError("narration_voice contains unsupported characters")
@@ -50,7 +52,6 @@ def default_espeak_voice(language: str, explicit_voice: str | None = None) -> st
 
 
 def _srt_time(seconds: float) -> str:
-    """Format seconds as an SRT timestamp."""
     millis = max(0, int(round(seconds * 1000)))
     hours, millis = divmod(millis, 3_600_000)
     minutes, millis = divmod(millis, 60_000)
@@ -59,7 +60,6 @@ def _srt_time(seconds: float) -> str:
 
 
 def _caption_chunks(text: str, max_chars: int) -> list[str]:
-    """Split narration into mobile-readable word-preserving caption chunks."""
     if max_chars < 8:
         raise ValueError("max_chars must be at least 8")
     words = re.findall(r"\S+", text.strip())
@@ -82,7 +82,7 @@ def _caption_chunks(text: str, max_chars: int) -> list[str]:
 
 
 def build_srt(text: str, target_seconds: float, *, max_chars: int = 42) -> str:
-    """Build evenly timed SRT captions from known narration text."""
+    """Legacy deterministic captions; production speech-sync QA is still required."""
     if not isinstance(text, str) or not text.strip():
         raise ValueError("narration_text is required for captions")
     try:
@@ -97,25 +97,26 @@ def build_srt(text: str, target_seconds: float, *, max_chars: int = 42) -> str:
     for index, chunk in enumerate(chunks, start=1):
         start = (index - 1) * slot
         end = duration if index == len(chunks) else index * slot
-        entries.append(
-            f"{index}\n{_srt_time(start)} --> {_srt_time(end)}\n{chunk}\n"
-        )
+        entries.append(f"{index}\n{_srt_time(start)} --> {_srt_time(end)}\n{chunk}\n")
     return "\n".join(entries)
 
 
+def _is_video_asset(item: dict) -> bool:
+    return isinstance(item, dict) and item.get("media_type") == "video"
+
+
 def _asset_suffix(asset: dict) -> str:
-    """Derive a renderer-compatible local suffix without trusting URL queries."""
-    url = asset.get("download_url") if isinstance(asset, dict) else None
+    """Derive a renderer-compatible VIDEO suffix without trusting URL queries."""
+    if not _is_video_asset(asset):
+        raise ValueError("production Short requires real video assets; still image rejected")
+    url = asset.get("download_url")
     suffix = ""
     if isinstance(url, str):
         suffix = Path(urlsplit(url).path).suffix.lower()
-    if suffix in SUPPORTED_VISUAL_SUFFIXES:
-        return suffix
-    return ".mp4" if asset.get("media_type") == "video" else ".jpg"
+    return suffix if suffix in SUPPORTED_VIDEO_SUFFIXES else ".mp4"
 
 
 def _asset_identity(item: dict) -> tuple[str, str] | None:
-    """Return a stable provider identity for a normalized asset."""
     if not isinstance(item, dict):
         return None
     provider = item.get("provider")
@@ -126,7 +127,6 @@ def _asset_identity(item: dict) -> tuple[str, str] | None:
 
 
 def _load_packet(packet_path: Path) -> dict:
-    """Load a packet and require a JSON object."""
     path = Path(packet_path)
     if not path.is_file():
         raise ValueError(f"packet does not exist: {path}")
@@ -139,13 +139,7 @@ def _load_packet(packet_path: Path) -> dict:
     return packet
 
 
-def prepare_render_bundle(
-    packet_path: Path,
-    workdir: Path,
-    *,
-    env: Mapping[str, str] | None = None,
-) -> dict:
-    """Turn one gate-approved packet into local media, provenance and render files."""
+def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str, str] | None = None) -> dict:
     packet = _load_packet(Path(packet_path))
     blockers = gate_packet(packet)
     if blockers:
@@ -158,11 +152,7 @@ def prepare_render_bundle(
     if target_seconds <= 0 or target_seconds > 180:
         raise ValueError("target_seconds must be between 0 and 180 seconds")
 
-    queries = [
-        query.strip()
-        for query in packet.get("media_queries", [])
-        if isinstance(query, str) and query.strip()
-    ]
+    queries = [q.strip() for q in packet.get("media_queries", []) if isinstance(q, str) and q.strip()]
     if not queries:
         raise ValueError("research gate blocked: missing_media_queries")
 
@@ -180,22 +170,21 @@ def prepare_render_bundle(
         except RuntimeError as exc:
             provider_failures.append(f"{query}: {exc}")
             results = []
-        result_sets.append(results if isinstance(results, list) else [])
+        # Production fail-closed: discard image/Openverse fallback results.
+        videos = [dict(item) for item in results if _is_video_asset(item)] if isinstance(results, list) else []
+        result_sets.append(videos)
 
-    # First preserve the packet's intended visual variety: at most one unique
-    # asset from each planned query before any query can consume extra slots.
     for results in result_sets:
         for item in results:
             identity = _asset_identity(item)
             if identity is None or identity in seen:
                 continue
             seen.add(identity)
-            selected.append(dict(item))
+            selected.append(item)
             break
         if len(selected) >= MAX_ASSETS:
             break
 
-    # Then fill any remaining slots deterministically in query/result order.
     if len(selected) < MAX_ASSETS:
         for results in result_sets:
             for item in results:
@@ -203,7 +192,7 @@ def prepare_render_bundle(
                 if identity is None or identity in seen:
                     continue
                 seen.add(identity)
-                selected.append(dict(item))
+                selected.append(item)
                 if len(selected) >= MAX_ASSETS:
                     break
             if len(selected) >= MAX_ASSETS:
@@ -212,8 +201,8 @@ def prepare_render_bundle(
     if not selected:
         detail = "; ".join(provider_failures)
         if detail:
-            raise RuntimeError("no usable free media asset found; provider failures: " + detail)
-        raise RuntimeError("no usable free media asset found")
+            raise RuntimeError("no usable free VIDEO asset found; provider failures: " + detail)
+        raise RuntimeError("no usable free VIDEO asset found; still-image fallback is disabled")
 
     local_assets: list[Path] = []
     for index, item in enumerate(selected, start=1):
@@ -221,31 +210,21 @@ def prepare_render_bundle(
         downloaded = Path(download_asset(item, destination)).resolve()
         if downloaded.parent != asset_dir or not downloaded.is_file():
             raise RuntimeError("downloaded asset escaped the bundle directory or is missing")
+        if downloaded.suffix.lower() not in SUPPORTED_VIDEO_SUFFIXES:
+            raise RuntimeError("downloaded production asset is not a supported video file")
         local_assets.append(downloaded)
 
     provenance_path = workdir / "provenance.json"
-    provenance_path.write_text(
-        json.dumps(selected, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    provenance_path.write_text(json.dumps(selected, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     captions_path = workdir / "captions.srt"
-    captions_path.write_text(
-        build_srt(packet["narration_text"], target_seconds),
-        encoding="utf-8",
-    )
+    captions_path.write_text(build_srt(packet["narration_text"], target_seconds), encoding="utf-8")
 
     voice = default_espeak_voice(packet["language"], packet.get("narration_voice"))
     base_duration = target_seconds / len(local_assets)
     durations = [base_duration] * len(local_assets)
     durations[-1] = target_seconds - sum(durations[:-1])
-    visuals = [
-        {
-            "path": asset.relative_to(workdir).as_posix(),
-            "duration": round(duration, 6),
-        }
-        for asset, duration in zip(local_assets, durations)
-    ]
+    visuals = [{"path": asset.relative_to(workdir).as_posix(), "duration": round(duration, 6)} for asset, duration in zip(local_assets, durations)]
 
     render_manifest_path = workdir / "render.json"
     manifest = {
@@ -255,24 +234,14 @@ def prepare_render_bundle(
         "narration_voice": voice,
         "narration_speed": int(packet.get("narration_speed", 165)),
         "subtitles": captions_path.relative_to(workdir).as_posix(),
+        "production_gates": {"video_only": True, "speech_sync_review_required": True, "natural_voice_review_required": True},
     }
-    render_manifest_path.write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    render_manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    return {
-        "render_manifest": str(render_manifest_path),
-        "provenance": str(provenance_path),
-        "captions": str(captions_path),
-        "assets": [str(path) for path in local_assets],
-        "language": packet["language"],
-        "content_type": packet["content_type"],
-    }
+    return {"render_manifest": str(render_manifest_path), "provenance": str(provenance_path), "captions": str(captions_path), "assets": [str(path) for path in local_assets], "language": packet["language"], "content_type": packet["content_type"]}
 
 
 def main() -> int:
-    """Prepare one free render bundle and invoke the existing local renderer."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("packet", type=Path)
     parser.add_argument("workdir", type=Path)
