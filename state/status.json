@@ -1,15 +1,11 @@
 {
   "desk": "ai-shared-workspace",
   "live_state_source": "state/now.json",
-  "agents": [
-    "chatgpt",
-    "grok",
-    "gemini-api"
-  ],
+  "agents": ["chatgpt", "grok", "gemini-api"],
   "payoutlens_repo": "cerniva/grok-chatgpt-masa",
   "payoutlens_keep": true,
   "youtube_handoff": "research/youtube/",
-  "updated_at": "2026-09-29T04:52:31+03:00",
+  "updated_at": "2026-09-30T04:01:54+03:00",
   "gemini_bridge": {
     "transport": "github-actions-api",
     "state": "configured-planner-fallback-verified",
@@ -28,16 +24,23 @@
     "scope_limit": "API-key/public-data readiness does not authorize upload, Studio, or owned analytics. Reverify before relying on account-scoped access."
   },
   "youtube_publish": {
-    "state": "blocked-external-auth",
+    "state": "metricool-fallback-live-direct-oauth-blocked",
     "direct_oauth": "invalid_grant",
-    "metricool_fallback": "disconnected-live-check-2026-09-29",
-    "policy": "Production and QC continue; publish remains fail-closed until one authorized path is live and remote read-back succeeds."
+    "metricool_fallback": "verified-live-2026-09-30",
+    "last_remote_readback": {
+      "provider": "metricool-youtube",
+      "video_id": "tKXYIrm8WXY",
+      "public_url": "https://www.youtube.com/shorts/tKXYIrm8WXY",
+      "status": "PUBLISHED"
+    },
+    "policy": "Direct GitHub OAuth remains an external auth gate. Metricool is a verified publish fallback only when the current brand still exposes YouTube and each publish returns a remote ID/URL/status read-back. Production/preflight alone is never publish proof."
   },
   "metricool": {
     "brand_id": "7082876",
-    "state": "brand-reachable-no-social-network-connected",
-    "verified_at": "2026-09-29T04:40:00+03:00",
-    "blocking_scope": "youtube-publish-only"
+    "state": "youtube-connected-publish-readback-verified",
+    "youtube_channel_id": "UCAKg-ZKPoazTnF2zDVORk4Q",
+    "verified_at": "2026-09-30T04:01:54+03:00",
+    "evidence": "Live connector brand settings exposed networksData.youtubeData and a public Short publish completed with remote video ID/URL/status read-back."
   },
   "shopify_admin_api": {
     "state": "last-known-connected-not-reverified-this-turn",
@@ -50,10 +53,7 @@
     "connector": "scripts/connectors/youtube_analytics_client.py",
     "reason": "account OAuth is not currently usable; do not claim owned analytics from this path without a fresh successful read-back"
   },
-  "external_blockers": [
-    "payments-unproven",
-    "youtube-publish-auth-unavailable"
-  ],
+  "external_blockers": ["payments-unproven", "youtube-direct-oauth-invalid-grant"],
   "public_workspace_policy": {
     "private_connector_payloads": "blocked",
     "deployment": "site-only",
