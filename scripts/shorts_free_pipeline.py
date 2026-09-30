@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from collections.abc import Mapping
 from pathlib import Path
@@ -46,9 +47,7 @@ def default_espeak_voice(language: str, explicit_voice: str | None = None) -> st
         return "tr"
     if normalized == "en" or normalized.startswith("en-"):
         return "en-us"
-    raise ValueError(
-        f"narration_voice is required for unsupported automatic language mapping: {language}"
-    )
+    raise ValueError(f"narration_voice is required for unsupported automatic language mapping: {language}")
 
 
 def _srt_time(seconds: float) -> str:
@@ -116,6 +115,35 @@ def _asset_suffix(asset: dict) -> str:
     return suffix if suffix in SUPPORTED_VIDEO_SUFFIXES else ".mp4"
 
 
+def _probe_real_video(path: Path) -> None:
+    """Fail closed unless ffprobe can decode metadata for a usable video stream."""
+    try:
+        proc = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "V:0", "-show_entries", "stream=codec_type,width,height", "-of", "json", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise RuntimeError("downloaded production asset could not be content-probed") from exc
+    if proc.returncode != 0:
+        raise RuntimeError("downloaded production asset is not recognized as video content")
+    try:
+        payload = json.loads(proc.stdout)
+        streams = payload.get("streams", [])
+    except (json.JSONDecodeError, AttributeError) as exc:
+        raise RuntimeError("downloaded production asset returned invalid probe metadata") from exc
+    if not any(
+        isinstance(stream, dict)
+        and stream.get("codec_type") == "video"
+        and int(stream.get("width") or 0) > 0
+        and int(stream.get("height") or 0) > 0
+        for stream in streams
+    ):
+        raise RuntimeError("downloaded production asset has no usable moving-video stream")
+
+
 def _asset_identity(item: dict) -> tuple[str, str] | None:
     if not isinstance(item, dict):
         return None
@@ -144,22 +172,18 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
     blockers = gate_packet(packet)
     if blockers:
         raise ValueError("research gate blocked: " + ",".join(blockers))
-
     try:
         target_seconds = float(packet["target_seconds"])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("target_seconds must be a number") from exc
     if target_seconds <= 0 or target_seconds > 180:
         raise ValueError("target_seconds must be between 0 and 180 seconds")
-
     queries = [q.strip() for q in packet.get("media_queries", []) if isinstance(q, str) and q.strip()]
     if not queries:
         raise ValueError("research gate blocked: missing_media_queries")
-
     workdir = Path(workdir).resolve()
     asset_dir = workdir / "assets"
     asset_dir.mkdir(parents=True, exist_ok=True)
-
     selected: list[dict] = []
     seen: set[tuple[str, str]] = set()
     result_sets: list[list[dict]] = []
@@ -170,10 +194,8 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
         except RuntimeError as exc:
             provider_failures.append(f"{query}: {exc}")
             results = []
-        # Production fail-closed: discard image/Openverse fallback results.
         videos = [dict(item) for item in results if _is_video_asset(item)] if isinstance(results, list) else []
         result_sets.append(videos)
-
     for results in result_sets:
         for item in results:
             identity = _asset_identity(item)
@@ -184,7 +206,6 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
             break
         if len(selected) >= MAX_ASSETS:
             break
-
     if len(selected) < MAX_ASSETS:
         for results in result_sets:
             for item in results:
@@ -197,13 +218,11 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
                     break
             if len(selected) >= MAX_ASSETS:
                 break
-
     if not selected:
         detail = "; ".join(provider_failures)
         if detail:
             raise RuntimeError("no usable free VIDEO asset found; provider failures: " + detail)
         raise RuntimeError("no usable free VIDEO asset found; still-image fallback is disabled")
-
     local_assets: list[Path] = []
     for index, item in enumerate(selected, start=1):
         destination = asset_dir / f"asset-{index:02d}{_asset_suffix(item)}"
@@ -212,20 +231,17 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
             raise RuntimeError("downloaded asset escaped the bundle directory or is missing")
         if downloaded.suffix.lower() not in SUPPORTED_VIDEO_SUFFIXES:
             raise RuntimeError("downloaded production asset is not a supported video file")
+        _probe_real_video(downloaded)
         local_assets.append(downloaded)
-
     provenance_path = workdir / "provenance.json"
     provenance_path.write_text(json.dumps(selected, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
     captions_path = workdir / "captions.srt"
     captions_path.write_text(build_srt(packet["narration_text"], target_seconds), encoding="utf-8")
-
     voice = default_espeak_voice(packet["language"], packet.get("narration_voice"))
     base_duration = target_seconds / len(local_assets)
     durations = [base_duration] * len(local_assets)
     durations[-1] = target_seconds - sum(durations[:-1])
     visuals = [{"path": asset.relative_to(workdir).as_posix(), "duration": round(duration, 6)} for asset, duration in zip(local_assets, durations)]
-
     render_manifest_path = workdir / "render.json"
     manifest = {
         "target_seconds": target_seconds,
@@ -234,10 +250,9 @@ def prepare_render_bundle(packet_path: Path, workdir: Path, *, env: Mapping[str,
         "narration_voice": voice,
         "narration_speed": int(packet.get("narration_speed", 165)),
         "subtitles": captions_path.relative_to(workdir).as_posix(),
-        "production_gates": {"video_only": True, "speech_sync_review_required": True, "natural_voice_review_required": True},
+        "production_gates": {"video_only": True, "content_probe": "ffprobe", "speech_sync_review_required": True, "natural_voice_review_required": True},
     }
     render_manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
     return {"render_manifest": str(render_manifest_path), "provenance": str(provenance_path), "captions": str(captions_path), "assets": [str(path) for path in local_assets], "language": packet["language"], "content_type": packet["content_type"]}
 
 
