@@ -7,7 +7,7 @@ on:
       - 'state/work_queue.json'
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '7 * * * *'
 
 concurrency:
   group: repo-main-writers
@@ -43,6 +43,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 -m scripts.worker_health > state/worker_health.json
+      - name: Ignore timestamp-only health delta
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          path = Path('state/worker_health.json')
+          current = json.loads(path.read_text(encoding='utf-8'))
+          previous = json.loads(subprocess.check_output(
+              ['git', 'show', 'HEAD:state/worker_health.json'], text=True
+          ))
+          current.pop('generated_at', None)
+          previous.pop('generated_at', None)
+          if current == previous:
+              subprocess.run(['git', 'checkout', 'HEAD', '--', str(path)], check=True)
+          PY
       - name: Persist worker delta
         shell: bash
         run: |
