@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from collections.abc import Mapping
 from pathlib import Path
@@ -23,10 +24,8 @@ from scripts.shorts_media import download_asset, search_free_media
 from scripts.shorts_render import render
 from scripts.shorts_research import gate_packet
 
-SUPPORTED_VISUAL_SUFFIXES = {
-    ".jpg", ".jpeg", ".png", ".webp", ".bmp", ".ppm",
-    ".mp4", ".mov", ".mkv", ".webm", ".m4v", ".avi",
-}
+SUPPORTED_VIDEO_SUFFIXES = {".mp4", ".mov", ".mkv", ".webm", ".m4v", ".avi"}
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".ppm"}
 MAX_ASSETS = 3
 VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
 
@@ -103,15 +102,54 @@ def build_srt(text: str, target_seconds: float, *, max_chars: int = 42) -> str:
     return "\n".join(entries)
 
 
+def _is_video_asset(item: dict) -> bool:
+    return isinstance(item, dict) and item.get("media_type") == "video"
+
+
 def _asset_suffix(asset: dict) -> str:
-    """Derive a renderer-compatible local suffix without trusting URL queries."""
-    url = asset.get("download_url") if isinstance(asset, dict) else None
+    """Derive a renderer-compatible video suffix without trusting URL queries."""
+    if not _is_video_asset(asset):
+        raise ValueError("production Short requires real video assets; still image rejected")
+    url = asset.get("download_url")
     suffix = ""
     if isinstance(url, str):
         suffix = Path(urlsplit(url).path).suffix.lower()
-    if suffix in SUPPORTED_VISUAL_SUFFIXES:
-        return suffix
-    return ".mp4" if asset.get("media_type") == "video" else ".jpg"
+    return suffix if suffix in SUPPORTED_VIDEO_SUFFIXES else ".mp4"
+
+
+def _probe_real_video(path: Path) -> None:
+    """Fail closed unless ffprobe reports a usable non-attached video stream."""
+    try:
+        proc = subprocess.run(
+            [
+                "ffprobe", "-v", "error",
+                "-select_streams", "V:0",
+                "-show_entries", "stream=codec_type,width,height",
+                "-of", "json",
+                str(path),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise RuntimeError("downloaded production asset could not be content-probed") from exc
+    if proc.returncode != 0:
+        raise RuntimeError("downloaded production asset is not recognized as video content")
+    try:
+        payload = json.loads(proc.stdout)
+        streams = payload.get("streams", [])
+    except (json.JSONDecodeError, AttributeError) as exc:
+        raise RuntimeError("downloaded production asset returned invalid probe metadata") from exc
+    if not any(
+        isinstance(stream, dict)
+        and stream.get("codec_type") == "video"
+        and int(stream.get("width") or 0) > 0
+        and int(stream.get("height") or 0) > 0
+        for stream in streams
+    ):
+        raise RuntimeError("downloaded production asset has no usable moving-video stream")
 
 
 def _asset_identity(item: dict) -> tuple[str, str] | None:
@@ -180,7 +218,12 @@ def prepare_render_bundle(
         except RuntimeError as exc:
             provider_failures.append(f"{query}: {exc}")
             results = []
-        result_sets.append(results if isinstance(results, list) else [])
+        videos = [
+            dict(item)
+            for item in results
+            if _is_video_asset(item)
+        ] if isinstance(results, list) else []
+        result_sets.append(videos)
 
     # First preserve the packet's intended visual variety: at most one unique
     # asset from each planned query before any query can consume extra slots.
@@ -212,8 +255,8 @@ def prepare_render_bundle(
     if not selected:
         detail = "; ".join(provider_failures)
         if detail:
-            raise RuntimeError("no usable free media asset found; provider failures: " + detail)
-        raise RuntimeError("no usable free media asset found")
+            raise RuntimeError("no usable free VIDEO asset found; provider failures: " + detail)
+        raise RuntimeError("no usable free VIDEO asset found; still-image fallback is disabled")
 
     local_assets: list[Path] = []
     for index, item in enumerate(selected, start=1):
@@ -221,6 +264,9 @@ def prepare_render_bundle(
         downloaded = Path(download_asset(item, destination)).resolve()
         if downloaded.parent != asset_dir or not downloaded.is_file():
             raise RuntimeError("downloaded asset escaped the bundle directory or is missing")
+        if downloaded.suffix.lower() not in SUPPORTED_VIDEO_SUFFIXES or downloaded.suffix.lower() in IMAGE_SUFFIXES:
+            raise RuntimeError("downloaded production asset is not a supported video file")
+        _probe_real_video(downloaded)
         local_assets.append(downloaded)
 
     provenance_path = workdir / "provenance.json"
@@ -255,6 +301,12 @@ def prepare_render_bundle(
         "narration_voice": voice,
         "narration_speed": int(packet.get("narration_speed", 165)),
         "subtitles": captions_path.relative_to(workdir).as_posix(),
+        "production_gates": {
+            "video_only": True,
+            "content_probe": "ffprobe",
+            "speech_sync_review_required": True,
+            "natural_voice_review_required": True,
+        },
     }
     render_manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",

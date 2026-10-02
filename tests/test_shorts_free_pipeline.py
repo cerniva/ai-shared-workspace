@@ -96,7 +96,8 @@ class ShortsFreePipelineTests(unittest.TestCase):
         second = [asset("pexels", "same"), asset("pixabay", "unique-b")]
         with tempfile.TemporaryDirectory() as td, \
              patch.object(pipeline, "search_free_media", side_effect=[first, second]) as search, \
-             patch.object(pipeline, "download_asset", side_effect=fake_download):
+             patch.object(pipeline, "download_asset", side_effect=fake_download), \
+             patch.object(pipeline, "_probe_real_video", return_value=None):
             base = Path(td)
             result = pipeline.prepare_render_bundle(
                 self._write_packet(base, valid_packet()), base / "work", env={}
@@ -121,7 +122,8 @@ class ShortsFreePipelineTests(unittest.TestCase):
         second = [asset("pexels", "river-1")]
         with tempfile.TemporaryDirectory() as td, \
              patch.object(pipeline, "search_free_media", side_effect=[first, second]) as search, \
-             patch.object(pipeline, "download_asset", side_effect=fake_download):
+             patch.object(pipeline, "download_asset", side_effect=fake_download), \
+             patch.object(pipeline, "_probe_real_video", return_value=None):
             base = Path(td)
             result = pipeline.prepare_render_bundle(
                 self._write_packet(base, valid_packet()), base / "work", env={}
@@ -142,7 +144,8 @@ class ShortsFreePipelineTests(unittest.TestCase):
         }
         with tempfile.TemporaryDirectory() as td, \
              patch.object(pipeline, "search_free_media", return_value=[asset("pexels", "1")]), \
-             patch.object(pipeline, "download_asset", side_effect=fake_download):
+             patch.object(pipeline, "download_asset", side_effect=fake_download), \
+             patch.object(pipeline, "_probe_real_video", return_value=None):
             base = Path(td)
             result = pipeline.prepare_render_bundle(
                 self._write_packet(base, valid_packet()), base / "work", env=secret_env
@@ -179,7 +182,8 @@ class ShortsFreePipelineTests(unittest.TestCase):
     def test_render_manifest_contains_local_paths_only(self):
         with tempfile.TemporaryDirectory() as td, \
              patch.object(pipeline, "search_free_media", return_value=[asset("pixabay", "2")]), \
-             patch.object(pipeline, "download_asset", side_effect=fake_download):
+             patch.object(pipeline, "download_asset", side_effect=fake_download), \
+             patch.object(pipeline, "_probe_real_video", return_value=None):
             base = Path(td)
             result = pipeline.prepare_render_bundle(
                 self._write_packet(base, valid_packet()), base / "work", env={}
@@ -191,6 +195,46 @@ class ShortsFreePipelineTests(unittest.TestCase):
             for visual in manifest["visuals"]:
                 self.assertFalse(visual["path"].startswith(("http://", "https://", "/")))
                 self.assertTrue(visual["path"].startswith("assets/"))
+
+
+    def test_pipeline_rejects_image_only_results(self):
+        images = [asset("openverse", "still-1", media_type="image", suffix="jpg")]
+        with tempfile.TemporaryDirectory() as td, \
+             patch.object(pipeline, "search_free_media", return_value=images), \
+             patch.object(pipeline, "download_asset", side_effect=fake_download) as download:
+            base = Path(td)
+            with self.assertRaisesRegex(RuntimeError, "still-image fallback is disabled"):
+                pipeline.prepare_render_bundle(
+                    self._write_packet(base, valid_packet()), base / "work", env={}
+                )
+            download.assert_not_called()
+
+    def test_content_probe_rejects_fake_mp4_and_image_bytes(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            fake = base / "fake.mp4"
+            fake.write_bytes(b"not a video")
+            with self.assertRaisesRegex(RuntimeError, "not recognized as video content"):
+                pipeline._probe_real_video(fake)
+            image = base / "still.jpg"
+            image.write_bytes(b"\xff\xd8\xff\xd9")
+            with self.assertRaisesRegex(RuntimeError, "not recognized as video content|no usable moving-video"):
+                pipeline._probe_real_video(image)
+
+    def test_content_probe_accepts_real_video(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "real.mp4"
+            proc = subprocess.run(
+                [
+                    "ffmpeg", "-y", "-f", "lavfi", "-i", "color=c=black:s=64x64:d=0.2",
+                    "-pix_fmt", "yuv420p", str(path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            pipeline._probe_real_video(path)
 
     def test_direct_cli_help_runs_without_repo_import_error(self):
         result = subprocess.run(
