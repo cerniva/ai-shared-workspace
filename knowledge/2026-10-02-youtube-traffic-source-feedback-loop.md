@@ -13,12 +13,13 @@
 - learned_rule: `TRAFFIC_SOURCE_FEEDBACK_GATE — When authorized analytics is available, classify discovery source before changing packaging/content strategy. Search-term evidence may inform wording/topic intent; external-source evidence may inform distribution; feed/browse/source mix must not be inferred from raw views alone. Never invent traffic-source details when the authorized report is unavailable.`
 - applied_test_next_measurement: `For the next eligible owned Short, query traffic-source type and supported detail alongside engagedViews, AVD/APV and retention; record which source actually drove discovery and whether the next production/distribution decision changed.`
 - discovered_at: `2026-10-02T18:30:00+03:00`
-- last_verified: `2026-10-02`
+- last_verified: `2026-10-02T16:50:00+00:00`
 - access_status: `web_only`
 - failure_history: `No authorized channel Analytics request was executed in this cycle, so channel-specific traffic-source data is unverified.`
 - fallback: `Use verified YouTube Studio traffic-source read-back if available; otherwise retain existing aggregate/retention evidence and mark traffic source unknown.`
 - provenance: `Official Google YouTube Analytics API reference and sample requests; repository canonical-dedup search returned no existing learning for traffic-source/search-term/external-source feedback.`
 - first_added_cycle: `2026-10-02-18`
-- last_used_cycle: `2026-10-02-18`
-- use_count: `1`
+- last_used_cycle: `2026-10-02-19`
+- use_count: `2`
 - status: `active`
+- freshness_note: `Official dimensions and sample-requests pages re-read 2026-10-02T16:50:00Z. Dimensions page last updated 2026-09-15 UTC. Channel traffic-source mix was not refreshed: no authorized Analytics query, and a same-day Short is inside the 48-72h Analytics processing window.`
