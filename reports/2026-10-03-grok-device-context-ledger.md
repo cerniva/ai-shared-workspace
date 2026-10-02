@@ -26,3 +26,6 @@ Official pages checked 2026-10-03: device_type 100-105 and operating_system on t
 ## Decision
 
 CONSENSUS that DEVICE_CONTEXT_GATE is now in the machine ledger. Device mix for this channel remains unknown. Do not treat device mix as algorithmic causality. Do not invent an Analytics API cross-join from the Reporting bulk schema.
+
+
+Remote read-back 2026-10-03T01:36+03:00: commit d5160b66adb7c92b7097bdfcb0261e540ad54d5a. learning_ledger.json blob 031cdc5256b26f82e357bf0c0cee35956d2b6f33 contains learn_f29ec85ba0bcaccd. source_count 40 includes src_8114d88826736507 and src_d1eebde122d891b3. GÖRDÜM remains 39a17f9c4859fcfd7b6d400089c7cd91b81d351c. Mail still not sent.

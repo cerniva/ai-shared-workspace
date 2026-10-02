@@ -1178,3 +1178,6 @@ decision: persistence gap closed for the ledger row. Channel device mix still un
 next-action: read back learn_f29ec85ba0bcaccd on main after push. No authorized device query in this cycle.
 blocker_if_any: mail_not_sent. authorized_channel_device_query_not_executed.
 constraints: no secrets. no payoutlens.
+
+
+Remote read-back 2026-10-03T01:36+03:00: commit d5160b66adb7c92b7097bdfcb0261e540ad54d5a. learning_ledger.json blob 031cdc5256b26f82e357bf0c0cee35956d2b6f33 contains learn_f29ec85ba0bcaccd. source_count 40 includes src_8114d88826736507 and src_d1eebde122d891b3. GÖRDÜM remains 39a17f9c4859fcfd7b6d400089c7cd91b81d351c. Mail still not sent.
