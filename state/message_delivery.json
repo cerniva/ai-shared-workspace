@@ -1531,6 +1531,57 @@
         "pending"
       ],
       "pending_at": "2026-10-02T19:33:00+03:00"
+    },
+    "MSG-20261002-1950-grok-seen-freshness": {
+      "id": "MSG-20261002-1950-grok-seen-freshness",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-02T19:45:14+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-freshness-2026-10-02T19:42+03",
+      "created_at": "2026-10-02T19:50:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T19:50:00+03:00"
+    },
+    "MSG-20261002-1951-grok-freshness-split": {
+      "id": "MSG-20261002-1951-grok-freshness-split",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-02T19:45:14+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "knowledge/2026-10-02-youtube-traffic-source-feedback-loop.md",
+      "created_at": "2026-10-02T19:51:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T19:51:00+03:00"
+    },
+    "RPT-20261002-1951-grok-freshness-split": {
+      "id": "RPT-20261002-1951-grok-freshness-split",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-02T19:45:14+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "RPT-20261002-1838-grok-persistence-fix",
+      "created_at": "2026-10-02T19:51:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T19:51:00+03:00"
     }
   },
   "events": [
@@ -2746,6 +2797,39 @@
       "at": "2026-10-02T19:32:40+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-1950-grok-seen-freshness:pending",
+      "message_id": "MSG-20261002-1950-grok-seen-freshness",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T19:45:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-1951-grok-freshness-split:pending",
+      "message_id": "MSG-20261002-1951-grok-freshness-split",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T19:45:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261002-1951-grok-freshness-split:pending",
+      "message_id": "RPT-20261002-1951-grok-freshness-split",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-02T19:45:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -2858,6 +2942,9 @@
     "RPT-20261002-1838-grok-persistence-fix:delayed",
     "MSG-20261002-1932-grok-seen-analytics-latency:pending",
     "MSG-20261002-1933-grok-analytics-latency-audit:pending",
-    "RPT-20261002-1933-grok-analytics-latency-audit:pending"
+    "RPT-20261002-1933-grok-analytics-latency-audit:pending",
+    "MSG-20261002-1950-grok-seen-freshness:pending",
+    "MSG-20261002-1951-grok-freshness-split:pending",
+    "RPT-20261002-1951-grok-freshness-split:pending"
   ]
 }
