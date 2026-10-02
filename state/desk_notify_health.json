@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
+    "pending": 1,
     "seen": 0,
     "answered": 39,
-    "delayed": 21
+    "delayed": 22
   },
-  "event_count": 80,
+  "event_count": 81,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -97,21 +97,22 @@
     "MSG-20261002-0502-grok-gmail-trigger:answered",
     "MSG-20261002-0710-grok-state-pr96-retry:pending",
     "MSG-20261002-0710-grok-state-pr96-retry:delayed",
-    "MSG-20261002-090500-grok-reconcile:pending"
+    "MSG-20261002-090500-grok-reconcile:pending",
+    "MSG-20261002-090500-grok-reconcile:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-090500-grok-reconcile:pending"
+    "MSG-20261002-090500-grok-reconcile:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T09:09:58+03:00",
+  "checked_at": "2026-10-02T10:04:13+03:00",
   "historical_counts": {
-    "pending": 2,
+    "pending": 1,
     "seen": 0,
     "answered": 39,
-    "delayed": 21
+    "delayed": 22
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 98,
+  "active_source_id_count": 99,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
