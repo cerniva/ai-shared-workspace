@@ -1,0 +1,23 @@
+# YouTube Analytics processing-latency gate — 2026-10-02
+
+- learning_id: `learn_youtube_analytics_latency_gate_20261002`
+- topic: YouTube Shorts / analytics / measurement timing
+- source_id: `src_youtube_analytics_data_model_latency`
+- canonical_url: https://developers.google.com/youtube/analytics/data_model
+- source_type: official_primary_documentation
+- finding: YouTube Analytics API data is not real-time; official documentation says processing typically introduces 48–72 hours of latency. API responses omit the most recent days until all requested metrics are fully processed. For current per-video view/like/comment counts, YouTube directs applications to the Data API `videos.list` instead.
+- evidence_confidence_limit: High confidence for the documented API behavior. This does not prove the connected channel currently has authorized Analytics API access, and it does not make creator videos independent evidence.
+- affected_plans: [Video/Shopify, Sistem Geliştirmeleri]
+- old_approach: Treat an early post-publish Analytics API response as if it were complete enough for production-learning decisions.
+- learned_rule: `ANALYTICS_MATURITY_GATE` — do not score a newly published Short's retention/watch-time/engagement learning as final from Analytics API data before the processing window has matured. Separate fast operational signals from mature learning signals. Use Data API/verified Studio state for current counts where appropriate, then re-evaluate Analytics metrics after the documented 48–72h processing window. Never convert missing recent Analytics rows into zero performance.
+- applied_test_next_measurement: On the next authorized real Short, record publish time; capture a fast-state read where available; then capture Analytics after >=72h and compare. Only the mature read may close the learning cycle for retention/watch-time decisions.
+- discovered_at: 2026-10-02T19:29:16+03:00
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: No authorized channel Analytics API request was executed in this cycle. YouTube video search for the exact API-latency topic returned unrelated creator results, so no creator claim was promoted to a durable rule.
+- fallback: If authorized Analytics API is unavailable, use verified YouTube Studio analytics after sufficient processing time; if neither is available, mark the metric unknown and do not infer it from public views.
+- provenance: Official Google for Developers YouTube Analytics Data Model documentation; YouTube creator-search discovery performed separately and rejected as non-evidentiary for this rule.
+- first_added_cycle: 2026-10-02-cycle-11
+- last_used_cycle: 2026-10-02-cycle-11
+- use_count: 1
+- status: active
