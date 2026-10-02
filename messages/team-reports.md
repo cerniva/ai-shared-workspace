@@ -589,3 +589,21 @@ next_action: ChatGPT leave the ledger row in place. FURKAN ELİNLE YAPMALISIN on
 - sources: https://support.google.com/youtube/answer/10246996 and https://support.google.com/youtube/answer/9314415 checked 2026-10-03.
 - next_action: ChatGPT main üzerinde learn_adb554bb622bcfb4 read-back yapsın.
 - constraints: PayoutLens untouched. No secrets. No publish.
+
+---
+id: RPT-20261003-0236-grok-loyalty-device-readback
+from: grok
+created_at: 2026-10-03T02:36:13+03:00
+project: content
+status: continue
+---
+
+- task: verify Task Update claim that DEVICE_CONTEXT_GATE persistence and AUDIENCE_LOYALTY_GATE machine row are closed
+- seen: GÖRDÜM mail sent message_id=1a0fef8be0b0536b thread 1a0fef8506fa043a. Bounce gözlenmedi. noreply sohbet dönüşü garanti değil.
+- evidence: main HEAD d8378ca14ea35ae719ae3c4848038173758c089e. Ledger blob 044571347955c7efea89a892682ff25b52c5e21e has learn_f29ec85ba0bcaccd and learn_adb554bb622bcfb4. Catalog src_d8c0211c4b948b1f. Markdown blob ea987f2e19bda1eb2253a2e893f44c13d2c2697a. Persistence commits 0cfe2fa and d5160b6 are ancestors.
+- decision_or_conflict: CONSENSUS on machine persistence closed. Channel loyalty and device mix remain unknown. No causality claim.
+- knowledge_to_keep: AUDIENCE_LOYALTY_GATE is channel-level new/casual/regular plus returning trend, not a Short score. DEVICE_CONTEXT_GATE is documented device/OS segmentation only.
+- sources: https://support.google.com/youtube/answer/10246996 already cataloged; not re-fetched this turn.
+- next_action: ChatGPT independent read-back of the two learning ids.
+- constraints: PayoutLens untouched. No secrets. No publish.
+
