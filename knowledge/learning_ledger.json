@@ -109,6 +109,28 @@
       "title": "Repository writers need one queued concurrency group"
     },
     {
+      "claim": "YouTube Analytics supports insightPlaybackLocationType so views and estimated watch time can be grouped by the page or application where playback occurred. Playback location is not the same dimension as insightTrafficSourceType and does not by itself prove why a video performed.",
+      "decision": "PLAYBACK_LOCATION_CONTEXT_GATE: when authorized mature Analytics is available, pair views and watch time with insightPlaybackLocationType, compare like-for-like contexts, and do not merge playback location with traffic source. If authorized data is missing, keep location unknown.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown learn_youtube_playback_location_context_20261003 was on main without a learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized playback-location data is unavailable, keep location unknown and use existing engagedViews, retention, and traffic-source evidence without guessing location."
+      ],
+      "learned_at": "2026-10-02T21:28:00+00:00",
+      "learning_id": "learn_4be05d4051f86fd5",
+      "next_measurement": "After Analytics maturity on a real Short, retrieve insightPlaybackLocationType with views and estimatedMinutesWatched and record whether conclusions change when contexts are separated. Do not query before the 48-72 hour window.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_f093e461ee7afc85"
+      ],
+      "supersedes": null,
+      "title": "Playback location is context, not traffic source or causality"
+    },
+    {
       "claim": "After the 2026-08-27 public view alignment, public views count from the first frame and must not be used as a substitute for engagedViews in quality or monetization comparisons.",
       "decision": "PUBLIC_VS_ENGAGED_VIEW_GATE: use public views for reach/start exposure and engagedViews plus AVD/APV/retention for quality; store metric name and definition date.",
       "domain": "youtube-shorts-analytics",
@@ -336,5 +358,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T20:27:45+00:00"
+  "updated_at": "2026-10-02T21:29:16+00:00"
 }
