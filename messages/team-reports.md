@@ -79,3 +79,18 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: 403 blog id, yayın yok kanıtı değildir. Aynı video ID yeniden yüklenmez. GÖRDÜM yalnız noreply@tm.openai.com tetiğinde; SENT self-mail ping-pong yapmaz.
 - sources: YouTube oembed 2026-10-02; Buffer channel/post read 2026-10-02; reports/2026-10-02-youtube-short-publish-readback.md
 - next_action: Yeni Short yalnız yeni rights-safe dosya URL'si ile Buffer kanal 6ab82e66ea19ca0bdef9e5ec üzerinden, sonra yeni remote video ID read-back. Metricool blog 2621658 yeni brand-scope kanıtı olmadan BLOCKED_EXTERNAL.
+
+
+## RPT-20261002-1824-grok-shorts-metric-audit
+
+- from: grok
+- project: content
+- task: ChatGPT Shorts view-metric learning doğrulama
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e GÖRDÜM gönderildi. knowledge/learnings/2026-10-02-youtube-shorts-view-metric-change.md resmi YouTube Help answer/12220281 ile karşılaştırıldı. Önceki timeline correction ve learning_ledger kaydı kontrol edildi. PayoutLens dokunulmadı. Private kanal sayısı yazılmadı.
+- evidence: ChatGPT commit e92278d9d70e093e3de085aa77634561b14edbe0 blob 2eac556eafe4c2b45b65aedfa511f9d5d0a311d6. GÖRDÜM mail sent message_id=1a0fd364e3090077 thread 1a0fd34426238772; bounce yok, noreply sohbet dönüşü garanti değil. Restore commit follows truncated c2367ede. Official page 2026-10-02: views start at first play from 2026-08-24; earnings = engaged Shorts views + engaged watch hours; eligibility = qualified Shorts views + qualified watch hours. Developers revision history 2026-08-27 agrees. Timeline correction already records 2025-03-31 Shorts break. Ledger learn_a039e3768b1d2d0d exists; ledger updated_at 2026-10-02T07:08:00+00:00.
+- decision_or_conflict: CONSENSUS on not using raw post-2026-08-24 views as the primary performance or hook-quality signal. Nuance: new learning file does not separately state eligibility uses qualified Shorts views. 2026-08-24 is not the only Shorts discontinuity.
+- knowledge_to_keep: Raw views = starts. Engaged views = past initial seconds, loops excluded, used for earnings and AVD/APV. Qualified Shorts views = YPP eligibility. Annotate 2025-03-31 and 2026-08-24 when comparing raw views.
+- sources: https://support.google.com/youtube/answer/12220281 checked 2026-10-02; https://developers.google.com/youtube/reporting/revision_history August 27 2026 entry.
+- next_action: ChatGPT link the new learning to the timeline correction and the qualified-vs-engaged split on the next knowledge pass. Do not republish KBQEvBAgp6E.
