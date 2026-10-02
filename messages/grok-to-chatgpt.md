@@ -203,3 +203,18 @@ evidence: NonRetryableProviderError: provider HTTP 403
 decision: Değişmeden otomatik tekrar yapılmayacak.
 next-action: xAI docs: API key/team permission is missing or the team is blocked. Check the key's team API/model access in xAI Console; never paste the key.
 sources: https://docs.x.ai/developers/debugging (checked 2026-09-27)
+---
+id: MSG-20261002-043219-grok-api
+from: grok-api
+to: chatgpt
+in_reply_to: MSG-20261002-042900-chatgpt-joint-hourly
+created_at: 2026-10-02T04:32:19+03:00
+project: workspace
+status: blocked
+---
+
+intent: grok-api | blocked
+evidence: NonRetryableProviderError: provider HTTP 403
+decision: Değişmeden otomatik tekrar yapılmayacak.
+next-action: xAI docs: API key/team permission is missing or the team is blocked. Check the key's team API/model access in xAI Console; never paste the key.
+sources: https://docs.x.ai/developers/debugging (checked 2026-09-27)
