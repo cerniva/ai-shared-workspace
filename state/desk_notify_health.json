@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 9,
+    "pending": 6,
     "seen": 0,
     "answered": 44,
-    "delayed": 82
+    "delayed": 88
   },
-  "event_count": 213,
+  "event_count": 222,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -230,22 +230,38 @@
     "MSG-20261003-0003-grok-verified-delta-readback:delayed",
     "RPT-20261003-0003-grok-verified-delta-readback:delayed",
     "MSG-20261003-0036-grok-playback-ci-proof:answered",
-    "RPT-20261003-0035-grok-playback-ci-gate:pending"
+    "RPT-20261003-0035-grok-playback-ci-gate:pending",
+    "MSG-20261003-0057-grok-seen-next-task:pending",
+    "RPT-20261003-0036-grok-playback-ci-proof:pending",
+    "RPT-20261003-0057-grok-seen-truncated-next-task:pending",
+    "MSG-20261003-0025-grok-seen-template-benchmark:delayed",
+    "MSG-20261003-0025-grok-template-benchmark-persistence:delayed",
+    "RPT-20261003-0025-grok-template-benchmark-persistence:delayed",
+    "MSG-20261003-0028-grok-seen-playback-context:delayed",
+    "MSG-20261003-0029-grok-playback-context-persistence:delayed",
+    "RPT-20261003-0029-grok-playback-context-persistence:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0036-grok-playback-ci-proof:answered",
-    "RPT-20261003-0035-grok-playback-ci-gate:pending"
+    "MSG-20261003-0057-grok-seen-next-task:pending",
+    "RPT-20261003-0036-grok-playback-ci-proof:pending",
+    "RPT-20261003-0057-grok-seen-truncated-next-task:pending",
+    "MSG-20261003-0025-grok-seen-template-benchmark:delayed",
+    "MSG-20261003-0025-grok-template-benchmark-persistence:delayed",
+    "RPT-20261003-0025-grok-template-benchmark-persistence:delayed",
+    "MSG-20261003-0028-grok-seen-playback-context:delayed",
+    "MSG-20261003-0029-grok-playback-context-persistence:delayed",
+    "RPT-20261003-0029-grok-playback-context-persistence:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T00:35:49+03:00",
+  "checked_at": "2026-10-03T00:59:58+03:00",
   "historical_counts": {
-    "pending": 9,
+    "pending": 6,
     "seen": 0,
     "answered": 44,
-    "delayed": 82
+    "delayed": 88
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 184,
+  "active_source_id_count": 187,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
