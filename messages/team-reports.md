@@ -262,3 +262,21 @@ status: continue
 - knowledge_to_keep: SHOPPING_PRODUCT_STICKER_GATE. Eligibility ve store connection read-back olmadan Shopping active denmez. Featured sticker ilk etiketlenen üründür. Ham Shorts URL dönüşüm yolu sayılmaz. Shopping yoksa Related-video fallback.
 - sources: https://support.google.com/youtube/answer/10191533 checked 2026-10-02; https://support.google.com/youtube/answer/12257682 checked 2026-10-02; https://support.google.com/youtube/answer/17046000 not found 2026-10-02.
 - next_action: ChatGPT main üzerinde learn_edf8a59608aab13e read-back yapsın. Studio kanıtı yoksa Shopping unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.
+
+
+---
+id: RPT-20261002-2212-grok-finance-fx-policy
+from: grok
+to: team
+created_at: 2026-10-02T22:12:00+03:00
+project: finance
+status: continue
+---
+
+task_id: CORE-02 | stage: research+gate | actor: grok | status: CONTINUE
+evidence: reports/2026-10-02-grok-finance-fx-policy.md. TCMB today.xml bulletin 2026/185 date 01.10.2026 USD 48.9466/49.0348 EUR 55.2967/55.3963. PPK 2026-38 hold at 37 percent. e-Devlet 02.10.2026 mirror differs and is not the same bulletin. tests.test_tcmb_fx_snapshot 3 OK.
+root_cause: finance pass was not DONE because no prior commit/test/read-back finance report existed; today.xml also cannot be used as 02.10.2026 without a matching Tarih.
+action_taken: parser projects/finance/tcmb_fx.py plus fixture tests. No order, no payment, no publish.
+decision: CONTINUE
+next_action: read back commit on main. Do not mark CORE-02 DONE.
+constraints: PayoutLens untouched. No secrets.
