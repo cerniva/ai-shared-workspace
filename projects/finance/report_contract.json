@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "task_id": "CORE-02",
+  "updated_at": "2026-10-02T11:10:00+03:00",
+  "scope": "finance-report-rules-and-routing-only",
+  "live_market_generation": false,
+  "python_chart_generation": false,
+  "python_chart_generation_note": "Checked on main fba3430bcb350e4535f073e43bec782ca39774e2: projects/finance contains only .gitkeep, scripts/ has no chart renderer, and research/SOURCES.md has no Base-100 or Python-plot ban. This contract records the handoff ban and does not add a plotter.",
+  "required_named_classes": ["metals", "crypto"],
+  "asset_class_rule": "A report packet must declare its asset_classes. metals and crypto are mandatory named classes from the verified handoff. No closed universe beyond that is invented here.",
+  "chart_rules": {
+    "base_100": {
+      "required": true,
+      "index_base": 100,
+      "allow_absolute_price_axis": false
+    },
+    "metals_crypto_separate_charts": true,
+    "altcoin_bull_panel": {
+      "required": true,
+      "normalized_panels": 2
+    }
+  },
+  "report_footer_exact": "CHAT GPT ANALİZİ:",
+  "source_rules": {
+    "require_catalog_source_id": true,
+    "accepted_provenance": ["verified"],
+    "forbid_unverified_prices": true,
+    "catalog_gap": "knowledge/source_catalog.json updated_at 2026-10-02T07:07:41+00:00 has 29 sources and zero finance-category rows. Do not invent source ids."
+  },
+  "protected_projects": ["payoutlens"]
+}
