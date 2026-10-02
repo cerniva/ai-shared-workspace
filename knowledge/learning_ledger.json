@@ -87,6 +87,28 @@
       "title": "Repository writers need one queued concurrency group"
     },
     {
+      "claim": "After the 2026-08-27 public view alignment, public views count from the first frame and must not be used as a substitute for engagedViews in quality or monetization comparisons.",
+      "decision": "PUBLIC_VS_ENGAGED_VIEW_GATE: use public views for reach/start exposure and engagedViews plus AVD/APV/retention for quality; store metric name and definition date.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If engagedViews is unavailable, mark engaged performance unknown rather than substituting public views."
+      ],
+      "learned_at": "2026-10-02T19:28:00+00:00",
+      "learning_id": "learn_5c629b9d8aa5e76a",
+      "next_measurement": "On the next authorized Short analytics read, fetch views and engagedViews for the same video and date window; do not infer engagedViews from public views.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d",
+        "src_5e4956b3ee8afc3b",
+        "src_ad68ab9c9d0b3fa2"
+      ],
+      "supersedes": null,
+      "title": "Public views and engagedViews are not interchangeable after 2026-08-27"
+    },
+    {
       "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
       "decision": "ANALYTICS_MATURITY_GATE: do not close retention or watch-time learning from Analytics API data before the documented processing window. Do not treat missing recent Analytics rows as zero. Use Data API or verified Studio state for current counts, then re-read Analytics after at least 72 hours.",
       "domain": "youtube-shorts-analytics",
@@ -270,5 +292,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T18:35:28+00:00"
+  "updated_at": "2026-10-02T19:30:45+00:00"
 }
