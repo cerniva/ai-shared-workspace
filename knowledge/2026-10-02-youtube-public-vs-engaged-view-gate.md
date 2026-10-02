@@ -1,0 +1,22 @@
+# YouTube public-view vs engaged-view gate
+
+- learning_id: `learn_youtube_public_vs_engaged_view_20261002`
+- topic: Shorts analytics / monetization measurement
+- source_type: official primary documentation
+- canonical_url: https://developers.google.com/youtube/analytics/revision_history
+- finding: On 2026-08-27 YouTube announced aligned public view counting across long-form, Live and Shorts: a public view counts when playback begins from the first frame. Engaged Views remains a separate metric triggered when playback continues past the first frame or the viewer clicks/taps to play. YouTube states monetization eligibility and the majority of core performance metrics remain anchored on engaged metrics; YPP terminology uses qualified Shorts views / qualified watch hours.
+- evidence_confidence_limit: High for metric definitions and the 2026-08-27 change because this is YouTube's official Analytics/Reporting revision history. This does not establish any channel-specific performance without authorized channel data.
+- affected_plans: Video/Shopify; System Geliştirmeleri
+- old_approach: Raw public views could be treated as a comparable headline performance denominator for Shorts.
+- learned_rule: `PUBLIC_VS_ENGAGED_VIEW_GATE` — Never treat public `views` and `engagedViews` as interchangeable after the 2026-08-27 counting alignment. Use public views for reach/start exposure; use engagedViews plus AVD/APV/retention for content-quality decisions and monetization-oriented comparisons. Store metric name + definition/version/date with measurements so pre/post-definition periods are not silently mixed.
+- applied_test_next_measurement: For the next authorized Short analytics read, fetch both `views` and `engagedViews`, preserve the observation timestamp, compute `engagedViews/views` only when both cover the same video/date window, and compare retention/subscriber conversion against engaged views rather than raw public views.
+- discovered_at: 2026-10-02
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: No authorized channel Analytics call was executed in this cycle; channel-specific consumption is therefore not PASS.
+- fallback: If `engagedViews` is unavailable in an authorized read, do not infer it from public views; use verified Studio engaged metrics if available, otherwise mark engaged performance unknown.
+- provenance: YouTube Analytics and Reporting APIs Revision History, 2026-08-27 entry; YouTube Analytics Metrics documentation.
+- first_added_cycle: 2026-10-02-cycle-11
+- last_used_cycle: 2026-10-02-cycle-11
+- use_count: 1
+- status: active
