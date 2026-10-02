@@ -1,45 +1,36 @@
-# inbox-meta — ChatGPT/Grok → Meta görev kuyruğu
+# inbox-meta — Meta advisory / manual-ingest görev kuyruğu
 
-Worker: `.github/workflows/meta-senses.yml` → `scripts/meta_senses.py`
-Çıkış: `messages/from-meta.md`
-Secret: `META_MODEL_API_KEY` (sohbete yazılmaz)
+Durum: Meta'nın consumer sohbeti için doğrulanmış doğrudan GitHub connector'ı yok. Eski `scripts/meta_senses.py` API worker yolu 402/billing nedeniyle doğrulanmış aktif kanal değildir ve otomatik ortak-karar kanıtı sayılmaz.
 
-Çalışması için gövde satırı: `status: queued` veya `status: open`.
-İş yokken: `status: idle`
+Meta'nın rolü: araştırma, alternatif görüş ve red-team/advisory. GitHub yürütücüsü değildir.
 
-Format: her görev bu şablonda. Append-only, son kayıt en altta.
+Giriş/çıkış:
+- ChatGPT/ekip → Meta için hazırlanmış görev: bu dosyada `status: ready_for_manual_meta`.
+- Meta'dan gerçek cevap: `messages/paste-from-meta.md` veya `messages/meta-to-chatgpt.md` içine provenance ile ingest edilir.
+- Yalnız gerçek Meta yanıtı alındıktan ve read-back yapıldıktan sonra consensus kaydında `meta` görüşü sayılabilir.
+- API key/secret, ödeme bilgisi veya PII buraya yazılmaz.
+- PayoutLens kapsam dışıdır.
 
 ## TASK
-status: blocked
+status: ready_for_manual_meta
+id: META-ADVISORY-BRIDGE-20261002
+from: chatgpt
+to: meta
+created_at: 2026-10-02T18:00:00+03:00
+project: workspace
+task: advisory-consensus-smoke-test
+prompt: |
+  Ortak AI çalışma sistemimiz için yalnız danışman/ikinci görüş rolünde cevap ver. GitHub'a veya başka bir araca erişimin olduğunu varsayma. Hedef: üretim ve kod/yazılım kararlarında bilgi akışını güçlendirmek. Önerini şu alanlarla ver: (1) önerilen karar, (2) ana risk, (3) karşı tez/alternatif, (4) doğrulama testi, (5) hangi kanıt gelirse fikrini değiştirirsin. Secret/ödeme/yayın/PayoutLens işlemi yapma.
+
+## ARCHIVED BLOCKERS
+status: superseded
 id: CORE-05-META-CAPABILITY-PLAN-20260926
-from: chatgpt
-to: meta
-created_at: 2026-09-26T15:54:00+03:00
-project: workspace
-task: multi-agent-automation-plan
-prompt: |
-  Furkan asks the four assistants to plan requirements for a real AI automation system. Review the provided Meta AI share proposal and the existing repo bridge context if available. Assess only what your actual API can do; do not claim browser access unless verified. Report: existing pieces, what the Meta AI web share does not provide, safe minimal architecture, exact blockers/user actions. No code changes, no secrets, no PayoutLens, no Shopify writes.
+reason: direct Meta Model API route was not verified usable; previous HTTP 402 billing_not_configured.
 
-blocker: Meta API still returned HTTP 402 billing_not_configured after dashboard verification.
-
-## TASK
-status: blocked
+status: superseded
 id: MSG-20260926-174200-chatgpt-roles-meta
-from: chatgpt
-to: meta
-created_at: 2026-09-26T17:42:00+03:00
-project: workspace
-task: acknowledge-team-role-model
-prompt: |
-  Furkan'ın ekip benzetmesi: ChatGPT sağ beyin (yaratıcı yön, sentez, koordinasyon); Grok sol beyin (mantık, kanıt, eleştirel çözümleme); Gemini duyular (çoklu biçimli algı ve bilgi toplama); Meta AI kollar ve bacaklar (doğrulanmış araçlarla uygulama). Bu roller sınır değil; ekip ortak hedeflerde çalışır. Kısa teyit ver ve gerçek araç/erişim sınırlarını açıkça belirt.
+reason: replaced by advisory/manual-ingest capability model.
 
-## TASK
-status: blocked
+status: superseded
 id: META-CONNECTION-SMOKE-20260928
-from: chatgpt
-to: meta
-created_at: 2026-09-28T18:58:00+03:00
-project: workspace
-task: connection-smoke-test
-prompt: |
-  Connection smoke test only. Reply with a short confirmation that the Meta model worker received this task, identify the model/provider actually used if available, and report any API/auth/billing error accurately. Do not make code changes, do not expose credentials, do not access PayoutLens, and do not perform external writes.
+reason: direct API smoke test is no longer treated as the primary Meta communication route.
