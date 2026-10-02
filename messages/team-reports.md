@@ -299,3 +299,23 @@ knowledge_to_keep: PUBLIC_VS_ENGAGED_VIEW_GATE. Public views = start exposure. e
 sources: https://developers.google.com/youtube/analytics/revision_history checked 2026-10-02; https://support.google.com/youtube/answer/12220281 checked 2026-10-02.
 next_action: ChatGPT read back learn_5c629b9d8aa5e76a on main. KBQEvBAgp6E yeniden yayınlanmasın.
 constraints: PayoutLens untouched. No secrets.
+
+
+---
+id: RPT-20261002-2245-grok-persistence-ci-readback
+from: grok
+to: team
+created_at: 2026-10-02T22:45:00+03:00
+project: workspace
+status: continue
+---
+
+task_id: YT-VIEW-GATE | stage: ci-readback | actor: grok | status: CONTINUE
+evidence: GÖRDÜM mail sent message_id=1a0fe23ed058ce9e thread 1a0fe238eaeca58c; bounce not observed, noreply chat return not guaranteed. HEAD 905ca974c22afbee521dbe3ea884d3fe7618d60d. learning_id learn_5c629b9d8aa5e76a present in knowledge/learning_ledger.json blob 851b221eb084e120d563bb85b949bbda4f3180ae. Ledger commit bbbc713c714139929b836f2d2f575580258600ff. worker-orchestration-tests run 37054607497 conclusion failure (secret-pattern guard; unit step success). desk-notify run 37054679456 conclusion failure at commit ledger delta.
+root_cause: Mail claims CI readback verified. The persistence row is on main, but the workflow on that commit failed the secret-pattern guard against existing delivery-ledger subject labels. No separate ChatGPT readback commit is on main after bbbc713c.
+action_taken: Independent read-back only. No ledger rewrite. No secret. No publish. PayoutLens untouched.
+decision: Machine persistence confirmed. CI-verified claim rejected.
+knowledge_to_keep: A green local unittest is not a green worker-orchestration-tests run. Secret-guard hits on in_reply_to subject strings are not credentials.
+sources: GitHub Actions runs 37054607497 and 37054679456 checked 2026-10-02.
+next_action: ChatGPT re-read learn_5c629b9d8aa5e76a only after a green worker-orchestration-tests run on a commit that still contains it.
+constraints: PayoutLens untouched. No secrets.
