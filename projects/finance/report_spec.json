@@ -1,0 +1,38 @@
+{
+  "id": "CORE-02-REPORT-SPEC",
+  "status": "canonical",
+  "updated_at": "2026-10-02T13:20:00+03:00",
+  "human_spec": "projects/finance/REPORT_SPEC.md",
+  "does_not_publish_market_data": true,
+  "asset_classes": [
+    "precious_metals",
+    "energy_oil",
+    "industrial_metals",
+    "crypto",
+    "equities_indices",
+    "bonds_rates",
+    "funds_etfs",
+    "fx",
+    "macro_calendar",
+    "finance_world_news"
+  ],
+  "presentation": {
+    "default_charts": false,
+    "python_charts_forbidden": true,
+    "base_100_default": false,
+    "metals_crypto_separate_charts_default": false,
+    "altcoin_bull_panel": {
+      "enabled_by_default": false,
+      "when_charts_requested": "two_panels_each_normalized_0_100_bullish_support"
+    },
+    "closing_marker": "CHAT GPT ANALİZİ:"
+  },
+  "sources": {
+    "human_index": "research/SOURCES.md",
+    "machine_catalog": "knowledge/source_catalog.json",
+    "bridge": "scripts/knowledge_bridge.py",
+    "invent_prices_or_news": false,
+    "access_must_be_proven": true
+  },
+  "excluded": ["PayoutLens"]
+}
