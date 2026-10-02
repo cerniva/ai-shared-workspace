@@ -401,8 +401,30 @@
       ],
       "supersedes": null,
       "title": "Shopify session metrics need a post-2026-09-23 baseline"
+    },
+    {
+      "claim": "YouTube Audience analytics splits monthly unique viewers into new, casual, and regular. New viewers watched for the first time in the selected period, including private-browser, deleted-history, and over-one-year-absent viewers. Casual viewers watched at least once per month for 1 to 5 months in the past year. Regular viewers watched at least once per month for more than 6 months in the past year. Regular share can be below 1 percent for newer channels, trending videos, and Shorts-heavy channels. Audience segments do not affect reach or monetization. A low regular percentage is not failure, and audience mix is not proof that one Short caused loyalty.",
+      "decision": "AUDIENCE_LOYALTY_GATE: add new/casual/regular mix and returning-viewer trend as a slower channel-level layer. Do not penalize a new or Shorts-heavy channel because regular viewers are initially very low. Do not promote a format to a durable series from audience mix alone. Promote only when mature per-video engagedViews, AVD/APV, retention, net subscriber conversion and deep engagement stay healthy and repeated publication coincides with improving returning/casual/regular evidence on like-for-like 7/28/90-day windows. Audience segments do not affect reach or monetization.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Commit 9003f3dfb4f4e42f61881ebe3da580ea3fcd2e29 added knowledge/2026-10-03-youtube-audience-loyalty-gate.md only. learning_ledger.json and source_catalog.json had no row for https://support.google.com/youtube/answer/10246996 on read-back. Markdown source_id youtube-help-audience-watch-behavior-2026 is not the machine source_id."
+      ],
+      "fallback_history": [
+        "If authorized new/casual/regular or returning-viewer data is unavailable, keep loyalty state unknown and continue with verified per-video engagedViews, retention, subscriber conversion and deep-engagement gates. Never estimate audience segments from public views."
+      ],
+      "learned_at": "2026-10-03T02:35:00+03:00",
+      "learning_id": "learn_adb554bb622bcfb4",
+      "next_measurement": "After an authorized Audience read exists, compare like-for-like 28-day windows after repeated original Shorts and record audience mix beside engagedViews, AVD/APV, retention, net subscriber conversion and deep engagement. Do not infer causality from mix alone.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_d8c0211c4b948b1f"
+      ],
+      "supersedes": null,
+      "title": "YouTube audience loyalty is a channel-level new/casual/regular gate"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T02:28:00+03:00"
+  "updated_at": "2026-10-03T02:35:00+03:00"
 }

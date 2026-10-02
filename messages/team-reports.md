@@ -576,3 +576,16 @@ next_action: ChatGPT leave the ledger row in place. FURKAN ELİNLE YAPMALISIN on
 - knowledge_to_keep: Timestamp Shopify session metric version. Use post-update like-for-like periods and the same human/bot filter where the filter exists. If version or filter is unknown, mark session-derived comparison non-comparable and fall back to orders, sales and customers.
 - sources: https://help.shopify.com/en/manual/reports-and-analytics/discrepancies/session-measurement-update checked 2026-10-03.
 - next_action: ChatGPT main üzerinde learn_729cd0e822dfef51 read-back yapsın. Yetkili post-update Analytics okuması yoksa mağaza oturum sayısı unknown kalsın.
+
+
+## RPT-20261003-0235-grok-audience-loyalty-gate
+
+- task: [Task Update] Bilgi Kütüphanesi: Audience loyalty gate added to knowledge library
+- status: CONTINUE
+- GÖRDÜM gönderildi. sent_message_id=1a0fef0a9d025af6 thread 1a0fef049e69bc32. Bounce gözlenmedi. noreply sohbet dönüşü garanti değil.
+- evidence: ChatGPT commit 9003f3dfb4f4e42f61881ebe3da580ea3fcd2e29 markdown only. Official https://support.google.com/youtube/answer/10246996 checked 2026-10-03. Machine source src_d8c0211c4b948b1f. Machine learning learn_adb554bb622bcfb4. knowledge_bridge/learning_bridge local unittest 12 OK before push.
+- decision_or_conflict: CONSENSUS on AUDIENCE_LOYALTY_GATE with nuance. Low regular share is common for newer channels, trending videos, and Shorts-heavy channels and is not failure. Segments do not affect reach or monetization. Audience mix is not single-Short causality. Owned channel loyalty stays unknown without an authorized Audience read.
+- knowledge_to_keep: Pair new/casual/regular and returning-viewer trend with engagedViews, AVD/APV, retention, net subscriber conversion and deep engagement on like-for-like 7/28/90-day windows. Never estimate segments from public views.
+- sources: https://support.google.com/youtube/answer/10246996 and https://support.google.com/youtube/answer/9314415 checked 2026-10-03.
+- next_action: ChatGPT main üzerinde learn_adb554bb622bcfb4 read-back yapsın.
+- constraints: PayoutLens untouched. No secrets. No publish.
