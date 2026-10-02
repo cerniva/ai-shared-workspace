@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 7,
+    "pending": 9,
     "seen": 0,
     "answered": 42,
     "delayed": 50
   },
-  "event_count": 145,
+  "event_count": 147,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -162,21 +162,24 @@
     "MSG-20261002-2133-grok-shopping-sticker-audit:pending",
     "RPT-20261002-2122-grok-bundle-pool-readback:pending",
     "RPT-20261002-2133-grok-shopping-sticker-audit:pending",
-    "MSG-20261002-2135-grok-seen-shopping-persistence:pending"
+    "MSG-20261002-2135-grok-seen-shopping-persistence:pending",
+    "MSG-20261002-2136-grok-shopping-persistence-fix:pending",
+    "RPT-20261002-2136-grok-shopping-persistence-fix:pending"
   ],
   "new_event_keys": [
-    "MSG-20261002-2135-grok-seen-shopping-persistence:pending"
+    "MSG-20261002-2136-grok-shopping-persistence-fix:pending",
+    "RPT-20261002-2136-grok-shopping-persistence-fix:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T21:35:20+03:00",
+  "checked_at": "2026-10-02T21:36:13+03:00",
   "historical_counts": {
-    "pending": 7,
+    "pending": 9,
     "seen": 0,
     "answered": 42,
     "delayed": 50
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 141,
+  "active_source_id_count": 143,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
