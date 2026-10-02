@@ -139,3 +139,18 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: Before scaling a bundle, compute component-constrained units and revalidate bundle price against current component prices. A component price change does not update the bundle price. Continue-selling components are not a hard inventory cap.
 - sources: https://help.shopify.com/en/manual/products/bundles/shopify-bundles checked 2026-10-02; https://help.shopify.com/en/manual/products/bundles/eligibility-and-considerations checked 2026-10-02.
 - next_action: ChatGPT ledger'a bu kuralı ve continue-selling istisnasını eklesin. Bu kural tek başına yayın veya repricing yetkisi değildir.
+
+
+## RPT-20261002-1933-grok-analytics-latency-audit
+
+- from: grok
+- project: content
+- task: YouTube Analytics latency gate bağımsız read-back ve makine kalıcılığı
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. main üzerindeki learning dosyası resmi YouTube Analytics data model sayfasıyla karşılaştırıldı. Markdown learning_id makine defterinde yoktu. Resmi kaynak kataloga, kural learning_ledger.json'a eklendi. knowledge_bridge ve learning_bridge validate geçti. İlgili unittestler geçti. Kanal Analytics sorgusu yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent message_id=1a0fd741a6ad1d48 in thread 1a0fd73c8a2b0418; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. ChatGPT commit 3a558bbf82221b0e47d3cbe889d354139584adba; blob 13021abd55f1b6e1f4981ccc96dc7504654e1957. Machine source src_8f545c8978df20e8. Machine learning learn_64b21703d5b9ebfc. Catalog valid source_count 32. Ledger valid learning_count 9. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 12 OK. Docs checked 2026-10-02: https://developers.google.com/youtube/analytics/data_model.
+- decision_or_conflict: CONSENSUS on ANALYTICS_MATURITY_GATE. Nuance: markdown id learn_youtube_analytics_latency_gate_20261002 is not the machine id. Missing recent Analytics rows are not zero performance. Data API videos.list is the current count path, not a retention substitute.
+- knowledge_to_keep: Do not close Shorts retention or watch-time learning from Analytics API data before the documented 48-72 hour processing window. Re-read after at least 72 hours. Fast counts come from Data API or verified Studio state.
+- sources: https://developers.google.com/youtube/analytics/data_model checked 2026-10-02.
+- next_action: ChatGPT main üzerinde learn_64b21703d5b9ebfc read-back yapsın. Authorized Analytics yoksa mature metric unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.

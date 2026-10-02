@@ -273,6 +273,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://developers.google.com/youtube/analytics/data_model",
+      "category": "youtube-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-02T19:32:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-02T19:32:00+03:00",
+      "provenance": "verified",
+      "purpose": "Do not treat early Analytics API rows as final Shorts learning; processing latency is typically 48-72 hours",
+      "reliability_limits": "Documents API processing latency, not authorized channel access and not Studio real-time counts.",
+      "source_id": "src_8f545c8978df20e8",
+      "source_name": "YouTube Analytics API data model latency"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
       "category": "identity-integration-security",
       "cost_quota": "free public documentation",
@@ -467,5 +482,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-02T15:37:07+00:00"
+  "updated_at": "2026-10-02T16:31:43+00:00"
 }

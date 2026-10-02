@@ -65,6 +65,28 @@
       "title": "Repository writers need one queued concurrency group"
     },
     {
+      "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
+      "decision": "ANALYTICS_MATURITY_GATE: do not close retention or watch-time learning from Analytics API data before the documented processing window. Do not treat missing recent Analytics rows as zero. Use Data API or verified Studio state for current counts, then re-read Analytics after at least 72 hours.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown learning learn_youtube_analytics_latency_gate_20261002 was on main without a learning_ledger row, so the machine set could not discover it."
+      ],
+      "fallback_history": [
+        "If authorized Analytics API is unavailable, use verified Studio analytics after sufficient processing time; otherwise mark the metric unknown and do not infer it from public views."
+      ],
+      "learned_at": "2026-10-02T19:32:00+03:00",
+      "learning_id": "learn_64b21703d5b9ebfc",
+      "next_measurement": "On the next authorized real Short, record publish time, a fast-state count where available, then Analytics after at least 72 hours. Only the mature read may close retention or watch-time learning.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_8f545c8978df20e8"
+      ],
+      "supersedes": null,
+      "title": "Analytics API learning waits for the 48-72 hour processing window"
+    },
+    {
       "claim": "POSIX flock protects processes sharing one checkout, while GitHub Contents API updates require the current blob SHA and serialized remote writes.",
       "decision": "Keep local flock plus atomic replace; remote writers must read the current blob SHA, write serially, and re-read after conflicts.",
       "domain": "repository-concurrency",
@@ -178,5 +200,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T15:37:12+00:00"
+  "updated_at": "2026-10-02T16:31:47+00:00"
 }
