@@ -1,0 +1,22 @@
+# YouTube playback-location context gate
+
+- learning_id: `learn_youtube_playback_location_context_20261003`
+- topic: YouTube Shorts analytics / distribution context
+- canonical_url: https://developers.google.com/youtube/analytics/sample-requests
+- source_type: official_primary_documentation
+- finding: YouTube Analytics supports `insightPlaybackLocationType`, allowing views and estimated watch time to be grouped by the page/application context where playback occurred. Therefore performance analysis can separate playback context instead of treating all views as one homogeneous distribution channel.
+- evidence_confidence_limit: High for metric/dimension availability because this is official YouTube Analytics documentation. It does not prove that a playback location caused performance or that the user's channel currently exposes usable authorized data.
+- affected_plans: [Video/Shopify, Sistem Geliştirmeleri]
+- old_approach: Evaluate views, engagedViews, retention, traffic source and conversion without explicitly preserving playback-location context.
+- learned_rule: `PLAYBACK_LOCATION_CONTEXT_GATE` — when authorized mature Analytics is available, pair views/watch time with `insightPlaybackLocationType`; compare like-for-like contexts and never infer causality from playback location alone. Do not merge playback-location and traffic-source dimensions as if they were the same concept.
+- applied_test_next_measurement: For a real Short after Analytics maturity, retrieve playback-location breakdown together with the existing engaged/retention/traffic-source gates and test whether conclusions change when contexts are separated.
+- discovered_at: 2026-10-03T00:26:35+03:00
+- last_verified: 2026-10-03T00:26:35+03:00
+- access_status: web_only
+- failure_history: No authorized channel Analytics query was executed in this cycle, so plan consumption is not PASS.
+- fallback: If authorized playback-location data is unavailable, keep location `unknown`; use existing verified engagedViews/retention/traffic-source evidence without guessing location.
+- provenance: Official YouTube Analytics sample requests and metrics documentation; creator/forum claims were not used as proof.
+- first_added_cycle: bilgi-kutuphanesi-2026-10-03-cycle-11
+- last_used_cycle: bilgi-kutuphanesi-2026-10-03-cycle-11
+- use_count: 1
+- status: active
