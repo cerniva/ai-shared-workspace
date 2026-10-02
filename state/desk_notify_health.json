@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 8,
+    "pending": 9,
     "seen": 0,
-    "answered": 43,
+    "answered": 44,
     "delayed": 82
   },
-  "event_count": 211,
+  "event_count": 213,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -228,25 +228,24 @@
     "MSG-20261003-0035-grok-playback-ci-gate:pending",
     "MSG-20261003-0002-grok-seen-verified-delta:delayed",
     "MSG-20261003-0003-grok-verified-delta-readback:delayed",
-    "RPT-20261003-0003-grok-verified-delta-readback:delayed"
+    "RPT-20261003-0003-grok-verified-delta-readback:delayed",
+    "MSG-20261003-0036-grok-playback-ci-proof:answered",
+    "RPT-20261003-0035-grok-playback-ci-gate:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-0034-grok-seen-playback-ci:pending",
-    "MSG-20261003-0035-grok-playback-ci-gate:pending",
-    "MSG-20261003-0002-grok-seen-verified-delta:delayed",
-    "MSG-20261003-0003-grok-verified-delta-readback:delayed",
-    "RPT-20261003-0003-grok-verified-delta-readback:delayed"
+    "MSG-20261003-0036-grok-playback-ci-proof:answered",
+    "RPT-20261003-0035-grok-playback-ci-gate:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T00:35:29+03:00",
+  "checked_at": "2026-10-03T00:35:49+03:00",
   "historical_counts": {
-    "pending": 8,
+    "pending": 9,
     "seen": 0,
-    "answered": 43,
+    "answered": 44,
     "delayed": 82
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 182,
+  "active_source_id_count": 184,
   "normalized_by": "scripts/desk_health_normalize.py"
 }

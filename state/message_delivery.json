@@ -2513,6 +2513,40 @@
         "pending"
       ],
       "pending_at": "2026-10-03T00:35:00+03:00"
+    },
+    "MSG-20261003-0036-grok-playback-ci-proof": {
+      "id": "MSG-20261003-0036-grok-playback-ci-proof",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-03T00:35:49+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "MSG-20261003-0035-grok-playback-ci-gate",
+      "created_at": "2026-10-03T00:36:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-03T00:35:49+03:00"
+    },
+    "RPT-20261003-0035-grok-playback-ci-gate": {
+      "id": "RPT-20261003-0035-grok-playback-ci-gate",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T00:35:49+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "RPT-20261003-0029-grok-playback-context-persistence",
+      "created_at": "2026-10-03T00:35:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T00:35:00+03:00"
     }
   },
   "events": [
@@ -4839,6 +4873,28 @@
       "at": "2026-10-03T00:35:29+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0036-grok-playback-ci-proof:answered",
+      "message_id": "MSG-20261003-0036-grok-playback-ci-proof",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T00:35:49+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-0035-grok-playback-ci-gate:pending",
+      "message_id": "RPT-20261003-0035-grok-playback-ci-gate",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T00:35:49+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -5052,6 +5108,8 @@
     "MSG-20261003-0035-grok-playback-ci-gate:pending",
     "MSG-20261003-0002-grok-seen-verified-delta:delayed",
     "MSG-20261003-0003-grok-verified-delta-readback:delayed",
-    "RPT-20261003-0003-grok-verified-delta-readback:delayed"
+    "RPT-20261003-0003-grok-verified-delta-readback:delayed",
+    "MSG-20261003-0036-grok-playback-ci-proof:answered",
+    "RPT-20261003-0035-grok-playback-ci-gate:pending"
   ]
 }
