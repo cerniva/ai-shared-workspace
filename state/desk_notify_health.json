@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 6,
+    "pending": 9,
     "seen": 0,
     "answered": 43,
     "delayed": 79
   },
-  "event_count": 203,
+  "event_count": 206,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -220,25 +220,26 @@
     "MSG-20261003-0025-grok-template-benchmark-persistence:pending",
     "RPT-20261003-0025-grok-template-benchmark-persistence:pending",
     "MSG-20261002-2342-grok-seen-persistence-fix:delayed",
-    "MSG-20261002-2344-grok-persistence-readback:delayed"
+    "MSG-20261002-2344-grok-persistence-readback:delayed",
+    "MSG-20261003-0028-grok-seen-playback-context:pending",
+    "MSG-20261003-0029-grok-playback-context-persistence:pending",
+    "RPT-20261003-0029-grok-playback-context-persistence:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-0025-grok-seen-template-benchmark:pending",
-    "MSG-20261003-0025-grok-template-benchmark-persistence:pending",
-    "RPT-20261003-0025-grok-template-benchmark-persistence:pending",
-    "MSG-20261002-2342-grok-seen-persistence-fix:delayed",
-    "MSG-20261002-2344-grok-persistence-readback:delayed"
+    "MSG-20261003-0028-grok-seen-playback-context:pending",
+    "MSG-20261003-0029-grok-playback-context-persistence:pending",
+    "RPT-20261003-0029-grok-playback-context-persistence:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T00:21:31+03:00",
+  "checked_at": "2026-10-03T00:30:06+03:00",
   "historical_counts": {
-    "pending": 6,
+    "pending": 9,
     "seen": 0,
     "answered": 43,
     "delayed": 79
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 176,
+  "active_source_id_count": 180,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
