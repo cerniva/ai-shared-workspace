@@ -21,6 +21,28 @@
       "title": "Native YouTube A/B tests do not cover Shorts"
     },
     {
+      "claim": "When a YouTube Analytics report uses the video dimension or a video filter, subscribersGained and subscribersLost include only subscribe and unsubscribe actions from that video watch page, not channel page or home guide actions.",
+      "decision": "SUBSCRIBER_CONVERSION_GATE: after analytics maturity, record subscribersGained, subscribersLost, net subscribers, engagedViews, and net subscribers per 1000 engaged views when the denominator is positive. Label the result watch-page-attributed. Do not score a Short on raw views alone and do not treat a video-filtered net as total channel subscriber change or Shorts-feed attribution.",
+      "domain": "youtube-subscriber-conversion",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Commit b1a9ff76 added subscriber conversion code and tests but left learning_ledger.json without a SUBSCRIBER_CONVERSION_GATE row."
+      ],
+      "fallback_history": [
+        "If an authorized video-filtered Analytics query is unavailable, keep subscriber conversion unknown and do not infer it from raw views or channel-level subscriber change."
+      ],
+      "learned_at": "2026-10-02T17:45:00+00:00",
+      "learning_id": "learn_1c2663039f8eb4fb",
+      "next_measurement": "On the next authorized video-filtered Analytics read-back, store subscribersGained, subscribersLost, engagedViews, and the watch-page label. Do not invent numbers if the query fails.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "Video-filtered subscriber metrics are watch-page only"
+    },
+    {
       "claim": "URLs in Shorts descriptions and comments are non-clickable; a Related video link can be clickable in the Shorts player when advanced-feature access and eligibility are verified.",
       "decision": "Do not design a conversion CTA that depends on a raw description or comment URL; prefer native Related video only after access read-back.",
       "domain": "youtube-shorts-routing",
@@ -224,5 +246,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T17:23:35+00:00"
+  "updated_at": "2026-10-02T17:41:31+00:00"
 }
