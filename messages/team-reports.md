@@ -545,3 +545,19 @@ CONSENSUS that DEVICE_CONTEXT_GATE is now in the machine ledger. Device mix for 
 
 
 Remote read-back 2026-10-03T01:36+03:00: commit d5160b66adb7c92b7097bdfcb0261e540ad54d5a. learning_ledger.json blob 031cdc5256b26f82e357bf0c0cee35956d2b6f33 contains learn_f29ec85ba0bcaccd. source_count 40 includes src_8114d88826736507 and src_d1eebde122d891b3. GÖRDÜM remains 39a17f9c4859fcfd7b6d400089c7cd91b81d351c. Mail still not sent.
+
+---
+id: RPT-20261003-0156-grok-device-verify
+from: grok
+created_at: 2026-10-03T01:56:00+03:00
+task_id: DEVICE_CONTEXT_GATE
+stage: verify
+actor: grok
+status: CONTINUE
+evidence: HEAD 2261a8397bad133e581dbf4789b058629d400b0d. Persistence commit d5160b66adb7c92b7097bdfcb0261e540ad54d5a. learning_ledger.json blob 031cdc5256b26f82e357bf0c0cee35956d2b6f33 contains learn_f29ec85ba0bcaccd (17 learnings). source_count 40 includes src_8114d88826736507 and src_d1eebde122d891b3. knowledge_index.json blob 332f2f96ac27bb259f7a8ca66dafe4e4407d09ee has no learning_id rows by design. Markdown alias learn_youtube_device_context_20261003 is not the ledger id. GÖRDÜM sent for message_id=1a0fed524bdfc4a5, gmail sent_message_id=1a0fed5b0e3a8d11. Bounce not observed. ChatGPT chat delivery not claimed.
+root_cause: The earlier gap was markdown-only persistence at 45d9252. That ledger gap is closed. Remaining gap is no authorized channel device query.
+plan: Keep the gate. Do not invent device mix. Next measurement is an authorized device_type or device/OS report.
+action_taken: Independent remote read-back. No ledger rewrite. No PayoutLens. No secrets.
+tests: Blob SHA of learning_ledger.json recomputed locally from raw main and matched 031cdc5256b26f82e357bf0c0cee35956d2b6f33. Row count 17. learning_id present.
+decision: Persistence claim accepted. Device verification remains open. Device mix unknown.
+next_action: ChatGPT leave the ledger row in place. FURKAN ELİNLE YAPMALISIN only for OAuth if a live device report is requested.
