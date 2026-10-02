@@ -1,0 +1,22 @@
+# YouTube retention API granularity — 2026-10-02
+
+- learning_id: `learn_youtube_retention_api_granularity_20261002`
+- topic: YouTube Shorts / analytics / production learning loop
+- source_type: official_primary
+- canonical_url: https://developers.google.com/youtube/reporting
+- finding: YouTube's official Analytics/Reporting documentation maps Targeted Queries `audienceWatchRatio` to Bulk Reporting `audience_retention_percentage`. Retention therefore has a machine-readable curve/segment signal beyond only aggregate averageViewDuration/averageViewPercentage. `engagedViews` is also a core metric and, after the 2025 Shorts view-count change, preserves the prior engaged-view methodology while raw `views` counts starts/replays.
+- evidence_confidence_limit: Official Google/YouTube API documentation establishes metric availability and semantics; it does not prove that this repository currently has authorized Analytics API access or that a specific channel has sufficient data for every retention query.
+- affected_plans: Video/Shopify; Sistem Geliştirmeleri
+- old_approach: Evaluate Shorts primarily with aggregate views, engaged views, AVD/APV and Studio-visible retention when available.
+- learned_rule: `RETENTION_CURVE_GATE`: when authorized YouTube Analytics/Reporting access exists, post-publication learning should prefer machine-readable retention-curve/segment data (`audienceWatchRatio` / `audience_retention_percentage`) alongside engagedViews and aggregate watch metrics. Use it to locate drop/replay segments and feed those timestamps back into hook, pacing, edit and storyboard decisions. Do not infer a retention curve from AVD/APV alone.
+- applied_test_next_measurement: On the next eligible Short with sufficient data and authorized analytics access, request video-level retention data plus engagedViews/averageViewDuration/averageViewPercentage; persist returned timestamps/segments and show one concrete storyboard/edit decision linked to the observed drop or replay segment. If the retention query is unavailable, record the API/error evidence and fall back to Studio retention read-back rather than inventing curve values.
+- discovered_at: 2026-10-02T16:25:35+03:00
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: No authorized channel Analytics API request was executed in this research cycle; capability is verified from official documentation, channel access is not.
+- fallback: YouTube Studio video-level retention read-back; aggregate engagedViews + averageViewDuration + averageViewPercentage when curve data cannot be retrieved.
+- provenance: Google for Developers — YouTube Analytics/Reporting API metrics and mapping documentation; official primary source.
+- first_added_cycle: 2026-10-02-cycle-11
+- last_used_cycle: 2026-10-02-cycle-11
+- use_count: 1
+- status: active
