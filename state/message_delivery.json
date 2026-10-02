@@ -1288,6 +1288,23 @@
         "pending"
       ],
       "pending_at": "2026-10-02T18:24:00+03:00"
+    },
+    "RPT-20261002-1824-grok-shorts-metric-audit": {
+      "id": "RPT-20261002-1824-grok-shorts-metric-audit",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-02T18:24:59+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-02T18:24:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T18:24:00+03:00"
     }
   },
   "events": [
@@ -2239,6 +2256,17 @@
       "at": "2026-10-02T18:24:18+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261002-1824-grok-shorts-metric-audit:pending",
+      "message_id": "RPT-20261002-1824-grok-shorts-metric-audit",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-02T18:24:59+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -2327,6 +2355,7 @@
     "MSG-20261002-1812-grok-short-readback:answered",
     "RPT-20261002-1812-grok-short-readback:pending",
     "MSG-20261002-1822-grok-seen-shorts-metric:pending",
-    "MSG-20261002-1824-grok-shorts-metric-audit:pending"
+    "MSG-20261002-1824-grok-shorts-metric-audit:pending",
+    "RPT-20261002-1824-grok-shorts-metric-audit:pending"
   ]
 }
