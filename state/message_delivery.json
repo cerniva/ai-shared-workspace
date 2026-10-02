@@ -1097,8 +1097,8 @@
     "MSG-20261002-042900-chatgpt-joint-hourly": {
       "id": "MSG-20261002-042900-chatgpt-joint-hourly",
       "channel": "chatgpt-to-grok",
-      "status": "pending",
-      "updated_at": "2026-10-02T04:32:29+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T05:02:36+03:00",
       "alerted": true,
       "from": "chatgpt",
       "to": "grok",
@@ -1107,9 +1107,29 @@
       "in_reply_to": "null",
       "created_at": "2026-10-02T04:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T04:29:00+03:00"
+      "pending_at": "2026-10-02T04:29:00+03:00",
+      "delayed_at": "2026-10-02T05:02:36+03:00"
+    },
+    "MSG-20261002-043219-grok-api": {
+      "id": "MSG-20261002-043219-grok-api",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-02T05:02:36+03:00",
+      "alerted": false,
+      "from": "grok-api",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "blocked",
+      "in_reply_to": "MSG-20261002-042900-chatgpt-joint-hourly",
+      "created_at": "2026-10-02T04:32:19+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-02T05:02:36+03:00",
+      "backfill": true
     }
   },
   "events": [
@@ -1940,6 +1960,17 @@
       "at": "2026-10-02T04:32:29+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-042900-chatgpt-joint-hourly:delayed",
+      "message_id": "MSG-20261002-042900-chatgpt-joint-hourly",
+      "transition": "delayed",
+      "notify": "grok",
+      "reason": "unread-or-unanswered",
+      "channel": "chatgpt-to-grok",
+      "at": "2026-10-02T05:02:36+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -2017,6 +2048,7 @@
     "MSG-20260929-040300-core05-oidc-feeder:answered",
     "MSG-20261002-chatgpt-shorts-joint:pending",
     "MSG-20261002-041017-grok-api:answered",
-    "MSG-20261002-042900-chatgpt-joint-hourly:pending"
+    "MSG-20261002-042900-chatgpt-joint-hourly:pending",
+    "MSG-20261002-042900-chatgpt-joint-hourly:delayed"
   ]
 }

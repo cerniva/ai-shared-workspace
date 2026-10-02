@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
+    "pending": 1,
     "seen": 0,
-    "answered": 37,
-    "delayed": 19
+    "answered": 38,
+    "delayed": 20
   },
-  "event_count": 75,
+  "event_count": 76,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -92,22 +92,22 @@
     "MSG-20260929-040300-core05-oidc-feeder:answered",
     "MSG-20261002-chatgpt-shorts-joint:pending",
     "MSG-20261002-041017-grok-api:answered",
-    "MSG-20261002-042900-chatgpt-joint-hourly:pending"
+    "MSG-20261002-042900-chatgpt-joint-hourly:pending",
+    "MSG-20261002-042900-chatgpt-joint-hourly:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-041017-grok-api:answered",
-    "MSG-20261002-042900-chatgpt-joint-hourly:pending"
+    "MSG-20261002-042900-chatgpt-joint-hourly:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T04:32:29+03:00",
+  "checked_at": "2026-10-02T05:02:36+03:00",
   "historical_counts": {
-    "pending": 2,
+    "pending": 1,
     "seen": 0,
-    "answered": 37,
-    "delayed": 19
+    "answered": 38,
+    "delayed": 20
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 90,
+  "active_source_id_count": 91,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
