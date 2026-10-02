@@ -1661,8 +1661,8 @@
     "MSG-20261002-2021-grok-seen-bundle-channel": {
       "id": "MSG-20261002-2021-grok-seen-bundle-channel",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T20:24:23+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T21:02:34+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1671,15 +1671,17 @@
       "in_reply_to": "gmail-task-update-bundle-channel-2026-10-02T20:20+03",
       "created_at": "2026-10-02T20:21:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T20:21:00+03:00"
+      "pending_at": "2026-10-02T20:21:00+03:00",
+      "delayed_at": "2026-10-02T21:02:34+03:00"
     },
     "MSG-20261002-2026-grok-bundle-channel-audit": {
       "id": "MSG-20261002-2026-grok-bundle-channel-audit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T20:24:23+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T21:02:34+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1688,9 +1690,11 @@
       "in_reply_to": "knowledge/learnings/2026-10-02-shopify-bundle-channel-compatibility-guard.md",
       "created_at": "2026-10-02T20:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T20:26:00+03:00"
+      "pending_at": "2026-10-02T20:26:00+03:00",
+      "delayed_at": "2026-10-02T21:02:34+03:00"
     },
     "MSG-20261002-2045-grok-seen-ledger-persist": {
       "id": "MSG-20261002-2045-grok-seen-ledger-persist",
@@ -1729,8 +1733,8 @@
     "RPT-20261002-2026-grok-bundle-channel-audit": {
       "id": "RPT-20261002-2026-grok-bundle-channel-audit",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-02T20:42:32+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T21:02:34+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -1739,9 +1743,11 @@
       "in_reply_to": "gmail-task-update-machine-ledger-persistence-2026-10-02T20:39+03",
       "created_at": "2026-10-02T20:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T20:26:00+03:00"
+      "pending_at": "2026-10-02T20:26:00+03:00",
+      "delayed_at": "2026-10-02T21:02:34+03:00"
     }
   },
   "events": [
@@ -3210,6 +3216,39 @@
       "at": "2026-10-02T20:42:32+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-2021-grok-seen-bundle-channel:delayed",
+      "message_id": "MSG-20261002-2021-grok-seen-bundle-channel",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T21:02:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-2026-grok-bundle-channel-audit:delayed",
+      "message_id": "MSG-20261002-2026-grok-bundle-channel-audit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T21:02:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261002-2026-grok-bundle-channel-audit:delayed",
+      "message_id": "RPT-20261002-2026-grok-bundle-channel-audit",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-02T21:02:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -3345,6 +3384,9 @@
     "RPT-20261002-2026-grok-bundle-channel-audit:pending",
     "MSG-20261002-2002-grok-seen-delta-42c35989:delayed",
     "MSG-20261002-2003-grok-delta-42c35989:delayed",
-    "RPT-20261002-2003-grok-delta-42c35989:delayed"
+    "RPT-20261002-2003-grok-delta-42c35989:delayed",
+    "MSG-20261002-2021-grok-seen-bundle-channel:delayed",
+    "MSG-20261002-2026-grok-bundle-channel-audit:delayed",
+    "RPT-20261002-2026-grok-bundle-channel-audit:delayed"
   ]
 }

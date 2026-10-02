@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 2,
     "seen": 0,
     "answered": 42,
-    "delayed": 45
+    "delayed": 48
   },
-  "event_count": 133,
+  "event_count": 136,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -150,24 +150,24 @@
     "RPT-20261002-2026-grok-bundle-channel-audit:pending",
     "MSG-20261002-2002-grok-seen-delta-42c35989:delayed",
     "MSG-20261002-2003-grok-delta-42c35989:delayed",
-    "RPT-20261002-2003-grok-delta-42c35989:delayed"
+    "RPT-20261002-2003-grok-delta-42c35989:delayed",
+    "MSG-20261002-2021-grok-seen-bundle-channel:delayed",
+    "MSG-20261002-2026-grok-bundle-channel-audit:delayed",
+    "RPT-20261002-2026-grok-bundle-channel-audit:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-2045-grok-seen-ledger-persist:pending",
-    "MSG-20261002-2046-grok-ledger-persist:pending",
-    "RPT-20261002-2026-grok-bundle-channel-audit:pending",
-    "MSG-20261002-2002-grok-seen-delta-42c35989:delayed",
-    "MSG-20261002-2003-grok-delta-42c35989:delayed",
-    "RPT-20261002-2003-grok-delta-42c35989:delayed"
+    "MSG-20261002-2021-grok-seen-bundle-channel:delayed",
+    "MSG-20261002-2026-grok-bundle-channel-audit:delayed",
+    "RPT-20261002-2026-grok-bundle-channel-audit:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T20:42:32+03:00",
+  "checked_at": "2026-10-02T21:02:34+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 2,
     "seen": 0,
     "answered": 42,
-    "delayed": 45
+    "delayed": 48
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 132,
