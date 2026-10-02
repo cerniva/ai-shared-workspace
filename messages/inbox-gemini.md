@@ -77,3 +77,11 @@ prompt: |
   Gemini için özellikle: video/transcript erişimini yalnızca özet için değil, ekip öğrenmesi ve uygulanabilir bilgi üretmek için kullan. Uydurma transcript üretme; zaman damgası, kaynak türü, ana iddia ve uygulanabilir çıkarımı ayır.
   
   GitHub'a doğrudan yazmana gerek yok; kullanıcı üzerinden handoff devam eder.
+
+## TASK
+id: AUTO-GEMINI-CORE-05
+status: queued
+source: autonomous-active-state
+project: workspace
+title: Continue Sistem, Araçlar & Otomasyon Geliştirme
+instructions: Read live shared state and CI first. Find the highest-priority verified red/yellow technical issue within this active project, excluding PayoutLens. Produce evidence, root cause, and the smallest safe reversible fix or test recommendation. Do not cross login/2FA/payment/secret/permission/irreversible boundaries. Do not claim a fix without live test/read-back. If no actionable issue exists, report idle/no-new-delta instead of inventing work.
