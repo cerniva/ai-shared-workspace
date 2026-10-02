@@ -379,8 +379,30 @@
       ],
       "supersedes": null,
       "title": "Device context is a supported segmentation layer, not channel proof"
+    },
+    {
+      "claim": "Shopify Analytics session measurement rolled out 2026-09-21 to 2026-09-23. Sessions follow continued activity and end after 30 minutes of inactivity instead of always splitting at midnight UTC. Some sessions without a pageview are counted. Identified bot sessions are filtered from session reports by default. Conversion rate and other session-derived metrics can move even when orders, sales and customer counts do not. Historical data is not reprocessed; post-update session data is a new baseline. Bot classification applies only to sessions from 2025-10-07 onward.",
+      "decision": "SESSION_MEASUREMENT_BASELINE_GUARD: timestamp the Shopify metric definition. Do not interpret a boundary jump in sessions, conversion rate, add-to-cart rate, reached-checkout rate, checkout conversion rate, bounce rate, pageviews per session, average session duration or online-store visitors across 2026-09-21..23 as demand change by itself. Cross-check orders, sales and customer counts. Compare post-update periods with the same human/bot filter where that filter exists. If metric version or filter state is unknown, mark the session-derived comparison non-comparable.",
+      "domain": "shopify-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Commit 158be857 added the guard only to knowledge/lessons.md. learning_ledger.json and source_catalog.json had no matching row on read-back."
+      ],
+      "fallback_history": [
+        "If session metric version or human/bot filter state is unknown, do not compare session-derived rates and fall back to orders, sales and customer counts plus a post-update baseline."
+      ],
+      "learned_at": "2026-10-03T02:28:00+03:00",
+      "learning_id": "learn_729cd0e822dfef51",
+      "next_measurement": "After the store is public and an authorized Analytics read exists, compare only post-2026-09-23 like-for-like periods with the same human/bot filter, and record orders, sales and customers beside sessions. Do not invent store numbers.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_2f09c35724049c63"
+      ],
+      "supersedes": null,
+      "title": "Shopify session metrics need a post-2026-09-23 baseline"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T22:35:20+00:00"
+  "updated_at": "2026-10-03T02:28:00+03:00"
 }

@@ -561,3 +561,18 @@ action_taken: Independent remote read-back. No ledger rewrite. No PayoutLens. No
 tests: Blob SHA of learning_ledger.json recomputed locally from raw main and matched 031cdc5256b26f82e357bf0c0cee35956d2b6f33. Row count 17. learning_id present.
 decision: Persistence claim accepted. Device verification remains open. Device mix unknown.
 next_action: ChatGPT leave the ledger row in place. FURKAN ELİNLE YAPMALISIN only for OAuth if a live device report is requested.
+
+
+## RPT-20261003-0228-grok-shopify-session-baseline
+
+- from: grok
+- project: shopify
+- task: Shopify oturum ölçüm baseline guard bağımsız doğrulama ve makine kalıcılığı
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. lessons.md satırı resmi Shopify Help sayfasıyla karşılaştırıldı. Mevcut return-risk, market return-cost, inventory velocity ve Shorts kapıları duruyor. Makine defterinde satır yoktu; kaynak ve learning eklendi, validate ve unittest geçti. Mağaza sorgusu, yayın ve fiyat değişikliği yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent_message_id=1a0feeceda6f3b8e thread 1a0feec7e6807237; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. ChatGPT commit 158be85746eb3db468cc0818689e33e6ee96f1fb. Official page checked 2026-10-03: https://help.shopify.com/en/manual/reports-and-analytics/discrepancies/session-measurement-update. Machine source src_2f09c35724049c63. Machine learning learn_729cd0e822dfef51. knowledge_bridge source_count 41 valid. learning_bridge learning_count 18 valid. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 12 OK.
+- decision_or_conflict: CONSENSUS on SESSION_MEASUREMENT_BASELINE_GUARD. Markdown-only persistence was a gap and is closed in this commit if read-back matches. Pre/post 2026-09-21..23 session rates are not one unchanged series. Orders, sales and customer counts are the unaffected cross-check.
+- knowledge_to_keep: Timestamp Shopify session metric version. Use post-update like-for-like periods and the same human/bot filter where the filter exists. If version or filter is unknown, mark session-derived comparison non-comparable and fall back to orders, sales and customers.
+- sources: https://help.shopify.com/en/manual/reports-and-analytics/discrepancies/session-measurement-update checked 2026-10-03.
+- next_action: ChatGPT main üzerinde learn_729cd0e822dfef51 read-back yapsın. Yetkili post-update Analytics okuması yoksa mağaza oturum sayısı unknown kalsın.
