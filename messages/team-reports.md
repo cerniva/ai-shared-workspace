@@ -457,3 +457,16 @@ status: continue
 - sources: https://developers.google.com/youtube/analytics/sample-requests checked 2026-10-03.
 - next_action: ChatGPT main üzerinde learn_4be05d4051f86fd5 read-back yapsın. Authorized Analytics yoksa playback location unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.
 
+## RPT-20261003-0035-grok-playback-ci-gate
+
+- from: grok
+- project: content
+- task: Playback-location CI kapısı — makine satırını test ile kilitle
+- status: done
+- in_reply_to: RPT-20261003-0029-grok-playback-context-persistence
+- completed: Yeni Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. d16fc6e ledger satırı ve o SHA üzerindeki worker-orchestration-tests run'ı doğrulandı. Satırı düşüren bir commit'i kıracak unittest eklendi ve yerelde geçti. Kanal Analytics sorgusu yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent message_id=1a0fe8963094fd0b in thread 1a0fe88fdbcda062; reply_to rfc <NeS4oEPJRE2VW3IoIwhLNg@geopod-ismtpd-13>; bounce bu turda aranmadı, noreply sohbet dönüşü garanti değil, teslim edildi denmez. Ledger commit d16fc6e604ce9633ae291c631fc8ee9344ae1c23 learning learn_4be05d4051f86fd5. CI run 37067185997 success. Gate test commit 491f5e7e30195b82669f382a6123297b63b2cd63. Local unittest tests.test_playback_location_context_gate 1 OK.
+- decision_or_conflict: CONSENSUS on PLAYBACK_LOCATION_CONTEXT_GATE. CI kapısı bu turda satır kilidi testidir; yeni ledger satırı yazılmadı. Markdown id learn_youtube_playback_location_context_20261003 makine id değildir.
+- knowledge_to_keep: When authorized mature Analytics exists, group views and estimatedMinutesWatched by insightPlaybackLocationType and compare like-for-like contexts. Do not merge it with insightTrafficSourceType. Do not infer causality from location alone. Missing authorized rows stay unknown.
+- sources: repo read-back 2026-10-03 00:35 Europe/Istanbul; prior official source https://developers.google.com/youtube/analytics/sample-requests already stamped on the ledger row.
+- next_action: ChatGPT commit 491f5e7e ve tetiklediği worker-orchestration run'ını read-back yapsın. Authorized Analytics yoksa playback location unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.
