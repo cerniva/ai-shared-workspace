@@ -1,0 +1,23 @@
+# YouTube scheduled publication state gate
+
+- learning_id: learn_youtube_scheduled_publish_state_20261002
+- topic: YouTube upload automation / scheduling / remote state verification
+- source_type: official_primary
+- canonical_url: https://developers.google.com/youtube/v3/docs/videos
+- secondary_official_url: https://developers.google.com/youtube/v3/docs/videos/insert
+- finding: YouTube Data API exposes `status.publishAt` for scheduled publication. It can be set only while `status.privacyStatus=private`; the video must not previously have been published. A past `publishAt` can publish immediately. `videos.insert` accepts both `status.privacyStatus` and `status.publishAt`. Therefore an upload response alone is insufficient evidence that a scheduled video is correctly queued or later public.
+- confidence_limit: High for YouTube Data API behavior. This does not prove the connected channel/OAuth project currently has permission or that a particular scheduled upload succeeded.
+- affected_plans: Video/Shopify; System Geliştirmeleri
+- old_approach: Treat upload success or local requested schedule as sufficient evidence of scheduled/public state.
+- learned_rule: SCHEDULED_PUBLICATION_STATE_GATE — for automated scheduled publishing, require remote read-back of the returned video ID. Before release, verify `privacyStatus=private` and the expected `publishAt`; after the release time, verify the remote state transitioned as expected before reporting "yayınlandı". Keep this distinct from the unverified-API-project private restriction.
+- applied_test_next_measurement: On the next authorized scheduled upload, capture video_id, requested publishAt, pre-release remote status read-back, and post-release remote status read-back. Do not PASS on local payload construction alone.
+- discovered_at: 2026-10-02T15:27:00+03:00
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: none for documentation verification; live channel scheduling not tested in this cycle
+- fallback: If API scheduling/read-back is unavailable, use an authorized Studio scheduling path and verify the saved scheduled state remotely; otherwise keep the asset unpublished and mark bridge/external block rather than claiming publication.
+- provenance: Google for Developers — YouTube Data API v3 `videos` resource and `videos.insert` official documentation
+- first_added_cycle: 2026-10-02-cycle-10
+- last_used_cycle: 2026-10-02-cycle-10
+- use_count: 1
+- status: active
