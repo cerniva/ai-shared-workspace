@@ -11,6 +11,8 @@ on:
       - messages/chatgpt-to-gemini.md
       - scripts/route_gemini_inbox.py
       - state/gemini-api-cooldown.json
+      - tasks/active.json
+      - state/now.json
 
 concurrency:
   group: repo-main-writers
@@ -30,6 +32,49 @@ jobs:
       - name: Route chatgpt-to-gemini into inbox
         run: python3 scripts/route_gemini_inbox.py
 
+      - name: Select safe active system work
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re
+
+          inbox = Path("messages/inbox-gemini.md")
+          text = inbox.read_text(encoding="utf-8")
+          tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$")
+          if any(active.search(task) for task in tasks):
+              raise SystemExit(0)
+
+          data = json.loads(Path("tasks/active.json").read_text(encoding="utf-8"))
+          candidates = []
+          for task in data.get("tasks", []):
+              if str(task.get("status", "")).lower() != "active":
+                  continue
+              haystack = " ".join(str(task.get(k, "")) for k in ("id", "title", "project", "notes")).lower()
+              if "payoutlens" in haystack:
+                  continue
+              backups = [str(x).lower() for x in task.get("backups", [])]
+              if "gemini" not in backups and str(task.get("lead", "")).lower() != "gemini":
+                  continue
+              priority = 0 if task.get("id") == "CORE-05" else 1
+              candidates.append((priority, str(task.get("id", "")), task))
+          if not candidates:
+              raise SystemExit(0)
+
+          _, _, task = sorted(candidates, key=lambda x: (x[0], x[1]))[0]
+          block = (
+              "\n## TASK\n"
+              f"id: AUTO-GEMINI-{task.get('id')}\n"
+              "status: queued\n"
+              "source: autonomous-active-state\n"
+              f"project: {task.get('project', 'workspace')}\n"
+              f"title: Continue {task.get('title', task.get('id'))}\n"
+              "instructions: Read live shared state and CI first. Find the highest-priority verified red/yellow technical issue within this active project, excluding PayoutLens. Produce evidence, root cause, and the smallest safe reversible fix or test recommendation. Do not cross login/2FA/payment/secret/permission/irreversible boundaries. Do not claim a fix without live test/read-back. If no actionable issue exists, report idle/no-new-delta instead of inventing work.\n"
+          )
+          inbox.write_text(text.rstrip() + "\n" + block, encoding="utf-8")
+          print(f"Selected active task {task.get('id')} for Gemini autonomous continuation.")
+          PY
+
       - name: Check pending task
         id: pending
         run: |
@@ -38,8 +83,8 @@ jobs:
           from pathlib import Path
           import json, os, re
           text = Path("messages/inbox-gemini.md").read_text(encoding="utf-8")
-          tasks = re.split(r"(?m)^## TASK[ \t]*$", text)[1:]
-          active = re.compile(r"(?mi)^[ \t]*status[ \t]*:[ \t]*(queued|ready|open|run)[ \t]*$")
+          tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$")
           queued = any(active.search(task) for task in tasks)
           cooldown = Path("state/gemini-api-cooldown.json")
           if queued and cooldown.exists():
