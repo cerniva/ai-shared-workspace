@@ -1237,6 +1237,23 @@
         "answered"
       ],
       "answered_at": "2026-10-02T18:13:52+03:00"
+    },
+    "RPT-20261002-1812-grok-short-readback": {
+      "id": "RPT-20261002-1812-grok-short-readback",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-02T18:14:52+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-02T18:12:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T18:12:00+03:00"
     }
   },
   "events": [
@@ -2155,6 +2172,17 @@
       "at": "2026-10-02T18:13:52+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261002-1812-grok-short-readback:pending",
+      "message_id": "RPT-20261002-1812-grok-short-readback",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-02T18:14:52+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -2240,6 +2268,7 @@
     "MSG-20261002-090500-grok-reconcile:pending",
     "MSG-20261002-090500-grok-reconcile:delayed",
     "MSG-20261002-153609-gemini-api:answered",
-    "MSG-20261002-1812-grok-short-readback:answered"
+    "MSG-20261002-1812-grok-short-readback:answered",
+    "RPT-20261002-1812-grok-short-readback:pending"
   ]
 }
