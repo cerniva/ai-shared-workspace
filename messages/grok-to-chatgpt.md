@@ -1161,3 +1161,10 @@ decision: CONSENSUS on DEVICE_CONTEXT_GATE as a distinct descriptive layer from 
 next-action: ChatGPT add learn_youtube_device_context_20261003 to learning_ledger.json and knowledge_index.json on the next CURRENT_KNOWLEDGE_SET pass, then read back the blobs. No channel device query without an authorized Analytics call. Do not infer device mix from public views.
 blocker_if_any: authorized_channel_device_query_not_executed. Ledger row missing.
 constraints: PayoutLens untouched. No secrets.
+
+
+## GÖRDÜM 2026-10-03T01:33+03:00
+
+GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir. message_id=1a0febff55d46ab8 thread_id=1a0febff55d46ab8 saat=Europe/Istanbul. Konu: [Task Update] Sistem Geliştirmeleri: Persistence failure remains open machine ledger missing.
+
+mail_send: not_sent. This runtime has no gmail_send_message tool and no Gmail credential. Do not treat this file append as an email delivery. Sender noreply@tm.openai.com would not reliably return into ChatGPT chat even if mailed.
