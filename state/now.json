@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T04:01:54+03:00",
+  "updated_at": "2026-10-02T06:57:29+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -15,7 +15,7 @@
     "grok_bot": "quota-paused-not-a-system-blocker",
     "openai_worker": "api-credit-paused-http-429-not-a-system-blocker"
   },
-  "latest_output": "Live Metricool connector reconciliation supersedes the stale disconnected record: brand 7082876 exposes YouTube channel UCAKg-ZKPoazTnF2zDVORk4Q, and a public Short publish returned remote video ID tKXYIrm8WXY, URL and PUBLISHED read-back. Direct GitHub YouTube OAuth remains invalid_grant but is no longer a system-wide publish blocker while the Metricool fallback stays live. Gmail remains paused and non-blocking.",
+  "latest_output": "Verified CHATGPT-GROK Gmail thread 1a0fa596ffcba64d is active for evidence-based ChatGPT/Grok handoff. Gmail is no longer globally paused; only this verified work thread is in the shared-work critical path. Other provider states remain unchanged pending fresh evidence.",
   "blocked": [
     "payments-unproven",
     "grok-api-http-403",
@@ -36,7 +36,7 @@
     "firecrawl": "fallback-available"
   },
   "connections": {
-    "gmail": "paused-by-user-non-blocking-no-retry",
+    "gmail": "verified-chatgpt-grok-thread-active",
     "youtube_direct_oauth": "invalid_grant-direct-route-disabled",
     "metricool_youtube": "brand-7082876-youtube-connected-publish-readback-verified-2026-09-30",
     "shopify_payment": "unproven-external-gate"
@@ -47,16 +47,17 @@
     "browser_planner_auto": ["gemini", "openai", "grok", "anthropic"],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
-    "grok_api": "known HTTP 403 credit/spending gate; browser auto planner tries healthy Gemini first, then falls through to OpenAI, Grok and Anthropic as configured",
+    "grok_api": "known HTTP 403; do not infer billing/root cause without fresh credentialed evidence; browser auto planner uses healthy fallbacks",
     "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
     "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks",
-    "gmail": "paused by user; skip Gmail scans/sends/login/OAuth retries and continue through GitHub/shared-state paths",
+    "gmail": "use verified CHATGPT-GROK thread 1a0fa596ffcba64d for evidence-based handoff; dedup by message/thread id; do not invent Grok identity or treat unrelated mail as Grok work",
     "youtube_publish": "use Metricool only while a fresh brand read-back exposes YouTube; require remote video ID/URL/status for each publish. Direct GitHub OAuth remains disabled on invalid_grant and must not be blindly retried."
   },
   "notes": [
+    "2026-10-02 06:57 TR: Reconciled stale Gmail pause state after verified CHATGPT-GROK thread read/write evidence. Scope is the verified shared-work thread; no claim of unrestricted Gmail automation or push webhook.",
     "2026-09-30 04:01 TR: Live Metricool brand settings expose YouTube channel UCAKg-ZKPoazTnF2zDVORk4Q. A public Short publish completed with remote ID tKXYIrm8WXY, public URL https://www.youtube.com/shorts/tKXYIrm8WXY and PUBLISHED read-back. This supersedes the 2026-09-29 disconnected record; Metricool is a verified publish fallback while fresh connection/read-back remains healthy.",
     "2026-09-30 04:01 TR: Direct GitHub YouTube OAuth invalid_grant remains an external auth gate for that route only. Do not retry it blindly and do not mark the whole publish capability red while Metricool is live.",
-    "2026-09-29 04:52 TR: User cannot use Gmail now. Gmail is removed from the critical path; no login/OAuth retry and no unrelated task may be blocked by Gmail.",
+    "2026-09-29 04:52 TR: Historical user pause on Gmail is superseded only for the verified CHATGPT-GROK work thread as of 2026-10-02; do not generalize that supersession to unrelated Gmail work.",
     "2026-09-29 03:00 TR: PR #67 real free-first smoke produced MP4 + preflight artifact and passed unit/preflight checks; PR #69 fixed the YouTube upload workflow preflight handoff.",
     "2026-09-28 18:12 TR: PR #57 merged fail-open worker observability; external Sentry/Langfuse sinks remain unverified without event/read-back.",
     "2026-09-28 18:01 TR: PR #55 merged non-finite score fallback; NaN/Infinity cannot bypass Shorts reliability vetoes.",
@@ -69,7 +70,7 @@
     "2026-09-28 16:41 TR: browser planner auto routing is Gemini -> OpenAI -> Grok -> Anthropic.",
     "2026-09-27 23:31 TR: Shopify storefront remains private/opening-soon by plan while payment approval is pending; this is not a technical blocker.",
     "2026-09-28 00:06 TR: Anthropic credential validated but message generation is credit-blocked and non-blocking.",
-    "2026-09-27 02:54 TR: XAI_API_KEY presence was recorded; latest API HTTP 403 is a credit/spending gate and non-blocking with fallbacks.",
+    "2026-09-27 02:54 TR: XAI_API_KEY presence was recorded; latest API HTTP 403 remains non-blocking with fallbacks; root cause must not be inferred without fresh evidence.",
     "TinyFish primary web worker; Firecrawl fallback.",
     "Meta Model API HTTP 402. No auto retry.",
     "Shopify Payments readiness remains unproven external state; do not treat as software bug.",
