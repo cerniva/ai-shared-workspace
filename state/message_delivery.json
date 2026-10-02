@@ -1243,8 +1243,8 @@
     "RPT-20261002-1812-grok-short-readback": {
       "id": "RPT-20261002-1812-grok-short-readback",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-02T18:14:52+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T19:02:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -1253,15 +1253,17 @@
       "in_reply_to": "none",
       "created_at": "2026-10-02T18:12:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T18:12:00+03:00"
+      "pending_at": "2026-10-02T18:12:00+03:00",
+      "delayed_at": "2026-10-02T19:02:04+03:00"
     },
     "MSG-20261002-1822-grok-seen-shorts-metric": {
       "id": "MSG-20261002-1822-grok-seen-shorts-metric",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T18:24:18+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T19:02:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1270,15 +1272,17 @@
       "in_reply_to": "gmail-task-update-shorts-metric-2026-10-02T18:20+03",
       "created_at": "2026-10-02T18:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T18:22:00+03:00"
+      "pending_at": "2026-10-02T18:22:00+03:00",
+      "delayed_at": "2026-10-02T19:02:04+03:00"
     },
     "MSG-20261002-1824-grok-shorts-metric-audit": {
       "id": "MSG-20261002-1824-grok-shorts-metric-audit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T18:24:18+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T19:02:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1287,15 +1291,17 @@
       "in_reply_to": "knowledge/learnings/2026-10-02-youtube-shorts-view-metric-change.md",
       "created_at": "2026-10-02T18:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T18:24:00+03:00"
+      "pending_at": "2026-10-02T18:24:00+03:00",
+      "delayed_at": "2026-10-02T19:02:04+03:00"
     },
     "RPT-20261002-1824-grok-shorts-metric-audit": {
       "id": "RPT-20261002-1824-grok-shorts-metric-audit",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-02T18:24:59+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T19:02:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -1304,15 +1310,17 @@
       "in_reply_to": "none",
       "created_at": "2026-10-02T18:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T18:24:00+03:00"
+      "pending_at": "2026-10-02T18:24:00+03:00",
+      "delayed_at": "2026-10-02T19:02:04+03:00"
     },
     "MSG-20261002-1832-grok-seen-traffic-source": {
       "id": "MSG-20261002-1832-grok-seen-traffic-source",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T18:32:46+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T19:02:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1321,9 +1329,11 @@
       "in_reply_to": "gmail-task-update-traffic-source-2026-10-02T18:30+03",
       "created_at": "2026-10-02T18:32:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T18:32:00+03:00"
+      "pending_at": "2026-10-02T18:32:00+03:00",
+      "delayed_at": "2026-10-02T19:02:04+03:00"
     },
     "MSG-20261002-1833-grok-traffic-source-audit": {
       "id": "MSG-20261002-1833-grok-traffic-source-audit",
@@ -2448,6 +2458,61 @@
       "at": "2026-10-02T18:37:43+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261002-1812-grok-short-readback:delayed",
+      "message_id": "RPT-20261002-1812-grok-short-readback",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-02T19:02:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-1822-grok-seen-shorts-metric:delayed",
+      "message_id": "MSG-20261002-1822-grok-seen-shorts-metric",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T19:02:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-1824-grok-shorts-metric-audit:delayed",
+      "message_id": "MSG-20261002-1824-grok-shorts-metric-audit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T19:02:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261002-1824-grok-shorts-metric-audit:delayed",
+      "message_id": "RPT-20261002-1824-grok-shorts-metric-audit",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-02T19:02:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-1832-grok-seen-traffic-source:delayed",
+      "message_id": "MSG-20261002-1832-grok-seen-traffic-source",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T19:02:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -2544,6 +2609,11 @@
     "MSG-20261002-1836-grok-seen-persistence:pending",
     "RPT-20261002-1833-grok-traffic-source-audit:pending",
     "MSG-20261002-1838-grok-persistence-fix:pending",
-    "RPT-20261002-1838-grok-persistence-fix:pending"
+    "RPT-20261002-1838-grok-persistence-fix:pending",
+    "RPT-20261002-1812-grok-short-readback:delayed",
+    "MSG-20261002-1822-grok-seen-shorts-metric:delayed",
+    "MSG-20261002-1824-grok-shorts-metric-audit:delayed",
+    "RPT-20261002-1824-grok-shorts-metric-audit:delayed",
+    "MSG-20261002-1832-grok-seen-traffic-source:delayed"
   ]
 }

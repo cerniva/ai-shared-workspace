@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 10,
+    "pending": 5,
     "seen": 0,
     "answered": 42,
-    "delayed": 23
+    "delayed": 28
   },
-  "event_count": 94,
+  "event_count": 99,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -111,20 +111,28 @@
     "MSG-20261002-1836-grok-seen-persistence:pending",
     "RPT-20261002-1833-grok-traffic-source-audit:pending",
     "MSG-20261002-1838-grok-persistence-fix:pending",
-    "RPT-20261002-1838-grok-persistence-fix:pending"
+    "RPT-20261002-1838-grok-persistence-fix:pending",
+    "RPT-20261002-1812-grok-short-readback:delayed",
+    "MSG-20261002-1822-grok-seen-shorts-metric:delayed",
+    "MSG-20261002-1824-grok-shorts-metric-audit:delayed",
+    "RPT-20261002-1824-grok-shorts-metric-audit:delayed",
+    "MSG-20261002-1832-grok-seen-traffic-source:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-1838-grok-persistence-fix:pending",
-    "RPT-20261002-1838-grok-persistence-fix:pending"
+    "RPT-20261002-1812-grok-short-readback:delayed",
+    "MSG-20261002-1822-grok-seen-shorts-metric:delayed",
+    "MSG-20261002-1824-grok-shorts-metric-audit:delayed",
+    "RPT-20261002-1824-grok-shorts-metric-audit:delayed",
+    "MSG-20261002-1832-grok-seen-traffic-source:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T18:37:43+03:00",
+  "checked_at": "2026-10-02T19:02:04+03:00",
   "historical_counts": {
-    "pending": 10,
+    "pending": 5,
     "seen": 0,
     "answered": 42,
-    "delayed": 23
+    "delayed": 28
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 114,
