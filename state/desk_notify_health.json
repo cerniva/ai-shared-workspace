@@ -13,7 +13,7 @@
   "counts": {
     "pending": 1,
     "seen": 0,
-    "answered": 39,
+    "answered": 40,
     "delayed": 22
   },
   "event_count": 81,
@@ -100,19 +100,17 @@
     "MSG-20261002-090500-grok-reconcile:pending",
     "MSG-20261002-090500-grok-reconcile:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261002-090500-grok-reconcile:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T10:04:13+03:00",
+  "checked_at": "2026-10-02T15:01:49+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 0,
-    "answered": 39,
+    "answered": 40,
     "delayed": 22
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 100,
+  "active_source_id_count": 101,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
