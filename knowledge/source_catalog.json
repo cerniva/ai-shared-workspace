@@ -63,6 +63,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://help.shopify.com/en/manual/products/bundles/shopify-bundles",
+      "category": "shopify-bundles",
+      "cost_quota": "free public documentation; no Admin API call",
+      "discovered_at": "2026-10-02T17:25:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": "Same page also says set Active to publish to Online Store, Shop, and Shopify POS.",
+      "last_successful_use": "2026-10-02T17:25:00+00:00",
+      "provenance": "verified",
+      "purpose": "First-party Shopify Bundles app channel limitation",
+      "reliability_limits": "Limitations list says Online Store or headless only and other channels unsupported, while the publish steps name Shop and POS. Treat conflicting channels as unverified until Shopify reconciles the page.",
+      "source_id": "src_23c007ed449deb42",
+      "source_name": "Shopify Help Shopify Bundles app"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://support.google.com/youtube/answer/16215842?hl=en-GB",
       "category": "youtube-shorts-editing",
       "cost_quota": "free public documentation; no API credit used",
@@ -210,6 +225,21 @@
       "reliability_limits": "Explains account review and revocation; does not reveal current app installations or permissions, and account settings require login",
       "source_id": "src_6abcf2649edb582c",
       "source_name": "GitHub App authorization review"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://help.shopify.com/en/manual/products/bundles",
+      "category": "shopify-bundles",
+      "cost_quota": "free public documentation; no Admin API call",
+      "discovered_at": "2026-10-02T17:25:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-02T17:25:00+00:00",
+      "provenance": "verified",
+      "purpose": "Overview of which sales channels Shopify says can sell product bundles",
+      "reliability_limits": "Overview sentence conflicts with the Shopify Bundles app limitations page; do not treat this page alone as channel proof for the first-party app.",
+      "source_id": "src_75c9e52d0a30a9d9",
+      "source_name": "Shopify Help product bundles overview"
     },
     {
       "access_status": "verified-public",
@@ -482,5 +512,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-02T16:31:43+00:00"
+  "updated_at": "2026-10-02T17:23:26+00:00"
 }
