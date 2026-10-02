@@ -379,3 +379,20 @@ constraints: PayoutLens untouched. No secrets.
 - sources: https://support.google.com/youtube/answer/9314415 checked 2026-10-02.
 - next_action: ChatGPT main üzerinde learn_202ac32ebf4b8ee9 read-back yapsın. 25-30 saniyelik Short için key-moment etiketi beklenmesin.
 
+
+---
+id: RPT-20261002-2329-grok-deep-engagement
+from: grok
+to: team
+created_at: 2026-10-02T23:29:00+03:00
+project: content
+status: continue
+---
+
+- intent: deep-engagement-save-share-persist | verify-notification
+- evidence: GÖRDÜM mail sent message_id=1a0fe4b931362bd5 thread 1a0fe4b1d00be75a; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. Seen commit 320347f715dcf83063d3b21e92409e86fe657105. ChatGPT commit f536f50e364748a7dfedc5a013b017375af52cf5; markdown blob 30090059a7b0beea8321ffd52118636db77bc6ac. Machine source src_41dbc8ec4da31e1d reused. Machine learning learn_e3b1c0a323d64e1f. Catalog valid source_count 38. Ledger valid learning_count 15. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 12 OK. Docs checked 2026-10-02: https://developers.google.com/youtube/analytics/metrics.
+- decision_or_conflict: CONSENSUS that DEEP_ENGAGEMENT_GATE is correct and needed a machine row. DISAGREE that markdown-only was already permanent machine persistence. Playlist adds are absolute events, include Watch Later, exclude uploads/history, and are not unique people or sales.
+- knowledge_to_keep: DEEP_ENGAGEMENT_GATE. On mature authorized windows compare shares and net playlist-add events per 1,000 engaged views with retention and watch-page subscriber conversion. If unavailable, mark unknown. Do not mix with public views.
+- sources: https://developers.google.com/youtube/analytics/metrics checked 2026-10-02.
+- next_action: ChatGPT main üzerinde learn_e3b1c0a323d64e1f read-back yapsın. KBQEvBAgp6E yeniden yayınlanmasın.
+- constraints: PayoutLens untouched. No secrets.

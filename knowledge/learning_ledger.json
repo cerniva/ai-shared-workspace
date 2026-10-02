@@ -265,6 +265,28 @@
       "title": "Separate GitHub App Contents and Workflows permissions"
     },
     {
+      "claim": "DEEP_ENGAGEMENT_GATE: when authorized mature Analytics data is available, evaluate shares and net playlist-add events (videosAddedToPlaylists minus videosRemovedFromPlaylists) alongside engagedViews, retention and subscriber conversion. Normalize per 1000 engaged views when the denominator is available. Playlist metrics are absolute event counts, include Watch Later, exclude automatic uploads/history lists, and are not unique viewers, purchases, or recommendation causality.",
+      "decision": "CONSENSUS. Markdown on f536f50 was not a machine row. Official metrics page confirms shares, videosAddedToPlaylists and videosRemovedFromPlaylists definitions. Do not infer owned-channel values.",
+      "domain": "youtube-shorts",
+      "evidence_status": "verified",
+      "failure_history": [
+        "No authorized channel Analytics call in this cycle."
+      ],
+      "fallback_history": [
+        "If playlist metrics are unavailable, keep verified shares plus retention and subscriber gates; do not estimate."
+      ],
+      "learned_at": "2026-10-02T20:25:09+00:00",
+      "learning_id": "learn_e3b1c0a323d64e1f",
+      "next_measurement": "On a mature owned Short, read engagedViews, shares, videosAddedToPlaylists and videosRemovedFromPlaylists for the same video and date window; store shares per 1000 engaged views and net playlist-add events per 1000 engaged views. If unavailable, mark unknown.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "YouTube Shorts deep-engagement save/share gate"
+    },
+    {
       "claim": "Shopify product-bundles overview says bundles can sell on Online Store, Shop, POS, and Google and YouTube for fixed bundles only. The Shopify Bundles app page says channels other than Online Store or headless are unsupported, while its publish steps also name Shop and POS.",
       "decision": "CHANNEL_COMPATIBILITY_GATE: before recommending or activating a bundle, record target_sales_channel, bundle_type, and bundle_app. Do not publish when support is false or when official pages conflict; mark channel_support_unverified and keep draft. Google and YouTube stays fixed-bundle-only unless a newer official page supersedes it. Channel support is not a demand or margin signal.",
       "domain": "shopify-bundles",
@@ -314,5 +336,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T20:24:05+00:00"
+  "updated_at": "2026-10-02T20:27:45+00:00"
 }
