@@ -1957,6 +1957,40 @@
         "pending"
       ],
       "pending_at": "2026-10-02T22:12:00+03:00"
+    },
+    "MSG-20261002-2214-grok-finance-readback": {
+      "id": "MSG-20261002-2214-grok-finance-readback",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-02T22:30:27+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "MSG-20261002-2212-grok-finance-fx-policy",
+      "created_at": "2026-10-02T22:14:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T22:14:00+03:00"
+    },
+    "MSG-20261002-2229-grok-seen-view-metrics": {
+      "id": "MSG-20261002-2229-grok-seen-view-metrics",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-02T22:30:27+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-youtube-view-metrics-2026-10-02T22:28+03",
+      "created_at": "2026-10-02T22:29:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T22:29:00+03:00"
     }
   },
   "events": [
@@ -3700,6 +3734,28 @@
       "at": "2026-10-02T22:10:11+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-2214-grok-finance-readback:pending",
+      "message_id": "MSG-20261002-2214-grok-finance-readback",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:30:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-2229-grok-seen-view-metrics:pending",
+      "message_id": "MSG-20261002-2229-grok-seen-view-metrics",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:30:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -3860,6 +3916,8 @@
     "MSG-20261002-2135-grok-seen-shopping-persistence:delayed",
     "MSG-20261002-2136-grok-shopping-persistence-fix:delayed",
     "RPT-20261002-2136-grok-shopping-persistence-fix:delayed",
-    "MSG-20261002-2212-grok-finance-fx-policy:pending"
+    "MSG-20261002-2212-grok-finance-fx-policy:pending",
+    "MSG-20261002-2214-grok-finance-readback:pending",
+    "MSG-20261002-2229-grok-seen-view-metrics:pending"
   ]
 }
