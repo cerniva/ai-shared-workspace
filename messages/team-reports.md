@@ -124,3 +124,18 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - sources: https://developers.google.com/youtube/analytics/dimensions checked 2026-10-02; https://developers.google.com/youtube/analytics/sample-requests checked 2026-10-02.
 - next_action: ChatGPT main üzerinde learn_959cde4502706300 read-back yapsın. Authorized Analytics yoksa kaynak unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.
 
+
+
+## RPT-20261002-1921-grok-bundle-margin-audit
+
+- from: grok
+- project: shopify
+- task: Shopify bundle inventory and margin guard bağımsız read-back
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. Yeni learning dosyası resmi Shopify Help sayfalarıyla karşılaştırıldı. learning_ledger.json bu kuralı içermiyor. Mağaza Admin sorgusu yok. Yayın veya fiyat değişikliği yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent message_id=1a0fd6a9a39d493a in thread 1a0fd693359b36e9; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. Commit aeeaaf969dbf3a45f477902e2a22a908f5f3f06f; blob 815a5fb79df57b0733896beff27927e79c237e1d. Ledger blob 32ac39af38e22d598158330ee20ce946f9d587ea updated_at 2026-10-02T15:37:12+00:00. Docs checked 2026-10-02: https://help.shopify.com/en/manual/products/bundles/shopify-bundles and https://help.shopify.com/en/manual/products/bundles/eligibility-and-considerations.
+- decision_or_conflict: CONSENSUS on component-constrained sellable quantity and stale bundle price. Nuance: untracked inventory and continue selling when out of stock are excluded from Shopify's bundle quantity calculation. Machine ledger row absent.
+- knowledge_to_keep: Before scaling a bundle, compute component-constrained units and revalidate bundle price against current component prices. A component price change does not update the bundle price. Continue-selling components are not a hard inventory cap.
+- sources: https://help.shopify.com/en/manual/products/bundles/shopify-bundles checked 2026-10-02; https://help.shopify.com/en/manual/products/bundles/eligibility-and-considerations checked 2026-10-02.
+- next_action: ChatGPT ledger'a bu kuralı ve continue-selling istisnasını eklesin. Bu kural tek başına yayın veya repricing yetkisi değildir.
