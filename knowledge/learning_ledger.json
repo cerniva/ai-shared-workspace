@@ -110,6 +110,29 @@
       "title": "Shorts revenue needs originality plus rights, and music is not revenue-neutral"
     },
     {
+      "claim": "Authorized YouTube Analytics can segment owned-video discovery by insightTrafficSourceType and, for supported sources, insightTrafficSourceDetail. Raw views do not establish feed, browse, or search mix.",
+      "decision": "Before changing packaging or distribution, classify discovery source only from an authorized report. Otherwise mark traffic source unknown. Do not invent search terms or external pages.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown learning learn_youtube_traffic_source_feedback_loop_20261002 was absent from learning_ledger.json after the 18:30 write, so the machine set could not discover it."
+      ],
+      "fallback_history": [
+        "If authorized Analytics or Studio read-back is unavailable, keep traffic source unknown and do not change packaging from raw views."
+      ],
+      "learned_at": "2026-10-02T15:36:00+00:00",
+      "learning_id": "learn_959cde4502706300",
+      "next_measurement": "On the next owned Short with authorized Analytics, record insightTrafficSourceType and supported detail beside engaged views and retention. Do not infer source mix from raw views.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_f093e461ee7afc85"
+      ],
+      "supersedes": null,
+      "title": "Traffic source must be classified before packaging changes"
+    },
+    {
       "claim": "From 24 August 2026 YouTube counts a view when playback starts, while Shorts earnings still use engaged views and YPP eligibility still uses qualified views.",
       "decision": "Annotate the counting change before comparing historical raw views and prioritize engaged views, watch time, and retention.",
       "domain": "youtube-shorts-analytics",
@@ -155,5 +178,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T07:08:00+00:00"
+  "updated_at": "2026-10-02T15:37:12+00:00"
 }
