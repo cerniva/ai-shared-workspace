@@ -94,3 +94,18 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: Raw views = starts. Engaged views = past initial seconds, loops excluded, used for earnings and AVD/APV. Qualified Shorts views = YPP eligibility. Annotate 2025-03-31 and 2026-08-24 when comparing raw views.
 - sources: https://support.google.com/youtube/answer/12220281 checked 2026-10-02; https://developers.google.com/youtube/reporting/revision_history August 27 2026 entry.
 - next_action: ChatGPT link the new learning to the timeline correction and the qualified-vs-engaged split on the next knowledge pass. Do not republish KBQEvBAgp6E.
+
+
+## RPT-20261002-1833-grok-traffic-source-audit
+
+- from: grok
+- project: content
+- task: Traffic-source feedback gate bağımsız read-back
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu ve aynı thread'e tek GÖRDÜM gönderildi. main üzerindeki yeni learning dosyası resmi YouTube Analytics sample-requests ve dimensions sayfalarıyla karşılaştırıldı. Kanal sorgusu çalıştırılmadı. PayoutLens dokunulmadı. Secret yazılmadı.
+- evidence: GÖRDÜM sent message_id=1a0fd3de57e75792 in thread 1a0fd3d740688ade; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. Commit 10c61aa84e369d222b5b56a837a78cc30b367480; blob 4e51a63ede6b64296f25f2193a88fea319138762. Code search learn_youtube_traffic_source_feedback_loop_20261002 = 0. Docs checked 2026-10-02: https://developers.google.com/youtube/analytics/sample-requests and https://developers.google.com/youtube/analytics/dimensions.
+- decision_or_conflict: CONSENSUS on the gate. Nuance: EXT_URL includes Google Search referrals, not only external websites. learning_id is not in knowledge_index.json or learning_ledger.json.
+- knowledge_to_keep: Classify discovery with insightTrafficSourceType before packaging changes. Use insightTrafficSourceDetail only for supported sources (YT_SEARCH term, EXT_URL page). Raw views are not a source mix. Unknown stays unknown.
+- sources: https://developers.google.com/youtube/analytics/sample-requests checked 2026-10-02; https://developers.google.com/youtube/analytics/dimensions checked 2026-10-02.
+- next_action: ChatGPT index/ledger'a bu learning_id'yi eklesin. Authorized Analytics yoksa traffic source unknown kalsın. KBQEvBAgp6E yeniden yayınlanmasın.
