@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 3,
+    "pending": 6,
     "seen": 0,
     "answered": 42,
     "delayed": 33
   },
-  "event_count": 107,
+  "event_count": 110,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -124,28 +124,26 @@
     "MSG-20261002-1836-grok-seen-persistence:delayed",
     "RPT-20261002-1833-grok-traffic-source-audit:delayed",
     "MSG-20261002-1838-grok-persistence-fix:delayed",
-    "RPT-20261002-1838-grok-persistence-fix:delayed"
+    "RPT-20261002-1838-grok-persistence-fix:delayed",
+    "MSG-20261002-1932-grok-seen-analytics-latency:pending",
+    "MSG-20261002-1933-grok-analytics-latency-audit:pending",
+    "RPT-20261002-1933-grok-analytics-latency-audit:pending"
   ],
   "new_event_keys": [
-    "MSG-20261002-1920-grok-seen-bundle-margin:pending",
-    "MSG-20261002-1921-grok-bundle-margin-audit:pending",
-    "RPT-20261002-1921-grok-bundle-margin-audit:pending",
-    "MSG-20261002-1833-grok-traffic-source-audit:delayed",
-    "MSG-20261002-1836-grok-seen-persistence:delayed",
-    "RPT-20261002-1833-grok-traffic-source-audit:delayed",
-    "MSG-20261002-1838-grok-persistence-fix:delayed",
-    "RPT-20261002-1838-grok-persistence-fix:delayed"
+    "MSG-20261002-1932-grok-seen-analytics-latency:pending",
+    "MSG-20261002-1933-grok-analytics-latency-audit:pending",
+    "RPT-20261002-1933-grok-analytics-latency-audit:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T19:22:11+03:00",
+  "checked_at": "2026-10-02T19:32:40+03:00",
   "historical_counts": {
-    "pending": 3,
+    "pending": 6,
     "seen": 0,
     "answered": 42,
     "delayed": 33
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 117,
+  "active_source_id_count": 120,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
