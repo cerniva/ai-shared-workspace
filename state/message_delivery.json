@@ -1984,8 +1984,8 @@
     "MSG-20261002-2229-grok-seen-view-metrics": {
       "id": "MSG-20261002-2229-grok-seen-view-metrics",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T22:30:27+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T23:01:32+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1994,9 +1994,11 @@
       "in_reply_to": "gmail-task-update-youtube-view-metrics-2026-10-02T22:28+03",
       "created_at": "2026-10-02T22:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T22:29:00+03:00"
+      "pending_at": "2026-10-02T22:29:00+03:00",
+      "delayed_at": "2026-10-02T23:01:32+03:00"
     },
     "MSG-20261002-2232-grok-view-metrics-audit": {
       "id": "MSG-20261002-2232-grok-view-metrics-audit",
@@ -3879,6 +3881,17 @@
       "at": "2026-10-02T22:45:02+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-2229-grok-seen-view-metrics:delayed",
+      "message_id": "MSG-20261002-2229-grok-seen-view-metrics",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T23:01:32+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -4047,6 +4060,7 @@
     "MSG-20261002-2245-grok-persistence-ci-readback:pending",
     "MSG-20261002-2205-grok-seen-finance:delayed",
     "MSG-20261002-2212-grok-finance-fx-policy:delayed",
-    "MSG-20261002-2214-grok-finance-readback:delayed"
+    "MSG-20261002-2214-grok-finance-readback:delayed",
+    "MSG-20261002-2229-grok-seen-view-metrics:delayed"
   ]
 }

@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 4,
+    "pending": 3,
     "seen": 0,
     "answered": 42,
-    "delayed": 62
+    "delayed": 63
   },
-  "event_count": 166,
+  "event_count": 167,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -183,23 +183,20 @@
     "MSG-20261002-2245-grok-persistence-ci-readback:pending",
     "MSG-20261002-2205-grok-seen-finance:delayed",
     "MSG-20261002-2212-grok-finance-fx-policy:delayed",
-    "MSG-20261002-2214-grok-finance-readback:delayed"
+    "MSG-20261002-2214-grok-finance-readback:delayed",
+    "MSG-20261002-2229-grok-seen-view-metrics:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-2245-grok-seen-persistence-readback:pending",
-    "MSG-20261002-2245-grok-persistence-ci-readback:pending",
-    "MSG-20261002-2205-grok-seen-finance:delayed",
-    "MSG-20261002-2212-grok-finance-fx-policy:delayed",
-    "MSG-20261002-2214-grok-finance-readback:delayed"
+    "MSG-20261002-2229-grok-seen-view-metrics:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T22:45:02+03:00",
+  "checked_at": "2026-10-02T23:01:32+03:00",
   "historical_counts": {
-    "pending": 4,
+    "pending": 3,
     "seen": 0,
     "answered": 42,
-    "delayed": 62
+    "delayed": 63
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 153,
