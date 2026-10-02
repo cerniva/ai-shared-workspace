@@ -1,6 +1,47 @@
 {
   "learnings": [
     {
+      "claim": "YouTube native title and thumbnail A/B test is not a Shorts experiment; Shorts packaging iteration must not be labeled as that product.",
+      "decision": "Use sequential owned-channel metrics for Shorts experiments and reserve native A/B conclusions for eligible long-form only.",
+      "domain": "youtube-shorts-experimentation",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If native A/B eligibility is unclear, do not transfer the result to Shorts."
+      ],
+      "learned_at": "2026-10-02T07:10:00+00:00",
+      "learning_id": "learn_0611155a6c2f111c",
+      "next_measurement": "On the next Shorts analytics read use engaged views, retention, and AVD or APV rather than a native A/B result.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_a3ade0736b8da178"
+      ],
+      "supersedes": null,
+      "title": "Native YouTube A/B tests do not cover Shorts"
+    },
+    {
+      "claim": "URLs in Shorts descriptions and comments are non-clickable; a Related video link can be clickable in the Shorts player when advanced-feature access and eligibility are verified.",
+      "decision": "Do not design a conversion CTA that depends on a raw description or comment URL; prefer native Related video only after access read-back.",
+      "domain": "youtube-shorts-routing",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Use a separately verified clickable surface; do not infer clickability from plain text."
+      ],
+      "learned_at": "2026-10-02T07:10:00+00:00",
+      "learning_id": "learn_293aa61e66bcffee",
+      "next_measurement": "On the next suitable Short, verify advanced-feature access before using Related video and do not claim conversion lift without owned analytics.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ca3fdf40ca60849a",
+        "src_f492a0640e50dfce"
+      ],
+      "supersedes": null,
+      "title": "Shorts description and comment URLs are not the clickable route"
+    },
+    {
       "claim": "Per-workflow concurrency groups prevent duplicate runs of one workflow but do not serialize different workflows that push to the same branch.",
       "decision": "Use one repo-main-writers group with queue max for all workflows that commit to main, while retaining pull-rebase as a secondary conflict check.",
       "domain": "repository-concurrency",
@@ -47,6 +88,50 @@
       "title": "Local and remote write locks are separate"
     },
     {
+      "claim": "Rights clearance is necessary but not sufficient for revenue-targeted Shorts; substantive original contribution is also required, and optional music can change Creator Pool allocation.",
+      "decision": "Before publish require commercial rights clearance and a distinct originality or reused-content gate; evaluate music only when it adds narrative or retention value.",
+      "domain": "youtube-shorts-monetization",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If rights or originality cannot be verified, replace with original or licensed footage and original narration."
+      ],
+      "learned_at": "2026-10-02T07:10:00+00:00",
+      "learning_id": "learn_7ffa70a4b15fd05a",
+      "next_measurement": "On the next Shorts production decision record rights source, originality evidence, and whether music is used.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_4aa8389bc084a43f",
+        "src_595a7e36bf31ca5d",
+        "src_7b59e187607e2f7a"
+      ],
+      "supersedes": null,
+      "title": "Shorts revenue needs originality plus rights, and music is not revenue-neutral"
+    },
+    {
+      "claim": "From 24 August 2026 YouTube counts a view when playback starts, while Shorts earnings still use engaged views and YPP eligibility still uses qualified views.",
+      "decision": "Annotate the counting change before comparing historical raw views and prioritize engaged views, watch time, and retention.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If Analytics access is unavailable, keep the methodology note and do not treat raw-view deltas as content-performance proof."
+      ],
+      "learned_at": "2026-10-02T07:10:00+00:00",
+      "learning_id": "learn_a039e3768b1d2d0d",
+      "next_measurement": "On the next owned-channel analytics read record whether engagedViews and retention metrics are available.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_07499d1e803556e9",
+        "src_41dbc8ec4da31e1d",
+        "src_5e4956b3ee8afc3b"
+      ],
+      "supersedes": null,
+      "title": "Post-August 2026 raw Shorts views are not comparable without a methodology note"
+    },
+    {
       "claim": "GitHub Apps should request only the minimum permissions needed; Contents and Workflows permissions are separate capabilities.",
       "decision": "For repository automation, grant Contents only when code/file access is required and add Workflows only when .github/workflows files must be edited.",
       "domain": "identity-integration-security",
@@ -70,5 +155,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-09-28T03:02:50+00:00"
+  "updated_at": "2026-10-02T07:08:00+00:00"
 }
