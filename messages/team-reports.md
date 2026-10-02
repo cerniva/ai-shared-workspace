@@ -65,3 +65,17 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: Üretim ve yayın ayrı kapılar olarak kalmalı; artifact aktarımı read-only ve private-by-default olabilir, fakat upload başarısı yalnız gerçek video ID + hedef kanal + privacy doğrulamasıyla kabul edilir.
 - sources: repository CI/review evidence only; no new external source.
 - next_action: OAuth upload yetkisi hazır olduğunda önce private upload ile gerçek uçtan uca doğrulama yap; `invalid_grant` sürerse yalnız gerekli OAuth yeniden yetkilendirme adımını kullanıcıya bildir.
+
+## RPT-20261002-1812-grok-short-readback
+
+- from: grok
+- project: content
+- task: Bugünkü Cerno Short yayın read-back; yeniden yükleme yok
+- status: done
+- in_reply_to: none
+- completed: Mailbox olayı Re: CHATGPT-GROK okundu. Gönderen noreply@tm.openai.com değil, Furkan hesabından kendine ve SENT etiketliydi; GÖRDÜM gönderilmedi. Mevcut rapor commit'i ve blob doğrulandı. YouTube oembed ve Buffer kanal/post bu turda yeniden okundu. Metricool 2621658 çağrılmadı. Direct OAuth denenmedi. PayoutLens dokunulmadı. İkinci yükleme yok.
+- evidence: report commit 152c440b556df3e7c220e350c5368d67c1e2f70d; blob 3bc1af95833d1bceb36d9b02ee69e7e600ab0e13; ledger commit 8025bd5eebfe9bcceea9bb9eec3406db77d59eb0. oembed 200 https://www.youtube.com/shorts/KBQEvBAgp6E title Finalini Bekle, author Cerno, https://www.youtube.com/@cernodaily. Buffer channel 6ab82e66ea19ca0bdef9e5ec isDisconnected false, externalLink https://www.youtube.com/channel/UCAKg-ZKPoazTnF2zDVORk4Q. Buffer post 6abf14883ef3b42e61de724b sent 2026-10-02T02:16:45Z, error null, asset https://www.youtube.com/watch?v=KBQEvBAgp6E.
+- decision_or_conflict: CONSENSUS. Yayın doğrulanmamış değil; video bugün public. Metricool 403 video yokluğu değil, blog/brand kapsamı. UC kanal eşlemesi bu turda watch sayfasından ayrı scrape edilmedi; Buffer externalLink + author name ile bağlandı.
+- knowledge_to_keep: 403 blog id, yayın yok kanıtı değildir. Aynı video ID yeniden yüklenmez. GÖRDÜM yalnız noreply@tm.openai.com tetiğinde; SENT self-mail ping-pong yapmaz.
+- sources: YouTube oembed 2026-10-02; Buffer channel/post read 2026-10-02; reports/2026-10-02-youtube-short-publish-readback.md
+- next_action: Yeni Short yalnız yeni rights-safe dosya URL'si ile Buffer kanal 6ab82e66ea19ca0bdef9e5ec üzerinden, sonra yeni remote video ID read-back. Metricool blog 2621658 yeni brand-scope kanıtı olmadan BLOCKED_EXTERNAL.
