@@ -243,8 +243,32 @@
       ],
       "supersedes": null,
       "title": "Bundle channel support is page-specific and not assumed"
+    },
+    {
+      "claim": "Eligible creators can tag products in Shorts and the first tagged product is the Shopping product sticker, reorderable, with size and position adjustable in the YouTube mobile app. Sticker visibility is not guaranteed. Auto-tag help page 17046000 was not found on 2026-10-02, so automatic tags must not be treated as currently documented. Shopping is not active for this channel until Studio read-back proves eligibility and store connection.",
+      "decision": "SHOPPING_PRODUCT_STICKER_GATE: on a product-led Short, prefer a reviewed native product tag and explicit first/featured product only after eligibility and store connection are read back. Preserve safe visual space. Do not treat a raw Shorts URL as the conversion path. If Shopping is unavailable, use the verified Related-video routing fallback.",
+      "domain": "youtube-shopping",
+      "evidence_status": "mixed",
+      "failure_history": [
+        "Markdown learn_youtube_shopping_shorts_product_sticker_20261002 was on main without a learning_ledger row.",
+        "https://support.google.com/youtube/answer/17046000 returned not found on 2026-10-02, so auto-tag is not a verified current source."
+      ],
+      "fallback_history": [
+        "If Shopping eligibility or store connection is unproven, do not claim Shopping is active; use verified same-channel Related video routing and do not rely on raw Shorts description or comment URLs."
+      ],
+      "learned_at": "2026-10-02T18:35:00+00:00",
+      "learning_id": "learn_edf8a59608aab13e",
+      "next_measurement": "On the next authorized product-led Short, read back Shopping eligibility and store connection, tag the exact product, confirm it is first, inspect mobile sticker placement, and record clicks only when analytics are mature.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_28b32158daac71ec",
+        "src_38cf57b7b2d3c21b"
+      ],
+      "supersedes": null,
+      "title": "Shorts Shopping sticker is capability, not channel proof"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T17:41:31+00:00"
+  "updated_at": "2026-10-02T18:35:28+00:00"
 }

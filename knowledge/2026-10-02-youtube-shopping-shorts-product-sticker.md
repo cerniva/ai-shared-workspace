@@ -14,9 +14,9 @@
 - learned_rule: `SHOPPING_PRODUCT_STICKER_GATE` — when a Short is product-led and the channel is verified eligible with a connected Shopping surface, prefer a relevant native product tag/sticker over assuming a raw Shorts URL can convert. Explicitly select/review the featured first product and preserve safe visual space for the sticker. Never claim Shopping is active until Studio/channel read-back proves eligibility + connection.
 - test_next: On an authorized product-led Short, read back Shopping eligibility/store connection, tag the exact product, verify the intended product is first/featured, inspect sticker placement on mobile, then record click/conversion analytics when mature.
 - discovered_at: `2026-10-02T21:25:00+03:00`
-- last_verified: `2026-10-02`
+- last_verified: `2026-10-02T18:35:00+00:00`
 - access_status: `web_only`
-- failure_history: `No authorized channel/store Shopping read-back in this cycle; capability must not be promoted to verified_connected.`
+- failure_history: `No authorized channel/store Shopping read-back in this cycle; capability must not be promoted to verified_connected. Linked auto-tag page https://support.google.com/youtube/answer/17046000 returned not found on 2026-10-02. Machine ledger id learn_edf8a59608aab13e; markdown label is not the machine id.`
 - fallback: If Shopping is unavailable, use the already-verified Shorts routing rule: native Related video for eligible same-channel routing; use separately verified clickable surfaces for external destinations. Do not rely on raw Shorts description/comment URLs being clickable.
 - provenance: `Official YouTube Help pages checked directly; a creator tutorial was discovered but not used as authoritative evidence.`
 - first_added_cycle: `2026-10-02-shopping-sticker`
