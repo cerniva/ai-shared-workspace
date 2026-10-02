@@ -1756,8 +1756,8 @@
     "MSG-20261002-2121-grok-seen-bundle-pool": {
       "id": "MSG-20261002-2121-grok-seen-bundle-pool",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:21:47+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1766,15 +1766,17 @@
       "in_reply_to": "gmail-task-update-bundle-pool-protected-2026-10-02T21:20+03",
       "created_at": "2026-10-02T21:21:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:21:00+03:00"
+      "pending_at": "2026-10-02T21:21:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "MSG-20261002-2122-grok-bundle-pool-readback": {
       "id": "MSG-20261002-2122-grok-bundle-pool-readback",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:22:10+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1783,15 +1785,17 @@
       "in_reply_to": "MSG-20261002-2121-grok-seen-bundle-pool",
       "created_at": "2026-10-02T21:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:22:00+03:00"
+      "pending_at": "2026-10-02T21:22:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "MSG-20261002-2132-grok-seen-shopping-sticker": {
       "id": "MSG-20261002-2132-grok-seen-shopping-sticker",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:29:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1800,15 +1804,17 @@
       "in_reply_to": "gmail-task-update-shopping-sticker-2026-10-02T21:27+03",
       "created_at": "2026-10-02T21:32:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:32:00+03:00"
+      "pending_at": "2026-10-02T21:32:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "MSG-20261002-2133-grok-shopping-sticker-audit": {
       "id": "MSG-20261002-2133-grok-shopping-sticker-audit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:29:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -1817,15 +1823,17 @@
       "in_reply_to": "knowledge/2026-10-02-youtube-shopping-shorts-product-sticker.md",
       "created_at": "2026-10-02T21:33:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:33:00+03:00"
+      "pending_at": "2026-10-02T21:33:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "RPT-20261002-2122-grok-bundle-pool-readback": {
       "id": "RPT-20261002-2122-grok-bundle-pool-readback",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:29:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -1834,15 +1842,17 @@
       "in_reply_to": "MSG-20261002-2121-grok-seen-bundle-pool",
       "created_at": "2026-10-02T21:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:22:00+03:00"
+      "pending_at": "2026-10-02T21:22:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "RPT-20261002-2133-grok-shopping-sticker-audit": {
       "id": "RPT-20261002-2133-grok-shopping-sticker-audit",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-02T21:29:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-02T22:03:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -1851,9 +1861,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-02T21:33:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-02T21:33:00+03:00"
+      "pending_at": "2026-10-02T21:33:00+03:00",
+      "delayed_at": "2026-10-02T22:03:11+03:00"
     },
     "MSG-20261002-2135-grok-seen-shopping-persistence": {
       "id": "MSG-20261002-2135-grok-seen-shopping-persistence",
@@ -3527,6 +3539,72 @@
       "at": "2026-10-02T21:36:13+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-2121-grok-seen-bundle-pool:delayed",
+      "message_id": "MSG-20261002-2121-grok-seen-bundle-pool",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-2122-grok-bundle-pool-readback:delayed",
+      "message_id": "MSG-20261002-2122-grok-bundle-pool-readback",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-2132-grok-seen-shopping-sticker:delayed",
+      "message_id": "MSG-20261002-2132-grok-seen-shopping-sticker",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-2133-grok-shopping-sticker-audit:delayed",
+      "message_id": "MSG-20261002-2133-grok-shopping-sticker-audit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261002-2122-grok-bundle-pool-readback:delayed",
+      "message_id": "RPT-20261002-2122-grok-bundle-pool-readback",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261002-2133-grok-shopping-sticker-audit:delayed",
+      "message_id": "RPT-20261002-2133-grok-shopping-sticker-audit",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-02T22:03:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -3676,6 +3754,12 @@
     "RPT-20261002-2133-grok-shopping-sticker-audit:pending",
     "MSG-20261002-2135-grok-seen-shopping-persistence:pending",
     "MSG-20261002-2136-grok-shopping-persistence-fix:pending",
-    "RPT-20261002-2136-grok-shopping-persistence-fix:pending"
+    "RPT-20261002-2136-grok-shopping-persistence-fix:pending",
+    "MSG-20261002-2121-grok-seen-bundle-pool:delayed",
+    "MSG-20261002-2122-grok-bundle-pool-readback:delayed",
+    "MSG-20261002-2132-grok-seen-shopping-sticker:delayed",
+    "MSG-20261002-2133-grok-shopping-sticker-audit:delayed",
+    "RPT-20261002-2122-grok-bundle-pool-readback:delayed",
+    "RPT-20261002-2133-grok-shopping-sticker-audit:delayed"
   ]
 }

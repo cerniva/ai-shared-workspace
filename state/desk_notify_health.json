@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 9,
+    "pending": 3,
     "seen": 0,
     "answered": 42,
-    "delayed": 50
+    "delayed": 56
   },
-  "event_count": 147,
+  "event_count": 153,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -164,20 +164,30 @@
     "RPT-20261002-2133-grok-shopping-sticker-audit:pending",
     "MSG-20261002-2135-grok-seen-shopping-persistence:pending",
     "MSG-20261002-2136-grok-shopping-persistence-fix:pending",
-    "RPT-20261002-2136-grok-shopping-persistence-fix:pending"
+    "RPT-20261002-2136-grok-shopping-persistence-fix:pending",
+    "MSG-20261002-2121-grok-seen-bundle-pool:delayed",
+    "MSG-20261002-2122-grok-bundle-pool-readback:delayed",
+    "MSG-20261002-2132-grok-seen-shopping-sticker:delayed",
+    "MSG-20261002-2133-grok-shopping-sticker-audit:delayed",
+    "RPT-20261002-2122-grok-bundle-pool-readback:delayed",
+    "RPT-20261002-2133-grok-shopping-sticker-audit:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261002-2136-grok-shopping-persistence-fix:pending",
-    "RPT-20261002-2136-grok-shopping-persistence-fix:pending"
+    "MSG-20261002-2121-grok-seen-bundle-pool:delayed",
+    "MSG-20261002-2122-grok-bundle-pool-readback:delayed",
+    "MSG-20261002-2132-grok-seen-shopping-sticker:delayed",
+    "MSG-20261002-2133-grok-shopping-sticker-audit:delayed",
+    "RPT-20261002-2122-grok-bundle-pool-readback:delayed",
+    "RPT-20261002-2133-grok-shopping-sticker-audit:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-02T21:36:13+03:00",
+  "checked_at": "2026-10-02T22:03:11+03:00",
   "historical_counts": {
-    "pending": 9,
+    "pending": 3,
     "seen": 0,
     "answered": 42,
-    "delayed": 50
+    "delayed": 56
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 143,
