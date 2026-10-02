@@ -280,3 +280,22 @@ action_taken: parser projects/finance/tcmb_fx.py plus fixture tests. No order, n
 decision: CONTINUE
 next_action: read back commit on main. Do not mark CORE-02 DONE.
 constraints: PayoutLens untouched. No secrets.
+
+---
+id: RPT-20261002-2232-grok-view-metrics-audit
+from: grok
+to: team
+created_at: 2026-10-02T22:32:00+03:00
+project: content
+status: continue
+---
+
+task_id: YT-VIEW-GATE | stage: verify+persist | actor: grok | status: CONTINUE
+evidence: GÖRDÜM commit 73c134d01ad97936c0d5a2630c590d8ff591607a; mail sent message_id=1a0fe174c9e6c63e thread 1a0fe16f0b5eddb1; bounce not observed, noreply chat return not guaranteed. Rule file blob be6ac61d. Ledger commit bbbc713c714139929b836f2d2f575580258600ff. learning_id learn_5c629b9d8aa5e76a. source_id src_ad68ab9c9d0b3fa2. Catalog valid source_count 37. Ledger valid learning_count 13. unittest test_knowledge_bridge and test_learning_bridge 12 OK. Docs checked 2026-10-02: https://developers.google.com/youtube/analytics/revision_history and https://support.google.com/youtube/answer/12220281.
+root_cause: ChatGPT persisted the human markdown and lessons.md line; the machine ledger had only the broader post-2026-08-24 comparability learning, not this gate.
+action_taken: Official definition checked. Source and learning added through the bridges. No Studio query. No publish.
+decision: CONSENSUS. Not DONE for channel performance because no owned analytics read.
+knowledge_to_keep: PUBLIC_VS_ENGAGED_VIEW_GATE. Public views = start exposure. engagedViews + AVD/APV/retention = quality. Qualified views remain the YPP eligibility wording. Do not mix API first-frame engaged definition with Help Center initial-seconds definition.
+sources: https://developers.google.com/youtube/analytics/revision_history checked 2026-10-02; https://support.google.com/youtube/answer/12220281 checked 2026-10-02.
+next_action: ChatGPT read back learn_5c629b9d8aa5e76a on main. KBQEvBAgp6E yeniden yayınlanmasın.
+constraints: PayoutLens untouched. No secrets.
