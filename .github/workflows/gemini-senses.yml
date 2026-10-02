@@ -40,8 +40,8 @@ jobs:
 
           inbox = Path("messages/inbox-gemini.md")
           text = inbox.read_text(encoding="utf-8")
-          tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]
-          active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$")
+          tasks = re.split(r"(?m)^## TASK[ \t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \t]*status[ \t]*:[ \t]*(queued|ready|open|run)[ \t]*$")
           if any(active.search(task) for task in tasks):
               raise SystemExit(0)
 
@@ -83,8 +83,8 @@ jobs:
           from pathlib import Path
           import json, os, re
           text = Path("messages/inbox-gemini.md").read_text(encoding="utf-8")
-          tasks = re.split(r"(?m)^## TASK[ \\t]*$", text)[1:]
-          active = re.compile(r"(?mi)^[ \\t]*status[ \\t]*:[ \\t]*(queued|ready|open|run)[ \\t]*$")
+          tasks = re.split(r"(?m)^## TASK[ \t]*$", text)[1:]
+          active = re.compile(r"(?mi)^[ \t]*status[ \t]*:[ \t]*(queued|ready|open|run)[ \t]*$")
           queued = any(active.search(task) for task in tasks)
           cooldown = Path("state/gemini-api-cooldown.json")
           if queued and cooldown.exists():
