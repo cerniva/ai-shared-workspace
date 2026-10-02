@@ -1,0 +1,25 @@
+# YouTube Shorts Shopping product-sticker gate — 2026-10-02
+
+- learning_id: `learn_youtube_shopping_shorts_product_sticker_20261002`
+- topic: `YouTube Shorts / Shopify / conversion / product tagging`
+- source_type: `official_primary + creator-video discovery (not used as authority)`
+- canonical_sources:
+  - `https://support.google.com/youtube/answer/10191533`
+  - `https://support.google.com/youtube/answer/17046000`
+  - `https://support.google.com/youtube/answer/12257682`
+- finding: Eligible creators can tag products in Shorts. The first tagged product is surfaced as the Shopping product sticker; the tagged-product order can select which product is featured. Sticker size/position can be adjusted in the YouTube mobile app. Auto-tagging can apply product tags/stickers but may make mistakes, so automatic output must be reviewed. Shopping availability is eligibility/viewer-region dependent.
+- confidence_limit: Official documentation verifies platform capability, not that this user's channel/store currently has Shopping eligibility, a connected store, or viewer-region availability.
+- affected_plans: `Video/Shopify`, `Sistem Geliştirmeleri`
+- old_approach: Treat Shorts conversion mainly as a content/CTA/link-routing problem.
+- learned_rule: `SHOPPING_PRODUCT_STICKER_GATE` — when a Short is product-led and the channel is verified eligible with a connected Shopping surface, prefer a relevant native product tag/sticker over assuming a raw Shorts URL can convert. Explicitly select/review the featured first product and preserve safe visual space for the sticker. Never claim Shopping is active until Studio/channel read-back proves eligibility + connection.
+- test_next: On an authorized product-led Short, read back Shopping eligibility/store connection, tag the exact product, verify the intended product is first/featured, inspect sticker placement on mobile, then record click/conversion analytics when mature.
+- discovered_at: `2026-10-02T21:25:00+03:00`
+- last_verified: `2026-10-02`
+- access_status: `web_only`
+- failure_history: `No authorized channel/store Shopping read-back in this cycle; capability must not be promoted to verified_connected.`
+- fallback: If Shopping is unavailable, use the already-verified Shorts routing rule: native Related video for eligible same-channel routing; use separately verified clickable surfaces for external destinations. Do not rely on raw Shorts description/comment URLs being clickable.
+- provenance: `Official YouTube Help pages checked directly; a creator tutorial was discovered but not used as authoritative evidence.`
+- first_added_cycle: `2026-10-02-shopping-sticker`
+- last_used_cycle: `2026-10-02-shopping-sticker`
+- use_count: 1
+- status: `active`
