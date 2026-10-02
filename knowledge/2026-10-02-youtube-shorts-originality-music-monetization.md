@@ -1,0 +1,25 @@
+# YouTube Shorts originality + music monetization rule
+
+- learning_id: `learn_youtube_shorts_originality_music_monetization_20261002`
+- topic: YouTube Shorts / monetization / originality / music
+- source_type: official_primary
+- canonical_sources:
+  - https://support.google.com/youtube/answer/12504220
+  - https://support.google.com/youtube/answer/1311392
+  - https://support.google.com/youtube/answer/2490020
+- finding: Shorts monetization uses eligible engaged views. Non-original Shorts such as unedited third-party clips, reuploads, or compilations without original contribution can be ineligible. Separately, channel-level reused-content policy can block monetization even when permission/copyright status alone would not. Monetizable content should demonstrate substantive original value/creative vision. Shorts music use also changes Creator Pool allocation because part of revenue associated with views can cover music licensing; the creator still receives 45% of their allocated Creator Pool amount.
+- confidence: high; official YouTube Help primary sources
+- affected_plans: [Video-Shopify, Bilgi-Kutuphanesi]
+- old_approach: Rights/license clearance could be treated as the main gate when considering third-party benchmark or reusable footage.
+- learned_rule: For revenue-targeted Shorts, rights clearance is necessary but not sufficient. Before publish, require both (A) commercial rights/copyright clearance and (B) a distinct originality/reused-content gate proving substantive original story/commentary/editing/creative contribution. Prefer original footage/generated licensed visuals and original narration. Do not treat permission alone as monetization-safe. When music is optional, evaluate whether it materially improves retention/story value because music affects Creator Pool allocation; do not assume licensed music is revenue-neutral.
+- test_next: In the next Shorts production decision, record the visual/audio rights source, originality transformation evidence, and whether music adds measurable narrative/retention value. After publication compare engaged views, stayed-to-watch/retention, AVD/APV and monetization status when available.
+- discovered_at: 2026-10-02
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: []
+- fallback: If third-party rights or originality cannot be verified, replace with original/licensed/generated footage and original narration rather than publishing an uncertain asset.
+- provenance: Official YouTube Help pages; repository dedup search returned no existing matching rule before write.
+- first_added_cycle: 2026-10-02-cycle-5
+- last_used_cycle: 2026-10-02-cycle-5
+- use_count: 1
+- status: active
