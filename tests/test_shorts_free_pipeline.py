@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -209,7 +210,14 @@ class ShortsFreePipelineTests(unittest.TestCase):
                 )
             download.assert_not_called()
 
+    def test_content_probe_missing_binary_fails_closed(self):
+        with patch.object(pipeline.subprocess, "run", side_effect=FileNotFoundError("ffprobe")):
+            with self.assertRaisesRegex(RuntimeError, "could not be content-probed"):
+                pipeline._probe_real_video(Path("missing.mp4"))
+
     def test_content_probe_rejects_fake_mp4_and_image_bytes(self):
+        if shutil.which("ffprobe") is None:
+            self.skipTest("ffprobe not installed; missing-binary fail-closed is covered separately")
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
             fake = base / "fake.mp4"
@@ -222,6 +230,8 @@ class ShortsFreePipelineTests(unittest.TestCase):
                 pipeline._probe_real_video(image)
 
     def test_content_probe_accepts_real_video(self):
+        if shutil.which("ffprobe") is None or shutil.which("ffmpeg") is None:
+            self.skipTest("ffmpeg/ffprobe not installed; acceptance is covered by shorts-render-tests")
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "real.mp4"
             proc = subprocess.run(
