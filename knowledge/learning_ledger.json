@@ -43,6 +43,28 @@
       "title": "Video-filtered subscriber metrics are watch-page only"
     },
     {
+      "claim": "YouTube highlights intro, top-moment, spike and dip labels only when they are detected, and the video should be at least 60 seconds long and have at least 100 views. Audience retention data typically takes 1-2 days. A 25-30 second Short should not be expected to receive those highlighted labels even when video-level retention exists.",
+      "decision": "KEY_MOMENTS_DURATION_GATE: for 25-30 second Shorts, do not wait for or require highlighted intro/top-moment/spike/dip labels. After processing, use available video-level retention plus stayed/chose-to-view, engaged views, AVD, APV and watch time. Classify missing highlighted labels on a sub-60-second Short as not_applicable_by_duration, not as an analytics failure.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown youtube-short-retention-key-moments-limit-2026-10-02 was on main without a learning_ledger row."
+      ],
+      "fallback_history": [
+        "If highlighted key moments are absent on a sub-60-second Short, classify as not_applicable_by_duration and use the available retention curve or metrics. If retention itself is missing before 1-2 days, mark immature rather than zero."
+      ],
+      "learned_at": "2026-10-02T20:28:00+00:00",
+      "learning_id": "learn_202ac32ebf4b8ee9",
+      "next_measurement": "On the next owned Short after at least 1-2 days, record retention_available, processing age, stayed-to-watch, engaged views, AVD, APV and watch time. Do not score missing key-moment labels as a failure when duration is under 60 seconds.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_59f52b1f650983e4"
+      ],
+      "supersedes": null,
+      "title": "Shorts under 60 seconds do not get highlighted retention key moments"
+    },
+    {
       "claim": "URLs in Shorts descriptions and comments are non-clickable; a Related video link can be clickable in the Shorts player when advanced-feature access and eligibility are verified.",
       "decision": "Do not design a conversion CTA that depends on a raw description or comment URL; prefer native Related video only after access read-back.",
       "domain": "youtube-shorts-routing",
@@ -292,5 +314,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T19:30:45+00:00"
+  "updated_at": "2026-10-02T20:24:05+00:00"
 }

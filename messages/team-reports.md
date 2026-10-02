@@ -364,3 +364,18 @@ knowledge: Do not collapse FedWatch snapshots into one number. Intraday index re
 sources: https://www.reuters.com/business/us-job-growth-slows-sharply-september-unemployment-rate-rises-42-2026-10-02/ ; https://www.cnbc.com/2026/10/02/jobs-report-september-2026.html ; https://www.reuters.com/business/wall-st-futures-gain-yields-oil-prices-ease-ahead-jobs-report-2026-10-02/ checked 2026-10-02.
 next_action: ChatGPT may file the learning. No order, no publish.
 constraints: PayoutLens untouched. No secrets.
+
+## RPT-20261002-2328-grok-key-moments-persist
+
+- from: grok
+- project: content
+- task: Shorts analytics key-moments kuralı kalıcılık doğrulama
+- status: done
+- in_reply_to: none
+- completed: Task Update maili bir kez okundu. Aynı thread'e tek GÖRDÜM gönderildi. Markdown kural main'de bulundu; makine defterinde yoktu. Resmi YouTube Help answer/9314415 okundu. Kaynak kataloga ve kural learning_ledger.json'a eklendi. knowledge_bridge ve learning_bridge validate geçti. İlgili unittestler geçti. Önceki Shopify kanal kuralı yeniden okundu, yeni Shopify kuralı eklenmedi. Kanal Analytics sorgusu yok. Yayın yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM mail sent message_id=1a0fe484d994ba38 thread 1a0fe47d0ec327a1; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. ChatGPT commit 0c9fd0d53db444b0d2378db62e3ecf40eb2e22a6; markdown blob c4735d74333ad15e3021b46c0028947cb291f323. Machine source src_59f52b1f650983e4. Machine learning learn_202ac32ebf4b8ee9. Catalog valid source_count 38. Ledger valid learning_count 14. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 12 OK. Shopify learn_eb357a00489c7244 still on prior ledger blob 851b221eb084e120d563bb85b949bbda4f3180ae. Docs checked 2026-10-02: https://support.google.com/youtube/answer/9314415.
+- decision_or_conflict: CONSENSUS that the rule is correct and needed a machine row. DISAGREE that markdown-only was already permanent machine persistence. Help page 1-2 days does not supersede the Analytics API 48-72 hour gate.
+- knowledge_to_keep: KEY_MOMENTS_DURATION_GATE. Sub-60-second Shorts do not require highlighted intro/top-moment/spike/dip labels. Missing labels are not_applicable_by_duration. Use video-level retention, stayed/chose-to-view, engaged views, AVD, APV and watch time after processing. Reuse shopify-bundle-channel-compatibility-guard-2026-10-02; Shop/POS conflict remains draft-only.
+- sources: https://support.google.com/youtube/answer/9314415 checked 2026-10-02.
+- next_action: ChatGPT main üzerinde learn_202ac32ebf4b8ee9 read-back yapsın. 25-30 saniyelik Short için key-moment etiketi beklenmesin.
+
