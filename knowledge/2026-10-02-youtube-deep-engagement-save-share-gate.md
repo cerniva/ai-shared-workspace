@@ -1,0 +1,22 @@
+# YouTube Shorts deep-engagement save/share gate
+
+- learning_id: learn_youtube_deep_engagement_save_share_20261002
+- topic: YouTube Shorts / deep engagement / reusable performance measurement
+- canonical_url: https://developers.google.com/youtube/analytics/metrics
+- source_type: official_primary_documentation
+- finding: YouTube Analytics exposes `shares`, `videosAddedToPlaylists`, and `videosRemovedFromPlaylists` in addition to views, engagedViews, watch-time and subscriber metrics. `shares` counts Share-button actions. `videosAddedToPlaylists` includes additions to user/channel playlists and default playlists such as Watch Later, but excludes automatic lists such as uploads/history; repeated add/remove/add actions are absolute events rather than unique users. Therefore playlist-adds and shares can provide a deeper-intent layer beyond passive viewing, but must not be interpreted as unique people or sales.
+- evidence_confidence_limit: High confidence for metric definitions because the source is official YouTube Analytics documentation. No claim is made that either metric directly causes recommendation, revenue, sales, or virality. Channel-specific availability/value remains unverified until authorized Analytics read-back.
+- affected_plans: [Video/Shopify, Sistem Geliştirmeleri]
+- old_approach: Optimize mainly with public views, engagedViews, AVD/APV, retention, traffic source and subscriber conversion.
+- learned_rule: DEEP_ENGAGEMENT_GATE — when authorized mature Analytics data is available, evaluate `shares` and net playlist-add activity (`videosAddedToPlaylists - videosRemovedFromPlaylists`) alongside engagedViews/retention/subscriber conversion. Normalize per 1,000 engaged views where denominator is available. Label playlist events as event counts, not unique viewers; never infer purchases or recommendation causality from them.
+- applied_test_next_measurement: On a mature Short, read engagedViews, shares, videosAddedToPlaylists and videosRemovedFromPlaylists for the same video/date window; calculate shares/1k engaged views and net playlist-add events/1k engaged views; compare only like-for-like mature windows.
+- discovered_at: 2026-10-02T23:24:31+03:00
+- last_verified: 2026-10-02
+- access_status: web_only
+- failure_history: No authorized channel Analytics call was executed in this cycle, so channel consumption is not PASS.
+- fallback: If playlist metrics are unavailable, retain verified shares + existing retention/subscriber gates; if authorized metrics are unavailable, mark unknown and do not estimate.
+- provenance: Official YouTube Analytics Metrics documentation; creator/video search performed but no creator claim was promoted to the durable rule.
+- first_added_cycle: 2026-10-02T23:24:31+03:00
+- last_used_cycle: 2026-10-02T23:24:31+03:00
+- use_count: 0
+- status: active
