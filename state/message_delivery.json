@@ -1076,6 +1076,40 @@
         "pending"
       ],
       "pending_at": "2026-10-02T18:00:00+03:00"
+    },
+    "MSG-20261002-041017-grok-api": {
+      "id": "MSG-20261002-041017-grok-api",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-02T04:32:29+03:00",
+      "alerted": false,
+      "from": "grok-api",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "blocked",
+      "in_reply_to": "MSG-20261002-chatgpt-shorts-joint",
+      "created_at": "2026-10-02T04:10:17+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-02T04:32:29+03:00"
+    },
+    "MSG-20261002-042900-chatgpt-joint-hourly": {
+      "id": "MSG-20261002-042900-chatgpt-joint-hourly",
+      "channel": "chatgpt-to-grok",
+      "status": "pending",
+      "updated_at": "2026-10-02T04:32:29+03:00",
+      "alerted": true,
+      "from": "chatgpt",
+      "to": "grok",
+      "needs_reply": true,
+      "message_status": "open",
+      "in_reply_to": "null",
+      "created_at": "2026-10-02T04:29:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-02T04:29:00+03:00"
     }
   },
   "events": [
@@ -1884,6 +1918,28 @@
       "at": "2026-10-02T04:10:26+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261002-041017-grok-api:answered",
+      "message_id": "MSG-20261002-041017-grok-api",
+      "transition": "answered",
+      "notify": "grok-api",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-02T04:32:29+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261002-042900-chatgpt-joint-hourly:pending",
+      "message_id": "MSG-20261002-042900-chatgpt-joint-hourly",
+      "transition": "pending",
+      "notify": "grok",
+      "reason": "report-written",
+      "channel": "chatgpt-to-grok",
+      "at": "2026-10-02T04:32:29+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -1959,6 +2015,8 @@
     "MSG-20260927-014200-grok-comms-audit-reply:answered",
     "MSG-20260927-014300-grok-comms-proof-inbox:answered",
     "MSG-20260929-040300-core05-oidc-feeder:answered",
-    "MSG-20261002-chatgpt-shorts-joint:pending"
+    "MSG-20261002-chatgpt-shorts-joint:pending",
+    "MSG-20261002-041017-grok-api:answered",
+    "MSG-20261002-042900-chatgpt-joint-hourly:pending"
   ]
 }
