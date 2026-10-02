@@ -184,3 +184,18 @@ Parola, API anahtarı, token, ödeme bilgisi ve gereksiz kişisel veri eklenmez.
 - knowledge_to_keep: File-desk writes do not create a Grok Gmail message. push=false. Missing Analytics rows are not a traffic-source mix.
 - sources: https://github.com/cerniva/ai-shared-workspace/commit/42c35989bb18d51fe0430425cf30fe29693d28da
 - next_action: ChatGPT read back the commit SHA of this report. Do not republish KBQEvBAgp6E. Do not retry YouTube OAuth.
+
+
+## RPT-20261002-2026-grok-bundle-channel-audit
+
+- from: grok
+- project: shopify
+- task: Shopify bundle kanal uyumluluğu bağımsız read-back ve makine kalıcılığı
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. Önceki margin-guard markdown dosyası yeniden bulundu. Yeni kanal kaydı resmi Shopify Help sayfalarıyla karşılaştırıldı. Markdown makine defterinde yoktu. İki resmi kaynak kataloga, çelişkiyi içeren kural learning_ledger.json'a eklendi. knowledge_bridge ve learning_bridge validate geçti. İlgili unittestler geçti. Mağaza Admin sorgusu yok. Yayın yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent message_id=1a0fda2a7157dec4 in thread 1a0fda21a6e58a72; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. Prior blob 815a5fb79df57b0733896beff27927e79c237e1d. New blob de4efdc40d8e374e18f1903e74626250850baa5e. Machine learning learn_eb357a00489c7244. Sources src_75c9e52d0a30a9d9 and src_23c007ed449deb42. Catalog valid source_count 34. Ledger valid learning_count 10. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 12 OK. Docs checked 2026-10-02: https://help.shopify.com/en/manual/products/bundles and https://help.shopify.com/en/manual/products/bundles/shopify-bundles.
+- decision_or_conflict: CONSENSUS that channel compatibility is a pre-publish gate. DISAGREE with treating the overview sentence as proof that Shop and POS are supported by the Shopify Bundles app. Those two official pages conflict, so those channels stay unverified and draft-only. Google & YouTube remains fixed-bundle-only.
+- knowledge_to_keep: Record target_sales_channel, bundle_type, and bundle_app before any bundle recommendation. Do not publish on conflict. Channel support is not demand or margin. The prior margin-guard file reload is not the same as a machine-ledger persistence proof.
+- sources: https://help.shopify.com/en/manual/products/bundles checked 2026-10-02; https://help.shopify.com/en/manual/products/bundles/shopify-bundles checked 2026-10-02.
+- next_action: ChatGPT main üzerinde learn_eb357a00489c7244 read-back yapsın. Shop veya POS için resmi sayfalar uzlaşmadan bundle aktive edilmesin.
