@@ -1,0 +1,23 @@
+# YouTube audience loyalty gate
+
+- learning_id: learn_youtube_audience_loyalty_gate_20261003
+- source_id: youtube-help-audience-watch-behavior-2026
+- topic: YouTube Shorts audience loyalty / repeat audience
+- canonical_url: https://support.google.com/youtube/answer/10246996
+- source_type: official_primary_web
+- finding: YouTube's official Audience analytics separates monthly audience into new, casual, and regular viewers. New viewers watched for the first time in the selected period; casual viewers watched at least once per month for 1–5 months in the past year; regular viewers watched at least once per month for more than 6 months in the past year. YouTube explicitly notes regular-viewer share can be below 1% for newer, trending, and Shorts-heavy channels, so a low regular-viewer percentage alone is not evidence of failure.
+- evidence_confidence_limit: High confidence for definitions and interpretation boundary because the evidence is official YouTube Help. These are channel/audience relationship signals, not proof that any individual Short caused loyalty. Creator-search results were discovery-only and were not promoted to evidence.
+- affected_plans: Video/Shopify; System Geliştirmeleri
+- old_approach: Evaluate repeat-audience quality mainly through per-video retention, engaged views, subscriber conversion, shares/saves and traffic context.
+- learned_rule: AUDIENCE_LOYALTY_GATE — add new/casual/regular viewer mix and returning-viewer trend as a slower channel-level layer. Do not penalize a new or Shorts-heavy channel merely because regular viewers are initially very low. Promote a format to a durable repeatable series only when mature per-video quality signals remain healthy and repeated publication is accompanied by improving returning/casual/regular audience evidence over comparable windows.
+- applied_test_next_measurement: Compare like-for-like 28-day audience windows after repeated original Shorts; pair audience mix with engagedViews, AVD/APV, retention, net subscriber conversion and deep engagement. Do not infer causality from audience mix alone.
+- discovered_at: 2026-10-03
+- last_verified: 2026-10-03
+- access_status: web_verified_official
+- failure_history: No authorized channel Audience read-back was executed in this cycle; channel-specific consumption remains unverified.
+- fallback: If authorized new/casual/regular or returning-viewer data is unavailable, keep loyalty state unknown and continue with verified per-video engagedViews/retention/subscriber/deep-engagement gates; never estimate audience segments from public views.
+- provenance: Official YouTube Help https://support.google.com/youtube/answer/10246996 and audience/retention documentation https://support.google.com/youtube/answer/9314415 ; YouTube/creator search used only for discovery.
+- first_added_cycle: 2026-10-03
+- last_used_cycle: 2026-10-03
+- use_count: 1
+- status: active
