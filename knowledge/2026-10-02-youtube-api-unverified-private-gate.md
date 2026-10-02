@@ -21,7 +21,7 @@
 - last_used_cycle: `bilgi-kutuphanesi-20261002-1323`
 - use_count: 1
 - status: active
-- persistence_state: pending_readback
+- persistence_state: write_readback_pass
 - target_bridge_state: tagged_not_yet_consumed
 
 ## Decision impact
