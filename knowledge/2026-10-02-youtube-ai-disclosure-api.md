@@ -1,0 +1,24 @@
+# YouTube realistic AI disclosure + API upload gate
+
+- learning_id: `learn_youtube_ai_disclosure_api_20261002`
+- topic: `shorts / synthetic-media disclosure / upload automation`
+- source_type: `official YouTube Help + official YouTube Data API`
+- canonical_sources:
+  - `https://support.google.com/youtube/answer/14328491`
+  - `https://developers.google.com/youtube/v3/docs/videos`
+- affected_plans: `Video/Shopify`, `System Developments`
+- finding: YouTube requires creator disclosure when content is meaningfully altered or synthetically generated and appears realistic, including realistic scenes that did not occur or making a real person appear to do/say something they did not. The YouTube Data API exposes `status.containsSyntheticMedia` on `videos.insert` and `videos.update`, so an automated uploader can carry this disclosure instead of relying only on a later manual Studio edit.
+- evidence_limit: Non-realistic/fantastical AI content and minor aesthetic/production assistance do not automatically require this disclosure; policy classification still depends on the actual content. Disclosure does not waive copyright, privacy, impersonation, reused-content, or other policies.
+- old_approach: AI-generated Shorts could pass production QC without a machine-readable upload-time disclosure decision.
+- learned_rule: Add an `AI_DISCLOSURE_GATE` before upload. If a Short contains realistic, meaningfully altered/synthetic media requiring disclosure, the publish payload must set `status.containsSyntheticMedia=true` (or the equivalent verified Studio disclosure). If not required, do not invent a positive disclosure. Store the decision and evidence in the production record. Do not mark publish QC PASS until the disclosure decision is represented in the actual upload path.
+- test_next: On the next AI-assisted Short, classify the final rendered media, record `ai_disclosure_required`, inspect the actual upload payload/Studio state, then read back the uploaded video's status where available. A script/config-only flag without remote read-back is not sufficient for end-to-end PASS.
+- discovered_at: `2026-10-02T11:25:55+03:00`
+- last_verified: `2026-10-02`
+- access_status: `web_only`
+- failure_history: `none`
+- fallback: If API upload cannot set/read the property, use the verified YouTube Studio Altered content control and retain remote evidence; do not silently omit disclosure.
+- provenance: `official primary documentation`
+- first_added_cycle: `2026-10-02-cycle-6`
+- last_used_cycle: `2026-10-02-cycle-6`
+- use_count: `1`
+- status: `active`
