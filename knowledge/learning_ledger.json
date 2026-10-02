@@ -197,8 +197,32 @@
       ],
       "supersedes": null,
       "title": "Separate GitHub App Contents and Workflows permissions"
+    },
+    {
+      "claim": "Shopify product-bundles overview says bundles can sell on Online Store, Shop, POS, and Google and YouTube for fixed bundles only. The Shopify Bundles app page says channels other than Online Store or headless are unsupported, while its publish steps also name Shop and POS.",
+      "decision": "CHANNEL_COMPATIBILITY_GATE: before recommending or activating a bundle, record target_sales_channel, bundle_type, and bundle_app. Do not publish when support is false or when official pages conflict; mark channel_support_unverified and keep draft. Google and YouTube stays fixed-bundle-only unless a newer official page supersedes it. Channel support is not a demand or margin signal.",
+      "domain": "shopify-bundles",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown shopify-bundle-channel-compatibility-guard-2026-10-02 was on main without a learning_ledger row.",
+        "Overview page and Shopify Bundles app limitations page disagree on Shop and POS."
+      ],
+      "fallback_history": [
+        "If official channel docs conflict or cannot be re-read, keep the candidate draft and do not infer support from app UI or search snippets."
+      ],
+      "learned_at": "2026-10-02T17:25:00+00:00",
+      "learning_id": "learn_eb357a00489c7244",
+      "next_measurement": "On the next bundle candidate, record channel, bundle type, app, and whether the current official page pair agrees. No Admin publish.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_23c007ed449deb42",
+        "src_75c9e52d0a30a9d9"
+      ],
+      "supersedes": null,
+      "title": "Bundle channel support is page-specific and not assumed"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T16:31:47+00:00"
+  "updated_at": "2026-10-02T17:23:35+00:00"
 }
