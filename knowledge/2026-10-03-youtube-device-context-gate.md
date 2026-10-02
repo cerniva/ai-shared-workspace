@@ -25,3 +25,11 @@
 ## Decision value
 
 This closes a distinct context gap: *where the viewer came from* (traffic source), *where playback happened* (playback location), and *what device class was used* are separate analytical questions. The production loop should preserve those distinctions and only combine dimensions when the documented report schema or a successful API response supports the combination.
+
+
+## Machine ledger persistence 2026-10-03T01:34+03:00
+
+- machine_learning_id: `learn_f29ec85ba0bcaccd`
+- source_ids: `src_8114d88826736507`, `src_d1eebde122d891b3`, `src_62a331e31269e5a6`
+- note: knowledge_index.json does not store per-learning rows. machine_learnings.path is knowledge/learning_ledger.json. Persistence is the ledger row, not a second copy inside the index.
+- Reporting nuance: channel_combined_a3 documents playback_location_type + traffic_source_type + device_type + operating_system as a Reporting API bulk schema. That does not authorize an undocumented Analytics API query.

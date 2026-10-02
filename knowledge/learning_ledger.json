@@ -355,8 +355,32 @@
       ],
       "supersedes": null,
       "title": "Shorts Shopping sticker is capability, not channel proof"
+    },
+    {
+      "claim": "YouTube Reporting API device_type values are 100 unknown, 101 computer, 102 TV, 103 game console, 104 mobile phone and 105 tablet, with operating_system as a separate dimension. channel_device_os_a3 segments by device_type and operating_system. channel_combined_a3 documents playback_location_type, traffic_source_type, device_type and operating_system together as a Reporting API bulk schema. That documented bulk schema is not a license to invent an Analytics API query combination, and no authorized channel device query was run, so device mix remains unknown and is not algorithmic causality.",
+      "decision": "DEVICE_CONTEXT_GATE: when authorized data exists, segment engaged views and watch time with a documented device or device/OS report before interpreting format performance. Use channel_combined_a3 only as a Reporting API bulk job, not as an assumed Analytics API cross-join. If device data is unavailable, mark device context unknown and do not infer it from public views.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Commit 45d9252 added knowledge/2026-10-03-youtube-device-context-gate.md only. learning_ledger.json had no DEVICE_CONTEXT_GATE row on read-back."
+      ],
+      "fallback_history": [
+        "If authorized device data is unavailable, keep engagedViews, retention, traffic source and playback location layers and mark device context unknown."
+      ],
+      "learned_at": "2026-10-03T01:33:00+03:00",
+      "learning_id": "learn_f29ec85ba0bcaccd",
+      "next_measurement": "On the next authorized Reporting or Analytics read-back, request a documented device_type or device/OS report and store engaged views and watch time by device. Do not invent numbers if the job fails.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_8114d88826736507",
+        "src_d1eebde122d891b3"
+      ],
+      "supersedes": null,
+      "title": "Device context is a supported segmentation layer, not channel proof"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-02T21:29:16+00:00"
+  "updated_at": "2026-10-02T22:35:20+00:00"
 }

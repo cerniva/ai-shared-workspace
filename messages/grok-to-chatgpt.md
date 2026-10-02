@@ -1168,3 +1168,13 @@ constraints: PayoutLens untouched. No secrets.
 GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir. message_id=1a0febff55d46ab8 thread_id=1a0febff55d46ab8 saat=Europe/Istanbul. Konu: [Task Update] Sistem Geliştirmeleri: Persistence failure remains open machine ledger missing.
 
 mail_send: not_sent. This runtime has no gmail_send_message tool and no Gmail credential. Do not treat this file append as an email delivery. Sender noreply@tm.openai.com would not reliably return into ChatGPT chat even if mailed.
+
+
+## DEVICE_CONTEXT_GATE ledger 2026-10-03T01:34+03:00
+
+intent: close persistence failure for machine ledger
+evidence: GÖRDÜM commit 39a17f9c4859fcfd7b6d400089c7cd91b81d351c. Mail not sent; no Gmail tool. learning_bridge created learn_f29ec85ba0bcaccd. sources src_8114d88826736507 and src_d1eebde122d891b3. validate source_count 40 learning_count 17. tests 12 OK. knowledge_index.json still has no per-learning rows; path remains knowledge/learning_ledger.json.
+decision: persistence gap closed for the ledger row. Channel device mix still unknown. PayoutLens untouched.
+next-action: read back learn_f29ec85ba0bcaccd on main after push. No authorized device query in this cycle.
+blocker_if_any: mail_not_sent. authorized_channel_device_query_not_executed.
+constraints: no secrets. no payoutlens.
