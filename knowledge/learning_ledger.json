@@ -334,6 +334,29 @@
       "title": "Traffic source must be classified before packaging changes"
     },
     {
+      "claim": "YouTube Analytics sharingService is a core dimension that identifies the service used when a viewer shares a video through the YouTube or player Share button. The Reporting API channel_sharing_service_a2 report pairs sharing_service with the shares metric. Those events do not prove the recipient opened the link, watched, converted, or bought anything, and they are not unique people.",
+      "decision": "SHARING_SERVICE_CONTEXT_GATE: when authorized mature Analytics or Reporting data exists, keep aggregate shares per engaged views and optionally break shares down by the documented sharingService or sharing_service dimension. Never infer clicks, recipients, sales, causality, or unique sharers from service-level share events. If the dimension is unavailable, keep aggregate shares and mark destination unknown.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learn_youtube_sharing_service_context_20261003.md was on main 51f3413340a5a0c8c5ad10cbf1d5efa06d990096 without a learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized sharing-service data is unavailable, keep aggregate shares and mark destination unknown. Do not guess destinations from public data."
+      ],
+      "learned_at": "2026-10-03T03:32:00+00:00",
+      "learning_id": "learn_9851d96cccb7fd98",
+      "next_measurement": "On an owned mature Short, query a documented sharingService or channel_sharing_service_a2 shares combination. If unauthorized or unsupported, mark destination unknown.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_d1eebde122d891b3"
+      ],
+      "supersedes": null,
+      "title": "Sharing service is Share-button destination context, not downstream proof"
+    },
+    {
       "claim": "From 24 August 2026 YouTube counts a view when playback starts, while Shorts earnings still use engaged views and YPP eligibility still uses qualified views.",
       "decision": "Annotate the counting change before comparing historical raw views and prioritize engaged views, watch time, and retention.",
       "domain": "youtube-shorts-analytics",
@@ -463,6 +486,29 @@
       "title": "YouTube unique viewer reach gate"
     },
     {
+      "claim": "Shopify Customer cohort analysis groups customers by first-order date by default. Period 0 counts returning orders in the same period as the first order. RFM is a separate store-relative 1-5 score on recency, order count, and amount spent, mapped to 11 groups by R and floor of (F+M)/2. A cohort row is not an RFM group, and Prospects have no orders.",
+      "decision": "COHORT_RFM_GATE: do not treat a first-order cohort, Product Insights Customers, or returning customer rate as an RFM group. Use Customer cohort analysis for acquisition-time retention, and RFM groups only from the store RFM report or rfm_group. Scores are quintiles of this store, not industry cutoffs. Keep REPEAT_VALUE_GATE and PRODUCT_SALES_SOURCE_GATE in force. Do not invent cohort or RFM numbers.",
+      "domain": "shopify-product-validation",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Before this write, REPEAT_VALUE_GATE was persisted and COHORT_RFM_GATE failed closed."
+      ],
+      "fallback_history": [
+        "Public Help and Admin GraphQL enum only. Store admin was not opened."
+      ],
+      "learned_at": "2026-10-03T04:25:00+00:00",
+      "learning_id": "learn_e877d8d8b1a1b290",
+      "next_measurement": "Read back python3 scripts/learning_bridge.py gate COHORT_RFM_GATE after the commit. An authorized store report is required before naming any cohort or RFM group for this store.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_0c0576e57cb62ef8",
+        "src_d04b5a72ae4029f9"
+      ],
+      "supersedes": null,
+      "title": "COHORT_RFM_GATE cohort month is not an RFM group"
+    },
+    {
       "claim": "Shopify product-bundles overview says bundles can sell on Online Store, Shop, POS, and Google and YouTube for fixed bundles only. The Shopify Bundles app page says channels other than Online Store or headless are unsupported, while its publish steps also name Shop and POS.",
       "decision": "CHANNEL_COMPATIBILITY_GATE: before recommending or activating a bundle, record target_sales_channel, bundle_type, and bundle_app. Do not publish when support is false or when official pages conflict; mark channel_support_unverified and keep draft. Google and YouTube stays fixed-bundle-only unless a newer official page supersedes it. Channel support is not a demand or margin signal.",
       "domain": "shopify-bundles",
@@ -577,31 +623,8 @@
       ],
       "supersedes": null,
       "title": "Device context is a supported segmentation layer, not channel proof"
-    },
-    {
-      "claim": "YouTube Analytics sharingService is a core dimension that identifies the service used when a viewer shares a video through the YouTube or player Share button. The Reporting API channel_sharing_service_a2 report pairs sharing_service with the shares metric. Those events do not prove the recipient opened the link, watched, converted, or bought anything, and they are not unique people.",
-      "decision": "SHARING_SERVICE_CONTEXT_GATE: when authorized mature Analytics or Reporting data exists, keep aggregate shares per engaged views and optionally break shares down by the documented sharingService or sharing_service dimension. Never infer clicks, recipients, sales, causality, or unique sharers from service-level share events. If the dimension is unavailable, keep aggregate shares and mark destination unknown.",
-      "domain": "youtube-shorts-analytics",
-      "evidence_status": "verified",
-      "failure_history": [
-        "Markdown knowledge/learn_youtube_sharing_service_context_20261003.md was on main 51f3413340a5a0c8c5ad10cbf1d5efa06d990096 without a learning_ledger row."
-      ],
-      "fallback_history": [
-        "If authorized sharing-service data is unavailable, keep aggregate shares and mark destination unknown. Do not guess destinations from public data."
-      ],
-      "learned_at": "2026-10-03T03:32:00+00:00",
-      "learning_id": "learn_9851d96cccb7fd98",
-      "next_measurement": "On an owned mature Short, query a documented sharingService or channel_sharing_service_a2 shares combination. If unauthorized or unsupported, mark destination unknown.",
-      "outcome": "applied",
-      "provenance": "verified",
-      "source_ids": [
-        "src_62a331e31269e5a6",
-        "src_d1eebde122d891b3"
-      ],
-      "supersedes": null,
-      "title": "Sharing service is Share-button destination context, not downstream proof"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T03:32:00+00:00"
+  "updated_at": "2026-10-03T04:21:40+00:00"
 }
