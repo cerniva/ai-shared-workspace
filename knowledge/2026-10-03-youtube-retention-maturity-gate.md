@@ -12,7 +12,7 @@
 - learned_rule: Apply RETENTION_MATURITY_GATE. Before using audience retention/AVD for a production decision, require video-level data and normally allow the documented 1–2 day processing window. If retention is missing/unstable inside that window, mark it processing/unknown rather than bad. Keep views, engagedViews, watch time and retention semantically distinct and do not infer causality from retention alone.
 - internet_research: Official YouTube Analytics dimensions/report documentation was checked alongside YouTube Help; Analytics supports multiple context dimensions, but availability of a dimension does not remove retention-processing latency.
 - youtube_research: Official YouTube for Artists education hub was reviewed as the YouTube-owned creator/video-learning layer; it recommends evaluating performance using views, watch time, average view duration and unique viewers rather than a single metric. It is supportive context, not the primary evidence for the 1–2 day delay.
-- applied_test: Canonical repo search for `retention 1-2 days process audience retention processing delay` returned no equivalent record before write.
+- applied_test: Canonical repo search for `retention 1-2 days process audience retention processing delay` returned no equivalent record before write. First write was read back from main and stable IDs/rule/fallback/status matched.
 - next_measurement: On a real Short, record publish time and first stable video-level retention availability; only after maturity compare AVD/retention with engagedViews and watch time.
 - discovered_at: 2026-10-03T17:29:00+03:00
 - last_verified: 2026-10-03T17:29:00+03:00
@@ -24,5 +24,5 @@
 - last_used_cycle: 2026-10-03-cycle-11
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
+- persistence_status: write_read_back_pass
 - bridge_status: bridge_failure_target_plan_consumption_unverified
