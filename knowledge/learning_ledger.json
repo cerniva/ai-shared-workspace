@@ -675,23 +675,46 @@
       "domain": "youtube-analytics",
       "evidence_status": "verified",
       "failure_history": [
-        "Markdown knowledge/learn_youtube_analytics_dual_scope_gate_20261003.md was on main at 957a52c73e9084c9284e4059bb60a6033ffc2768 without a learning_ledger row. No owned-channel reports.query was executed."
+        "Markdown knowledge/learn_youtube_analytics_dual_scope_gate_20261003.md was on main at 957a52c73e9084c9284e4059bb60a6033ffc2768 without a learning_ledger row. No owned-channel reports.query was executed.",
+        "Unstable ids learn_a9a5c8d397ee3343 and src_google_youtube_analytics_reports_query_20261003 failed knowledge_bridge validate. Rewritten to stable hashes without changing the claim."
       ],
       "fallback_history": [
         "If authorized Analytics is unavailable or scope-blocked, keep private Analytics fields unknown and do not infer them from public metrics. Do not retry auth failures blindly."
       ],
       "learned_at": "2026-10-03T06:31:00+00:00",
-      "learning_id": "learn_a9a5c8d397ee3343",
+      "learning_id": "learn_c26dcb3fda0b6b0c",
       "next_measurement": "On the next authorized owned-channel reports.query, record whether the token includes youtube.readonly and yt-analytics.readonly, and separate missing-scope 401/403 from invalid_grant. Never store token values.",
       "outcome": "applied",
       "provenance": "verified",
       "source_ids": [
-        "src_google_youtube_analytics_reports_query_20261003"
+        "src_1ee3fe3382f17f55"
       ],
       "supersedes": null,
       "title": "Analytics reports.query needs the documented youtube.readonly scope"
+    },
+    {
+      "claim": "The official YouTube Analytics reports.query page banner says requests now require youtube.readonly, while the same page authorization-scope table and embedded JavaScript and Python samples still document yt-analytics.readonly. Documentation on that page is internally inconsistent, so the banner alone does not prove both scopes are always required.",
+      "decision": "YOUTUBE_ANALYTICS_SCOPE_DOC_CONSISTENCY_GATE: narrow YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE. Do not reauthorize solely because the reports.query banner exists. Keep runtime authorization unverified until an owned-channel reports.query response is observed. Classify a real 401/403 from returned error details and separate it from invalid_grant. Do not blind-retry. Human learning_id learn_youtube_scope_doc_consistency_20261003.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/youtube-analytics-scope-doc-consistency-gate-2026-10-03.md cited unstable source_id src_google_youtube_analytics_reports_query_20261003 and had no learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized Analytics is unavailable, keep private Analytics fields unknown. Do not infer them from public metrics. Do not request new consent until a concrete API error shows a missing permission."
+      ],
+      "learned_at": "2026-10-03T07:24:52+00:00",
+      "learning_id": "learn_ffabb005aa466c3e",
+      "next_measurement": "On the next authorized owned-channel reports.query, record status and error class only. If 401/403, classify missing-scope versus token failure from the response before any reauthorization.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_1ee3fe3382f17f55"
+      ],
+      "supersedes": "learn_c26dcb3fda0b6b0c",
+      "title": "reports.query scope docs are inconsistent; do not reauthorize from the banner alone"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T06:31:00+00:00"
+  "updated_at": "2026-10-03T07:28:06+00:00"
 }

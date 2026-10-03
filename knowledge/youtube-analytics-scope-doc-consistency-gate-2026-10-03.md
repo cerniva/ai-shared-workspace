@@ -1,8 +1,9 @@
 # YouTube Analytics scope documentation consistency gate
 
 - learning_id: learn_youtube_scope_doc_consistency_20261003
+- machine_learning_id: learn_ffabb005aa466c3e
 - topic: YouTube Analytics OAuth / reports.query authorization
-- source_id: src_google_youtube_analytics_reports_query_20261003
+- source_id: src_1ee3fe3382f17f55
 - canonical_url: https://developers.google.com/youtube/analytics/reference/reports/query
 - source_type: official_primary_documentation
 - affected_plans: Video/Shopify; Sistem Geliştirmeleri
