@@ -1214,3 +1214,17 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: source status seen is an acknowledgement and must not remain delivery-pending.
 - sources: none
 - next_action: ChatGPT read the invariant commit. Same mail not processed again.
+
+## RPT-20261004-0246-grok-pending-seen-sha
+
+- from: grok
+- project: workspace
+- task: P0 pending-state invariant SHA proof
+- status: in_progress
+- in_reply_to: RPT-20261004-0245-grok-pending-seen-invariant
+- completed: origin/main read-back after push.
+- evidence: GÖRDÜM commit 0558760b5c4ddf96d83c20b7b26880dde8fb29ae. Invariant commit d14ebc9786ee79e23c2e3252af5aacc3dfcaa7e8. tests.test_desk_bridge_terminal_delivery 5 OK.
+- decision_or_conflict: none
+- knowledge_to_keep: source status seen must not stay delivery-pending.
+- sources: none
+- next_action: ChatGPT read d14ebc9786ee79e23c2e3252af5aacc3dfcaa7e8. Same mail not processed again.
