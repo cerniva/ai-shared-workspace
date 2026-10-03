@@ -18,6 +18,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/analytics-fields",
+      "category": "shopify-analytics",
+      "cost_quota": "public help page, no quota",
+      "discovered_at": "2026-10-03T03:20:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-03T03:20:00+00:00",
+      "provenance": "verified",
+      "purpose": "Official definition of returning customers and returning customer rate formula",
+      "reliability_limits": "Definition only. Store values were not read. Help page also shows a typical range of 20-40 percent; that range is not this store.",
+      "source_id": "src_0acc40a4a170ff80",
+      "source_name": "Shopify Help Analytics fields: returning customer rate"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://playwright.dev/python/docs/api/class-apirequestcontext",
       "category": "browser-api-resilience",
       "cost_quota": "free public documentation; no provider credits required",
@@ -558,6 +573,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/customers-reports",
+      "category": "shopify-analytics",
+      "cost_quota": "public help page, no quota",
+      "discovered_at": "2026-10-03T03:20:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-03T03:20:00+00:00",
+      "provenance": "verified",
+      "purpose": "Official first-time versus returning customer definition",
+      "reliability_limits": "Customer report history can include orders outside the selected timeframe. No store report was opened.",
+      "source_id": "src_d04b5a72ae4029f9",
+      "source_name": "Shopify Help Customers reports: new vs returning"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/reporting/v1/reports/channel_reports",
       "category": "youtube-shorts-analytics",
       "cost_quota": "free public documentation; no API credit used",
@@ -707,5 +737,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-03T02:28:50+00:00"
+  "updated_at": "2026-10-03T03:17:18+00:00"
 }
