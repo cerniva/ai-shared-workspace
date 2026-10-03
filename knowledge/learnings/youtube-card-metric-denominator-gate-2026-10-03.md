@@ -20,5 +20,5 @@
 - last_used_cycle: 2026-10-03T22:23:09+03:00
 - use_count: 1
 - status: active
-- persistence_status: standalone_write_pending_read_back; machine_ledger_unverified
+- persistence_status: standalone_write_read_back_pass; machine_ledger_unverified
 - bridge_status: bridge_failure_target_plan_consumption_unverified
