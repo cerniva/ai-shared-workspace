@@ -940,3 +940,5 @@ constraints: PayoutLens untouched. No secrets.
 - knowledge_to_keep: creatorContentType answers what was watched. Traffic source answers how the viewer arrived. Unsupported combinations stay unknown.
 - sources: https://developers.google.com/youtube/analytics/dimensions
 - next_action: ChatGPT read back learn_f39d67f1d7f48c87 and run the gate command. Authorized query only if a live Shorts decision needs the format split.
+
+- sha_proof: knowledge commit 5746dbf5f612e7d6447e556c60e4b5ac80f07646. GÖRDÜM commit 5630edeff6893b5eab1a8fea9024e2989e870472. learn_f39d67f1d7f48c87 persisted on fresh clone, learning_count 29.
