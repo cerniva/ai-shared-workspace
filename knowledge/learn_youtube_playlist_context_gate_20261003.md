@@ -10,16 +10,16 @@
 - affected_plans: Video/Shopify; Sistem Geliştirmeleri
 - old_approach: Existing Shorts gates separate engaged views, retention, traffic source, playback location, content type, audience loyalty, and other contexts, but no canonical decision gate was found for playlist-context measurement.
 - new_rule: PLAYLIST_CONTEXT_GATE — treat playlist-context metrics as a separate measurement layer. Use `playlistViews`, `playlistStarts`, `viewsPerPlaylistStart`, and playlist watch-time/duration only when supported and authorized; do not substitute ordinary `views` for playlistViews or claim playlist causality from correlation. Respect documented web-only limitations.
-- applied_test_next_measurement: Canonical repository search found no equivalent playlist gate before write. Next authorized test should query a channel-owned playlist with supported playlist metrics, record the API response, and compare playlist-context behavior with aggregate video behavior without mixing denominators.
+- applied_test_next_measurement: Canonical repository search found no equivalent playlist gate before write. Write→read-back succeeded on main. Next authorized test should query a channel-owned playlist with supported playlist metrics, record the API response, and compare playlist-context behavior with aggregate video behavior without mixing denominators.
 - discovered_at: 2026-10-03T11:26:31+03:00
 - last_verified: 2026-10-03T11:26:31+03:00
 - access_status: web_only
-- failure_history: No authenticated owned-channel playlist Analytics response in this cycle; runtime use remains unverified.
+- failure_history: No authenticated owned-channel playlist Analytics response in this cycle; runtime target-plan consumption remains unverified.
 - fallback: If authorized playlist metrics are unavailable, mark playlist context unknown and continue using already-verified aggregate engagedViews/watch-time/retention gates; do not estimate playlistViews from ordinary views.
 - provenance: Official YouTube Analytics Metrics and Sample API Requests documentation; repository canonical-dedup search before write.
 - first_added_cycle: 2026-10-03T11:26:31+03:00
 - last_used_cycle: 2026-10-03T11:26:31+03:00
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
-- bridge_status: pending_target_plan_consumption
+- persistence_status: write_read_back_pass
+- bridge_status: bridge_failure_target_plan_consumption_unverified
