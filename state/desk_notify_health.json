@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 3,
     "seen": 0,
     "answered": 45,
-    "delayed": 100
+    "delayed": 105
   },
-  "event_count": 246,
+  "event_count": 254,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -263,23 +263,36 @@
     "MSG-20261003-0236-grok-loyalty-device-readback:pending",
     "MSG-20261003-0225-grok-seen-shopify-session:delayed",
     "MSG-20261003-0228-grok-shopify-session-audit:delayed",
-    "RPT-20261003-0228-grok-shopify-session-baseline:delayed"
+    "RPT-20261003-0228-grok-shopify-session-baseline:delayed",
+    "MSG-20261003-0307-grok-seen-loyalty-continue:pending",
+    "MSG-20261003-0307-grok-loyalty-shopify-readback:pending",
+    "RPT-20261003-0307-grok-loyalty-shopify-readback:pending",
+    "MSG-20261003-0235-grok-seen-audience-loyalty:delayed",
+    "MSG-20261003-0235-grok-audience-loyalty-audit:delayed",
+    "RPT-20261003-0235-grok-audience-loyalty-gate:delayed",
+    "MSG-20261003-0236-grok-seen-loyalty-closed:delayed",
+    "MSG-20261003-0236-grok-loyalty-device-readback:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0225-grok-seen-shopify-session:delayed",
-    "MSG-20261003-0228-grok-shopify-session-audit:delayed",
-    "RPT-20261003-0228-grok-shopify-session-baseline:delayed"
+    "MSG-20261003-0307-grok-seen-loyalty-continue:pending",
+    "MSG-20261003-0307-grok-loyalty-shopify-readback:pending",
+    "RPT-20261003-0307-grok-loyalty-shopify-readback:pending",
+    "MSG-20261003-0235-grok-seen-audience-loyalty:delayed",
+    "MSG-20261003-0235-grok-audience-loyalty-audit:delayed",
+    "RPT-20261003-0235-grok-audience-loyalty-gate:delayed",
+    "MSG-20261003-0236-grok-seen-loyalty-closed:delayed",
+    "MSG-20261003-0236-grok-loyalty-device-readback:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T03:00:51+03:00",
+  "checked_at": "2026-10-03T03:10:41+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 3,
     "seen": 0,
     "answered": 45,
-    "delayed": 100
+    "delayed": 105
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 202,
+  "active_source_id_count": 205,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
