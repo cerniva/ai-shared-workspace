@@ -1,0 +1,25 @@
+# YouTube Playlist Context Gate
+
+- learning_id: learn_youtube_playlist_context_gate_20261003
+- source_id: src_youtube_analytics_metrics_playlist_20261003
+- topic: YouTube Analytics / playlist-context measurement
+- canonical_url: https://developers.google.com/youtube/analytics/metrics
+- source_type: official_primary_documentation
+- finding: YouTube Analytics distinguishes aggregated video metrics from in-playlist metrics. `playlistViews`, `playlistStarts`, `viewsPerPlaylistStart`, `playlistEstimatedMinutesWatched`, and `playlistAverageViewDuration` measure behavior in playlist context; ordinary `views`/watch-time metrics can represent broader video activity. `playlistStarts` and some playlist-time measures have web-only limitations. Therefore playlist-context performance must not be inferred from ordinary video views, and playlist metrics must not be mixed with non-playlist metrics without labeling their scope.
+- evidence_confidence_limit: High confidence for metric definitions from official YouTube Analytics documentation. Runtime availability for the owned channel is unverified; no authenticated reports.query response was obtained in this cycle. No causal claim about playlists increasing recommendations, retention, subscribers, or sales is supported.
+- affected_plans: Video/Shopify; Sistem Geliştirmeleri
+- old_approach: Existing Shorts gates separate engaged views, retention, traffic source, playback location, content type, audience loyalty, and other contexts, but no canonical decision gate was found for playlist-context measurement.
+- new_rule: PLAYLIST_CONTEXT_GATE — treat playlist-context metrics as a separate measurement layer. Use `playlistViews`, `playlistStarts`, `viewsPerPlaylistStart`, and playlist watch-time/duration only when supported and authorized; do not substitute ordinary `views` for playlistViews or claim playlist causality from correlation. Respect documented web-only limitations.
+- applied_test_next_measurement: Canonical repository search found no equivalent playlist gate before write. Next authorized test should query a channel-owned playlist with supported playlist metrics, record the API response, and compare playlist-context behavior with aggregate video behavior without mixing denominators.
+- discovered_at: 2026-10-03T11:26:31+03:00
+- last_verified: 2026-10-03T11:26:31+03:00
+- access_status: web_only
+- failure_history: No authenticated owned-channel playlist Analytics response in this cycle; runtime use remains unverified.
+- fallback: If authorized playlist metrics are unavailable, mark playlist context unknown and continue using already-verified aggregate engagedViews/watch-time/retention gates; do not estimate playlistViews from ordinary views.
+- provenance: Official YouTube Analytics Metrics and Sample API Requests documentation; repository canonical-dedup search before write.
+- first_added_cycle: 2026-10-03T11:26:31+03:00
+- last_used_cycle: 2026-10-03T11:26:31+03:00
+- use_count: 1
+- status: active
+- persistence_status: pending_read_back
+- bridge_status: pending_target_plan_consumption
