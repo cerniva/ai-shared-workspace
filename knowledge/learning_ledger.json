@@ -155,6 +155,28 @@
       "title": "Repeat value is returning customers over customers, not first purchase or traffic"
     },
     {
+      "claim": "TRAFFIC_SOURCE_DETAIL_GATE: insightTrafficSourceType identifies how viewers reached a video; insightTrafficSourceDetail is populated only for supported source types and its meaning changes by source. SHORTS means referral by vertical swipe in the Shorts viewing experience, and the official detail list does not define insightTrafficSourceDetail for SHORTS. Do not infer a missing detail.",
+      "decision": "TRAFFIC_SOURCE_DETAIL_GATE stays open. Interpret traffic source as a typed pair (source_type, source_detail). Never infer a missing detail. For Shorts-feed traffic, source_type=SHORTS is meaningful but detail stays unknown/not-applicable unless an official supported field or authenticated response proves otherwise. Markdown alone is not persistence. Human note learn_youtube_traffic_source_detail_gate_20261003 claimed write_read_back_pass before a ledger row existed; that claim was fail-closed.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "2026-10-03 machine search: TRAFFIC_SOURCE_DETAIL_GATE was absent from learning_ledger.json while knowledge/learn_youtube_traffic_source_detail_gate_20261003.md already said persistence_status write_read_back_pass. learning_bridge.py gate exited fail closed."
+      ],
+      "fallback_history": [
+        "If detail is unavailable, retain source_type plus mature aggregate engagedViews/watch-time/retention metrics; do not synthesize referrer/search/video detail."
+      ],
+      "learned_at": "2026-10-03T10:45:00+00:00",
+      "learning_id": "learn_51fc846eb0ce2ef4",
+      "next_measurement": "On mature owned-channel data, query insightTrafficSourceType with engaged viewing/watch-time metrics; only for source types officially supporting detail, run source-specific detail queries and compare retention/AVD/APV without causal claims.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6"
+      ],
+      "supersedes": null,
+      "title": "TRAFFIC_SOURCE_DETAIL_GATE"
+    },
+    {
       "claim": "After the 2026-08-27 public view alignment, public views count from the first frame and must not be used as a substitute for engagedViews in quality or monetization comparisons.",
       "decision": "PUBLIC_VS_ENGAGED_VIEW_GATE: use public views for reach/start exposure and engagedViews plus AVD/APV/retention for quality; store metric name and definition date.",
       "domain": "youtube-shorts-analytics",
@@ -466,6 +488,29 @@
       "title": "Separate GitHub App Contents and Workflows permissions"
     },
     {
+      "claim": "YouTube Analytics reports.query now documents an additional requirement for https://www.googleapis.com/auth/youtube.readonly. The same page still lists yt-analytics.readonly for activity reports. Samples on that page still request only yt-analytics.readonly.",
+      "decision": "YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE: before verified_connected, require a successful reports.query under the current documented authorization. Do not treat yt-analytics.readonly alone as sufficient while the reports.query banner requires youtube.readonly. If the token lacks youtube.readonly, classify blocked/auth_scope and do not blind-retry 401/403. Human learning_id learn_youtube_analytics_dual_scope_gate_20261003.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learn_youtube_analytics_dual_scope_gate_20261003.md was on main at 957a52c73e9084c9284e4059bb60a6033ffc2768 without a learning_ledger row. No owned-channel reports.query was executed.",
+        "Unstable ids learn_a9a5c8d397ee3343 and src_google_youtube_analytics_reports_query_20261003 failed knowledge_bridge validate. Rewritten to stable hashes without changing the claim."
+      ],
+      "fallback_history": [
+        "If authorized Analytics is unavailable or scope-blocked, keep private Analytics fields unknown and do not infer them from public metrics. Do not retry auth failures blindly."
+      ],
+      "learned_at": "2026-10-03T06:31:00+00:00",
+      "learning_id": "learn_c26dcb3fda0b6b0c",
+      "next_measurement": "On the next authorized owned-channel reports.query, record whether the token includes youtube.readonly and yt-analytics.readonly, and separate missing-scope 401/403 from invalid_grant. Never store token values.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_1ee3fe3382f17f55"
+      ],
+      "supersedes": null,
+      "title": "Analytics reports.query needs the documented youtube.readonly scope"
+    },
+    {
       "claim": "DEEP_ENGAGEMENT_GATE: when authorized mature Analytics data is available, evaluate shares and net playlist-add events (videosAddedToPlaylists minus videosRemovedFromPlaylists) alongside engagedViews, retention and subscriber conversion. Normalize per 1000 engaged views when the denominator is available. Playlist metrics are absolute event counts, include Watch Later, exclude automatic uploads/history lists, and are not unique viewers, purchases, or recommendation causality.",
       "decision": "CONSENSUS. Markdown on f536f50 was not a machine row. Official metrics page confirms shares, videosAddedToPlaylists and videosRemovedFromPlaylists definitions. Do not infer owned-channel values.",
       "domain": "youtube-shorts",
@@ -670,29 +715,6 @@
       "title": "CREATOR_CONTENT_TYPE_GATE"
     },
     {
-      "claim": "YouTube Analytics reports.query now documents an additional requirement for https://www.googleapis.com/auth/youtube.readonly. The same page still lists yt-analytics.readonly for activity reports. Samples on that page still request only yt-analytics.readonly.",
-      "decision": "YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE: before verified_connected, require a successful reports.query under the current documented authorization. Do not treat yt-analytics.readonly alone as sufficient while the reports.query banner requires youtube.readonly. If the token lacks youtube.readonly, classify blocked/auth_scope and do not blind-retry 401/403. Human learning_id learn_youtube_analytics_dual_scope_gate_20261003.",
-      "domain": "youtube-analytics",
-      "evidence_status": "verified",
-      "failure_history": [
-        "Markdown knowledge/learn_youtube_analytics_dual_scope_gate_20261003.md was on main at 957a52c73e9084c9284e4059bb60a6033ffc2768 without a learning_ledger row. No owned-channel reports.query was executed.",
-        "Unstable ids learn_a9a5c8d397ee3343 and src_google_youtube_analytics_reports_query_20261003 failed knowledge_bridge validate. Rewritten to stable hashes without changing the claim."
-      ],
-      "fallback_history": [
-        "If authorized Analytics is unavailable or scope-blocked, keep private Analytics fields unknown and do not infer them from public metrics. Do not retry auth failures blindly."
-      ],
-      "learned_at": "2026-10-03T06:31:00+00:00",
-      "learning_id": "learn_c26dcb3fda0b6b0c",
-      "next_measurement": "On the next authorized owned-channel reports.query, record whether the token includes youtube.readonly and yt-analytics.readonly, and separate missing-scope 401/403 from invalid_grant. Never store token values.",
-      "outcome": "applied",
-      "provenance": "verified",
-      "source_ids": [
-        "src_1ee3fe3382f17f55"
-      ],
-      "supersedes": null,
-      "title": "Analytics reports.query needs the documented youtube.readonly scope"
-    },
-    {
       "claim": "The official YouTube Analytics reports.query page banner says requests now require youtube.readonly, while the same page authorization-scope table and embedded JavaScript and Python samples still document yt-analytics.readonly. Documentation on that page is internally inconsistent, so the banner alone does not prove both scopes are always required.",
       "decision": "YOUTUBE_ANALYTICS_SCOPE_DOC_CONSISTENCY_GATE: narrow YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE. Do not reauthorize solely because the reports.query banner exists. Keep runtime authorization unverified until an owned-channel reports.query response is observed. Classify a real 401/403 from returned error details and separate it from invalid_grant. Do not blind-retry. Human learning_id learn_youtube_scope_doc_consistency_20261003.",
       "domain": "youtube-analytics",
@@ -716,5 +738,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T07:28:06+00:00"
+  "updated_at": "2026-10-03T10:43:50+00:00"
 }

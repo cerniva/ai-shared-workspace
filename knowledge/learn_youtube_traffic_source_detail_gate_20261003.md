@@ -1,7 +1,9 @@
 # TRAFFIC_SOURCE_DETAIL_GATE
 
 - learning_id: learn_youtube_traffic_source_detail_gate_20261003
-- source_id: src_youtube_analytics_dimensions_traffic_source_detail
+- source_id: src_62a331e31269e5a6
+- human_note_id: learn_youtube_traffic_source_detail_gate_20261003
+- machine_learning_id: learn_51fc846eb0ce2ef4
 - topic: YouTube Analytics traffic-source attribution context
 - canonical_url: https://developers.google.com/youtube/analytics/dimensions
 - source_type: official_primary_documentation
@@ -21,5 +23,7 @@
 - last_used_cycle: bilgi_kutuphanesi_20261003_1324
 - use_count: 1
 - status: active
-- persistence_status: write_read_back_pass
+- persistence_status: write_read_back_pass after machine ledger row learn_51fc846eb0ce2ef4 and source src_62a331e31269e5a6; earlier markdown-only write_read_back_pass was fail-closed (gate token absent from learning_ledger.json)
 - bridge_status: bridge_failure_target_plan_consumption_unverified
+- gate_open: true
+- outcome: pending
