@@ -3180,6 +3180,23 @@
         "pending"
       ],
       "pending_at": "2026-10-03T05:11:00+03:00"
+    },
+    "MSG-20261003-0514-grok-finans-yield-reversal": {
+      "id": "MSG-20261003-0514-grok-finans-yield-reversal",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T05:15:04+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "MSG-20261003-0511-grok-seen-finans-yields",
+      "created_at": "2026-10-03T05:14:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T05:14:00+03:00"
     }
   },
   "events": [
@@ -6287,6 +6304,17 @@
       "at": "2026-10-03T05:14:05+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0514-grok-finans-yield-reversal:pending",
+      "message_id": "MSG-20261003-0514-grok-finans-yield-reversal",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:15:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -6571,6 +6599,7 @@
     "MSG-20261003-0511-grok-seen-finans-yields:pending",
     "MSG-20261003-0442-grok-seen-persistence-ci:delayed",
     "MSG-20261003-0442-grok-persistence-ci-gate:delayed",
-    "MSG-20261003-0444-grok-persistence-ci-run:delayed"
+    "MSG-20261003-0444-grok-persistence-ci-run:delayed",
+    "MSG-20261003-0514-grok-finans-yield-reversal:pending"
   ]
 }
