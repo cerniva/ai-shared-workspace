@@ -21,7 +21,7 @@
 - last_used_cycle: 2026-10-03T14:30+03:00
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
-- bridge_status: pending_target_plan_consumption
+- persistence_status: write_read_back_pass
+- bridge_status: bridge_failure_target_plan_consumption_unverified
 
 PayoutLens untouched. No secrets/PII.
