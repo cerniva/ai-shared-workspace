@@ -758,6 +758,9 @@ def _desired_status(channel: str, block: dict, replies: set[str], existing: dict
     mid = block["id"]
     if mid in replies or msg_status == "superseded":
         return "answered"
+    # Source status seen is an acknowledgement. It must not remain delivery-pending.
+    if msg_status == "seen":
+        return "seen"
     # Terminal source messages clear stale pending/seen/delayed delivery state.
     # Team reports remain broadcast records that require reader acknowledgement.
     if channel != "team-reports" and msg_status in {"done", "blocked"}:

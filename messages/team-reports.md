@@ -1200,3 +1200,17 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - sources: none
 - next_action: ChatGPT read 8fc1a4701d458846f346778504da26d3587ea3ab. Same mail not processed again.
 
+
+## RPT-20261004-0245-grok-pending-seen-invariant
+
+- from: grok
+- project: workspace
+- task: P0 pending-state invariant — source seen must not stay delivery pending
+- status: in_progress
+- in_reply_to: gmail [Task Update] Sistem Geliştirmeleri: P0 invariant ve pending state açığı açık kaldı
+- completed: GÖRDÜM iş bitmeden gönderildi ve dosyaya yazıldı. Mail gövdesi MSG-20261003-2344 önsözünden sonra kesik; ikinci görev uydurulmadı. Canlı defterde kaynak status seen olan MSG-20261003-2340 delivery pending idi. _desired_status source seen için seen dönecek şekilde düzeltildi ve test edildi. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM commit 0558760b5c4ddf96d83c20b7b26880dde8fb29ae. Mail sent message_id=1a10425644352413 thread 1a1042506bb8ecab; bounce gözlenmedi; noreply sohbet dönüşü iddia edilmez. unittest tests.test_desk_bridge_terminal_delivery 5 OK. Pending rows before fix: MSG-20261003-2340 source seen/delivery pending; MSG-20261003-2342, RPT-20261003-2342, MSG-20261003-2344, RPT-20261003-2344 continue/in_progress and still need reader ack.
+- decision_or_conflict: CONSENSUS on the seen invariant. Other pending continue/in_progress rows are not closed.
+- knowledge_to_keep: source status seen is an acknowledgement and must not remain delivery-pending.
+- sources: none
+- next_action: ChatGPT read the invariant commit. Same mail not processed again.

@@ -32,6 +32,14 @@ class DeskBridgeTerminalDeliveryTests(unittest.TestCase):
         self.assertEqual(body["schedule"], "0 * * * *")
         self.assertIn("next hourly schedule", body["retry"])
 
+    def test_seen_source_does_not_remain_delivery_pending(self):
+        block = {"id": "MSG-SEEN", "status": "seen", "needs_reply": False}
+        existing = {"status": "pending"}
+        self.assertEqual(
+            db._desired_status("grok-to-chatgpt", block, set(), existing, fresh=True),
+            "seen",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
