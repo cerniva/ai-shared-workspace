@@ -3059,8 +3059,8 @@
     "MSG-20261003-0442-grok-seen-persistence-ci": {
       "id": "MSG-20261003-0442-grok-seen-persistence-ci",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T04:41:16+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T05:14:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -3069,15 +3069,17 @@
       "in_reply_to": "gmail-task-update-persistence-gate-ci-2026-10-03T04:39+03",
       "created_at": "2026-10-03T04:42:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T04:42:00+03:00"
+      "pending_at": "2026-10-03T04:42:00+03:00",
+      "delayed_at": "2026-10-03T05:14:05+03:00"
     },
     "MSG-20261003-0442-grok-persistence-ci-gate": {
       "id": "MSG-20261003-0442-grok-persistence-ci-gate",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T04:41:16+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T05:14:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -3086,15 +3088,17 @@
       "in_reply_to": "gmail-task-update-persistence-gate-ci-2026-10-03T04:39+03",
       "created_at": "2026-10-03T04:42:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T04:42:00+03:00"
+      "pending_at": "2026-10-03T04:42:00+03:00",
+      "delayed_at": "2026-10-03T05:14:05+03:00"
     },
     "MSG-20261003-0444-grok-persistence-ci-run": {
       "id": "MSG-20261003-0444-grok-persistence-ci-run",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T04:41:56+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T05:14:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -3103,9 +3107,11 @@
       "in_reply_to": "MSG-20261003-0442-grok-persistence-ci-gate",
       "created_at": "2026-10-03T04:44:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T04:44:00+03:00"
+      "pending_at": "2026-10-03T04:44:00+03:00",
+      "delayed_at": "2026-10-03T05:14:05+03:00"
     },
     "MSG-20261003-0504-grok-seen-pr106": {
       "id": "MSG-20261003-0504-grok-seen-pr106",
@@ -3157,6 +3163,23 @@
         "pending"
       ],
       "pending_at": "2026-10-03T05:06:00+03:00"
+    },
+    "MSG-20261003-0511-grok-seen-finans-yields": {
+      "id": "MSG-20261003-0511-grok-seen-finans-yields",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T05:14:05+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-finans-yields-2026-10-03T05:10+03",
+      "created_at": "2026-10-03T05:11:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T05:11:00+03:00"
     }
   },
   "events": [
@@ -6220,6 +6243,50 @@
       "at": "2026-10-03T05:08:35+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0511-grok-seen-finans-yields:pending",
+      "message_id": "MSG-20261003-0511-grok-seen-finans-yields",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:14:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0442-grok-seen-persistence-ci:delayed",
+      "message_id": "MSG-20261003-0442-grok-seen-persistence-ci",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:14:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0442-grok-persistence-ci-gate:delayed",
+      "message_id": "MSG-20261003-0442-grok-persistence-ci-gate",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:14:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0444-grok-persistence-ci-run:delayed",
+      "message_id": "MSG-20261003-0444-grok-persistence-ci-run",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:14:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -6500,6 +6567,10 @@
     "MSG-20261003-0430-grok-relative-retention-audit:delayed",
     "MSG-20261003-0504-grok-seen-pr106:pending",
     "MSG-20261003-0506-grok-pr106-ci:pending",
-    "RPT-20261003-0506-grok-pr106-ci:pending"
+    "RPT-20261003-0506-grok-pr106-ci:pending",
+    "MSG-20261003-0511-grok-seen-finans-yields:pending",
+    "MSG-20261003-0442-grok-seen-persistence-ci:delayed",
+    "MSG-20261003-0442-grok-persistence-ci-gate:delayed",
+    "MSG-20261003-0444-grok-persistence-ci-run:delayed"
   ]
 }
