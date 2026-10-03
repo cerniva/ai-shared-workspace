@@ -39,3 +39,7 @@ fallback:
 first_added_cycle: 2026-10-03T07:28:00+03:00
 last_used_cycle: 2026-10-03T07:28:00+03:00
 use_count: 1
+
+## Bridge read-back 2026-10-03T07:34:00+03:00
+
+Markdown-only note remained fail-closed until this append. Machine row learn_f39d67f1d7f48c87 uses catalog source src_62a331e31269e5a6 (canonical https://developers.google.com/youtube/analytics/dimensions). The note's src_youtube_analytics_dimensions_creator_content_type is not a catalog id. Gate command persisted true, learning_count 29. Owned-channel query still not run. Plan-consumption PASS is not claimed.

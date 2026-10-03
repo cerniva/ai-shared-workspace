@@ -623,8 +623,30 @@
       ],
       "supersedes": null,
       "title": "Device context is a supported segmentation layer, not channel proof"
+    },
+    {
+      "claim": "CREATOR_CONTENT_TYPE_GATE: creatorContentType classifies what was watched (SHORTS, LIVE_STREAM, STORY, VIDEO_ON_DEMAND, UNSPECIFIED, available from 2019-01-01) and is not the traffic-source SHORTS value, which means the viewer was referred by vertical swiping in the Shorts experience.",
+      "decision": "CREATOR_CONTENT_TYPE_GATE: on authorized mature Analytics, scope Shorts format comparisons with creatorContentType=SHORTS or an equivalent supported filter. Do not infer Shorts membership from traffic source SHORTS. If the query rejects the combination, keep format context unknown and do not guess.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "No authorized owned-channel Analytics query was executed; plan-consumption PASS is not claimed. Markdown source id src_youtube_analytics_dimensions_creator_content_type is not a catalog id."
+      ],
+      "fallback_history": [
+        "If creatorContentType cannot be paired with required metrics, record the API error and use a verified video-ID set without relabeling traffic-source SHORTS as content type."
+      ],
+      "learned_at": "2026-10-03T04:28:00+00:00",
+      "learning_id": "learn_f39d67f1d7f48c87",
+      "next_measurement": "On the next authorized mature channel Analytics read, query a documented report supporting creatorContentType and record whether SHORTS can be paired with the required quality metrics. If unsupported, record the API error and use a verified video-ID set without relabeling traffic-source SHORTS as content type.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6"
+      ],
+      "supersedes": null,
+      "title": "CREATOR_CONTENT_TYPE_GATE"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T04:21:40+00:00"
+  "updated_at": "2026-10-03T04:31:20+00:00"
 }

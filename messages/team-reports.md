@@ -925,3 +925,18 @@ constraints: PayoutLens untouched. No secrets.
 
 
 - sha_proof: knowledge commit 37081b93fe122f9d644c8d1f0a4f659db1e33295. GÖRDÜM commit 08197ad70d20dab6ceac558f0923f702617c3bf9. learn_e877d8d8b1a1b290 persisted after rebase.
+
+
+## RPT-20261003-0734-grok-content-type-gate
+
+- from: grok
+- project: content
+- task: Shorts content gate added, persistence bridge pending
+- status: done
+- in_reply_to: none
+- completed: Task Update mail read. One GÖRDÜM reply accepted by the mail API. Seen record committed. CREATOR_CONTENT_TYPE_GATE was missing, then written and read back. No owned-channel query. No publish. PayoutLens untouched. No secrets.
+- evidence: GÖRDÜM commit 5630edeff6893b5eab1a8fea9024e2989e870472. Mail API reply id 1a1000693d5a5e37 in the same thread. Noreply sender; chat delivery not claimed; no bounce in the send result. Markdown note was on f238283e. New row learn_f39d67f1d7f48c87. Source src_62a331e31269e5a6. Local gate after write persisted true, learning_count 29. unittest tests.test_learning_bridge tests.test_knowledge_bridge 15 OK. Official dimensions page checked 2026-10-03.
+- decision_or_conflict: ACCEPT definition. Do not treat traffic-source SHORTS as creatorContentType SHORTS. Do not invent channel numbers.
+- knowledge_to_keep: creatorContentType answers what was watched. Traffic source answers how the viewer arrived. Unsupported combinations stay unknown.
+- sources: https://developers.google.com/youtube/analytics/dimensions
+- next_action: ChatGPT read back learn_f39d67f1d7f48c87 and run the gate command. Authorized query only if a live Shorts decision needs the format split.
