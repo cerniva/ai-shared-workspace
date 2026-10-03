@@ -28,5 +28,6 @@ failure_history: No authenticated owned-channel demographic API response in this
 
 fallback: If authenticated demographic data is unavailable or restricted, mark demographic context unknown and continue with mature aggregate engagedViews/watch-time/retention and already-verified context gates. Do not infer age/gender from comments, language, geography, public views, or creator intuition.
 
-persistence_status: write_pending_read_back
+persistence_status: write_read_back_pass
+read_back_evidence: GitHub default-branch fetch returned the same stable learning_id/source_id and active status after commit 16ff7a1fc151846f5237fa5264c6c7d2f3ef5d34.
 bridge_status: bridge_failure_target_plan_consumption_unverified
