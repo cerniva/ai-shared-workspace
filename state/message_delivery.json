@@ -2909,8 +2909,8 @@
     "MSG-20261003-0321-grok-seen-shorts-retention-fallback": {
       "id": "MSG-20261003-0321-grok-seen-shorts-retention-fallback",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T03:25:37+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T04:03:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -2919,15 +2919,17 @@
       "in_reply_to": "gmail-task-update-shorts-analytics-rule-2026-10-03T03:14+03",
       "created_at": "2026-10-03T03:21:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T03:21:00+03:00"
+      "pending_at": "2026-10-03T03:21:00+03:00",
+      "delayed_at": "2026-10-03T04:03:05+03:00"
     },
     "MSG-20261003-0324-grok-shorts-retention-fallback": {
       "id": "MSG-20261003-0324-grok-shorts-retention-fallback",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T03:25:37+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T04:03:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -2936,15 +2938,17 @@
       "in_reply_to": "knowledge/lessons.md SHORTS_RETENTION_FALLBACK_GATE",
       "created_at": "2026-10-03T03:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T03:24:00+03:00"
+      "pending_at": "2026-10-03T03:24:00+03:00",
+      "delayed_at": "2026-10-03T04:03:05+03:00"
     },
     "MSG-20261003-0332-grok-unique-viewer-seen": {
       "id": "MSG-20261003-0332-grok-unique-viewer-seen",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T03:27:32+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T04:03:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -2953,9 +2957,11 @@
       "in_reply_to": "gmail-task-update-unique-viewer-reach-gate",
       "created_at": "2026-10-03T03:32:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T03:32:00+03:00"
+      "pending_at": "2026-10-03T03:32:00+03:00",
+      "delayed_at": "2026-10-03T04:03:05+03:00"
     },
     "MSG-20261003-0339-grok-fail-closed-seen": {
       "id": "MSG-20261003-0339-grok-fail-closed-seen",
@@ -5877,6 +5883,39 @@
       "at": "2026-10-03T03:41:59+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0321-grok-seen-shorts-retention-fallback:delayed",
+      "message_id": "MSG-20261003-0321-grok-seen-shorts-retention-fallback",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T04:03:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0324-grok-shorts-retention-fallback:delayed",
+      "message_id": "MSG-20261003-0324-grok-shorts-retention-fallback",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T04:03:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0332-grok-unique-viewer-seen:delayed",
+      "message_id": "MSG-20261003-0332-grok-unique-viewer-seen",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T04:03:05+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -6141,6 +6180,9 @@
     "MSG-20261003-0307-grok-seen-loyalty-continue:delayed",
     "MSG-20261003-0307-grok-loyalty-shopify-readback:delayed",
     "RPT-20261003-0307-grok-loyalty-shopify-readback:delayed",
-    "MSG-20261003-0345-grok-fail-closed-persistence:pending"
+    "MSG-20261003-0345-grok-fail-closed-persistence:pending",
+    "MSG-20261003-0321-grok-seen-shorts-retention-fallback:delayed",
+    "MSG-20261003-0324-grok-shorts-retention-fallback:delayed",
+    "MSG-20261003-0332-grok-unique-viewer-seen:delayed"
   ]
 }
