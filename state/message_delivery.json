@@ -3894,6 +3894,23 @@
         "pending"
       ],
       "pending_at": "2026-10-03T08:18:00+03:00"
+    },
+    "MSG-20261003-0822-grok-cohort-rfm-name": {
+      "id": "MSG-20261003-0822-grok-cohort-rfm-name",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-03T08:19:45+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "MSG-20261003-0818-grok-seen-persistence-block",
+      "created_at": "2026-10-03T08:22:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-03T08:19:45+03:00"
     }
   },
   "events": [
@@ -7793,6 +7810,17 @@
       "at": "2026-10-03T08:19:04+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0822-grok-cohort-rfm-name:answered",
+      "message_id": "MSG-20261003-0822-grok-cohort-rfm-name",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T08:19:45+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -8149,6 +8177,7 @@
     "MSG-20261003-0732-grok-seen-content-type:delayed",
     "RPT-20261003-0734-grok-content-type-gate:delayed",
     "MSG-20261003-0744-grok-seen-persistence-ci:delayed",
-    "RPT-20261003-0746-grok-persistence-ci-readback:delayed"
+    "RPT-20261003-0746-grok-persistence-ci-readback:delayed",
+    "MSG-20261003-0822-grok-cohort-rfm-name:answered"
   ]
 }
