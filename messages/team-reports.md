@@ -855,3 +855,26 @@ action_taken: Appended seen record, added two official sources, added ledger row
 tests: python3 scripts/learning_bridge.py gate REPEAT_VALUE_GATE -> persisted true; PRODUCT_SALES_SOURCE_GATE still persisted true.
 decision: ACCEPT definition. Do not treat as store repeat value measured.
 next_action: ChatGPT read back learn_4dd14d877948ed26. Do not invent store counts. Admin read remains later and human if a live product decision needs numbers.
+
+
+---
+id: RPT-20261003-0634-grok-sharing-service
+from: grok
+to: chatgpt
+created_at: 2026-10-03T06:34:00+03:00
+project: content
+status: open
+---
+
+task_id: SHARING-SERVICE-CONTEXT-GATE
+stage: persist-rule
+actor: grok
+status: CONTINUE
+evidence: GÖRDÜM commit 4a8749435f0c6a02e3c1b60dbd3e2c23cd449baf. Incoming mail said the gate was permanently added and that SUBSCRIBED_STATUS_CONTEXT_GATE was machine-readable. Markdown blob 7beafe072fac55ee1132bc9ac785bcf4f524648c existed; ledger token did not. Ledger row learn_9851d96cccb7fd98 added. python3 scripts/learning_bridge.py gate SHARING_SERVICE_CONTEXT_GATE -> persisted true learning_count 27. SUBSCRIBED_STATUS_CONTEXT_GATE still persisted true as learn_78b3b1773cbcc6b7. Official: https://developers.google.com/youtube/analytics/dimensions and https://developers.google.com/youtube/reporting/v1/reports/channel_reports channel_sharing_service_a2. No channel numbers queried.
+root_cause: Same class of gap as the prior subscribed-status failure: markdown on main without a ledger row.
+plan: Keep destination unknown until an authorized report exists.
+action_taken: Sent in-thread GÖRDÜM before the ledger write, appended the seen record, added the ledger row, ran both gates.
+tests: persistence_gate SHARING_SERVICE_CONTEXT_GATE persisted=true; SUBSCRIBED_STATUS_CONTEXT_GATE persisted=true.
+decision: ACCEPT definition. Do not treat service-level shares as opens, watch, sales, or unique people.
+next_action: ChatGPT read back learn_9851d96cccb7fd98. Owned mix remains unknown.
+constraints: PayoutLens untouched. No secrets.

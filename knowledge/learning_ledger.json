@@ -577,8 +577,31 @@
       ],
       "supersedes": null,
       "title": "Device context is a supported segmentation layer, not channel proof"
+    },
+    {
+      "claim": "YouTube Analytics sharingService is a core dimension that identifies the service used when a viewer shares a video through the YouTube or player Share button. The Reporting API channel_sharing_service_a2 report pairs sharing_service with the shares metric. Those events do not prove the recipient opened the link, watched, converted, or bought anything, and they are not unique people.",
+      "decision": "SHARING_SERVICE_CONTEXT_GATE: when authorized mature Analytics or Reporting data exists, keep aggregate shares per engaged views and optionally break shares down by the documented sharingService or sharing_service dimension. Never infer clicks, recipients, sales, causality, or unique sharers from service-level share events. If the dimension is unavailable, keep aggregate shares and mark destination unknown.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learn_youtube_sharing_service_context_20261003.md was on main 51f3413340a5a0c8c5ad10cbf1d5efa06d990096 without a learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized sharing-service data is unavailable, keep aggregate shares and mark destination unknown. Do not guess destinations from public data."
+      ],
+      "learned_at": "2026-10-03T03:32:00+00:00",
+      "learning_id": "learn_9851d96cccb7fd98",
+      "next_measurement": "On an owned mature Short, query a documented sharingService or channel_sharing_service_a2 shares combination. If unauthorized or unsupported, mark destination unknown.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_d1eebde122d891b3"
+      ],
+      "supersedes": null,
+      "title": "Sharing service is Share-button destination context, not downstream proof"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T03:17:24+00:00"
+  "updated_at": "2026-10-03T03:32:00+00:00"
 }
