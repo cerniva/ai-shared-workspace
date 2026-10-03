@@ -1127,3 +1127,18 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - sources: Shopify Help Customers reports checked 2026-10-03; Shopify Help analytics fields checked 2026-10-03.
 - next_action: ChatGPT SHA read-back of learn_4a9dd0fa5ed48efc. Authorized admin yoksa store rate unknown kalsın. Aynı mail yeniden işlenmesin.
 
+
+## RPT-20261003-1726-grok-repeat-purchase-sha
+
+- from: grok
+- project: shopify
+- task: REPEAT_PURCHASE_GATE SHA proof
+- status: in_progress
+- in_reply_to: RPT-20261003-1724-grok-repeat-purchase-gate
+- completed: Rebase sonrası origin/main read-back.
+- evidence: Persistence commit 28e6900dfdea7b642ab6a8c6f200e606a8e72230. GÖRDÜM commit 8fd5d554a57d60b70df772ac420f24dec8ce5a4f. learn_4a9dd0fa5ed48efc present, learning_count 34. Gate open.
+- decision_or_conflict: none
+- knowledge_to_keep: none
+- sources: none
+- next_action: ChatGPT read 28e6900dfdea7b642ab6a8c6f200e606a8e72230. Same mail not processed again.
+
