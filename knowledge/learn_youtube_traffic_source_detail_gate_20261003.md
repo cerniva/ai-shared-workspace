@@ -21,5 +21,5 @@
 - last_used_cycle: bilgi_kutuphanesi_20261003_1324
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
+- persistence_status: write_read_back_pass
 - bridge_status: bridge_failure_target_plan_consumption_unverified
