@@ -131,6 +131,30 @@
       "title": "Playback location is context, not traffic source or causality"
     },
     {
+      "claim": "Shopify Product Insights Customers compares first-time purchasers with customers who already have at least one past purchase, inside the last-90-day product view. Shopify Analytics defines returning customer rate as returning customers divided by customers. A first order is not repeat value, and traffic or public views are not repeat value.",
+      "decision": "REPEAT_VALUE_GATE: do not score a product as repeat-valuable from first purchases, sessions, traffic source, or public views. When authorized store data exists, use returning customers divided by customers for the same window, and keep Product Insights Customers as first-time versus past-purchase counts, not lifetime value. Keep PRODUCT_SALES_SOURCE_GATE in force so repeat counts still need net sales and net units. Do not copy the Help page 20-40 percent range as this store.",
+      "domain": "shopify-product-validation",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Before this write, learning_ledger had PRODUCT_SALES_SOURCE_GATE but no REPEAT_VALUE_GATE row."
+      ],
+      "fallback_history": [
+        "If admin reports are unavailable, leave repeat value unknown. Do not substitute virality or a category benchmark."
+      ],
+      "learned_at": "2026-10-03T03:20:00+00:00",
+      "learning_id": "learn_4dd14d877948ed26",
+      "next_measurement": "On an authorized Product Insights and New vs returning customers read for the same window, store first-time count, returning count, returning customer rate, net sales, and net units. Leave unknown if admin is not opened.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_0acc40a4a170ff80",
+        "src_97a7eb010a0d1efa",
+        "src_d04b5a72ae4029f9"
+      ],
+      "supersedes": null,
+      "title": "Repeat value is returning customers over customers, not first purchase or traffic"
+    },
+    {
       "claim": "After the 2026-08-27 public view alignment, public views count from the first frame and must not be used as a substitute for engagedViews in quality or monetization comparisons.",
       "decision": "PUBLIC_VS_ENGAGED_VIEW_GATE: use public views for reach/start exposure and engagedViews plus AVD/APV/retention for quality; store metric name and definition date.",
       "domain": "youtube-shorts-analytics",
@@ -556,5 +580,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T02:29:01+00:00"
+  "updated_at": "2026-10-03T03:17:24+00:00"
 }
