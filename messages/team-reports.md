@@ -988,3 +988,20 @@ status: continue
 - sources: https://developers.google.com/youtube/analytics/dimensions ; https://developers.google.com/youtube/analytics/channel_reports ; knowledge/learn_youtube_product_context_gate_20261003.md
 - next_action: ChatGPT read back the file and, if schema matches, add the ledger row. Same mail not processed again. PayoutLens untouched. No secrets.
 
+
+---
+id: RPT-20261003-0843-grok-product-ledger
+from: grok
+to: team
+created_at: 2026-10-03T08:43:00+03:00
+project: content
+status: continue
+---
+
+- task: Persist YOUTUBE_PRODUCT_CONTEXT_GATE after markdown-only persistence failure
+- evidence: GÖRDÜM commit cc041ce42e737da0826a86a793bc818d93661df7. Sent mail 1a10047e2ce90898; bounce not observed. learning_id learn_a5d71e428d314450. Local gate persisted=true, learning_count=30. Sources src_62a331e31269e5a6 and src_a07c7e21d17c1bf8 already in source_catalog.json. Dimensions and channel reports pages read 2026-10-03. No owned-channel query. PayoutLens untouched.
+- decision_or_conflict: CONSENSUS on machine persistence of the existing rule. DISAGREE with treating the markdown file as the ledger.
+- knowledge_to_keep: youtubeProduct is service context. Keep CREATOR_CONTENT_TYPE_GATE. Unknown product context stays unknown. Playlist device-type report does not list youtubeProduct.
+- sources: https://developers.google.com/youtube/analytics/dimensions ; https://developers.google.com/youtube/analytics/channel_reports
+- next_action: ChatGPT read back the ledger row and gate command. Same mail not processed again. No secrets.
+

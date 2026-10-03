@@ -379,6 +379,29 @@
       "title": "Post-August 2026 raw Shorts views are not comparable without a methodology note"
     },
     {
+      "claim": "YouTube Analytics youtubeProduct identifies the YouTube service where activity occurred. Documented values are CORE, GAMING, KIDS, MUSIC and UNKNOWN. Data starts 2015-07-18; UNKNOWN is activity before that date. YouTube Music before 2021-03-01 is CORE; Music on or after 2021-03-01 is MUSIC and real-time data is not recorded. Channel playback-details and some device-type reports may include youtubeProduct with creatorContentType and subscribedStatus. Playlist device-type reports do not list youtubeProduct. The dimension is not creatorContentType, traffic source, playback location, device type, a Shopify product, or a Shorts shopping sticker, and it does not prove causality, intent, or sales.",
+      "decision": "YOUTUBE_PRODUCT_CONTEXT_GATE: when an authorized mature report supports the combination, keep youtubeProduct as a service segment beside creatorContentType. Do not assume every device report accepts it. If unauthorized or unsupported, mark product context unknown and do not infer it from public views.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learn_youtube_product_context_gate_20261003.md was on main without a learning_ledger.json row, so persistence_gate failed closed."
+      ],
+      "fallback_history": [
+        "If authorized youtubeProduct data is unavailable, keep creatorContentType, engagedViews, retention and other verified context layers and mark product context unknown."
+      ],
+      "learned_at": "2026-10-03T05:42:00+00:00",
+      "learning_id": "learn_a5d71e428d314450",
+      "next_measurement": "On the next owned-channel Analytics read after maturity, query a documented youtubeProduct combination with engagedViews and estimatedMinutesWatched. If the combination is unsupported or unauthorized, mark product context unknown.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_a07c7e21d17c1bf8"
+      ],
+      "supersedes": null,
+      "title": "YouTube product is service context, not content type or sales"
+    },
+    {
       "claim": "RELATIVE_RETENTION_BENCHMARK_GATE: when authorized mature retention data is available, inspect audienceWatchRatio across elapsedVideoTimeRatio buckets and relativeRetentionPerformance. Official metrics docs define audienceWatchRatio as watches of a portion divided by views; it can exceed 1 when a portion is rewatched, so it is not unique-viewer percent. relativeRetentionPerformance is 0-1 versus similar-length YouTube videos; 0 is worse than any, 1 is better than any, and 0.5 is the documented median. It is not an absolute retention percentage and does not prove recommendation lift, satisfaction, revenue, or sales. Do not infer these metrics from public views, AVD, or APV.",
       "decision": "CONSENSUS on the official definition. Markdown learning_id learn_youtube_relative_retention_benchmark_gate_20261003 on cb4173b is not the machine id. Metrics page checked 2026-10-03. Do not infer owned-channel relative retention.",
       "domain": "youtube-shorts",
@@ -648,5 +671,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T04:31:20+00:00"
+  "updated_at": "2026-10-03T05:42:51+00:00"
 }
