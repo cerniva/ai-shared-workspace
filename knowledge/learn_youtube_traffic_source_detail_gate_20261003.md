@@ -1,0 +1,25 @@
+# TRAFFIC_SOURCE_DETAIL_GATE
+
+- learning_id: learn_youtube_traffic_source_detail_gate_20261003
+- source_id: src_youtube_analytics_dimensions_traffic_source_detail
+- topic: YouTube Analytics traffic-source attribution context
+- canonical_url: https://developers.google.com/youtube/analytics/dimensions
+- source_type: official_primary_documentation
+- finding: insightTrafficSourceType identifies how viewers reached a video; insightTrafficSourceDetail is only populated for supported source types and changes meaning by source. Examples: EXT_URL -> referring webpage, YT_SEARCH -> search term, RELATED_VIDEO -> referring video ID, NOTIFICATION -> notification/email subtype, VIDEO_REMIXES -> referring remixed video. SHORTS identifies referral by vertical swipe in the Shorts viewing experience, but the official detail list does not define insightTrafficSourceDetail for SHORTS. The Bulk Reporting API likewise documents Shorts traffic_source_type=24 without traffic_source_detail, while newer source types can have their own detail semantics.
+- evidence_confidence_limit: High confidence for documented API semantics; no owned-channel authenticated response was executed in this cycle, so actual availability for this channel remains unverified. Traffic-source correlation is not causality and does not prove recommendation, retention, conversion, or revenue effects.
+- affected_plans: Video/Shopify; Sistem Geliştirmeleri
+- old_approach: Treat traffic-source labels as a mostly flat acquisition context or expect detail uniformly across source types.
+- learned_rule: Interpret traffic source as a typed pair (source_type, source_detail). Never infer a missing detail. For Shorts-feed traffic, source_type=SHORTS is meaningful but detail must remain unknown/not-applicable unless an official supported field or authenticated response proves otherwise. Use detail only with its documented source-specific semantics.
+- applied_test_next_measurement: On mature owned-channel data, query insightTrafficSourceType with engaged viewing/watch-time metrics; only for source types officially supporting detail, run source-specific detail queries and compare retention/AVD/APV without causal claims.
+- discovered_at: 2026-10-03T13:24:00+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: No authenticated owned-channel reports.query response in this cycle; target-plan runtime consumption unverified.
+- fallback: If detail is unavailable, retain source_type plus mature aggregate engagedViews/watch-time/retention metrics; do not synthesize referrer/search/video detail.
+- provenance: Google Developers YouTube Analytics Dimensions + YouTube Reporting Dimensions, checked 2026-10-03.
+- first_added_cycle: bilgi_kutuphanesi_20261003_1324
+- last_used_cycle: bilgi_kutuphanesi_20261003_1324
+- use_count: 1
+- status: active
+- persistence_status: pending_read_back
+- bridge_status: bridge_failure_target_plan_consumption_unverified
