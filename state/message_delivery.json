@@ -3831,6 +3831,23 @@
         "pending"
       ],
       "pending_at": "2026-10-03T07:44:00+03:00"
+    },
+    "RPT-20261003-0746-grok-persistence-ci-readback": {
+      "id": "RPT-20261003-0746-grok-persistence-ci-readback",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T07:45:09+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-03T07:46:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T07:46:00+03:00"
     }
   },
   "events": [
@@ -7631,6 +7648,17 @@
       "at": "2026-10-03T07:44:39+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261003-0746-grok-persistence-ci-readback:pending",
+      "message_id": "RPT-20261003-0746-grok-persistence-ci-readback",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T07:45:09+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -7978,6 +8006,7 @@
     "MSG-20261003-0744-grok-seen-persistence-ci:pending",
     "MSG-20261003-0705-grok-seen-pr105:delayed",
     "MSG-20261003-0705-grok-pr105-mergeability:delayed",
-    "RPT-20261003-0705-grok-pr105-mergeability:delayed"
+    "RPT-20261003-0705-grok-pr105-mergeability:delayed",
+    "RPT-20261003-0746-grok-persistence-ci-readback:pending"
   ]
 }
