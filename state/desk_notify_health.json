@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 12,
+    "pending": 11,
     "seen": 0,
-    "answered": 46,
-    "delayed": 118
+    "answered": 47,
+    "delayed": 121
   },
-  "event_count": 290,
+  "event_count": 296,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -307,24 +307,32 @@
     "MSG-20261003-0522-grok-seen-sha:pending",
     "MSG-20261003-0529-grok-subscribed-status-audit:pending",
     "MSG-20261003-0530-grok-seen-sha:pending",
-    "RPT-20261003-0529-grok-subscribed-status-gate:pending"
+    "RPT-20261003-0529-grok-subscribed-status-gate:pending",
+    "MSG-20261003-0538-grok-seen-persistence-ci:pending",
+    "MSG-20261003-0538-grok-persistence-ci:answered",
+    "RPT-20261003-0538-grok-persistence-ci:pending",
+    "MSG-20261003-0504-grok-seen-pr106:delayed",
+    "MSG-20261003-0506-grok-pr106-ci:delayed",
+    "RPT-20261003-0506-grok-pr106-ci:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0522-grok-seen-sha:pending",
-    "MSG-20261003-0529-grok-subscribed-status-audit:pending",
-    "MSG-20261003-0530-grok-seen-sha:pending",
-    "RPT-20261003-0529-grok-subscribed-status-gate:pending"
+    "MSG-20261003-0538-grok-seen-persistence-ci:pending",
+    "MSG-20261003-0538-grok-persistence-ci:answered",
+    "RPT-20261003-0538-grok-persistence-ci:pending",
+    "MSG-20261003-0504-grok-seen-pr106:delayed",
+    "MSG-20261003-0506-grok-pr106-ci:delayed",
+    "RPT-20261003-0506-grok-pr106-ci:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T05:30:08+03:00",
+  "checked_at": "2026-10-03T05:39:02+03:00",
   "historical_counts": {
-    "pending": 12,
+    "pending": 11,
     "seen": 0,
-    "answered": 46,
-    "delayed": 118
+    "answered": 47,
+    "delayed": 121
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 235,
+  "active_source_id_count": 238,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
