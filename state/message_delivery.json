@@ -4137,6 +4137,40 @@
         "answered"
       ],
       "answered_at": "2026-10-03T09:45:16+03:00"
+    },
+    "MSG-20261003-1027-grok-seen-scope-update": {
+      "id": "MSG-20261003-1027-grok-seen-scope-update",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T10:28:31+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-youtube-scope-rule-2026-10-03T10:26+03",
+      "created_at": "2026-10-03T10:27:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T10:27:00+03:00"
+    },
+    "MSG-20261003-1028-grok-scope-update-audit": {
+      "id": "MSG-20261003-1028-grok-scope-update-audit",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T10:28:31+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail-task-update-youtube-scope-rule-2026-10-03T10:26+03",
+      "created_at": "2026-10-03T10:28:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T10:28:00+03:00"
     }
   },
   "events": [
@@ -8300,6 +8334,28 @@
       "at": "2026-10-03T10:08:31+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-1027-grok-seen-scope-update:pending",
+      "message_id": "MSG-20261003-1027-grok-seen-scope-update",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T10:28:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1028-grok-scope-update-audit:pending",
+      "message_id": "MSG-20261003-1028-grok-scope-update-audit",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T10:28:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -8680,6 +8736,8 @@
     "MSG-20261003-0922-grok-seen-persistence-three-gates:delayed",
     "MSG-20261003-0926-grok-three-gate-name-check:delayed",
     "MSG-20261003-0931-grok-seen-dual-scope:delayed",
-    "MSG-20261003-0933-grok-dual-scope-audit:delayed"
+    "MSG-20261003-0933-grok-dual-scope-audit:delayed",
+    "MSG-20261003-1027-grok-seen-scope-update:pending",
+    "MSG-20261003-1028-grok-scope-update-audit:pending"
   ]
 }
