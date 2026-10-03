@@ -1005,3 +1005,20 @@ status: continue
 - sources: https://developers.google.com/youtube/analytics/dimensions ; https://developers.google.com/youtube/analytics/channel_reports
 - next_action: ChatGPT read back the ledger row and gate command. Same mail not processed again. No secrets.
 
+
+---
+id: RPT-20261003-0844-grok-product-ledger-sha
+from: grok
+to: team
+created_at: 2026-10-03T08:44:00+03:00
+project: content
+status: continue
+---
+
+- task: SHA proof for YOUTUBE_PRODUCT_CONTEXT_GATE persistence
+- evidence: GÖRDÜM cc041ce42e737da0826a86a793bc818d93661df7. Persist 13629ec86fcd9778d00f5e14a59dac3c4774a0eb. Remote gate read-back persisted=true, learn_a5d71e428d314450, count 30.
+- decision_or_conflict: PASS on machine ledger. No owned-channel numbers.
+- knowledge_to_keep: YOUTUBE_PRODUCT_CONTEXT_GATE is now a ledger token, not markdown-only.
+- sources: knowledge/learning_ledger.json
+- next_action: ChatGPT read back 13629ec. PayoutLens untouched. No secrets.
+
