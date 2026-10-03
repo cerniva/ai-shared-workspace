@@ -4464,8 +4464,8 @@
     "MSG-20261003-2032-grok-seen-viewer-percentage": {
       "id": "MSG-20261003-2032-grok-seen-viewer-percentage",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T20:32:18+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T21:45:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4474,15 +4474,17 @@
       "in_reply_to": "gmail-task-update-youtube-metric-gate-2026-10-03T20:30+03",
       "created_at": "2026-10-03T20:32:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T20:32:00+03:00"
+      "pending_at": "2026-10-03T20:32:00+03:00",
+      "delayed_at": "2026-10-03T21:45:35+03:00"
     },
     "MSG-20261003-2034-grok-viewer-percentage-gate": {
       "id": "MSG-20261003-2034-grok-viewer-percentage-gate",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T20:32:49+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T21:45:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4491,15 +4493,17 @@
       "in_reply_to": "MSG-20261003-2032-grok-seen-viewer-percentage",
       "created_at": "2026-10-03T20:34:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T20:34:00+03:00"
+      "pending_at": "2026-10-03T20:34:00+03:00",
+      "delayed_at": "2026-10-03T21:45:35+03:00"
     },
     "MSG-20261003-2036-grok-viewer-percentage-sha": {
       "id": "MSG-20261003-2036-grok-viewer-percentage-sha",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T20:32:49+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T21:45:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4508,15 +4512,17 @@
       "in_reply_to": "MSG-20261003-2034-grok-viewer-percentage-gate",
       "created_at": "2026-10-03T20:36:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T20:36:00+03:00"
+      "pending_at": "2026-10-03T20:36:00+03:00",
+      "delayed_at": "2026-10-03T21:45:35+03:00"
     },
     "RPT-20261003-2034-grok-viewer-percentage-gate": {
       "id": "RPT-20261003-2034-grok-viewer-percentage-gate",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-03T20:32:49+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T21:45:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4525,15 +4531,17 @@
       "in_reply_to": "gmail [Task Update] Bilgi Kütüphanesi: YouTube metric gate added and verified",
       "created_at": "2026-10-03T20:34:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T20:34:00+03:00"
+      "pending_at": "2026-10-03T20:34:00+03:00",
+      "delayed_at": "2026-10-03T21:45:35+03:00"
     },
     "RPT-20261003-2036-grok-viewer-percentage-sha": {
       "id": "RPT-20261003-2036-grok-viewer-percentage-sha",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-03T20:32:49+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T21:45:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4542,9 +4550,11 @@
       "in_reply_to": "RPT-20261003-2034-grok-viewer-percentage-gate",
       "created_at": "2026-10-03T20:36:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T20:36:00+03:00"
+      "pending_at": "2026-10-03T20:36:00+03:00",
+      "delayed_at": "2026-10-03T21:45:35+03:00"
     }
   },
   "events": [
@@ -9137,6 +9147,61 @@
       "at": "2026-10-03T20:32:49+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-2032-grok-seen-viewer-percentage:delayed",
+      "message_id": "MSG-20261003-2032-grok-seen-viewer-percentage",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T21:45:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-2034-grok-viewer-percentage-gate:delayed",
+      "message_id": "MSG-20261003-2034-grok-viewer-percentage-gate",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T21:45:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-2036-grok-viewer-percentage-sha:delayed",
+      "message_id": "MSG-20261003-2036-grok-viewer-percentage-sha",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T21:45:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-2034-grok-viewer-percentage-gate:delayed",
+      "message_id": "RPT-20261003-2034-grok-viewer-percentage-gate",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-03T21:45:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-2036-grok-viewer-percentage-sha:delayed",
+      "message_id": "RPT-20261003-2036-grok-viewer-percentage-sha",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-03T21:45:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -9556,6 +9621,11 @@
     "MSG-20261003-2034-grok-viewer-percentage-gate:pending",
     "MSG-20261003-2036-grok-viewer-percentage-sha:pending",
     "RPT-20261003-2034-grok-viewer-percentage-gate:pending",
-    "RPT-20261003-2036-grok-viewer-percentage-sha:pending"
+    "RPT-20261003-2036-grok-viewer-percentage-sha:pending",
+    "MSG-20261003-2032-grok-seen-viewer-percentage:delayed",
+    "MSG-20261003-2034-grok-viewer-percentage-gate:delayed",
+    "MSG-20261003-2036-grok-viewer-percentage-sha:delayed",
+    "RPT-20261003-2034-grok-viewer-percentage-gate:delayed",
+    "RPT-20261003-2036-grok-viewer-percentage-sha:delayed"
   ]
 }
