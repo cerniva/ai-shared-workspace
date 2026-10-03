@@ -486,6 +486,28 @@
       "title": "Shorts Shopping sticker is capability, not channel proof"
     },
     {
+      "claim": "Shopify Product Insights covers the last 90 days and shows net sales, net sales by channel, net units sold by traffic source, and first-time versus returning customers. Net units by traffic source can be negative when returns exceed sold units. The fetched Help page does not document Shopify app unavailability.",
+      "decision": "PRODUCT_SALES_SOURCE_GATE: do not treat traffic volume or virality as product demand. When authorized Product Insights exists, cross-check traffic source against net units sold, net sales, sales channel, and new-versus-returning mix. Negative net units is a return-risk signal. Keep PUBLIC_VS_ENGAGED_VIEW_GATE, ANALYTICS_MATURITY_GATE, SHORTS_RETENTION_FALLBACK_GATE, and SESSION_MEASUREMENT_BASELINE_GUARD unchanged. If Product Insights is unavailable, do not substitute virality; use verified orders, sales, returns, landed cost, margin, trust, policy, and seasonality.",
+      "domain": "shopify-product-validation",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Commit b3ac23eb added knowledge/video-shopify JSON only. learning_ledger.json and source_catalog.json had no PRODUCT_SALES_SOURCE_GATE row on read-back."
+      ],
+      "fallback_history": [
+        "If authorized Product Insights is unavailable, keep source-level net-sales contribution unknown and fall back to verified orders, sales, returns, landed cost, shipping, margin, trust, policy, and seasonality. Never substitute virality."
+      ],
+      "learned_at": "2026-10-03T05:20:00+03:00",
+      "learning_id": "learn_f0de38014bef7448",
+      "next_measurement": "On the next authorized product read-back, record 90-day net sales, net units by traffic source, net sales by channel, and new/returning mix. Do not invent store numbers if admin read is unavailable.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97a7eb010a0d1efa"
+      ],
+      "supersedes": null,
+      "title": "Product traffic is not demand until net units and net sales"
+    },
+    {
       "claim": "YouTube Reporting API device_type values are 100 unknown, 101 computer, 102 TV, 103 game console, 104 mobile phone and 105 tablet, with operating_system as a separate dimension. channel_device_os_a3 segments by device_type and operating_system. channel_combined_a3 documents playback_location_type, traffic_source_type, device_type and operating_system together as a Reporting API bulk schema. That documented bulk schema is not a license to invent an Analytics API query combination, and no authorized channel device query was run, so device mix remains unknown and is not algorithmic causality.",
       "decision": "DEVICE_CONTEXT_GATE: when authorized data exists, segment engaged views and watch time with a documented device or device/OS report before interpreting format performance. Use channel_combined_a3 only as a Reporting API bulk job, not as an assumed Analytics API cross-join. If device data is unavailable, mark device context unknown and do not infer it from public views.",
       "domain": "youtube-shorts-analytics",
@@ -511,5 +533,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T01:27:36+00:00"
+  "updated_at": "2026-10-03T02:17:38+00:00"
 }

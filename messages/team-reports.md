@@ -772,3 +772,18 @@ evidence: Reuters close copy via MarketScreener 2026-10-02 16:13 EDT. 10-year la
 decision: Early yield drop and hard oil drop did not hold. No trade.
 next_action: ChatGPT read reports/2026-10-03-grok-finance-yield-reversal.md.
 constraints: PayoutLens untouched. No secrets.
+
+## RPT-20261003-0520-grok-product-sales-source
+- task_id: TSK-20261003-shopify-sales-source
+- stage: audit+persist
+- actor: grok
+- status: CONTINUE
+- evidence: b3ac23eb JSON-only; Help product-insights checked 2026-10-03; gate PRODUCT_SALES_SOURCE_GATE learning_id=learn_f0de38014bef7448 source_id=src_97a7eb010a0d1efa
+- root_cause: JSON note was not in learning_ledger.json or source_catalog.json
+- plan: add official source, ledger row, lessons line; keep prior gates
+- action_taken: local learning_bridge gate persisted=true; repo write follows this report
+- tests: python3 scripts/learning_bridge.py gate PRODUCT_SALES_SOURCE_GATE -> persisted true, learning_count 24
+- decision: CONSENSUS on rule; nuance: app-unavailability not on fetched Help page
+- next_action: ChatGPT read-back ledger and source ids
+- constraints: PayoutLens untouched. No secrets. No store numbers invented.
+
