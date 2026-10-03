@@ -13,10 +13,10 @@
   "counts": {
     "pending": 2,
     "seen": 0,
-    "answered": 45,
-    "delayed": 111
+    "answered": 46,
+    "delayed": 113
   },
-  "event_count": 265,
+  "event_count": 270,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -282,23 +282,30 @@
     "MSG-20261003-0345-grok-fail-closed-persistence:pending",
     "MSG-20261003-0321-grok-seen-shorts-retention-fallback:delayed",
     "MSG-20261003-0324-grok-shorts-retention-fallback:delayed",
-    "MSG-20261003-0332-grok-unique-viewer-seen:delayed"
+    "MSG-20261003-0332-grok-unique-viewer-seen:delayed",
+    "MSG-20261003-0430-grok-seen-relative-retention:pending",
+    "MSG-20261003-0430-grok-relative-retention-audit:pending",
+    "MSG-20261003-042727-gemini-api:answered",
+    "MSG-20261003-0339-grok-fail-closed-seen:delayed",
+    "MSG-20261003-0345-grok-fail-closed-persistence:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0321-grok-seen-shorts-retention-fallback:delayed",
-    "MSG-20261003-0324-grok-shorts-retention-fallback:delayed",
-    "MSG-20261003-0332-grok-unique-viewer-seen:delayed"
+    "MSG-20261003-0430-grok-seen-relative-retention:pending",
+    "MSG-20261003-0430-grok-relative-retention-audit:pending",
+    "MSG-20261003-042727-gemini-api:answered",
+    "MSG-20261003-0339-grok-fail-closed-seen:delayed",
+    "MSG-20261003-0345-grok-fail-closed-persistence:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T04:03:05+03:00",
+  "checked_at": "2026-10-03T04:28:05+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 0,
-    "answered": 45,
-    "delayed": 111
+    "answered": 46,
+    "delayed": 113
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 213,
+  "active_source_id_count": 217,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
