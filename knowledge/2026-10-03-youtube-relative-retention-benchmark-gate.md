@@ -1,0 +1,23 @@
+# YouTube relative retention benchmark gate
+
+- learning_id: `learn_youtube_relative_retention_benchmark_gate_20261003`
+- source_id: `youtube-analytics-metrics-relative-retention-2026`
+- topic: YouTube Shorts analytics / retention benchmarking
+- canonical_url: https://developers.google.com/youtube/analytics/metrics
+- source_type: official_primary_web
+- finding: YouTube Analytics exposes `audienceWatchRatio` by `elapsedVideoTimeRatio` and `relativeRetentionPerformance`, a 0–1 benchmark comparing retention at a point in the video with other YouTube videos of similar length. `audienceWatchRatio` may exceed 1 when segments are rewatched. A relative-retention value around 0.5 means roughly median performance among similar-length videos; it is not an absolute retention percentage.
+- evidence_confidence_limit: Official Google/YouTube Analytics documentation. Availability must be verified in the authorized channel/report context before use; do not infer these metrics from public views, AVD or APV. Relative retention is comparative, not causal, and does not prove recommendation lift, satisfaction, revenue, or sales.
+- affected_plans: Video/Shopify; System Geliştirmeleri
+- old_approach: Judge retention mainly from aggregate AVD/APV or absolute retention, which can hide where a Short loses or re-engages viewers and lacks a same-length benchmark.
+- learned_rule: `RELATIVE_RETENTION_BENCHMARK_GATE` — when authorized mature retention data is available, inspect `audienceWatchRatio` across elapsed-video buckets and, where supported, `relativeRetentionPerformance`. Treat >1 audienceWatchRatio as possible replay/rewatch behavior, not >100% unique viewers. Use relativeRetentionPerformance only as a same-length comparative benchmark; keep absolute retention/AVD/APV alongside it. Do not infer algorithmic causality from either metric.
+- applied_test_next_measurement: For comparable mature Shorts, identify early/mid/end retention buckets, replay peaks, and relative-retention position; compare with engagedViews, AVD/APV, shares/saves and subscriber conversion before changing hook/tempo/edit decisions.
+- discovered_at: 2026-10-03T04:24:57+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: Authorized owned-channel retention report was not executed in this cycle, so channel-specific values remain unknown and target-plan consumption is not PASS.
+- fallback: If authorized bucketed/relative retention is unavailable, use verified aggregate AVD/APV/retention gates already in the knowledge pool; leave comparative benchmark unknown rather than estimating it.
+- provenance: Official Google for Developers YouTube Analytics metrics documentation; creator/video search used only for discovery and supplied no stronger persistent evidence.
+- first_added_cycle: 2026-10-03-knowledge-cycle-11
+- last_used_cycle: 2026-10-03-knowledge-cycle-11
+- use_count: 1
+- status: active
