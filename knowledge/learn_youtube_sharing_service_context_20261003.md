@@ -1,0 +1,23 @@
+# YouTube Sharing-Service Context Gate
+
+- learning_id: learn_youtube_sharing_service_context_20261003
+- topic: YouTube Shorts analytics / sharing context
+- source_id: src_youtube_analytics_dimensions_sharing_service
+- canonical_url: https://developers.google.com/youtube/analytics/dimensions#sharing-service
+- source_type: official_primary_documentation
+- finding: YouTube Analytics supports the core `sharingService` dimension, which identifies the service used when viewers share videos through YouTube/the player Share action. Official sample queries support aggregating `shares` by `sharingService`. Therefore aggregate shares can be decomposed by documented share destination/service where authorized data is available.
+- evidence_limit: `sharingService` describes the service used for a Share-button event; it does not prove the recipient opened the link, watched, converted, purchased, or that the service caused downstream performance. Share counts are events, not unique people.
+- affected_plans: [Video/Shopify, Sistem Geliştirmeleri]
+- old_approach: Treat aggregate shares per engaged view as a deep-engagement signal without destination context.
+- learned_rule: SHARING_SERVICE_CONTEXT_GATE — when mature authorized Analytics is available, retain aggregate shares/1k engagedViews and optionally break shares down by `sharingService` to learn where viewers choose to share. Never infer clicks, recipients, sales, causality, or unique sharers from service-level share events.
+- applied_test_next_measurement: On an owned mature Short, query a documented sharingService + shares combination; compare service mix across comparable Shorts only after normalizing aggregate shares against engagedViews where available. Unsupported/unauthorized data remains unknown.
+- discovered_at: 2026-10-03T06:26:00+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: []
+- fallback: If authorized sharingService data is unavailable, keep the already-supported aggregate shares deep-engagement metric; do not guess destinations from public data.
+- provenance: Official Google for Developers YouTube Analytics dimensions, metrics, and sample-request documentation; creator/search material is discovery-only and is not the evidence basis.
+- first_added_cycle: 2026-10-03T06:26:00+03:00
+- last_used_cycle: 2026-10-03T06:26:00+03:00
+- use_count: 1
+- status: active
