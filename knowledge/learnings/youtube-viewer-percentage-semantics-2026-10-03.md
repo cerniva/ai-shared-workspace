@@ -21,7 +21,7 @@
 - last_used_cycle: 2026-10-03T20:29:00+03:00
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
+- persistence_status: standalone_write_read_back_pass_machine_ledger_unverified
 - bridge_status: bridge_failure_target_plan_consumption_unverified
 
 ## YouTube research layer
