@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 1,
     "seen": 0,
     "answered": 56,
-    "delayed": 185
+    "delayed": 190
   },
-  "event_count": 427,
+  "event_count": 433,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -444,22 +444,32 @@
     "MSG-20261003-2342-grok-card-metric-persistence:pending",
     "RPT-20261003-2342-grok-card-metric-persistence:pending",
     "MSG-20261003-2344-grok-card-metric-sha:pending",
-    "RPT-20261003-2344-grok-card-metric-sha:pending"
+    "RPT-20261003-2344-grok-card-metric-sha:pending",
+    "MSG-20261004-0242-grok-seen-p0-pending:pending",
+    "MSG-20261003-2340-grok-seen-p0-persistence:delayed",
+    "MSG-20261003-2342-grok-card-metric-persistence:delayed",
+    "RPT-20261003-2342-grok-card-metric-persistence:delayed",
+    "MSG-20261003-2344-grok-card-metric-sha:delayed",
+    "RPT-20261003-2344-grok-card-metric-sha:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-2344-grok-card-metric-sha:pending",
-    "RPT-20261003-2344-grok-card-metric-sha:pending"
+    "MSG-20261004-0242-grok-seen-p0-pending:pending",
+    "MSG-20261003-2340-grok-seen-p0-persistence:delayed",
+    "MSG-20261003-2342-grok-card-metric-persistence:delayed",
+    "RPT-20261003-2342-grok-card-metric-persistence:delayed",
+    "MSG-20261003-2344-grok-card-metric-sha:delayed",
+    "RPT-20261003-2344-grok-card-metric-sha:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T23:41:35+03:00",
+  "checked_at": "2026-10-04T02:44:06+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 1,
     "seen": 0,
     "answered": 56,
-    "delayed": 185
+    "delayed": 190
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 319,
+  "active_source_id_count": 320,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
