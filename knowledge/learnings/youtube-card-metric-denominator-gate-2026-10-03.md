@@ -1,0 +1,24 @@
+# YouTube card metric denominator gate
+
+- learning_id: learn_youtube_card_metric_denominator_gate_20261003
+- topic: youtube-shorts-analytics
+- canonical_url: https://developers.google.com/youtube/analytics/metrics
+- source_type: official_primary_documentation
+- finding: YouTube Analytics defines cardClickRate as cardClicks/cardImpressions and cardTeaserClickRate as cardTeaserClicks/cardTeaserImpressions. A card impression is logged when the card panel is opened, with one impression for each card in that video. A single video view can generate multiple card teaser impressions. These rates therefore do not use views or engagedViews as their denominator and cannot be interpreted as the percentage of viewers who clicked.
+- evidence_confidence_limit: Verified metric semantics from official YouTube Analytics documentation. No authenticated owned-channel card metrics were read in this run, so no claim is made about this channel's card performance or whether cards are exposed in the Shorts viewing surface.
+- affected_plans: Video/Shopify; Sistem Geliştirmeleri
+- old_approach: A generic CTR label can be mistaken for clicks divided by views/viewers, producing invalid cross-video or cross-surface comparisons.
+- learned_rule: CARD_METRIC_DENOMINATOR_GATE — preserve each documented denominator. cardClickRate = cardClicks/cardImpressions; cardTeaserClickRate = cardTeaserClicks/cardTeaserImpressions. Never substitute views, engagedViews, unique viewers, or each other as denominators. Do not infer viewer-level conversion from these event/impression-level rates.
+- applied_test_next_measurement: On a mature authorized owned-video Analytics read where card metrics are supported, retrieve cardClicks+cardImpressions and cardTeaserClicks+cardTeaserImpressions, recompute each documented rate, and compare only like-for-like surfaces/windows. If unsupported or absent, mark unknown rather than zero.
+- discovered_at: 2026-10-03T22:23:09+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: Canonical repository search before write returned no cardClickRate/cardTeaserClickRate learning. Machine-ledger insertion and target-plan runtime consumption are not yet verified in this run.
+- fallback: If authorized card metrics are unavailable or unsupported, mark card interaction context unknown and use mature engagedViews/watch-time/retention metrics without inventing a card CTR.
+- provenance: official YouTube Analytics metrics documentation
+- first_added_cycle: 2026-10-03T22:23:09+03:00
+- last_used_cycle: 2026-10-03T22:23:09+03:00
+- use_count: 1
+- status: active
+- persistence_status: standalone_write_pending_read_back; machine_ledger_unverified
+- bridge_status: bridge_failure_target_plan_consumption_unverified
