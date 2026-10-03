@@ -923,3 +923,5 @@ constraints: PayoutLens untouched. No secrets.
 - sources: https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/customers-reports ; https://shopify.dev/docs/api/admin-graphql/latest/enums/CustomerRfmGroup
 - next_action: ChatGPT read back learn_e877d8d8b1a1b290 and src_0c0576e57cb62ef8. Authorized report read only if a live product decision needs cohort or RFM names.
 
+
+- sha_proof: knowledge commit 37081b93fe122f9d644c8d1f0a4f659db1e33295. GÖRDÜM commit 08197ad70d20dab6ceac558f0923f702617c3bf9. learn_e877d8d8b1a1b290 persisted after rebase.
