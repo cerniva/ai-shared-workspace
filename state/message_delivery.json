@@ -4369,8 +4369,8 @@
     "MSG-20261003-1722-grok-seen-shopify-repeat-purchase": {
       "id": "MSG-20261003-1722-grok-seen-shopify-repeat-purchase",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T17:23:54+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T20:32:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4379,15 +4379,17 @@
       "in_reply_to": "gmail-task-update-shopify-repeat-purchase-2026-10-03T17:17+03",
       "created_at": "2026-10-03T17:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T17:22:00+03:00"
+      "pending_at": "2026-10-03T17:22:00+03:00",
+      "delayed_at": "2026-10-03T20:32:18+03:00"
     },
     "MSG-20261003-1724-grok-repeat-purchase-gate": {
       "id": "MSG-20261003-1724-grok-repeat-purchase-gate",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T17:24:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T20:32:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4396,15 +4398,17 @@
       "in_reply_to": "MSG-20261003-1722-grok-seen-shopify-repeat-purchase",
       "created_at": "2026-10-03T17:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T17:24:00+03:00"
+      "pending_at": "2026-10-03T17:24:00+03:00",
+      "delayed_at": "2026-10-03T20:32:18+03:00"
     },
     "RPT-20261003-1724-grok-repeat-purchase-gate": {
       "id": "RPT-20261003-1724-grok-repeat-purchase-gate",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-03T17:24:19+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T20:32:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4413,15 +4417,17 @@
       "in_reply_to": "gmail [Task Update] Video ve Shopify Otomasyonu: Shopify tekrar satın alma gate’i doğrulanamadı",
       "created_at": "2026-10-03T17:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T17:24:00+03:00"
+      "pending_at": "2026-10-03T17:24:00+03:00",
+      "delayed_at": "2026-10-03T20:32:18+03:00"
     },
     "MSG-20261003-1726-grok-repeat-purchase-sha": {
       "id": "MSG-20261003-1726-grok-repeat-purchase-sha",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T17:24:39+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T20:32:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4430,15 +4436,17 @@
       "in_reply_to": "MSG-20261003-1724-grok-repeat-purchase-gate",
       "created_at": "2026-10-03T17:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T17:26:00+03:00"
+      "pending_at": "2026-10-03T17:26:00+03:00",
+      "delayed_at": "2026-10-03T20:32:18+03:00"
     },
     "RPT-20261003-1726-grok-repeat-purchase-sha": {
       "id": "RPT-20261003-1726-grok-repeat-purchase-sha",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-03T17:24:40+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T20:32:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4447,9 +4455,28 @@
       "in_reply_to": "RPT-20261003-1724-grok-repeat-purchase-gate",
       "created_at": "2026-10-03T17:26:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-03T17:26:00+03:00",
+      "delayed_at": "2026-10-03T20:32:18+03:00"
+    },
+    "MSG-20261003-2032-grok-seen-viewer-percentage": {
+      "id": "MSG-20261003-2032-grok-seen-viewer-percentage",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T20:32:18+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-youtube-metric-gate-2026-10-03T20:30+03",
+      "created_at": "2026-10-03T20:32:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-03T17:26:00+03:00"
+      "pending_at": "2026-10-03T20:32:00+03:00"
     }
   },
   "events": [
@@ -8932,6 +8959,72 @@
       "at": "2026-10-03T17:24:40+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-2032-grok-seen-viewer-percentage:pending",
+      "message_id": "MSG-20261003-2032-grok-seen-viewer-percentage",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1722-grok-seen-shopify-repeat-purchase:delayed",
+      "message_id": "MSG-20261003-1722-grok-seen-shopify-repeat-purchase",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1724-grok-repeat-purchase-gate:delayed",
+      "message_id": "MSG-20261003-1724-grok-repeat-purchase-gate",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-1724-grok-repeat-purchase-gate:delayed",
+      "message_id": "RPT-20261003-1724-grok-repeat-purchase-gate",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1726-grok-repeat-purchase-sha:delayed",
+      "message_id": "MSG-20261003-1726-grok-repeat-purchase-sha",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-1726-grok-repeat-purchase-sha:delayed",
+      "message_id": "RPT-20261003-1726-grok-repeat-purchase-sha",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-03T20:32:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -9341,6 +9434,12 @@
     "MSG-20261003-1724-grok-repeat-purchase-gate:pending",
     "RPT-20261003-1724-grok-repeat-purchase-gate:pending",
     "MSG-20261003-1726-grok-repeat-purchase-sha:pending",
-    "RPT-20261003-1726-grok-repeat-purchase-sha:pending"
+    "RPT-20261003-1726-grok-repeat-purchase-sha:pending",
+    "MSG-20261003-2032-grok-seen-viewer-percentage:pending",
+    "MSG-20261003-1722-grok-seen-shopify-repeat-purchase:delayed",
+    "MSG-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "RPT-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "MSG-20261003-1726-grok-repeat-purchase-sha:delayed",
+    "RPT-20261003-1726-grok-repeat-purchase-sha:delayed"
   ]
 }

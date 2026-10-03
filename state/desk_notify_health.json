@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 1,
     "seen": 0,
     "answered": 56,
-    "delayed": 175
+    "delayed": 180
   },
-  "event_count": 407,
+  "event_count": 413,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -424,22 +424,32 @@
     "MSG-20261003-1724-grok-repeat-purchase-gate:pending",
     "RPT-20261003-1724-grok-repeat-purchase-gate:pending",
     "MSG-20261003-1726-grok-repeat-purchase-sha:pending",
-    "RPT-20261003-1726-grok-repeat-purchase-sha:pending"
+    "RPT-20261003-1726-grok-repeat-purchase-sha:pending",
+    "MSG-20261003-2032-grok-seen-viewer-percentage:pending",
+    "MSG-20261003-1722-grok-seen-shopify-repeat-purchase:delayed",
+    "MSG-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "RPT-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "MSG-20261003-1726-grok-repeat-purchase-sha:delayed",
+    "RPT-20261003-1726-grok-repeat-purchase-sha:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-1726-grok-repeat-purchase-sha:pending",
-    "RPT-20261003-1726-grok-repeat-purchase-sha:pending"
+    "MSG-20261003-2032-grok-seen-viewer-percentage:pending",
+    "MSG-20261003-1722-grok-seen-shopify-repeat-purchase:delayed",
+    "MSG-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "RPT-20261003-1724-grok-repeat-purchase-gate:delayed",
+    "MSG-20261003-1726-grok-repeat-purchase-sha:delayed",
+    "RPT-20261003-1726-grok-repeat-purchase-sha:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T17:24:40+03:00",
+  "checked_at": "2026-10-03T20:32:18+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 1,
     "seen": 0,
     "answered": 56,
-    "delayed": 175
+    "delayed": 180
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 309,
+  "active_source_id_count": 310,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
