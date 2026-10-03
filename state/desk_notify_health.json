@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 6,
+    "pending": 4,
     "seen": 0,
     "answered": 45,
-    "delayed": 105
+    "delayed": 108
   },
-  "event_count": 257,
+  "event_count": 261,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -274,21 +274,28 @@
     "MSG-20261003-0236-grok-loyalty-device-readback:delayed",
     "MSG-20261003-0321-grok-seen-shorts-retention-fallback:pending",
     "MSG-20261003-0324-grok-shorts-retention-fallback:pending",
-    "MSG-20261003-0332-grok-unique-viewer-seen:pending"
+    "MSG-20261003-0332-grok-unique-viewer-seen:pending",
+    "MSG-20261003-0339-grok-fail-closed-seen:pending",
+    "MSG-20261003-0307-grok-seen-loyalty-continue:delayed",
+    "MSG-20261003-0307-grok-loyalty-shopify-readback:delayed",
+    "RPT-20261003-0307-grok-loyalty-shopify-readback:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0332-grok-unique-viewer-seen:pending"
+    "MSG-20261003-0339-grok-fail-closed-seen:pending",
+    "MSG-20261003-0307-grok-seen-loyalty-continue:delayed",
+    "MSG-20261003-0307-grok-loyalty-shopify-readback:delayed",
+    "RPT-20261003-0307-grok-loyalty-shopify-readback:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T03:27:32+03:00",
+  "checked_at": "2026-10-03T03:41:05+03:00",
   "historical_counts": {
-    "pending": 6,
+    "pending": 4,
     "seen": 0,
     "answered": 45,
-    "delayed": 105
+    "delayed": 108
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 210,
+  "active_source_id_count": 211,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
