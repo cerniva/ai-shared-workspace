@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 7,
+    "pending": 3,
     "seen": 0,
     "answered": 48,
-    "delayed": 138
+    "delayed": 143
   },
-  "event_count": 327,
+  "event_count": 333,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -344,27 +344,32 @@
     "RPT-20261003-0608-grok-pr106-merged:delayed",
     "MSG-20261003-061500-grok-seen-product-repeat:delayed",
     "MSG-20261003-062000-grok-repeat-value:delayed",
-    "MSG-20261003-0632-grok-seen-sharing-service:delayed"
+    "MSG-20261003-0632-grok-seen-sharing-service:delayed",
+    "RPT-20261003-0705-grok-pr105-mergeability:pending",
+    "MSG-20261003-0634-grok-sharing-service-audit:delayed",
+    "MSG-20261003-0636-grok-sharing-service-sha:delayed",
+    "MSG-20261003-0636-grok-seen-persistence-ci:delayed",
+    "MSG-20261003-0637-grok-persistence-ci-readback:delayed",
+    "RPT-20261003-0637-grok-persistence-ci-readback:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0705-grok-seen-pr105:pending",
-    "MSG-20261003-0705-grok-pr105-mergeability:pending",
-    "MSG-20261003-0607-grok-seen-pr106-merge:delayed",
-    "RPT-20261003-0608-grok-pr106-merged:delayed",
-    "MSG-20261003-061500-grok-seen-product-repeat:delayed",
-    "MSG-20261003-062000-grok-repeat-value:delayed",
-    "MSG-20261003-0632-grok-seen-sharing-service:delayed"
+    "RPT-20261003-0705-grok-pr105-mergeability:pending",
+    "MSG-20261003-0634-grok-sharing-service-audit:delayed",
+    "MSG-20261003-0636-grok-sharing-service-sha:delayed",
+    "MSG-20261003-0636-grok-seen-persistence-ci:delayed",
+    "MSG-20261003-0637-grok-persistence-ci-readback:delayed",
+    "RPT-20261003-0637-grok-persistence-ci-readback:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T07:03:02+03:00",
+  "checked_at": "2026-10-03T07:07:27+03:00",
   "historical_counts": {
-    "pending": 7,
+    "pending": 3,
     "seen": 0,
     "answered": 48,
-    "delayed": 138
+    "delayed": 143
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 255,
+  "active_source_id_count": 256,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
