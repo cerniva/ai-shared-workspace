@@ -25,3 +25,7 @@
 
 ## Decision impact
 This is an integration/authentication rule, not a performance heuristic. It prevents the system from misclassifying a scope-deficient OAuth token as a data/endpoint failure and provides a safer root-cause branch for the Video/Shopify and Sistem Geliştirmeleri plans.
+
+- machine_learning_id: learn_c26dcb3fda0b6b0c
+- machine_source_id: src_1ee3fe3382f17f55
+- persistence_gap: 2026-10-03T10:24+03 prior ids learn_a9a5c8d397ee3343 and src_google_youtube_analytics_reports_query_20261003 were not stable hashes. learning_bridge validate failed closed, so COHORT_RFM_GATE could not return persisted true until those ids were rewritten. Claim text unchanged.
