@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "plan": "Video ve Shopify Otomasyonu",
+  "source": {
+    "source_id": "src_shopify_product_insights_20261003",
+    "source_name": "Shopify Help Center — Product insights",
+    "category": "shopify-product-validation",
+    "canonical": "https://help.shopify.com/en/manual/products/details/product-insights",
+    "purpose": "Validate product-level demand with net sales, net units sold by traffic source, sales channel, and new-versus-returning customer evidence rather than traffic or virality alone.",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public documentation; no paid credit used",
+    "requirements": "Product Insights is viewed from Shopify admin product details and covers the last 90 days; Shopify says it is not currently available in the Shopify app.",
+    "reliability_limits": "Documentation proves metric definitions and availability, not this store's current values or product demand. Store-specific data requires authorized admin read-back.",
+    "discovered_at": "2026-10-03T05:13:59+03:00",
+    "last_verified": "2026-10-03T05:13:59+03:00",
+    "failure_note": null,
+    "provenance": "official Shopify Help Center"
+  },
+  "learning": {
+    "learning_id": "learn_shopify_product_sales_source_gate_20261003",
+    "title": "Product traffic is not demand until it produces net units and net sales",
+    "finding": "Shopify Product Insights reports the last 90 days of net sales, net sales by channel, net units sold by traffic source, and first-time versus returning customers. Net units sold by traffic source can be negative when returns exceed sold units.",
+    "confidence": "high",
+    "affected_plan": "Video ve Shopify Otomasyonu",
+    "old_approach": "Traffic, virality, or gross unit movement could be overweighted when validating a product opportunity.",
+    "new_rule": "PRODUCT_SALES_SOURCE_GATE: do not treat traffic volume or virality as product demand by itself. When authorized Product Insights exists, cross-check traffic source against net units sold, net sales, sales channel, and new-versus-returning customer mix. Negative net units is an explicit return-risk signal, not positive demand.",
+    "hypothesis_status": "verified reusable measurement rule; store-specific values remain unknown until authorized read-back",
+    "test_metric": "For each candidate product with authorized data, record 90-day net sales, net units sold by traffic source, net sales by channel, and new/returning customer mix; compare like-for-like products and do not infer causality from traffic alone.",
+    "discovered_at": "2026-10-03T05:13:59+03:00",
+    "last_verified": "2026-10-03T05:13:59+03:00",
+    "access_status": "verified-public-docs; store-data-not-read",
+    "failure_history": [],
+    "fallback": "If authorized Product Insights is unavailable, keep source-level net-sales contribution unknown and fall back to verified orders/sales/returns, landed cost, shipping, margin, trust, policy and seasonality evidence; never substitute virality.",
+    "provenance": "src_shopify_product_insights_20261003",
+    "supersedes": null,
+    "status": "active"
+  }
+}
