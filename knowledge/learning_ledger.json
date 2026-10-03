@@ -375,6 +375,27 @@
       "title": "YouTube Shorts deep-engagement save/share gate"
     },
     {
+      "claim": "UNIQUE_VIEWER_REACH_GATE: when authorized mature Studio Audience data exists, keep unique viewers as a separate estimated reach layer for like-for-like audience-size comparisons. Official Help defines unique viewers as the estimated number of viewers in the selected date range, calculated from engaged views and corresponding watch time. For Shorts, engaged views estimate people who stayed to watch. Unique viewers are not public views, engagedViews, subscribers, returning viewers, or unique reach/co-viewed views. Totals are available for periods up to 90 days and from 2017-08-01. Channel unique viewers dedupe a person who watched more than one video. Never invent unique viewers by dividing public views. Missing authorized values stay unknown.",
+      "decision": "CONSENSUS on the metric definition. Markdown on 2c247ad9 was not a machine row. Official pages 9314416 and 7577916 checked 2026-10-03. Do not infer owned-channel unique viewers.",
+      "domain": "youtube-shorts",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If authorized Studio Audience unique-viewer data is unavailable, keep unique viewers unknown and continue with verified engagedViews, retention and audience-loyalty signals."
+      ],
+      "learned_at": "2026-10-03T00:30:00+00:00",
+      "learning_id": "learn_e45a58edc99ac85e",
+      "next_measurement": "On the next authorized mature owned-channel read, record the date window, unique viewers, engagedViews and watch time from the same comparable period. Do not use a window longer than 90 days. Keep the estimate label. If Studio Audience data is missing, leave unique viewers unknown.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_35d788c11230ae93",
+        "src_4f81ff624e4eda30"
+      ],
+      "supersedes": null,
+      "title": "YouTube unique viewer reach gate"
+    },
+    {
       "claim": "Shopify product-bundles overview says bundles can sell on Online Store, Shop, POS, and Google and YouTube for fixed bundles only. The Shopify Bundles app page says channels other than Online Store or headless are unsupported, while its publish steps also name Shop and POS.",
       "decision": "CHANNEL_COMPATIBILITY_GATE: before recommending or activating a bundle, record target_sales_channel, bundle_type, and bundle_app. Do not publish when support is false or when official pages conflict; mark channel_support_unverified and keep draft. Google and YouTube stays fixed-bundle-only unless a newer official page supersedes it. Channel support is not a demand or margin signal.",
       "domain": "shopify-bundles",
@@ -448,5 +469,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T00:24:38+00:00"
+  "updated_at": "2026-10-03T00:26:55+00:00"
 }
