@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 3,
     "seen": 0,
     "answered": 56,
     "delayed": 170
   },
-  "event_count": 393,
+  "event_count": 395,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -410,21 +410,24 @@
     "MSG-20261003-1043-grok-desk-notify-commit-fix:delayed",
     "MSG-20261003-1044-grok-desk-notify-sha:delayed",
     "RPT-20261003-1043-grok-desk-notify-commit:delayed",
-    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:pending"
+    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:pending",
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger:pending",
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:pending"
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger:pending",
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T13:44:14+03:00",
+  "checked_at": "2026-10-03T13:44:43+03:00",
   "historical_counts": {
-    "pending": 1,
+    "pending": 3,
     "seen": 0,
     "answered": 56,
     "delayed": 170
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 300,
+  "active_source_id_count": 302,
   "normalized_by": "scripts/desk_health_normalize.py"
 }

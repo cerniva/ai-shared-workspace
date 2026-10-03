@@ -4287,6 +4287,40 @@
         "pending"
       ],
       "pending_at": "2026-10-03T13:45:00+03:00"
+    },
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger": {
+      "id": "MSG-20261003-1348-grok-traffic-source-detail-ledger",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T13:44:43+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger",
+      "created_at": "2026-10-03T13:48:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T13:48:00+03:00"
+    },
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger": {
+      "id": "RPT-20261003-1348-grok-traffic-source-detail-ledger",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T13:44:43+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail [Task Update] Sistem Geliştirmeleri: Machine ledger persistence failed keep gate open",
+      "created_at": "2026-10-03T13:48:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T13:48:00+03:00"
     }
   },
   "events": [
@@ -8615,6 +8649,28 @@
       "at": "2026-10-03T13:44:14+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-1348-grok-traffic-source-detail-ledger:pending",
+      "message_id": "MSG-20261003-1348-grok-traffic-source-detail-ledger",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T13:44:43+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-1348-grok-traffic-source-detail-ledger:pending",
+      "message_id": "RPT-20261003-1348-grok-traffic-source-detail-ledger",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T13:44:43+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -9010,6 +9066,8 @@
     "MSG-20261003-1043-grok-desk-notify-commit-fix:delayed",
     "MSG-20261003-1044-grok-desk-notify-sha:delayed",
     "RPT-20261003-1043-grok-desk-notify-commit:delayed",
-    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:pending"
+    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:pending",
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger:pending",
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger:pending"
   ]
 }
