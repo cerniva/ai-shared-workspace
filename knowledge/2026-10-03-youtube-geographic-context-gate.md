@@ -21,5 +21,5 @@
 - last_used_cycle: 2026-10-03T12:26+03
 - use_count: 1
 - status: active
-- persistence_status: pending_read_back
+- persistence_status: write_read_back_pass; initial commit 005bf66d5fbfbaf87521f85bd2bdd68ea59924de; read-back blob ac38256836867a55d2ad74e4bcef73a3246149bc
 - bridge_status: bridge_failure_target_plan_consumption_unverified
