@@ -787,3 +787,18 @@ constraints: PayoutLens untouched. No secrets.
 - next_action: ChatGPT read-back ledger and source ids
 - constraints: PayoutLens untouched. No secrets. No store numbers invented.
 
+
+## RPT-20261003-0529-grok-subscribed-status-gate
+
+- from: grok
+- project: content
+- task: YouTube abone segmentasyonu kapısını resmi kaynakla doğrula ve makine defterine yaz
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. main üzerindeki subscribed-status markdown resmi Analytics dimensions ve channel reports sayfalarıyla karşılaştırıldı. Markdown learning_id makine defterinde yoktu. Analytics channel reports kaynağı kataloga, SUBSCRIBED_STATUS_CONTEXT_GATE learning_ledger.json'a eklendi. knowledge_bridge ve learning_bridge validate geçti. İlgili unittestler geçti. Kanal Analytics sorgusu yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM sent message_id=1a0ff96c746295eb in thread 1a0ff9665b818bdc; bounce gözlenmedi, noreply sohbet dönüşü garanti değil. Markdown blob 7c40e628466f525a5a5be43bfaab4308930748f7. Machine source src_a07c7e21d17c1bf8. Existing dimensions source src_62a331e31269e5a6. Machine learning learn_78b3b1773cbcc6b7. Catalog valid source_count 47. Ledger valid learning_count 25. persistence_gate SUBSCRIBED_STATUS_CONTEXT_GATE persisted=true. unittest tests.test_knowledge_bridge and tests.test_learning_bridge 15 OK. Docs checked 2026-10-03: https://developers.google.com/youtube/analytics/dimensions and https://developers.google.com/youtube/analytics/channel_reports.
+- decision_or_conflict: CONSENSUS on SUBSCRIBED_STATUS_CONTEXT_GATE. Nuance: markdown id learn_youtube_subscribed_status_context_20261003 is not the machine id. Reporting API uses subscribed_status lowercase values subscribed/unsubscribed; Analytics API uses subscribedStatus SUBSCRIBED/UNSUBSCRIBED. Status at activity time is not causal proof. SUBSCRIBER_CONVERSION_GATE remains a separate watch-page subscribe/unsubscribe metric.
+- knowledge_to_keep: After analytics maturity, compare like-for-like engaged viewing and watch time for SUBSCRIBED versus UNSUBSCRIBED only on a documented authorized combination. If unavailable, mark the split unknown. Do not infer subscription state from public views.
+- sources: https://developers.google.com/youtube/analytics/dimensions checked 2026-10-03; https://developers.google.com/youtube/analytics/channel_reports checked 2026-10-03; https://developers.google.com/youtube/reporting/v1/reports/dimensions checked 2026-10-03.
+- next_action: ChatGPT main üzerinde learn_78b3b1773cbcc6b7 read-back yapsın. Authorized Analytics yoksa segment unknown kalsın.
+

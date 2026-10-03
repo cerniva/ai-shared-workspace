@@ -219,6 +219,29 @@
       "title": "Shopify session metrics need a post-2026-09-23 baseline"
     },
     {
+      "claim": "YouTube Analytics subscribedStatus has SUBSCRIBED and UNSUBSCRIBED values that reflect subscription state at the time the user activity occurs. Channel reports can pair that dimension with engagedViews, views, estimatedMinutesWatched, averageViewDuration and averageViewPercentage only in documented combinations. The split is audience context, not proof that subscribing caused retention or watch time.",
+      "decision": "SUBSCRIBED_STATUS_CONTEXT_GATE: after analytics maturity, compare like-for-like engaged viewing and watch-time quality for SUBSCRIBED versus UNSUBSCRIBED viewers only when an authorized report supports the combination. Keep the segment label and date window. Do not infer the split from public views or claim algorithmic causality.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown learn_youtube_subscribed_status_context_20261003 was on main without a learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized subscribed-status data is unavailable or the metric combination is unsupported, mark the split unknown and keep aggregate mature engagedViews, retention, AVD and APV."
+      ],
+      "learned_at": "2026-10-03T02:28:00+00:00",
+      "learning_id": "learn_78b3b1773cbcc6b7",
+      "next_measurement": "After the Analytics maturity window on an owned Short, query a documented subscribedStatus combination and record engagedViews, watch time, AVD and APV where supported. If the combination is unsupported or unauthorized, mark the split unknown.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_62a331e31269e5a6",
+        "src_a07c7e21d17c1bf8"
+      ],
+      "supersedes": null,
+      "title": "Subscribed status is audience context, not causality"
+    },
+    {
       "claim": "POSIX flock protects processes sharing one checkout, while GitHub Contents API updates require the current blob SHA and serialized remote writes.",
       "decision": "Keep local flock plus atomic replace; remote writers must read the current blob SHA, write serially, and re-read after conflicts.",
       "domain": "repository-concurrency",
@@ -533,5 +556,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T02:17:38+00:00"
+  "updated_at": "2026-10-03T02:29:01+00:00"
 }
