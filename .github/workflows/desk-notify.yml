@@ -10,6 +10,7 @@ on:
       - "messages/**"
       - "scripts/desk_bridge.py"
       - "scripts/desk_health_normalize.py"
+      - "scripts/desk_notify_commit.py"
       - "state/inbox_read.json"
       - ".github/workflows/desk-notify.yml"
 
@@ -40,14 +41,7 @@ jobs:
         run: python3 scripts/desk_health_normalize.py
       - name: Commit ledger delta
         if: always()
-        run: |
-          git config user.name "desk-notify-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/message_delivery.json state/desk_notify_health.json state/inbox_read.json
-          git diff --cached --quiet && exit 0
-          git commit -m "desk-notify: persist delivery ledger"
-          git pull --rebase origin main
-          git push
+        run: python3 scripts/desk_notify_commit.py
       - name: Fail closed when reconciliation failed
         if: steps.reconcile.outcome == 'failure' || steps.normalize.outcome == 'failure'
         run: exit 1

@@ -16,7 +16,8 @@ class WorkflowWriterConcurrencyTests(unittest.TestCase):
         failures: list[str] = []
         for path in sorted(WORKFLOWS.glob("*.yml")):
             text = path.read_text(encoding="utf-8")
-            if not re.search(r"(?m)^\s+git push(?:\s|$)", text):
+            writes_main = re.search(r"(?m)^\s+git push(?:\s|$)", text) or "scripts/desk_notify_commit.py" in text
+            if not writes_main:
                 continue
             writers.append(path.name)
             block = re.search(r"(?ms)^concurrency:\n(?P<body>(?:^[ \t]+.*\n?)+)", text)
