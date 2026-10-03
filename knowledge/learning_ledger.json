@@ -668,8 +668,30 @@
       ],
       "supersedes": null,
       "title": "CREATOR_CONTENT_TYPE_GATE"
+    },
+    {
+      "claim": "YouTube Analytics reports.query now documents an additional requirement for https://www.googleapis.com/auth/youtube.readonly. The same page still lists yt-analytics.readonly for activity reports. Samples on that page still request only yt-analytics.readonly.",
+      "decision": "YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE: before verified_connected, require a successful reports.query under the current documented authorization. Do not treat yt-analytics.readonly alone as sufficient while the reports.query banner requires youtube.readonly. If the token lacks youtube.readonly, classify blocked/auth_scope and do not blind-retry 401/403. Human learning_id learn_youtube_analytics_dual_scope_gate_20261003.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learn_youtube_analytics_dual_scope_gate_20261003.md was on main at 957a52c73e9084c9284e4059bb60a6033ffc2768 without a learning_ledger row. No owned-channel reports.query was executed."
+      ],
+      "fallback_history": [
+        "If authorized Analytics is unavailable or scope-blocked, keep private Analytics fields unknown and do not infer them from public metrics. Do not retry auth failures blindly."
+      ],
+      "learned_at": "2026-10-03T06:31:00+00:00",
+      "learning_id": "learn_a9a5c8d397ee3343",
+      "next_measurement": "On the next authorized owned-channel reports.query, record whether the token includes youtube.readonly and yt-analytics.readonly, and separate missing-scope 401/403 from invalid_grant. Never store token values.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_google_youtube_analytics_reports_query_20261003"
+      ],
+      "supersedes": null,
+      "title": "Analytics reports.query needs the documented youtube.readonly scope"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T05:42:51+00:00"
+  "updated_at": "2026-10-03T06:31:00+00:00"
 }
