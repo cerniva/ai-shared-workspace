@@ -1,0 +1,23 @@
+# YouTube subscribed-status audience context gate
+
+- learning_id: learn_youtube_subscribed_status_context_20261003
+- topic: youtube-shorts-analytics
+- source_id: src_youtube_analytics_dimensions_subscribed_status
+- canonical_url: https://developers.google.com/youtube/analytics/dimensions#playback-details
+- source_type: official_primary_documentation
+- finding: YouTube Analytics supports the `subscribedStatus` dimension with `SUBSCRIBED` and `UNSUBSCRIBED`. The value reflects subscription state at the time the user activity occurs. Channel reports support `subscribedStatus` alongside playback-detail metrics including engagedViews, views, estimatedMinutesWatched, averageViewDuration, and averageViewPercentage for documented report combinations.
+- evidence_limit: Subscription status is context, not causality. A subscribed-viewer advantage does not prove that subscribing caused retention or watch time. Do not infer this split from public views when authorized Analytics is unavailable.
+- affected_plans: Video/Shopify; Sistem Geliştirmeleri
+- old_approach: Evaluate mature Shorts with aggregate engagedViews, retention, AVD/APV, subscriber conversion, and audience loyalty without separating performance by subscription state.
+- learned_rule: SUBSCRIBED_STATUS_CONTEXT_GATE — when an authorized mature report supports the combination, compare like-for-like engaged viewing/watch-time quality for SUBSCRIBED vs UNSUBSCRIBED viewers. Keep the segment label and date window. Treat it as audience-context evidence only; do not claim algorithmic or causal effects.
+- next_measurement: After the Analytics maturity window on an owned Short, query a documented report combination using `subscribedStatus` and record engagedViews/watch-time/AVD/APV where supported. Compare the two segments without substituting public views.
+- discovered_at: 2026-10-03T05:25:55+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: []
+- fallback: If authorized subscribed-status data is unavailable or the desired metric combination is unsupported, mark the split unknown and retain aggregate mature engagedViews/retention/AVD/APV; do not guess subscription state.
+- provenance: Google for Developers — YouTube Analytics Dimensions and Channel Reports
+- first_added_cycle: 2026-10-03T05:25:55+03:00
+- last_used_cycle: 2026-10-03T05:25:55+03:00
+- use_count: 0
+- status: active
