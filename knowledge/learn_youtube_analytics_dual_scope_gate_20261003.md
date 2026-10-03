@@ -1,7 +1,8 @@
 # YouTube Analytics dual-scope authorization gate
 
 - learning_id: learn_youtube_analytics_dual_scope_gate_20261003
-- source_id: src_google_youtube_analytics_reports_query_20261003
+- machine_learning_id: learn_c26dcb3fda0b6b0c
+- source_id: src_1ee3fe3382f17f55
 - topic: YouTube Analytics authorization / reusable integration reliability
 - canonical_url: https://developers.google.com/youtube/analytics/reference/reports/query
 - source_type: official_primary_documentation
@@ -14,7 +15,7 @@
 - discovered_at: 2026-10-03T09:28:59+03:00
 - last_verified: 2026-10-03
 - access_status: web_only
-- failure_history: No owned-channel reports.query call was available in this cycle; runtime scope status is therefore unknown.
+- failure_history: No owned-channel reports.query call was available in this cycle; runtime scope status is therefore unknown. Machine ids were dated/human strings and failed knowledge_bridge/learning_bridge stability checks.
 - fallback: Preserve existing public/previously verified metrics and mark private Analytics fields unknown. Use current official docs for integration diagnosis; do not infer private channel data and do not retry auth failures blindly.
 - provenance: Google for Developers — YouTube Analytics Reports: Query; cross-checked against YouTube Analytics API Reference.
 - first_added_cycle: 2026-10-03-cycle-11
