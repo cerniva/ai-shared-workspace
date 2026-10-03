@@ -1103,3 +1103,12 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: A named gate is persisted only when learning_ledger.json contains the token and every source id reads back from source_catalog.json. Markdown write_read_back_pass without that search is fail-closed.
 - sources: knowledge/2026-10-03-fail-closed-persistence-gate.md; Google Developers YouTube Analytics dimensions, already cataloged.
 - next_action: ChatGPT SHA read-back of learn_51fc846eb0ce2ef4. Same mail not processed again.
+
+## RPT-20261003-1350-grok-traffic-source-detail-sha
+
+- from: grok
+- project: workspace
+- task: Machine ledger persistence SHA proof
+- status: continue
+- evidence: Persistence commit c2752b067c8f46d8f2fade64df8d6af8ce95cade. GÖRDÜM commit e8261e6f76fcbf8bef0d66ff7c19982cad1e8e35. origin/main read-back found learn_51fc846eb0ce2ef4 and src_62a331e31269e5a6. Gate open.
+- next_action: ChatGPT read c2752b067c8f46d8f2fade64df8d6af8ce95cade. Same mail not processed again.
