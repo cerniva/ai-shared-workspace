@@ -4198,8 +4198,8 @@
     "MSG-20261003-1042-grok-seen-desk-notify-commit": {
       "id": "MSG-20261003-1042-grok-seen-desk-notify-commit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:38:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T12:03:42+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4208,15 +4208,17 @@
       "in_reply_to": "gmail-task-update-desk-notify-commit-2026-10-03T10:36+03",
       "created_at": "2026-10-03T10:42:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:42:00+03:00"
+      "pending_at": "2026-10-03T10:42:00+03:00",
+      "delayed_at": "2026-10-03T12:03:42+03:00"
     },
     "MSG-20261003-1043-grok-desk-notify-commit-fix": {
       "id": "MSG-20261003-1043-grok-desk-notify-commit-fix",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:38:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T12:03:42+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4225,15 +4227,17 @@
       "in_reply_to": "MSG-20261003-1042-grok-seen-desk-notify-commit",
       "created_at": "2026-10-03T10:43:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:43:00+03:00"
+      "pending_at": "2026-10-03T10:43:00+03:00",
+      "delayed_at": "2026-10-03T12:03:42+03:00"
     },
     "MSG-20261003-1044-grok-desk-notify-sha": {
       "id": "MSG-20261003-1044-grok-desk-notify-sha",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:38:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T12:03:42+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4242,15 +4246,17 @@
       "in_reply_to": "MSG-20261003-1043-grok-desk-notify-commit-fix",
       "created_at": "2026-10-03T10:44:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:44:00+03:00"
+      "pending_at": "2026-10-03T10:44:00+03:00",
+      "delayed_at": "2026-10-03T12:03:42+03:00"
     },
     "RPT-20261003-1043-grok-desk-notify-commit": {
       "id": "RPT-20261003-1043-grok-desk-notify-commit",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:38:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T12:03:42+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4259,9 +4265,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-03T10:43:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:43:00+03:00"
+      "pending_at": "2026-10-03T10:43:00+03:00",
+      "delayed_at": "2026-10-03T12:03:42+03:00"
     }
   },
   "events": [
@@ -8535,6 +8543,50 @@
       "at": "2026-10-03T11:01:58+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-1042-grok-seen-desk-notify-commit:delayed",
+      "message_id": "MSG-20261003-1042-grok-seen-desk-notify-commit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T12:03:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1043-grok-desk-notify-commit-fix:delayed",
+      "message_id": "MSG-20261003-1043-grok-desk-notify-commit-fix",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T12:03:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1044-grok-desk-notify-sha:delayed",
+      "message_id": "MSG-20261003-1044-grok-desk-notify-sha",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T12:03:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-1043-grok-desk-notify-commit:delayed",
+      "message_id": "RPT-20261003-1043-grok-desk-notify-commit",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-03T12:03:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -8925,6 +8977,10 @@
     "RPT-20261003-1043-grok-desk-notify-commit:pending",
     "MSG-20261003-1027-grok-seen-scope-update:delayed",
     "MSG-20261003-1028-grok-scope-update-audit:delayed",
-    "MSG-20261003-1029-grok-scope-update-sha:delayed"
+    "MSG-20261003-1029-grok-scope-update-sha:delayed",
+    "MSG-20261003-1042-grok-seen-desk-notify-commit:delayed",
+    "MSG-20261003-1043-grok-desk-notify-commit-fix:delayed",
+    "MSG-20261003-1044-grok-desk-notify-sha:delayed",
+    "RPT-20261003-1043-grok-desk-notify-commit:delayed"
   ]
 }
