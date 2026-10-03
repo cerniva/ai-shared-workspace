@@ -1,0 +1,25 @@
+# YouTube Geographic Context Gate — 2026-10-03
+
+- learning_id: learn_youtube_geographic_context_gate_20261003
+- source_id: src_google_youtube_analytics_dimensions_geography
+- topic: youtube-shorts-analytics / geographic context
+- canonical_url: https://developers.google.com/youtube/analytics/dimensions
+- source_type: official_primary_documentation
+- finding: YouTube Analytics exposes `country` as a core report dimension using ISO-3166-1 country codes; `ZZ` means country could not be identified. `continent` and `subContinent` are filter-only dimensions. `province` is limited to U.S. states/territories and requires `country==US`; `city` is an estimated city and is available from 2022-01-01 onward.
+- evidence_confidence_limit: Official API documentation verifies supported dimensions/filters, not causal effects of geography on recommendation, retention, subscribers, revenue, or sales. Geographic segments can also be sparse/unknown and should not be reverse-inferred from public views.
+- affected_plans: Video/Shopify; System Geliştirmeleri
+- old_approach: Evaluate Shorts mainly through aggregate engagedViews, retention, traffic/playback/device/audience context without a stable geography interpretation gate.
+- learned_rule: `GEOGRAPHIC_CONTEXT_GATE` — when authorized mature Analytics is available, compare relevant metrics by `country` (and only supported finer geography) while keeping geography as context, not causality. Preserve `ZZ`/unknown rather than imputing it. Do not treat continent/subContinent as row dimensions because official docs mark them filter-only. Do not use `province` outside `country==US`.
+- applied_test_next_measurement: On a mature owned-channel Short, query supported country-segmented engagedViews/watch-time/AVD/APV and compare only where sample sizes are decision-useful; record unsupported/sparse segments as unknown.
+- discovered_at: 2026-10-03T12:26:00+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: Authorized owned-channel geography report was not executed in this cycle, so target-plan runtime consumption is not PASS.
+- fallback: If authorized geography data is unavailable, use existing verified aggregate analytics and leave geography unknown; never infer country mix from public views, language, comments, or creator intuition.
+- provenance: Google Developers — YouTube Analytics Dimensions; Google Developers — Sample API Requests. Creator/search results were discovery-only and were not used as primary evidence.
+- first_added_cycle: 2026-10-03T12:26+03
+- last_used_cycle: 2026-10-03T12:26+03
+- use_count: 1
+- status: active
+- persistence_status: pending_read_back
+- bridge_status: bridge_failure_target_plan_consumption_unverified
