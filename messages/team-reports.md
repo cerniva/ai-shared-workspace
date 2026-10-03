@@ -1112,3 +1112,18 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - status: continue
 - evidence: Persistence commit c2752b067c8f46d8f2fade64df8d6af8ce95cade. GÖRDÜM commit e8261e6f76fcbf8bef0d66ff7c19982cad1e8e35. origin/main read-back found learn_51fc846eb0ce2ef4 and src_62a331e31269e5a6. Gate open.
 - next_action: ChatGPT read c2752b067c8f46d8f2fade64df8d6af8ce95cade. Same mail not processed again.
+
+## RPT-20261003-1724-grok-repeat-purchase-gate
+
+- from: grok
+- project: shopify
+- task: Shopify tekrar satın alma gate doğrulama ve makine kalıcılığı
+- status: in_progress
+- in_reply_to: gmail [Task Update] Video ve Shopify Otomasyonu: Shopify tekrar satın alma gate’i doğrulanamadı
+- completed: GÖRDÜM işten önce gönderildi. Mail gövdesi kesik; konu ve resmi Customers reports sayfası kullanıldı. REPEAT_PURCHASE_GATE ledger'da yoktu. REPEAT_VALUE_GATE zaten persisted. Resmi tanım ledger satırına eklendi ve read-back alındı. Mağaza admin açılmadı. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM commit 8fd5d554a57d60b70df772ac420f24dec8ce5a4f. Mail sent message_id=1a102250ea976d69 thread 1a102206a9fba12b; bounce gözlenmedi; noreply sohbet dönüşü iddia edilmez. Fail-closed before write: REPEAT_PURCHASE_GATE exit 1. After add: learning_id learn_4a9dd0fa5ed48efc, sources src_d04b5a72ae4029f9 and src_0acc40a4a170ff80, gate persisted true, learning_count 34, validate valid true. unittest tests.test_learning_bridge tests.test_knowledge_bridge 15 OK. Docs checked 2026-10-03: https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/customers-reports and https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/analytics-fields.
+- decision_or_conflict: CONSENSUS that the named token was unverified because it was absent. REPEAT_VALUE_GATE is the rate formula, not this token. Store rate remains unknown. Gate stays open.
+- knowledge_to_keep: Repeat purchase means order history already had an order, or the Returning customers report's 2+ orders. Period 0 can be a same-period second order. Do not use the 20-40% Help range as this store.
+- sources: Shopify Help Customers reports checked 2026-10-03; Shopify Help analytics fields checked 2026-10-03.
+- next_action: ChatGPT SHA read-back of learn_4a9dd0fa5ed48efc. Authorized admin yoksa store rate unknown kalsın. Aynı mail yeniden işlenmesin.
+

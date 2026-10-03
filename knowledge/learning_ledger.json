@@ -109,6 +109,29 @@
       "title": "Repository writers need one queued concurrency group"
     },
     {
+      "claim": "Shopify Help defines a returning customer as someone who placed an order and whose order history already includes at least one order. The Returning customers report lists customers with two or more orders. The One-time customers report lists customers with exactly one order. Returning customer rate is returning customers divided by customers. Cohort period 0 counts a repeat order in the same period as the first order. Customer reports other than New vs returning can lag about 12 hours, and customer-report history can include orders outside the selected timeframe.",
+      "decision": "REPEAT_PURCHASE_GATE: do not treat a first order, a session, traffic, or an RFM group as a repeat purchase. A repeat purchase requires order history of at least two orders, or a returning-customer row whose history already included an order. Keep REPEAT_VALUE_GATE for the rate formula and COHORT_RFM_GATE for cohort versus RFM. Do not copy the Help 20-40 percent range as this store. Leave the store rate unknown until an authorized admin report is read.",
+      "domain": "shopify-customer-retention",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Mail said the Shopify repeat purchase gate could not be verified. REPEAT_PURCHASE_GATE was absent from the ledger. REPEAT_VALUE_GATE was already persisted and is not this token."
+      ],
+      "fallback_history": [
+        "If admin reports are unavailable, leave repeat purchase unknown. Do not substitute industry rate, traffic, or RFM group."
+      ],
+      "learned_at": "2026-10-03T14:22:00+00:00",
+      "learning_id": "learn_4a9dd0fa5ed48efc",
+      "next_measurement": "On an authorized New vs returning customers and Returning customers read, store first-time count, returning count, rate, and customers with 2+ orders. Leave unknown if admin is not opened.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_0acc40a4a170ff80",
+        "src_d04b5a72ae4029f9"
+      ],
+      "supersedes": null,
+      "title": "Repeat purchase is a second order, not a first order or an RFM group"
+    },
+    {
       "claim": "YouTube Analytics supports insightPlaybackLocationType so views and estimated watch time can be grouped by the page or application where playback occurred. Playback location is not the same dimension as insightTrafficSourceType and does not by itself prove why a video performed.",
       "decision": "PLAYBACK_LOCATION_CONTEXT_GATE: when authorized mature Analytics is available, pair views and watch time with insightPlaybackLocationType, compare like-for-like contexts, and do not merge playback location with traffic source. If authorized data is missing, keep location unknown.",
       "domain": "youtube-analytics",
@@ -738,5 +761,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T10:43:50+00:00"
+  "updated_at": "2026-10-03T14:23:53+00:00"
 }
