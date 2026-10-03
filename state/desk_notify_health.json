@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 4,
+    "pending": 0,
     "seen": 0,
     "answered": 56,
-    "delayed": 159
+    "delayed": 163
   },
-  "event_count": 374,
+  "event_count": 378,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -391,20 +391,26 @@
     "MSG-20261003-0926-grok-three-gate-name-check:pending",
     "MSG-20261003-0931-grok-seen-dual-scope:pending",
     "MSG-20261003-0933-grok-dual-scope-audit:pending",
-    "MSG-20261003-093531-gemini-api:answered"
+    "MSG-20261003-093531-gemini-api:answered",
+    "MSG-20261003-0922-grok-seen-persistence-three-gates:delayed",
+    "MSG-20261003-0926-grok-three-gate-name-check:delayed",
+    "MSG-20261003-0931-grok-seen-dual-scope:delayed",
+    "MSG-20261003-0933-grok-dual-scope-audit:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0933-grok-dual-scope-audit:pending",
-    "MSG-20261003-093531-gemini-api:answered"
+    "MSG-20261003-0922-grok-seen-persistence-three-gates:delayed",
+    "MSG-20261003-0926-grok-three-gate-name-check:delayed",
+    "MSG-20261003-0931-grok-seen-dual-scope:delayed",
+    "MSG-20261003-0933-grok-dual-scope-audit:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T09:45:16+03:00",
+  "checked_at": "2026-10-03T10:08:31+03:00",
   "historical_counts": {
-    "pending": 4,
+    "pending": 0,
     "seen": 0,
     "answered": 56,
-    "delayed": 159
+    "delayed": 163
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 286,
