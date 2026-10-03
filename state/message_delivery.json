@@ -3197,6 +3197,57 @@
         "pending"
       ],
       "pending_at": "2026-10-03T05:14:00+03:00"
+    },
+    "MSG-20261003-0516-grok-seen-sales-gate": {
+      "id": "MSG-20261003-0516-grok-seen-sales-gate",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T05:18:23+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-shopify-sales-gate-2026-10-03T05:15+03",
+      "created_at": "2026-10-03T05:16:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T05:16:00+03:00"
+    },
+    "MSG-20261003-0520-grok-product-sales-source": {
+      "id": "MSG-20261003-0520-grok-product-sales-source",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T05:18:23+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "knowledge/video-shopify/shopify-product-insights-traffic-source-net-units-2026-10-03.json",
+      "created_at": "2026-10-03T05:20:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T05:20:00+03:00"
+    },
+    "RPT-20261003-0520-grok-product-sales-source": {
+      "id": "RPT-20261003-0520-grok-product-sales-source",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T05:18:23+03:00",
+      "alerted": true,
+      "from": "unknown",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "CONTINUE",
+      "in_reply_to": "none",
+      "created_at": "2026-10-03T05:20:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T05:20:00+03:00"
     }
   },
   "events": [
@@ -6315,6 +6366,39 @@
       "at": "2026-10-03T05:15:04+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0516-grok-seen-sales-gate:pending",
+      "message_id": "MSG-20261003-0516-grok-seen-sales-gate",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:18:23+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-0520-grok-product-sales-source:pending",
+      "message_id": "MSG-20261003-0520-grok-product-sales-source",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T05:18:23+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-0520-grok-product-sales-source:pending",
+      "message_id": "RPT-20261003-0520-grok-product-sales-source",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T05:18:23+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -6600,6 +6684,9 @@
     "MSG-20261003-0442-grok-seen-persistence-ci:delayed",
     "MSG-20261003-0442-grok-persistence-ci-gate:delayed",
     "MSG-20261003-0444-grok-persistence-ci-run:delayed",
-    "MSG-20261003-0514-grok-finans-yield-reversal:pending"
+    "MSG-20261003-0514-grok-finans-yield-reversal:pending",
+    "MSG-20261003-0516-grok-seen-sales-gate:pending",
+    "MSG-20261003-0520-grok-product-sales-source:pending",
+    "RPT-20261003-0520-grok-product-sales-source:pending"
   ]
 }

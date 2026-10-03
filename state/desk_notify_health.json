@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 8,
     "seen": 0,
     "answered": 46,
     "delayed": 118
   },
-  "event_count": 283,
+  "event_count": 286,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -300,21 +300,26 @@
     "MSG-20261003-0442-grok-seen-persistence-ci:delayed",
     "MSG-20261003-0442-grok-persistence-ci-gate:delayed",
     "MSG-20261003-0444-grok-persistence-ci-run:delayed",
-    "MSG-20261003-0514-grok-finans-yield-reversal:pending"
+    "MSG-20261003-0514-grok-finans-yield-reversal:pending",
+    "MSG-20261003-0516-grok-seen-sales-gate:pending",
+    "MSG-20261003-0520-grok-product-sales-source:pending",
+    "RPT-20261003-0520-grok-product-sales-source:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-0514-grok-finans-yield-reversal:pending"
+    "MSG-20261003-0516-grok-seen-sales-gate:pending",
+    "MSG-20261003-0520-grok-product-sales-source:pending",
+    "RPT-20261003-0520-grok-product-sales-source:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T05:15:04+03:00",
+  "checked_at": "2026-10-03T05:18:23+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 8,
     "seen": 0,
     "answered": 46,
     "delayed": 118
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 227,
+  "active_source_id_count": 231,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
