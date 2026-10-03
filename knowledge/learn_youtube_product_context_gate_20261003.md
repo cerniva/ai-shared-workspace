@@ -1,0 +1,23 @@
+# YOUTUBE_PRODUCT_CONTEXT_GATE
+
+- learning_id: learn_youtube_product_context_gate_20261003
+- source_id: src_youtube_analytics_dimensions_google_20261003
+- konu: YouTube Analytics / product context
+- canonical_url: https://developers.google.com/youtube/analytics/dimensions
+- kaynak_turu: official_primary_documentation
+- bulgu: YouTube Analytics `youtubeProduct` boyutu kullanıcı etkinliğinin CORE, GAMING, KIDS, MUSIC veya UNKNOWN hizmet bağlamında gerçekleştiğini ayırır. Device-type raporları bu boyutu destekleyebilir. Bu boyut traffic source, creatorContentType veya playback location ile aynı kavram değildir.
+- kanit_guven_siniri: high for API semantics; service context tek başına performans nedenselliği, kullanıcı niyeti veya satış kanıtlamaz. YouTube Music gerçek zamanlı veri kaydetmez; tarihsel kapsam sınırları resmi dokümana tabidir.
+- etkilenen_planlar: Video/Shopify; Sistem Geliştirmeleri
+- eski_yaklasim: İçerik türü, trafik kaynağı, playback location ve cihaz bağlamı kullanılıyor; specialty YouTube service context ayrı tutulmuyordu.
+- yeni_yaklasim: Yetkili ve desteklenen olgun Analytics verisi varsa `youtubeProduct` ayrı bağlam katmanı olarak tutulur. CORE/MUSIC/KIDS/GAMING farkı yalnız segmentasyon olarak yorumlanır; algoritmik nedensellik çıkarılmaz. Shorts sınıflandırması için `creatorContentType=SHORTS` kullanılmaya devam eder.
+- uygulanan_test_sonraki_olcum: Repository canonical dedup aramasında `youtubeProduct` için eşdeğer kayıt bulunmadı. Sonraki doğrulama, owned-channel yetkili sorgusunda desteklenen `creatorContentType/deviceType/subscribedStatus/youtubeProduct` kombinasyonunu engagedViews/views/estimatedMinutesWatched ile test etmektir.
+- discovered_at: 2026-10-03T08:22:40+03:00
+- last_verified: 2026-10-03
+- access_status: web_only
+- failure_history: Owned-channel authorized Analytics response bu turda mevcut değil; gerçek kanal tüketimi doğrulanmadı.
+- fallback: youtubeProduct verisi yoksa `unknown`; creatorContentType, engagedViews, retention ve diğer doğrulanmış bağlam katmanları kullanılmaya devam edilir; product context tahmin edilmez.
+- provenance: Google for Developers — YouTube Analytics Dimensions; Channel/Content Owner report compatibility docs.
+- first_added_cycle: 2026-10-03-11
+- last_used_cycle: 2026-10-03-11
+- use_count: 1
+- status: active
