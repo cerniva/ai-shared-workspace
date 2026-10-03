@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 7,
+    "pending": 5,
     "seen": 0,
     "answered": 52,
-    "delayed": 143
+    "delayed": 146
   },
-  "event_count": 341,
+  "event_count": 345,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -358,21 +358,28 @@
     "MSG-20261003-0732-grok-seen-content-type:pending",
     "MSG-20261003-0734-grok-content-type-bridge:answered",
     "RPT-20261003-0734-grok-content-type-gate:pending",
-    "MSG-20261003-0736-grok-content-type-sha:answered"
+    "MSG-20261003-0736-grok-content-type-sha:answered",
+    "MSG-20261003-0744-grok-seen-persistence-ci:pending",
+    "MSG-20261003-0705-grok-seen-pr105:delayed",
+    "MSG-20261003-0705-grok-pr105-mergeability:delayed",
+    "RPT-20261003-0705-grok-pr105-mergeability:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-0736-grok-content-type-sha:answered"
+    "MSG-20261003-0744-grok-seen-persistence-ci:pending",
+    "MSG-20261003-0705-grok-seen-pr105:delayed",
+    "MSG-20261003-0705-grok-pr105-mergeability:delayed",
+    "RPT-20261003-0705-grok-pr105-mergeability:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T07:32:04+03:00",
+  "checked_at": "2026-10-03T07:44:40+03:00",
   "historical_counts": {
-    "pending": 7,
+    "pending": 5,
     "seen": 0,
     "answered": 52,
-    "delayed": 143
+    "delayed": 146
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 264,
+  "active_source_id_count": 265,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
