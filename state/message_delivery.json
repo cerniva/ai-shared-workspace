@@ -4141,8 +4141,8 @@
     "MSG-20261003-1027-grok-seen-scope-update": {
       "id": "MSG-20261003-1027-grok-seen-scope-update",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:28:31+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T11:01:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4151,15 +4151,17 @@
       "in_reply_to": "gmail-task-update-youtube-scope-rule-2026-10-03T10:26+03",
       "created_at": "2026-10-03T10:27:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:27:00+03:00"
+      "pending_at": "2026-10-03T10:27:00+03:00",
+      "delayed_at": "2026-10-03T11:01:58+03:00"
     },
     "MSG-20261003-1028-grok-scope-update-audit": {
       "id": "MSG-20261003-1028-grok-scope-update-audit",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:28:31+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T11:01:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4168,15 +4170,17 @@
       "in_reply_to": "gmail-task-update-youtube-scope-rule-2026-10-03T10:26+03",
       "created_at": "2026-10-03T10:28:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:28:00+03:00"
+      "pending_at": "2026-10-03T10:28:00+03:00",
+      "delayed_at": "2026-10-03T11:01:58+03:00"
     },
     "MSG-20261003-1029-grok-scope-update-sha": {
       "id": "MSG-20261003-1029-grok-scope-update-sha",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-03T10:38:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-03T11:01:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4185,9 +4189,11 @@
       "in_reply_to": "MSG-20261003-1028-grok-scope-update-audit",
       "created_at": "2026-10-03T10:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-03T10:29:00+03:00"
+      "pending_at": "2026-10-03T10:29:00+03:00",
+      "delayed_at": "2026-10-03T11:01:58+03:00"
     },
     "MSG-20261003-1042-grok-seen-desk-notify-commit": {
       "id": "MSG-20261003-1042-grok-seen-desk-notify-commit",
@@ -8496,6 +8502,39 @@
       "at": "2026-10-03T10:38:42+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-1027-grok-seen-scope-update:delayed",
+      "message_id": "MSG-20261003-1027-grok-seen-scope-update",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T11:01:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1028-grok-scope-update-audit:delayed",
+      "message_id": "MSG-20261003-1028-grok-scope-update-audit",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T11:01:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261003-1029-grok-scope-update-sha:delayed",
+      "message_id": "MSG-20261003-1029-grok-scope-update-sha",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T11:01:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -8883,6 +8922,9 @@
     "MSG-20261003-1042-grok-seen-desk-notify-commit:pending",
     "MSG-20261003-1043-grok-desk-notify-commit-fix:pending",
     "MSG-20261003-1044-grok-desk-notify-sha:pending",
-    "RPT-20261003-1043-grok-desk-notify-commit:pending"
+    "RPT-20261003-1043-grok-desk-notify-commit:pending",
+    "MSG-20261003-1027-grok-seen-scope-update:delayed",
+    "MSG-20261003-1028-grok-scope-update-audit:delayed",
+    "MSG-20261003-1029-grok-scope-update-sha:delayed"
   ]
 }
