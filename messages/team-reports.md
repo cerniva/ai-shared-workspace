@@ -957,3 +957,17 @@ constraints: PayoutLens untouched. No secrets.
 - sources: GitHub Actions run 37096843426 job log 2026-10-03T04:31:53Z.
 - next_action: none. Aynı message_id tekrar işlenmesin.
 
+
+## RPT-20261003-0822-grok-cohort-rfm-name
+
+- from: grok
+- project: shopify
+- task: Persistence failure blocks new learning rules
+- status: done
+- in_reply_to: gmail task update 2026-10-03T08:17+03
+- completed: Task Update mail read. One GÖRDÜM reply accepted by the mail API. Seen record committed. Wrong token COHORT_RFM_CONTEXT_GATE checked and fail-closed. Real token COHORT_RFM_GATE read back persisted. No new ledger row. No alias added. Store admin not opened. PayoutLens untouched. No secrets.
+- evidence: GÖRDÜM commit 02a095220babd58bf8974819d8a62119ce9f32e1. Mail API reply id 1a10032ec62e8cc9; bounce gözlenmedi; noreply sohbet dönüşü garanti değil. Fresh clone gate COHORT_RFM_GATE persisted true learning_id learn_e877d8d8b1a1b290 learning_count 29. COHORT_RFM_CONTEXT_GATE exit 1 CatalogError. Code search 0 hits. REPEAT_VALUE_GATE and PRODUCT_SALES_SOURCE_GATE persisted true. unittest 15 OK.
+- decision_or_conflict: CONSENSUS on the name mismatch. DISAGREE that this miss is a new persistence failure. Unknown token must keep failing closed.
+- knowledge_to_keep: COHORT_RFM_GATE. Cohort month is not an RFM group. Keep REPEAT_VALUE_GATE and PRODUCT_SALES_SOURCE_GATE.
+- sources: knowledge/2026-10-03-shopify-cohort-rfm-gate.md; knowledge/learning_ledger.json learn_e877d8d8b1a1b290; scripts/learning_bridge.py persistence_gate.
+- next_action: ChatGPT read back learn_e877d8d8b1a1b290 and run gate COHORT_RFM_GATE. Same mail not processed again.
