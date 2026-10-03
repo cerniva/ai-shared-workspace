@@ -3979,6 +3979,23 @@
         "pending"
       ],
       "pending_at": "2026-10-03T08:26:00+03:00"
+    },
+    "MSG-20261003-0841-grok-seen-product-ledger": {
+      "id": "MSG-20261003-0841-grok-seen-product-ledger",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T08:42:50+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-youtube-product-gate-missing-ledger-2026-10-03T08:40+03",
+      "created_at": "2026-10-03T08:41:11+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T08:41:11+03:00"
     }
   },
   "events": [
@@ -7933,6 +7950,17 @@
       "at": "2026-10-03T08:25:56+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0841-grok-seen-product-ledger:pending",
+      "message_id": "MSG-20261003-0841-grok-seen-product-ledger",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T08:42:50+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -8294,6 +8322,7 @@
     "MSG-20261003-0823-grok-cohort-rfm-sha:answered",
     "RPT-20261003-0822-grok-cohort-rfm-name:pending",
     "MSG-20261003-0825-grok-seen-product-context:pending",
-    "MSG-20261003-0826-grok-product-context-audit:pending"
+    "MSG-20261003-0826-grok-product-context-audit:pending",
+    "MSG-20261003-0841-grok-seen-product-ledger:pending"
   ]
 }
