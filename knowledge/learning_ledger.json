@@ -309,6 +309,26 @@
       "title": "Post-August 2026 raw Shorts views are not comparable without a methodology note"
     },
     {
+      "claim": "RELATIVE_RETENTION_BENCHMARK_GATE: when authorized mature retention data is available, inspect audienceWatchRatio across elapsedVideoTimeRatio buckets and relativeRetentionPerformance. Official metrics docs define audienceWatchRatio as watches of a portion divided by views; it can exceed 1 when a portion is rewatched, so it is not unique-viewer percent. relativeRetentionPerformance is 0-1 versus similar-length YouTube videos; 0 is worse than any, 1 is better than any, and 0.5 is the documented median. It is not an absolute retention percentage and does not prove recommendation lift, satisfaction, revenue, or sales. Do not infer these metrics from public views, AVD, or APV.",
+      "decision": "CONSENSUS on the official definition. Markdown learning_id learn_youtube_relative_retention_benchmark_gate_20261003 on cb4173b is not the machine id. Metrics page checked 2026-10-03. Do not infer owned-channel relative retention.",
+      "domain": "youtube-shorts",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If authorized bucketed or relative retention is unavailable, keep the comparative benchmark unknown and use verified aggregate AVD/APV/retention gates already in the pool."
+      ],
+      "learned_at": "2026-10-03T01:30:00+00:00",
+      "learning_id": "learn_ab8d2e9b185bbc00",
+      "next_measurement": "On the next authorized mature owned-channel retention report, record elapsedVideoTimeRatio buckets, audienceWatchRatio, and relativeRetentionPerformance beside engagedViews, AVD/APV, shares/saves, and subscriber conversion. If the report is unavailable, leave the comparative benchmark unknown.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "YouTube relative retention benchmark gate"
+    },
+    {
       "claim": "YouTube Audience analytics splits monthly unique viewers into new, casual, and regular. New viewers watched for the first time in the selected period, including private-browser, deleted-history, and over-one-year-absent viewers. Casual viewers watched at least once per month for 1 to 5 months in the past year. Regular viewers watched at least once per month for more than 6 months in the past year. Regular share can be below 1 percent for newer channels, trending videos, and Shorts-heavy channels. Audience segments do not affect reach or monetization. A low regular percentage is not failure, and audience mix is not proof that one Short caused loyalty.",
       "decision": "AUDIENCE_LOYALTY_GATE: add new/casual/regular mix and returning-viewer trend as a slower channel-level layer. Do not penalize a new or Shorts-heavy channel because regular viewers are initially very low. Do not promote a format to a durable series from audience mix alone. Promote only when mature per-video engagedViews, AVD/APV, retention, net subscriber conversion and deep engagement stay healthy and repeated publication coincides with improving returning/casual/regular evidence on like-for-like 7/28/90-day windows. Audience segments do not affect reach or monetization.",
       "domain": "youtube-analytics",
@@ -491,5 +511,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T00:41:28+00:00"
+  "updated_at": "2026-10-03T01:27:36+00:00"
 }
