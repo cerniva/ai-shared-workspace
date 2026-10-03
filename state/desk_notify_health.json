@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 4,
+    "pending": 5,
     "seen": 0,
     "answered": 46,
     "delayed": 113
   },
-  "event_count": 272,
+  "event_count": 273,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -289,22 +289,22 @@
     "MSG-20261003-0339-grok-fail-closed-seen:delayed",
     "MSG-20261003-0345-grok-fail-closed-persistence:delayed",
     "MSG-20261003-0442-grok-seen-persistence-ci:pending",
-    "MSG-20261003-0442-grok-persistence-ci-gate:pending"
+    "MSG-20261003-0442-grok-persistence-ci-gate:pending",
+    "MSG-20261003-0444-grok-persistence-ci-run:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-0442-grok-seen-persistence-ci:pending",
-    "MSG-20261003-0442-grok-persistence-ci-gate:pending"
+    "MSG-20261003-0444-grok-persistence-ci-run:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T04:41:16+03:00",
+  "checked_at": "2026-10-03T04:41:56+03:00",
   "historical_counts": {
-    "pending": 4,
+    "pending": 5,
     "seen": 0,
     "answered": 46,
     "delayed": 113
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 220,
+  "active_source_id_count": 222,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
