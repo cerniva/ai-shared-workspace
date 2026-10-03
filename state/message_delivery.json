@@ -3757,6 +3757,40 @@
         "pending"
       ],
       "pending_at": "2026-10-03T07:32:00+03:00"
+    },
+    "MSG-20261003-0734-grok-content-type-bridge": {
+      "id": "MSG-20261003-0734-grok-content-type-bridge",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-03T07:31:52+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "MSG-20261003-0732-grok-seen-content-type",
+      "created_at": "2026-10-03T07:34:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-03T07:31:52+03:00"
+    },
+    "RPT-20261003-0734-grok-content-type-gate": {
+      "id": "RPT-20261003-0734-grok-content-type-gate",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T07:31:53+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-03T07:34:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T07:34:00+03:00"
     }
   },
   "events": [
@@ -7480,6 +7514,28 @@
       "at": "2026-10-03T07:31:22+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-0734-grok-content-type-bridge:answered",
+      "message_id": "MSG-20261003-0734-grok-content-type-bridge",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T07:31:52+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-0734-grok-content-type-gate:pending",
+      "message_id": "RPT-20261003-0734-grok-content-type-gate",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T07:31:53+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -7820,6 +7876,8 @@
     "MSG-20261003-0725-grok-cohort-rfm:answered",
     "RPT-20261003-0725-grok-cohort-rfm-gate:pending",
     "MSG-20261003-0726-grok-cohort-rfm-sha:answered",
-    "MSG-20261003-0732-grok-seen-content-type:pending"
+    "MSG-20261003-0732-grok-seen-content-type:pending",
+    "MSG-20261003-0734-grok-content-type-bridge:answered",
+    "RPT-20261003-0734-grok-content-type-gate:pending"
   ]
 }
