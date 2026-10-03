@@ -69,6 +69,8 @@ jobs:
           python-version: '3.12'
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Fail-closed persistence gate
+        run: python3 scripts/learning_bridge.py gate FAIL_CLOSED_PERSISTENCE_GATE
       - name: Compile check
         run: find scripts tests browser_worker orchestrator research_worker shorts_worker shopify_worker -name '*.py' ! -name 'desk_bridge_part1.py' ! -name 'desk_bridge_part2.py' -print0 | xargs -0 python3 -m py_compile
       - name: Secret-pattern guard
