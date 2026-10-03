@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from scripts.knowledge_bridge import CatalogError, SourceCatalog
-from scripts.learning_bridge import LearningLedger, learning_id
+from scripts.learning_bridge import LearningLedger, learning_id, persistence_gate
 
 
 class LearningBridgeTests(unittest.TestCase):
@@ -90,6 +91,37 @@ class LearningBridgeTests(unittest.TestCase):
             results = list(pool.map(lambda _: self.ledger.add(payload), range(24)))
         self.assertEqual(sum(1 for _, created in results if created), 1)
         self.assertEqual(len(self.ledger.list()), 1)
+
+
+
+    def test_persistence_gate_fails_closed_without_ledger_row(self) -> None:
+        with self.assertRaises(CatalogError) as caught:
+            persistence_gate(self.ledger, "FAIL_CLOSED_PERSISTENCE_GATE")
+        self.assertIn("fail closed", str(caught.exception))
+
+    def test_persistence_gate_fails_closed_when_source_missing(self) -> None:
+        payload = self.record()
+        payload["claim"] = "FAIL_CLOSED_PERSISTENCE_GATE requires a ledger row"
+        payload["decision"] = "Reject markdown-only persistence"
+        payload["source_ids"] = [self.source_id]
+        self.ledger.add(payload)
+        data = json.loads(self.ledger_path.read_text(encoding="utf-8"))
+        data["learnings"][0]["source_ids"] = ["src_missing"]
+        self.ledger_path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaises(CatalogError) as caught:
+            persistence_gate(self.ledger, "FAIL_CLOSED_PERSISTENCE_GATE")
+        self.assertIn("source missing", str(caught.exception))
+
+    def test_persistence_gate_read_back_passes(self) -> None:
+        payload = self.record()
+        payload["claim"] = "FAIL_CLOSED_PERSISTENCE_GATE requires a ledger row"
+        payload["decision"] = "Reject markdown-only persistence"
+        saved, created = self.ledger.add(payload)
+        self.assertTrue(created)
+        result = persistence_gate(self.ledger, "FAIL_CLOSED_PERSISTENCE_GATE")
+        self.assertTrue(result["persisted"])
+        self.assertEqual(result["learning_ids"], [saved["learning_id"]])
+        self.assertEqual(self.ledger.find(saved["learning_id"])["learning_id"], saved["learning_id"])
 
 
 if __name__ == "__main__":

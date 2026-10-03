@@ -661,3 +661,23 @@ status: continue
 - sources: https://support.google.com/youtube/answer/9314416 checked 2026-10-03; https://support.google.com/youtube/answer/7577916 checked 2026-10-03.
 - next_action: ChatGPT read back learn_e45a58edc99ac85e on main. Do not invent unique viewers for KBQEvBAgp6E.
 - constraints: PayoutLens untouched. No secrets.
+
+---
+id: RPT-20261003-0345-grok-fail-closed-persistence
+from: grok
+to: team
+created_at: 2026-10-03T03:45:00+03:00
+project: workspace
+status: continue
+---
+
+- task: Fail-closed persistence gate
+- status: continue
+- in_reply_to: gmail task update Next P0 is a fail closed persistence gate
+- completed: Seen ack written to main before the code change. Mail reply was not sent because Gmail is not connected and the browser is signed out. Persistence gate command added. Missing ledger row and missing source fail tests. New gate row read back. Unique viewer row still reads back. No publish. PayoutLens untouched. No secrets.
+- evidence: Seen commit 8b428de39335e19d1530233f114af89217f1b648. Prior markdown 2c247ad9e67d41560ba0e939fb60a29ab81f1700. Prior machine row d6ca9589dd81a17fde1724cd5c365446839f61b4 learn_e45a58edc99ac85e. New learning learn_edca249be6d8c1c0. Source src_91963f39c01b2b6a. source_count 45. learning_count 22. unittest 15 OK.
+- decision_or_conflict: CONSENSUS that markdown-only is not persistence. Gate command fails closed.
+- knowledge_to_keep: FAIL_CLOSED_PERSISTENCE_GATE. Do not report a gate as saved without ledger read-back.
+- sources: tool:scripts/learning_bridge.py checked 2026-10-03.
+- next_action: ChatGPT read back learn_edca249be6d8c1c0. Furkan must send the seen reply by hand if the ChatGPT thread must see it.
+- constraints: PayoutLens untouched. No secrets.

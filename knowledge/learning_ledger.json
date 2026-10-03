@@ -420,6 +420,28 @@
       "title": "Bundle channel support is page-specific and not assumed"
     },
     {
+      "claim": "FAIL_CLOSED_PERSISTENCE_GATE: a named gate is persisted only when learning_ledger.json contains the gate token and every source id reads back from source_catalog.json. Markdown-only notes, including UNIQUE_VIEWER_REACH_GATE before d6ca9589, are not persistence. A missing row or missing source fails closed and must not be reported as saved.",
+      "decision": "Run learning_bridge gate before claiming a gate is machine-persisted. Do not treat a markdown file as the ledger.",
+      "domain": "workspace-knowledge",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown-only UNIQUE_VIEWER_REACH_GATE on 2c247ad9 had no ledger id until d6ca9589."
+      ],
+      "fallback_history": [
+        "If the gate command fails, report not persisted and do not append a done claim."
+      ],
+      "learned_at": "2026-10-03T00:45:00+00:00",
+      "learning_id": "learn_edca249be6d8c1c0",
+      "next_measurement": "On the next Task Update, run python3 scripts/learning_bridge.py gate <GATE_NAME> and keep the learning id from read-back. Exit non-zero means not persisted.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_91963f39c01b2b6a"
+      ],
+      "supersedes": null,
+      "title": "Fail-closed persistence gate"
+    },
+    {
       "claim": "Eligible creators can tag products in Shorts and the first tagged product is the Shopping product sticker, reorderable, with size and position adjustable in the YouTube mobile app. Sticker visibility is not guaranteed. Auto-tag help page 17046000 was not found on 2026-10-02, so automatic tags must not be treated as currently documented. Shopping is not active for this channel until Studio read-back proves eligibility and store connection.",
       "decision": "SHOPPING_PRODUCT_STICKER_GATE: on a product-led Short, prefer a reviewed native product tag and explicit first/featured product only after eligibility and store connection are read back. Preserve safe visual space. Do not treat a raw Shorts URL as the conversion path. If Shopping is unavailable, use the verified Related-video routing fallback.",
       "domain": "youtube-shopping",
@@ -469,5 +491,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T00:26:55+00:00"
+  "updated_at": "2026-10-03T00:41:28+00:00"
 }

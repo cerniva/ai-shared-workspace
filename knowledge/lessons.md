@@ -33,3 +33,4 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 ## Strategies
 1. **Verify-before-green** — After every repository write, re-fetch and assert required content.
 2. **Alternative-first recovery** — Bir yol hata verdiğinde kullanıcıya engel olarak dönmeden önce aynı hedefe ulaşan güvenli alternatifleri araştır; kör retry yapma.
+- workspace-fail-closed-persistence | learning_bridge gate fails closed unless the named token is in learning_ledger.json and each source id reads back from source_catalog.json | Markdown-only notes are not machine persistence | FAIL_CLOSED_PERSISTENCE_GATE before claiming a gate is saved | learning_id, source_ids, gate exit code.

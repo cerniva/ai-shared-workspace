@@ -174,6 +174,53 @@ class LearningLedger:
         return len(seen)
 
 
+
+def persistence_gate(ledger: LearningLedger, gate_name: str) -> dict[str, Any]:
+    """Fail closed unless the gate token is in the ledger and sources read back.
+
+    A markdown note is not persistence. Missing ledger row, missing source id,
+    or read-back mismatch raises CatalogError and must not be reported as saved.
+    """
+    token = " ".join(gate_name.split())
+    if not token:
+        raise CatalogError("gate name cannot be empty")
+    matches = []
+    for item in ledger.list():
+        blob = " ".join(
+            str(item.get(field) or "")
+            for field in ("title", "claim", "decision")
+        )
+        if token in blob:
+            matches.append(item)
+    if not matches:
+        raise CatalogError(f"fail closed: {token} is not in the learning ledger")
+    valid_sources = ledger._source_ids()
+    learning_ids: list[str] = []
+    for item in matches:
+        source_ids = item.get("source_ids") or []
+        if not source_ids:
+            raise CatalogError(f"fail closed: {token} has no source ids")
+        missing = [sid for sid in source_ids if sid not in valid_sources]
+        if missing:
+            raise CatalogError(
+                "fail closed: " + token + " source missing: " + ", ".join(missing)
+            )
+        found = ledger.find(str(item.get("learning_id") or ""))
+        if not found or found.get("learning_id") != item.get("learning_id"):
+            raise CatalogError(f"fail closed: {token} read-back mismatch")
+        if token not in " ".join(
+            str(found.get(field) or "") for field in ("title", "claim", "decision")
+        ):
+            raise CatalogError(f"fail closed: {token} read-back lost the gate token")
+        learning_ids.append(found["learning_id"])
+    return {
+        "persisted": True,
+        "gate": token,
+        "learning_ids": learning_ids,
+        "learning_count": ledger.validate(),
+    }
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Safe shared learning ledger bridge")
     parser.add_argument("--ledger", default=str(DEFAULT_LEDGER))
@@ -181,6 +228,8 @@ def _parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("list")
     sub.add_parser("validate")
+    gate = sub.add_parser("gate")
+    gate.add_argument("gate_name")
     find = sub.add_parser("find")
     find.add_argument("learning_id")
     add = sub.add_parser("add")
@@ -204,6 +253,8 @@ def main() -> int:
             return 1
     elif args.command == "validate":
         result = {"valid": True, "learning_count": ledger.validate()}
+    elif args.command == "gate":
+        result = persistence_gate(ledger, args.gate_name)
     else:
         payload = {field: getattr(args, field) for field in REQUIRED_FIELDS}
         payload.update(

@@ -422,6 +422,21 @@
       "source_name": "YouTube Analytics API data model latency"
     },
     {
+      "access_status": "verified-connected",
+      "canonical": "tool:scripts/learning_bridge.py",
+      "category": "workspace-persistence",
+      "cost_quota": "local repository read; no API credit",
+      "discovered_at": "2026-10-03T00:39:00+00:00",
+      "evidence_tier": "primary",
+      "failure_note": null,
+      "last_successful_use": null,
+      "provenance": "verified",
+      "purpose": "Reject a persistence claim unless the gate token is in learning_ledger.json and every source id reads back from source_catalog.json",
+      "reliability_limits": "Proves ledger presence only. Does not prove Gmail delivery, YouTube Analytics, or publish state.",
+      "source_id": "src_91963f39c01b2b6a",
+      "source_name": "Shared learning ledger fail-closed gate"
+    },
+    {
       "access_status": "verified-public",
       "canonical": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
       "category": "identity-integration-security",
@@ -662,5 +677,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-03T00:26:50+00:00"
+  "updated_at": "2026-10-03T00:41:28+00:00"
 }
