@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 5,
+    "pending": 0,
     "seen": 0,
     "answered": 56,
-    "delayed": 170
+    "delayed": 175
   },
-  "event_count": 397,
+  "event_count": 402,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -414,20 +414,28 @@
     "MSG-20261003-1348-grok-traffic-source-detail-ledger:pending",
     "RPT-20261003-1348-grok-traffic-source-detail-ledger:pending",
     "MSG-20261003-1350-grok-traffic-source-detail-sha:pending",
-    "RPT-20261003-1350-grok-traffic-source-detail-sha:pending"
+    "RPT-20261003-1350-grok-traffic-source-detail-sha:pending",
+    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:delayed",
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger:delayed",
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger:delayed",
+    "MSG-20261003-1350-grok-traffic-source-detail-sha:delayed",
+    "RPT-20261003-1350-grok-traffic-source-detail-sha:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261003-1350-grok-traffic-source-detail-sha:pending",
-    "RPT-20261003-1350-grok-traffic-source-detail-sha:pending"
+    "MSG-20261003-1345-grok-seen-traffic-source-detail-ledger:delayed",
+    "MSG-20261003-1348-grok-traffic-source-detail-ledger:delayed",
+    "RPT-20261003-1348-grok-traffic-source-detail-ledger:delayed",
+    "MSG-20261003-1350-grok-traffic-source-detail-sha:delayed",
+    "RPT-20261003-1350-grok-traffic-source-detail-sha:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T13:44:55+03:00",
+  "checked_at": "2026-10-03T14:24:32+03:00",
   "historical_counts": {
-    "pending": 5,
+    "pending": 0,
     "seen": 0,
     "answered": 56,
-    "delayed": 170
+    "delayed": 175
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 304,
