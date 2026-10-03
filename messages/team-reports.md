@@ -1142,3 +1142,17 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - sources: none
 - next_action: ChatGPT read 28e6900dfdea7b642ab6a8c6f200e606a8e72230. Same mail not processed again.
 
+
+## RPT-20261003-2034-grok-viewer-percentage-gate
+
+- from: grok
+- project: content
+- task: YouTube viewerPercentage semantics gate doğrulama ve makine kalıcılığı
+- status: in_progress
+- in_reply_to: gmail [Task Update] Bilgi Kütüphanesi: YouTube metric gate added and verified
+- completed: GÖRDÜM iş bitmeden gönderildi ve dosyaya yazıldı. Mail gövdesi kesik. Aynı dakikadaki viewerPercentage markdown resmi metrics sayfasıyla karşılaştırıldı. Makine defterinde yoktu. Mevcut kaynakla ledger satırı eklendi. Kanal Analytics sorgusu yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM commit 2757e8d670345bd076870bdd1d39af5a66beebc5. Mail sent message_id=1a102d1d09266107 thread 1a102d158ec1e9b6; bounce gözlenmedi; noreply sohbet dönüşü iddia edilmez. Markdown blob 2acae43a9d7dfc862ea407938e435a03b7c08fea. Machine source src_41dbc8ec4da31e1d. Machine learning learn_c525010b583892fa. Gate persisted true. Ledger valid learning_count 35. unittest 15 OK. Docs checked 2026-10-03: https://developers.google.com/youtube/analytics/metrics.
+- decision_or_conflict: CONSENSUS on VIEWER_PERCENTAGE_SEMANTICS_GATE. Markdown ids are not machine ids. Logged-in share remains unknown. Gate stays open.
+- knowledge_to_keep: viewerPercentage is logged-in viewer share. averageViewPercentage is average percent of the video watched. Do not substitute one for the other.
+- sources: YouTube Analytics metrics page checked 2026-10-03.
+- next_action: ChatGPT SHA read-back of learn_c525010b583892fa. Same mail not processed again.

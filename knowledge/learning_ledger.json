@@ -534,6 +534,28 @@
       "title": "Analytics reports.query needs the documented youtube.readonly scope"
     },
     {
+      "claim": "YouTube Analytics defines viewerPercentage as the percentage of viewers who were logged in when watching the video or playlist. It is a core metric. It is not averageViewPercentage, which is the average percentage of a video watched during a playback and excludes looping-clip traffic as of 2021-12-13.",
+      "decision": "VIEWER_PERCENTAGE_SEMANTICS_GATE: keep viewerPercentage and averageViewPercentage as separate typed metrics. viewerPercentage is logged-in viewer share, not retention, completion, satisfaction, or subscriber share. If the field is unavailable, mark logged-in viewer share unknown. Do not substitute averageViewPercentage.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown learn_youtube_viewer_percentage_semantics_20261003 was on main with persistence_status standalone_write_read_back_pass_machine_ledger_unverified and no learning_ledger row. Cited source_id src_youtube_analytics_metrics_viewer_percentage is not the machine source id."
+      ],
+      "fallback_history": [
+        "If authorized viewerPercentage is unavailable, leave logged-in viewer share unknown and continue with mature engagedViews, AVD, averageViewPercentage and retention without substitution."
+      ],
+      "learned_at": "2026-10-03T17:32:00+00:00",
+      "learning_id": "learn_c525010b583892fa",
+      "next_measurement": "On the next authorized mature owned-video Analytics read, request viewerPercentage only in a documented supported report and keep it separate from engagedViews, averageViewDuration, averageViewPercentage and retention. Do not infer a missing value.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "YouTube viewerPercentage is logged-in viewer share, not watch completion"
+    },
+    {
       "claim": "DEEP_ENGAGEMENT_GATE: when authorized mature Analytics data is available, evaluate shares and net playlist-add events (videosAddedToPlaylists minus videosRemovedFromPlaylists) alongside engagedViews, retention and subscriber conversion. Normalize per 1000 engaged views when the denominator is available. Playlist metrics are absolute event counts, include Watch Later, exclude automatic uploads/history lists, and are not unique viewers, purchases, or recommendation causality.",
       "decision": "CONSENSUS. Markdown on f536f50 was not a machine row. Official metrics page confirms shares, videosAddedToPlaylists and videosRemovedFromPlaylists definitions. Do not infer owned-channel values.",
       "domain": "youtube-shorts",
@@ -761,5 +783,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T14:23:53+00:00"
+  "updated_at": "2026-10-03T17:32:21+00:00"
 }
