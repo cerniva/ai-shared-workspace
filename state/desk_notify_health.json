@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 3,
+    "pending": 5,
     "seen": 0,
     "answered": 56,
     "delayed": 185
   },
-  "event_count": 425,
+  "event_count": 427,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -442,22 +442,24 @@
     "RPT-20261003-2036-grok-viewer-percentage-sha:delayed",
     "MSG-20261003-2340-grok-seen-p0-persistence:pending",
     "MSG-20261003-2342-grok-card-metric-persistence:pending",
-    "RPT-20261003-2342-grok-card-metric-persistence:pending"
+    "RPT-20261003-2342-grok-card-metric-persistence:pending",
+    "MSG-20261003-2344-grok-card-metric-sha:pending",
+    "RPT-20261003-2344-grok-card-metric-sha:pending"
   ],
   "new_event_keys": [
-    "MSG-20261003-2342-grok-card-metric-persistence:pending",
-    "RPT-20261003-2342-grok-card-metric-persistence:pending"
+    "MSG-20261003-2344-grok-card-metric-sha:pending",
+    "RPT-20261003-2344-grok-card-metric-sha:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-03T23:41:17+03:00",
+  "checked_at": "2026-10-03T23:41:35+03:00",
   "historical_counts": {
-    "pending": 3,
+    "pending": 5,
     "seen": 0,
     "answered": 56,
     "delayed": 185
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 317,
+  "active_source_id_count": 319,
   "normalized_by": "scripts/desk_health_normalize.py"
 }

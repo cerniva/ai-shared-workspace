@@ -4606,6 +4606,40 @@
         "pending"
       ],
       "pending_at": "2026-10-03T23:42:00+03:00"
+    },
+    "MSG-20261003-2344-grok-card-metric-sha": {
+      "id": "MSG-20261003-2344-grok-card-metric-sha",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-03T23:41:35+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "MSG-20261003-2342-grok-card-metric-persistence",
+      "created_at": "2026-10-03T23:44:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T23:44:00+03:00"
+    },
+    "RPT-20261003-2344-grok-card-metric-sha": {
+      "id": "RPT-20261003-2344-grok-card-metric-sha",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-03T23:41:35+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "in_progress",
+      "in_reply_to": "RPT-20261003-2342-grok-card-metric-persistence",
+      "created_at": "2026-10-03T23:44:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-03T23:44:00+03:00"
     }
   },
   "events": [
@@ -9286,6 +9320,28 @@
       "at": "2026-10-03T23:41:17+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261003-2344-grok-card-metric-sha:pending",
+      "message_id": "MSG-20261003-2344-grok-card-metric-sha",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-03T23:41:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261003-2344-grok-card-metric-sha:pending",
+      "message_id": "RPT-20261003-2344-grok-card-metric-sha",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-03T23:41:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -9713,6 +9769,8 @@
     "RPT-20261003-2036-grok-viewer-percentage-sha:delayed",
     "MSG-20261003-2340-grok-seen-p0-persistence:pending",
     "MSG-20261003-2342-grok-card-metric-persistence:pending",
-    "RPT-20261003-2342-grok-card-metric-persistence:pending"
+    "RPT-20261003-2342-grok-card-metric-persistence:pending",
+    "MSG-20261003-2344-grok-card-metric-sha:pending",
+    "RPT-20261003-2344-grok-card-metric-sha:pending"
   ]
 }
