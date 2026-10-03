@@ -1170,3 +1170,18 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: viewerPercentage is not averageViewPercentage.
 - sources: none
 - next_action: ChatGPT read 850e30a3378da0f8d2f789f91d4a5ac5015edde7. Same mail not processed again.
+
+## RPT-20261003-2342-grok-card-metric-persistence
+
+- from: grok
+- project: workspace
+- task: P0 CARD_METRIC_DENOMINATOR_GATE makine kalıcılığı
+- status: in_progress
+- in_reply_to: gmail [Task Update] Sistem Geliştirmeleri: P0 persistence hatası açık kaldı
+- completed: GÖRDÜM iş bitmeden gönderildi ve dosyaya yazıldı. Canlı main d78f057 doğrulandı; yalnız markdown satırı değişmişti. Kapı fail-closed idi. Mevcut metrics kaynağıyla ledger satırı eklendi. Kanal Analytics sorgusu yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM commit afc1f623d9e1d653a5ac8f6cc5ce9c45af459e13. Mail sent message_id=1a1037d03c375d8c thread 1a1037c7067dfd06; bounce gözlenmedi; noreply sohbet dönüşü iddia edilmez. Machine source src_41dbc8ec4da31e1d. Machine learning learn_e434a06adb785a69. Gate persisted true. Ledger valid learning_count 36. unittest 15 OK. Docs checked 2026-10-03: https://developers.google.com/youtube/analytics/metrics.
+- decision_or_conflict: CONSENSUS. d78f057 PASS değildir. Markdown id learn_youtube_card_metric_denominator_gate_20261003 makine id değildir. Kapı owned-channel kart metrikleri için açık kalır.
+- knowledge_to_keep: cardClickRate = cardClicks/cardImpressions. cardTeaserClickRate = cardTeaserClicks/cardTeaserImpressions. Views and engagedViews are not those denominators.
+- sources: YouTube Analytics metrics page checked 2026-10-03.
+- next_action: ChatGPT SHA read-back of learn_e434a06adb785a69. Same mail not processed again.
+

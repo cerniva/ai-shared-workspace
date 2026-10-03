@@ -578,6 +578,28 @@
       "title": "YouTube Shorts deep-engagement save/share gate"
     },
     {
+      "claim": "YouTube Analytics defines cardClickRate as cardClicks divided by cardImpressions and cardTeaserClickRate as card teaser clicks divided by card teaser impressions. A card impression is logged when the card panel is opened, once per card. These rates do not use views or engagedViews as the denominator.",
+      "decision": "CARD_METRIC_DENOMINATOR_GATE: preserve each documented denominator. cardClickRate = cardClicks/cardImpressions; cardTeaserClickRate = cardTeaserClicks/cardTeaserImpressions. Never substitute views, engagedViews, unique viewers, or each other. Do not infer viewer-level conversion. Human markdown id learn_youtube_card_metric_denominator_gate_20261003 is not the machine id. Owned-channel card metrics were not read.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Markdown knowledge/learnings/youtube-card-metric-denominator-gate-2026-10-03.md at d78f057 had persistence_status machine_ledger_unverified and no learning_ledger row."
+      ],
+      "fallback_history": [
+        "If authorized card metrics are unavailable or unsupported, mark card interaction context unknown and use mature engagedViews/watch-time/retention metrics without inventing a card CTR."
+      ],
+      "learned_at": "2026-10-03T20:40:00+00:00",
+      "learning_id": "learn_e434a06adb785a69",
+      "next_measurement": "On a mature authorized owned-video Analytics read where card metrics are supported, retrieve cardClicks+cardImpressions and cardTeaserClicks+cardTeaserImpressions, recompute each documented rate, and compare only like-for-like surfaces. If unsupported or absent, mark unknown rather than zero.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "Card rates use card impressions, not views"
+    },
+    {
       "claim": "UNIQUE_VIEWER_REACH_GATE: when authorized mature Studio Audience data exists, keep unique viewers as a separate estimated reach layer for like-for-like audience-size comparisons. Official Help defines unique viewers as the estimated number of viewers in the selected date range, calculated from engaged views and corresponding watch time. For Shorts, engaged views estimate people who stayed to watch. Unique viewers are not public views, engagedViews, subscribers, returning viewers, or unique reach/co-viewed views. Totals are available for periods up to 90 days and from 2017-08-01. Channel unique viewers dedupe a person who watched more than one video. Never invent unique viewers by dividing public views. Missing authorized values stay unknown.",
       "decision": "CONSENSUS on the metric definition. Markdown on 2c247ad9 was not a machine row. Official pages 9314416 and 7577916 checked 2026-10-03. Do not infer owned-channel unique viewers.",
       "domain": "youtube-shorts",
@@ -783,5 +805,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T17:32:21+00:00"
+  "updated_at": "2026-10-03T20:40:04+00:00"
 }
