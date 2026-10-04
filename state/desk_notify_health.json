@@ -13,7 +13,7 @@
   "counts": {
     "pending": 0,
     "seen": 65,
-    "answered": 59,
+    "answered": 60,
     "delayed": 142
   },
   "event_count": 527,
@@ -546,19 +546,17 @@
     "RPT-20261004-2308-grok-finance-chart-gate:pending",
     "RPT-20261004-2308-grok-finance-chart-gate:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261004-2308-grok-finance-chart-gate:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-05T00:05:35+03:00",
+  "checked_at": "2026-10-05T01:02:03+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 65,
-    "answered": 59,
+    "answered": 60,
     "delayed": 142
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 348,
+  "active_source_id_count": 349,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
