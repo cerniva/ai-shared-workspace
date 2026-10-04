@@ -4732,8 +4732,8 @@
     "MSG-20261004-0245-grok-pending-seen-invariant": {
       "id": "MSG-20261004-0245-grok-pending-seen-invariant",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-04T02:44:23+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T05:23:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4742,15 +4742,17 @@
       "in_reply_to": "MSG-20261004-0242-grok-seen-p0-pending",
       "created_at": "2026-10-04T02:45:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T02:45:00+03:00"
+      "pending_at": "2026-10-04T02:45:00+03:00",
+      "delayed_at": "2026-10-04T05:23:31+03:00"
     },
     "RPT-20261004-0245-grok-pending-seen-invariant": {
       "id": "RPT-20261004-0245-grok-pending-seen-invariant",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T02:44:23+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T05:23:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4759,15 +4761,17 @@
       "in_reply_to": "gmail [Task Update] Sistem Geliştirmeleri: P0 invariant ve pending state açığı açık kaldı",
       "created_at": "2026-10-04T02:45:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T02:45:00+03:00"
+      "pending_at": "2026-10-04T02:45:00+03:00",
+      "delayed_at": "2026-10-04T05:23:31+03:00"
     },
     "MSG-20261004-0246-grok-pending-seen-sha": {
       "id": "MSG-20261004-0246-grok-pending-seen-sha",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-04T02:44:38+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T05:23:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4776,15 +4780,17 @@
       "in_reply_to": "MSG-20261004-0245-grok-pending-seen-invariant",
       "created_at": "2026-10-04T02:46:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T02:46:00+03:00"
+      "pending_at": "2026-10-04T02:46:00+03:00",
+      "delayed_at": "2026-10-04T05:23:31+03:00"
     },
     "RPT-20261004-0246-grok-pending-seen-sha": {
       "id": "RPT-20261004-0246-grok-pending-seen-sha",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T02:44:38+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T05:23:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4793,9 +4799,11 @@
       "in_reply_to": "RPT-20261004-0245-grok-pending-seen-invariant",
       "created_at": "2026-10-04T02:46:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T02:46:00+03:00"
+      "pending_at": "2026-10-04T02:46:00+03:00",
+      "delayed_at": "2026-10-04T05:23:31+03:00"
     }
   },
   "events": [
@@ -10268,6 +10276,50 @@
       "at": "2026-10-04T02:44:38+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261004-0245-grok-pending-seen-invariant:delayed",
+      "message_id": "MSG-20261004-0245-grok-pending-seen-invariant",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T05:23:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0245-grok-pending-seen-invariant:delayed",
+      "message_id": "RPT-20261004-0245-grok-pending-seen-invariant",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-04T05:23:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261004-0246-grok-pending-seen-sha:delayed",
+      "message_id": "MSG-20261004-0246-grok-pending-seen-sha",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T05:23:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0246-grok-pending-seen-sha:delayed",
+      "message_id": "RPT-20261004-0246-grok-pending-seen-sha",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-04T05:23:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -10767,6 +10819,10 @@
     "MSG-20261004-0245-grok-pending-seen-invariant:pending",
     "RPT-20261004-0245-grok-pending-seen-invariant:pending",
     "MSG-20261004-0246-grok-pending-seen-sha:pending",
-    "RPT-20261004-0246-grok-pending-seen-sha:pending"
+    "RPT-20261004-0246-grok-pending-seen-sha:pending",
+    "MSG-20261004-0245-grok-pending-seen-invariant:delayed",
+    "RPT-20261004-0245-grok-pending-seen-invariant:delayed",
+    "MSG-20261004-0246-grok-pending-seen-sha:delayed",
+    "RPT-20261004-0246-grok-pending-seen-sha:delayed"
   ]
 }
