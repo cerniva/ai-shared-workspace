@@ -1,7 +1,7 @@
 # Research Router & Source Library
 
 Status: active
-Updated: 2026-09-28
+Updated: 2026-10-05
 
 ## Goal
 Use the cheapest reliable source first, deepen only when needed, cross-check important claims, and save reusable source knowledge instead of repeating the same discovery work.
@@ -14,6 +14,7 @@ Use the cheapest reliable source first, deepen only when needed, cross-check imp
 5. Interactive website actions -> browser worker/TinyFish; do not use scraping when clicks/login/state changes are required.
 6. Existing project knowledge -> search `knowledge/` before new external research.
 7. Video/Shorts production decisions -> read `knowledge/video-production-learning-pool.md` before repeating external research; filter cheaply with public YouTube metadata/transcripts/comments, then use expensive scene-by-scene analysis only on a small high-value subset.
+8. Finance decisions -> read `knowledge/finance_runtime_state.json` first, then the shared source catalog/learning ledger. New Finance reusable deltas must be written and read back before being called persistent.
 
 ## Verification rules
 - Important factual claims: prefer primary/official sources.
@@ -43,6 +44,7 @@ Research -> ChatGPT synthesis -> Grok second check when required by team protoco
 - OpenAI Responses API supports built-in web search and external/custom tools.
 - Firecrawl supports search, scrape, map and crawl workflows.
 - Parallel exposes Search, Task and Chat APIs plus Remote MCP.
+- Wolfram `FinancialData` + `DateListPlot` is a verified non-Python Finance chart fallback for supported symbols and for externally verified dated series. Missing observations fail closed; no synthetic or interpolated points.
 
 Provider availability and credentials must be checked at execution time; this document does not imply that every provider is authenticated.
 
@@ -65,6 +67,13 @@ Provider availability and credentials must be checked at execution time; this do
 - `knowledge/knowledge_index.json` is the routing index. Legacy Markdown remains readable, but a Markdown entry alone is not proof that a plan used the machine bridge.
 - Remote GitHub writers must read the current blob SHA and serialize Contents API updates. On HTTP 409/422, re-read state before one bounded retry; never overwrite a concurrent delta blindly.
 - Validate both layers with `python3 scripts/knowledge_bridge.py validate` and `python3 scripts/learning_bridge.py validate`.
+
+## Finance durable runtime overlay
+
+- `knowledge/finance_runtime_state.json` is the Finance plan's durable read-first/write-read-back overlay when the automation can reach GitHub but cannot safely patch the large shared JSON ledgers in-place.
+- It never replaces `source_catalog.json` or `learning_ledger.json`; it preserves Finance continuity and must be reconciled into the central machine ledgers by the shared bridge/system workflow when that write path is available.
+- A Finance run must load this file before new research, deduplicate new source/learning deltas, read the current blob SHA, update once, then fetch it again and verify the expected IDs/fields. If read-back fails, mark `PERSISTENCE_FAILURE` and do not claim persistence.
+- `finance_chart_missing` may only be raised after the run has attempted the verified Wolfram renderer path. Use `FinancialData` where supported, otherwise pass only externally verified timestamp/value points into `DateListPlot`. Python/matplotlib/pandas/seaborn are not Finance chart fallbacks.
 
 ## Shared production pool
 
