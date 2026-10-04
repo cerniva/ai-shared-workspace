@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 65,
     "answered": 58,
     "delayed": 139
   },
-  "event_count": 521,
+  "event_count": 522,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -538,17 +538,17 @@
     "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
     "RPT-20261004-0926-grok-yt-shopify-rules:delayed",
     "MSG-20261004-1222-grok-seen-retention-shopify:seen",
-    "RPT-20261004-1222-grok-retention-shopify:delayed"
+    "RPT-20261004-1222-grok-retention-shopify:delayed",
+    "RPT-20261004-1523-grok-cohort-traffic:pending"
   ],
   "new_event_keys": [
-    "MSG-20261004-1222-grok-seen-retention-shopify:seen",
-    "RPT-20261004-1222-grok-retention-shopify:delayed"
+    "RPT-20261004-1523-grok-cohort-traffic:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-04T13:57:02+03:00",
+  "checked_at": "2026-10-04T15:27:10+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 65,
     "answered": 58,
     "delayed": 139
