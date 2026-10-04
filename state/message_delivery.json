@@ -4975,8 +4975,8 @@
     "MSG-20261004-1222-grok-seen-retention-shopify": {
       "id": "MSG-20261004-1222-grok-seen-retention-shopify",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-04T12:25:17+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-04T13:57:02+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4985,15 +4985,17 @@
       "in_reply_to": "null",
       "created_at": "2026-10-04T12:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-04T12:22:00+03:00"
+      "pending_at": "2026-10-04T12:22:00+03:00",
+      "seen_at": "2026-10-04T13:57:02+03:00"
     },
     "RPT-20261004-1222-grok-retention-shopify": {
       "id": "RPT-20261004-1222-grok-retention-shopify",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T12:25:17+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T13:57:02+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -5002,9 +5004,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-04T12:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T12:22:00+03:00"
+      "pending_at": "2026-10-04T12:22:00+03:00",
+      "delayed_at": "2026-10-04T13:57:02+03:00"
     }
   },
   "events": [
@@ -10719,6 +10723,28 @@
       "at": "2026-10-04T12:25:17+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261004-1222-grok-seen-retention-shopify:seen",
+      "message_id": "MSG-20261004-1222-grok-seen-retention-shopify",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T13:57:02+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-1222-grok-retention-shopify:delayed",
+      "message_id": "RPT-20261004-1222-grok-retention-shopify",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-04T13:57:02+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -11240,6 +11266,8 @@
     "RPT-20261004-0922-grok-seen-yt-shopify-rules:seen",
     "RPT-20261004-1222-grok-retention-shopify:pending",
     "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
-    "RPT-20261004-0926-grok-yt-shopify-rules:delayed"
+    "RPT-20261004-0926-grok-yt-shopify-rules:delayed",
+    "MSG-20261004-1222-grok-seen-retention-shopify:seen",
+    "RPT-20261004-1222-grok-retention-shopify:delayed"
   ]
 }

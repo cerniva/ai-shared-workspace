@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 64,
+    "pending": 0,
+    "seen": 65,
     "answered": 58,
-    "delayed": 138
+    "delayed": 139
   },
-  "event_count": 519,
+  "event_count": 521,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -536,23 +536,22 @@
     "RPT-20261004-0922-grok-seen-yt-shopify-rules:seen",
     "RPT-20261004-1222-grok-retention-shopify:pending",
     "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
-    "RPT-20261004-0926-grok-yt-shopify-rules:delayed"
+    "RPT-20261004-0926-grok-yt-shopify-rules:delayed",
+    "MSG-20261004-1222-grok-seen-retention-shopify:seen",
+    "RPT-20261004-1222-grok-retention-shopify:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261004-1222-grok-seen-retention-shopify:pending",
-    "RPT-20261004-0922-grok-seen-yt-shopify-rules:seen",
-    "RPT-20261004-1222-grok-retention-shopify:pending",
-    "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
-    "RPT-20261004-0926-grok-yt-shopify-rules:delayed"
+    "MSG-20261004-1222-grok-seen-retention-shopify:seen",
+    "RPT-20261004-1222-grok-retention-shopify:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-04T12:25:17+03:00",
+  "checked_at": "2026-10-04T13:57:02+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 64,
+    "pending": 0,
+    "seen": 65,
     "answered": 58,
-    "delayed": 138
+    "delayed": 139
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 341,
