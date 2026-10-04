@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "plan": "Finans",
+  "updated_at": "2026-10-05T02:30:00+03:00",
+  "status": "active",
+  "payoutlens_scope": "excluded",
+  "persistence_contract": {
+    "load_first_each_run": true,
+    "write_then_read_back": true,
+    "dedup_required": true,
+    "supersede_without_deleting_history": true
+  },
+  "sources": [
+    {
+      "source_id": "src_fin_bls_employment_20261002",
+      "source_name": "U.S. Bureau of Labor Statistics — Employment Situation September 2026",
+      "canonical": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+      "category": "finance-macro-employment",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "purpose": "Primary-source verification of September 2026 U.S. payroll and unemployment data",
+      "last_verified": "2026-10-05T02:30:00+03:00",
+      "reliability_limits": "Official macro release; market reaction still requires separate market-price sources."
+    },
+    {
+      "source_id": "src_fin_wolfram_financialdata",
+      "source_name": "Wolfram Language FinancialData",
+      "canonical": "https://reference.wolfram.com/language/ref/FinancialData",
+      "category": "finance-chart-rendering",
+      "evidence_tier": "official-docs-plus-live-test",
+      "access_status": "verified-connected",
+      "purpose": "Retrieve supported real financial time series without Python and render them with Wolfram plotting functions",
+      "last_verified": "2026-10-05T02:30:00+03:00",
+      "reliability_limits": "Coverage varies by symbol/asset. Missing series must fail closed; do not synthesize points."
+    },
+    {
+      "source_id": "src_fin_wolfram_datelistplot",
+      "source_name": "Wolfram Language DateListPlot",
+      "canonical": "https://reference.wolfram.com/language/ref/DateListPlot",
+      "category": "finance-chart-rendering",
+      "evidence_tier": "official-docs-plus-live-test",
+      "access_status": "verified-connected",
+      "purpose": "Inline visual line-chart renderer for verified dated financial series without Python",
+      "last_verified": "2026-10-05T02:30:00+03:00",
+      "reliability_limits": "Renderer only. Input series must already be verified and numeric; no interpolation or invented timestamps."
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_fin_high_impact_reaction_gate_20261005",
+      "title": "Separate macro-release first reaction from later tape or close",
+      "claim": "A high-impact macro release can trigger a knee-jerk cross-asset move that reverses later in the session; the first reaction must not be promoted to the session conclusion.",
+      "decision": "For scheduled high-impact releases, store the official release value/time, then record T+initial reaction and T+later tape/close separately for 2Y/10Y, DXY, equities, gold and energy where available. Mark later observations as snapshots unless an official settlement/close source proves otherwise.",
+      "domain": "finance-market-reaction",
+      "evidence_status": "verified",
+      "source_ids": ["src_fin_bls_employment_20261002"],
+      "failure_history": ["Earlier Finance output treated the initial post-payroll yield/oil reaction as if it persisted through the session."],
+      "fallback_history": ["If later verified tape/close is unavailable, label the move initial reaction only and do not infer the close."],
+      "outcome": "active",
+      "next_measurement": "At the next high-impact release, capture official release time/value plus first reaction and later tape/close read-back."
+    },
+    {
+      "learning_id": "learn_fin_wolfram_chart_fallback_20261005",
+      "title": "Use Wolfram as the non-Python finance chart fallback",
+      "claim": "Wolfram FinancialData and DateListPlot can retrieve supported real financial time series and render an inline visual chart without Python.",
+      "decision": "Before raising finance_chart_missing, try Wolfram. For supported symbols, retrieve real FinancialData, convert quantities to numeric values, verify at least two real observations, normalize each series as 100*value/value0 when Base-100 is required, and render with DateListPlot. For unsupported symbols, pass only externally verified dated points to DateListPlot. Never interpolate or invent missing observations.",
+      "domain": "finance-chart-rendering",
+      "evidence_status": "verified-live-test",
+      "source_ids": ["src_fin_wolfram_financialdata", "src_fin_wolfram_datelistplot"],
+      "failure_history": ["Finance repeatedly emitted AUTO_DETECTED_FAILURE: finance_chart_missing without attempting an available non-Python renderer."],
+      "fallback_history": ["If Wolfram has no data for the asset, use another verified source for the dated series and Wolfram only as renderer; if neither data nor renderer is available, fail closed."],
+      "outcome": "active",
+      "next_measurement": "Render each required Finance category chart through Wolfram and verify the visual output appears before PASS."
+    }
+  ],
+  "verification": {
+    "chart_test": {
+      "tested_at": "2026-10-05T02:30:00+03:00",
+      "symbols": ["AAPL", "MSFT"],
+      "period": "2026-09-28/2026-10-02",
+      "observations_each": 5,
+      "base100_start_verified": true,
+      "visual_render_verified": true,
+      "python_used": false,
+      "result": "PASS"
+    },
+    "persistence_read_back": "pending"
+  }
+}
