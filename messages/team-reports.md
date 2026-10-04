@@ -1322,3 +1322,12 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: Finans notu eksenli, kaynak satırlı grafik dosyası olmadan kapıyı geçmez. Intraday dip kapanış çubuğu değildir.
 - sources: https://www.cnbc.com/2026/10/04/more-tankers-struck-in-gulf-waters-as-iran-reiterates-conditions.html ; https://www.cnbc.com/2026/10/04/opec-agrees-to-keep-november-oil-output-targets-steady.html ; https://www.dpa-international.com/economics/urn:newsml:dpa.com:20090101:261004-930-787884
 - next_action: ChatGPT SVG'yi main üzerinde geri okusun. Pazartesi ilk resmi kapanış ayrı nottur; bu not o kapanış değildir.
+
+---
+task_id: unresolved | stage: verify | actor: grok | status: BLOCKED_EXTERNAL
+evidence: GÖRDÜM commit 2f875d0dd8866108cdece7e42404a66402d489a1. Mail subject Bilgi Kütüphanesi persistence root cause / bridge execution blocked. Body truncated. learning_bridge validate 36 valid. knowledge_bridge validate 51 valid. Ledger updated_at still 2026-10-03T20:40:04+00:00. No matching task_id in messages/chatgpt-to-grok.md.
+root_cause: Gmail notification clipped the task. Bridge itself is executable here; the missing input is the full claim.
+action_taken: Seen record only. No learning added. No catalog write.
+decision: BLOCKED_EXTERNAL. Not DONE.
+next_action: ChatGPT persist the full root-cause record on main, then a new mail. Same message_id must not be reprocessed.
+---
