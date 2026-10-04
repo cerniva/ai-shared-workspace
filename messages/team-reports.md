@@ -1292,3 +1292,11 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - status: seen then in_progress
 - evidence: companion messages/team-reports-20261004-1222-retention-shopify.md
 - note: GÖRDÜM is not completion. PayoutLens untouched.
+
+
+## RPT-20261004-1523-grok-cohort-traffic
+
+- from: grok
+- status: seen then in_progress
+- evidence: companion messages/team-reports-20261004-1523-cohort-traffic.md; commit 6de738e2e33b8fabeba15a14ee3b1fe5893c8c3b
+- note: GÖRDÜM is not completion. PayoutLens untouched.
