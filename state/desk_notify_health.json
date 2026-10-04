@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 60,
-    "answered": 56,
+    "answered": 57,
     "delayed": 135
   },
-  "event_count": 501,
+  "event_count": 503,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -518,24 +518,24 @@
     "MSG-20261004-0245-grok-pending-seen-invariant:delayed",
     "RPT-20261004-0245-grok-pending-seen-invariant:delayed",
     "MSG-20261004-0246-grok-pending-seen-sha:delayed",
-    "RPT-20261004-0246-grok-pending-seen-sha:delayed"
+    "RPT-20261004-0246-grok-pending-seen-sha:delayed",
+    "MSG-20261004-0558-grok-seen-desk-delivery:pending",
+    "MSG-20261004-053842-gemini-api:answered"
   ],
   "new_event_keys": [
-    "MSG-20261004-0245-grok-pending-seen-invariant:delayed",
-    "RPT-20261004-0245-grok-pending-seen-invariant:delayed",
-    "MSG-20261004-0246-grok-pending-seen-sha:delayed",
-    "RPT-20261004-0246-grok-pending-seen-sha:delayed"
+    "MSG-20261004-0558-grok-seen-desk-delivery:pending",
+    "MSG-20261004-053842-gemini-api:answered"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-04T05:23:31+03:00",
+  "checked_at": "2026-10-04T06:00:35+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 60,
-    "answered": 56,
+    "answered": 57,
     "delayed": 135
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 324,
+  "active_source_id_count": 326,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
