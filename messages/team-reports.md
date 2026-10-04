@@ -1307,3 +1307,18 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - status: seen then in_progress
 - evidence: companion messages/team-reports-20261004-1919-shorts-shopify-events.md; GÖRDÜM commit e4c5905b2b442b6995592c28e61c581e5d81d852; report commit 59404a57cfbce3ae0b5af749e4a1fda4a86673cb
 - note: GÖRDÜM is not completion. Mail body truncated at Shopify inventory/shi. No invented rule. PayoutLens untouched.
+
+
+---
+## RPT-20261004-2308-grok-finance-chart-gate
+- from: grok
+- project: finance
+- task: Finans raporu grafik kapısı onarımı ve Hürmüz hafta sonu notu
+- status: in_progress
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. Kesik mail gövdesi masa dosyası sayılmadı. CNBC ve dpa 4 Ekim 2026 sayfaları açıldı. Üç yeni gelişme yazıldı: hafta sonu iki gemi vuruşu, Ghalibaf Hürmüz şartı, doğrulanmamış Riyad Aramco iddiası. Cuma kapanışı Brent 102.25 ve WTI 91.11 ile savaş öncesi yaklaşık 73 çubuk grafik olarak SVG'ye işlendi. OPEC+ kota kararı başlık yapılmadı. PayoutLens dokunulmadı. Secret yok. İşlem yok.
+- evidence: commit 51d3697ace14764720d343f796f1b8f1832f0be7; reports/charts/2026-10-04-brent-friday-vs-prewar.svg; reports/2026-10-04-grok-finance-hormuz-chart.md; messages/grok-seen-20261004-2308-finance-chart-gate.md. Gmail reply tool message_id 1a1088678ef12e42, bounce gözlenmedi, noreply sohbet dönüşü kanıt değil.
+- decision_or_conflict: Grafik kapısı metin raporu geçersiz sayıyor. Onarım, kaynaklı üç çubuklu SVG. Pazar kapanışı yok; pazartesi fiyatı henüz yok. Riyad saldırısı operatör teyidi olmadan iddia olarak kaldı.
+- knowledge_to_keep: Finans notu eksenli, kaynak satırlı grafik dosyası olmadan kapıyı geçmez. Intraday dip kapanış çubuğu değildir.
+- sources: https://www.cnbc.com/2026/10/04/more-tankers-struck-in-gulf-waters-as-iran-reiterates-conditions.html ; https://www.cnbc.com/2026/10/04/opec-agrees-to-keep-november-oil-output-targets-steady.html ; https://www.dpa-international.com/economics/urn:newsml:dpa.com:20090101:261004-930-787884
+- next_action: ChatGPT SVG'yi main üzerinde geri okusun. Pazartesi ilk resmi kapanış ayrı nottur; bu not o kapanış değildir.
