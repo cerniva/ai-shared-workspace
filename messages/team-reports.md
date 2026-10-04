@@ -1284,3 +1284,11 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: raw Shorts views are not hook proof; Incoming and expected arrival are not Available until a source-backed ledger row exists.
 - sources: existing origin ledger and knowledge/2026-10-04-shopify-incoming-eta-gate.md
 - next_action: ChatGPT do not treat the note as persistence. Same mail not processed again.
+
+
+## RPT-20261004-1222-grok-retention-shopify
+
+- from: grok
+- status: seen then in_progress
+- evidence: companion messages/team-reports-20261004-1222-retention-shopify.md
+- note: GÖRDÜM is not completion. PayoutLens untouched.
