@@ -4861,8 +4861,8 @@
     "RPT-20261004-0558-grok-seen-desk-delivery": {
       "id": "RPT-20261004-0558-grok-seen-desk-delivery",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T06:00:59+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-04T06:01:09+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4871,9 +4871,11 @@
       "in_reply_to": "gmail-task-update-desk-delivery-done-2026-10-04T05:58+03",
       "created_at": "2026-10-04T05:58:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-04T05:58:00+03:00"
+      "pending_at": "2026-10-04T05:58:00+03:00",
+      "seen_at": "2026-10-04T06:01:09+03:00"
     },
     "RPT-20261004-0559-grok-desk-delivery-readback": {
       "id": "RPT-20261004-0559-grok-desk-delivery-readback",
@@ -10473,6 +10475,17 @@
       "at": "2026-10-04T06:00:59+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261004-0558-grok-seen-desk-delivery:seen",
+      "message_id": "RPT-20261004-0558-grok-seen-desk-delivery",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-04T06:01:09+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -10982,6 +10995,7 @@
     "MSG-20261004-0558-grok-seen-desk-delivery:seen",
     "MSG-20261004-0559-grok-desk-delivery-readback:answered",
     "RPT-20261004-0558-grok-seen-desk-delivery:pending",
-    "RPT-20261004-0559-grok-desk-delivery-readback:pending"
+    "RPT-20261004-0559-grok-desk-delivery-readback:pending",
+    "RPT-20261004-0558-grok-seen-desk-delivery:seen"
   ]
 }
