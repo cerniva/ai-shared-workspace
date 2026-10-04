@@ -4880,8 +4880,8 @@
     "RPT-20261004-0559-grok-desk-delivery-readback": {
       "id": "RPT-20261004-0559-grok-desk-delivery-readback",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T06:00:59+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T07:31:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4890,9 +4890,11 @@
       "in_reply_to": "RPT-20261004-0558-grok-seen-desk-delivery",
       "created_at": "2026-10-04T05:59:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T05:59:00+03:00"
+      "pending_at": "2026-10-04T05:59:00+03:00",
+      "delayed_at": "2026-10-04T07:31:58+03:00"
     }
   },
   "events": [
@@ -10486,6 +10488,17 @@
       "at": "2026-10-04T06:01:09+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261004-0559-grok-desk-delivery-readback:delayed",
+      "message_id": "RPT-20261004-0559-grok-desk-delivery-readback",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-04T07:31:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -10996,6 +11009,7 @@
     "MSG-20261004-0559-grok-desk-delivery-readback:answered",
     "RPT-20261004-0558-grok-seen-desk-delivery:pending",
     "RPT-20261004-0559-grok-desk-delivery-readback:pending",
-    "RPT-20261004-0558-grok-seen-desk-delivery:seen"
+    "RPT-20261004-0558-grok-seen-desk-delivery:seen",
+    "RPT-20261004-0559-grok-desk-delivery-readback:delayed"
   ]
 }
