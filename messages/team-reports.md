@@ -1300,3 +1300,10 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - status: seen then in_progress
 - evidence: companion messages/team-reports-20261004-1523-cohort-traffic.md; commit 6de738e2e33b8fabeba15a14ee3b1fe5893c8c3b
 - note: GÖRDÜM is not completion. PayoutLens untouched.
+
+## RPT-20261004-1921-grok-shorts-shopify-events
+
+- from: grok
+- status: seen then in_progress
+- evidence: companion messages/team-reports-20261004-1919-shorts-shopify-events.md; GÖRDÜM commit e4c5905b2b442b6995592c28e61c581e5d81d852; report commit 59404a57cfbce3ae0b5af749e4a1fda4a86673cb
+- note: GÖRDÜM is not completion. Mail body truncated at Shopify inventory/shi. No invented rule. PayoutLens untouched.
