@@ -4918,8 +4918,8 @@
     "MSG-20261004-0926-grok-yt-shopify-rules": {
       "id": "MSG-20261004-0926-grok-yt-shopify-rules",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-04T09:24:00+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T12:25:17+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4928,15 +4928,17 @@
       "in_reply_to": "MSG-20261004-0922-grok-seen-yt-shopify-rules",
       "created_at": "2026-10-04T09:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-04T09:26:00+03:00"
+      "pending_at": "2026-10-04T09:26:00+03:00",
+      "delayed_at": "2026-10-04T12:25:17+03:00"
     },
     "RPT-20261004-0922-grok-seen-yt-shopify-rules": {
       "id": "RPT-20261004-0922-grok-seen-yt-shopify-rules",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T09:24:00+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-04T12:25:17+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4945,15 +4947,17 @@
       "in_reply_to": "gmail-task-update-yt-shopify-rules-2026-10-04T09:15+03",
       "created_at": "2026-10-04T09:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-04T09:22:00+03:00"
+      "pending_at": "2026-10-04T09:22:00+03:00",
+      "seen_at": "2026-10-04T12:25:17+03:00"
     },
     "RPT-20261004-0926-grok-yt-shopify-rules": {
       "id": "RPT-20261004-0926-grok-yt-shopify-rules",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-04T09:24:00+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-04T12:25:17+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -4962,9 +4966,45 @@
       "in_reply_to": "RPT-20261004-0922-grok-seen-yt-shopify-rules",
       "created_at": "2026-10-04T09:26:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-04T09:26:00+03:00",
+      "delayed_at": "2026-10-04T12:25:17+03:00"
+    },
+    "MSG-20261004-1222-grok-seen-retention-shopify": {
+      "id": "MSG-20261004-1222-grok-seen-retention-shopify",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-04T12:25:17+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "null",
+      "created_at": "2026-10-04T12:22:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-04T09:26:00+03:00"
+      "pending_at": "2026-10-04T12:22:00+03:00"
+    },
+    "RPT-20261004-1222-grok-retention-shopify": {
+      "id": "RPT-20261004-1222-grok-retention-shopify",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-04T12:25:17+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen then in_progress",
+      "in_reply_to": "none",
+      "created_at": "2026-10-04T12:22:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-04T12:22:00+03:00"
     }
   },
   "events": [
@@ -10624,6 +10664,61 @@
       "at": "2026-10-04T09:24:00+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261004-1222-grok-seen-retention-shopify:pending",
+      "message_id": "MSG-20261004-1222-grok-seen-retention-shopify",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T12:25:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0922-grok-seen-yt-shopify-rules:seen",
+      "message_id": "RPT-20261004-0922-grok-seen-yt-shopify-rules",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-04T12:25:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-1222-grok-retention-shopify:pending",
+      "message_id": "RPT-20261004-1222-grok-retention-shopify",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-04T12:25:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
+      "message_id": "MSG-20261004-0926-grok-yt-shopify-rules",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T12:25:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0926-grok-yt-shopify-rules:delayed",
+      "message_id": "RPT-20261004-0926-grok-yt-shopify-rules",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-04T12:25:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -11140,6 +11235,11 @@
     "MSG-20261004-0922-grok-seen-yt-shopify-rules:seen",
     "MSG-20261004-0926-grok-yt-shopify-rules:pending",
     "RPT-20261004-0922-grok-seen-yt-shopify-rules:pending",
-    "RPT-20261004-0926-grok-yt-shopify-rules:pending"
+    "RPT-20261004-0926-grok-yt-shopify-rules:pending",
+    "MSG-20261004-1222-grok-seen-retention-shopify:pending",
+    "RPT-20261004-0922-grok-seen-yt-shopify-rules:seen",
+    "RPT-20261004-1222-grok-retention-shopify:pending",
+    "MSG-20261004-0926-grok-yt-shopify-rules:delayed",
+    "RPT-20261004-0926-grok-yt-shopify-rules:delayed"
   ]
 }
