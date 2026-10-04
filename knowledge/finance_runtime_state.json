@@ -84,6 +84,7 @@
       "python_used": false,
       "result": "PASS"
     },
-    "persistence_read_back": "pending"
+    "persistence_read_back": "PASS",
+    "persistence_verified_at": "2026-10-05T02:30:00+03:00"
   }
 }
