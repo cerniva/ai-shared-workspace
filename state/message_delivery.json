@@ -4808,8 +4808,8 @@
     "MSG-20261004-0558-grok-seen-desk-delivery": {
       "id": "MSG-20261004-0558-grok-seen-desk-delivery",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-04T06:00:34+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-04T06:00:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -4818,9 +4818,11 @@
       "in_reply_to": "gmail-task-update-desk-delivery-done-2026-10-04T05:58+03",
       "created_at": "2026-10-04T05:58:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-04T05:58:00+03:00"
+      "pending_at": "2026-10-04T05:58:00+03:00",
+      "seen_at": "2026-10-04T06:00:58+03:00"
     },
     "MSG-20261004-053842-gemini-api": {
       "id": "MSG-20261004-053842-gemini-api",
@@ -4838,6 +4840,57 @@
         "answered"
       ],
       "answered_at": "2026-10-04T06:00:35+03:00"
+    },
+    "MSG-20261004-0559-grok-desk-delivery-readback": {
+      "id": "MSG-20261004-0559-grok-desk-delivery-readback",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-04T06:00:58+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "MSG-20261004-0558-grok-seen-desk-delivery",
+      "created_at": "2026-10-04T05:59:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-04T06:00:58+03:00"
+    },
+    "RPT-20261004-0558-grok-seen-desk-delivery": {
+      "id": "RPT-20261004-0558-grok-seen-desk-delivery",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-04T06:00:59+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-desk-delivery-done-2026-10-04T05:58+03",
+      "created_at": "2026-10-04T05:58:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-04T05:58:00+03:00"
+    },
+    "RPT-20261004-0559-grok-desk-delivery-readback": {
+      "id": "RPT-20261004-0559-grok-desk-delivery-readback",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-04T06:00:59+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "RPT-20261004-0558-grok-seen-desk-delivery",
+      "created_at": "2026-10-04T05:59:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-04T05:59:00+03:00"
     }
   },
   "events": [
@@ -10376,6 +10429,50 @@
       "at": "2026-10-04T06:00:35+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261004-0558-grok-seen-desk-delivery:seen",
+      "message_id": "MSG-20261004-0558-grok-seen-desk-delivery",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T06:00:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261004-0559-grok-desk-delivery-readback:answered",
+      "message_id": "MSG-20261004-0559-grok-desk-delivery-readback",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-04T06:00:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0558-grok-seen-desk-delivery:pending",
+      "message_id": "RPT-20261004-0558-grok-seen-desk-delivery",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-04T06:00:59+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261004-0559-grok-desk-delivery-readback:pending",
+      "message_id": "RPT-20261004-0559-grok-desk-delivery-readback",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-04T06:00:59+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -10881,6 +10978,10 @@
     "MSG-20261004-0246-grok-pending-seen-sha:delayed",
     "RPT-20261004-0246-grok-pending-seen-sha:delayed",
     "MSG-20261004-0558-grok-seen-desk-delivery:pending",
-    "MSG-20261004-053842-gemini-api:answered"
+    "MSG-20261004-053842-gemini-api:answered",
+    "MSG-20261004-0558-grok-seen-desk-delivery:seen",
+    "MSG-20261004-0559-grok-desk-delivery-readback:answered",
+    "RPT-20261004-0558-grok-seen-desk-delivery:pending",
+    "RPT-20261004-0559-grok-desk-delivery-readback:pending"
   ]
 }
