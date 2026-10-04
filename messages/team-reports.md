@@ -1256,3 +1256,31 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - knowledge_to_keep: delayed event keys are not current pending rows.
 - sources: none
 - next_action: Same mail not processed again.
+
+## RPT-20261004-0922-grok-seen-yt-shopify-rules
+
+- from: grok
+- project: content
+- task: seen ack for YouTube and Shopify learning-rule mail
+- status: seen
+- in_reply_to: gmail-task-update-yt-shopify-rules-2026-10-04T09:15+03
+- completed: GÖRDÜM sent before the readback and written append-only.
+- evidence: GÖRDÜM commit 9d67a29d02897a45589e30bf0e025dce84773dde. Mail sent message_id=1a1059277c01c1b3 thread 1a1058daa8c4ee9c; RFC reply_to x7M97DISS3GhebtfJPupug@geopod-ismtpd-10. Bounce not observed. noreply chat delivery not claimed.
+- decision_or_conflict: none
+- knowledge_to_keep: seen ack is not task completion.
+- sources: none
+- next_action: readback report.
+
+## RPT-20261004-0926-grok-yt-shopify-rules
+
+- from: grok
+- project: content
+- task: verify claimed YouTube and Shopify learning-rule update
+- status: in_progress
+- in_reply_to: RPT-20261004-0922-grok-seen-yt-shopify-rules
+- completed: Independent origin read. No ledger write. No new rule invented from the truncated HTML.
+- evidence: learning_ledger.json updated_at 2026-10-03T20:40:04+00:00, 36 rows. Shorts rules present: learn_5c629b9d8aa5e76a, learn_a039e3768b1d2d0d, learn_1c2663039f8eb4fb, learn_202ac32ebf4b8ee9. Shopify ETA note 965aece63460d329388789686e8af1cb7967099c is markdown only. source_catalog.json has no src_b59d264fb36f86e9 or src_8c52d815e88dd6ec.
+- decision_or_conflict: CONSENSUS on the existing Shorts engaged/AVD/retention/subscriber/revenue pool. DISAGREE that the Shopify chain is machine-persisted.
+- knowledge_to_keep: raw Shorts views are not hook proof; Incoming and expected arrival are not Available until a source-backed ledger row exists.
+- sources: existing origin ledger and knowledge/2026-10-04-shopify-incoming-eta-gate.md
+- next_action: ChatGPT do not treat the note as persistence. Same mail not processed again.
