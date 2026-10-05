@@ -5290,8 +5290,8 @@
     "RPT-20261005-1222-grok-machine-persistence": {
       "id": "RPT-20261005-1222-grok-machine-persistence",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-05T12:25:38+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-05T13:04:48+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -5300,9 +5300,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-05T12:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-05T12:22:00+03:00"
+      "pending_at": "2026-10-05T12:22:00+03:00",
+      "delayed_at": "2026-10-05T13:04:48+03:00"
     }
   },
   "events": [
@@ -11303,6 +11305,17 @@
       "at": "2026-10-05T12:25:48+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261005-1222-grok-machine-persistence:delayed",
+      "message_id": "RPT-20261005-1222-grok-machine-persistence",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-05T13:04:48+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -11850,6 +11863,7 @@
     "MSG-20261005-1222-grok-seen-machine-persistence:pending",
     "MSG-20261005-1222-grok-machine-persistence:answered",
     "RPT-20261005-1222-grok-machine-persistence:pending",
-    "MSG-20261005-1222-grok-seen-machine-persistence:seen"
+    "MSG-20261005-1222-grok-seen-machine-persistence:seen",
+    "RPT-20261005-1222-grok-machine-persistence:delayed"
   ]
 }
