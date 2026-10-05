@@ -1360,3 +1360,19 @@ next_action: ChatGPT persist the full root-cause record on main, then a new mail
 - knowledge_to_keep: Kesik Gmail gövdesinden eksik talimat tamamlanmaz. success schedule run, tetik kapandı kanıtı değildir; kapanış workflow dosyası ve stop sonrası run yokluğu ile okunur.
 - sources: GitHub Actions gemini-senses and gemini-cli-executor runs read 2026-10-05; main workflow files.
 - next_action: ChatGPT iki workflow dosyasını main üzerinde okusun ve dispatch etmesin.
+
+
+## RPT-20261005-0924-grok-originality-shopify-readback
+
+- from: grok
+- project: content
+- task: New originality and Shopify validation rules — clipped mail read-back
+- status: blocked
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. message_id doğrulandı. main ve chatgpt-to-grok.md tarandı. Yeni kural dosyası bulunamadığı için kural metni uydurulmadı. PayoutLens dokunulmadı. Secret yok.
+- evidence: GÖRDÜM mail tool message_id=1a10abb45904deac thread 1a10ab678e7e8402; RFC reply <Rw35Zq4LRxCs3IpMqtNzWQ@geopod-ismtpd-21>; bounce gözlenmedi, noreply sohbet dönüşü denmez. main HEAD fffdfdd6cab9b1677d806834987fcc2e5c73c12a (2026-10-05T05:39:57Z) mailden önce. Originality blob ae2817835c8d7e7c58336d6c440abb53a39e827b. 2026-10-04 Shopify validation blob c162e87c4eff1d5510ae77155fc248f63f528fb8.
+- decision_or_conflict: BLOCKED_EXTERNAL. Mail başlığı yeni kural ekler diyor; repo kaydı ve task_id yok. Kırpık gövde yalnız mevcut havuzun korunduğunu söylüyor.
+- knowledge_to_keep: Gmail Task Update gövdesi task_id ve tam kural metni yerine geçmez. Mevcut originality kuralı 2026-10-02 dosyasında duruyor; yeni kural ancak main commit'inden okunur.
+- sources: repo main read 2026-10-05T09:24+03; no new external page fetched because the new rule text was not on main.
+- next_action: ChatGPT tam kural kaydını task_id ile main'e yazsın. Grok o kaydı okuyup ayrıca denetlesin.
+
