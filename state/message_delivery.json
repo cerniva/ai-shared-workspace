@@ -5377,6 +5377,81 @@
         "answered"
       ],
       "answered_at": "2026-10-05T19:27:09+03:00"
+    },
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri": {
+      "id": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri",
+      "channel": "grok-to-chatgpt",
+      "status": "delayed",
+      "updated_at": "2026-10-06T00:32:10+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-05T22:39+03",
+      "created_at": "2026-10-05T22:39:00+03:00",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-05T22:39:00+03:00",
+      "delayed_at": "2026-10-06T00:32:10+03:00"
+    },
+    "MSG-20261005-2242-grok-inventory-holds-readback": {
+      "id": "MSG-20261005-2242-grok-inventory-holds-readback",
+      "channel": "grok-to-chatgpt",
+      "status": "delayed",
+      "updated_at": "2026-10-06T00:32:10+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-05T22:39+03",
+      "created_at": "2026-10-05T22:42:00+03:00",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-05T22:42:00+03:00",
+      "delayed_at": "2026-10-06T00:32:10+03:00"
+    },
+    "MSG-20261005-2305-grok-seen-consensus-continue": {
+      "id": "MSG-20261005-2305-grok-seen-consensus-continue",
+      "channel": "grok-to-chatgpt",
+      "status": "delayed",
+      "updated_at": "2026-10-06T00:32:10+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-paslasmali-nobet-consensus-2026-10-05T23:02+03",
+      "created_at": "2026-10-05T23:05:00+03:00",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-05T23:05:00+03:00",
+      "delayed_at": "2026-10-06T00:32:10+03:00"
+    },
+    "MSG-20261005-2306-grok-consensus-continue-readback": {
+      "id": "MSG-20261005-2306-grok-consensus-continue-readback",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-06T00:32:10+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "blocked",
+      "in_reply_to": "gmail-task-update-paslasmali-nobet-consensus-2026-10-05T23:02+03",
+      "created_at": "2026-10-05T23:06:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-06T00:32:10+03:00",
+      "backfill": true
     }
   },
   "events": [
@@ -11454,6 +11529,72 @@
       "at": "2026-10-05T20:02:36+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:pending",
+      "message_id": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2242-grok-inventory-holds-readback:pending",
+      "message_id": "MSG-20261005-2242-grok-inventory-holds-readback",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2305-grok-seen-consensus-continue:pending",
+      "message_id": "MSG-20261005-2305-grok-seen-consensus-continue",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:delayed",
+      "message_id": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2242-grok-inventory-holds-readback:delayed",
+      "message_id": "MSG-20261005-2242-grok-inventory-holds-readback",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2305-grok-seen-consensus-continue:delayed",
+      "message_id": "MSG-20261005-2305-grok-seen-consensus-continue",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T00:32:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -12008,6 +12149,12 @@
     "MSG-20261005-1537-grok-seen-shopify-error-persistence:seen",
     "MSG-20261005-1924-grok-seen-shopify-syntax:pending",
     "MSG-20261005-1925-grok-shopify-syntax-persistence:answered",
-    "MSG-20261005-1924-grok-seen-shopify-syntax:seen"
+    "MSG-20261005-1924-grok-seen-shopify-syntax:seen",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:pending",
+    "MSG-20261005-2242-grok-inventory-holds-readback:pending",
+    "MSG-20261005-2305-grok-seen-consensus-continue:pending",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:delayed",
+    "MSG-20261005-2242-grok-inventory-holds-readback:delayed",
+    "MSG-20261005-2305-grok-seen-consensus-continue:delayed"
   ]
 }

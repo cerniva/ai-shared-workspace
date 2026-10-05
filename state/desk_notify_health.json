@@ -13,10 +13,10 @@
   "counts": {
     "pending": 0,
     "seen": 70,
-    "answered": 65,
-    "delayed": 147
+    "answered": 66,
+    "delayed": 150
   },
-  "event_count": 552,
+  "event_count": 558,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -569,21 +569,32 @@
     "MSG-20261005-1537-grok-seen-shopify-error-persistence:seen",
     "MSG-20261005-1924-grok-seen-shopify-syntax:pending",
     "MSG-20261005-1925-grok-shopify-syntax-persistence:answered",
-    "MSG-20261005-1924-grok-seen-shopify-syntax:seen"
+    "MSG-20261005-1924-grok-seen-shopify-syntax:seen",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:pending",
+    "MSG-20261005-2242-grok-inventory-holds-readback:pending",
+    "MSG-20261005-2305-grok-seen-consensus-continue:pending",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:delayed",
+    "MSG-20261005-2242-grok-inventory-holds-readback:delayed",
+    "MSG-20261005-2305-grok-seen-consensus-continue:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261005-1924-grok-seen-shopify-syntax:seen"
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:pending",
+    "MSG-20261005-2242-grok-inventory-holds-readback:pending",
+    "MSG-20261005-2305-grok-seen-consensus-continue:pending",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:delayed",
+    "MSG-20261005-2242-grok-inventory-holds-readback:delayed",
+    "MSG-20261005-2305-grok-seen-consensus-continue:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-05T20:02:37+03:00",
+  "checked_at": "2026-10-06T00:32:10+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 70,
-    "answered": 65,
-    "delayed": 147
+    "answered": 66,
+    "delayed": 150
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 373,
+  "active_source_id_count": 379,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
