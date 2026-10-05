@@ -5381,8 +5381,8 @@
     "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri": {
       "id": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-06T00:32:10+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-06T01:02:23+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5392,10 +5392,11 @@
       "created_at": "2026-10-05T22:39:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-05T22:39:00+03:00",
-      "delayed_at": "2026-10-06T00:32:10+03:00"
+      "seen_at": "2026-10-06T01:02:23+03:00"
     },
     "MSG-20261005-2242-grok-inventory-holds-readback": {
       "id": "MSG-20261005-2242-grok-inventory-holds-readback",
@@ -5419,8 +5420,8 @@
     "MSG-20261005-2305-grok-seen-consensus-continue": {
       "id": "MSG-20261005-2305-grok-seen-consensus-continue",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-06T00:32:10+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-06T01:02:23+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5430,10 +5431,11 @@
       "created_at": "2026-10-05T23:05:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-05T23:05:00+03:00",
-      "delayed_at": "2026-10-06T00:32:10+03:00"
+      "seen_at": "2026-10-06T01:02:23+03:00"
     },
     "MSG-20261005-2306-grok-consensus-continue-readback": {
       "id": "MSG-20261005-2306-grok-consensus-continue-readback",
@@ -11595,6 +11597,28 @@
       "at": "2026-10-06T00:32:10+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:seen",
+      "message_id": "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T01:02:23+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261005-2305-grok-seen-consensus-continue:seen",
+      "message_id": "MSG-20261005-2305-grok-seen-consensus-continue",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T01:02:23+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -12155,6 +12179,8 @@
     "MSG-20261005-2305-grok-seen-consensus-continue:pending",
     "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:delayed",
     "MSG-20261005-2242-grok-inventory-holds-readback:delayed",
-    "MSG-20261005-2305-grok-seen-consensus-continue:delayed"
+    "MSG-20261005-2305-grok-seen-consensus-continue:delayed",
+    "MSG-20261005-2239-grok-seen-sistem-gelistirmeleri:seen",
+    "MSG-20261005-2305-grok-seen-consensus-continue:seen"
   ]
 }
