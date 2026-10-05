@@ -1,0 +1,22 @@
+{
+  "record_type": "video_shopify_learning_candidate",
+  "plan": "Video ve Shopify Otomasyonu",
+  "source_id": "src_shopify_variant_multiple_barcodes_20260908",
+  "learning_id": "learn_shopify_variant_multiple_barcodes_20261005",
+  "source_name": "Shopify developer changelog: Variants now support multiple barcodes",
+  "canonical_url": "https://shopify.dev/changelog/posts/product-variant-barcode-is-being-replaced-by-barcodes",
+  "category": "shopify-product-identity",
+  "finding": "Admin GraphQL API 2026-10 supports up to 20 typed barcodes per ProductVariant through barcodes; legacy barcode returns only the first entry and is deprecated. Integrations reading only barcode can silently miss secondary identifiers.",
+  "confidence": "high_official_primary",
+  "affected_plan": "Video ve Shopify Otomasyonu / Shopify product verification",
+  "old_approach": "Treat ProductVariant.barcode as the complete product identifier set.",
+  "new_rule_or_hypothesis": "On API 2026-10+, product identity, supplier-feed matching and duplicate checks must read ProductVariant.barcodes when available; legacy barcode alone is insufficient evidence that a variant has only one identifier.",
+  "test_metric": "For a variant with 2+ barcodes, read barcodes connection and verify every expected identifier is returned; flag legacy-only reads as IDENTIFIER_SET_PARTIAL.",
+  "discovered_at": "2026-10-05T21:21:41+03:00",
+  "last_verified": "2026-10-05T21:21:41+03:00",
+  "access_status": "verified_web_primary",
+  "failure_fallback": "If API version/capability does not expose barcodes, keep legacy barcode but mark identifier coverage partial; do not infer uniqueness.",
+  "provenance": "Shopify official developer changelog, Sep 8 2026, version 2026-10",
+  "status": "candidate_pending_canonical_ledger_bridge",
+  "payoutlens_scope": "excluded"
+}
