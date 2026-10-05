@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 2,
     "seen": 67,
-    "answered": 62,
+    "answered": 63,
     "delayed": 146
   },
-  "event_count": 541,
+  "event_count": 544,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -558,18 +558,23 @@
     "MSG-20261005-0924-grok-originality-shopify-readback:answered",
     "RPT-20261005-0924-grok-originality-shopify-readback:pending",
     "MSG-20261005-0924-grok-seen-originality-shopify:seen",
-    "RPT-20261005-0924-grok-originality-shopify-readback:delayed"
+    "RPT-20261005-0924-grok-originality-shopify-readback:delayed",
+    "MSG-20261005-1222-grok-seen-machine-persistence:pending",
+    "MSG-20261005-1222-grok-machine-persistence:answered",
+    "RPT-20261005-1222-grok-machine-persistence:pending"
   ],
   "new_event_keys": [
-    "RPT-20261005-0924-grok-originality-shopify-readback:delayed"
+    "MSG-20261005-1222-grok-seen-machine-persistence:pending",
+    "MSG-20261005-1222-grok-machine-persistence:answered",
+    "RPT-20261005-1222-grok-machine-persistence:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-05T10:09:06+03:00",
+  "checked_at": "2026-10-05T12:25:38+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 2,
     "seen": 67,
-    "answered": 62,
+    "answered": 63,
     "delayed": 146
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
