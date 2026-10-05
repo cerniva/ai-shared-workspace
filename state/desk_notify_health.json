@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 4,
-    "seen": 65,
+    "pending": 3,
+    "seen": 66,
     "answered": 61,
     "delayed": 142
   },
-  "event_count": 532,
+  "event_count": 533,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -549,19 +549,18 @@
     "RPT-20261005-0536-grok-gemini-automation-stop:pending",
     "MSG-20261005-0559-grok-seen-gemini-triggers-off:pending",
     "MSG-20261005-0600-grok-gemini-trigger-readback:pending",
-    "RPT-20261005-0600-grok-gemini-trigger-readback:pending"
+    "RPT-20261005-0600-grok-gemini-trigger-readback:pending",
+    "MSG-20261005-0559-grok-seen-gemini-triggers-off:seen"
   ],
   "new_event_keys": [
-    "MSG-20261005-0559-grok-seen-gemini-triggers-off:pending",
-    "MSG-20261005-0600-grok-gemini-trigger-readback:pending",
-    "RPT-20261005-0600-grok-gemini-trigger-readback:pending"
+    "MSG-20261005-0559-grok-seen-gemini-triggers-off:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-05T06:02:34+03:00",
+  "checked_at": "2026-10-05T06:02:55+03:00",
   "historical_counts": {
-    "pending": 4,
-    "seen": 65,
+    "pending": 3,
+    "seen": 66,
     "answered": 61,
     "delayed": 142
   },
