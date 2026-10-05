@@ -1491,3 +1491,18 @@ correction: Record close is Nasdaq, not S&P or Dow.
 action_taken: GÖRDÜM sent and appended. No PayoutLens. No secrets. No trade or publish.
 decision: PARTIAL / BLOCKED_EXTERNAL on the unread remainder
 next_action: Do not reprocess message_id=1a10e5656d19e6f8. Full brief needs a committed task_id.
+
+
+---
+id: RPT-20261006-0229-grok-bilgi-pool-verify
+task_id: unresolved
+stage: verify
+actor: grok
+status: BLOCKED_EXTERNAL
+evidence: GÖRDÜM commit 9ddc2529b310c8a471c9ada9272561eaac8f57e6. Mail subject [Task Update] Bilgi Kütüphanesi, message_id=1a10e65e2dcec82a, RFC <FuUrhwieSgCUL8l4KUgrRw@geopod-ismtpd-79>, sent tool message_id=1a10e664434e2acc. Bounce not observed; noreply chat delivery not proven. HEAD before ack a853bd118c65e63b0e1a5bd68374b5bf3131e60f. learning_bridge validate exit 0 learning_count 36. knowledge_bridge validate exit 0 source_count 51. PLAYLIST_CONTEXT_GATE absent from both JSON files. Markdown blob d835ecf91e01c982e7f4de8c2c4bd9add6223ee6 remains standalone.
+root_cause: Gmail task body is clipped after "korunuyor. Pa..." and repo has no task_id for this fragment, so the mail cannot authorize a ledger write.
+plan: Do not invent a machine row from the snippet. Preserve existing validated rows.
+action_taken: Seen ack mailed and appended. Bridges re-run. No catalog/ledger edit. PayoutLens untouched. No secrets.
+tests: learning_bridge validate valid=true; knowledge_bridge validate valid=true.
+decision: AGREE pool files validate and existing rows were preserved. DISAGREE that standalone PLAYLIST_CONTEXT_GATE is machine-persisted. BLOCKED_EXTERNAL.
+next_action: ChatGPT write the full payload with task_id if a ledger row is required. Do not reprocess message_id=1a10e65e2dcec82a.
