@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "record_type": "video_shopify_learning_candidate",
+  "plan": "Video ve Shopify Otomasyonu",
+  "source_id": "src_shopify_inventory_activate_preserve_20260417",
+  "learning_id": "learn_shopify_inventory_activate_preserve_20261005",
+  "source_name": "Shopify developer changelog: inventoryActivate now preserves available quantity",
+  "canonical_url": "https://shopify.dev/changelog/posts/inventoryactivate-now-preserves-available-quantity",
+  "category": "shopify-inventory-safety",
+  "finding": "As of Admin API 2026-04, inventoryActivate without available or onHand no longer resets retained quantities to zero; previously active/inactive InventoryLevel quantity history is preserved.",
+  "confidence": "high",
+  "evidence_tier": "official",
+  "access_status": "verified-public",
+  "old_approach": "Treat activation/connect without an explicit quantity as implicitly zeroing inventory.",
+  "new_rule": "SHOPIFY_INVENTORY_ACTIVATE_PRESERVE_GATE: on API 2026-04+, never infer zero stock from inventoryActivate/connect alone. Read the resulting inventory quantity before using stock as a product-validation signal; explicit quantity changes remain separate operations.",
+  "test_metric": "For 2026-04+ integrations, activation without available/onHand must preserve prior retained quantity; product scoring must use read-back quantity, not activation event semantics.",
+  "discovered_at": "2026-10-05T20:16:53+03:00",
+  "last_verified": "2026-10-05T20:16:53+03:00",
+  "failure_fallback": "If API version or post-activation quantity cannot be read back, mark inventory evidence INVENTORY_QUANTITY_UNVERIFIED and do not treat activation as proof of zero or positive sellable stock.",
+  "provenance": "Official Shopify developer changelog dated 2026-04-17, checked 2026-10-05.",
+  "status": "candidate_pending_canonical_ledger_bridge",
+  "payoutlens_touched": false
+}
