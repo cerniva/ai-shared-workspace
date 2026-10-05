@@ -1,0 +1,21 @@
+{
+  "record_type": "video_shopify_learning_candidate",
+  "plan": "Video ve Shopify Otomasyonu",
+  "source_id": "src_shopify_collection_metafield_int_202610",
+  "learning_id": "learn_shopify_collection_metafield_int_20261005",
+  "source_name": "Shopify GraphQL Admin API: CollectionSourceInclusionConditionInput",
+  "canonical_url": "https://shopify.dev/docs/api/admin-graphql/2027-01/input-objects/CollectionSourceInclusionConditionVariantInventoryInput",
+  "category": "shopify-product-validation",
+  "finding": "For collection source inclusion conditions, metafieldInteger is deprecated as of API 2026-10 and removed as of 2027-01; metafieldInt should be used from 2026-10 onward.",
+  "confidence": "high_official",
+  "affected_plan": "Video ve Shopify Otomasyonu",
+  "old_approach": "Reuse metafieldInteger in collection-condition logic regardless of Admin API version.",
+  "new_rule_or_hypothesis": "For API 2026-10+ collection inclusion conditions, use metafieldInt; treat metafieldInteger as legacy and do not interpret a schema failure as evidence that no matching products exist.",
+  "test_metric": "Version-aware collection condition validates successfully and returns expected candidate set; schema/operator errors are separated from zero-result outcomes.",
+  "discovered_at": "2026-10-05T23:13:40+03:00",
+  "last_verified": "2026-10-05T23:13:40+03:00",
+  "access_status": "verified_web_official",
+  "failure_fallback": "If API version is unknown, fail closed as COLLECTION_SCHEMA_VERSION_UNVERIFIED; do not silently retry incompatible field names or score an empty result as demand evidence.",
+  "provenance": "Official Shopify GraphQL Admin API documentation, fetched 2026-10-05.",
+  "persistence_status": "candidate_pending_canonical_ledger_bridge"
+}
