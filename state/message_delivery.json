@@ -5345,8 +5345,8 @@
     "MSG-20261005-1924-grok-seen-shopify-syntax": {
       "id": "MSG-20261005-1924-grok-seen-shopify-syntax",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-05T19:27:09+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-05T20:02:36+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5355,9 +5355,11 @@
       "in_reply_to": "gmail-task-update-shopify-syntax-persistence-2026-10-05T19:18+03",
       "created_at": "2026-10-05T19:24:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-05T19:24:00+03:00"
+      "pending_at": "2026-10-05T19:24:00+03:00",
+      "seen_at": "2026-10-05T20:02:36+03:00"
     },
     "MSG-20261005-1925-grok-shopify-syntax-persistence": {
       "id": "MSG-20261005-1925-grok-shopify-syntax-persistence",
@@ -11441,6 +11443,17 @@
       "at": "2026-10-05T19:27:09+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261005-1924-grok-seen-shopify-syntax:seen",
+      "message_id": "MSG-20261005-1924-grok-seen-shopify-syntax",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-05T20:02:36+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -11994,6 +12007,7 @@
     "MSG-20261005-1540-grok-shopify-error-persistence:answered",
     "MSG-20261005-1537-grok-seen-shopify-error-persistence:seen",
     "MSG-20261005-1924-grok-seen-shopify-syntax:pending",
-    "MSG-20261005-1925-grok-shopify-syntax-persistence:answered"
+    "MSG-20261005-1925-grok-shopify-syntax-persistence:answered",
+    "MSG-20261005-1924-grok-seen-shopify-syntax:seen"
   ]
 }
