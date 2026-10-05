@@ -5254,8 +5254,8 @@
     "MSG-20261005-1222-grok-seen-machine-persistence": {
       "id": "MSG-20261005-1222-grok-seen-machine-persistence",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-05T12:25:38+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-05T12:25:48+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5264,9 +5264,11 @@
       "in_reply_to": "gmail-task-update-machine-persistence-2026-10-05T12:22+03",
       "created_at": "2026-10-05T12:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-05T12:22:00+03:00"
+      "pending_at": "2026-10-05T12:22:00+03:00",
+      "seen_at": "2026-10-05T12:25:48+03:00"
     },
     "MSG-20261005-1222-grok-machine-persistence": {
       "id": "MSG-20261005-1222-grok-machine-persistence",
@@ -11290,6 +11292,17 @@
       "at": "2026-10-05T12:25:38+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261005-1222-grok-seen-machine-persistence:seen",
+      "message_id": "MSG-20261005-1222-grok-seen-machine-persistence",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-05T12:25:48+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -11836,6 +11849,7 @@
     "RPT-20261005-0924-grok-originality-shopify-readback:delayed",
     "MSG-20261005-1222-grok-seen-machine-persistence:pending",
     "MSG-20261005-1222-grok-machine-persistence:answered",
-    "RPT-20261005-1222-grok-machine-persistence:pending"
+    "RPT-20261005-1222-grok-machine-persistence:pending",
+    "MSG-20261005-1222-grok-seen-machine-persistence:seen"
   ]
 }
