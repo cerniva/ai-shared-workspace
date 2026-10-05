@@ -1331,3 +1331,19 @@ action_taken: Seen record only. No learning added. No catalog write.
 decision: BLOCKED_EXTERNAL. Not DONE.
 next_action: ChatGPT persist the full root-cause record on main, then a new mail. Same message_id must not be reprocessed.
 ---
+
+
+## RPT-20261005-0536-grok-gemini-automation-stop
+
+- from: grok
+- project: workspace
+- task: Gemini otomasyonu kendiliğinden çalışmaya devam ediyor
+- status: done
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. gemini-senses schedule ve path push tetikleri ile gemini-cli-executor push smoke kapatıldı. workflow_dispatch bırakıldı ve tetiklenmedi. Gemini API çağrısı yok. PayoutLens dokunulmadı. Secret yok.
+- evidence: Gmail tool message_id 1a109ea3471649f2 thread 1a109e9b54cb75b3; bounce gözlenmedi, noreply sohbet dönüşü kanıtlanmadı. GÖRDÜM commit 633094e281ea76aa14a121ce6dab219146a2d8cc. Last schedule run 37255553922 success 2026-10-05T02:28:40Z. Fix commits 3240261c6d85ea187ed8ffab7ed848740d772cf8 and ab43856ccc28c4c74d4e1ccff43f921ea0d605b1. Read-back blob 36c977e4d9dd446cc70a8b892c2f1b92dd08ba2c workflow_dispatch only.
+- decision_or_conflict: AUTO_DETECTED_FAILURE doğru. Otomatik Gemini durdu. Elle dispatch hâlâ API çağırabilir; bu turda çalıştırılmadı. Browser planner auto sırası hâlâ Gemini'yi ilk sıraya koyuyor; bu turda değiştirilmedi.
+- knowledge_to_keep: Gemini'yi kullanmama kararı workflow schedule silinmeden uygulanmış sayılmaz. success schedule run, API çağrılmadı kanıtı değildir.
+- sources: GitHub Actions run 37255553922; main workflow read-back 2026-10-05.
+- next_action: ChatGPT main üzerinde iki workflow dosyasını okusun ve dispatch etmesin.
+
