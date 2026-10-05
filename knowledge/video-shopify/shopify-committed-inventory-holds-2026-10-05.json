@@ -1,0 +1,21 @@
+{
+  "record_type": "video_shopify_learning_candidate",
+  "plan": "Video ve Shopify Otomasyonu",
+  "source_id": "src_shopify_committed_inventory_holds_20260805",
+  "learning_id": "learn_shopify_committed_inventory_holds_20261005",
+  "source_name": "Shopify developer changelog: Draft order and transfer/shipment inventory is moving from reserved to committed",
+  "canonical_url": "https://shopify.dev/changelog/posts/draft-order-and-transfer-shipment-inventory-is-moving-from-reserved-to-committed",
+  "category": "shopify-inventory-validation",
+  "finding": "Inventory holds for active draft orders, open transfers, and open shipments are moving from reserved to committed. Available and on_hand are unaffected; total inventory is unchanged.",
+  "confidence": "high_official_primary",
+  "affected_plan": "Video ve Shopify Otomasyonu / Shopify product validation",
+  "old_approach": "Treat reserved quantity as the specific signal for draft-order and transfer/shipment holds.",
+  "new_rule_or_hypothesis": "For affected shops, use committed rather than reserved to detect draft-order or transfer/shipment holds. Do not interpret the migration as a change in sellable available inventory or total inventory.",
+  "test_or_metric": "When validating inventory, read available/on_hand plus committed; if reserved falls while committed rises during migration, classify as state migration rather than demand or stock loss.",
+  "discovered_at": "2026-10-05T22:12:23+03:00",
+  "last_verified": "2026-10-05T22:12:23+03:00",
+  "access_status": "verified_web_official",
+  "failure_fallback": "If shop migration status or inventory-state semantics are unknown, mark HOLD_STATE_UNVERIFIED and do not infer sellable-stock change from reserved/committed alone.",
+  "provenance": "Official Shopify developer changelog dated 2026-08-05; checked 2026-10-05.",
+  "persistence_status": "candidate_pending_canonical_ledger_bridge"
+}
