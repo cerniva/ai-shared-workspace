@@ -1,5 +1,8 @@
 name: gemini-cli-executor
 
+# Automatic push smoke stopped 2026-10-05. Explicit workflow_dispatch only.
+# This edit does not call the Gemini API.
+
 on:
   workflow_dispatch:
     inputs:
@@ -7,29 +10,12 @@ on:
         description: "Authorized repository task for Gemini CLI"
         required: true
         type: string
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/gemini-cli-executor.yml
 
 concurrency:
   group: gemini-cli-executor
   cancel-in-progress: false
 
 jobs:
-  smoke:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-      - name: Verify Gemini CLI executor
-        run: npx --yes @google/gemini-cli@0.39.1 --version
-
   execute:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
