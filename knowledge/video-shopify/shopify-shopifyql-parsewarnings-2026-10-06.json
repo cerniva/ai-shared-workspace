@@ -1,0 +1,22 @@
+{
+  "record_type": "video_shopify_learning_candidate",
+  "plan": "Video ve Shopify Otomasyonu",
+  "source_id": "src_shopify_shopifyql_parsewarnings_202610",
+  "learning_id": "learn_shopify_shopifyql_parsewarnings_20261006",
+  "source_name": "Shopify developer changelog: Added parseWarnings to ShopifyqlQueryResponse",
+  "canonical_url": "https://shopify.dev/changelog/posts/added-parsewarnings-to-shopifyqlqueryresponse",
+  "category": "shopify-product-validation",
+  "finding": "Admin GraphQL API 2026-10 adds parseWarnings to ShopifyqlQueryResponse. Successful ShopifyQL queries can return non-fatal warnings such as fields scheduled for deprecation while still returning tableData.",
+  "confidence": "high_official_primary",
+  "affected_plan": "Video ve Shopify Otomasyonu",
+  "old_approach": "Treat a successful ShopifyQL query with tableData and no parseErrors as fully healthy.",
+  "new_rule_or_hypothesis": "For API 2026-10+, request and inspect parseWarnings after successful ShopifyQL product/demand validation. A non-empty warning list is a compatibility-risk signal, not a zero-demand/product-failure signal; preserve results but mark the query for remediation before relying on it long term.",
+  "test_or_metric": "For each ShopifyQL validation query: parseErrors must be empty; record parseWarnings count/text; warning-free query = schema-health PASS, warnings present = QUERY_COMPATIBILITY_WARNING without discarding valid tableData.",
+  "discovered_at": "2026-10-06T00:20:37+03:00",
+  "last_verified": "2026-10-06",
+  "access_status": "verified_web_official",
+  "failure_fallback": "If API version is older or parseWarnings unavailable, do not infer warning-free compatibility; mark SHOPIFYQL_WARNING_CAPABILITY_UNVERIFIED and retain existing parseErrors/tableData checks.",
+  "provenance": "Official Shopify developer changelog, October 1 2026, API version 2026-10.",
+  "status": "candidate_pending_canonical_ledger_bridge",
+  "payoutlens_touched": false
+}
