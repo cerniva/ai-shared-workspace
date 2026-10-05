@@ -1,19 +1,11 @@
 name: gemini-senses
 
+# Automatic Gemini stopped 2026-10-05 after AUTO_DETECTED_FAILURE:
+# schedule "17 * * * *" still ran (latest success run 37255553922 at 2026-10-05T02:28:40Z)
+# and path push could also enqueue an API call. workflow_dispatch only; no API call from this edit.
+
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "17 * * * *"
-  push:
-    branches: [main]
-    paths:
-      - messages/inbox-gemini.md
-      - messages/chatgpt-to-gemini.md
-      - scripts/route_gemini_inbox.py
-      - scripts/gemini_senses_safe.py
-      - state/gemini-api-cooldown.json
-      - tasks/active.json
-      - state/now.json
 
 concurrency:
   group: repo-main-writers
@@ -21,7 +13,7 @@ concurrency:
 
 jobs:
   run-gemini:
-    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
