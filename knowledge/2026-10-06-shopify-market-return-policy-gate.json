@@ -1,0 +1,16 @@
+{
+  "source_id": "src_shopify_return_policy_profiles_20261006",
+  "learning_id": "learn_shopify_market_return_policy_gate_20261006",
+  "status": "candidate_pending_canonical_ledger_bridge",
+  "finding": "Shopify Admin GraphQL API 2026-10 exposes structured return policy profiles that can be associated with markets. A direct Market.returnPolicyProfile null does not resolve hierarchy; nullable returnRules/editRules mean those rules are turned off.",
+  "confidence": "high",
+  "affected_plan": "Video ve Shopify Otomasyonu",
+  "old_approach": "Generic store-wide refund-policy text could be mistaken for the target market's applicable return terms.",
+  "new_rule": "MARKET_RETURN_POLICY_GATE: use authorized market-specific structured return rules as policy/trust context only; never substitute policy terms for observed returned_quantity, return reasons, sales_reversals, margin, or demand.",
+  "test_metric": "On authorized target-market read, capture applicable return window/rules alongside physical return metrics; no causal claim.",
+  "discovered_at": "2026-10-06T17:14:48+03:00",
+  "last_verified": "2026-10-06T17:14:48+03:00",
+  "access_status": "verified-public",
+  "failure_fallback": "If authorized market/profile data or hierarchy resolution is unavailable, mark MARKET_RETURN_POLICY_UNVERIFIED and do not invent a return window.",
+  "provenance": "https://shopify.dev/changelog/posts/return-policy-profiles-are-now-available-in-the-graphql-admin-api"
+}
