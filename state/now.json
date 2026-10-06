@@ -58,7 +58,7 @@
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
     "grok_api": "known HTTP 403; do not infer billing/root cause without fresh credentialed evidence; browser auto planner uses healthy fallbacks",
     "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
-    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks",
+    "openai_api": "known HTTP 429 credit_balance_exhausted; do not blind-retry; provider failure does not block later healthy fallbacks",
     "gmail": "use verified CHATGPT-GROK thread 1a0fa596ffcba64d for evidence-based handoff; dedup by message/thread id; do not invent Grok identity or treat unrelated mail as Grok work",
     "youtube_publish": "use Metricool only while a fresh brand read-back exposes YouTube; require remote video ID/URL/status for each publish. Direct GitHub OAuth remains disabled on invalid_grant and must not be blindly retried.",
     "gemini": "do not invoke, modify, or rely on Gemini unless the user explicitly reverses the current exclusion"
