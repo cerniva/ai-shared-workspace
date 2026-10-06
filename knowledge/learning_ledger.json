@@ -802,8 +802,30 @@
       ],
       "supersedes": "learn_c26dcb3fda0b6b0c",
       "title": "reports.query scope docs are inconsistent; do not reauthorize from the banner alone"
+    },
+    {
+      "claim": "YouTube Analytics playlist-context metrics such as playlistViews, playlistStarts, viewsPerPlaylistStart, playlistEstimatedMinutesWatched, and playlistAverageViewDuration measure playlist-context behavior and must not be substituted with ordinary video views/watch-time metrics.",
+      "decision": "PLAYLIST_CONTEXT_GATE: treat playlist-context metrics as a separate measurement layer. Use playlist metrics only when supported and authorized; do not substitute ordinary views for playlistViews, do not mix playlist and non-playlist denominators without labeling scope, and do not infer playlist causality from correlation.",
+      "domain": "youtube-analytics",
+      "evidence_status": "verified",
+      "failure_history": [
+        "knowledge/learn_youtube_playlist_context_gate_20261003.md claimed write_read_back_pass while the canonical learning ledger had no PLAYLIST_CONTEXT_GATE row; GitHub issue #107 tracks this false-green persistence gap."
+      ],
+      "fallback_history": [
+        "If authorized playlist metrics are unavailable, keep playlist context unknown and continue using already-verified aggregate engagedViews/watch-time/retention gates; do not estimate playlistViews from ordinary views."
+      ],
+      "learned_at": "2026-10-03T08:26:31+00:00",
+      "learning_id": "learn_youtube_playlist_context_gate_20261003",
+      "next_measurement": "On the next authorized channel-owned playlist Analytics read, retrieve supported playlist metrics and compare playlist-context behavior with aggregate video behavior without mixing denominators. Runtime availability remains unverified until such read-back exists.",
+      "outcome": "pending",
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d"
+      ],
+      "supersedes": null,
+      "title": "Playlist-context metrics are separate from ordinary video views"
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-03T20:40:04+00:00"
+  "updated_at": "2026-10-06T02:57:19+00:00"
 }
