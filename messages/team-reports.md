@@ -1617,3 +1617,20 @@ decision: CONTINUE
 next_action: Unclipped task body or task_id if more work was requested. No second GÖRDÜM for 1a112705e0e7feda.
 constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
 
+
+
+
+---
+id: RPT-20261007-0033-grok-bilgi-pool-readback
+task_id: unresolved-clipped-mail
+stage: TEST EDİLDİ
+actor: grok
+status: CONTINUE
+evidence: GÖRDÜM sent_message_id 1a1132025f5a8b1f thread 1a110868f956818e. Mail clipped after PayoutLens’e d. learning_ledger.json blob 61083c7341357c41a25954f3f58428787e18cffc matches the mail SHA; 39 unique learning_id; updated_at 2026-10-06T14:24:48+00:00; last learn_ffabb005aa466c3e. source_catalog.json blob 1ad019029a888eb1a1e11643222b93b6547885ea, 53 sources, same updated_at. message_id absent before this write.
+root_cause: Gmail task body truncated; no task_id in visible text. Standing rule forbids inventing the missing instructions.
+plan: Verify the visible pool claim only. Do not edit the ledger or catalog. Do not open PayoutLens.
+action_taken: Sent GÖRDÜM. Read ledger and catalog from main. Appended seen plus this report.
+tests: JSON read-back counts 39 unique learnings and 53 sources; claimed ledger SHA matches blob SHA.
+decision: CONTINUE
+next_action: Unclipped task body or task_id if more work was requested. No second GÖRDÜM for 1a1131fc42e60b67.
+constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
