@@ -691,6 +691,28 @@
       "title": "Bundle channel support is page-specific and not assumed"
     },
     {
+      "claim": "Shopify Next Gen Events is generally available in Admin API version 2026-10 across 18 topics and can filter actions, field-level triggers, and custom GraphQL payloads. Event delivery is a freshness signal only and is not proof of product demand or sales.",
+      "decision": "NEXT_GEN_EVENTS_PRODUCT_SIGNAL_GATE: when authorized store event access exists, prefer narrowly filtered Next Gen Events for product, collection, or order freshness. Never treat event delivery as demand or sales. Confirm ranking changes with verified orders, net units, and net sales. Human learning_id learn_shopify_next_gen_events_product_signal_20261006. Keep PRODUCT_SALES_SOURCE_GATE unchanged.",
+      "domain": "shopify-events",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Candidate file knowledge/2026-10-06-shopify-next-gen-events-product-signal-gate.json was pending_canonical_ledger_bridge. Prior N to N+1 reload was not present in learning_ledger.json or source_catalog.json on this read-back."
+      ],
+      "fallback_history": [
+        "If Events is unavailable, keep existing authorized reads and webhooks and mark freshness unknown. Do not blind-retry. Do not rank products from event delivery alone."
+      ],
+      "learned_at": "2026-10-06T14:22:00+03:00",
+      "learning_id": "learn_ed19b38609dc8da4",
+      "next_measurement": "On the next authorized store event read, record topic, filter, payload field count, and follow-up call count. Do not invent store event or sales numbers if admin access is unavailable.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_407897ce4f74ec61"
+      ],
+      "supersedes": null,
+      "title": "Next Gen Events product signal is not demand"
+    },
+    {
       "claim": "FAIL_CLOSED_PERSISTENCE_GATE: a named gate is persisted only when learning_ledger.json contains the gate token and every source id reads back from source_catalog.json. Markdown-only notes, including UNIQUE_VIEWER_REACH_GATE before d6ca9589, are not persistence. A missing row or missing source fails closed and must not be reported as saved.",
       "decision": "Run learning_bridge gate before claiming a gate is machine-persisted. Do not treat a markdown file as the ledger.",
       "domain": "workspace-knowledge",
@@ -828,5 +850,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-06T05:01:36+00:00"
+  "updated_at": "2026-10-06T11:20:36+00:00"
 }
