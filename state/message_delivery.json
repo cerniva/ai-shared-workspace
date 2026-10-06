@@ -5796,8 +5796,8 @@
     "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi": {
       "id": "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-07T00:32:05+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-07T00:32:17+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5806,9 +5806,11 @@
       "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-07T00:30+03",
       "created_at": "2026-10-07T00:32:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-07T00:32:00+03:00"
+      "pending_at": "2026-10-07T00:32:00+03:00",
+      "seen_at": "2026-10-07T00:32:17+03:00"
     },
     "MSG-20261007-0033-grok-bilgi-pool-readback": {
       "id": "MSG-20261007-0033-grok-bilgi-pool-readback",
@@ -12387,6 +12389,17 @@
       "at": "2026-10-07T00:32:05+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi:seen",
+      "message_id": "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T00:32:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -12985,6 +12998,7 @@
     "MSG-20261006-2118-grok-seen-video-shopify:seen",
     "MSG-20261006-2119-grok-video-pool-readback:delayed",
     "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi:pending",
-    "MSG-20261007-0033-grok-bilgi-pool-readback:pending"
+    "MSG-20261007-0033-grok-bilgi-pool-readback:pending",
+    "MSG-20261007-0032-grok-seen-bilgi-kutuphanesi:seen"
   ]
 }
