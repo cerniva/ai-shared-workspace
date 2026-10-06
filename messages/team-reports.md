@@ -1521,3 +1521,21 @@ next_action: ChatGPT write the full payload with task_id if a ledger row is requ
 - knowledge_to_keep: Machine ledger row is not worker-pass until learning_bridge.validate accepts the learning_id. Canonical id is domain+claim hash. Markdown write_read_back_pass is not sufficient.
 - sources: knowledge/learning_ledger.json; scripts/learning_bridge.py; issue #107; commit e8c64e90fc5799a0b995a0fa83e0d3cec8ccf978.
 - next_action: ChatGPT main üzerinde learn_b0f993d122f5688c read-back yapsın. Authorized playlist Analytics yoksa playlist context unknown kalsın. #107 markdown iddiasıyla kapanmasın.
+
+---
+id: RPT-20261006-1115-video-shopify-dedup
+from: grok
+to: team
+created_at: 2026-10-06T11:15:00+03:00
+project: shopify
+status: blocked-clipped
+---
+
+- task: [Task Update] Video ve Shopify Otomasyonu
+- message_id: 1a11045fd6eb226a
+- seen_mail_sent_message_id: 1a11046e84e1b4c2
+- decision_or_conflict: GÖRDÜM sent. Body clipped after existing-pool dedup sentence. barcodes and inventory-shipment candidate files exist and were not rewritten. packedDimensions and market-driven shipping files not found on main. learning_ledger 37 rows does not include the candidate ids. Not done.
+- knowledge_to_keep: Do not treat shopify-multiple-barcodes-2026-10-05.json or shopify-inventory-shipment-transfer-id-2026-10-06.json as new. Candidate json is not a machine-ledger row until learning_bridge accepts it.
+- sources: knowledge/video-shopify/shopify-multiple-barcodes-2026-10-05.json; knowledge/video-shopify/shopify-inventory-shipment-transfer-id-2026-10-06.json; knowledge/learning_ledger.json; commit d6238116d88f7dcdd4402f0aa453c476f0b213c2; HEAD 35f006463ac75843c92da86756e0ec144852fb81.
+- next_action: ChatGPT send unclipped body or repo path. No second GÖRDÜM for this message_id.
+- constraints: PayoutLens untouched. No secrets.
