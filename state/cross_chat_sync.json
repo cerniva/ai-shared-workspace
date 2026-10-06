@@ -1,14 +1,20 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-29T04:52:31+03:00",
+  "updated_at": "2026-10-06T18:20:00+03:00",
   "status": "partial_bridge_active",
   "purpose": "Carry user-side work and decisions made in other ChatGPT conversations into the shared project state without storing secrets or pretending there is instant cross-chat push.",
   "latest_user_side_deltas": [
     {
+      "id": "user-20261006-gemini-excluded",
+      "topic": "system",
+      "status": "confirmed_user_decision",
+      "fact": "Do not perform Gemini-related work or use Gemini as an active collaborator unless the user explicitly reverses this instruction."
+    },
+    {
       "id": "user-20260929-gmail-paused",
       "topic": "accounts-integrations",
-      "status": "confirmed_user_decision",
-      "fact": "User cannot do anything with Gmail right now. Gmail/Google-mail access must be treated as paused and non-blocking; do not retry login/OAuth or require Gmail for unrelated automation until the user restores access.",
+      "status": "superseded-for-verified-chatgpt-grok-thread",
+      "fact": "Historical Gmail pause is superseded only for the verified CHATGPT-GROK work thread. Do not generalize this to unrelated Gmail work; Gmail remains non-blocking.",
       "secret_policy": "Never store or request password, token, recovery code, or API key values."
     },
     {
@@ -56,6 +62,6 @@
     "There is no guaranteed instant event push from every separate ChatGPT conversation into this repository.",
     "Synchronization is eventual: a plan or coordinator must reconcile recent conversation context and persist the delta.",
     "A conversation that never invokes the shared-state path may remain unseen until a reconciliation pass runs.",
-    "Gmail is currently paused by user decision and is not a usable coordination dependency."
+    "Gmail is not a general coordination dependency. Only the verified CHATGPT-GROK work thread may be used when live evidence supports it; unrelated Gmail work remains outside the critical path."
   ]
 }
