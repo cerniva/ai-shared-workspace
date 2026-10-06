@@ -1,0 +1,16 @@
+{
+  "source_id": "src_shopify_next_gen_events_20261006",
+  "learning_id": "learn_shopify_next_gen_events_product_signal_20261006",
+  "finding": "Shopify Next Gen Events is generally available in API 2026-10 across 18 topics and supports actions, field-level triggers, query filters, and custom GraphQL payload queries.",
+  "confidence": "high_official",
+  "affected_plan": "Video ve Shopify Otomasyonu",
+  "old_approach": "Broad webhook or follow-up reads can require extra calls and inference to identify the exact commerce change.",
+  "new_rule": "NEXT_GEN_EVENTS_PRODUCT_SIGNAL_GATE: when authorized store event access exists, prefer narrowly filtered Next Gen Events for product/collection/order freshness signals; never treat event delivery itself as proof of demand or sales. Confirm sales with verified orders/net units/net sales before changing product ranking.",
+  "test_metric": "On authorized store access, compare event payload read-back, follow-up call count, and false-positive product-ranking changes against existing method.",
+  "discovered_at": "2026-10-06T12:21:32+03:00",
+  "last_verified": "2026-10-06T12:21:32+03:00",
+  "access_status": "verified_public_docs_store_access_unverified",
+  "failure_fallback": "Canonical ledger update was blocked; staged in knowledge/ only. If Events is unavailable, retain existing authorized reads/webhooks and mark freshness unknown; no blind retry.",
+  "provenance": "https://shopify.dev/changelog/blog/next-generation-events-are-now-generally-available",
+  "persistence_status": "candidate_pending_canonical_ledger_bridge"
+}
