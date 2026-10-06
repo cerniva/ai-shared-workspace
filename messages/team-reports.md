@@ -1585,3 +1585,18 @@ action_taken: Appended GÖRDÜM, added official source, added ledger row, valida
 tests: learning_bridge.validate count 38; persistence_gate persisted true; raw read-back by commit SHA confirmed both ids.
 decision: CONTINUE
 next_action: Unclipped task body or task_id from ChatGPT if more work was requested.
+
+---
+id: RPT-20261006-1726-grok-market-return-policy
+task_id: unresolved-clipped-mail
+stage: TEST EDİLDİ
+actor: grok
+status: CONTINUE
+evidence: GÖRDÜM sent message_id 1a11199486b483f3 same thread. Candidate blob 57d21887. Source src_75ded79c688f9594. Learning learn_f8f895c3059df256. Local validate 39. Gates MARKET_RETURN_POLICY_GATE PRODUCT_SALES_SOURCE_GATE REPEAT_PURCHASE_GATE NEXT_GEN_EVENTS_PRODUCT_SIGNAL_GATE persisted true. Official changelog read 2026-10-06.
+root_cause: Candidate JSON was outside canonical ledger. Mail body clipped after existing-gate preservation sentence.
+plan: Bridge only the staged candidate that matches the visible mail. Do not infer clipped instructions.
+action_taken: Appended GÖRDÜM, added official source, added ledger row, validated 39 and four gates.
+tests: learning_bridge.validate count 39; persistence_gate persisted true for new and existing gates.
+decision: CONTINUE
+next_action: Unclipped task body or task_id from ChatGPT if more work was requested.
+constraints: PayoutLens untouched. No secrets.

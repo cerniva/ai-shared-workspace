@@ -827,6 +827,26 @@
       "title": "CREATOR_CONTENT_TYPE_GATE"
     },
     {
+      "claim": "Shopify Admin GraphQL API 2026-10 adds return policy profiles: a set of return rules associated with markets that supersedes store return-policy text. Market.returnPolicyProfile returns only a directly assigned profile and is null when none is assigned; it does not resolve market hierarchy. Nullable returnRules or editRules mean those rules are turned off; null returnRules means customers can return without restriction. Reading requires read_legal_policies. Assigning a profile is a market edit and needs write_markets. There are no profile mutations; create, update, and delete stay in Shopify admin. A default profile covers markets without a named profile. Managed Markets EU profile is locked.",
+      "decision": "MARKET_RETURN_POLICY_GATE: use authorized market-specific structured return rules as policy and trust context only. Never substitute policy terms, a return window, or a null profile for observed returned_quantity, return reasons, sales reversals, margin, or demand. A null Market.returnPolicyProfile is not proof that no return rule applies. Keep PRODUCT_SALES_SOURCE_GATE, REPEAT_PURCHASE_GATE, physical return versus sales-reversal separation, and Shorts analytics rules unchanged. Human learning_id learn_shopify_market_return_policy_gate_20261006.",
+      "domain": "shopify",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If authorized market or profile data is unavailable, mark MARKET_RETURN_POLICY_UNVERIFIED and do not invent a return window."
+      ],
+      "learned_at": "2026-10-06T14:23:00+00:00",
+      "learning_id": "learn_f8f895c3059df256",
+      "next_measurement": "On an authorized target-market read, capture the applicable return window and rules beside physical return metrics. Do not claim causality. If hierarchy or profile data is unavailable, mark MARKET_RETURN_POLICY_UNVERIFIED and do not invent a window.",
+      "outcome": "applied",
+      "provenance": "verified",
+      "source_ids": [
+        "src_75ded79c688f9594"
+      ],
+      "supersedes": null,
+      "title": "Market return policy profiles are terms, not observed returns"
+    },
+    {
       "claim": "The official YouTube Analytics reports.query page banner says requests now require youtube.readonly, while the same page authorization-scope table and embedded JavaScript and Python samples still document yt-analytics.readonly. Documentation on that page is internally inconsistent, so the banner alone does not prove both scopes are always required.",
       "decision": "YOUTUBE_ANALYTICS_SCOPE_DOC_CONSISTENCY_GATE: narrow YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE. Do not reauthorize solely because the reports.query banner exists. Keep runtime authorization unverified until an owned-channel reports.query response is observed. Classify a real 401/403 from returned error details and separate it from invalid_grant. Do not blind-retry. Human learning_id learn_youtube_scope_doc_consistency_20261003.",
       "domain": "youtube-analytics",
@@ -850,5 +870,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-06T11:20:36+00:00"
+  "updated_at": "2026-10-06T14:24:48+00:00"
 }
