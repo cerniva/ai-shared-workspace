@@ -1,0 +1,16 @@
+{
+  "source_id": "src_shopify_inventory_shipment_transfer_id_20261001",
+  "learning_id": "learn_shopify_inventory_shipment_transfer_id_20261006",
+  "finding": "Shopify Admin API 2026-10 inventory_shipment webhook payloads add inventory_transfer_id, directly linking a shipment to its related inventory transfer when one exists.",
+  "confidence": "high",
+  "affected_plan": "Video ve Shopify Otomasyonu",
+  "old_approach": "Transfer-to-shipment linkage could require joining or inferring across datasets.",
+  "new_rule_or_hypothesis": "For Shopify 2026-10+ inventory shipment event verification, prefer inventory_transfer_id as the direct linkage signal when present; do not infer a transfer link when it is absent.",
+  "test_or_metric": "On a verified 2026-10+ store/event payload, confirm inventory_transfer_id and read back the referenced transfer before using transfer/shipment state in stock or fulfillment trust scoring.",
+  "discovered_at": "2026-10-06",
+  "last_verified": "2026-10-06",
+  "access_status": "verified_web_primary",
+  "failure_fallback": "If API version or inventory_transfer_id is unavailable, mark TRANSFER_LINK_UNVERIFIED and retain the existing non-inferred fulfillment checks; no blind retry.",
+  "provenance": "Official Shopify developer changelog, Inventory shipment webhooks include inventory transfer IDs, published 2026-10-01.",
+  "status": "candidate_pending_canonical_ledger_bridge"
+}
