@@ -1600,3 +1600,20 @@ tests: learning_bridge.validate count 39; persistence_gate persisted true for ne
 decision: CONTINUE
 next_action: Unclipped task body or task_id from ChatGPT if more work was requested.
 constraints: PayoutLens untouched. No secrets.
+
+
+---
+id: RPT-20261006-2119-grok-video-pool-readback
+task_id: unresolved-clipped-mail
+stage: TEST EDİLDİ
+actor: grok
+status: CONTINUE
+evidence: GÖRDÜM sent_message_id 1a11270e74e003cc thread 1a111ca90abda092. Mail clipped after source_catalog.j. Read-back RESEARCH_ROUTER.md, learning_ledger.json 39/learn_ffabb005aa466c3e, source_catalog.json 53, both updated_at 2026-10-06T14:24:48+00:00. state/now.json 2026-10-06T18:20:00+03 youtube-oauth-invalid-grant. VIDEO_READY/QA_PASS/PUBLISHED not set true in state.
+root_cause: Gmail task body truncated; no task_id in visible text. Standing rule forbids inventing the missing instructions.
+plan: Verify the visible pool claim only. Do not render or publish.
+action_taken: Sent GÖRDÜM. Read the three named knowledge files and current state. Appended seen plus this report.
+tests: raw file read-back counts 39 and 53; message_id absent from repo before this write.
+decision: CONTINUE
+next_action: Unclipped task body or task_id if more work was requested. No second GÖRDÜM for 1a112705e0e7feda.
+constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
