@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T06:57:29+03:00",
+  "updated_at": "2026-10-06T18:20:00+03:00",
   "focus": "CORE-04 revenue execution + CORE-05 automation reliability",
   "active_task_id": "CORE-05",
   "owner": "chatgpt",
@@ -7,7 +7,7 @@
   "agents": {
     "chatgpt": "orchestrator-executor",
     "grok": "research-red-team-chat-available-api-http-403",
-    "gemini": "automated-model-primary-fallback-verified",
+    "gemini": "excluded-by-current-user-instruction",
     "claude": "api-key-valid-credit-paused-not-a-system-blocker",
     "meta": "model-api-paused-http-402",
     "tinyfish": "primary-web-worker-live",
@@ -23,13 +23,15 @@
     "openai-api-credit-exhausted",
     "youtube-oauth-invalid-grant"
   ],
-  "blockers": ["payments-unproven"],
+  "blockers": [
+    "payments-unproven"
+  ],
   "provider_health": {
     "openai_worker": "credential-present-http-429-credit-balance-exhausted",
     "grok_chat": "available-separate-from-grok-bot",
     "grok_api": "secret-present-http-403",
     "grok_bot": "quota-exhausted",
-    "gemini_api": "configured-planner-fallback-verified",
+    "gemini_api": "excluded-by-current-user-instruction-no-health-claim",
     "anthropic_api": "credential-valid-http-200-models-credit-too-low-for-messages",
     "meta_model_api": "credential-present-http-402-billing",
     "tinyfish": "available",
@@ -42,18 +44,28 @@
     "shopify_payment": "unproven-external-gate"
   },
   "routing": {
-    "browser_web": ["tinyfish", "firecrawl"],
-    "automated_model": ["gemini"],
-    "browser_planner_auto": ["gemini", "openai", "grok", "anthropic"],
+    "browser_web": [
+      "tinyfish",
+      "firecrawl"
+    ],
+    "automated_model": [],
+    "browser_planner_auto": [
+      "openai",
+      "grok",
+      "anthropic"
+    ],
     "grok_red_team": "use normal Grok chat/file-desk when available; never treat Grok Bot quota as Grok outage",
     "meta": "do not retry HTTP 402 automatically; do not block unrelated work",
     "grok_api": "known HTTP 403; do not infer billing/root cause without fresh credentialed evidence; browser auto planner uses healthy fallbacks",
     "anthropic_api": "credential is valid; Anthropic is last in browser auto planner and message generation is credit-blocked; do not block unrelated work",
-    "openai_api": "known HTTP 429 credit_balance_exhausted; browser auto planner tries healthy Gemini first, then OpenAI; provider failure does not block later fallbacks",
+    "openai_api": "known HTTP 429 credit_balance_exhausted; do not blind-retry; provider failure does not block later healthy fallbacks",
     "gmail": "use verified CHATGPT-GROK thread 1a0fa596ffcba64d for evidence-based handoff; dedup by message/thread id; do not invent Grok identity or treat unrelated mail as Grok work",
-    "youtube_publish": "use Metricool only while a fresh brand read-back exposes YouTube; require remote video ID/URL/status for each publish. Direct GitHub OAuth remains disabled on invalid_grant and must not be blindly retried."
+    "youtube_publish": "use Metricool only while a fresh brand read-back exposes YouTube; require remote video ID/URL/status for each publish. Direct GitHub OAuth remains disabled on invalid_grant and must not be blindly retried.",
+    "gemini": "do not invoke, modify, or rely on Gemini unless the user explicitly reverses the current exclusion"
   },
   "notes": [
+    "2026-10-06 18:20 TR: cross_chat_sync stale Gmail pause is superseded for the verified CHATGPT-GROK work thread by state/now evidence from 2026-10-02; unrelated Gmail remains outside the critical path.",
+    "2026-10-06 18:20 TR: State reconciliation: current user instruction excludes Gemini from active work. Historical Gemini evidence remains preserved, but Gemini is removed from active routing and no current health claim is made.",
     "2026-10-02 06:57 TR: Reconciled stale Gmail pause state after verified CHATGPT-GROK thread read/write evidence. Scope is the verified shared-work thread; no claim of unrestricted Gmail automation or push webhook.",
     "2026-09-30 04:01 TR: Live Metricool brand settings expose YouTube channel UCAKg-ZKPoazTnF2zDVORk4Q. A public Short publish completed with remote ID tKXYIrm8WXY, public URL https://www.youtube.com/shorts/tKXYIrm8WXY and PUBLISHED read-back. This supersedes the 2026-09-29 disconnected record; Metricool is a verified publish fallback while fresh connection/read-back remains healthy.",
     "2026-09-30 04:01 TR: Direct GitHub YouTube OAuth invalid_grant remains an external auth gate for that route only. Do not retry it blindly and do not mark the whole publish capability red while Metricool is live.",
@@ -76,7 +88,9 @@
     "Shopify Payments readiness remains unproven external state; do not treat as software bug.",
     "PayoutLens untouched."
   ],
-  "protected_projects": ["payoutlens"],
+  "protected_projects": [
+    "payoutlens"
+  ],
   "sync_rules": {
     "state_is_source_of_truth": true,
     "read_before_work": true,
