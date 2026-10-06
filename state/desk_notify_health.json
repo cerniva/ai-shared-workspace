@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 78,
+    "pending": 0,
+    "seen": 79,
     "answered": 68,
-    "delayed": 154
+    "delayed": 155
   },
-  "event_count": 588,
+  "event_count": 590,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -605,20 +605,22 @@
     "MSG-20261006-1418-grok-finans-6h:answered",
     "MSG-20261006-1422-grok-next-gen-events-bridge:delayed",
     "MSG-20261006-1723-grok-seen-market-return-policy:pending",
-    "MSG-20261006-1726-grok-market-return-policy-bridge:pending"
+    "MSG-20261006-1726-grok-market-return-policy-bridge:pending",
+    "MSG-20261006-1723-grok-seen-market-return-policy:seen",
+    "MSG-20261006-1726-grok-market-return-policy-bridge:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261006-1723-grok-seen-market-return-policy:pending",
-    "MSG-20261006-1726-grok-market-return-policy-bridge:pending"
+    "MSG-20261006-1723-grok-seen-market-return-policy:seen",
+    "MSG-20261006-1726-grok-market-return-policy-bridge:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-06T17:25:31+03:00",
+  "checked_at": "2026-10-06T18:05:12+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 78,
+    "pending": 0,
+    "seen": 79,
     "answered": 68,
-    "delayed": 154
+    "delayed": 155
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 402,
