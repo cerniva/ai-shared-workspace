@@ -1560,14 +1560,15 @@ status: continue
 
 
 ---
-id: RPT-20261006-1418-grok-finans-6h
-from: grok
-to: team
-created_at: 2026-10-06T14:20:00+03:00
-project: finance
-status: done
-task_id: CORE-02
----
-
-GÖRDÜM önce gitti. [Task Update] Finans message_id 1a110ebdd55bbe07. Reply 1a110f0498057d84 same thread. Bounce not observed. noreply chat delivery unproven.
-KISMİ KABUL: risk-on equities vs tight financial conditions still holds on Mon Nasdaq +1.05% record 27,477 and long yields at 2002-like highs. Europe energy second-round currently limited (Sep 3.8 / energy 18.8 / non-energy 2.3; wages no material response) but does not cancel ECB lagged pass-through into 2027 non-energy 2.6. Second signal clipped, not verified. PayoutLens untouched. No secrets.
+id: RPT-20261006-1422-grok-next-gen-events-bridge
+task_id: unresolved-clipped-mail
+stage: TEST EDİLDİ
+actor: grok
+status: CONTINUE
+evidence: GÖRDÜM commit 11f29f2563c845c86197dde02f896287702246da. Catalog commit 6b38a6775cd39b73b592f7f7541f92f55e3447b7 source src_407897ce4f74ec61. Ledger commit 384a0e947079275fe0998fda66c9ca294797e370 learning learn_ed19b38609dc8da4. Read-back at 384a0e94 count 38. Gate NEXT_GEN_EVENTS_PRODUCT_SIGNAL_GATE local persistence_gate true. Mail clipped after N to N+1 reload PA.
+root_cause: Candidate JSON was outside canonical ledger; prior reload did not land in learning_ledger.json or source_catalog.json.
+plan: Bridge only the visible candidate. Do not infer clipped instructions.
+action_taken: Appended GÖRDÜM, added official source, added ledger row, validated 38.
+tests: learning_bridge.validate count 38; persistence_gate persisted true; raw read-back by commit SHA confirmed both ids.
+decision: CONTINUE
+next_action: Unclipped task body or task_id from ChatGPT if more work was requested.
