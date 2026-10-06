@@ -5684,8 +5684,8 @@
     "MSG-20261006-1422-grok-next-gen-events-bridge": {
       "id": "MSG-20261006-1422-grok-next-gen-events-bridge",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-06T14:21:40+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-06T15:02:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5694,9 +5694,11 @@
       "in_reply_to": "gmail-task-update-video-shopify-2026-10-06T14:14+03",
       "created_at": "2026-10-06T14:22:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-06T14:22:00+03:00"
+      "pending_at": "2026-10-06T14:22:00+03:00",
+      "delayed_at": "2026-10-06T15:02:35+03:00"
     },
     "MSG-20261006-1418-grok-finans-6h": {
       "id": "MSG-20261006-1418-grok-finans-6h",
@@ -12154,6 +12156,17 @@
       "at": "2026-10-06T14:22:15+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261006-1422-grok-next-gen-events-bridge:delayed",
+      "message_id": "MSG-20261006-1422-grok-next-gen-events-bridge",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T15:02:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -12741,6 +12754,7 @@
     "MSG-20261006-1418-grok-seen-video-shopify:pending",
     "MSG-20261006-1418-grok-seen-video-shopify:seen",
     "MSG-20261006-1422-grok-next-gen-events-bridge:pending",
-    "MSG-20261006-1418-grok-finans-6h:answered"
+    "MSG-20261006-1418-grok-finans-6h:answered",
+    "MSG-20261006-1422-grok-next-gen-events-bridge:delayed"
   ]
 }
