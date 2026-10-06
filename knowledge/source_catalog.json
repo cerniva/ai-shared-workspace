@@ -78,6 +78,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://developers.google.com/youtube/analytics/reference/reports/query",
+      "category": "youtube-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-03T06:31:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": "Page banner requires youtube.readonly; scope table and embedded samples still show only yt-analytics.readonly. Human source_id rewritten to stable hash src_1ee3fe3382f17f55 on 2026-10-03; claim URL unchanged.",
+      "last_successful_use": "2026-10-03T06:31:00+00:00",
+      "provenance": "verified",
+      "purpose": "Fail closed when an Analytics token lacks the reports.query documented youtube.readonly scope",
+      "reliability_limits": "Documentation requirement only. Does not prove the connected channel token scopes. Samples on the same page are stale relative to the banner.",
+      "source_id": "src_1ee3fe3382f17f55",
+      "source_name": "YouTube Analytics reports.query authorization"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency",
       "category": "workflow-concurrency",
       "cost_quota": "free",
@@ -195,6 +210,21 @@
       "reliability_limits": "Caches are optimization only and jobs must remain able to regenerate dependencies. Restored cache content should be treated as untrusted; low-trust triggers have restricted write behavior, and excessive cache storage can cause eviction or billing.",
       "source_id": "src_3f9a7bf27e86813c",
       "source_name": "GitHub Actions dependency caching reference"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://shopify.dev/changelog/blog/next-generation-events-are-now-generally-available",
+      "category": "shopify-events",
+      "cost_quota": "public changelog, no quota; store event subscription not used",
+      "discovered_at": "2026-10-06T14:22:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": "Candidate knowledge/2026-10-06-shopify-next-gen-events-product-signal-gate.json stayed outside the canonical ledger until this bridge.",
+      "last_successful_use": "2026-10-06T14:22:00+03:00",
+      "provenance": "verified",
+      "purpose": "Official GA notice for Next Gen Events in API 2026-10, 18 topics, filters and custom payloads",
+      "reliability_limits": "Docs only. No store event delivery was observed. Event payload is not sales proof.",
+      "source_id": "src_407897ce4f74ec61",
+      "source_name": "Shopify changelog: Next Gen Events generally available"
     },
     {
       "access_status": "verified-public",
@@ -750,22 +780,7 @@
       "reliability_limits": "Clickability rules can vary by surface; this does not inventory every external clickable placement.",
       "source_id": "src_f492a0640e50dfce",
       "source_name": "YouTube links in descriptions and comments"
-    },
-    {
-      "access_status": "verified-public",
-      "canonical": "https://developers.google.com/youtube/analytics/reference/reports/query",
-      "category": "youtube-analytics",
-      "cost_quota": "free public documentation; no API credit used",
-      "discovered_at": "2026-10-03T06:31:00+00:00",
-      "evidence_tier": "official",
-      "failure_note": "Page banner requires youtube.readonly; scope table and embedded samples still show only yt-analytics.readonly. Human source_id rewritten to stable hash src_1ee3fe3382f17f55 on 2026-10-03; claim URL unchanged.",
-      "last_successful_use": "2026-10-03T06:31:00+00:00",
-      "provenance": "verified",
-      "purpose": "Fail closed when an Analytics token lacks the reports.query documented youtube.readonly scope",
-      "reliability_limits": "Documentation requirement only. Does not prove the connected channel token scopes. Samples on the same page are stale relative to the banner.",
-      "source_id": "src_1ee3fe3382f17f55",
-      "source_name": "YouTube Analytics reports.query authorization"
     }
   ],
-  "updated_at": "2026-10-03T07:28:06+00:00"
+  "updated_at": "2026-10-06T11:20:36+00:00"
 }
