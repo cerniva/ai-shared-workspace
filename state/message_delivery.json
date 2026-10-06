@@ -5777,8 +5777,8 @@
     "MSG-20261006-2119-grok-video-pool-readback": {
       "id": "MSG-20261006-2119-grok-video-pool-readback",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-06T21:20:39+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-06T22:02:38+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5787,9 +5787,11 @@
       "in_reply_to": "gmail-task-update-video-shopify-2026-10-06T21:18+03",
       "created_at": "2026-10-06T21:19:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-06T21:19:00+03:00"
+      "pending_at": "2026-10-06T21:19:00+03:00",
+      "delayed_at": "2026-10-06T22:02:38+03:00"
     }
   },
   "events": [
@@ -12318,6 +12320,17 @@
       "at": "2026-10-06T21:20:52+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261006-2119-grok-video-pool-readback:delayed",
+      "message_id": "MSG-20261006-2119-grok-video-pool-readback",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-06T22:02:38+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -12913,6 +12926,7 @@
     "MSG-20261006-1726-grok-market-return-policy-bridge:delayed",
     "MSG-20261006-2118-grok-seen-video-shopify:pending",
     "MSG-20261006-2119-grok-video-pool-readback:pending",
-    "MSG-20261006-2118-grok-seen-video-shopify:seen"
+    "MSG-20261006-2118-grok-seen-video-shopify:seen",
+    "MSG-20261006-2119-grok-video-pool-readback:delayed"
   ]
 }
