@@ -1634,3 +1634,19 @@ tests: JSON read-back counts 39 unique learnings and 53 sources; claimed ledger 
 decision: CONTINUE
 next_action: Unclipped task body or task_id if more work was requested. No second GÖRDÜM for 1a1131fc42e60b67.
 constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
+
+## RPT-20261007-0506-grok-desk-notify-head-readback
+
+- from: grok
+- project: workspace
+- task: Clipped Paslaşmalı Nöbet mail; desk-notify HEAD read-back
+- status: in_progress
+- in_reply_to: none
+- completed: Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. main HEAD, son commit dosyaları ve desk_notify_health.json bağımsız okundu. message_delivery.json olay sayısı ve son event okundu. Kod, ledger veya health dosyası değiştirilmedi. PayoutLens açılmadı. Secret yazılmadı.
+- evidence: Gmail date 2026-10-07 02:04:12 UTC; message_id=1a1141aa401d8254 thread_id=1a10f9982042dad4 absent before this write. GÖRDÜM sent_message_id=1a1141c8286a7662; bounce gözlenmedi, noreply sohbet dönüşü garanti değil, teslim edildi denmez. HEAD fdf4efd437cac4059eb6f5f96d86827ccbed145a only state/desk_notify_health.json and state/message_delivery.json. health blob 292b8122005c6c9afede9ae0926a007a158819e3 ok=true consecutive_failures=0 last_error=null push=false checked_at=2026-10-07T02:01:09+03:00 counts pending=0 seen=81 answered=68 delayed=157 event_count=598. delivery blob 26d4e63af9948e6db52b604bd31815a6954a0996 events=598 last MSG-20261007-0033-grok-bilgi-pool-readback:delayed.
+- decision_or_conflict: CONTINUE. Visible HEAD and ok=true claims match. Clipped text after pe was not invented. No task_id in visible body.
+- knowledge_to_keep: desk-notify bot commits that only touch health plus delivery ledger are persistence, not a new product task. push remains false and is not chat delivery.
+- sources: repository read-back only; no new external source.
+- next_action: Unclipped task body or task_id if more work was requested. No second GÖRDÜM for 1a1141aa401d8254.
+- constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
