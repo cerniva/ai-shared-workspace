@@ -4,8 +4,10 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 import json
 from time import perf_counter
+import re
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 UTC = timezone.utc
@@ -30,6 +32,71 @@ class RetryableProviderError(WorkerError):
 
 class NonRetryableProviderError(WorkerError):
     pass
+
+
+class ProviderAuthError(NonRetryableProviderError):
+    """401/403: credential or permission problem; never retry unchanged.
+
+    Subclass of NonRetryableProviderError for backward compatibility. Carries
+    only secret-free metadata: http_status, endpoint_host (no path), error_code
+    (short enum-like token or None). Raw body/headers are never stored.
+    """
+
+    def __init__(self, message: str, *, http_status: int, endpoint_host: str, error_code: str | None = None):
+        super().__init__(message)
+        self.http_status = http_status
+        self.endpoint_host = endpoint_host
+        self.error_code = error_code
+        self.retryable = False
+
+
+_SAFE_ERROR_CODE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{0,47}$")
+_SECRET_LIKE_PREFIXES = ("xai-", "sk-", "aiza", "bearer")
+_MAX_ERROR_BODY_BYTES = 4096
+
+
+def _safe_error_code(exc: HTTPError) -> str | None:
+    """Extract only a short enum-like error code from an HTTP error body.
+
+    Free-text messages, request ids, tokens and e-mails are never returned:
+    the value must be a short identifier matching _SAFE_ERROR_CODE.
+    """
+    try:
+        raw = exc.read(_MAX_ERROR_BODY_BYTES) if exc.fp is not None else b""
+    except Exception:
+        return None
+    try:
+        data = json.loads(raw.decode("utf-8", errors="replace")) if raw else None
+    except (ValueError, AttributeError):
+        return None
+    candidates: list[Any] = []
+    if isinstance(data, dict):
+        err = data.get("error")
+        if isinstance(err, dict):
+            candidates += [err.get("code"), err.get("type"), err.get("status")]
+        candidates += [data.get("code"), data.get("type")]
+    for value in candidates:
+        if (
+            isinstance(value, str)
+            and _SAFE_ERROR_CODE.match(value)
+            and not value.lower().startswith(_SECRET_LIKE_PREFIXES)
+        ):
+            return value
+    return None
+
+
+def _http_error_to_provider_error(url: str, exc: HTTPError) -> WorkerError:
+    code = int(exc.code)
+    host = urlparse(url).hostname or "unknown"
+    if code == 429 or 500 <= code < 600:
+        return RetryableProviderError(f"provider HTTP {code} host={host}")
+    if code in (401, 403):
+        error_code = _safe_error_code(exc)
+        message = f"provider HTTP {code} host={host} class=auth_or_permission"
+        if error_code:
+            message += f" error_code={error_code}"
+        return ProviderAuthError(message, http_status=code, endpoint_host=host, error_code=error_code)
+    return NonRetryableProviderError(f"provider HTTP {code} host={host}")
 
 
 def normalized_result(
@@ -77,9 +144,7 @@ def _default_transport(url: str, headers: dict[str, str], payload: dict[str, Any
         with urlopen(request, timeout=timeout) as response:
             return json.loads(response.read().decode("utf-8"))
     except HTTPError as exc:
-        if exc.code == 429 or 500 <= exc.code < 600:
-            raise RetryableProviderError(f"provider HTTP {exc.code}") from exc
-        raise NonRetryableProviderError(f"provider HTTP {exc.code}") from exc
+        raise _http_error_to_provider_error(url, exc) from exc
     except (URLError, TimeoutError) as exc:
         raise RetryableProviderError("provider network error") from exc
 

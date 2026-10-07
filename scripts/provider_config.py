@@ -3,7 +3,15 @@ from __future__ import annotations
 import os
 from collections.abc import Mapping
 
-from scripts.worker_adapters import GeminiAdapter, GrokAdapter, MetaAdapter, MissingCredential, OpenAIAdapter, RetryableProviderError
+from scripts.worker_adapters import (
+    GeminiAdapter,
+    GrokAdapter,
+    MetaAdapter,
+    MissingCredential,
+    OpenAIAdapter,
+    ProviderAuthError,
+    RetryableProviderError,
+)
 
 
 class ConfigError(RuntimeError):
@@ -41,7 +49,13 @@ def make_adapter(provider: str, *, env: Mapping[str, str] | None = None):
 
 
 class FailoverAdapter:
-    """Try configured providers in order when a provider is temporarily unavailable."""
+    """Try configured providers in order when a provider is unavailable.
+
+    A provider-scoped 401/403 (ProviderAuthError, e.g. Issue #101 xAI 403) must
+    not block unrelated jobs: skip that provider and try the next one. If every
+    provider failed only with auth/permission errors, raise ProviderAuthError
+    (non-retryable) so the queue does not blind-retry a 403.
+    """
     provider = "failover"
     model = "automatic"
 
@@ -50,12 +64,26 @@ class FailoverAdapter:
 
     def run(self, job):
         errors = []
+        auth_only = True
+        last_auth = None
         for adapter in self.adapters:
             try:
                 return adapter.run(job)
+            except ProviderAuthError as exc:
+                errors.append(f"{adapter.provider}: {exc}")
+                last_auth = exc
             except (RetryableProviderError, MissingCredential) as exc:
                 errors.append(f"{adapter.provider}: {exc}")
-        raise RetryableProviderError("all configured providers unavailable: " + " | ".join(errors))
+                auth_only = False
+        message = "all configured providers unavailable: " + " | ".join(errors)
+        if errors and auth_only and last_auth is not None:
+            raise ProviderAuthError(
+                message,
+                http_status=last_auth.http_status,
+                endpoint_host=last_auth.endpoint_host,
+                error_code=last_auth.error_code,
+            )
+        raise RetryableProviderError(message)
 
 
 def make_failover_adapter(*, env: Mapping[str, str] | None = None):
