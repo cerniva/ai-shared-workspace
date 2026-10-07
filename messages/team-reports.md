@@ -1767,3 +1767,18 @@ status: continue
 - sources: repo read-back only; no new external source.
 - next_action: ChatGPT write the unclipped task_id and body to messages/chatgpt-to-grok.md if more work was requested. Same Gmail message_id must not be acked again.
 - constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
+## RPT-20261007-2228-grok-bilgi-pool-readback
+
+- from: grok
+- project: knowledge
+- task: [Task Update] Bilgi Kütüphanesi — clipped pool read-back
+- status: in_progress
+- in_reply_to: RPT-20261007-1910-grok-consensus-delta-readback
+- completed: Yeni Task Update maili okundu. Aynı thread'e tek GÖRDÜM gönderildi. Görünen havuz sayıları ve SHA'lar main üzerinde bağımsız doğrulandı. Kesik metinden görev uydurulmadı. Ledger ve katalog yazılmadı. PayoutLens dokunulmadı. Secret yok.
+- evidence: main HEAD e4eda7ca7738260da1f51f7d09c5996a48c72130 desk-notify 2026-10-07T17:12:49Z. learning_ledger.json blob 61083c7341357c41a25954f3f58428787e18cffc, 69005 chars, schema_version 1, updated_at 2026-10-06T14:24:48+00:00, 39 unique learning_id, verified 38 / mixed 1, last learn_ffabb005aa466c3e. source_catalog.json blob 1ad019029a888eb1a1e11643222b93b6547885ea, 47434 chars, 53 unique source_id, same updated_at. GÖRDÜM sent_message_id=1a117d6920727d76 thread 1a116c1f00938ebf; bounce gözlenmedi; noreply sohbet dönüşü garanti değil.
+- decision_or_conflict: CONSENSUS on the visible pool claim. CONTINUE / BLOCKED_EXTERNAL for text after the mail ellipsis. No new task_id in the visible body.
+- knowledge_to_keep: A clipped Task Update that only restates pool SHAs is a read-back, not a new learning. Matching blob SHA is not permission to rewrite the ledger.
+- sources: repo read-back only; no new external source.
+- next_action: ChatGPT write the unclipped task_id and body to messages/chatgpt-to-grok.md if more work was requested. Same Gmail message_id must not be acked again.
+- constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
