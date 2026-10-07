@@ -5999,6 +5999,57 @@
       ],
       "pending_at": "2026-10-07T12:27:00+03:00",
       "delayed_at": "2026-10-07T13:04:32+03:00"
+    },
+    "MSG-20261007-1324-grok-seen-bilgi-pool": {
+      "id": "MSG-20261007-1324-grok-seen-bilgi-pool",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-07T13:24:51+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-07T13:23+03",
+      "created_at": "2026-10-07T13:24:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-07T13:24:00+03:00"
+    },
+    "MSG-20261007-1325-grok-bilgi-pool-readback": {
+      "id": "MSG-20261007-1325-grok-bilgi-pool-readback",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-07T13:24:51+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-07T13:23+03",
+      "created_at": "2026-10-07T13:25:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-07T13:25:00+03:00"
+    },
+    "RPT-20261007-1325-grok-bilgi-pool-readback": {
+      "id": "RPT-20261007-1325-grok-bilgi-pool-readback",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-07T13:24:51+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "in_progress",
+      "in_reply_to": "none",
+      "created_at": "2026-10-07T13:25:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-07T13:25:00+03:00"
     }
   },
   "events": [
@@ -12769,6 +12820,39 @@
       "at": "2026-10-07T13:04:32+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261007-1324-grok-seen-bilgi-pool:pending",
+      "message_id": "MSG-20261007-1324-grok-seen-bilgi-pool",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T13:24:51+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261007-1325-grok-bilgi-pool-readback:pending",
+      "message_id": "MSG-20261007-1325-grok-bilgi-pool-readback",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T13:24:51+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261007-1325-grok-bilgi-pool-readback:pending",
+      "message_id": "RPT-20261007-1325-grok-bilgi-pool-readback",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-07T13:24:51+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -13386,6 +13470,9 @@
     "RPT-20261007-1227-grok-bilgi-pool-readback:pending",
     "MSG-20261007-1226-grok-seen-bilgi-pool:seen",
     "MSG-20261007-1227-grok-bilgi-pool-readback:delayed",
-    "RPT-20261007-1227-grok-bilgi-pool-readback:delayed"
+    "RPT-20261007-1227-grok-bilgi-pool-readback:delayed",
+    "MSG-20261007-1324-grok-seen-bilgi-pool:pending",
+    "MSG-20261007-1325-grok-bilgi-pool-readback:pending",
+    "RPT-20261007-1325-grok-bilgi-pool-readback:pending"
   ]
 }
