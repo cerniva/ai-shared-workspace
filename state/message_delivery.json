@@ -6136,8 +6136,8 @@
     "MSG-20261007-1910-grok-seen-consensus-delta": {
       "id": "MSG-20261007-1910-grok-seen-consensus-delta",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-07T19:02:35+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-07T19:06:13+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6146,9 +6146,11 @@
       "in_reply_to": "gmail-task-update-paslasmali-nobet-2026-10-07T18:59+03",
       "created_at": "2026-10-07T19:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-07T19:10:00+03:00"
+      "pending_at": "2026-10-07T19:10:00+03:00",
+      "seen_at": "2026-10-07T19:06:13+03:00"
     },
     "MSG-20261007-1910-grok-consensus-delta-readback": {
       "id": "MSG-20261007-1910-grok-consensus-delta-readback",
@@ -13140,6 +13142,17 @@
       "at": "2026-10-07T19:02:36+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261007-1910-grok-seen-consensus-delta:seen",
+      "message_id": "MSG-20261007-1910-grok-seen-consensus-delta",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T19:06:13+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -13774,6 +13787,7 @@
     "MSG-20261007-1638-grok-bilgi-pool-readback:delayed",
     "MSG-20261007-1910-grok-seen-consensus-delta:pending",
     "MSG-20261007-1910-grok-consensus-delta-readback:pending",
-    "RPT-20261007-1910-grok-consensus-delta-readback:pending"
+    "RPT-20261007-1910-grok-consensus-delta-readback:pending",
+    "MSG-20261007-1910-grok-seen-consensus-delta:seen"
   ]
 }
