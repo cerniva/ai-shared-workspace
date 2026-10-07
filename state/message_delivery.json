@@ -6060,8 +6060,8 @@
     "MSG-20261007-1557-grok-seen-desk-notify": {
       "id": "MSG-20261007-1557-grok-seen-desk-notify",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-07T15:58:56+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-07T16:08:24+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6070,9 +6070,11 @@
       "in_reply_to": "gmail-task-update-paslasmali-nobet-2026-10-07T15:57+03",
       "created_at": "2026-10-07T15:58:45+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-07T15:58:45+03:00"
+      "pending_at": "2026-10-07T15:58:45+03:00",
+      "seen_at": "2026-10-07T16:08:24+03:00"
     },
     "MSG-20261007-1558-grok-desk-notify-readback": {
       "id": "MSG-20261007-1558-grok-desk-notify-readback",
@@ -12948,6 +12950,17 @@
       "at": "2026-10-07T15:58:56+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261007-1557-grok-seen-desk-notify:seen",
+      "message_id": "MSG-20261007-1557-grok-seen-desk-notify",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T16:08:24+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -13573,6 +13586,7 @@
     "MSG-20261007-1325-grok-bilgi-pool-readback:delayed",
     "RPT-20261007-1325-grok-bilgi-pool-readback:delayed",
     "MSG-20261007-1557-grok-seen-desk-notify:pending",
-    "MSG-20261007-1558-grok-desk-notify-readback:pending"
+    "MSG-20261007-1558-grok-desk-notify-readback:pending",
+    "MSG-20261007-1557-grok-seen-desk-notify:seen"
   ]
 }
