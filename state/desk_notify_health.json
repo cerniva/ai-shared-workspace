@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 3,
     "seen": 90,
     "answered": 69,
     "delayed": 172
   },
-  "event_count": 647,
+  "event_count": 650,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -664,22 +664,26 @@
     "RPT-20261007-2301-grok-consensus-delta-readback:pending",
     "MSG-20261007-2301-grok-seen-consensus-delta:seen",
     "MSG-20261007-2301-grok-consensus-delta-readback:delayed",
-    "RPT-20261007-2301-grok-consensus-delta-readback:delayed"
+    "RPT-20261007-2301-grok-consensus-delta-readback:delayed",
+    "MSG-20261008-0210-grok-seen-paslasma:pending",
+    "MSG-20261008-0216-grok-103-onion-short:pending",
+    "RPT-20261008-0216-grok-103-onion-short:pending"
   ],
   "new_event_keys": [
-    "MSG-20261007-2301-grok-consensus-delta-readback:delayed",
-    "RPT-20261007-2301-grok-consensus-delta-readback:delayed"
+    "MSG-20261008-0210-grok-seen-paslasma:pending",
+    "MSG-20261008-0216-grok-103-onion-short:pending",
+    "RPT-20261008-0216-grok-103-onion-short:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-08T00:02:41+03:00",
+  "checked_at": "2026-10-08T02:12:44+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 3,
     "seen": 90,
     "answered": 69,
     "delayed": 172
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 437,
+  "active_source_id_count": 440,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
