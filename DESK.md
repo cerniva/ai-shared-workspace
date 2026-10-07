@@ -74,6 +74,9 @@ Diğer işler: tek ajan + kısa not. Bloklama yok. Meta üçlü görüşe dahil 
 ## Kullanıcıya dönme eşiği
 Sadece secret, ödeme, hesap girişi, fiziksel eylem veya Meta yapıştırma. "Erişemiyorum" yetmez.
 
+## Eskalasyon döngüsü (2026-10-08)
+sorun → bildir → çöz → çözülemezse mail + alternatif → devret (kim/ne/kanıt) → birleştir → test → düzelt/tekrar → geliştir. GÖRDÜM tek başına ilerleme değildir; >2 saat Grok iş raporu yoksa Grok rapor verir veya devreder. Ayrıntı: `PROTOCOL.md` → «Eskalasyon / devir döngüsü».
+
 
 ## Aşamalı görev raporlama (TSK-20260927-001)
 Her anlamlı aşamada, aynı task ID ile kısa ve zaman damgalı bir kayıt bırak; raporları `messages/team-reports.md` içine ekle. Her küçük edit için ayrı rapor üretme; yeni kanıt, durum, engel, karar veya handoff olduğunda raporla.

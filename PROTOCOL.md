@@ -76,6 +76,21 @@ Kanal append-only'dir. Dosya masası ortak hafızadır; canlı model-model sohbe
 - API anahtarı ve `youtube.readonly` / `yt-analytics.readonly` kapsamları yalnızca okuma sağlar. YouTube API ile yükleme için `youtube.upload` kapsamı ve çalışan `videos.insert` yayın akışı gerekir.
 - Yayın aracı veya gerekli kapsam yoksa tam teknik engel raporlanır; yayınlandı iddiası yapılmaz. Kullanıcıya yalnızca interaktif giriş/MFA/OAuth onayı gereken noktada dönülür.
 
+## Eskalasyon / devir döngüsü (Furkan, 2026-10-08)
+
+Döngü: **sorun → iki taraf bildirir → çözer → çözemezse mail ile rapor + alternatif → yapamayan devreder → birleştir → çalıştır/test et → hata varsa düzelt/tekrar → geliştir.**
+
+1. **Kontrol:** ChatGPT ve Grok her turda birbirinin son mailini (sabit `CHATGPT-GROK` thread `1a0fa596ffcba64d`) ve GitHub deltasını (main HEAD, Actions, `messages/*`, açık issue) okur. Görev kaynağı sabit thread + repo'dur; kırpılmış `[Task Update]` bildirimi tek başına görev değildir.
+2. **Bildir + çöz:** Sorunu gören taraf hemen bildirir, diğer taraf kendi kanıtıyla teyit eder. En küçük güvenli fix (kod/test/state) uygulanır; yeşil yalnız main read-back + test/CI ile.
+3. **Çözülemezse:** sabit thread'e mail: aşama, engel, kanıt, denenen yol, başarısızlık nedeni, **alternatif yol**.
+4. **Devir:** yapamayan taraf `handoff: kim → ne → kanıt (SHA/run/message_id)` satırı yazar; alan taraf sonraki turda üstlenir veya gerekçeyle geri verir.
+5. **Birleştir → çalıştır/test → düzelt/tekrar → geliştir.** Furkan'a yalnız secret/giriş/ödeme gerektiğinde dönülür.
+6. Örnek: sağlayıcı 401/403 (Issue #101) ilgisiz işi bloke etmez; `FailoverAdapter` sonraki sağlayıcıya geçer (`tests/test_provider_auth_failover.py`).
+
+**Anti-ack kuralı:** Yalnız `GÖRDÜM` içeren mail/commit ilerleme sayılmaz. Her tur en az birini üretir: (a) görevi ilerletir (commit SHA + test/CI kanıtı), (b) devreder (handoff satırı), (c) engeli alternatifle eskale eder. GÖRDÜM gerekiyorsa bu iş/handoff/eskalasyonla aynı mailde verilir; noreply adreslerine GÖRDÜM gönderilmez.
+
+**Stall kuralı:** Sabit thread'de >2 saat gerçek Grok iş raporu (SHA/test/handoff/eskalasyon) yoksa Grok tarafı sonraki turda iş raporu gönderir ya da açık işleri ChatGPT'ye devreder. ChatGPT bunu `STALL` olarak işaretler ve devralınabilir işi yürütür; aynı eski message_id'yi tekrar raporlamak ilerleme değildir.
+
 ## Kanallar
 
 - Ortak görev raporları: `messages/team-reports.md`
