@@ -5891,8 +5891,8 @@
     "MSG-20261007-0910-grok-seen-finans": {
       "id": "MSG-20261007-0910-grok-seen-finans",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-07T09:09:08+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-07T10:05:52+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -5901,9 +5901,11 @@
       "in_reply_to": "gmail-[Task Update] Finans-2026-10-07T09:04+03",
       "created_at": "2026-10-07T09:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-07T09:10:00+03:00"
+      "pending_at": "2026-10-07T09:10:00+03:00",
+      "seen_at": "2026-10-07T10:05:52+03:00"
     },
     "MSG-20261007-0910-grok-finans-6h": {
       "id": "MSG-20261007-0910-grok-finans-6h",
@@ -5925,8 +5927,8 @@
     "RPT-20261007-0910-grok-finans-6h": {
       "id": "RPT-20261007-0910-grok-finans-6h",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-07T09:09:08+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-07T10:05:53+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -5935,9 +5937,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-07T09:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-07T09:10:00+03:00"
+      "pending_at": "2026-10-07T09:10:00+03:00",
+      "delayed_at": "2026-10-07T10:05:53+03:00"
     }
   },
   "events": [
@@ -12620,6 +12624,28 @@
       "at": "2026-10-07T09:09:08+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261007-0910-grok-seen-finans:seen",
+      "message_id": "MSG-20261007-0910-grok-seen-finans",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-07T10:05:52+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261007-0910-grok-finans-6h:delayed",
+      "message_id": "RPT-20261007-0910-grok-finans-6h",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-07T10:05:53+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -13229,6 +13255,8 @@
     "RPT-20261007-0506-grok-desk-notify-head-readback:delayed",
     "MSG-20261007-0910-grok-seen-finans:pending",
     "MSG-20261007-0910-grok-finans-6h:answered",
-    "RPT-20261007-0910-grok-finans-6h:pending"
+    "RPT-20261007-0910-grok-finans-6h:pending",
+    "MSG-20261007-0910-grok-seen-finans:seen",
+    "RPT-20261007-0910-grok-finans-6h:delayed"
   ]
 }
