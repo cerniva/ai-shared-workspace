@@ -244,6 +244,28 @@
       "title": "Shorts retention fallback is the key-moments gate alias"
     },
     {
+      "claim": "The YouTube Reporting API anonymizes some dimension values below privacy thresholds as NULL, ZZ, or US-ZZ, while preserving aggregate metrics in those rows; actual thresholds may change.",
+      "decision": "REPORT_PRIVACY_SUPPRESSION_GATE: Treat NULL in privacy-suppressed traffic-source, age, gender or subscribed-status dimensions and ZZ/US-ZZ in geography dimensions as anonymized aggregate buckets, not malformed or missing rows. Preserve their numeric metrics in totals while keeping the underlying dimension unknown; never reconstruct hidden identities, locations, search terms or thresholds. Keep this rule distinct from header-only zero-data CSV handling. This is a documented ingestion rule, not proof of owned-channel Reporting API access or deployed parser behavior.",
+      "domain": "youtube-reporting-ingestion",
+      "evidence_status": "verified",
+      "failure_history": [
+        "2026-10-08 earlier candidate promotion write was blocked before a commit; no persistent record was established."
+      ],
+      "fallback_history": [
+        "Without authorized Reporting API CSV access, preserve this as an official documentation-based ingestion rule and do not invent channel-level data or a passing integration test."
+      ],
+      "learned_at": "2026-10-08T08:22:00+00:00",
+      "learning_id": "learn_607a11f5b569ffa0",
+      "next_measurement": "On a permitted owned-channel Reporting API read, use header-mapped CSV parsing and compare aggregate totals with and without anonymized rows; verify no suppressed dimension is imputed. Until then production integration remains unverified.",
+      "outcome": "validated",
+      "provenance": "verified",
+      "source_ids": [
+        "src_be6523a27c85e346"
+      ],
+      "supersedes": null,
+      "title": "Reporting privacy-suppressed dimensions preserve aggregate metrics"
+    },
+    {
       "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
       "decision": "ANALYTICS_MATURITY_GATE: do not close retention or watch-time learning from Analytics API data before the documented processing window. Do not treat missing recent Analytics rows as zero. Use Data API or verified Studio state for current counts, then re-read Analytics after at least 72 hours.",
       "domain": "youtube-shorts-analytics",
@@ -892,5 +914,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-08T05:52:39+00:00"
+  "updated_at": "2026-10-08T08:24:11+00:00"
 }
