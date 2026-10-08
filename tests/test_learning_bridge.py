@@ -124,5 +124,26 @@ class LearningBridgeTests(unittest.TestCase):
         self.assertEqual(self.ledger.find(saved["learning_id"])["learning_id"], saved["learning_id"])
 
 
+
+    def test_optional_plan_tags_round_trip(self) -> None:
+        payload = self.record("Preserve plan routing metadata")
+        payload["plan_tags"] = ["Video/Shopify", "Sistem Geliştirmeleri"]
+        payload["affected_plans"] = ["ignored when plan_tags present"]
+        payload["status"] = "active"
+        payload["use_count"] = 2
+        payload["first_added_cycle"] = "2026-10-09T01:34+03:00"
+        saved, created = self.ledger.add(payload)
+        self.assertTrue(created)
+        self.assertEqual(saved["plan_tags"], ["system", "video_shopify"])
+        self.assertEqual(saved["use_count"], 2)
+        self.assertEqual(saved["status"], "active")
+        self.assertNotIn("use_count", self.ledger.add(self.record("Legacy row stays uncounted"))[0])
+
+    def test_invalid_plan_tag_is_rejected(self) -> None:
+        payload = self.record("Reject unknown plan tag")
+        payload["plan_tags"] = ["Bilgi-Kutuphanesi"]
+        with self.assertRaises(CatalogError):
+            self.ledger.add(payload)
+
 if __name__ == "__main__":
     unittest.main()

@@ -25,6 +25,19 @@ EVIDENCE_STATUSES = {"verified", "mixed", "user-reported", "unverified"}
 OUTCOMES = {"applied", "validated", "pending", "invalidated"}
 PROVENANCE = {"verified", "user_reported", "unverified"}
 PLAN_TAGS = {"finance", "video_shopify", "system"}
+PLAN_TAG_ALIASES = {
+    "finance": "finance",
+    "finans": "finance",
+    "video_shopify": "video_shopify",
+    "video/shopify": "video_shopify",
+    "video-shopify": "video_shopify",
+    "system": "system",
+    "sistem gelistirmeleri": "system",
+    "sistem geliştirmeleri": "system",
+    "system developments": "system",
+    "system gelistirmeleri": "system",
+    "system geliştirmeleri": "system",
+}
 LEARNING_STATUSES = {"active", "superseded", "inactive"}
 REQUIRED_FIELDS = {
     "title",
@@ -84,13 +97,18 @@ def normalize_learning(record: dict[str, Any], valid_source_ids: set[str]) -> di
 
     # Optional cumulative metadata is preserved only when supplied. Legacy
     # rows without usage evidence must not silently acquire use_count=0.
-    if "plan_tags" in record:
-        tags = record["plan_tags"]
-        if not isinstance(tags, list) or not tags or any(
-            not isinstance(tag, str) or tag not in PLAN_TAGS for tag in tags
-        ):
+    if "plan_tags" in record or "affected_plans" in record:
+        raw = record.get("plan_tags", record.get("affected_plans"))
+        if not isinstance(raw, list) or not raw or any(not isinstance(tag, str) for tag in raw):
             raise CatalogError("plan_tags must be non-empty canonical plan names")
-        normalized["plan_tags"] = sorted(set(tags))
+        mapped = []
+        for tag in raw:
+            key = " ".join(tag.strip().lower().split())
+            canonical = PLAN_TAG_ALIASES.get(key)
+            if not canonical:
+                raise CatalogError("plan_tags must be non-empty canonical plan names")
+            mapped.append(canonical)
+        normalized["plan_tags"] = sorted(set(mapped))
     if "status" in record:
         if record["status"] not in LEARNING_STATUSES:
             raise CatalogError("invalid learning status")
