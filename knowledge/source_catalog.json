@@ -213,6 +213,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/9717005",
+      "category": "youtube-analytics-export-integrity",
+      "cost_quota": "public help article; no owned-channel API call",
+      "discovered_at": "2026-10-08T15:25:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-08T15:25:00+00:00",
+      "provenance": "verified",
+      "purpose": "Check Studio Advanced Mode CSV export completeness and distinguish the 500-row export cap from Reporting API bulk access",
+      "reliability_limits": "A 500-row export is potentially truncated, not proof that more rows exist. Reporting API requires its own authorization and availability; this source is not proof of channel access.",
+      "source_id": "src_400676360d32c744",
+      "source_name": "YouTube Help — Advanced Mode analytics report exports"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://shopify.dev/changelog/blog/next-generation-events-are-now-generally-available",
       "category": "shopify-events",
       "cost_quota": "public changelog, no quota; store event subscription not used",
@@ -812,5 +827,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-08T05:52:39+00:00"
+  "updated_at": "2026-10-08T15:27:57+00:00"
 }

@@ -266,6 +266,26 @@
       "title": "Reporting privacy-suppressed dimensions preserve aggregate metrics"
     },
     {
+      "claim": "YouTube Studio Advanced Mode exported reports contain at most 500 rows; a 500-row export must not be treated as complete when the underlying report could contain more rows, and YouTube Reporting API is the documented bulk alternative.",
+      "decision": "YOUTUBE_STUDIO_EXPORT_500_ROW_GATE: A Studio Advanced Mode export containing 500 data rows reaches the documented limit; label completeness UNKNOWN/POSSIBLY_TRUNCATED rather than COMPLETE. Do not assume the unexported rows exist or calculate full-channel totals by summing that potentially capped file. If complete row-level bulk data is needed, use the YouTube Reporting API only after authorization and report compatibility are verified. Keep this separate from the Reporting API header-only no-data and privacy-suppression gates.",
+      "domain": "youtube-studio-analytics-export",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Without Reporting API authorization, report the 500-row cap and leave full dataset completeness unknown; do not invent missing rows or infer totals."
+      ],
+      "learned_at": "2026-10-08T15:25:00+00:00",
+      "learning_id": "learn_6233e2cff15fc987",
+      "next_measurement": "On the next authorized Studio export, count data rows, record report dimensions/time window, flag 500 as possibly truncated, and compare against a permitted Reporting API report or trustworthy channel totals when available. Until then real-channel completeness and ingestion are unverified.",
+      "outcome": "validated",
+      "provenance": "verified",
+      "source_ids": [
+        "src_400676360d32c744"
+      ],
+      "supersedes": null,
+      "title": "Studio Advanced Mode export has a 500-row completeness limit"
+    },
+    {
       "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
       "decision": "ANALYTICS_MATURITY_GATE: do not close retention or watch-time learning from Analytics API data before the documented processing window. Do not treat missing recent Analytics rows as zero. Use Data API or verified Studio state for current counts, then re-read Analytics after at least 72 hours.",
       "domain": "youtube-shorts-analytics",
@@ -914,5 +934,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-08T08:24:11+00:00"
+  "updated_at": "2026-10-08T15:27:57+00:00"
 }
