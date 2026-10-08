@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 2,
     "seen": 92,
     "answered": 69,
     "delayed": 176
   },
-  "event_count": 659,
+  "event_count": 661,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -676,22 +676,24 @@
     "RPT-20261008-0526-grok-bilgi-pool-readback:pending",
     "MSG-20261008-0526-grok-seen-bilgi-pool:seen",
     "MSG-20261008-0526-grok-104-bilgi-pool-readback:delayed",
-    "RPT-20261008-0526-grok-bilgi-pool-readback:delayed"
+    "RPT-20261008-0526-grok-bilgi-pool-readback:delayed",
+    "MSG-20261008-1213-grok-seen-paslasma:pending",
+    "MSG-20261008-1214-grok-106-privacy-gate-readback:pending"
   ],
   "new_event_keys": [
-    "MSG-20261008-0526-grok-104-bilgi-pool-readback:delayed",
-    "RPT-20261008-0526-grok-bilgi-pool-readback:delayed"
+    "MSG-20261008-1213-grok-seen-paslasma:pending",
+    "MSG-20261008-1214-grok-106-privacy-gate-readback:pending"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-08T06:02:42+03:00",
+  "checked_at": "2026-10-08T12:14:25+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 2,
     "seen": 92,
     "answered": 69,
     "delayed": 176
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 445,
+  "active_source_id_count": 448,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
