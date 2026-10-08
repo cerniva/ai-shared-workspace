@@ -1,0 +1,37 @@
+name: knowledge-promote
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "knowledge/promotions/**"
+      - "scripts/knowledge_promote.py"
+      - ".github/workflows/knowledge-promote.yml"
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Merge staged promotions into canonical catalog + ledger
+        run: python3 scripts/knowledge_promote.py publish
+      - name: Read back canonical files on main
+        run: |
+          git fetch origin main && git reset --hard origin/main
+          python3 scripts/knowledge_bridge.py validate
+          python3 scripts/learning_bridge.py validate
+          python3 scripts/knowledge_promote.py apply
