@@ -127,6 +127,30 @@ class FailoverAuthTests(unittest.TestCase):
         with self.assertRaises(RetryableProviderError):
             adapter.run(JOB)
 
+    def test_auth_plus_missing_credential_is_non_retryable(self):
+        grok = _Raising("grok", _auth())
+        openai = _Raising("openai", MissingCredential("openai API credential is missing"))
+        with self.assertRaises(ProviderAuthError) as ctx:
+            FailoverAdapter([grok, openai]).run(JOB)
+        self.assertFalse(ctx.exception.retryable)
+        self.assertEqual(ctx.exception.http_status, 403)
+        self.assertEqual(grok.calls, 1)
+
+    def test_missing_credential_then_auth_order_is_non_retryable(self):
+        adapter = FailoverAdapter([_Raising("gemini", MissingCredential("missing")), _Raising("grok", _auth())])
+        with self.assertRaises(ProviderAuthError):
+            adapter.run(JOB)
+
+    def test_auth_missing_and_transient_stays_retryable(self):
+        adapter = FailoverAdapter([
+            _Raising("grok", _auth()),
+            _Raising("openai", MissingCredential("missing")),
+            _Raising("gemini", RetryableProviderError("provider HTTP 503")),
+        ])
+        with self.assertRaises(RetryableProviderError) as ctx:
+            adapter.run(JOB)
+        self.assertNotIsInstance(ctx.exception, ProviderAuthError)
+
 
 if __name__ == "__main__":
     unittest.main()

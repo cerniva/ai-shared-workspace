@@ -53,7 +53,8 @@ class FailoverAdapter:
 
     A provider-scoped 401/403 (ProviderAuthError, e.g. Issue #101 xAI 403) must
     not block unrelated jobs: skip that provider and try the next one. If every
-    provider failed only with auth/permission errors, raise ProviderAuthError
+    provider failed only with auth/permission errors, or with auth errors plus
+    missing credentials (no transient 429/5xx), raise ProviderAuthError
     (non-retryable) so the queue does not blind-retry a 403.
     """
     provider = "failover"
@@ -64,7 +65,7 @@ class FailoverAdapter:
 
     def run(self, job):
         errors = []
-        auth_only = True
+        transient = False
         last_auth = None
         for adapter in self.adapters:
             try:
@@ -72,11 +73,15 @@ class FailoverAdapter:
             except ProviderAuthError as exc:
                 errors.append(f"{adapter.provider}: {exc}")
                 last_auth = exc
-            except (RetryableProviderError, MissingCredential) as exc:
+            except MissingCredential as exc:
+                # Config gap, not a transient outage: retrying unchanged cannot fix it.
                 errors.append(f"{adapter.provider}: {exc}")
-                auth_only = False
+            except RetryableProviderError as exc:
+                errors.append(f"{adapter.provider}: {exc}")
+                transient = True
         message = "all configured providers unavailable: " + " | ".join(errors)
-        if errors and auth_only and last_auth is not None:
+        # 403 + missing credential (no transient error) must not be blind-retried.
+        if errors and last_auth is not None and not transient:
             raise ProviderAuthError(
                 message,
                 http_status=last_auth.http_status,
