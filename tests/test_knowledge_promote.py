@@ -97,6 +97,37 @@ class KnowledgePromoteTests(unittest.TestCase):
         with self.assertRaises(CatalogError):
             apply_promotions(self.root)
 
+    def assert_rejected_without_write(self, doc: dict[str, object]) -> None:
+        self.stage(doc)
+        before = self.catalog.read_bytes()
+        with self.assertRaises(CatalogError):
+            apply_promotions(self.root)
+        self.assertEqual(before, self.catalog.read_bytes())
+
+    def test_non_dict_learning_fails_closed(self) -> None:
+        self.assert_rejected_without_write({"source": SOURCE, "learning": "learn_text_only"})
+
+    def test_non_dict_source_fails_closed(self) -> None:
+        self.assert_rejected_without_write({"source": ["not", "an", "object"]})
+
+    def test_non_list_learnings_fails_closed(self) -> None:
+        self.assert_rejected_without_write({"source": SOURCE, "learnings": learning(self.sid)})
+
+    def test_non_dict_list_element_fails_closed(self) -> None:
+        self.assert_rejected_without_write({"sources": [SOURCE, "src_bad"]})
+
+    def test_malformed_gates_fail_closed(self) -> None:
+        self.assert_rejected_without_write({"source": SOURCE, "gates": "HEADER_ONLY_TEST_GATE"})
+        self.assert_rejected_without_write({"source": SOURCE, "validators": {"gate": ""}})
+
+    def test_empty_promotion_fails_closed(self) -> None:
+        self.assert_rejected_without_write({"status": "staged"})
+
+    def test_rejection_happens_before_any_row_is_written(self) -> None:
+        # A valid source next to a malformed learning must not half-apply.
+        self.assert_rejected_without_write({"sources": [SOURCE], "learnings": [learning(self.sid), 7]})
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+
 
 if __name__ == "__main__":
     unittest.main()

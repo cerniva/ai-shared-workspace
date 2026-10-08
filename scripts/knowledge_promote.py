@@ -36,13 +36,44 @@ CANONICAL_PATHS = ("knowledge/source_catalog.json", "knowledge/learning_ledger.j
 COMMIT_MESSAGE = "knowledge-promote: merge staged promotions into canonical ledger"
 
 
-def _items(doc: dict[str, Any], single: str, plural: str) -> list[dict[str, Any]]:
+def _items(doc: dict[str, Any], single: str, plural: str, name: str = "promotion") -> list[dict[str, Any]]:
+    """Return staged items; fail closed on any malformed shape.
+
+    Previously a non-dict "source"/"learning", a non-list "sources"/"learnings"
+    or a non-dict list element was silently skipped, so the run still reported
+    success while the staged row was never persisted (silent data loss).
+    """
     items: list[dict[str, Any]] = []
-    if isinstance(doc.get(single), dict):
+    if single in doc and doc[single] is not None:
+        if not isinstance(doc[single], dict):
+            raise CatalogError(f"{name}: '{single}' must be an object, got {type(doc[single]).__name__}")
         items.append(doc[single])
-    if isinstance(doc.get(plural), list):
-        items.extend(x for x in doc[plural] if isinstance(x, dict))
+    if plural in doc and doc[plural] is not None:
+        if not isinstance(doc[plural], list):
+            raise CatalogError(f"{name}: '{plural}' must be a list, got {type(doc[plural]).__name__}")
+        for index, entry in enumerate(doc[plural]):
+            if not isinstance(entry, dict):
+                raise CatalogError(f"{name}: '{plural}[{index}]' must be an object, got {type(entry).__name__}")
+            items.append(entry)
     return items
+
+
+def _gates(doc: dict[str, Any], name: str = "promotion") -> list[str]:
+    gates = doc.get("gates")
+    if gates is None:
+        gates = []
+    if not isinstance(gates, list) or not all(isinstance(g, str) and g.strip() for g in gates):
+        raise CatalogError(f"{name}: 'gates' must be a list of non-empty strings")
+    gates = list(gates)
+    validators = doc.get("validators")
+    if validators is not None and not isinstance(validators, dict):
+        raise CatalogError(f"{name}: 'validators' must be an object")
+    if isinstance(validators, dict) and "gate" in validators:
+        gate = validators["gate"]
+        if not isinstance(gate, str) or not gate.strip():
+            raise CatalogError(f"{name}: 'validators.gate' must be a non-empty string")
+        gates.append(gate)
+    return gates
 
 
 def apply_promotions(root: Path) -> dict[str, Any]:
@@ -56,14 +87,19 @@ def apply_promotions(root: Path) -> dict[str, Any]:
         doc = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(doc, dict):
             raise CatalogError(f"{path.name}: promotion must be a JSON object")
-        for src in _items(doc, "source", "sources"):
+        sources = _items(doc, "source", "sources", path.name)
+        learnings = _items(doc, "learning", "learnings", path.name)
+        gates = _gates(doc, path.name)
+        if not (sources or learnings or gates):
+            raise CatalogError(f"{path.name}: promotion stages no source, learning or gate")
+        for src in sources:
             saved, created = catalog.add(src)
             staged = src.get("source_id")
             if staged and staged != saved["source_id"]:
                 raise CatalogError(f"{path.name}: staged source_id {staged} != {saved['source_id']}")
             if created:
                 report["sources_created"].append(saved["source_id"])
-        for item in _items(doc, "learning", "learnings"):
+        for item in learnings:
             payload = {k: v for k, v in item.items() if k != "learning_id"}
             saved, created = ledger.add(payload)
             staged = item.get("learning_id")
@@ -71,11 +107,8 @@ def apply_promotions(root: Path) -> dict[str, Any]:
                 raise CatalogError(f"{path.name}: staged learning_id {staged} != {saved['learning_id']}")
             if created:
                 report["learnings_created"].append(saved["learning_id"])
-        gates = doc.get("gates") or []
-        if isinstance(doc.get("validators"), dict) and doc["validators"].get("gate"):
-            gates = [*gates, doc["validators"]["gate"]]
         for gate in gates:
-            persistence_gate(ledger, str(gate))
+            persistence_gate(ledger, gate)
         report["files"].append(path.name)
     report["source_count"] = catalog.validate()
     report["learning_count"] = ledger.validate()
