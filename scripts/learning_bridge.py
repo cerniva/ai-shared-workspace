@@ -24,6 +24,8 @@ DEFAULT_CATALOG = ROOT / "knowledge" / "source_catalog.json"
 EVIDENCE_STATUSES = {"verified", "mixed", "user-reported", "unverified"}
 OUTCOMES = {"applied", "validated", "pending", "invalidated"}
 PROVENANCE = {"verified", "user_reported", "unverified"}
+PLAN_TAGS = {"finance", "video_shopify", "system"}
+LEARNING_STATUSES = {"active", "superseded", "inactive"}
 REQUIRED_FIELDS = {
     "title",
     "domain",
@@ -79,6 +81,31 @@ def normalize_learning(record: dict[str, Any], valid_source_ids: set[str]) -> di
         if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
             raise CatalogError(f"{field} must be a list of strings")
         normalized[field] = [item.strip() for item in value if item.strip()]
+
+    # Optional cumulative metadata is preserved only when supplied. Legacy
+    # rows without usage evidence must not silently acquire use_count=0.
+    if "plan_tags" in record:
+        tags = record["plan_tags"]
+        if not isinstance(tags, list) or not tags or any(
+            not isinstance(tag, str) or tag not in PLAN_TAGS for tag in tags
+        ):
+            raise CatalogError("plan_tags must be non-empty canonical plan names")
+        normalized["plan_tags"] = sorted(set(tags))
+    if "status" in record:
+        if record["status"] not in LEARNING_STATUSES:
+            raise CatalogError("invalid learning status")
+        normalized["status"] = record["status"]
+    if "use_count" in record:
+        count = record["use_count"]
+        if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+            raise CatalogError("use_count must be a non-negative integer")
+        normalized["use_count"] = count
+    for field in ("first_added_cycle", "last_used_cycle", "last_verified"):
+        if field in record:
+            value = record[field]
+            if not isinstance(value, str) or not value.strip():
+                raise CatalogError(f"{field} must be a non-empty string")
+            normalized[field] = value.strip()
 
     normalized["source_ids"] = normalized_ids
     normalized["supersedes"] = str(record.get("supersedes") or "").strip() or None
