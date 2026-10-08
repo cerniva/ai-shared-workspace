@@ -1,0 +1,46 @@
+{
+  "source": {
+    "source_id": "src_400676360d32c744",
+    "source_name": "YouTube Help — Advanced Mode analytics report exports",
+    "canonical": "https://support.google.com/youtube/answer/9717005",
+    "category": "youtube-analytics-export-integrity",
+    "purpose": "Check Studio Advanced Mode CSV export completeness and distinguish the 500-row export cap from Reporting API bulk access",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "public help article; no owned-channel API call",
+    "reliability_limits": "A 500-row export is potentially truncated, not proof that more rows exist. Reporting API requires its own authorization and availability; this source is not proof of channel access.",
+    "discovered_at": "2026-10-08T15:25:00+00:00",
+    "last_successful_use": "2026-10-08T15:25:00+00:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_6233e2cff15fc987",
+    "title": "Studio Advanced Mode export has a 500-row completeness limit",
+    "domain": "youtube-studio-analytics-export",
+    "claim": "YouTube Studio Advanced Mode exported reports contain at most 500 rows; a 500-row export must not be treated as complete when the underlying report could contain more rows, and YouTube Reporting API is the documented bulk alternative.",
+    "evidence_status": "verified",
+    "decision": "YOUTUBE_STUDIO_EXPORT_500_ROW_GATE: A Studio Advanced Mode export containing 500 data rows reaches the documented limit; label completeness UNKNOWN/POSSIBLY_TRUNCATED rather than COMPLETE. Do not assume the unexported rows exist or calculate full-channel totals by summing that potentially capped file. If complete row-level bulk data is needed, use the YouTube Reporting API only after authorization and report compatibility are verified. Keep this separate from the Reporting API header-only no-data and privacy-suppression gates.",
+    "outcome": "validated",
+    "next_measurement": "On the next authorized Studio export, count data rows, record report dimensions/time window, flag 500 as possibly truncated, and compare against a permitted Reporting API report or trustworthy channel totals when available. Until then real-channel completeness and ingestion are unverified.",
+    "learned_at": "2026-10-08T15:25:00+00:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_400676360d32c744"
+    ],
+    "failure_history": [],
+    "fallback_history": [
+      "Without Reporting API authorization, report the 500-row cap and leave full dataset completeness unknown; do not invent missing rows or infer totals."
+    ],
+    "supersedes": null
+  },
+  "affected_plans": [
+    "Video/Shopify",
+    "Sistem Geliştirmeleri"
+  ],
+  "research_evidence": {
+    "official_doc": "https://support.google.com/youtube/answer/9717005",
+    "youtube_video_id": "yyRdoYbBUyI",
+    "youtube_video_note": "Official YouTube Creators 2020 video transcript 03:27-03:33 says Studio UI shows 50 rows and export up to 500; current documentation independently confirms export limit."
+  }
+}
