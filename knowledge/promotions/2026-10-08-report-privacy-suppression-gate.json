@@ -1,0 +1,34 @@
+{
+  "status": "STAGED_NOT_IN_CANONICAL_LEDGER",
+  "evidence_checked_at": "2026-10-08",
+  "canonical_source_id": "src_be6523a27c85e346",
+  "affected_plans": [
+    "Video/Shopify",
+    "Sistem Geliştirmeleri"
+  ],
+  "validators": {
+    "gate": "REPORT_PRIVACY_SUPPRESSION_GATE"
+  },
+  "learning": {
+    "learning_id": "learn_607a11f5b569ffa0",
+    "title": "Reporting privacy-suppressed dimensions preserve aggregate metrics",
+    "domain": "youtube-reporting-ingestion",
+    "claim": "The YouTube Reporting API anonymizes some dimension values below privacy thresholds as NULL, ZZ, or US-ZZ, while preserving aggregate metrics in those rows; actual thresholds may change.",
+    "evidence_status": "verified",
+    "decision": "REPORT_PRIVACY_SUPPRESSION_GATE: Treat NULL in privacy-suppressed traffic-source, age, gender or subscribed-status dimensions and ZZ/US-ZZ in geography dimensions as anonymized aggregate buckets, not malformed or missing rows. Preserve their numeric metrics in totals while keeping the underlying dimension unknown; never reconstruct hidden identities, locations, search terms or thresholds. Keep this rule distinct from header-only zero-data CSV handling. This is a documented ingestion rule, not proof of owned-channel Reporting API access or deployed parser behavior.",
+    "outcome": "validated",
+    "next_measurement": "On a permitted owned-channel Reporting API read, use header-mapped CSV parsing and compare aggregate totals with and without anonymized rows; verify no suppressed dimension is imputed. Until then production integration remains unverified.",
+    "learned_at": "2026-10-08T08:22:00+00:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_be6523a27c85e346"
+    ],
+    "failure_history": [
+      "2026-10-08 earlier candidate promotion write was blocked before a commit; no persistent record was established."
+    ],
+    "fallback_history": [
+      "Without authorized Reporting API CSV access, preserve this as an official documentation-based ingestion rule and do not invent channel-level data or a passing integration test."
+    ],
+    "supersedes": null
+  }
+}
