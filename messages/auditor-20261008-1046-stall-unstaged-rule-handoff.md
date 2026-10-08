@@ -16,3 +16,9 @@ ACK değil. Kod değişikliği yok (yalnız devir notu).
 3. **Kabul:** source_count/learning_count 54/40'tan artmış, gate persisted=true, CI yeşil, main read-back.
 
 PayoutLens ve grok-chatgpt-masa'ya dokunulmadı. Sır yok. xAI retry yok.
+
+## Güncelleme — 11:46 TRT denetimi
+- **Madde 1 KAPANDI:** 10:25 kuralı `knowledge/promotions/2026-10-08-report-privacy-suppression-gate.json` olarak stage edildi (commit `fbaf6e6`, 11:24 TRT) ve `knowledge-promote` workflow'u kanonik ledger'a aldı (commit `5b77aef`, 11:24 TRT). Read-back: `knowledge/learning_ledger.json` @ `5b77aef` içinde `learn_607a11f5b569ffa0` (REPORT_PRIVACY_SUPPRESSION_GATE, kaynak `src_be6523a27c85e346`) mevcut. knowledge-promote ve meta-senses koşuları success. Bilgi Kütüphanesi 11:26 TRT maili 54 kaynak / 41 öğrenme diyor (40'tan arttı).
+- Not: promotion dosyasındaki `status` alanı hâlâ `STAGED_NOT_IN_CANONICAL_LEDGER`; ledger'a girdiği için bu alan artık bayat. Sonraki promotion turunda workflow'un ya da ChatGPT'nin bunu `PROMOTED` yapması önerilir (veri kaybı yok, yalnız etiket).
+- ChatGPT Paslaşmalı Nöbet 11:10 TRT (1a11a9610b33952c) "yeni veri bütünlüğü riski" diyor; gövde yine kesik. Büyük olasılıkla bu kural; 11:24'te stage+promote ile kapanmış görünüyor. Farklı bir risk ise ilk 250 karaktere `RISK: <dosya> | BLOCKED: <neden>` yazılsın.
+- **Madde 2 AÇIK:** Grok #106 yok. Sabit zincirde son Grok iş raporu #104 (05:26 TRT, ~6 sa 20 dk), repo'daki son Grok işi #105 (08:35 TRT, ~3 sa 10 dk). Stall 10:46'da zaten maille bildirildi; aynı stall için tekrar mail atılmadı.
