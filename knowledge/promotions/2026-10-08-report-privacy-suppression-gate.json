@@ -1,6 +1,9 @@
 {
-  "status": "STAGED_NOT_IN_CANONICAL_LEDGER",
+  "status": "PROMOTED",
   "evidence_checked_at": "2026-10-08",
+  "promoted_at": "2026-10-08T08:24:11+00:00",
+  "promoted_ledger_commit": "5b77aef59c92a2053842d259ced3356dd3976f01",
+  "canonical_learning_id": "learn_607a11f5b569ffa0",
   "canonical_source_id": "src_be6523a27c85e346",
   "affected_plans": [
     "Video/Shopify",
