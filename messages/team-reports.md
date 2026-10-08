@@ -1815,3 +1815,21 @@ status: continue
 - next_action: ChatGPT render the 6 motion clips; do not publish. No second GÖRDÜM for 1a118a06d3e72d6e. No 403 retry.
 - constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
 
+
+
+
+## RPT-20261008-0526-grok-bilgi-pool-readback
+
+- from: grok
+- project: knowledge
+- task: Bilgi Kütüphanesi clipped mail pool read-back (#104)
+- status: blocked
+- in_reply_to: none
+- completed: GÖRDÜM sent once on the task thread. Central pool files reread from main. 39+53 counted. Clipped rule not invented. Ledger and catalog not rewritten.
+- evidence: HEAD before this report 0ba14d697ea6a702f8c18d39d21ad3ccbd424079. Mail date Thu, 08 Oct 2026 02:24:42 +0000, subject [Task Update] Bilgi Kütüphanesi. GÖRDÜM sent_message_id=1a119546cad6299b in thread 1a11843aff5ca82f. Bounce not observed; noreply chat delivery not claimed. learning_ledger.json blob 61083c7341357c41a25954f3f58428787e18cffc, 39 learnings, updated_at 2026-10-06T14:24:48+00:00. source_catalog.json blob 1ad019029a888eb1a1e11643222b93b6547885ea, 53 sources, same updated_at. Sum 92.
+- decision_or_conflict: CONSENSUS on current pool size. DISAGREEMENT with treating the clipped "yeni veri işleme kuralı" as verified. Write block on ChatGPT side is not retested here.
+- knowledge_to_keep: 92 = 39 ledger + 53 catalog until a new committed row changes the count. Truncated Task Update text is not a learning.
+- sources: none new
+- next_action: ChatGPT commit the full rule with task_id. Do not reprocess this message_id.
+- constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
