@@ -17,10 +17,20 @@ from scripts.learning_bridge import LearningLedger, DEFAULT_LEDGER
 LEARNING_ID = "learn_607a11f5b569ffa0"
 SOURCE_ID = "src_be6523a27c85e346"
 GATE = "REPORT_PRIVACY_SUPPRESSION_GATE"
+# Reporting API bulk CSV columns are snake_case (official channel_reports /
+# dimensions docs: traffic_source_detail, age_group, subscribed_status,
+# country_code, province_code). The camelCase Analytics-API names are kept as
+# aliases so older fixtures still work; without the snake_case keys a real
+# Reporting CSV silently reported 0 privacy-suppressed rows.
 SUPPRESSED = {
+    "traffic_source_detail": {"NULL"},
+    "age_group": {"NULL"},
+    "gender": {"NULL"},
+    "subscribed_status": {"NULL"},
+    "country_code": {"ZZ"},
+    "province_code": {"US-ZZ"},
     "trafficSourceDetail": {"NULL"},
     "ageGroup": {"NULL"},
-    "gender": {"NULL"},
     "subscribedStatus": {"NULL"},
     "country": {"ZZ"},
     "province": {"US-ZZ"},

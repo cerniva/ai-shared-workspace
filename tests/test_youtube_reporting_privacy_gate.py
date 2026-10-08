@@ -74,6 +74,34 @@ class PrivacyGateCsvTests(unittest.TestCase):
         self.assertEqual(result["privacy_suppressed_views"], 10)
         self.assertFalse(result["production_channel_access"])
 
+    def test_reporting_api_snake_case_columns_detected(self):
+        # Real Reporting API CSV headers (channel_basic_a3 / channel_traffic_source_a3
+        # / channel_province_a3 / channel_demographics_a1) are snake_case.
+        header = (
+            "date,channel_id,video_id,live_or_on_demand,subscribed_status,"
+            "country_code,province_code,traffic_source_detail,age_group,gender,views\n"
+        )
+        rows = (
+            "20261001,c,v,on_demand,subscribed,TR,,ext,AGE_25_34,FEMALE,10\n"
+            "20261001,c,v,on_demand,subscribed,ZZ,,ext,AGE_25_34,FEMALE,4\n"
+            "20261001,c,v,on_demand,subscribed,US,US-ZZ,ext,AGE_25_34,FEMALE,3\n"
+            "20261001,c,v,on_demand,subscribed,US,US-TX,NULL,AGE_25_34,FEMALE,2\n"
+            "20261001,c,v,on_demand,NULL,US,US-TX,ext,AGE_25_34,FEMALE,1\n"
+            "20261001,c,v,on_demand,subscribed,US,US-TX,ext,NULL,NULL,5\n"
+        )
+        result = gate.summarize_csv(header + rows)
+        self.assertEqual(result["rows"], 6)
+        self.assertEqual(result["total_views"], 25)
+        self.assertEqual(result["privacy_suppressed_rows"], 5)
+        self.assertEqual(result["privacy_suppressed_views"], 15)
+
+    def test_snake_case_unsuppressed_values_not_flagged(self):
+        header = "date,country_code,age_group,views\n"
+        result = gate.summarize_csv(header + "20261001,TR,AGE_25_34,7\n20261001,DE,AGE_18_24,3\n")
+        self.assertEqual(result["total_views"], 10)
+        self.assertEqual(result["privacy_suppressed_rows"], 0)
+        self.assertEqual(result["privacy_suppressed_views"], 0)
+
     def test_header_only_is_valid_no_data(self):
         result = gate.summarize_csv(HEADER)
         self.assertEqual(result["status"], "VALID_NO_DATA")
