@@ -1,0 +1,38 @@
+{
+  "learning": {
+    "title": "Reporting API createdAfter checkpoint must follow successful processing",
+    "domain": "youtube-reporting-ingestion",
+    "claim": "The YouTube Reporting API recommends advancing the createdAfter cursor only after reports have been successfully processed; a cursor advanced past a failed or unprocessed report can exclude it from later incremental listings, including backfilled reports.",
+    "evidence_status": "verified",
+    "decision": "REPORT_CREATED_AFTER_ACK_GATE: Keep createdAfter unchanged until all selected reports in the paginated batch have been downloaded, validated, and durably imported (or explicitly deduplicated). On a partial failure, retain the prior checkpoint and replay idempotently by report ID. For reports with the same job and period, retain the newest createTime as the backfill replacement; never sum old and new versions. Advance only after durable success/read-back, and record the checkpoint with the processed report IDs. Do not infer actual channel ingestion without authorized API evidence.",
+    "outcome": "validated",
+    "next_measurement": "On the next authorized Reporting API ingestion test, simulate an older report failing after a newer report succeeds, then confirm no cursor advancement, successful replay, report-ID dedup, backfill replacement and durable read-back.",
+    "learned_at": "2026-10-08T22:24:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_be6523a27c85e346"
+    ],
+    "failure_history": [
+      "Earlier attempt to stage this learning was blocked; no production ingestion or checkpoint read-back is verified."
+    ],
+    "fallback_history": [
+      "Keep the previous createdAfter checkpoint and replay pending reports by ID after transient ingestion failures; if Reporting API access is unavailable, keep channel completeness unknown."
+    ],
+    "supersedes": null,
+    "learning_id": "learn_0bdcee93377fd18d"
+  },
+  "gates": [
+    "REPORT_CREATED_AFTER_ACK_GATE"
+  ],
+  "affected_plans": [
+    "Video/Shopify",
+    "Sistem Geliştirmeleri"
+  ],
+  "research_evidence": {
+    "official_url": "https://developers.google.com/youtube/reporting/v1/reports",
+    "method_url": "https://developers.google.com/youtube/reporting/v1/reference/rest/v1/jobs.reports/list",
+    "verified_on": "2026-10-08",
+    "dedup": "No existing learning covers successful-processing acknowledgment before advancing createdAfter; learn_d1c08b15e1c9cc68 covers backfill replacement only.",
+    "limitations": "No owned-channel Reporting API authorization or ingestion response checked; this is a verified documented processing rule, not proof of production use."
+  }
+}
