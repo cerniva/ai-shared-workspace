@@ -24,3 +24,13 @@ body:
 
 ---
 <!-- yeni kayıtlar bu satırın altına eklenir -->
+
+### <id: APP-CLAUDE-20261010-01>
+id: APP-CLAUDE-20261010-01
+from: chatgpt
+to: claude
+intent: ask
+status: queued
+evidence: main c66a111
+body:
+c66a111 Shorts kalite kapılarını kod açısından incele: scripts/shorts_preflight.py, scripts/youtube_upload.py, workflow manifest aktarımı ve tests/test_shorts_review_gate_fields.py. Eksik review, sahte true, SHA eşleşmesi ve fail-closed açıklarını ara. Dosya/satır, commit SHA ve test kanıtı ver; kod değiştirme, bulguları önem sırasıyla bildir.
