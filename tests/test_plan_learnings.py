@@ -61,8 +61,24 @@ class PlanLearningsTests(unittest.TestCase):
 
     def test_shorts_build_workflow_loads_and_uploads_plan_learnings(self):
         text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("python3 scripts/plan_learnings.py video_shopify --out artifacts/plan_learnings.json", text)
+        self.assertIn("python3 scripts/plan_learnings.py video_shopify --require --out artifacts/plan_learnings.json", text)
         self.assertIn("artifacts/plan_learnings.json", text.split("Upload free build bundle", 1)[1])
+
+    def test_require_fails_closed_when_plan_has_no_learnings(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            ledger = _ledger(Path(tmp), [])
+            proc = subprocess.run(
+                [sys.executable, str(ROOT / "scripts" / "plan_learnings.py"), "finance", "--require",
+                 "--ledger", str(ledger), "--catalog", str(Path(tmp) / "c.json")],
+                cwd=ROOT, text=True, capture_output=True, check=False,
+            )
+        self.assertEqual(proc.returncode, 3)
+        self.assertIn("bridge_failure", proc.stderr)
+
+    def test_check_workflow_requires_every_plan(self):
+        text = (ROOT / ".github" / "workflows" / "plan-learnings-check.yml").read_text(encoding="utf-8")
+        for tag in ("finance", "video_shopify", "system"):
+            self.assertIn(f"python3 scripts/plan_learnings.py {tag} --require", text)
 
 
 if __name__ == "__main__":

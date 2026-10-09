@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts
-          python3 scripts/plan_learnings.py video_shopify --out artifacts/plan_learnings.json
+          python3 scripts/plan_learnings.py video_shopify --require --out artifacts/plan_learnings.json
 
       - name: Acquire free media and render
         env:

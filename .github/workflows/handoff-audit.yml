@@ -1,0 +1,35 @@
+name: handoff-audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "state/handoffs.json"
+      - "scripts/handoff.py"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate handoff ledger
+        run: python3 scripts/handoff.py validate
+      - name: List open items older than 2h (auditor escalation)
+        run: |
+          set +e
+          overdue=$(python3 scripts/handoff.py overdue)
+          code=$?
+          set -e
+          echo "overdue_open_items=$overdue" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$code" -eq 1 ]; then
+            echo "::warning title=handoff overdue::auditor must escalate $overdue"
+          elif [ "$code" -ne 0 ]; then
+            exit "$code"
+          fi

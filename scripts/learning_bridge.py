@@ -207,14 +207,21 @@ class LearningLedger:
 
         Display aliases such as Sistem Geliştirmeleri map to canonical tags.
         Untagged legacy rows are not backfilled and are not returned.
+        Inactive, superseded and replaced rows are excluded.
         """
         key = " ".join(str(tag or "").strip().lower().split())
         canonical = PLAN_TAG_ALIASES.get(key)
         if not canonical:
             raise CatalogError("plan_tags must be non-empty canonical plan names")
+        rows = self.list()
+        # A plan must never consume retired knowledge: drop rows whose status
+        # is inactive/superseded and rows replaced by a newer row's supersedes.
+        replaced = {item.get("supersedes") for item in rows if item.get("supersedes")}
         return [
-            item for item in self.list()
+            item for item in rows
             if canonical in (item.get("plan_tags") or [])
+            and item.get("status", "active") == "active"
+            and item.get("learning_id") not in replaced
         ]
 
     def validate(self) -> int:

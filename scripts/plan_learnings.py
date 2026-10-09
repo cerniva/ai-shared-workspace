@@ -4,7 +4,9 @@
 Wraps LearningLedger.for_plan: returns only active rows explicitly tagged for
 the plan (finance, video_shopify, system or a display alias). A missing or
 invalid ledger never blocks the runner; it is reported in ``error`` so the run
-log shows the learning loop was not available.
+log shows the learning loop was not available. With ``--require`` the CLI
+exits 3 instead, so CI/plan runners fail when a plan would run with no
+learnings loaded (bridge_failure).
 """
 from __future__ import annotations
 
@@ -51,6 +53,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path)
     parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
     parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    parser.add_argument("--require", action="store_true", help="exit 3 when no learnings load")
     args = parser.parse_args(argv)
     report = plan_learnings(args.tag, ledger_path=args.ledger, catalog_path=args.catalog)
     text = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
@@ -58,6 +61,9 @@ def main(argv: list[str] | None = None) -> int:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(text, encoding="utf-8")
     print(f"plan_learnings tag={report['tag']} count={report['count']} error={report['error']}")
+    if args.require and (report["error"] or report["count"] == 0):
+        print(f"bridge_failure: plan {report['tag']} loaded no learnings", file=sys.stderr)
+        return 3
     return 0
 
 

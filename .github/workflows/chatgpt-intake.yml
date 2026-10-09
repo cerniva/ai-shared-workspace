@@ -1,0 +1,22 @@
+name: chatgpt-intake
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "intake/chatgpt/**"
+      - "scripts/chatgpt_intake.py"
+      - ".github/workflows/chatgpt-intake.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate ChatGPT patches (read-only)
+        run: python3 scripts/chatgpt_intake.py

@@ -1,0 +1,33 @@
+name: plan-learnings-check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_run:
+    workflows: [knowledge-promote]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "scripts/plan_learnings.py"
+      - "scripts/learning_bridge.py"
+      - ".github/workflows/plan-learnings-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - name: Finans plan loads learnings
+        run: python3 scripts/plan_learnings.py finance --require --out artifacts/finance.json
+      - name: Video/Shopify plan loads learnings
+        run: python3 scripts/plan_learnings.py video_shopify --require --out artifacts/video_shopify.json
+      - name: System plan loads learnings
+        run: python3 scripts/plan_learnings.py system --require --out artifacts/system.json
