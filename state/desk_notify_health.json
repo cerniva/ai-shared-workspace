@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 109,
+    "pending": 1,
+    "seen": 110,
     "answered": 70,
     "delayed": 197
   },
-  "event_count": 738,
+  "event_count": 739,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -755,18 +755,18 @@
     "RPT-20261009-2336-grok-bilgi-clipped:pending",
     "RPT-20261009-2336-grok-bilgi-clipped:delayed",
     "MSG-20261010-0035-grok-gordum-bilgi:pending",
-    "RPT-20261010-0036-grok-bilgi-pool-63:pending"
+    "RPT-20261010-0036-grok-bilgi-pool-63:pending",
+    "MSG-20261010-0035-grok-gordum-bilgi:seen"
   ],
   "new_event_keys": [
-    "MSG-20261010-0035-grok-gordum-bilgi:pending",
-    "RPT-20261010-0036-grok-bilgi-pool-63:pending"
+    "MSG-20261010-0035-grok-gordum-bilgi:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T00:33:48+03:00",
+  "checked_at": "2026-10-10T00:34:16+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 109,
+    "pending": 1,
+    "seen": 110,
     "answered": 70,
     "delayed": 197
   },
