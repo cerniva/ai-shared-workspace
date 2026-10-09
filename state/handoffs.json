@@ -209,6 +209,21 @@
       "status": "open",
       "created_at": "2026-10-09T22:35:07+00:00",
       "updated_at": "2026-10-09T22:35:07+00:00"
+    },
+    {
+      "id": "HO-20261010-13",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Free Shorts MP4 render (render-only, no upload) + PR #109 equivalence check",
+      "reason_cannot_do": "ChatGPT cannot trigger workflows or diff PR head vs main",
+      "evidence": "intake/chatgpt/2026-10-10-ho13-oauth-free-video-pr109.md@75104bd",
+      "status": "claimed",
+      "created_at": "2026-10-09T23:01:59+00:00",
+      "updated_at": "2026-10-09T23:01:59+00:00",
+      "claimed_at": "2026-10-09T23:01:59+00:00",
+      "notes": [
+        "2026-10-09T23:01:59+00:00 grok: Render NOT triggered: shorts-free-build/shorts-free-render validated as render-only (contents:read, GitHub artifact only, no YouTube step), but no approved packet exists on main 0eeb3a6 (SHORT-RES-001.json render_requested=false; ice_float is test fixture) - intake forbids guessed packet; needs Furkan-approved packet_path. PR #109 head 6323990 (base 574a57f, main 133 commits ahead): all changes in scripts/learning_bridge.py + tests (plan_tags/affected_plans alias mapping, status/use_count/cycle metadata, for_plan, 3 tests) present on main 0eeb3a6, reverse-apply check passes for scripts, tests present; 25 tests pass. No missing feature; PR left open pending Furkan approval to close as superseded. YouTube OAuth secrets: not checked, manual Furkan steps."
+      ]
     }
   ]
 }
