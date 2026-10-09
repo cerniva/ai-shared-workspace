@@ -17,14 +17,16 @@ otherwise the run fails closed and nothing is reported as persisted.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 
 try:
     from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
@@ -115,7 +117,36 @@ def _atomic_copy(src: Path, dst: Path) -> None:
     os.replace(tmp, dst)
 
 
+@contextmanager
+def _canonical_locks(*paths: Path) -> Iterator[None]:
+    """Hold the same <file>.lock flocks SourceCatalog/LearningLedger.add use.
+
+    Integrity rule 6: without this, a concurrent add() between our snapshot
+    and the scratch copy-over was silently overwritten (lost update, shown by
+    tests/test_knowledge_race.py). Fixed order (catalog, ledger) avoids
+    deadlock between two batches.
+    """
+    handles = []
+    try:
+        for path in paths:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            handle = path.with_name(path.name + ".lock").open("a+", encoding="utf-8")
+            handles.append(handle)
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        for handle in reversed(handles):
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+            handle.close()
+
+
 def apply_promotions(root: Path) -> dict[str, Any]:
+    root = Path(root)
+    with _canonical_locks(root / "knowledge" / "source_catalog.json", root / "knowledge" / "learning_ledger.json"):
+        return _apply_promotions_locked(root)
+
+
+def _apply_promotions_locked(root: Path) -> dict[str, Any]:
     """Apply every promotion as one all-or-nothing batch (integrity spec 2026-10-10).
 
     The whole batch runs first against a scratch copy of the catalog + ledger.
