@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "Altseason 10 indicators: free keyless source audit and 2020-2025 calibration protocol",
+      "domain": "finance",
+      "claim": "Ten candidate public URLs are documented with keyless availability caveats. Public URL does not imply complete 2020-2025 coverage. CoinGecko global current data cannot prove historical dominance or TOTAL3; Binance OI history is restricted to recent history; exact historical DXY and daily Altseason Index archives remain unverified.",
+      "evidence_status": "mixed",
+      "provenance": "web_research",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "decision": "No invented 0-100 values. For each indicator: reconstruct UTC daily x, freeze train-only lo=p20 and hi=p80 of preceding 730 daily observations (>=500 valid; at least 80% daily coverage), update only at quarterly walk-forward boundaries; monotonic up score=100*clip((x-lo)/(hi-lo)); down=100*clip((hi-x)/(hi-lo)). Index and breadth have natural 0/100 limits. If p20>=p80, unavailable history, or data lookahead risk, output N/A. Funding/OI requires historical OI and validated two-tail shape; N/A meanwhile. Hold out rolling next 90 days, every 90 days, from 2020-2025; do not calculate early folds lacking 730 days. Compare p10/p90 vs p20/p80 on train only, freeze choice before test. Prevent survivorship, data leakage, mixed providers, and unstable symbols.",
+      "next_measurement": "Fetch URLs without secrets, archive source responses and daily coverage by year, establish valid as_of, then run 730d/90d walk-forward with baseline and report false alarms, precision/recall, and coverage. Any unverified endpoint/period remains blocked.",
+      "source_ids": [],
+      "sources_to_validate": [
+        {
+          "indicator": "Altseason Index",
+          "url": "https://www.blockchaincenter.net/en/altcoin-season-index/",
+          "limitations": "Index methodology and current values; 2020-2025 daily archive not verified",
+          "lo_hi": "0,100",
+          "direction": "up"
+        },
+        {
+          "indicator": "BTC dominance",
+          "url": "https://api.coingecko.com/api/v3/global",
+          "limitations": "Current BTC dominance; historical global series not established via keyless free endpoint",
+          "lo_hi": "rolling train p20,p80",
+          "direction": "down"
+        },
+        {
+          "indicator": "ETH/BTC",
+          "url": "https://data.binance.vision/?prefix=data/spot/daily/klines/ETHBTC/1d/",
+          "limitations": "Public historical exchange candles; verify archive coverage and delisting",
+          "lo_hi": "rolling train p20,p80 of 90d log returns",
+          "direction": "up"
+        },
+        {
+          "indicator": "TOTAL3/BTC market cap",
+          "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart",
+          "limitations": "BTC historical cap only; TOTAL3 requires historical total and exclusions; keyless 2020-25 unverified",
+          "lo_hi": "rolling train p20,p80 of 90d log returns",
+          "direction": "up"
+        },
+        {
+          "indicator": "Altcoin breadth",
+          "url": "https://data.binance.vision/?prefix=data/spot/daily/klines/",
+          "limitations": "Public per-symbol historical candles; exchange-limited, survivorship and listing-date bias; cannot stand in for whole-market breadth without reconstruction",
+          "lo_hi": "0,100",
+          "direction": "up"
+        },
+        {
+          "indicator": "Stablecoin supply growth",
+          "url": "https://stablecoins.llama.fi/stablecoincharts/all",
+          "limitations": "DefiLlama aggregate historical stablecoin chart; verify 2020-25 coverage",
+          "lo_hi": "rolling train p20,p80 of 90d % change",
+          "direction": "up"
+        },
+        {
+          "indicator": "Altcoin spot volume",
+          "url": "https://data.binance.vision/?prefix=data/spot/daily/klines/",
+          "limitations": "Binance historical spot candles include volume; exchange proxy only, wash trading and symbol changes",
+          "lo_hi": "rolling train p20,p80 of 30d volume / prior 180d median",
+          "direction": "up"
+        },
+        {
+          "indicator": "DXY",
+          "url": "https://stooq.com/q/d/l/?s=dx.f&i=d",
+          "limitations": "Public Stooq dollar index futures proxy, NOT ICE DXY; verify historical coverage and continuity; exact DXY keyless archive not verified",
+          "lo_hi": "rolling train p20,p80 of 90d % change",
+          "direction": "down"
+        },
+        {
+          "indicator": "VIX",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS",
+          "limitations": "Public FRED graph CSV, no API key (unlike FRED API observations endpoint); verify response and gaps",
+          "lo_hi": "rolling train p20,p80 of 30d median",
+          "direction": "down"
+        },
+        {
+          "indicator": "Funding and OI excess",
+          "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1000",
+          "limitations": "Funding history endpoint is public; historical OI endpoint https://fapi.binance.com/futures/data/openInterestHist only latest 30d, hence 2020-25 combined series NOT available from these endpoints",
+          "lo_hi": "N/A until multi-year historical OI source and train-fitted two-tail function",
+          "direction": "nonmonotonic"
+        }
+      ],
+      "failure_history": [
+        "No 2020-2025 full raw history downloaded or backtest run in this task.",
+        "No verified keyless 2020-2025 series for exact DXY, daily Altseason Index, full-market BTC dominance/TOTAL3, and historical OI."
+      ],
+      "fallback_history": [
+        "If full historical series cannot be obtained, retain N/A rather than interpolate or fabricate a score."
+      ]
+    }
+  ]
+}
