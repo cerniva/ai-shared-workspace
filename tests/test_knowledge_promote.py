@@ -108,6 +108,32 @@ class KnowledgePromoteTests(unittest.TestCase):
         with self.assertRaises(CatalogError):
             apply_promotions(self.root)
 
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+        self.assertFalse(self.ledger.exists())
+
+    def test_late_learning_failure_rolls_back_source_and_ledger(self) -> None:
+        # Regression: the source used to persist before the invalid learning
+        # failed, leaving a half-applied promotion.
+        bad = learning(self.sid)
+        bad["evidence_status"] = "not-a-valid-status"
+        before_catalog = self.catalog.read_bytes()
+        self.stage({"source": SOURCE, "learning": bad})
+        with self.assertRaises(CatalogError):
+            apply_promotions(self.root)
+        self.assertEqual(before_catalog, self.catalog.read_bytes())
+        self.assertFalse(self.ledger.exists())
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+
+    def test_late_gate_failure_preserves_existing_pair_byte_for_byte(self) -> None:
+        existing_learning = learning(source_id("https://example.com/existing"))
+        existing_learning["claim"] = "Existing canonical learning remains unchanged."
+        LearningLedger(self.ledger, self.catalog).add(existing_learning)
+        before = (self.catalog.read_bytes(), self.ledger.read_bytes())
+        self.stage({"source": SOURCE, "learning": learning(self.sid), "gates": ["MISSING_LATE_GATE"]})
+        with self.assertRaises(CatalogError):
+            apply_promotions(self.root)
+        self.assertEqual(before, (self.catalog.read_bytes(), self.ledger.read_bytes()))
+
     def assert_rejected_without_write(self, doc: dict[str, object]) -> None:
         self.stage(doc)
         before = self.catalog.read_bytes()
