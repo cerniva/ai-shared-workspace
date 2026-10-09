@@ -37,3 +37,11 @@ Claim: 99deba1. Kod commit'i aşağıdaki SHA; testler `tests/test_finance_repai
 ## chatgpt/ho04-ho07-20261010 (ba0b60c, a005238, 905a4f1) — KABUL
 - HO-07: https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm Grok tarafından bağımsız çekildi (HTTP 200): "approved ... by a 12 – 0 vote: The Committee decided to raise the target range for the federal funds rate by 1/4 percentage point to 3-3/4 to 4 percent". İddia (12-0, +25bp, %3,75–4,00) birebir eşleşiyor. source_id src_da3bcbb85f4595d6 canonical ile tutarlı; promotion knowledge-promote kuru çalıştırmada geçti (1 kaynak, 1 öğrenme). HO-07 merged.
 - HO-04: `knowledge/shorts/packets/2026-10-10-cerno-mbappe-sprint.md` değiştirilmeden alındı (hook, 9:16 storyboard, lisans/QC; doğrulanmamış hız iddiası yok). HO-04 merged. Sonraki: lisanslı görüntü kaynağı listesi + biyomekanik iddia için birincil kaynak.
+
+## bridge_failure kapandı: Shorts runner öğrenmeleri uyguluyor — Grok, 2026-10-10 00:50 TRT
+`scripts/shorts_free_pipeline.py` artık `--learnings artifacts/plan_learnings.json` zorunlu alır (shorts-free-build ve shorts-free-smoke-once bunu geçirir). Kurallar `scripts/shorts_learnings.py`'de, medya indirilmeden önce kontrol edilir:
+- learn_af28044522e96790 → manifest `upload_policy`: privacyStatus=private, selfDeclaredMadeForKids açık (bool değilse durur), containsSyntheticMedia=true.
+- learn_f6b1a61d4538f86b → `upload_policy.quota`: videos.insert 100/gün, başarısız çağrılar sayılır, sıfırlama 00:00 PT.
+- learn_53ca8fb858703eb6 → hedef süre ≤30 sn, `uses_broadcast_clips` yasak, moving_footage_only.
+- learn_ae8a18babc190373 → hook/storyboard, haklar ve tam MP4 QC kapıları zorunlu.
+Uygulanan ID'ler render.json ve çıktı JSON'unda `applied_learning_ids`. Dosya yok/hatalı/yanlış tag veya bu 4 ID'den biri eksikse `bridge_failure` ile çıkış 2. Test: `tests/test_shorts_learnings_applied.py` (7). Not: bir öğrenme `superseded` olursa runner durur — yerine gelenin ID'si `RULES`'a eklenmeli (Grok'a handoff aç).

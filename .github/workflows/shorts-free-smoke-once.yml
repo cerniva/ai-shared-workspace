@@ -12,6 +12,7 @@ on:
       - 'scripts/shorts_preflight.py'
       - 'tests/test_shorts_free_pipeline.py'
       - 'tests/test_shorts_media.py'
+      - 'scripts/shorts_learnings.py'
   workflow_dispatch:
 
 permissions:
@@ -40,10 +41,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts/bundle
+          python3 scripts/plan_learnings.py video_shopify --require --out artifacts/plan_learnings.json
           python3 scripts/shorts_free_pipeline.py \
             tests/fixtures/shorts_real_smoke_ice_float.json \
             artifacts/bundle \
-            artifacts/short-ice-float.mp4
+            artifacts/short-ice-float.mp4 \
+            --learnings artifacts/plan_learnings.json
 
       - name: Run technical preflight
         run: |

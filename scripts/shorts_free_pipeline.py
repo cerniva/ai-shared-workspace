@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
 from scripts.shorts_media import download_asset, search_free_media
 from scripts.shorts_render import render
 from scripts.shorts_research import gate_packet
+from scripts import shorts_learnings
 
 SUPPORTED_VIDEO_SUFFIXES = {".mp4", ".mov", ".mkv", ".webm", ".m4v", ".avi"}
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".ppm"}
@@ -182,12 +183,18 @@ def prepare_render_bundle(
     workdir: Path,
     *,
     env: Mapping[str, str] | None = None,
+    learnings_path: Path | None = None,
 ) -> dict:
-    """Turn one gate-approved packet into local media, provenance and render files."""
+    """Turn one gate-approved packet into local media, provenance and render files.
+
+    With learnings_path, plan learnings are validated before any media is fetched
+    and applied to the render manifest (applied_learning_ids recorded).
+    """
     packet = _load_packet(Path(packet_path))
     blockers = gate_packet(packet)
     if blockers:
         raise ValueError("research gate blocked: " + ",".join(blockers))
+    learnings_doc = shorts_learnings.load(learnings_path) if learnings_path is not None else None
 
     try:
         target_seconds = float(packet["target_seconds"])
@@ -195,6 +202,9 @@ def prepare_render_bundle(
         raise ValueError("target_seconds must be a number") from exc
     if target_seconds <= 0 or target_seconds > 180:
         raise ValueError("target_seconds must be between 0 and 180 seconds")
+    if learnings_doc is not None:
+        # fail fast on learning constraints (e.g. 30s cap) before downloading media
+        shorts_learnings.apply(learnings_doc, packet, {"target_seconds": target_seconds})
 
     queries = [
         query.strip()
@@ -308,6 +318,9 @@ def prepare_render_bundle(
             "natural_voice_review_required": True,
         },
     }
+    applied: list[str] = []
+    if learnings_doc is not None:
+        applied = shorts_learnings.apply(learnings_doc, packet, manifest)
     render_manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -320,6 +333,8 @@ def prepare_render_bundle(
         "assets": [str(path) for path in local_assets],
         "language": packet["language"],
         "content_type": packet["content_type"],
+        "applied_learning_ids": applied,
+        "upload_policy": manifest.get("upload_policy"),
     }
 
 
@@ -329,9 +344,11 @@ def main() -> int:
     parser.add_argument("packet", type=Path)
     parser.add_argument("workdir", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--learnings", type=Path, required=True,
+                        help="plan_learnings.json from scripts/plan_learnings.py video_shopify")
     args = parser.parse_args()
     try:
-        bundle = prepare_render_bundle(args.packet, args.workdir)
+        bundle = prepare_render_bundle(args.packet, args.workdir, learnings_path=args.learnings)
         result = render(Path(bundle["render_manifest"]), args.output)
     except (OSError, ValueError, RuntimeError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False))

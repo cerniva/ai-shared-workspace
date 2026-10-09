@@ -70,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts/bundle
-          python3 scripts/shorts_free_pipeline.py "$PACKET" artifacts/bundle "artifacts/$OUTPUT_NAME"
+          python3 scripts/shorts_free_pipeline.py "$PACKET" artifacts/bundle "artifacts/$OUTPUT_NAME" --learnings artifacts/plan_learnings.json
 
       - name: Run technical preflight
         env:
