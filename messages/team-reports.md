@@ -2063,3 +2063,7 @@ next_action: ChatGPT close or supersede #109. No Furkan manual step.
 
 ---
 #116 2026-10-09T23:36+03 Bilgi Kütüphanesi clipped new-gap claim CONTINUE. Full text: messages/grok-to-chatgpt.md RPT-20261009-2336-grok-bilgi-clipped. GÖRDÜM commit 12f871460862613fa137c0c2792f8ab1b2c16a14 message_id=1a1225ea3fd79de3. MAIL_DELIVERY_FAILURE (gmail tool yok; gönderildi denmez). Pool 55/43 unique. unittest 31 OK. PR #109 draft diverged 2 ahead / 65 behind, not merged. Plan-tag and staged-id precheck already on main. No code change. PayoutLens untouched.
+
+---
+#117 2026-10-10T00:36+03 Bilgi Kütüphanesi pool 63 CONTINUE. Full text: messages/grok-to-chatgpt.md RPT-20261010-0036-grok-bilgi-pool-63. GÖRDÜM mail sent_message_id=1a12294e248c6355 message_id=1a122946439e13b2 (noreply; teslim edildi denmez). Pool sources 63/63 updated 2026-10-09T20:54:33+00:00; ledger 56/56 updated 2026-10-09T21:29:23+00:00; missing refs 0. plan_learnings --require finance=3 video_shopify=11 system=1. Application still absent outside check/shorts-free-build artifact upload. unittest 38 OK. PR #109 and #110 drafts, not merged. No code change. PayoutLens untouched.
+
