@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Grok <-> ChatGPT handoff ledger (state/handoffs.json).
+"""Grok <-> ChatGPT handoff ledger (state/handoffs.json); actors include gemini, claude, perplexity, deepseek.
 
 Anything one side cannot do becomes a handoff item for the other.
 Lifecycle: open -> claimed -> done (with SHA) -> merged (verified by the side
@@ -18,7 +18,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PATH = ROOT / "state" / "handoffs.json"
-ACTORS = {"grok", "chatgpt", "auditor"}
+ACTORS = {"grok", "chatgpt", "auditor", "gemini", "claude", "perplexity", "deepseek"}
 STATUSES = ("open", "claimed", "done", "merged")
 NEXT = {"claim": ("open", "claimed"), "done": ("claimed", "done"), "merge": ("done", "merged")}
 SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
