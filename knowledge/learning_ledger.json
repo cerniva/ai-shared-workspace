@@ -91,6 +91,30 @@
       "title": "Shorts under 60 seconds do not get highlighted retention key moments"
     },
     {
+      "claim": "The SEC EDGAR API page (fetched 2026-10-09) states data.sec.gov submissions and XBRL APIs need no authentication or API key and update in real time (submissions typically under one second, XBRL under one minute), and the SEC developer resources page limits each user to no more than 10 requests per second across all machines and blocks unclassified bots.",
+      "decision": "FINANCE_EDGAR_PRIMARY_GATE: company earnings/filing claims in the Finans mail should be verified against data.sec.gov submissions/companyfacts before secondary news; the fetcher must stay well under 10 req/s and identify itself, and an IP block is reported as BLOCKED, not as no news.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If data.sec.gov blocks the runner, fall back to the EDGAR Latest Filings RSS and mark the item unverified."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_27333cc91fdf7f58",
+      "next_measurement": "Verify one 8-K headline from the next Finans mail against data.sec.gov and record latency between filing time and the news item.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_0f07369afb96d99f",
+        "src_9adcb84311014626"
+      ],
+      "supersedes": null,
+      "title": "SEC EDGAR keyless API with 10 req/s fair access"
+    },
+    {
       "claim": "URLs in Shorts descriptions and comments are non-clickable; a Related video link can be clickable in the Shorts player when advanced-feature access and eligibility are verified.",
       "decision": "Do not design a conversion CTA that depends on a raw description or comment URL; prefer native Related video only after access read-back.",
       "domain": "youtube-shorts-routing",
@@ -110,6 +134,29 @@
       ],
       "supersedes": null,
       "title": "Shorts description and comment URLs are not the clickable route"
+    },
+    {
+      "claim": "The official GraphQL Admin API reference (fetched 2026-10-09) states that the GraphQL API can return 200 OK for cases that would be 4xx/5xx in REST, with errors[].extensions.code values such as THROTTLED, ACCESS_DENIED, SHOP_INACTIVE and INTERNAL_SERVER_ERROR, that a single query above the max cost (1000) fails with MAX_COST_EXCEEDED, and that responses carry extensions.cost.throttleStatus.",
+      "decision": "SHOPIFY_200_ERROR_GATE: never treat HTTP 200 as success; a response with a non-empty errors array or mutation userErrors is a failure classified by extensions.code. THROTTLED -> backoff/retry; MAX_COST_EXCEEDED -> split query or use bulk operation; ACCESS_DENIED/SHOP_INACTIVE -> stop and escalate to Furkan.",
+      "domain": "shopify-admin-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If Admin API access is blocked, use Shopify admin CSV exports as a manual fallback and mark data user_reported."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_3d679ef374927694",
+      "next_measurement": "Add a fixture test for each code once a real error sample is captured from the store.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_64dbdcaa3ac686c8"
+      ],
+      "supersedes": null,
+      "title": "Shopify GraphQL errors arrive with HTTP 200"
     },
     {
       "claim": "Per-workflow concurrency groups prevent duplicate runs of one workflow but do not serialize different workflows that push to the same branch.",
@@ -332,6 +379,29 @@
       ],
       "supersedes": null,
       "title": "Analytics API learning waits for the 48-72 hour processing window"
+    },
+    {
+      "claim": "The Federal Reserve Board RSS page (fetched 2026-10-09) lists official feeds for all speeches and testimony, per-governor speeches, and data feeds for Foreign Exchange Rates (H.10) and Selected Interest Rates (H.15).",
+      "decision": "FINANCE_FED_RSS_GATE: Fed rate/speech claims in the Finans mail are sourced from federalreserve.gov feeds first; secondary outlets (Investing.com etc.) are only context and must not be the sole source for a Fed statement.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If the feed is unreachable, use the federalreserve.gov newsevents page and mark freshness unknown."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_6b1c96a05f850f64",
+      "next_measurement": "Wire one Fed speeches feed into the finance runner and count items matched vs unmatched in the next three Finans mails.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_bf181b2640d372b6"
+      ],
+      "supersedes": null,
+      "title": "Federal Reserve official RSS for speeches and rates"
     },
     {
       "claim": "Shopify Analytics session measurement rolled out 2026-09-21 to 2026-09-23. Sessions follow continued activity and end after 30 minutes of inactivity instead of always splitting at midnight UTC. Some sessions without a pageview are counted. Identified bot sessions are filtered from session reports by default. Conversion rate and other session-derived metrics can move even when orders, sales and customer counts do not. Historical data is not reprocessed; post-update session data is a new baseline. Bot classification applies only to sessions from 2025-10-07 onward.",
@@ -557,6 +627,29 @@
       "title": "YouTube audience loyalty is a channel-level new/casual/regular gate"
     },
     {
+      "claim": "The official videos.insert reference (fetched 2026-10-09) states that if status.privacyStatus is not specified the uploaded video defaults to public (some accounts default to private), and that status.containsSyntheticMedia and status.selfDeclaredMadeForKids are settable on insert.",
+      "decision": "SHORTS_EXPLICIT_PRIVACY_GATE: youtube-upload must always send an explicit status.privacyStatus (private until Furkan approves publish) plus explicit selfDeclaredMadeForKids and containsSyntheticMedia for AI-voiced/synthetic Shorts; a request missing these fields is blocked before calling the API.",
+      "domain": "youtube-shorts-upload",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Without OAuth secrets keep uploads in dry-run and store the request body as an artifact for review."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_af28044522e96790",
+      "next_measurement": "After the first authorised upload, read back the video resource and confirm privacyStatus and containsSyntheticMedia match the request.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_ee81f8558675da29"
+      ],
+      "supersedes": null,
+      "title": "YouTube upload privacyStatus default is public"
+    },
+    {
       "claim": "YouTube Analytics playlist-context metrics such as playlistViews, playlistStarts, viewsPerPlaylistStart, playlistEstimatedMinutesWatched, and playlistAverageViewDuration measure playlist-context behavior and must not be substituted with ordinary video views/watch-time metrics.",
       "decision": "PLAYLIST_CONTEXT_GATE: treat playlist-context metrics as a separate measurement layer. Use playlist metrics only when supported and authorized; do not substitute ordinary views for playlistViews, do not mix playlist and non-playlist denominators without labeling scope, and do not infer playlist causality from correlation.",
       "domain": "youtube-analytics",
@@ -645,6 +738,29 @@
       ],
       "supersedes": null,
       "title": "YouTube viewerPercentage is logged-in viewer share, not watch completion"
+    },
+    {
+      "claim": "Shopify's official API limits page (fetched 2026-10-09) says most limits use a leaky bucket whose size and restore rate depend on API and plan, recommends a one-second backoff after throttling, caps array inputs at 250 items on every API, and caps pagination at 25,000 objects including count queries.",
+      "decision": "SHOPIFY_BUCKET_GATE: shopify_client must back off at least 1 s on throttle, chunk any array input to <=250, and treat a 25,000-object page walk as truncated (switch to bulk operations) instead of reporting complete counts.",
+      "domain": "shopify-admin-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Without store credentials, unit-test chunking and backoff with recorded fixtures only."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_c777296aa26eb684",
+      "next_measurement": "When store credentials exist, log extensions.cost.throttleStatus per call and count throttle events per run.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_843ab9beadd1f15b"
+      ],
+      "supersedes": null,
+      "title": "Shopify leaky-bucket backoff and hard caps"
     },
     {
       "claim": "The official YouTube Reporting API bulk-reports page states that YouTube generates downloadable reports for days with no data, and those reports contain a header row but no additional data. The same page says column order must be read from the header row and new metric columns may appear.",
@@ -917,6 +1033,73 @@
       "title": "CREATOR_CONTENT_TYPE_GATE"
     },
     {
+      "claim": "The official Gumroad API docs (fetched 2026-10-09) state that POST /v2/products publishes the product immediately unless draft=true or published=false, that PUT /v2/products/:id with files, tags or rich_content replaces the whole collection (omitted files are deleted), and that /v2/files/complete must not be retried because an upload_id works only once.",
+      "decision": "GUMROAD_DRAFT_FIRST_GATE: any automated product create must send draft=true and wait for Furkan's approval before PUT /enable; product updates must resend every existing file id+url or omit files entirely; on a lost /files/complete response restart from /files/presign, never retry complete.",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Without an OAuth token use the unauthenticated public /l/:permalink.json endpoint for read-only price/rating monitoring."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_f5624ca54a31e57c",
+      "next_measurement": "When a Gumroad token exists, create one draft product and read it back to confirm published=false before any further automation.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "supersedes": null,
+      "title": "Gumroad create publishes immediately and PUT files replaces all"
+    },
+    {
+      "claim": "The official YouTube Data API quota calculator (fetched 2026-10-09) states that search.list and videos.insert have their own quota buckets with a default of 100 calls per day at cost 1 per call, other endpoints share 10,000 units per day, invalid requests still cost at least one point, and daily quotas reset at midnight Pacific Time.",
+      "decision": "SHORTS_UPLOAD_QUOTA_GATE: budget uploads against the separate 100/day videos.insert bucket, not the 10,000-unit pool; count failed/invalid calls too; schedule the quota-day boundary at 00:00 PT (10:00 TRT during PDT). Thumbnails.set (50) and videos.update (50) still draw from the shared pool.",
+      "domain": "youtube-shorts-upload",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If the upload bucket is exhausted, keep the rendered MP4 artifact and retry after the PT reset; never fall back to a paid tool."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_f6b1a61d4538f86b",
+      "next_measurement": "On the first real upload run record quotaExceeded/uploadLimitExceeded errors and the Cloud console quota page value; until then upload quota is unverified for this project.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_85b892e80969bab1"
+      ],
+      "supersedes": null,
+      "title": "YouTube videos.insert own quota bucket"
+    },
+    {
+      "claim": "The official Gumroad API docs (fetched 2026-10-09) describe GET https://[seller].gumroad.com/l/:permalink.json as a public endpoint needing no authentication that returns display data (price_cents, ratings, is_published, options) and never seller-private or analytics fields; sales_count is null unless the creator shows it.",
+      "decision": "GUMROAD_PUBLIC_MONITOR_PATH: read-only monitoring of a published product can start now via the public .json endpoint without secrets; do not infer sales from it (sales_count null means hidden, not zero).",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_f8b789fc9f6f97f8",
+      "next_measurement": "Pick one live product permalink from Furkan and record a daily price/rating snapshot.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "supersedes": null,
+      "title": "Gumroad public product JSON needs no auth"
+    },
+    {
       "claim": "Shopify Admin GraphQL API 2026-10 adds return policy profiles: a set of return rules associated with markets that supersedes store return-policy text. Market.returnPolicyProfile returns only a directly assigned profile and is null when none is assigned; it does not resolve market hierarchy. Nullable returnRules or editRules mean those rules are turned off; null returnRules means customers can return without restriction. Reading requires read_legal_policies. Assigning a profile is a market edit and needs write_markets. There are no profile mutations; create, update, and delete stay in Shopify admin. A default profile covers markets without a named profile. Managed Markets EU profile is locked.",
       "decision": "MARKET_RETURN_POLICY_GATE: use authorized market-specific structured return rules as policy and trust context only. Never substitute policy terms, a return window, or a null profile for observed returned_quantity, return reasons, sales reversals, margin, or demand. A null Market.returnPolicyProfile is not proof that no return rule applies. Keep PRODUCT_SALES_SOURCE_GATE, REPEAT_PURCHASE_GATE, physical return versus sales-reversal separation, and Shorts analytics rules unchanged. Human learning_id learn_shopify_market_return_policy_gate_20261006.",
       "domain": "shopify",
@@ -960,5 +1143,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T03:55:57+00:00"
+  "updated_at": "2026-10-09T20:54:33+00:00"
 }
