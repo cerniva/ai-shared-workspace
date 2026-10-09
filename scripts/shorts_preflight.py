@@ -21,7 +21,34 @@ def run(args):
     return subprocess.run(args, capture_output=True, text=True, check=True, timeout=180)
 
 
-def inspect(path, review=None):
+# Render-manifest production_gates (set by shorts_learnings) -> review checks that
+# must be independently true. A flag alone is never evidence (HO-20261010-11).
+MANIFEST_GATE_REVIEW_CHECKS = {
+    'hook_storyboard_qc_required': ('hook_storyboard_checked',),
+    'rights_qc_required': ('rights_checked',),
+    'full_mp4_qc_required': ('speech_intelligible', 'audio_visual_sync', 'text_readable'),
+    'moving_footage_only': ('moving_footage_checked',),
+}
+
+
+def manifest_gate_blockers(manifest, review):
+    """Return blockers for manifest gates that lack independent review evidence."""
+    if manifest is None:
+        return []
+    if not isinstance(manifest, dict) or not isinstance(manifest.get('production_gates'), dict):
+        return ['manifest_gates_invalid']
+    checks = (review or {}).get('checks', {}) if isinstance(review, dict) else {}
+    blockers = []
+    for gate, value in manifest['production_gates'].items():
+        if value is not True or gate not in MANIFEST_GATE_REVIEW_CHECKS:
+            continue
+        for key in MANIFEST_GATE_REVIEW_CHECKS[gate]:
+            if checks.get(key) is not True:
+                blockers.append('gate_' + gate + '_' + key)
+    return blockers
+
+
+def inspect(path, review=None, manifest=None):
     report = {"schema": 1, "ready": False, "blockers": [], "checks": {}}
     try:
         digest = hashlib.sha256()
@@ -65,6 +92,8 @@ def inspect(path, review=None):
             for key in required:
                 if review.get('checks', {}).get(key) is not True:
                     report['blockers'].append('review_' + key)
+        report['blockers'].extend(b for b in manifest_gate_blockers(manifest, review)
+                                  if b not in report['blockers'])
         report['ready'] = not report['blockers']
     except (OSError, ValueError, KeyError, StopIteration, subprocess.SubprocessError) as exc:
         report['blockers'].append('inspection_failed_' + type(exc).__name__)
@@ -75,12 +104,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('video', type=Path)
     parser.add_argument('--review', type=Path)
+    parser.add_argument('--manifest', type=Path, help='render.json; its production_gates need review evidence')
     args = parser.parse_args()
     try:
         review = json.loads(args.review.read_text()) if args.review else None
         if review is not None and not isinstance(review, dict):
             raise ValueError('Review must be an object')
-        result = inspect(args.video.resolve(), review)
+        manifest = json.loads(args.manifest.read_text()) if args.manifest else None
+        result = inspect(args.video.resolve(), review, manifest)
     except (OSError, ValueError) as exc:
         result = {'ready': False, 'blockers': ['invalid_review_' + type(exc).__name__]}
     print(json.dumps(result, ensure_ascii=False, allow_nan=False))
