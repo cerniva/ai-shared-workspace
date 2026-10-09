@@ -521,6 +521,31 @@
       "title": "Subscribed status is audience context, not causality"
     },
     {
+      "claim": "A digital product can be planned and quality-checked locally without Gumroad login, API token, payment setup, or publishing; live Gumroad product creation and sales metrics cannot be verified without account access.",
+      "decision": "Use these five secret-free preparation steps; no live Gumroad action is claimed:\n1. Ürün adayı ve alıcı vaadini yaz: örnek Mutfağın Hammaddeleri; mevcut kitap bölümleri tamamlanmış gibi sunulmaz.\n2. Orijinal içerik, telif, görsel lisansları ve dil tutarlılığı için kontrol listesi çıkar; eksik bölümleri taslak olarak işaretle.\n3. İndirilebilir dosya taslağını (PDF/ePub uygunluğu), kapak brief'ini, örnek sayfayı ve açıklamayı yerel olarak hazırla; yükleme/yayın yok.\n4. Fiyat, platform ücreti, net gelir ve iade koşullarını doğrulanmamış varsayımlarla ayrı tabloda planla; gerçek fiyat ve ödeme ayarını değiştirme.\n5. Yayın öncesi QC: dosya açılıyor mu, bağlantılar çalışıyor mu, ürün açıklaması doğru mu, teslim dosyası tamam mı? Sonra gerçek Gumroad hesap erişimi/izin doğrulamasını bekle.",
+      "domain": "gumroad",
+      "evidence_status": "unverified",
+      "failure_history": [
+        "No authenticated Gumroad connection, draft creation, sale, or payment configuration verified."
+      ],
+      "fallback_history": [
+        "If API or account access unavailable, retain local product draft and mark publishing BLOCKED_USER or BLOCKED_EXTERNAL."
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "learning_id": "learn_7c2d2d2d4049f51b",
+      "next_measurement": "Verify current Gumroad product and upload API permissions against official docs; build local draft files, check content/licensing, then run account-connected draft-only smoke test if authorized.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "supersedes": null,
+      "title": "HO-06 Gumroad draft-first digital product workflow without secrets or payments"
+    },
+    {
       "claim": "Without a Shopify store token, public official Shopify documentation can establish API field requirements, analytics definitions, rate limits, and safe read-only planning, but cannot reveal the user's live shop data or cohort metrics.",
       "decision": "Do the following five steps without secret or live store writes; only then request read-only store access if truly needed. Steps: (1) Create a read-only GraphQL field checklist for products, variants, inventory, orders, customers, and analytics; label required scopes and API version. [src_64dbdcaa3ac686c8] (2) Define cohort metrics (first vs returning customers, repeat purchase rate) and prevent unsupported claims about attribution. [src_0acc40a4a170ff80, src_d04b5a72ae4029f9] (3) Prepare a product-opportunity scoring template: demand, landed cost, shipping, return risk, gross/net margin, and evidence confidence; no live shop assumptions. [src_97a7eb010a0d1efa] (4) Write a public-docs-based GraphQL query skeleton with minimal fields and cursor pagination, but do not execute against store or request credentials. [src_64dbdcaa3ac686c8] (5) Specify rate-limit-aware retries and a dry-run validation fixture; 401/403 must block rather than retry repeatedly. [src_843ab9beadd1f15b]",
       "domain": "shopify",
@@ -1341,5 +1366,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T21:45:35+00:00"
+  "updated_at": "2026-10-09T21:58:20+00:00"
 }
