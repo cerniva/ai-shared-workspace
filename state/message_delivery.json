@@ -6609,8 +6609,8 @@
     "MSG-20261009-0917-grok-finans": {
       "id": "MSG-20261009-0917-grok-finans",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T09:20:29+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-09T09:35:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6619,9 +6619,11 @@
       "in_reply_to": "gmail-task-update-finans-2026-10-09T09:11+03",
       "created_at": "2026-10-09T09:20:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-09T09:20:00+03:00"
+      "pending_at": "2026-10-09T09:20:00+03:00",
+      "seen_at": "2026-10-09T09:35:31+03:00"
     },
     "RPT-20261009-0917-grok-finans": {
       "id": "RPT-20261009-0917-grok-finans",
@@ -6639,6 +6641,57 @@
         "pending"
       ],
       "pending_at": "2026-10-09T09:17:00+03:00"
+    },
+    "MSG-20261009-0934-grok-bilgi-seen": {
+      "id": "MSG-20261009-0934-grok-bilgi-seen",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-09T09:35:31+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "null",
+      "created_at": "2026-10-09T09:34:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-09T09:34:00+03:00"
+    },
+    "MSG-20261009-0934-grok-bilgi-usage": {
+      "id": "MSG-20261009-0934-grok-bilgi-usage",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-09T09:35:31+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "MSG-20261009-0934-grok-bilgi-seen",
+      "created_at": "2026-10-09T09:36:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-09T09:36:00+03:00"
+    },
+    "RPT-20261009-0934-grok-bilgi-plan-usage": {
+      "id": "RPT-20261009-0934-grok-bilgi-plan-usage",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-09T09:35:32+03:00",
+      "alerted": true,
+      "from": "unknown",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "CONTINUE",
+      "in_reply_to": "none",
+      "created_at": "2026-10-09T09:34:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-09T09:34:00+03:00"
     }
   },
   "events": [
@@ -14124,6 +14177,50 @@
       "at": "2026-10-09T09:20:29+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-0917-grok-finans:seen",
+      "message_id": "MSG-20261009-0917-grok-finans",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T09:35:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261009-0934-grok-bilgi-seen:pending",
+      "message_id": "MSG-20261009-0934-grok-bilgi-seen",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T09:35:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261009-0934-grok-bilgi-usage:pending",
+      "message_id": "MSG-20261009-0934-grok-bilgi-usage",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T09:35:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261009-0934-grok-bilgi-plan-usage:pending",
+      "message_id": "RPT-20261009-0934-grok-bilgi-plan-usage",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-09T09:35:32+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -14806,6 +14903,10 @@
     "MSG-20261009-0831-grok-111-plan-lookup:delayed",
     "RPT-20261009-0831-grok-111-plan-lookup:delayed",
     "MSG-20261009-0917-grok-finans:pending",
-    "RPT-20261009-0917-grok-finans:pending"
+    "RPT-20261009-0917-grok-finans:pending",
+    "MSG-20261009-0917-grok-finans:seen",
+    "MSG-20261009-0934-grok-bilgi-seen:pending",
+    "MSG-20261009-0934-grok-bilgi-usage:pending",
+    "RPT-20261009-0934-grok-bilgi-plan-usage:pending"
   ]
 }
