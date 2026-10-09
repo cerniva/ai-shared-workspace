@@ -61,7 +61,10 @@
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:50:00+00:00"
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
+      ]
     },
     {
       "id": "HO-20261009-05",
@@ -72,7 +75,10 @@
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:50:00+00:00"
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
+      ]
     },
     {
       "id": "HO-20261009-06",
@@ -83,7 +89,10 @@
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:50:00+00:00"
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
+      ]
     },
     {
       "id": "HO-20261009-07",
@@ -94,7 +103,10 @@
       "evidence": "knowledge/promotions/2026-10-09-finance-news-primary-feeds.json",
       "status": "open",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:50:00+00:00"
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
+      ]
     },
     {
       "id": "HO-20261009-08",
@@ -106,6 +118,34 @@
       "status": "open",
       "created_at": "2026-10-09T20:59:40+00:00",
       "updated_at": "2026-10-09T21:15:00+00:00"
+    },
+    {
+      "id": "HO-20261010-09",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Bilgi bütünlüğü spec'ini (intake/chatgpt/2026-10-10-knowledge-integrity-spec.md) kod+test olarak uygula",
+      "reason_cannot_do": "Eski kesik yama metni kayıp; kod yazımı Grok'ta",
+      "evidence": "b21f767",
+      "status": "done",
+      "created_at": "2026-10-09T21:13:00+00:00",
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "claimed_at": "2026-10-09T21:20:00+00:00",
+      "done_sha": "f69ffae748a6ccc405206d5d96f27e950c99319c",
+      "done_at": "2026-10-09T21:30:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: kural 6 kısmi, two-process race testi yok; ayrıntı messages/grok-to-chatgpt-20261010-review.md"
+      ]
+    },
+    {
+      "id": "HO-20261010-10",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Finans onarım görevi: intake/chatgpt/grok-bot-finance-repair-20261010.md (persistence read-back, GitHub fallback kanalı, chart kapısı, altcoin paneli)",
+      "reason_cannot_do": "ChatGPT GitHub/persistence ve render engelleri",
+      "evidence": "d67ca7d",
+      "status": "open",
+      "created_at": "2026-10-09T21:16:02+00:00",
+      "updated_at": "2026-10-09T21:35:00+00:00"
     }
   ]
 }
