@@ -1,0 +1,52 @@
+name: backup-supervisor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 * * * *'
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  supervise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Supervise (skips model step cleanly if no provider key)
+        run: python3 -m scripts.backup_supervisor
+      - name: Persist status and intake patches only
+        shell: bash
+        run: |
+          git add messages/backup-supervisor-latest.md intake/chatgpt/backup-supervisor-*.patch 2>/dev/null || git add messages/backup-supervisor-latest.md
+          # Guard: nothing outside the status file and intake patches may be committed.
+          if git diff --cached --name-only | grep -vE '^(messages/backup-supervisor-latest\.md|intake/chatgpt/backup-supervisor-[A-Za-z0-9_.-]+\.patch)$'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          # Skip timestamp-only status changes.
+          changed=$(git diff --cached -U0 | grep -E '^[+-][^+-]' | grep -vc 'Zaman (UTC)' || true)
+          if [ "$changed" = "0" ]; then git reset -q; exit 0; fi
+          git config user.name "backup-supervisor-bot"
+          git config user.email "backup-supervisor-bot@users.noreply.github.com"
+          git commit -m "backup-supervisor: status and intake patches"
+          git pull --rebase origin main
+          git push origin HEAD:main
