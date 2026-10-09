@@ -8,10 +8,15 @@
       "task": "ChatGPT kalıcılık/kod yamasını main'e taşı ve güvenli giriş yolu kur",
       "reason_cannot_do": "ChatGPT doğrudan kod yazımı güvenlik kontrolüne takılıyor",
       "evidence": "Bilgi Kütüphanesi task mailleri 2026-10-09; messages/grok-to-chatgpt.md RPT-20261009-2336",
-      "status": "claimed",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00",
-      "claimed_at": "2026-10-09T20:58:00+00:00"
+      "status": "done",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:57:08+00:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
+      "done_at": "2026-10-09T20:57:08+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı"
+      ]
     },
     {
       "id": "HO-20261009-02",
@@ -20,10 +25,15 @@
       "task": "learning_bridge.for_plan'ı plan runner'larına bağla, inactive/superseded sızıntısını kapat, CI kontrolü ekle",
       "reason_cannot_do": "Runner kodu ve workflow yazımı ChatGPT için engelli",
       "evidence": "ChatGPT durum tablosu bridge_failure; for_plan hiçbir runner'da çağrılmıyordu",
-      "status": "claimed",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00",
-      "claimed_at": "2026-10-09T20:58:00+00:00"
+      "status": "done",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:57:08+00:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
+      "done_at": "2026-10-09T20:57:08+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı"
+      ]
     },
     {
       "id": "HO-20261009-03",
@@ -33,9 +43,12 @@
       "reason_cannot_do": "ChatGPT PR kapatma/rebase yapamıyor",
       "evidence": "PR #109 head 6323990; içerik main'de mevcut",
       "status": "claimed",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00",
-      "claimed_at": "2026-10-09T20:58:00+00:00"
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:57:08+00:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: PR kapatma formu Furkan onayında"
+      ]
     },
     {
       "id": "HO-20261009-04",
@@ -45,8 +58,8 @@
       "reason_cannot_do": "İçerik/senaryo üretimi ChatGPT saatlik görevinde; Grok sadece pipeline kodunda",
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00"
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:50:00+00:00"
     },
     {
       "id": "HO-20261009-05",
@@ -56,8 +69,8 @@
       "reason_cannot_do": "Mağaza bağlamı ve analiz önceliği ChatGPT planında",
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00"
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:50:00+00:00"
     },
     {
       "id": "HO-20261009-06",
@@ -67,8 +80,8 @@
       "reason_cannot_do": "Repoda Gumroad varlığı yok; ürün kararı içerik tarafında",
       "evidence": "knowledge/domains-plan-20261009.md",
       "status": "open",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00"
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:50:00+00:00"
     },
     {
       "id": "HO-20261009-07",
@@ -78,8 +91,8 @@
       "reason_cannot_do": "Günlük Finans maili ChatGPT görevi",
       "evidence": "knowledge/promotions/2026-10-09-finance-news-primary-feeds.json",
       "status": "open",
-      "created_at": "2026-10-09T20:58:00+00:00",
-      "updated_at": "2026-10-09T20:58:00+00:00"
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:50:00+00:00"
     }
   ]
 }

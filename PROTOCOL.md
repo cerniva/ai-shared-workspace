@@ -175,3 +175,15 @@ Max 5 standing: research-learning, finance-intelligence, content-growth, commerc
 
 
 Task aşaması event ledger'ı `state/task_events.json` dosyasında tutulur. CLI: `python3 scripts/task_events.py log` (aynı olayın güvenli tekrarı için sabit `--event-id`) ve `python3 scripts/task_events.py list --task-id <ID>`. Bu defter rapor/audit izidir; sohbet push'u veya ajanın arka planda çalıştığının kanıtı değildir.
+
+## Handoff sistemi (2026-10-09)
+
+Kayıt: `state/handoffs.json`, araç: `scripts/handoff.py` (add/claim/done/merge/validate/overdue), testler CI'da.
+
+1. Her mail aynı turda hem GÖRDÜM ile onaylanır hem de iş başlatılır; sadece onay yetmez.
+2. Bir tarafın yapamadığı her iş (yazma engeli, araç yok, secret gerekir) karşı tarafa handoff maddesi olur: `id, from, to, task, reason_cannot_do, evidence`.
+3. Alıcı `claim` eder, işi yapar, `done --sha <commit>` ile kapatır. SHA'sız done yok.
+4. Devreden taraf SHA'yı main'den geri okuyup doğrular ve `merge` eder. Alıcı kendi işini merge edemez.
+5. 2 saatten eski `open` maddeleri denetçi (auditor) `overdue` ile yükseltir; `handoff-audit` workflow'u saatlik listeler.
+6. ChatGPT doğrudan yazamıyorsa: bilgi için `knowledge/promotions/*.json`, kod için `intake/chatgpt/*.patch` (bkz. intake/chatgpt/README.md).
+
