@@ -21,6 +21,8 @@ import json
 import os
 import subprocess
 import sys
+import shutil
+from tempfile import TemporaryDirectory
 from pathlib import Path
 from typing import Any
 
@@ -76,7 +78,7 @@ def _gates(doc: dict[str, Any], name: str = "promotion") -> list[str]:
     return gates
 
 
-def apply_promotions(root: Path) -> dict[str, Any]:
+def _apply_promotions_in_place(root: Path) -> dict[str, Any]:
     root = Path(root)
     catalog_path = root / "knowledge" / "source_catalog.json"
     ledger_path = root / "knowledge" / "learning_ledger.json"
@@ -127,6 +129,51 @@ def apply_promotions(root: Path) -> dict[str, Any]:
     report["source_count"] = catalog.validate()
     report["learning_count"] = ledger.validate()
     return report
+
+
+def apply_promotions(root: Path) -> dict[str, Any]:
+    """Validate a complete promotion batch before replacing canonical files.
+
+    SourceCatalog.add and LearningLedger.add persist immediately. Running them
+    against the live files meant a later learning/gate failure could leave a
+    source-only half-promotion behind. Apply the whole batch to an isolated
+    copy first; only a fully validated result is copied back.
+    """
+    root = Path(root)
+    knowledge = root / "knowledge"
+    catalog_path = knowledge / "source_catalog.json"
+    ledger_path = knowledge / "learning_ledger.json"
+    promotions_path = knowledge / "promotions"
+
+    with TemporaryDirectory(prefix="knowledge-promote-") as tmp:
+        staged_root = Path(tmp)
+        staged_knowledge = staged_root / "knowledge"
+        staged_knowledge.mkdir(parents=True)
+        staged_promotions = staged_knowledge / "promotions"
+        if promotions_path.exists():
+            shutil.copytree(promotions_path, staged_promotions)
+        else:
+            staged_promotions.mkdir()
+
+        for live_path in (catalog_path, ledger_path):
+            if live_path.exists():
+                shutil.copy2(live_path, staged_knowledge / live_path.name)
+
+        report = _apply_promotions_in_place(staged_root)
+
+        # Validation and all gates have passed. Replace only canonical files
+        # that exist in the staged result; os.replace keeps each file update
+        # atomic for readers on the same filesystem.
+        for live_path in (catalog_path, ledger_path):
+            staged_path = staged_knowledge / live_path.name
+            if staged_path.exists():
+                live_path.parent.mkdir(parents=True, exist_ok=True)
+                os.replace(staged_path, live_path)
+
+        # Read back the committed pair rather than trusting the staged report.
+        report["source_count"] = SourceCatalog(catalog_path).validate()
+        report["learning_count"] = LearningLedger(ledger_path, catalog_path).validate()
+        return report
 
 
 def _run(cmd: list[str], cwd: Path, check: bool = True) -> subprocess.CompletedProcess[str]:
