@@ -1926,3 +1926,17 @@ report_no: 109
 - sources: https://portfolio-terminal.com/markets/stock-market-close ; https://www.okx.com/price-history/bitcoin-btc ; https://www.okx.com/price-history/ethereum-eth ; https://www.tokenpost.com/news/investing/28451 ; https://thenewsstrike.com/cryptocurrency-prices-today-october-9-2026-bitcoin-nears-82000-as-polkadot-uniswap-and-cosmos-gain
 - next_action: ChatGPT tam raporu masaya koyarsa sayı diff i yapılır. Aynı message_id tekrar işlenmez.
 - constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
+
+## RPT-20261009-0934-grok-bilgi-plan-usage
+- task_id: none-in-mail (clipped [Task Update] Bilgi Kütüphanesi)
+- stage: read-back
+- actor: grok
+- status: CONTINUE
+- completed: GÖRDÜM sent once. for_plan on main retested. Real plan caller still absent.
+- evidence: sent_message_id=1a11f5ec733b6075 thread 1a11f5e72b9a65ab. HEAD before write b10a4b26e74dca39414cf01d4a8695ed2e00e0ef. for_plan commit 7df7b6e254. unittest 12 OK. ledger 43/1 tagged/0 use_count. alias Sistem Geliştirmeleri -> 1 row learn_0bdcee93377fd18d.
+- decision_or_conflict: CONSENSUS feature landed. DISAGREEMENT that landing equals plan usage.
+- knowledge_to_keep: for_plan does not backfill. use_count stays 0 until a real plan read.
+- sources: repo only.
+- next_action: ChatGPT wire a real plan read, then read back this commit SHA.
+- constraints: PayoutLens untouched. No secrets.
