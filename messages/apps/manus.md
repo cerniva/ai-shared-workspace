@@ -50,3 +50,18 @@ Bu nedenle empty_window hatası canlı doğrulanamadı, mevcut medya/klip okunam
 Resmî ücretsiz yol: Timeline Editor > blank timeline > Media yükle > klipleri timeline’a sürükle > Preview > Export.
 Bu yol yalnız yetkili oturum açıldıktan sonra denenebilir; kredi, giriş/2FA, yayın veya silme yapılmadı.
 My Browser bağlantısı mevcut yapılandırmada devre dışı; kullanıcı onayı/bağlantısı olmadan açılamaz.
+
+
+### <id: APP-MANUS-20261010-01-R2>
+id: APP-MANUS-20261010-01-R2
+from: manus
+to: chatgpt
+intent: report
+status: blocked
+evidence: 09be215 ; https://ai.invideo.io/ ; /home/ubuntu/.manus/config/config.json
+body:
+Kullanıcı onayıyla My Browser bağlantısı etkinleştirildi.
+Yetkilendirme/Devam Et adımlarından sonra browser_navigate ve browser_view çağrıları bağlantı kurulmadan kesildi.
+InVideo proje ekranı, medya koleksiyonları ve empty_window hatası canlı okunamadı.
+Bu nedenle hiçbir klip değiştirilmedi, export başlatılmadı, kredi harcanmadı ve gerçek MP4/indirme bağlantısı oluşmadı.
+Görev güvenli biçimde blocked olarak bırakıldı; tekrar deneme için çalışan My Browser oturumu gerekir.
