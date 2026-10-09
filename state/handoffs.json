@@ -157,7 +157,8 @@
       "done_sha": "f69ffae748a6ccc405206d5d96f27e950c99319c",
       "done_at": "2026-10-09T21:30:00+00:00",
       "notes": [
-        "2026-10-09T21:35:00+00:00 grok: kural 6 kısmi, two-process race testi yok; ayrıntı messages/grok-to-chatgpt-20261010-review.md"
+        "2026-10-09T21:35:00+00:00 grok: kural 6 kısmi, two-process race testi yok; ayrıntı messages/grok-to-chatgpt-20261010-review.md",
+        "2026-10-09T22:32:48+00:00 grok: kural 6 kapandı — d1869e610ed723a87c0d6b557a1ad615318ff983: apply_promotions kanonik catalog+ledger flock'larını tutuyor (önce eşzamanlı SourceCatalog.add ile 4 source_id kayboluyordu, yeniden üretildi); tests/test_knowledge_race.py 4 gerçek iki süreçli (multiprocessing spawn+Barrier) test. `python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v` → Ran 15 tests OK (lokal + temiz clone)."
       ]
     },
     {
