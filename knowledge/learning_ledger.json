@@ -295,6 +295,33 @@
       "title": "TRAFFIC_SOURCE_DETAIL_GATE"
     },
     {
+      "claim": "Repository TinyFish analytics summary for Cerno 2026-09-11 through 2026-10-08 reports 5300 views, 9.5 watch hours, +6 subscribers; Mbappe Short 2610 views, airplane window 1219, airplane seat 1122. These are reported snapshots, not independently re-fetched Studio metrics in this run.",
+      "decision": "Run three original 30-second moving-footage concept tests in order: (1) Mbappe sprint mechanics explained without copyrighted broadcast clips; (2) surprising airplane window phenomenon with verified factual explanation; (3) airplane seat hidden feature with original demonstration. Select the next video only after hook/storyboard and licensing QC. Compare engaged views, stayed-to-watch/swiped-away, average view duration, retention and subscribers; do not infer causality from view ranking alone.",
+      "domain": "shorts",
+      "evidence_status": "mixed",
+      "failure_history": [
+        "No direct YouTube Studio TinyFish browser analytics execution in this turn; 5300/2610/1219/1122 figures were read from Grok's committed 2026-10-09 report."
+      ],
+      "fallback_history": [
+        "If fresh Studio metrics unavailable, label conclusions provisional and do not claim retention or swipe-rate improvements."
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "learning_id": "learn_53ca8fb858703eb6",
+      "next_measurement": "Retrieve fresh YouTube Studio per-video engaged views, stayed-to-watch, average percentage viewed, retention curve, and subscriber gains; compare these three concepts with the 2026-09-11 to 2026-10-08 baseline after publication.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "user_reported",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d",
+        "src_59f52b1f650983e4",
+        "src_5e4956b3ee8afc3b"
+      ],
+      "supersedes": null,
+      "title": "Cerno Shorts: football and aviation topic tests from 28-day snapshot"
+    },
+    {
       "claim": "After the 2026-08-27 public view alignment, public views count from the first frame and must not be used as a substitute for engagedViews in quality or monetization comparisons.",
       "decision": "PUBLIC_VS_ENGAGED_VIEW_GATE: use public views for reach/start exposure and engagedViews plus AVD/APV/retention for quality; store metric name and definition date.",
       "domain": "youtube-shorts-analytics",
@@ -1232,5 +1259,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T21:26:35+00:00"
+  "updated_at": "2026-10-09T21:29:23+00:00"
 }
