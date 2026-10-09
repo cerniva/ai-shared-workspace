@@ -55,6 +55,12 @@ jobs:
               raise SystemExit("output_name must be a visible simple .mp4 filename")
           PY
 
+      - name: Load plan learnings
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          python3 scripts/plan_learnings.py video_shopify --out artifacts/plan_learnings.json
+
       - name: Acquire free media and render
         env:
           PACKET: ${{ inputs.packet_path }}
@@ -98,6 +104,7 @@ jobs:
           path: |
             artifacts/${{ inputs.output_name }}
             artifacts/preflight.json
+            artifacts/plan_learnings.json
             artifacts/bundle/provenance.json
             artifacts/bundle/captions.srt
             artifacts/bundle/render.json
