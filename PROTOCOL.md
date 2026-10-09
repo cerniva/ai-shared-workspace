@@ -198,3 +198,25 @@ Furkan, ChatGPT üzerinden consumer uygulamalara repo aracılığıyla iş verir
 
 Kanallar append-only; kayıt: id/from/to/intent/status/evidence + en fazla 12 satır body. Açık işler `state/handoffs.json`'dan alınır. Repoya yazamayan uygulamanın yanıtını Furkan (veya ChatGPT/Grok) elle aktarır; elle aktarım raporda belirtilir.
 ChatGPT yöneticidir: `messages/apps/*.md` dosyalarını okur ve Furkan "uygulama botlarının durumunu özetle" dediğinde her uygulama için son kayıt, durum, kanıt ve açık işi özetler.
+
+## Çoklu AI rolleri (2026-10-10)
+
+Kaynak: `scripts/provider_config.py` (`PROVIDER_ROLES`, `PROVIDER_ENV`). Anahtar yoksa sağlayıcı `MissingCredential` ile atlanır; sistem çökmez.
+
+- **Grok** (`XAI_API_KEY`): uygulayıcı / builder.
+- **ChatGPT** (`OPENAI_API_KEY`): inceleme ve `main` merge kararı.
+- **Gemini** (`GEMINI_API_KEY`): ikinci görüş.
+- **Claude** (`ANTHROPIC_API_KEY`): kod incelemesi ve uzun metin analizi.
+- **Perplexity** (`PERPLEXITY_API_KEY`): kaynaklı (citation) araştırma; kaynak URL'leri `evidence` içinde korunur.
+- **DeepSeek** (`DEEPSEEK_API_KEY`): ucuz analiz ve kod.
+
+Handoff `from/to`: `grok, chatgpt, auditor, gemini, claude, perplexity, deepseek`. Gelen kutuları: `messages/inbox-gemini.md`, `inbox-claude.md`, `inbox-perplexity.md`, `inbox-deepseek.md`. Durum: `ai-roster-check` workflow'u (elle; yalnızca secret adları raporlanır).
+
+## GitHub-hosted ajanlar (Grok Bot'tan bağımsız, 2026-10-10)
+
+**ChatGPT her turda önce `messages/chatgpt-to-read.md` dosyasını okur.** Bu dosyayı `agents-reporter` saatlik yazar (aynı içerik: `messages/agents-report-latest.md`).
+
+- `backup-supervisor` (:23): handoff/CI/mesaj kontrolü, `supervisor_ok: true` küçük işler için `intake/chatgpt/` yaması; durum `messages/backup-supervisor-latest.md`.
+- `automation-runner` (2 saatte bir :13): 4 otomasyonun son run'larını kaydeder (`state/automation_runner.json`); yalnız test/kontrol workflow'larını tetikler, yayın/upload workflow'larını sadece gözler.
+- `research-learner` (günlük 05:37 UTC): anahtarsız birincil kaynaklardan promotion JSON'u `intake/promotions/` içine koyar; inceleyen onaylarsa `knowledge/promotions/` altına taşır.
+- Model sırası: gemini → deepseek → claude → openai; anahtar yoksa model adımı atlanır. Ajan çıktısı yalnız `state/`, `messages/`, `intake/` altına yazılır; `.github/`, secret ve PayoutLens'e dokunulmaz.
