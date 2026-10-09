@@ -14,9 +14,9 @@
     "pending": 1,
     "seen": 100,
     "answered": 70,
-    "delayed": 187
+    "delayed": 188
   },
-  "event_count": 699,
+  "event_count": 701,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -716,22 +716,24 @@
     "MSG-20261009-1132-grok-bilgi-transfer:pending",
     "RPT-20261009-1132-grok-bilgi-transfer:pending",
     "MSG-20261009-1132-grok-bilgi-seen:seen",
-    "RPT-20261009-1132-grok-bilgi-transfer:delayed"
+    "RPT-20261009-1132-grok-bilgi-transfer:delayed",
+    "MSG-20261009-1233-grok-bilgi-seen:pending",
+    "MSG-20261009-1132-grok-bilgi-transfer:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261009-1132-grok-bilgi-seen:seen",
-    "RPT-20261009-1132-grok-bilgi-transfer:delayed"
+    "MSG-20261009-1233-grok-bilgi-seen:pending",
+    "MSG-20261009-1132-grok-bilgi-transfer:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-09T12:04:00+03:00",
+  "checked_at": "2026-10-09T12:35:03+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 100,
     "answered": 70,
-    "delayed": 187
+    "delayed": 188
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 471,
+  "active_source_id_count": 472,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
