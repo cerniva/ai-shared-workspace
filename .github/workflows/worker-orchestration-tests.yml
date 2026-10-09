@@ -30,6 +30,8 @@ on:
       - 'shopify_worker/**'
       - '.github/workflows/**'
       - 'tests/**'
+      - 'scripts/knowledge_promote.py'
+      - 'tests/test_knowledge_*'
       - '.github/workflows/worker-orchestration-tests.yml'
   pull_request:
     paths:
@@ -59,6 +61,8 @@ on:
       - 'shopify_worker/**'
       - '.github/workflows/**'
       - 'tests/**'
+      - 'scripts/knowledge_promote.py'
+      - 'tests/test_knowledge_*'
       - '.github/workflows/worker-orchestration-tests.yml'
   workflow_dispatch:
 
@@ -75,6 +79,9 @@ jobs:
           python-version: '3.12'
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Knowledge integrity and race tests
+        if: ${{ !cancelled() }}
+        run: python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v
       - name: Fail-closed persistence gate
         run: python3 scripts/learning_bridge.py gate FAIL_CLOSED_PERSISTENCE_GATE
       - name: Compile check

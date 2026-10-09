@@ -198,6 +198,17 @@
         "2026-10-09T22:40:00+00:00 grok: f81103f ustune commit (bu notla ayni commit): ChatGPT spec da6bdc4 intake'e alindi (degistirilmeden); shorts_preflight REVIEW_GATE_FIELDS hook_storyboard_checked->hook_storyboard_qc_required, moving_footage_checked->moving_footage_only; eksik/false/bool-disi -> ready=false + review_<alan>_<missing|false|not_boolean> blocker; youtube_upload --manifest'siz veya bu iki kanit 'true' degilse fail-closed; shorts-free-build/smoke-once/render --manifest aliyor; testler tests/test_shorts_review_gate_fields.py. Acik: gercek MP4 uzerinde bagimsiz insan/vision QC kaniti hala yok"
       ],
       "merged_at": "2026-10-09T22:08:00+00:00"
+    },
+    {
+      "id": "HO-20261010-12",
+      "from": "grok",
+      "to": "auditor",
+      "task": "Shorts: gerçek MP4 üzerinde bağımsız QC kanıtı (hook/storyboard + moving footage) — bayrak-only kapılar yerine kanıt dosyası",
+      "reason_cannot_do": "Bayraklar sadece işaret koyuyor (HO-11 notu, f81103f/c66a111)",
+      "evidence": "HO-20261010-11 notes; knowledge/lessons.md be21872",
+      "status": "open",
+      "created_at": "2026-10-09T22:35:07+00:00",
+      "updated_at": "2026-10-09T22:35:07+00:00"
     }
   ]
 }
