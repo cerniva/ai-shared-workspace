@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "HO-07 Finans birincil kaynak doğrulama kapısı",
+      "domain": "finance-news",
+      "claim": "ChatGPT proposed process gate HO-07_FINANCE_PRIMARY_SOURCE on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "evidence_status": "unverified",
+      "decision": "HO-07_FINANCE_PRIMARY_SOURCE: Verify at least one concrete claim from the next Finance report against SEC EDGAR or Federal Reserve primary feed; record claim, URL, publication date, observation time, and verification result. No current claim is asserted verified by this gate.",
+      "outcome": "pending",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0f07369afb96d99f",
+        "src_bf181b2640d372b6"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null,
+      "plan_tags": [
+        "finance"
+      ],
+      "status": "active",
+      "learning_id": "learn_5f961fa5fb9f6388"
+    }
+  ],
+  "gates": [
+    "HO-07_FINANCE_PRIMARY_SOURCE"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "HO-05 Shopify GraphQL alan listesi kapısı",
+      "domain": "shopify-admin-api",
+      "claim": "ChatGPT proposed process gate HO-05_SHOPIFY_GRAPHQL_FIELDS on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "evidence_status": "unverified",
+      "decision": "HO-05_SHOPIFY_GRAPHQL_FIELDS: Request products{id,title,status,variants{price,inventoryItem{unitCost}},metafields}, orders{id,createdAt,totalPriceSet,lineItems{product,variant,quantity,discountedTotalSet},customer{id,numberOfOrders},refunds,fulfillments}, customers{id,ordersCount}, analytics cohort fields only if API access/scopes verified; avoid claiming Shopify Admin GraphQL supports every proposed field without schema introspection.",
+      "outcome": "pending",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_64dbdcaa3ac686c8"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null,
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "learning_id": "learn_961e3256bcf30279"
+    }
+  ],
+  "gates": [
+    "HO-05_SHOPIFY_GRAPHQL_FIELDS"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "HO-06 Gumroad draft-first ürün kapısı",
+      "domain": "gumroad-api",
+      "claim": "ChatGPT proposed process gate HO-06_GUMROAD_DRAFT_FIRST on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "evidence_status": "unverified",
+      "decision": "HO-06_GUMROAD_DRAFT_FIRST: Draft original Turkish food-science digital product (Mutfağın Hammaddeleri sample/checklist); verify rights, payout eligibility, fees, and preview before any publish. No Gumroad connector/account status assumed.",
+      "outcome": "pending",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null,
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "learning_id": "learn_0f6a35b37d68a20a"
+    }
+  ],
+  "gates": [
+    "HO-06_GUMROAD_DRAFT_FIRST"
+  ]
+}

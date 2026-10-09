@@ -19,16 +19,18 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
 try:
-    from knowledge_bridge import CatalogError, SourceCatalog, canonicalize, source_id
+    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
     from learning_bridge import LearningLedger, learning_id, persistence_gate
 except ModuleNotFoundError:  # Imported as scripts.knowledge_promote by tests.
-    from scripts.knowledge_bridge import CatalogError, SourceCatalog, canonicalize, source_id
+    from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
     from scripts.learning_bridge import LearningLedger, learning_id, persistence_gate
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,20 +75,98 @@ def _gates(doc: dict[str, Any], name: str = "promotion") -> list[str]:
         if not isinstance(gate, str) or not gate.strip():
             raise CatalogError(f"{name}: 'validators.gate' must be a non-empty string")
         gates.append(gate)
+    for gate in gates:
+        _assert_safe({"gate": gate})
     return gates
 
 
+PROMOTION_SCHEMA_VERSION = 1
+
+
+def _ids(path: Path, key: str, id_field: str) -> set[str]:
+    if not path.exists():
+        return set()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {row[id_field] for row in data.get(key, []) if isinstance(row, dict) and id_field in row}
+
+
+def _snapshot(catalog_path: Path, ledger_path: Path) -> dict[str, set[str]]:
+    return {
+        "sources": _ids(catalog_path, "sources", "source_id"),
+        "learnings": _ids(ledger_path, "learnings", "learning_id"),
+    }
+
+
+def _check_superset(before: dict[str, set[str]], after: dict[str, set[str]]) -> None:
+    """Integrity rule 3/7: a promotion may only add rows, never drop one."""
+    for kind in ("sources", "learnings"):
+        lost = sorted(before[kind] - after[kind])
+        if lost:
+            raise CatalogError(f"integrity: {kind} would be lost: {', '.join(lost[:5])}")
+
+
+def _atomic_copy(src: Path, dst: Path) -> None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("wb", dir=dst.parent, delete=False, prefix=f".{dst.name}.") as handle:
+        handle.write(src.read_bytes())
+        handle.flush()
+        os.fsync(handle.fileno())
+        tmp = Path(handle.name)
+    os.replace(tmp, dst)
+
+
 def apply_promotions(root: Path) -> dict[str, Any]:
+    """Apply every promotion as one all-or-nothing batch (integrity spec 2026-10-10).
+
+    The whole batch runs first against a scratch copy of the catalog + ledger.
+    Any error (schema, staged id, dangling source, duplicate, secret, missing
+    gate) aborts before the canonical files are touched. Only when the scratch
+    result keeps every existing id is it copied over the canonical files and
+    read back byte-for-byte.
+    """
     root = Path(root)
     catalog_path = root / "knowledge" / "source_catalog.json"
     ledger_path = root / "knowledge" / "learning_ledger.json"
+    before = _snapshot(catalog_path, ledger_path)
+    with tempfile.TemporaryDirectory(prefix="knowledge-promote-") as scratch:
+        work = Path(scratch)
+        work_catalog = work / "source_catalog.json"
+        work_ledger = work / "learning_ledger.json"
+        for real, copy in ((catalog_path, work_catalog), (ledger_path, work_ledger)):
+            if real.exists():
+                shutil.copyfile(real, copy)
+        report = _apply_batch(root / "knowledge" / "promotions", work_catalog, work_ledger)
+        _check_superset(before, _snapshot(work_catalog, work_ledger))
+        changed = []
+        for real, copy in ((catalog_path, work_catalog), (ledger_path, work_ledger)):
+            if copy.exists() and (not real.exists() or real.read_bytes() != copy.read_bytes()):
+                _atomic_copy(copy, real)
+                changed.append(real.name)
+            if copy.exists() and real.read_bytes() != copy.read_bytes():
+                raise CatalogError(f"integrity: read-back mismatch for {real.name}")
+    report["changed_files"] = changed
+    report["source_count"] = SourceCatalog(catalog_path).validate()
+    report["learning_count"] = LearningLedger(ledger_path, catalog_path).validate()
+    if report["source_count"] < len(before["sources"]) or report["learning_count"] < len(before["learnings"]):
+        raise CatalogError("integrity: canonical counts decreased")
+    return report
+
+
+def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) -> dict[str, Any]:
     catalog = SourceCatalog(catalog_path)
     ledger = LearningLedger(ledger_path, catalog_path)
     report: dict[str, Any] = {"files": [], "sources_created": [], "learnings_created": []}
-    for path in sorted((root / "knowledge" / "promotions").glob("*.json")):
-        doc = json.loads(path.read_text(encoding="utf-8"))
+    seen_sources: dict[str, str] = {}
+    seen_learnings: dict[str, str] = {}
+    for path in sorted(promotions_dir.glob("*.json")):
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except ValueError as exc:
+            raise CatalogError(f"{path.name}: malformed JSON: {exc}") from exc
         if not isinstance(doc, dict):
             raise CatalogError(f"{path.name}: promotion must be a JSON object")
+        if "schema_version" in doc and doc["schema_version"] != PROMOTION_SCHEMA_VERSION:
+            raise CatalogError(f"{path.name}: schema_version {doc['schema_version']!r} != {PROMOTION_SCHEMA_VERSION}")
         sources = _items(doc, "source", "sources", path.name)
         learnings = _items(doc, "learning", "learnings", path.name)
         gates = _gates(doc, path.name)
@@ -106,6 +186,18 @@ def apply_promotions(root: Path) -> dict[str, Any]:
                 expected = learning_id(str(item.get("domain") or ""), str(item.get("claim") or ""))
                 if staged != expected:
                     raise CatalogError(f"{path.name}: staged learning_id {staged} != {expected}")
+        # Integrity rule: the same id staged with different content in two
+        # files is ambiguous; fail instead of letting file order pick a winner.
+        for kind, rows, seen, make in (
+            ("source", sources, seen_sources, lambda r: source_id(canonicalize(str(r.get("canonical") or "")))),
+            ("learning", learnings, seen_learnings, lambda r: learning_id(str(r.get("domain") or ""), str(r.get("claim") or ""))),
+        ):
+            for row in rows:
+                key = make(row)
+                body = json.dumps({k: v for k, v in row.items() if k not in ("source_id", "learning_id")}, sort_keys=True, ensure_ascii=False)
+                if key in seen and seen[key] != body:
+                    raise CatalogError(f"{path.name}: duplicate {kind} {key} staged with different content")
+                seen[key] = body
         for src in sources:
             saved, created = catalog.add(src)
             staged = src.get("source_id")
@@ -124,8 +216,8 @@ def apply_promotions(root: Path) -> dict[str, Any]:
         for gate in gates:
             persistence_gate(ledger, gate)
         report["files"].append(path.name)
-    report["source_count"] = catalog.validate()
-    report["learning_count"] = ledger.validate()
+    catalog.validate()
+    ledger.validate()
     return report
 
 

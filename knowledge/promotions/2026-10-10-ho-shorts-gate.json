@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "HO-04 Shorts araştırma paketi kapısı",
+      "domain": "video-shorts-workflow",
+      "claim": "ChatGPT proposed process gate HO-04_SHORTS_RESEARCH_PACKET on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "evidence_status": "unverified",
+      "decision": "HO-04_SHORTS_RESEARCH_PACKET: Verify hook, 30-second moving-footage storyboard, originality, rights, narration/visual alignment and full MP4 QC before publishing; research findings are proposals until actual sources and metrics are verified.",
+      "outcome": "pending",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_ee81f8558675da29"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null,
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "learning_id": "learn_ae8a18babc190373"
+    }
+  ],
+  "gates": [
+    "HO-04_SHORTS_RESEARCH_PACKET"
+  ]
+}
