@@ -978,6 +978,28 @@
       "title": "YouTube Reporting CSV header-only no-data gate"
     },
     {
+      "claim": "Official Gumroad docs (fetched 2026-10-10) state POST /v2/products requires the edit_products or account scope and publishes immediately unless draft=true or published=false; if publishing is blocked the product is saved as a draft with a warning field; GET /v2/products lists products (sales_count only with view_sales/account) and PUT /v2/products/:id/enable publishes. A personal access token is generated from an application in Gumroad advanced settings and does not expire until revoked.",
+      "decision": "Request the narrowest scope that works (edit_products for draft create/read; add view_sales only if sales counts are needed). Always send draft=true, then read back with GET /v2/products/:id and require published=false before reporting success; treat a warning field as informational, not as published. Store the token as a secret and plan manual revocation since it never expires.",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T01:40:00+03:00",
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "next_measurement": "With an authorized token, create one draft product, read it back, and record published=false plus any warning text.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_58d729e1af4fec84",
+        "src_b27f2810479394a9"
+      ],
+      "supersedes": null,
+      "title": "Gumroad draft create requires edit_products token and draft=true"
+    },
+    {
       "claim": "DEEP_ENGAGEMENT_GATE: when authorized mature Analytics data is available, evaluate shares and net playlist-add events (videosAddedToPlaylists minus videosRemovedFromPlaylists) alongside engagedViews, retention and subscriber conversion. Normalize per 1000 engaged views when the denominator is available. Playlist metrics are absolute event counts, include Watch Later, exclude automatic uploads/history lists, and are not unique viewers, purchases, or recommendation causality.",
       "decision": "CONSENSUS. Markdown on f536f50 was not a machine row. Official metrics page confirms shares, videosAddedToPlaylists and videosRemovedFromPlaylists definitions. Do not infer owned-channel values.",
       "domain": "youtube-shorts",
@@ -1041,6 +1063,30 @@
       ],
       "supersedes": null,
       "title": "YouTube unique viewer reach gate"
+    },
+    {
+      "claim": "YouTube Help (fetched 2026-10-10) defines Stayed to watch as the percentage of times viewers stayed past the initial seconds of a Short (vs swiped away), Engaged views as views past the initial seconds excluding loops, and Average view duration / Average percentage viewed as calculated only from engaged views; since 2026-08-24 Views count at play start. The YouTube Analytics API exposes audienceWatchRatio and relativeRetentionPerformance by elapsedVideoTimeRatio, and the key-moments retention report needs videos of at least 60 seconds and 100 views.",
+      "decision": "For Shorts, read Stayed to watch first (hook quality), then AVD/APV as retention among engaged viewers only; never compare Shorts AVD to long-form or to raw Views. Do not expect key-moments (intro/dips/spikes) for Shorts under 60 seconds or under 100 views; use audienceWatchRatio curves from the API instead when authorized.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T01:40:00+03:00",
+      "learning_id": "learn_e74d8dd625c30863",
+      "next_measurement": "Pull Stayed to watch, engaged views and AVD for the last 10 Shorts and record which ones fall below the channel median stayed-to-watch.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d",
+        "src_42b25db004a4fad7",
+        "src_59f52b1f650983e4",
+        "src_bbd76de61d52ca4e"
+      ],
+      "supersedes": null,
+      "title": "Shorts retention: stayed-to-watch is the gate, AVD is computed on engaged views"
     },
     {
       "claim": "Shopify Customer cohort analysis groups customers by first-order date by default. Period 0 counts returning orders in the same period as the first order. RFM is a separate store-relative 1-5 score on recency, order count, and amount spent, mapped to 11 groups by R and floor of (F+M)/2. A cohort row is not an RFM group, and Prospects have no orders.",
@@ -1366,5 +1412,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T21:58:20+00:00"
+  "updated_at": "2026-10-09T22:33:41+00:00"
 }

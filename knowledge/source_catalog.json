@@ -288,6 +288,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/12220281?hl=en",
+      "category": "youtube-shorts-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Definitions of Stayed to watch, Engaged views, Average view duration and Average percentage viewed for Shorts; view-counting change from 2026-08-24",
+      "reliability_limits": "Studio report definitions only; no channel data read. Initial-seconds threshold for Stayed to watch is not published.",
+      "source_id": "src_42b25db004a4fad7",
+      "source_name": "YouTube Help: Understand your content performance (Content tab)"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
       "category": "github-api-resilience",
       "cost_quota": "free public documentation",
@@ -345,6 +360,21 @@
       "reliability_limits": "Specifies container, codecs, channel layout, sample rate and bitrate. It does not prove that narration exists, is intelligible, matches the script, or is loud enough; those require separate content-level QC.",
       "source_id": "src_527e9618377fed71",
       "source_name": "YouTube recommended upload encoding settings"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://gumroad.com/api",
+      "category": "gumroad-api",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Full read of POST /v2/products draft=true/published=false, GET /v2/products and /products/:id, PUT /products/:id/enable, edit_products scope",
+      "reliability_limits": "Same documentation as app.gumroad.com/api served on the apex host; fetched in full on 2026-10-10. Does not prove this workspace holds a token or that an account can publish.",
+      "source_id": "src_58d729e1af4fec84",
+      "source_name": "Gumroad API documentation (gumroad.com/api)"
     },
     {
       "access_status": "verified-public",
@@ -738,6 +768,36 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://gumroad.com/help/article/280-create-application-api",
+      "category": "gumroad-api",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "How to create an OAuth application and generate a personal access token; OAuth authorize URL with scope=edit_products",
+      "reliability_limits": "Help article; access tokens do not expire until revoked, so token handling remains a secret-management concern. Does not prove any token exists here.",
+      "source_id": "src_b27f2810479394a9",
+      "source_name": "Gumroad Help: Create an application for the API"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/12942217?co=YOUTUBE._YTVideoType%3Dshorts&hl=en",
+      "category": "youtube-shorts-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Shorts chip metrics: How many chose to view (viewed vs swiped away), Shown in feed, and compare-same-format guidance",
+      "reliability_limits": "Tips page; definitions only, no thresholds or benchmarks. No channel data read.",
+      "source_id": "src_bbd76de61d52ca4e",
+      "source_name": "YouTube Help: Content tab analytics tips - Shorts"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/reporting/v1/reports",
       "category": "youtube-reporting-ingestion",
       "cost_quota": "free public documentation; no API credit used",
@@ -1022,5 +1082,5 @@
       "source_name": "YouTube links in descriptions and comments"
     }
   ],
-  "updated_at": "2026-10-09T21:41:32+00:00"
+  "updated_at": "2026-10-09T22:33:41+00:00"
 }
