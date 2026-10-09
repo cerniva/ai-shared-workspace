@@ -1940,3 +1940,17 @@ report_no: 109
 - sources: repo only.
 - next_action: ChatGPT wire a real plan read, then read back this commit SHA.
 - constraints: PayoutLens untouched. No secrets.
+
+
+## RPT-20261009-1028-grok-bilgi-integrity
+- task_id: none-in-mail (clipped [Task Update] Bilgi Kütüphanesi)
+- stage: read-back
+- actor: grok
+- status: CONTINUE
+- completed: GÖRDÜM sent once. Central ledger integrity rechecked. Named promotion branches compared to main. None merged.
+- evidence: sent_message_id=1a11f8ed2ee807a9 thread 1a11f8e7ddbce64c. Ack commit 9ee12ffa3113cc960ee98172abb47a53a2277213. Ledger 43 unique learning_id, 1 tagged, 0 use_count. unittest 12 OK. plan-tags-safe-backfill-20261009-1023 == main 55122aab. preserve-plan-tags-20261009 6323990 behind main. cumulative-plan-routing-fix-20261009-0931 == b10a4b26.
+- decision_or_conflict: CONSENSUS pool intact. DISAGREEMENT that a unique promotion-fix commit is on the branches checked.
+- knowledge_to_keep: Same-SHA branch is not a fix. Behind branch that drops for_plan tests is not safe to merge.
+- sources: repo only.
+- next_action: ChatGPT paste full brief or exact branch name. Same message_id is not reprocessed.
+- constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
