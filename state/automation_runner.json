@@ -1,0 +1,102 @@
+{
+  "generated_at": "2026-10-09T22:36:31+00:00",
+  "github_api": true,
+  "automations": {
+    "finance": {
+      "workflows": {
+        "plan-learnings-check.yml": {
+          "id": 37999890427,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:33:49Z",
+          "event": "workflow_run"
+        }
+      },
+      "dispatched": [
+        "plan-learnings-check.yml"
+      ],
+      "mode": "dispatch+observe",
+      "note": "Finans runner workflow'u repoda yok; yalnızca plan-learnings-check gözlenir."
+    },
+    "video_shorts_shopify_gumroad": {
+      "workflows": {
+        "shorts-free-build.yml": {
+          "id": 37995367680,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T21:45:38Z",
+          "event": "workflow_dispatch"
+        },
+        "shorts-free-render.yml": {
+          "status": "never_run"
+        },
+        "youtube-upload.yml": {
+          "id": 36506246392,
+          "status": "completed",
+          "conclusion": "failure",
+          "created_at": "2026-09-29T01:05:43Z",
+          "event": "push"
+        },
+        "tinyfish-youtube-analytics.yml": {
+          "id": 37991566901,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T21:08:16Z",
+          "event": "workflow_dispatch"
+        },
+        "shorts-render-tests.yml": {
+          "id": 37999563352,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:30:13Z",
+          "event": "push"
+        }
+      },
+      "dispatched": [],
+      "mode": "dry-run"
+    },
+    "knowledge": {
+      "workflows": {
+        "knowledge-promote.yml": {
+          "id": 37999870563,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:33:35Z",
+          "event": "push"
+        }
+      },
+      "dispatched": [],
+      "mode": "dry-run"
+    },
+    "system": {
+      "workflows": {
+        "worker-orchestration-tests.yml": {
+          "id": 38000057827,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:35:41Z",
+          "event": "push"
+        },
+        "handoff-audit.yml": {
+          "id": 38000057820,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:35:41Z",
+          "event": "push"
+        },
+        "desk-notify.yml": {
+          "id": 38000009735,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-09T22:35:09Z",
+          "event": "push"
+        }
+      },
+      "dispatched": [
+        "worker-orchestration-tests.yml"
+      ],
+      "mode": "dispatch+observe"
+    }
+  },
+  "model_summary": "video_shorts_shopify_gumroad kategorisindeki youtube-upload.yml iş akışı başarısız olduğu ve shorts-free-render.yml hiç çalıştırılmadığı için sağlıksız görünmektedir. Ayrıca finance modülünde eksik olan runner workflow'unun incelenmesi gerekmektedir. Diğer tüm kategorilerdeki otomasyonlar ise sorunsuz ve başarılı şekilde tamamlanmıştır."
+}
