@@ -1,0 +1,65 @@
+{
+  "sources": [
+    {
+      "access_status": "verified-public",
+      "canonical": "https://app.gumroad.com/api",
+      "category": "gumroad-api",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-09T20:55:00+00:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-09T20:55:00+00:00",
+      "provenance": "verified",
+      "purpose": "Products, files and public product JSON for a Gumroad automation",
+      "reliability_limits": "Fetched page was truncated after variants; sales/webhook sections need a separate read.",
+      "source_id": "src_0c18ae9733064295",
+      "source_name": "Gumroad API documentation"
+    }
+  ],
+  "learnings": [
+    {
+      "claim": "The official Gumroad API docs (fetched 2026-10-09) state that POST /v2/products publishes the product immediately unless draft=true or published=false, that PUT /v2/products/:id with files, tags or rich_content replaces the whole collection (omitted files are deleted), and that /v2/files/complete must not be retried because an upload_id works only once.",
+      "decision": "GUMROAD_DRAFT_FIRST_GATE: any automated product create must send draft=true and wait for Furkan's approval before PUT /enable; product updates must resend every existing file id+url or omit files entirely; on a lost /files/complete response restart from /files/presign, never retry complete.",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "Without an OAuth token use the unauthenticated public /l/:permalink.json endpoint for read-only price/rating monitoring."
+      ],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_f5624ca54a31e57c",
+      "next_measurement": "When a Gumroad token exists, create one draft product and read it back to confirm published=false before any further automation.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "supersedes": null,
+      "title": "Gumroad create publishes immediately and PUT files replaces all"
+    },
+    {
+      "claim": "The official Gumroad API docs (fetched 2026-10-09) describe GET https://[seller].gumroad.com/l/:permalink.json as a public endpoint needing no authentication that returns display data (price_cents, ratings, is_published, options) and never seller-private or analytics fields; sales_count is null unless the creator shows it.",
+      "decision": "GUMROAD_PUBLIC_MONITOR_PATH: read-only monitoring of a published product can start now via the public .json endpoint without secrets; do not infer sales from it (sales_count null means hidden, not zero).",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-09T20:55:00+00:00",
+      "learning_id": "learn_f8b789fc9f6f97f8",
+      "next_measurement": "Pick one live product permalink from Furkan and record a daily price/rating snapshot.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "supersedes": null,
+      "title": "Gumroad public product JSON needs no auth"
+    }
+  ]
+}
