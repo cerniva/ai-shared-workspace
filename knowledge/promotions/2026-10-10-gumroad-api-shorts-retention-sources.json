@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "access_status": "verified-public",
+      "canonical": "https://gumroad.com/api",
+      "category": "gumroad-api",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Full read of POST /v2/products draft=true/published=false, GET /v2/products and /products/:id, PUT /products/:id/enable, edit_products scope",
+      "reliability_limits": "Same documentation as app.gumroad.com/api served on the apex host; fetched in full on 2026-10-10. Does not prove this workspace holds a token or that an account can publish.",
+      "source_id": "src_58d729e1af4fec84",
+      "source_name": "Gumroad API documentation (gumroad.com/api)"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://gumroad.com/help/article/280-create-application-api",
+      "category": "gumroad-api",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "How to create an OAuth application and generate a personal access token; OAuth authorize URL with scope=edit_products",
+      "reliability_limits": "Help article; access tokens do not expire until revoked, so token handling remains a secret-management concern. Does not prove any token exists here.",
+      "source_id": "src_b27f2810479394a9",
+      "source_name": "Gumroad Help: Create an application for the API"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/12220281?hl=en",
+      "category": "youtube-shorts-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Definitions of Stayed to watch, Engaged views, Average view duration and Average percentage viewed for Shorts; view-counting change from 2026-08-24",
+      "reliability_limits": "Studio report definitions only; no channel data read. Initial-seconds threshold for Stayed to watch is not published.",
+      "source_id": "src_42b25db004a4fad7",
+      "source_name": "YouTube Help: Understand your content performance (Content tab)"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/12942217?co=YOUTUBE._YTVideoType%3Dshorts&hl=en",
+      "category": "youtube-shorts-analytics",
+      "cost_quota": "free public documentation; no API credit used",
+      "discovered_at": "2026-10-10T01:40:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T01:40:00+03:00",
+      "provenance": "verified",
+      "purpose": "Shorts chip metrics: How many chose to view (viewed vs swiped away), Shown in feed, and compare-same-format guidance",
+      "reliability_limits": "Tips page; definitions only, no thresholds or benchmarks. No channel data read.",
+      "source_id": "src_bbd76de61d52ca4e",
+      "source_name": "YouTube Help: Content tab analytics tips - Shorts"
+    }
+  ],
+  "learnings": [
+    {
+      "claim": "Official Gumroad docs (fetched 2026-10-10) state POST /v2/products requires the edit_products or account scope and publishes immediately unless draft=true or published=false; if publishing is blocked the product is saved as a draft with a warning field; GET /v2/products lists products (sales_count only with view_sales/account) and PUT /v2/products/:id/enable publishes. A personal access token is generated from an application in Gumroad advanced settings and does not expire until revoked.",
+      "decision": "Request the narrowest scope that works (edit_products for draft create/read; add view_sales only if sales counts are needed). Always send draft=true, then read back with GET /v2/products/:id and require published=false before reporting success; treat a warning field as informational, not as published. Store the token as a secret and plan manual revocation since it never expires.",
+      "domain": "gumroad-api",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T01:40:00+03:00",
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "next_measurement": "With an authorized token, create one draft product, read it back, and record published=false plus any warning text.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_58d729e1af4fec84",
+        "src_b27f2810479394a9"
+      ],
+      "supersedes": null,
+      "title": "Gumroad draft create requires edit_products token and draft=true"
+    },
+    {
+      "claim": "YouTube Help (fetched 2026-10-10) defines Stayed to watch as the percentage of times viewers stayed past the initial seconds of a Short (vs swiped away), Engaged views as views past the initial seconds excluding loops, and Average view duration / Average percentage viewed as calculated only from engaged views; since 2026-08-24 Views count at play start. The YouTube Analytics API exposes audienceWatchRatio and relativeRetentionPerformance by elapsedVideoTimeRatio, and the key-moments retention report needs videos of at least 60 seconds and 100 views.",
+      "decision": "For Shorts, read Stayed to watch first (hook quality), then AVD/APV as retention among engaged viewers only; never compare Shorts AVD to long-form or to raw Views. Do not expect key-moments (intro/dips/spikes) for Shorts under 60 seconds or under 100 views; use audienceWatchRatio curves from the API instead when authorized.",
+      "domain": "youtube-shorts-analytics",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T01:40:00+03:00",
+      "learning_id": "learn_e74d8dd625c30863",
+      "next_measurement": "Pull Stayed to watch, engaged views and AVD for the last 10 Shorts and record which ones fall below the channel median stayed-to-watch.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_42b25db004a4fad7",
+        "src_bbd76de61d52ca4e",
+        "src_41dbc8ec4da31e1d",
+        "src_59f52b1f650983e4"
+      ],
+      "supersedes": null,
+      "title": "Shorts retention: stayed-to-watch is the gate, AVD is computed on engaged views"
+    }
+  ]
+}
