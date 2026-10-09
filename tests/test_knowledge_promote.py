@@ -84,8 +84,19 @@ class KnowledgePromoteTests(unittest.TestCase):
 
     def test_staged_id_mismatch_fails_closed(self) -> None:
         self.stage({"source": SOURCE, "learning": dict(learning(self.sid), learning_id="learn_wrong")})
+        before = self.catalog.read_bytes()
         with self.assertRaises(CatalogError):
             apply_promotions(self.root)
+        self.assertEqual(before, self.catalog.read_bytes())
+        self.assertFalse(self.ledger.exists())
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+
+    def test_source_id_mismatch_does_not_write(self) -> None:
+        self.stage({"source": dict(SOURCE, source_id="src_wrong")})
+        before = self.catalog.read_bytes()
+        with self.assertRaises(CatalogError):
+            apply_promotions(self.root)
+        self.assertEqual(before, self.catalog.read_bytes())
 
     def test_learning_with_unknown_source_fails_closed(self) -> None:
         self.stage({"learning": learning("src_doesnotexist000")})
