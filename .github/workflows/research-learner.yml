@@ -1,0 +1,48 @@
+name: research-learner
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 5 * * *'
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Run agent (model step skipped cleanly if no provider key)
+        run: python3 -m scripts.github_agents research-learner
+      - name: Persist agent output only
+        shell: bash
+        run: |
+          git add -A -- state/research_learner.json intake/promotions 2>/dev/null || true
+          # Guard: agent output may only land in these paths (never .github/, PayoutLens or code).
+          if git diff --cached --name-only | grep -vE '^(state/research_learner\.json|intake/promotions/[0-9-]+-research-learner-[a-z_]+\.json)$'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "research-learner-bot"
+          git config user.email "research-learner-bot@users.noreply.github.com"
+          git commit -m "research-learner: agent output"
+          git pull --rebase origin main
+          git push origin HEAD:main
