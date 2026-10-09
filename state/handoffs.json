@@ -93,6 +93,17 @@
       "status": "open",
       "created_at": "2026-10-09T20:50:00+00:00",
       "updated_at": "2026-10-09T20:50:00+00:00"
+    },
+    {
+      "id": "HO-20261009-08",
+      "from": "grok",
+      "to": "auditor",
+      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları; TinyFish analytics için YouTube/Google'a giriş yapılmış Browser Context Profile id'si (TINYFISH_YOUTUBE_PROFILE_ID, repo variable veya secret) ve TINYFISH_API_KEY'in hâlâ geçerli olduğunun teyidi",
+      "reason_cannot_do": "Secret/giriş yalnız Furkan'da; TinyFish Agent API runner'daki MP4'ü tarayıcıya aktaramaz, upload yalnız YouTube Data API ile",
+      "evidence": "scripts/tinyfish_youtube.py upload-route => blocked (missing YOUTUBE_*); https://docs.tinyfish.ai/agent-api/reference use_profile/profile_id",
+      "status": "open",
+      "created_at": "2026-10-09T20:59:40+00:00",
+      "updated_at": "2026-10-09T20:59:40+00:00"
     }
   ]
 }

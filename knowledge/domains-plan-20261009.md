@@ -15,5 +15,10 @@ Kaynak: cerniva/ai-shared-workspace main, Grok envanteri 23:55 TRT. PayoutLens k
 | Gumroad | Repoda hiçbir şey yok (kod, workflow, mail yok). | Hesap/ürün/token bilinmiyor. | 2 öğrenme: draft-first, files tam değiştirme, public .json izleme. | Token olmadan public `/l/<permalink>.json` ile salt-okur izleme. | ChatGPT (ürün fikri/metin), Grok (izleyici script) | Furkan bir ürün permalink'i verirse günlük fiyat/puan anlık görüntüsü. |
 | Finans haberleri | Saatlik ChatGPT "[Task Update] Finans" mailleri (6–9 Ekim), `projects/finance/tcmb_fx.py`, `knowledge/finance_runtime_state.json`. | Mail önizlemeleri kesik; ikincil kaynaklara (Investing.com bülteni) dayanma; finans için plan etiketli öğrenme 0'dı. | 2 öğrenme: SEC EDGAR keysiz API + 10 req/s, Fed RSS. | EDGAR Latest Filings RSS, federalreserve.gov newsevents. | ChatGPT (günlük mail), Grok (kaynak doğrulama) | Bir sonraki Finans mailinde 1 iddiayı data.sec.gov/Fed feed ile doğrula. |
 
+## TinyFish (Furkan: YouTube/Google bağlı)
+- TinyFish = barındırılan web ajanı (agent.tinyfish.ai, secret adı `TINYFISH_API_KEY`; `tinyfish-senses` ve `tinyfish-event-bridge` kullanıyor, Eylül smoke'ları başarılı). "Bağlı hesap" = YouTube/Google'a giriş yapılmış Browser Context Profile; çağrıda `use_profile: true` (+ isteğe bağlı `profile_id`).
+- `scripts/tinyfish_youtube.py`: `analytics` YouTube Studio'dan salt-okur kanal analitiği (varsayılan dry-run, `--execute` ile çalışır, profil id `TINYFISH_YOUTUBE_PROFILE_ID`). `upload-route`: YOUTUBE_* OAuth varsa `youtube_api`, yoksa `blocked` (TinyFish Agent API runner'daki MP4'ü tarayıcıya aktaramaz; tarayıcıyla yayın PROTOCOL'de yasak). Gizlilik yalnız private/unlisted.
+- Google (Sheets/Drive/Search) aynı profil ile salt-okur sayfa okuma olarak mümkün; finans için birincil kaynak SEC/Fed API'leri tercih edilir. Handoff: HO-20261009-08.
+
 ## Yalnız Furkan'ın açabileceği
 YouTube OAuth secret'ları, Pexels/Pixabay anahtarları, Shopify mağaza kimlik bilgileri, Gumroad hesabı/token'ı ve ürün listesi. Ajanlar secret istemez/kullanmaz.
