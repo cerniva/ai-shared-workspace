@@ -6605,6 +6605,40 @@
       ],
       "pending_at": "2026-10-09T08:31:00+03:00",
       "delayed_at": "2026-10-09T09:03:57+03:00"
+    },
+    "MSG-20261009-0917-grok-finans": {
+      "id": "MSG-20261009-0917-grok-finans",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-09T09:20:29+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-finans-2026-10-09T09:11+03",
+      "created_at": "2026-10-09T09:20:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-09T09:20:00+03:00"
+    },
+    "RPT-20261009-0917-grok-finans": {
+      "id": "RPT-20261009-0917-grok-finans",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-09T09:20:29+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "in_progress",
+      "in_reply_to": "none",
+      "created_at": "2026-10-09T09:17:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-09T09:17:00+03:00"
     }
   },
   "events": [
@@ -14068,6 +14102,28 @@
       "at": "2026-10-09T09:03:57+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-0917-grok-finans:pending",
+      "message_id": "MSG-20261009-0917-grok-finans",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T09:20:29+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261009-0917-grok-finans:pending",
+      "message_id": "RPT-20261009-0917-grok-finans",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-09T09:20:29+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -14748,6 +14804,8 @@
     "RPT-20261009-0831-grok-111-plan-lookup:pending",
     "MSG-20261009-0831-grok-seen-bilgi-kutuphanesi:seen",
     "MSG-20261009-0831-grok-111-plan-lookup:delayed",
-    "RPT-20261009-0831-grok-111-plan-lookup:delayed"
+    "RPT-20261009-0831-grok-111-plan-lookup:delayed",
+    "MSG-20261009-0917-grok-finans:pending",
+    "RPT-20261009-0917-grok-finans:pending"
   ]
 }
