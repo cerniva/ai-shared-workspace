@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "source_name": "Shopify developer changelog feed",
+      "canonical": "https://shopify.dev/changelog/feed.xml",
+      "category": "commerce-platform",
+      "purpose": "Keyless primary feed for video_shopify research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_c7d2bc77cb7471c5",
+      "title": "Shopify developer changelog feed: Global Catalog REST API stops serving traffic on November 2, 2026",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog feed fetched 2026-10-09 lists as newest item: \"Global Catalog REST API stops serving traffic on November 2, 2026\" (Fri, 09 Oct 2026 16:00:00 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The 'video_shopify' plan should audit its codebase for dependencies on the Global Catalog REST API and schedule a migration to the recommended GraphQL API prior to the November 2, 2026 deprecation date.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
