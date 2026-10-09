@@ -1,0 +1,67 @@
+{
+  "id": "SHORT-ONION-001",
+  "topic": "Soğan Neden Ağlatır?",
+  "why_selected": "30 saniyelik bilim açıklaması, gerçek hareketli soğan kesme görüntüleriyle anlatılabilir; düşük maliyetli özgün kısa video",
+  "trend_or_evergreen": "evergreen",
+  "hook": "Soğanı kesince neden gözlerinden yaş geliyor?",
+  "target_seconds": 30,
+  "sources": [
+    "https://www.acs.org/pressroom/presspacs/2022/acs-presspac-june-22-2022/why-onions-make-you-cry.html",
+    "https://www.loc.gov/everyday-mysteries/food-and-nutrition/item/why-do-onions-make-you-cry/"
+  ],
+  "unique_angle": "Hücrelerin parçalanmasıyla oluşan uçucu tahriş edicinin gözyaşı refleksini nasıl başlattığını gündelik mutfak görüntüsüyle açıklama",
+  "script_beats": [
+    "0-3s: yakın plan kesilen soğan ve soru",
+    "3-10s: soğanın hücreleri kesilir, içindeki maddeler karışır",
+    "10-18s: kimyasal tepkimeyle uçucu tahriş edici madde açığa çıkar",
+    "18-25s: madde göze ulaşınca koruyucu gözyaşı refleksi tetiklenir",
+    "25-30s: gözyaşının koruyucu işlevi ve son vurgu"
+  ],
+  "visual_plan": [
+    "Dikey kadraja uygun gerçek hareketli soğan kesme yakın planı",
+    "Gerçek hareketli bıçak/soğan kesim detayı; anlatımdaki kimyasal aşama için özgün altyazı/grafik",
+    "Gerçek hareketli mutfak görüntüsü ve gözyaşı refleksini açıklayan özgün yazı; ücretli/iStock klip yok"
+  ],
+  "audio_plan": "Özgün Türkçe anlatım; yerel espeak-ng yalnız ücretsiz teknik taslak sesidir, doğal ses kalitesi yayın öncesi ayrıca değerlendirilmeli",
+  "title": "Soğan Neden Ağlatır? 30 Saniyede Bilim",
+  "hashtags": [
+    "#shorts",
+    "#soğan",
+    "#bilim",
+    "#mutfak"
+  ],
+  "prepublish_checklist": {
+    "facts_verified": true,
+    "sources_reliable": true,
+    "strong_first_2s": true,
+    "no_empty_intro": true,
+    "audio_planned": true,
+    "portrait_9_16_planned": true,
+    "not_previously_published": true,
+    "title_matches": true,
+    "rights_ok": true,
+    "publishable_quality_planned": true
+  },
+  "free_render_requested": true,
+  "render_requested": false,
+  "language": "tr",
+  "content_type": "short_fact",
+  "narration_speed": 165,
+  "narration_text": "Soğan keserken neden ağlarız? Bıçak soğanın hücrelerini parçalar. İçlerindeki maddeler birbirine karışınca, gözleri tahriş eden uçucu bir kimyasal oluşur. Bu madde havaya karışıp gözümüze ulaşır. Gözlerimiz de onu uzaklaştırmak için daha fazla gözyaşı üretir. Yani soğan yüzünden ağlamak, aslında gözlerimizin kendini koruma yoludur.",
+  "media_queries": [
+    "onion cutting close up kitchen vertical video",
+    "chopping onion on cutting board close up video",
+    "slicing onion macro kitchen video"
+  ],
+  "production_notes": {
+    "scope": "render_only_no_upload",
+    "media_rights": "Only select free-license verified Pexels/Pixabay assets at acquisition; fail closed if unavailable",
+    "sources_status": "ACS press pac URL returned HTTP 200 on 2026-10-10; LOC URL returned 403 to automated fetch (unverified, not confirmed dead). Facts are the widely documented syn-propanethial-S-oxide mechanism; human fact check still required before publish.",
+    "review_status": "Checklist indicates production plan only, not final MP4 QC approval",
+    "voice_note": "espeak-ng may fail natural voice quality; do not publish without human QA",
+    "license_status": "unverified: per-asset Pexels/Pixabay license captured in provenance.json at acquisition; human rights check required before any publish",
+    "render_requested_note": "render_requested kept false: shorts_research.gate_packet blocks render_requested=true (render_requested_before_gate). free_render_requested=true is the render-only flag."
+  },
+  "source_handoff": "HO-20261010-14",
+  "source_commit": "63819c1d471227df131482408b1996353051cea3"
+}
