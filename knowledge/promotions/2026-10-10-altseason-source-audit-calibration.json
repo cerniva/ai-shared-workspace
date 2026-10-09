@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "Altseason 10 indicators: free keyless source audit and 2020-2025 calibration protocol",
+      "domain": "finance",
+      "claim": "Ten candidate public URLs are documented with keyless availability caveats. Public URL does not imply complete 2020-2025 coverage. CoinGecko global current data cannot prove historical dominance or TOTAL3; Binance OI history is restricted to recent history; exact historical DXY and daily Altseason Index archives remain unverified.",
+      "evidence_status": "mixed",
+      "provenance": "unverified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "decision": "No invented 0-100 values. For each indicator: reconstruct UTC daily x, freeze train-only lo=p20 and hi=p80 of preceding 730 daily observations (>=500 valid; at least 80% daily coverage), update only at quarterly walk-forward boundaries; monotonic up score=100*clip((x-lo)/(hi-lo)); down=100*clip((hi-x)/(hi-lo)). Index and breadth have natural 0/100 limits. If p20>=p80, unavailable history, or data lookahead risk, output N/A. Funding/OI requires historical OI and validated two-tail shape; N/A meanwhile. Hold out rolling next 90 days, every 90 days, from 2020-2025; do not calculate early folds lacking 730 days. Compare p10/p90 vs p20/p80 on train only, freeze choice before test. Prevent survivorship, data leakage, mixed providers, and unstable symbols.",
+      "next_measurement": "Fetch URLs without secrets, archive source responses and daily coverage by year, establish valid as_of, then run 730d/90d walk-forward with baseline and report false alarms, precision/recall, and coverage. Any unverified endpoint/period remains blocked.",
+      "source_ids": [
+        "src_6c5b905f2e76e38d",
+        "src_a92d291d920ba68f",
+        "src_dac10ff92b48ce0e",
+        "src_9bf84a2b744734a7"
+      ],
+      "failure_history": [
+        "No 2020-2025 full raw history downloaded or backtest run in this task.",
+        "No verified keyless 2020-2025 series for exact DXY, daily Altseason Index, full-market BTC dominance/TOTAL3, and historical OI.",
+        "Grok 2026-10-10 URL check: stooq dx.f returned HTML not CSV; FRED fredgraph.csv timed out from Grok box; Binance fapi fundingRate/openInterestHist HTTP 451 (restricted location) from Grok box. Indicator list/directions moved to config/altcoin_panel_calibration.json."
+      ],
+      "fallback_history": [
+        "If full historical series cannot be obtained, retain N/A rather than interpolate or fabricate a score."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_name": "www.blockchaincenter.net (altseason input)",
+      "canonical": "https://www.blockchaincenter.net/en/altcoin-season-index/",
+      "category": "finance-crypto-data",
+      "purpose": "Altseason panel candidate input",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public, rate-limited",
+      "reliability_limits": "200 (HTML page; daily archive not verified); 2020-2025 coverage not verified",
+      "provenance": "verified",
+      "discovered_at": "2026-10-10T00:45:00+03:00",
+      "last_successful_use": "2026-10-10T00:45:00+03:00",
+      "failure_note": null,
+      "source_id": "src_6c5b905f2e76e38d"
+    },
+    {
+      "source_name": "api.coingecko.com (altseason input)",
+      "canonical": "https://api.coingecko.com/api/v3/global",
+      "category": "finance-crypto-data",
+      "purpose": "Altseason panel candidate input",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public, rate-limited",
+      "reliability_limits": "200 JSON (current snapshot only); 2020-2025 coverage not verified",
+      "provenance": "verified",
+      "discovered_at": "2026-10-10T00:45:00+03:00",
+      "last_successful_use": "2026-10-10T00:45:00+03:00",
+      "failure_note": null,
+      "source_id": "src_a92d291d920ba68f"
+    },
+    {
+      "source_name": "data.binance.vision (altseason input)",
+      "canonical": "https://data.binance.vision/?prefix=data/spot/daily/klines/ETHBTC/1d/",
+      "category": "finance-crypto-data",
+      "purpose": "Altseason panel candidate input",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public, rate-limited",
+      "reliability_limits": "200 HTML listing page; 2020-2025 coverage not verified",
+      "provenance": "verified",
+      "discovered_at": "2026-10-10T00:45:00+03:00",
+      "last_successful_use": "2026-10-10T00:45:00+03:00",
+      "failure_note": null,
+      "source_id": "src_dac10ff92b48ce0e"
+    },
+    {
+      "source_name": "stablecoins.llama.fi (altseason input)",
+      "canonical": "https://stablecoins.llama.fi/stablecoincharts/all",
+      "category": "finance-crypto-data",
+      "purpose": "Altseason panel candidate input",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public, rate-limited",
+      "reliability_limits": "200 JSON from 2017-11-29; 2020-2025 coverage not verified",
+      "provenance": "verified",
+      "discovered_at": "2026-10-10T00:45:00+03:00",
+      "last_successful_use": "2026-10-10T00:45:00+03:00",
+      "failure_note": null,
+      "source_id": "src_9bf84a2b744734a7"
+    }
+  ]
+}

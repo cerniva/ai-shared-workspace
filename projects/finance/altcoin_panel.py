@@ -131,3 +131,61 @@ def panel(coin: str, source: Series, calibrations: dict[str, dict[str, Any]] | N
     scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
     composite = round(sum(scored) / len(scored), 1) if len(scored) == len(rows) else "N/A"
     return {"coin": coin, "status": "OK", "days": MIN_DAYS, "indicators": rows, "composite_score": composite}
+
+
+# --- Altseason regime panel (ChatGPT 9955ad3 indicator list) -------------------
+# Indicators, sources and directions live in config/altcoin_panel_calibration.json.
+# lo/hi come only from train-only p20/p80 of the preceding 730 daily values (or
+# natural 0/100 bounds); a score is produced only for indicators marked validated.
+
+from pathlib import Path as _Path
+
+CALIBRATION_CONFIG = _Path(__file__).resolve().parents[2] / "config" / "altcoin_panel_calibration.json"
+
+
+def load_calibration_config(path: _Path = CALIBRATION_CONFIG) -> dict[str, Any]:
+    cfg = json.loads(_Path(path).read_text(encoding="utf-8"))
+    names = [i["name"] for i in cfg["indicators"]]
+    if cfg.get("schema_version") != 1 or len(names) != len(set(names)):
+        raise ValueError("altcoin calibration config invalid")
+    for ind in cfg["indicators"]:
+        if ind["direction"] not in ("higher_is_bullish", "lower_is_bullish", "nonmonotonic"):
+            raise ValueError(f"{ind['name']}: bad direction")
+    return cfg
+
+
+def _percentile(sorted_xs: list[float], pct: float) -> float:
+    k = (len(sorted_xs) - 1) * pct / 100
+    f = math.floor(k)
+    c = min(f + 1, len(sorted_xs) - 1)
+    return sorted_xs[f] + (sorted_xs[c] - sorted_xs[f]) * (k - f)
+
+
+def fit_train_bounds(history: list[float | None], as_of: int, params: dict[str, Any]) -> tuple[float, float] | None:
+    """p20/p80 over the train window strictly before index as_of; None if coverage too thin."""
+    days = int(params["train_days"])
+    if as_of < days:
+        return None  # early fold without a full train window: no score
+    window = history[as_of - days:as_of]
+    valid = sorted(float(v) for v in window if v is not None and math.isfinite(float(v)))
+    if len(valid) < int(params["min_valid_obs"]) or len(valid) / days < float(params["min_coverage"]):
+        return None
+    lo, hi = _percentile(valid, params["lo_pct"]), _percentile(valid, params["hi_pct"])
+    return None if lo >= hi else (lo, hi)
+
+
+def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None) -> dict[str, Any]:
+    cfg = cfg or load_calibration_config()
+    rows = {}
+    for ind in cfg["indicators"]:
+        x = values.get(ind["name"])
+        direction = ind["direction"]
+        if x is None or direction == "nonmonotonic" or ind.get("lo") is None or ind.get("hi") is None:
+            s: float | str = "N/A"
+        else:
+            s = score(float(x), {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
+                                 "direction": "lower_is_bullish" if direction == "lower_is_bullish" else "higher"})
+        rows[ind["name"]] = {"value": x, "direction": direction, "source_url": ind["source_url"], "score": s}
+    scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
+    composite = round(sum(scored) / len(scored), 1) if scored and len(scored) == len(rows) else "N/A"
+    return {"indicators": rows, "composite_score": composite, "scored": len(scored), "total": len(rows)}
