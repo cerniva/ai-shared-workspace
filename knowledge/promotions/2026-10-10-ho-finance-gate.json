@@ -1,0 +1,5 @@
+{
+  "gates": [
+    "HO-07_FINANCE_PRIMARY_SOURCE: Verify at least one concrete claim from the next Finance report against SEC EDGAR or Federal Reserve primary feed; record claim, URL, publication date, observation time, and verification result. No current claim is asserted verified by this gate."
+  ]
+}
