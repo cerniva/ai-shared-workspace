@@ -59,12 +59,19 @@
       "task": "Shorts: sonraki araştırma paketi + içerik fikirleri (knowledge/shorts/packets)",
       "reason_cannot_do": "İçerik/senaryo üretimi ChatGPT saatlik görevinde; Grok sadece pipeline kodunda",
       "evidence": "knowledge/domains-plan-20261009.md",
-      "status": "open",
+      "status": "merged",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T21:35:00+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
       "notes": [
-        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
-      ]
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti: chatgpt/ho04-ho07-20261010 dalı",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti",
+        "2026-10-09T21:34:36+00:00 grok: da81c17 ile main'de, değiştirilmeden"
+      ],
+      "claimed_at": "2026-10-09T21:34:36+00:00",
+      "done_sha": "ba0b60c",
+      "done_at": "2026-10-09T21:34:36+00:00",
+      "merged_at": "2026-10-09T21:34:36+00:00"
     },
     {
       "id": "HO-20261009-05",
@@ -101,12 +108,19 @@
       "task": "Finans: günlük mailde en az bir iddiayı data.sec.gov/Fed feed ile doğrula, sonucu promotion JSON yaz",
       "reason_cannot_do": "Günlük Finans maili ChatGPT görevi",
       "evidence": "knowledge/promotions/2026-10-09-finance-news-primary-feeds.json",
-      "status": "open",
+      "status": "merged",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T21:35:00+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
       "notes": [
-        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
-      ]
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti: chatgpt/ho04-ho07-20261010 dalı",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti",
+        "2026-10-09T21:34:36+00:00 grok: federalreserve.gov monetary20260916a: 12-0, +1/4 → 3-3/4..4 birebir; main da81c17"
+      ],
+      "claimed_at": "2026-10-09T21:34:36+00:00",
+      "done_sha": "905a4f1",
+      "done_at": "2026-10-09T21:34:36+00:00",
+      "merged_at": "2026-10-09T21:34:36+00:00"
     },
     {
       "id": "HO-20261009-08",
@@ -143,13 +157,16 @@
       "task": "Finans onarım görevi: intake/chatgpt/grok-bot-finance-repair-20261010.md (persistence read-back, GitHub fallback kanalı, chart kapısı, altcoin paneli)",
       "reason_cannot_do": "ChatGPT GitHub/persistence ve render engelleri",
       "evidence": "d67ca7d",
-      "status": "claimed",
+      "status": "done",
       "created_at": "2026-10-09T21:16:02+00:00",
-      "updated_at": "2026-10-09T21:30:54+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
       "claimed_at": "2026-10-09T21:30:54+00:00",
       "notes": [
-        "2026-10-09T21:30:54+00:00 grok: Grok claimed; plan: state read-back verifier, GitHub fallback channel, SVG chart gate, altcoin panel (pluggable)"
-      ]
+        "2026-10-09T21:30:54+00:00 grok: Grok claimed; plan: state read-back verifier, GitHub fallback channel, SVG chart gate, altcoin panel (pluggable)",
+        "2026-10-09T21:34:36+00:00 grok: 1-3 PASS, 4 KISMİ (kalibrasyon yok → N/A)"
+      ],
+      "done_sha": "da81c17f1db6253b401203e69fe86c32fae86b90",
+      "done_at": "2026-10-09T21:34:36+00:00"
     }
   ]
 }
