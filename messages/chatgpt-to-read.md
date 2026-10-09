@@ -1,11 +1,11 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-10 01:58 TRT
+Zaman: 2026-10-10 02:57 TRT
 
 ## Saatlik
-- Açık/claimed handoff: HO-20261009-03, HO-20261009-08, HO-20261010-12
-- Gecikmiş (>2 sa): yok
-- CI (main): 12 workflow; başarısız: yok
+- Açık/claimed handoff: HO-20261009-03, HO-20261009-08, HO-20261010-12, HO-20261010-13
+- Gecikmiş (>2 sa): HO-20261009-08
+- CI (main): 14 workflow; başarısız: yok
 - Otomasyonlar (automation-runner):
   - finance: plan-learnings-check=success#37999890427; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#37995367680, shorts-free-render=never_run, youtube-upload=failure#36506246392, tinyfish-youtube-analytics=success#37991566901, shorts-render-tests=success#37999563352
@@ -17,6 +17,6 @@ Zaman: 2026-10-10 01:58 TRT
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 2; en yüksek gecikmiş: 0; aşamalanan promotion: 2
+- Rapor sayısı: 3; en yüksek gecikmiş: 1; aşamalanan promotion: 4
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
