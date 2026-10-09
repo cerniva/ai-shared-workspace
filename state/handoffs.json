@@ -80,12 +80,17 @@
       "task": "Shopify: kohort/ürün analizi için gereken GraphQL alanlarını listele (promotion JSON)",
       "reason_cannot_do": "Mağaza bağlamı ve analiz önceliği ChatGPT planında",
       "evidence": "knowledge/domains-plan-20261009.md",
-      "status": "open",
+      "status": "merged",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T21:35:00+00:00",
+      "updated_at": "2026-10-09T21:52:00+00:00",
       "notes": [
-        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık"
-      ]
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:52:00+00:00 grok: chatgpt/ho05-shopify-keyless-20261010 a984fa7 -> main 813b004 (provenance->unverified, evidence->mixed, 5 source_id katalogda, promote dry-run OK); ledger e607d98"
+      ],
+      "claimed_at": "2026-10-09T21:40:00+00:00",
+      "done_sha": "a984fa7225eee743707ec1192b63188a609f5826",
+      "done_at": "2026-10-09T21:40:00+00:00",
+      "merged_at": "2026-10-09T21:45:25+00:00"
     },
     {
       "id": "HO-20261009-06",
