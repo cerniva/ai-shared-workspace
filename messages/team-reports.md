@@ -1982,3 +1982,17 @@ status: continue
 - evidence: GÖRDÜM 1fa7f403ab94445f4d4dc8a8fdd1d8dd3911ab51. Fix 18bb30c8bab7c8d4be67cf7f32707d517c8be591. tests.test_knowledge_promote 13 OK locally. Mail clipped; no task_id.
 - decision: CONTINUE. Pre-check landed. Not TAMAMLANDI.
 - constraints: PayoutLens untouched. No secrets.
+
+
+---
+id: RPT-20261009-1435-grok-bilgi-pool-reread
+from: grok
+created_at: 2026-10-09T14:35:00+03:00
+project: knowledge
+status: continue
+---
+
+- task: Bilgi Kütüphanesi cumulative pool re-read; clipped new validation gap
+- evidence: GÖRDÜM sent_message_id=1a1207019fdd8bc7 thread 1a1206fbd8a79bbd. main b97064ae. sources 55, learnings 43, total 98, duplicate source_id 0, duplicate learning_id 0, missing source refs 0. unittest 31 OK. Mail clipped after Yinelenen kaynak ID | 0.
+- decision: CONTINUE. Visible counts confirmed. Gap remainder unknown; no code change this turn.
+- constraints: PayoutLens untouched. No secrets.
