@@ -97,8 +97,104 @@ Döngü: **sorun → iki taraf bildirir → çözer → çözemezse mail ile rap
 - Grok → ChatGPT: `messages/grok-to-chatgpt.md`
 - ChatGPT → Grok: `messages/chatgpt-to-grok.md`
 - Gemini kuyruk / çıktı: `messages/inbox-gemini.md` / `messages/gemini-to-chatgpt.md`
-- Meta Model API worker kuyruğu: `messages/inbox-meta.md` (Meta consumer sohbetine bağlı değildir; faturalандırma/secret gerektirebilir)
+- Meta Model API worker kuyruğu: `messages/inbox-meta.md` (Meta consumer sohbetine bağlı değildir; faturalandırma/secret gerektirebilir)
 - Meta consumer sohbet yanıtı: Furkan elle `messages/from-meta.md` veya ham olarak `messages/paste-from-meta.md` içine aktarır
 - Meta özet: `messages/meta-to-chatgpt.md`
 - TinyFish ortak kuyruk / çıktı: `messages/inbox-tinyfish.md` / `messages/from-tinyfish.md`
 - Görev / durum: `tasks/active.json` / `state/status.json` / `state/now.json`
+
+## TinyFish ortak web yürütme katmanı
+
+TinyFish, dört ajan için ortak web eli/ayağıdır; karar verici değildir. `state/now.json` sistem SoT'u, ChatGPT karar/merge koordinatörü olarak kalır.
+
+- `from: chatgpt|grok|gemini|meta` ile dört ajan da `messages/inbox-tinyfish.md` kuyruğuna görev bırakabilir.
+- Varsayılan `mode: fetch`: read-only sayfa içeriği; eski `urls:` görevleri geriye uyumludur.
+- `mode: browser`: yalnızca açıkça seçildiğinde TinyFish Agent browser çalışır ve metered olabilir.
+- Browser modu public gezinme/tıklama ve hassas olmayan form hazırlama içindir; ödeme/satın alma, dış yayın, silme, hesap/güvenlik değişikliği, secret gönderme veya login/2FA/CAPTCHA bypass yapmaz.
+- Sonuçlar `messages/from-tinyfish.md` kanalında task id/requester/mode/status ile normalize edilir.
+- Secret: `TINYFISH_API_KEY`; repo/mesaj içine yazılmaz.
+- Aynı açık bağlantı/izin engeli tekrar tekrar kullanıcıya bildirilmez.
+
+### TinyFish Event Bridge
+
+- Kalıcı run ledger: `state/tinyfish-runs.json`.
+- Browser görevi başlatıldığında `run_id` kalıcılaştırılır; aynı task ID `running`, `retryable` veya terminal durumdayken ikinci browser run açılmaz.
+- Yaşam döngüsü: `queued → running → done|failed|blocked`; geçici 429/5xx için `retryable` kullanılır.
+- Terminal event `task_id + run_id + status` anahtarıyla yalnız bir kez yönlendirilir.
+- ChatGPT sonucu `messages/shared-inbox.md`, Grok `messages/chatgpt-to-grok.md`, Gemini `messages/inbox-gemini.md`, Meta `messages/inbox-meta.md` üzerinden alır.
+- 401/403 API izin ve 402 kredi/plan engelleri deduplikasyonlu kullanıcı aksiyonu üretir. 429/5xx kullanıcı bildirimi spam'i üretmez.
+- GitHub ortak masa kaynak gerçektir; event bridge yalnız anlamlı durum değişikliklerini taşır.
+- Webhook hızlı yolu ileride eklenebilir; şu anda aktif değildir.
+
+## Gemini otomatik köprü
+
+`inbox-gemini.md` queued → Action → `gemini-to-chatgpt.md`.
+Secret: `GEMINI_API_KEY` (repo içine yazılmaz).
+
+## Meta iletişim yolları
+
+- **Consumer Meta AI sohbeti:** Bu oturum araçlarıyla arama, herkese açık Instagram içeriklerini görüntüleme, medya üretimi ve geçici Python dosyaları yapabildiğini bildirdi. GitHub connector'ı, hesap yönetimi veya kalıcı arka plan görevi yok. Furkan, görev metnini sohbete taşır ve yanıtı `messages/from-meta.md` ya da önce `messages/paste-from-meta.md` dosyasına elle aktarır.
+- **Meta Model API worker:** `inbox-meta.md` kuyruğunu ayrı GitHub Action işler. Bu yol consumer Meta AI sohbeti değildir; secret ve API faturalandırması gerektirir. Daha önce 402 `billing_not_configured` hatası raporlandı. Consumer sohbetin çalıştığı veya çalışmadığına dair kanıt sayılmaz.
+- Hiçbir Meta yanıtı repoya otomatik yazılmış gibi sunulmaz. Secret, giriş ve ödeme bilgisi sohbete verilmez.
+
+## Görev sistemi
+
+Max 5 standing: research-learning, finance-intelligence, content-growth, commerce-growth, system-improvement. Dört ajan da her kategoride çalışabilir.
+
+## Hızlı yol
+
+Çoklu görüş sadece para / kalıcı karar / çelişki / açık ikinci görüş. Aksi halde tek ajan + kısa handoff.
+
+## Kanal sahipliği
+
+- Her ajan yalnızca kendi çıkış kanalına yazar; karşı kanalı rewrite etmez.
+- Meta çıkışı: `messages/from-meta.md`.
+- Karar / `main` merge: ChatGPT.
+- SoT: `state/now.json`.
+
+## Grok file-desk durumu (2026-09-26)
+
+- `.github/workflows/grok-file-desk.yml` → `scripts/grok_senses.py` dosya kuyruğu worker'ıdır; canlı model-model sohbeti veya anlık bildirim değildir.
+- Retry run başarılı çalıştı ve import sorunu giderildi. Ancak çıktı `XAI_API_KEY` GitHub Actions secret'ı eksik olduğundan `blocked` oldu; otomatik Grok model yanıtı alınmadı.
+- Grok sohbetinden verilen repo inceleme yanıtı ile API worker yanıtı ayrı kaynaklardır. Birinin başarılı olması diğerinin çalıştığını kanıtlamaz.
+- Grok'un sohbetinde repo okuyabildiği kendi beyanıdır; bu erişim Actions secret'ı eklemez ve API worker'ını açmaz.
+- Otomatik API yanıtı gelene kadar Grok sohbeti ↔ ortak repo aktarımı elle yürütülür. Secret değeri sohbete veya repoya yazılmaz.
+
+## Gemini kuyruk ve kota davranışı (2026-09-26)
+
+- `messages/chatgpt-to-gemini.md` yönlendiricisi inbox'a henüz alınmamış en eski açık görevi seçer; böylece yeni bir görev eski bekleyenleri atlamaz.
+- Gemini API günlük kota hatası alırsa görev kuyrukta kalır; `state/gemini-api-cooldown.json` içindeki `blocked_until` saatine kadar workflow API çağrısını atlar.
+- Kotalı dönemde route adımı ve kuyruk değişiklikleri yine commit edilir; görev silinmez veya tamamlandı sayılmaz.
+- Güncel testte kota kilidi aktifken Actions başarılı tamamlandı, Gemini API adımı atlandı. Günlük limit bittiği için Gemini denetim yanıtı henüz alınamadı; Gemini consumer sohbetinden elle gönderilen yanıt ayrı kanıttır.
+
+
+## Aşamalı raporlama SOP (TSK-20260927-001)
+`DESK.md` içindeki aşamalı raporlama adımları tüm anlamlı görevlerde uygulanır. Her kilometre taşı task ID ile ortak rapora yazılır: başlangıç; araştırma/kaynak bulundu; kaynak okundu ve kanıt denetlendi; bilgi karşı tarafa verildi; alıcı gördü; inceledi; kullandı veya gerekçeyle kullanmadı; uygulama başladı; engel/yardım istendi; çözüm başladı; test edildi; öğrenme depoya eklendi; handoff ve tamamlanma. Her kayıt zaman, aktör, durum, kanıt ve tek sonraki adımı taşır.
+
+`seen` yalnızca gerçek okuma imleciyle kanıtlanır. `reviewed`, `used` ve `not_used` ayrı karar kayıtlarıdır; cevap yazılması bunların yerine geçmez. Yeni kaynaklar araştırma ledger'ına erişim tarihi, desteklediği bulgu ve işteki fayda/eksikliğiyle işlenir. Uygun alt işler sahipleri arasında bölünür, ortak engel birlikte çözülür. Her ajanın uygun turunda diğerinin yeni raporları okunur ve ilgili bulguya handoff ile yanıt verilir; gerçek zamanlı arka plan izleme iddiası yapılmaz. Mevcut teslim taşıması poll-ledger olduğundan sohbet push bildirimi değildir.
+
+
+Task aşaması event ledger'ı `state/task_events.json` dosyasında tutulur. CLI: `python3 scripts/task_events.py log` (aynı olayın güvenli tekrarı için sabit `--event-id`) ve `python3 scripts/task_events.py list --task-id <ID>`. Bu defter rapor/audit izidir; sohbet push'u veya ajanın arka planda çalıştığının kanıtı değildir.
+
+## Handoff sistemi (2026-10-09)
+
+Kayıt: `state/handoffs.json`, araç: `scripts/handoff.py` (add/claim/done/merge/validate/overdue), testler CI'da.
+
+1. Her mail aynı turda hem GÖRDÜM ile onaylanır hem de iş başlatılır; sadece onay yetmez.
+2. Bir tarafın yapamadığı her iş (yazma engeli, araç yok, secret gerekir) karşı tarafa handoff maddesi olur: `id, from, to, task, reason_cannot_do, evidence`.
+3. Alıcı `claim` eder, işi yapar, `done --sha <commit>` ile kapatır. SHA'sız done yok.
+4. Devreden taraf SHA'yı main'den geri okuyup doğrular ve `merge` eder. Alıcı kendi işini merge edemez.
+5. 2 saatten eski `open` maddeleri denetçi (auditor) `overdue` ile yükseltir; `handoff-audit` workflow'u saatlik listeler.
+6. ChatGPT doğrudan yazamıyorsa: bilgi için `knowledge/promotions/*.json`, kod için `intake/chatgpt/*.patch` (bkz. intake/chatgpt/README.md).
+
+## Uygulama botları (2026-10-10)
+
+Furkan, ChatGPT üzerinden consumer uygulamalara repo aracılığıyla iş verir. Rehber ve başlangıç promptları: `knowledge/apps-hub.md`.
+
+- Claude = kod inceleme → `messages/apps/claude.md`
+- Gemini = araştırma → `messages/apps/gemini.md`
+- Manus = web işleri → `messages/apps/manus.md`
+- Lindy = mail/takvim → `messages/apps/lindy.md`
+
+Kanallar append-only; kayıt: id/from/to/intent/status/evidence + en fazla 12 satır body. Açık işler `state/handoffs.json`'dan alınır. Repoya yazamayan uygulamanın yanıtını Furkan (veya ChatGPT/Grok) elle aktarır; elle aktarım raporda belirtilir.
+ChatGPT yöneticidir: `messages/apps/*.md` dosyalarını okur ve Furkan "uygulama botlarının durumunu özetle" dediğinde her uygulama için son kayıt, durum, kanıt ve açık işi özetler.
