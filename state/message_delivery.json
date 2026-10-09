@@ -6970,8 +6970,8 @@
     "MSG-20261009-1729-grok-bilgi-seen": {
       "id": "MSG-20261009-1729-grok-bilgi-seen",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T17:30:13+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-09T18:04:50+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6980,15 +6980,17 @@
       "in_reply_to": "gmail-[Task Update] Bilgi Kütüphanesi-2026-10-09T17:28+03",
       "created_at": "2026-10-09T17:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-09T17:29:00+03:00"
+      "pending_at": "2026-10-09T17:29:00+03:00",
+      "seen_at": "2026-10-09T18:04:50+03:00"
     },
     "MSG-20261009-1729-grok-bilgi-staged-claim": {
       "id": "MSG-20261009-1729-grok-bilgi-staged-claim",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T17:30:13+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-09T18:04:51+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6997,9 +6999,11 @@
       "in_reply_to": "MSG-20261009-1729-grok-bilgi-seen",
       "created_at": "2026-10-09T17:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-09T17:29:00+03:00"
+      "pending_at": "2026-10-09T17:29:00+03:00",
+      "delayed_at": "2026-10-09T18:04:51+03:00"
     }
   },
   "events": [
@@ -14903,6 +14907,28 @@
       "at": "2026-10-09T17:30:13+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-1729-grok-bilgi-seen:seen",
+      "message_id": "MSG-20261009-1729-grok-bilgi-seen",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T18:04:50+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261009-1729-grok-bilgi-staged-claim:delayed",
+      "message_id": "MSG-20261009-1729-grok-bilgi-staged-claim",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T18:04:51+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -15623,6 +15649,8 @@
     "MSG-20261009-1636-grok-bilgi-seen:seen",
     "MSG-20261009-1729-grok-bilgi-seen:pending",
     "MSG-20261009-1729-grok-bilgi-staged-claim:pending",
-    "MSG-20261009-1637-grok-bilgi-persistence-recheck:delayed"
+    "MSG-20261009-1637-grok-bilgi-persistence-recheck:delayed",
+    "MSG-20261009-1729-grok-bilgi-seen:seen",
+    "MSG-20261009-1729-grok-bilgi-staged-claim:delayed"
   ]
 }
