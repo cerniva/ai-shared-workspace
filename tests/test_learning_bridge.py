@@ -145,5 +145,17 @@ class LearningBridgeTests(unittest.TestCase):
         with self.assertRaises(CatalogError):
             self.ledger.add(payload)
 
+    def test_for_plan_uses_alias_and_skips_untagged(self) -> None:
+        payload = self.record("Cross plan lookup")
+        payload["plan_tags"] = ["Sistem Geliştirmeleri"]
+        saved, created = self.ledger.add(payload)
+        self.assertTrue(created)
+        self.ledger.add(self.record("Untagged stays invisible to plan query"))
+        found = self.ledger.for_plan("Sistem Geliştirmeleri")
+        self.assertEqual([item["learning_id"] for item in found], [saved["learning_id"]])
+        self.assertEqual(self.ledger.for_plan("system"), found)
+        with self.assertRaises(CatalogError):
+            self.ledger.for_plan("Bilgi Kütüphanesi")
+
 if __name__ == "__main__":
     unittest.main()

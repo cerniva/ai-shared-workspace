@@ -202,6 +202,21 @@ class LearningLedger:
                 return item
         return None
 
+    def for_plan(self, tag: str) -> list[dict[str, Any]]:
+        """Return learnings explicitly tagged for a plan.
+
+        Display aliases such as Sistem Geliştirmeleri map to canonical tags.
+        Untagged legacy rows are not backfilled and are not returned.
+        """
+        key = " ".join(str(tag or "").strip().lower().split())
+        canonical = PLAN_TAG_ALIASES.get(key)
+        if not canonical:
+            raise CatalogError("plan_tags must be non-empty canonical plan names")
+        return [
+            item for item in self.list()
+            if canonical in (item.get("plan_tags") or [])
+        ]
+
     def validate(self) -> int:
         data = self._load()
         valid_sources = self._source_ids()
