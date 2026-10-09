@@ -47,6 +47,28 @@
       "title": "Reporting API createdAfter checkpoint must follow successful processing"
     },
     {
+      "claim": "ChatGPT proposed process gate HO-06_GUMROAD_DRAFT_FIRST on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "decision": "HO-06_GUMROAD_DRAFT_FIRST: Draft original Turkish food-science digital product (Mutfağın Hammaddeleri sample/checklist); verify rights, payout eligibility, fees, and preview before any publish. No Gumroad connector/account status assumed.",
+      "domain": "gumroad-api",
+      "evidence_status": "unverified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "learning_id": "learn_0f6a35b37d68a20a",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "HO-06 Gumroad draft-first ürün kapısı"
+    },
+    {
       "claim": "When a YouTube Analytics report uses the video dimension or a video filter, subscribersGained and subscribersLost include only subscribe and unsubscribe actions from that video watch page, not channel page or home guide actions.",
       "decision": "SUBSCRIBER_CONVERSION_GATE: after analytics maturity, record subscribersGained, subscribersLost, net subscribers, engagedViews, and net subscribers per 1000 engaged views when the denominator is positive. Label the result watch-page-attributed. Do not score a Short on raw views alone and do not treat a video-filtered net as total channel subscriber change or Shorts-feed attribution.",
       "domain": "youtube-subscriber-conversion",
@@ -317,6 +339,29 @@
       "title": "Shorts retention fallback is the key-moments gate alias"
     },
     {
+      "claim": "ChatGPT proposed process gate HO-07_FINANCE_PRIMARY_SOURCE on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "decision": "HO-07_FINANCE_PRIMARY_SOURCE: Verify at least one concrete claim from the next Finance report against SEC EDGAR or Federal Reserve primary feed; record claim, URL, publication date, observation time, and verification result. No current claim is asserted verified by this gate.",
+      "domain": "finance-news",
+      "evidence_status": "unverified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "learning_id": "learn_5f961fa5fb9f6388",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0f07369afb96d99f",
+        "src_bf181b2640d372b6"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "HO-07 Finans birincil kaynak doğrulama kapısı"
+    },
+    {
       "claim": "The YouTube Reporting API anonymizes some dimension values below privacy thresholds as NULL, ZZ, or US-ZZ, while preserving aggregate metrics in those rows; actual thresholds may change.",
       "decision": "REPORT_PRIVACY_SUPPRESSION_GATE: Treat NULL in privacy-suppressed traffic-source, age, gender or subscribed-status dimensions and ZZ/US-ZZ in geography dimensions as anonymized aggregate buckets, not malformed or missing rows. Preserve their numeric metrics in totals while keeping the underlying dimension unknown; never reconstruct hidden identities, locations, search terms or thresholds. Keep this rule distinct from header-only zero-data CSV handling. This is a documented ingestion rule, not proof of owned-channel Reporting API access or deployed parser behavior.",
       "domain": "youtube-reporting-ingestion",
@@ -517,6 +562,28 @@
       "title": "Traffic source must be classified before packaging changes"
     },
     {
+      "claim": "ChatGPT proposed process gate HO-05_SHOPIFY_GRAPHQL_FIELDS on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "decision": "HO-05_SHOPIFY_GRAPHQL_FIELDS: Request products{id,title,status,variants{price,inventoryItem{unitCost}},metafields}, orders{id,createdAt,totalPriceSet,lineItems{product,variant,quantity,discountedTotalSet},customer{id,numberOfOrders},refunds,fulfillments}, customers{id,ordersCount}, analytics cohort fields only if API access/scopes verified; avoid claiming Shopify Admin GraphQL supports every proposed field without schema introspection.",
+      "domain": "shopify-admin-api",
+      "evidence_status": "unverified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "learning_id": "learn_961e3256bcf30279",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_64dbdcaa3ac686c8"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "HO-05 Shopify GraphQL alan listesi kapısı"
+    },
+    {
       "claim": "YouTube Analytics sharingService is a core dimension that identifies the service used when a viewer shares a video through the YouTube or player Share button. The Reporting API channel_sharing_service_a2 report pairs sharing_service with the shares metric. Those events do not prove the recipient opened the link, watched, converted, or bought anything, and they are not unique people.",
       "decision": "SHARING_SERVICE_CONTEXT_GATE: when authorized mature Analytics or Reporting data exists, keep aggregate shares per engaged views and optionally break shares down by the documented sharingService or sharing_service dimension. Never infer clicks, recipients, sales, causality, or unique sharers from service-level share events. If the dimension is unavailable, keep aggregate shares and mark destination unknown.",
       "domain": "youtube-shorts-analytics",
@@ -625,6 +692,28 @@
       ],
       "supersedes": null,
       "title": "YouTube audience loyalty is a channel-level new/casual/regular gate"
+    },
+    {
+      "claim": "ChatGPT proposed process gate HO-04_SHORTS_RESEARCH_PACKET on 2026-10-10 (branch chatgpt/domain-promotions-20261010). It is a review/verification procedure, not verified research; no field, metric or claim in it has been checked against the cited source yet.",
+      "decision": "HO-04_SHORTS_RESEARCH_PACKET: Verify hook, 30-second moving-footage storyboard, originality, rights, narration/visual alignment and full MP4 QC before publishing; research findings are proposals until actual sources and metrics are verified.",
+      "domain": "video-shorts-workflow",
+      "evidence_status": "unverified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T00:20:00+03:00",
+      "learning_id": "learn_ae8a18babc190373",
+      "next_measurement": "Record the first real application of this gate (inputs, source URL fetched, result) and upgrade evidence_status only after that read-back.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_ee81f8558675da29"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "HO-04 Shorts araştırma paketi kapısı"
     },
     {
       "claim": "The official videos.insert reference (fetched 2026-10-09) states that if status.privacyStatus is not specified the uploaded video defaults to public (some accounts default to private), and that status.containsSyntheticMedia and status.selfDeclaredMadeForKids are settable on insert.",
@@ -1143,5 +1232,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T20:54:33+00:00"
+  "updated_at": "2026-10-09T21:26:35+00:00"
 }
