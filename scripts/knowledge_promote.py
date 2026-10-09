@@ -25,11 +25,11 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from knowledge_bridge import CatalogError, SourceCatalog
-    from learning_bridge import LearningLedger, persistence_gate
+    from knowledge_bridge import CatalogError, SourceCatalog, canonicalize, source_id
+    from learning_bridge import LearningLedger, learning_id, persistence_gate
 except ModuleNotFoundError:  # Imported as scripts.knowledge_promote by tests.
-    from scripts.knowledge_bridge import CatalogError, SourceCatalog
-    from scripts.learning_bridge import LearningLedger, persistence_gate
+    from scripts.knowledge_bridge import CatalogError, SourceCatalog, canonicalize, source_id
+    from scripts.learning_bridge import LearningLedger, learning_id, persistence_gate
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PATHS = ("knowledge/source_catalog.json", "knowledge/learning_ledger.json")
@@ -92,6 +92,20 @@ def apply_promotions(root: Path) -> dict[str, Any]:
         gates = _gates(doc, path.name)
         if not (sources or learnings or gates):
             raise CatalogError(f"{path.name}: promotion stages no source, learning or gate")
+        # Reject a staged id before any local write. add() persists the bridge
+        # id immediately; checking afterwards left the computed row on disk.
+        for src in sources:
+            staged = src.get("source_id")
+            if staged:
+                expected = source_id(canonicalize(str(src.get("canonical") or "")))
+                if staged != expected:
+                    raise CatalogError(f"{path.name}: staged source_id {staged} != {expected}")
+        for item in learnings:
+            staged = item.get("learning_id")
+            if staged:
+                expected = learning_id(str(item.get("domain") or ""), str(item.get("claim") or ""))
+                if staged != expected:
+                    raise CatalogError(f"{path.name}: staged learning_id {staged} != {expected}")
         for src in sources:
             saved, created = catalog.add(src)
             staged = src.get("source_id")
