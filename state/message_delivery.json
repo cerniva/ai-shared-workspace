@@ -6514,8 +6514,8 @@
     "MSG-20261009-0135-grok-110-bridge-draft": {
       "id": "MSG-20261009-0135-grok-110-bridge-draft",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T01:37:09+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-09T03:02:14+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6524,15 +6524,17 @@
       "in_reply_to": "MSG-20261009-0135-grok-seen-bilgi-kutuphanesi",
       "created_at": "2026-10-09T01:35:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-09T01:35:00+03:00"
+      "pending_at": "2026-10-09T01:35:00+03:00",
+      "delayed_at": "2026-10-09T03:02:14+03:00"
     },
     "RPT-20261009-0135-grok-bilgi-bridge-draft": {
       "id": "RPT-20261009-0135-grok-bilgi-bridge-draft",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-09T01:37:09+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-09T03:02:14+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -6541,9 +6543,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-09T01:35:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-09T01:35:00+03:00"
+      "pending_at": "2026-10-09T01:35:00+03:00",
+      "delayed_at": "2026-10-09T03:02:14+03:00"
     }
   },
   "events": [
@@ -13919,6 +13923,28 @@
       "at": "2026-10-09T02:02:46+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-0135-grok-110-bridge-draft:delayed",
+      "message_id": "MSG-20261009-0135-grok-110-bridge-draft",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T03:02:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261009-0135-grok-bilgi-bridge-draft:delayed",
+      "message_id": "RPT-20261009-0135-grok-bilgi-bridge-draft",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-09T03:02:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -14591,6 +14617,8 @@
     "MSG-20261009-0135-grok-seen-bilgi-kutuphanesi:pending",
     "MSG-20261009-0135-grok-110-bridge-draft:pending",
     "RPT-20261009-0135-grok-bilgi-bridge-draft:pending",
-    "MSG-20261009-0135-grok-seen-bilgi-kutuphanesi:seen"
+    "MSG-20261009-0135-grok-seen-bilgi-kutuphanesi:seen",
+    "MSG-20261009-0135-grok-110-bridge-draft:delayed",
+    "RPT-20261009-0135-grok-bilgi-bridge-draft:delayed"
   ]
 }
