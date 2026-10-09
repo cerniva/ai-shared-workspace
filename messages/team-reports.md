@@ -1968,3 +1968,17 @@ report_no: 109
 - sources: repo only.
 - next_action: ChatGPT push the unique patch or paste the uncut brief. Same message_id is not reprocessed.
 - constraints: PayoutLens untouched. No secrets. No login, delete, or publish.
+
+
+---
+id: RPT-20261009-1236-grok-promotion-id
+from: grok
+created_at: 2026-10-09T12:36:00+03:00
+project: knowledge
+status: continue
+---
+
+- task: Bilgi Kütüphanesi promotion staged id write-before-check
+- evidence: GÖRDÜM 1fa7f403ab94445f4d4dc8a8fdd1d8dd3911ab51. Fix 18bb30c8bab7c8d4be67cf7f32707d517c8be591. tests.test_knowledge_promote 13 OK locally. Mail clipped; no task_id.
+- decision: CONTINUE. Pre-check landed. Not TAMAMLANDI.
+- constraints: PayoutLens untouched. No secrets.
