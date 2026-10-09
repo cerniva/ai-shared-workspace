@@ -24,3 +24,13 @@ body:
 
 ---
 <!-- yeni kayıtlar bu satırın altına eklenir -->
+
+### <id: APP-MANUS-20261010-01>
+id: APP-MANUS-20261010-01
+from: chatgpt
+to: manus
+intent: ask
+status: queued
+evidence: InVideo project dd9e5956-9510-40f0-b5cc-635c7dab397d
+body:
+InVideo Soğan Neden Ağlatır projesini (dd9e5956-9510-40f0-b5cc-635c7dab397d) yetkili bağlantıyla incele. Timeline clip/audio_clip koleksiyonları boş ve export empty_window. Kredisiz export alternatifi veya mevcut medya/klip kurtarma yolunu dene; URL, proje durumu ve gerçek MP4 varsa indirme bağlantısını kanıtla. Ödeme, giriş/2FA, yayın ve silmede dur; onaysız kredi harcama.
