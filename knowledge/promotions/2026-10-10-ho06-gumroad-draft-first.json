@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "HO-06 Gumroad draft-first digital product workflow without secrets or payments",
+      "domain": "gumroad",
+      "claim": "A digital product can be planned and quality-checked locally without Gumroad login, API token, payment setup, or publishing; live Gumroad product creation and sales metrics cannot be verified without account access.",
+      "evidence_status": "unverified",
+      "provenance": "unverified",
+      "outcome": "pending",
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "source_ids": [
+        "src_0c18ae9733064295"
+      ],
+      "decision": "Use these five secret-free preparation steps; no live Gumroad action is claimed:\n1. Ürün adayı ve alıcı vaadini yaz: örnek Mutfağın Hammaddeleri; mevcut kitap bölümleri tamamlanmış gibi sunulmaz.\n2. Orijinal içerik, telif, görsel lisansları ve dil tutarlılığı için kontrol listesi çıkar; eksik bölümleri taslak olarak işaretle.\n3. İndirilebilir dosya taslağını (PDF/ePub uygunluğu), kapak brief'ini, örnek sayfayı ve açıklamayı yerel olarak hazırla; yükleme/yayın yok.\n4. Fiyat, platform ücreti, net gelir ve iade koşullarını doğrulanmamış varsayımlarla ayrı tabloda planla; gerçek fiyat ve ödeme ayarını değiştirme.\n5. Yayın öncesi QC: dosya açılıyor mu, bağlantılar çalışıyor mu, ürün açıklaması doğru mu, teslim dosyası tamam mı? Sonra gerçek Gumroad hesap erişimi/izin doğrulamasını bekle.",
+      "next_measurement": "Verify current Gumroad product and upload API permissions against official docs; build local draft files, check content/licensing, then run account-connected draft-only smoke test if authorized.",
+      "failure_history": [
+        "No authenticated Gumroad connection, draft creation, sale, or payment configuration verified."
+      ],
+      "fallback_history": [
+        "If API or account access unavailable, retain local product draft and mark publishing BLOCKED_USER or BLOCKED_EXTERNAL."
+      ]
+    }
+  ]
+}
