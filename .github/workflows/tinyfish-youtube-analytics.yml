@@ -1,0 +1,43 @@
+name: tinyfish-youtube-analytics
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: YouTube Studio analytics period label
+        required: false
+        default: Last 28 days
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Read YouTube Studio analytics via TinyFish profile (read-only)
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+          PERIOD: ${{ inputs.period }}
+        run: |
+          set +e
+          mkdir -p artifacts
+          python3 scripts/tinyfish_youtube.py analytics --execute --period "$PERIOD" > artifacts/youtube_analytics.json
+          code=$?
+          set -e
+          cat artifacts/youtube_analytics.json
+          echo "exit_code=$code" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "$code" > artifacts/exit_code.txt
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: tinyfish-youtube-analytics
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Fail if run did not complete
+        run: test "$(cat artifacts/exit_code.txt)" = "0"

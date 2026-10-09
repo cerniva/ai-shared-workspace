@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "note": "TinyFish Browser Context Profile IDs (not secrets). Read 2026-10-09 from the TinyFish dashboard by Furkan. YouTube cookies captured but not confirmed 'Signed in'; only 'codex' shows Google 'Signed in'.",
+  "profiles": {
+    "youtube_studio": "prof_2ef79634882f4d6b",
+    "youtube_research": "prof_5127c472d25a4f2d",
+    "google_research": "prof_f5b2c454ee6a43b6",
+    "gumroad": "prof_bd8a9e29373541c5",
+    "google_signed_in": "prof_996c5c04908047c5"
+  }
+}

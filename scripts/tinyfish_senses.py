@@ -19,7 +19,7 @@ FETCH_URL = "https://api.fetch.tinyfish.ai"
 AGENT_RUN_URL = "https://agent.tinyfish.ai/v1/automation/run-async"
 DEFAULT_FETCH_URL = "https://i19cci-4e.myshopify.com"
 MAX_RESULT_CHARS = 4000
-ALLOWED_HOSTS = {"i19cci-4e.myshopify.com", "docs.tinyfish.ai", "agent.tinyfish.ai", "example.com"}
+ALLOWED_HOSTS = {"i19cci-4e.myshopify.com", "docs.tinyfish.ai", "agent.tinyfish.ai", "example.com", "studio.youtube.com", "www.youtube.com", "youtube.com"}
 TERMINAL = {"done", "failed", "blocked"}
 PROHIBITED_GOAL_PATTERNS = (
     r"\b(buy|purchase|pay|checkout|satın al|ödeme)\b",

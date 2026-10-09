@@ -2,9 +2,11 @@ import io
 import json
 import unittest
 from contextlib import redirect_stdout
+from pathlib import Path
 
 from scripts import tinyfish_youtube as ty
 
+ROOT = Path(__file__).resolve().parents[1]
 OAUTH = {"YOUTUBE_CLIENT_ID": "x", "YOUTUBE_CLIENT_SECRET": "y", "YOUTUBE_REFRESH_TOKEN": "z"}
 
 
@@ -38,7 +40,26 @@ class TinyfishYoutubeTests(unittest.TestCase):
         self.assertEqual(p["profile_id"], "prof_1")
         self.assertIn("READ ONLY", p["goal"])
         self.assertIn("Do not upload", p["goal"])
-        self.assertNotIn("profile_id", ty.analytics_payload(env={}))
+        self.assertNotIn("profile_id", ty.analytics_payload(env={}, config=Path("/nonexistent.json")))
+
+    def test_profile_falls_back_to_repo_config(self):
+        self.assertEqual(ty.analytics_payload(env={})["profile_id"], "prof_2ef79634882f4d6b")
+        self.assertEqual(ty.profile_id_for("google_signed_in", env={}), "prof_996c5c04908047c5")
+        self.assertEqual(ty.profile_id_for("youtube_studio", env={ty.PROFILE_ENV: "prof_env"}), "prof_env")
+
+    def test_analytics_workflow_is_manual_and_read_only(self):
+        text = (ROOT / ".github" / "workflows" / "tinyfish-youtube-analytics.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch", text)
+        self.assertNotIn("schedule", text)
+        self.assertIn("contents: read", text)
+        self.assertIn("python3 scripts/tinyfish_youtube.py analytics --execute", text)
+        self.assertIn("secrets.TINYFISH_API_KEY", text)
+        self.assertIn("upload-artifact", text)
+
+    def test_senses_allowlist_includes_youtube(self):
+        from scripts import tinyfish_senses
+        for host in ("studio.youtube.com", "www.youtube.com", "youtube.com"):
+            self.assertIn(host, tinyfish_senses.ALLOWED_HOSTS)
 
     def test_dry_run_is_default_and_offline(self):
         code, out = self.call(["analytics"], {"TINYFISH_API_KEY": "k"})
@@ -64,6 +85,17 @@ class TinyfishYoutubeTests(unittest.TestCase):
         self.assertEqual(seen["key"], "secret-k")
         self.assertNotIn("secret-k", seen["body"])
         self.assertEqual(out["result"], {"views": 5})
+
+    def test_http_error_is_reported_not_raised(self):
+        import urllib.error
+
+        def opener(req, timeout):
+            raise urllib.error.HTTPError(req.full_url, 401, "Unauthorized", {}, io.BytesIO(b'{"code":"INVALID_API_KEY"}'))
+
+        code, out = self.call(["analytics", "--execute"], {"TINYFISH_API_KEY": "k"}, opener)
+        self.assertEqual(code, 1)
+        self.assertEqual(out["http_status"], 401)
+        self.assertIn("INVALID_API_KEY", out["detail"])
 
     def test_upload_route(self):
         self.assertEqual(ty.upload_route(OAUTH)["route"], "youtube_api")

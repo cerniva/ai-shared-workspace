@@ -21,7 +21,9 @@ import argparse
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
+from pathlib import Path
 from typing import Any, Mapping
 
 RUN_URL = "https://agent.tinyfish.ai/v1/automation/run"
@@ -29,6 +31,8 @@ STUDIO_URL = "https://studio.youtube.com/"
 YOUTUBE_OAUTH_ENV = ("YOUTUBE_CLIENT_ID", "YOUTUBE_CLIENT_SECRET", "YOUTUBE_REFRESH_TOKEN")
 PROFILE_ENV = "TINYFISH_YOUTUBE_PROFILE_ID"
 ALLOWED_PRIVACY = {"private", "unlisted"}
+PROFILES_CONFIG = Path(__file__).resolve().parents[1] / "config" / "tinyfish_profiles.json"
+PROFILE_ROLE = "youtube_studio"
 
 ANALYTICS_SCHEMA = {
     "type": "object",
@@ -50,7 +54,22 @@ ANALYTICS_SCHEMA = {
 }
 
 
-def analytics_payload(period: str = "Last 28 days", env: Mapping[str, str] | None = None) -> dict[str, Any]:
+def profile_id_for(role: str, env: Mapping[str, str] | None = None, config: Path = PROFILES_CONFIG) -> str:
+    """Env TINYFISH_YOUTUBE_PROFILE_ID wins; otherwise the role from config/tinyfish_profiles.json."""
+    env = os.environ if env is None else env
+    explicit = str(env.get(PROFILE_ENV, "")).strip()
+    if explicit:
+        return explicit
+    try:
+        data = json.loads(Path(config).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return ""
+    value = (data.get("profiles") or {}).get(role, "")
+    return value.strip() if isinstance(value, str) else ""
+
+
+def analytics_payload(period: str = "Last 28 days", env: Mapping[str, str] | None = None,
+                      config: Path = PROFILES_CONFIG) -> dict[str, Any]:
     env = os.environ if env is None else env
     payload: dict[str, Any] = {
         "url": STUDIO_URL,
@@ -64,7 +83,7 @@ def analytics_payload(period: str = "Last 28 days", env: Mapping[str, str] | Non
         "browser_profile": "stealth",
         "use_profile": True,
     }
-    profile_id = str(env.get(PROFILE_ENV, "")).strip()
+    profile_id = profile_id_for(PROFILE_ROLE, env, config)
     if profile_id:
         payload["profile_id"] = profile_id
     return payload
@@ -119,7 +138,15 @@ def main(argv: list[str] | None = None, env: Mapping[str, str] | None = None, op
     if not key:
         print(json.dumps({"status": "blocked", "reason_code": "missing-secret", "secret": "TINYFISH_API_KEY"}))
         return 2
-    result = run(payload, key, opener)
+    try:
+        result = run(payload, key, opener)
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")[:500]
+        print(json.dumps({"status": "HTTP_ERROR", "http_status": exc.code, "detail": body}, ensure_ascii=False))
+        return 1
+    except (urllib.error.URLError, TimeoutError, ValueError) as exc:
+        print(json.dumps({"status": "NETWORK_ERROR", "detail": str(exc)[:500]}, ensure_ascii=False))
+        return 1
     print(json.dumps({"status": result.get("status"), "run_id": result.get("run_id"),
                       "result": result.get("result"), "error": result.get("error")}, ensure_ascii=False))
     return 0 if result.get("status") == "COMPLETED" else 1
