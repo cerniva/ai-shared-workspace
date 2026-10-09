@@ -21,6 +21,32 @@
       "title": "Native YouTube A/B tests do not cover Shorts"
     },
     {
+      "claim": "The YouTube Reporting API recommends advancing the createdAfter cursor only after reports have been successfully processed; a cursor advanced past a failed or unprocessed report can exclude it from later incremental listings, including backfilled reports.",
+      "decision": "REPORT_CREATED_AFTER_ACK_GATE: Keep createdAfter unchanged until all selected reports in the paginated batch have been downloaded, validated, and durably imported (or explicitly deduplicated). On a partial failure, retain the prior checkpoint and replay idempotently by report ID. For reports with the same job and period, retain the newest createTime as the backfill replacement; never sum old and new versions. Advance only after durable success/read-back, and record the checkpoint with the processed report IDs. Do not infer actual channel ingestion without authorized API evidence.",
+      "domain": "youtube-reporting-ingestion",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Earlier attempt to stage this learning was blocked; no production ingestion or checkpoint read-back is verified."
+      ],
+      "fallback_history": [
+        "Keep the previous createdAfter checkpoint and replay pending reports by ID after transient ingestion failures; if Reporting API access is unavailable, keep channel completeness unknown."
+      ],
+      "learned_at": "2026-10-08T22:24:00+03:00",
+      "learning_id": "learn_0bdcee93377fd18d",
+      "next_measurement": "On the next authorized Reporting API ingestion test, simulate an older report failing after a newer report succeeds, then confirm no cursor advancement, successful replay, report-ID dedup, backfill replacement and durable read-back.",
+      "outcome": "validated",
+      "plan_tags": [
+        "system",
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_be6523a27c85e346"
+      ],
+      "supersedes": null,
+      "title": "Reporting API createdAfter checkpoint must follow successful processing"
+    },
+    {
       "claim": "When a YouTube Analytics report uses the video dimension or a video filter, subscribersGained and subscribersLost include only subscribe and unsubscribe actions from that video watch page, not channel page or home guide actions.",
       "decision": "SUBSCRIBER_CONVERSION_GATE: after analytics maturity, record subscribersGained, subscribersLost, net subscribers, engagedViews, and net subscribers per 1000 engaged views when the denominator is positive. Label the result watch-page-attributed. Do not score a Short on raw views alone and do not treat a video-filtered net as total channel subscriber change or Shorts-feed attribution.",
       "domain": "youtube-subscriber-conversion",
@@ -934,5 +960,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-08T15:27:57+00:00"
+  "updated_at": "2026-10-09T03:55:57+00:00"
 }
