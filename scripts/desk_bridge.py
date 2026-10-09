@@ -28,6 +28,9 @@ CHANNELS: dict[str, tuple[Path, str | FrozenSet[str] | None, str]] = {
     "inbox-gemini": (ROOT / "messages" / "inbox-gemini.md", None, "gemini"),
     "gemini-to-chatgpt": (ROOT / "messages" / "gemini-to-chatgpt.md", "gemini", "chatgpt"),
     "chatgpt-to-gemini": (ROOT / "messages" / "chatgpt-to-gemini.md", "chatgpt", "gemini"),
+    "inbox-claude": (ROOT / "messages" / "inbox-claude.md", None, "claude"),
+    "inbox-perplexity": (ROOT / "messages" / "inbox-perplexity.md", None, "perplexity"),
+    "inbox-deepseek": (ROOT / "messages" / "inbox-deepseek.md", None, "deepseek"),
     "shared-inbox": (ROOT / "messages" / "shared-inbox.md", None, "team"),
 }
 VALID_STATUS = {"open", "done", "blocked", "queued"}
