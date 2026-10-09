@@ -5,6 +5,11 @@ Usage: python3 shorts_preflight.py VIDEO [--review REVIEW.json]
 Review is independent evidence tied to sha256, with reviewer and checks:
 speech_intelligible, audio_visual_sync, text_readable, facts_verified,
 rights_checked, correct_channel, duplicate_checked (all boolean true).
+With --manifest render.json, production_gates add required review checks:
+hook_storyboard_checked (hook_storyboard gate) and moving_footage_checked
+(moving_footage gate); both must be boolean true, set by an independent
+reviewer after inspecting the real final MP4 (intake/chatgpt/2026-10-10-
+shorts-review-schema.md). Missing/false/non-bool => ready=false.
 Technical success alone is NOT approval. Exit 0=ready, 2=blocked.
 Keep output/review private; do not commit private media or account data.
 """
@@ -31,6 +36,37 @@ MANIFEST_GATE_REVIEW_CHECKS = {
 }
 
 
+# Independent review fields required by the hook_storyboard / moving_footage gates
+# (ChatGPT spec da6bdc4). Only an independent reviewer who inspected the final MP4
+# may set them true; the render pipeline must never self-approve.
+REVIEW_GATE_FIELDS = {
+    'hook_storyboard_checked': 'hook_storyboard_qc_required',
+    'moving_footage_checked': 'moving_footage_only',
+}
+
+
+def review_check_status(review, key):
+    """Classify one review check: 'true', 'missing', 'false' or 'not_boolean'."""
+    checks = review.get('checks') if isinstance(review, dict) else None
+    if not isinstance(checks, dict) or checks.get(key) is None:
+        return 'missing'
+    value = checks[key]
+    if value is True:
+        return 'true'
+    if value is False:
+        return 'false'
+    return 'not_boolean'
+
+
+def review_gate_evidence(manifest, review):
+    """Status of REVIEW_GATE_FIELDS whose manifest gate is on; {} if none required."""
+    gates = manifest.get('production_gates') if isinstance(manifest, dict) else None
+    if not isinstance(gates, dict):
+        return {}
+    return {key: review_check_status(review, key)
+            for key, gate in REVIEW_GATE_FIELDS.items() if gates.get(gate) is True}
+
+
 def manifest_gate_blockers(manifest, review):
     """Return blockers for manifest gates that lack independent review evidence."""
     if manifest is None:
@@ -45,6 +81,10 @@ def manifest_gate_blockers(manifest, review):
         for key in MANIFEST_GATE_REVIEW_CHECKS[gate]:
             if checks.get(key) is not True:
                 blockers.append('gate_' + gate + '_' + key)
+    # Explicit, reason-bearing blockers for the two independent review fields.
+    for key, status in review_gate_evidence(manifest, review).items():
+        if status != 'true':
+            blockers.append('review_' + key + '_' + status)
     return blockers
 
 
@@ -94,6 +134,9 @@ def inspect(path, review=None, manifest=None):
                     report['blockers'].append('review_' + key)
         report['blockers'].extend(b for b in manifest_gate_blockers(manifest, review)
                                   if b not in report['blockers'])
+        report['manifest_gates_checked'] = bool(
+            isinstance(manifest, dict) and isinstance(manifest.get('production_gates'), dict))
+        report['review_gate_evidence'] = review_gate_evidence(manifest, review)
         report['ready'] = not report['blockers']
     except (OSError, ValueError, KeyError, StopIteration, subprocess.SubprocessError) as exc:
         report['blockers'].append('inspection_failed_' + type(exc).__name__)

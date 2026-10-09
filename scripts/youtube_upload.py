@@ -48,6 +48,9 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+UPLOAD_REQUIRED_REVIEW_FIELDS = ("hook_storyboard_checked", "moving_footage_checked")
+
+
 def require_ready_preflight(video: Path, path: Path) -> dict:
     """Require fail-closed QA evidence for the exact bytes being uploaded."""
     try:
@@ -66,6 +69,14 @@ def require_ready_preflight(video: Path, path: Path) -> dict:
     for key in ("video_h264", "portrait_9_16", "audio_aac", "full_decode", "audio_signal"):
         if checks.get(key) is not True:
             raise ValueError(f"preflight required check failed or missing: {key}")
+    # Production path is fail-closed: preflight must have run with --manifest and
+    # carry independent hook_storyboard/moving_footage review evidence (da6bdc4).
+    if data.get("manifest_gates_checked") is not True:
+        raise ValueError("preflight was not run with --manifest render.json; production gates unverified")
+    evidence = data.get("review_gate_evidence") or {}
+    for key in UPLOAD_REQUIRED_REVIEW_FIELDS:
+        if evidence.get(key) != "true":
+            raise ValueError(f"independent review check missing or false: {key}")
     return data
 
 

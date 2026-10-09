@@ -24,12 +24,15 @@ class ManifestGateTests(unittest.TestCase):
         r = review(rights_checked=True, speech_intelligible=True, audio_visual_sync=True,
                    text_readable=True, moving_footage_checked=True)
         self.assertEqual(manifest_gate_blockers({"production_gates": ALL}, r),
-                         ["gate_hook_storyboard_qc_required_hook_storyboard_checked"])
+                         ["gate_hook_storyboard_qc_required_hook_storyboard_checked",
+                          "review_hook_storyboard_checked_missing"])
 
     def test_truthy_non_bool_is_not_evidence(self):
         keys = {k for v in MANIFEST_GATE_REVIEW_CHECKS.values() for k in v}
         r = review(**{k: "yes" for k in keys})
-        self.assertEqual(len(manifest_gate_blockers({"production_gates": ALL}, r)), len(keys))
+        blockers = manifest_gate_blockers({"production_gates": ALL}, r)
+        self.assertEqual(len(blockers), len(keys) + 2)
+        self.assertIn("review_moving_footage_checked_not_boolean", blockers)
 
     def test_full_evidence_passes(self):
         keys = {k for v in MANIFEST_GATE_REVIEW_CHECKS.values() for k in v}
