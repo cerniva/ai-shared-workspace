@@ -18,6 +18,9 @@ Kaynak: cerniva/ai-shared-workspace main, Grok envanteri 23:55 TRT. PayoutLens k
 ## TinyFish (Furkan: YouTube/Google bağlı)
 - TinyFish = barındırılan web ajanı (agent.tinyfish.ai, secret adı `TINYFISH_API_KEY`; `tinyfish-senses` ve `tinyfish-event-bridge` kullanıyor, Eylül smoke'ları başarılı). "Bağlı hesap" = YouTube/Google'a giriş yapılmış Browser Context Profile; çağrıda `use_profile: true` (+ isteğe bağlı `profile_id`).
 - `scripts/tinyfish_youtube.py`: `analytics` YouTube Studio'dan salt-okur kanal analitiği (varsayılan dry-run, `--execute` ile çalışır, profil id `TINYFISH_YOUTUBE_PROFILE_ID`). `upload-route`: YOUTUBE_* OAuth varsa `youtube_api`, yoksa `blocked` (TinyFish Agent API runner'daki MP4'ü tarayıcıya aktaramaz; tarayıcıyla yayın PROTOCOL'de yasak). Gizlilik yalnız private/unlisted.
+- Profiller (`config/tinyfish_profiles.json`, id'ler gizli değil): youtube_studio `prof_2ef79634882f4d6b`, youtube_research `prof_5127c472d25a4f2d`, google_research `prof_f5b2c454ee6a43b6`, gumroad `prof_bd8a9e29373541c5`, google_signed_in (codex) `prof_996c5c04908047c5`. Env `TINYFISH_YOUTUBE_PROFILE_ID` yoksa youtube_studio kullanılır.
+- Elle tetiklenen salt-okur `tinyfish-youtube-analytics` workflow'u (718cd5f) JSON'u artifact olarak yükler. İlk koşu 37991566901: COMPLETED, YouTube Studio profili OTURUM AÇIK. Kanal Cerno, 11 Eyl–8 Eki 2026: 5.300 izlenme, 9,5 saat izlenme süresi, +6 abone; en iyi: Mbappé Shorts 2.610, uçak penceresi 1.219, uçak koltuğu 1.122.
+- `tinyfish_senses` ALLOWED_HOSTS'a studio.youtube.com / youtube.com / www.youtube.com eklendi. Sonraki adım: analitiği haftalık plan girdisi yapmak (öğrenme JSON'u); upload hâlâ YOUTUBE_* OAuth bekliyor (HO-08).
 - Google (Sheets/Drive/Search) aynı profil ile salt-okur sayfa okuma olarak mümkün; finans için birincil kaynak SEC/Fed API'leri tercih edilir. Handoff: HO-20261009-08.
 
 ## Yalnız Furkan'ın açabileceği

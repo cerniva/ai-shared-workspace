@@ -98,12 +98,12 @@
       "id": "HO-20261009-08",
       "from": "grok",
       "to": "auditor",
-      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları; TinyFish analytics için YouTube/Google'a giriş yapılmış Browser Context Profile id'si (TINYFISH_YOUTUBE_PROFILE_ID, repo variable veya secret) ve TINYFISH_API_KEY'in hâlâ geçerli olduğunun teyidi",
+      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config/tinyfish_profiles.json'da, TINYFISH_API_KEY geçerli.",
       "reason_cannot_do": "Secret/giriş yalnız Furkan'da; TinyFish Agent API runner'daki MP4'ü tarayıcıya aktaramaz, upload yalnız YouTube Data API ile",
-      "evidence": "scripts/tinyfish_youtube.py upload-route => blocked (missing YOUTUBE_*); https://docs.tinyfish.ai/agent-api/reference use_profile/profile_id",
+      "evidence": "TinyFish: run 37991566901 @718cd5f COMPLETED, profil youtube_studio prof_2ef79634882f4d6b oturum açık (kanal Cerno, 28g 5300 izlenme). Upload: scripts/tinyfish_youtube.py upload-route => blocked (missing YOUTUBE_*).",
       "status": "open",
       "created_at": "2026-10-09T20:59:40+00:00",
-      "updated_at": "2026-10-09T20:59:40+00:00"
+      "updated_at": "2026-10-09T21:15:00+00:00"
     }
   ]
 }

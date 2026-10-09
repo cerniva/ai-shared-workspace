@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Run Firecrawl keyless fallback if needed
-        run: python3 scripts/shared_web_worker.py
+        run: PYTHONPATH=. python3 scripts/shared_web_worker.py
       - name: Commit fallback result
         run: |
           git config user.name "firecrawl-fallback-bot"
