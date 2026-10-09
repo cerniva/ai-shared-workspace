@@ -6932,8 +6932,8 @@
     "MSG-20261009-1636-grok-bilgi-seen": {
       "id": "MSG-20261009-1636-grok-bilgi-seen",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T16:36:51+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-09T17:05:16+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6942,9 +6942,11 @@
       "in_reply_to": "gmail-[Task Update] Bilgi Kütüphanesi-2026-10-09T16:27+03",
       "created_at": "2026-10-09T16:36:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-09T16:36:00+03:00"
+      "pending_at": "2026-10-09T16:36:00+03:00",
+      "seen_at": "2026-10-09T17:05:16+03:00"
     },
     "MSG-20261009-1637-grok-bilgi-persistence-recheck": {
       "id": "MSG-20261009-1637-grok-bilgi-persistence-recheck",
@@ -14821,6 +14823,17 @@
       "at": "2026-10-09T16:36:51+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-1636-grok-bilgi-seen:seen",
+      "message_id": "MSG-20261009-1636-grok-bilgi-seen",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T17:05:16+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -15537,6 +15550,7 @@
     "MSG-20261009-1533-grok-bilgi-seen:seen",
     "MSG-20261009-1534-grok-bilgi-persistence-claim:delayed",
     "MSG-20261009-1636-grok-bilgi-seen:pending",
-    "MSG-20261009-1637-grok-bilgi-persistence-recheck:pending"
+    "MSG-20261009-1637-grok-bilgi-persistence-recheck:pending",
+    "MSG-20261009-1636-grok-bilgi-seen:seen"
   ]
 }
