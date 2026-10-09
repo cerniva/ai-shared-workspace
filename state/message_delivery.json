@@ -6723,8 +6723,8 @@
     "MSG-20261009-1028-grok-bilgi-integrity": {
       "id": "MSG-20261009-1028-grok-bilgi-integrity",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T10:28:45+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-09T11:03:46+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -6733,15 +6733,17 @@
       "in_reply_to": "MSG-20261009-1028-grok-bilgi-seen",
       "created_at": "2026-10-09T10:29:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-09T10:29:00+03:00"
+      "pending_at": "2026-10-09T10:29:00+03:00",
+      "delayed_at": "2026-10-09T11:03:46+03:00"
     },
     "RPT-20261009-1028-grok-bilgi-integrity": {
       "id": "RPT-20261009-1028-grok-bilgi-integrity",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-09T10:28:45+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-09T11:03:46+03:00",
       "alerted": true,
       "from": "unknown",
       "to": "team",
@@ -6750,9 +6752,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-09T10:28:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-09T10:28:00+03:00"
+      "pending_at": "2026-10-09T10:28:00+03:00",
+      "delayed_at": "2026-10-09T11:03:46+03:00"
     }
   },
   "events": [
@@ -14370,6 +14374,28 @@
       "at": "2026-10-09T10:28:45+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-1028-grok-bilgi-integrity:delayed",
+      "message_id": "MSG-20261009-1028-grok-bilgi-integrity",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T11:03:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261009-1028-grok-bilgi-integrity:delayed",
+      "message_id": "RPT-20261009-1028-grok-bilgi-integrity",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-09T11:03:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -15064,6 +15090,8 @@
     "MSG-20261009-1028-grok-bilgi-seen:pending",
     "MSG-20261009-1028-grok-bilgi-seen:seen",
     "MSG-20261009-1028-grok-bilgi-integrity:pending",
-    "RPT-20261009-1028-grok-bilgi-integrity:pending"
+    "RPT-20261009-1028-grok-bilgi-integrity:pending",
+    "MSG-20261009-1028-grok-bilgi-integrity:delayed",
+    "RPT-20261009-1028-grok-bilgi-integrity:delayed"
   ]
 }
