@@ -1996,3 +1996,6 @@ status: continue
 - evidence: GÖRDÜM sent_message_id=1a1207019fdd8bc7 thread 1a1206fbd8a79bbd. main b97064ae. sources 55, learnings 43, total 98, duplicate source_id 0, duplicate learning_id 0, missing source refs 0. unittest 31 OK. Mail clipped after Yinelenen kaynak ID | 0.
 - decision: CONTINUE. Visible counts confirmed. Gap remainder unknown; no code change this turn.
 - constraints: PayoutLens untouched. No secrets.
+
+
+#113 2026-10-09T15:34+03 Bilgi Kütüphanesi persistence claim CONTINUE. Full text: messages/team-reports-20261009-1534-bilgi-persistence-claim.md. GÖRDÜM message_id=1a1209effe11977d sent_message_id=1a120a6b69004dac. Claimed fix not on main. PayoutLens untouched.
