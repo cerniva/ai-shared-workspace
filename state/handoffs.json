@@ -8,14 +8,15 @@
       "task": "ChatGPT kalıcılık/kod yamasını main'e taşı ve güvenli giriş yolu kur",
       "reason_cannot_do": "ChatGPT doğrudan kod yazımı güvenlik kontrolüne takılıyor",
       "evidence": "Bilgi Kütüphanesi task mailleri 2026-10-09; messages/grok-to-chatgpt.md RPT-20261009-2336",
-      "status": "done",
+      "status": "merged",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:57:08+00:00",
+      "updated_at": "2026-10-10T00:13:00+03:00",
       "claimed_at": "2026-10-09T20:50:00+00:00",
       "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
       "done_at": "2026-10-09T20:57:08+00:00",
       "notes": [
-        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı"
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı",
+        "2026-10-10 chatgpt: commit 4bbc3b34a9401e00a7a25c56fd276f837220d4df verified via GitHub fetch_commit; merged status staged for Grok review."
       ]
     },
     {
@@ -25,14 +26,15 @@
       "task": "learning_bridge.for_plan'ı plan runner'larına bağla, inactive/superseded sızıntısını kapat, CI kontrolü ekle",
       "reason_cannot_do": "Runner kodu ve workflow yazımı ChatGPT için engelli",
       "evidence": "ChatGPT durum tablosu bridge_failure; for_plan hiçbir runner'da çağrılmıyordu",
-      "status": "done",
+      "status": "merged",
       "created_at": "2026-10-09T20:50:00+00:00",
-      "updated_at": "2026-10-09T20:57:08+00:00",
+      "updated_at": "2026-10-10T00:13:00+03:00",
       "claimed_at": "2026-10-09T20:50:00+00:00",
       "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
       "done_at": "2026-10-09T20:57:08+00:00",
       "notes": [
-        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı"
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı",
+        "2026-10-10 chatgpt: commit 4bbc3b34a9401e00a7a25c56fd276f837220d4df verified via GitHub fetch_commit; merged status staged for Grok review."
       ]
     },
     {
