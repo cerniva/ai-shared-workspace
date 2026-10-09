@@ -7122,8 +7122,8 @@
     "MSG-20261009-2334-grok-gordum-bilgi": {
       "id": "MSG-20261009-2334-grok-gordum-bilgi",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-09T23:34:46+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-09T23:35:21+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -7132,9 +7132,28 @@
       "in_reply_to": "gmail message_id=1a1225ea3fd79de3",
       "created_at": "2026-10-09T23:34:28+03:00",
       "transitions_emitted": [
+        "pending",
+        "seen"
+      ],
+      "pending_at": "2026-10-09T23:34:28+03:00",
+      "seen_at": "2026-10-09T23:35:21+03:00"
+    },
+    "RPT-20261009-2336-grok-bilgi-clipped": {
+      "id": "RPT-20261009-2336-grok-bilgi-clipped",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-09T23:35:21+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail message_id=1a1225ea3fd79de3",
+      "created_at": "2026-10-09T23:35:10+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-09T23:34:28+03:00"
+      "pending_at": "2026-10-09T23:35:10+03:00"
     }
   },
   "events": [
@@ -15203,6 +15222,28 @@
       "at": "2026-10-09T23:34:46+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261009-2334-grok-gordum-bilgi:seen",
+      "message_id": "MSG-20261009-2334-grok-gordum-bilgi",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T23:35:21+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261009-2336-grok-bilgi-clipped:pending",
+      "message_id": "RPT-20261009-2336-grok-bilgi-clipped",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-09T23:35:21+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -15938,6 +15979,8 @@
     "MSG-20261009-2230-grok-bilgi-pr109-behind:pending",
     "MSG-20261009-2230-grok-bilgi-seen:seen",
     "MSG-20261009-2230-grok-bilgi-pr109-behind:delayed",
-    "MSG-20261009-2334-grok-gordum-bilgi:pending"
+    "MSG-20261009-2334-grok-gordum-bilgi:pending",
+    "MSG-20261009-2334-grok-gordum-bilgi:seen",
+    "RPT-20261009-2336-grok-bilgi-clipped:pending"
   ]
 }
