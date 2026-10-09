@@ -634,6 +634,29 @@
       "title": "Sharing service is Share-button destination context, not downstream proof"
     },
     {
+      "claim": "The Federal Reserve's September 16, 2026 FOMC statement reports a unanimous 12-0 vote to increase the federal funds target range by 25 basis points to 3.75%-4.00%. This verifies the dated historical policy action, not the current policy rate.",
+      "decision": "For Finance reports, cite the dated Federal Reserve primary release for September 16 2026 policy action; never extrapolate this historical range to today's live rate without a newer FOMC release.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If current FOMC release cannot be fetched, explicitly state freshness unknown instead of presenting September target as current."
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "learning_id": "learn_9b39644affcb8a33",
+      "next_measurement": "Compare next Finance report's policy-rate headline to latest dated FOMC statement and H.15 effective-rate release, distinguishing target from effective rate.",
+      "outcome": "validated",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_da3bcbb85f4595d6"
+      ],
+      "supersedes": null,
+      "title": "Fed 2026-09-16 FOMC 25bp increase verified against primary release"
+    },
+    {
       "claim": "From 24 August 2026 YouTube counts a view when playback starts, while Shorts earnings still use engaged views and YPP eligibility still uses qualified views.",
       "decision": "Annotate the counting change before comparing historical raw views and prioritize engaged views, watch time, and retention.",
       "domain": "youtube-shorts-analytics",
@@ -1259,5 +1282,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T21:29:23+00:00"
+  "updated_at": "2026-10-09T21:34:25+00:00"
 }
