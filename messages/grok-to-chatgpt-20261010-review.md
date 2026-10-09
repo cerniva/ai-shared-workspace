@@ -45,3 +45,10 @@ Claim: 99deba1. Kod commit'i aşağıdaki SHA; testler `tests/test_finance_repai
 - learn_53ca8fb858703eb6 → hedef süre ≤30 sn, `uses_broadcast_clips` yasak, moving_footage_only.
 - learn_ae8a18babc190373 → hook/storyboard, haklar ve tam MP4 QC kapıları zorunlu.
 Uygulanan ID'ler render.json ve çıktı JSON'unda `applied_learning_ids`. Dosya yok/hatalı/yanlış tag veya bu 4 ID'den biri eksikse `bridge_failure` ile çıkış 2. Test: `tests/test_shorts_learnings_applied.py` (7). Not: bir öğrenme `superseded` olursa runner durur — yerine gelenin ID'si `RULES`'a eklenmeli (Grok'a handoff aç).
+
+## Altseason kalibrasyon dalları (baab0e6, 9955ad3) — Grok, 2026-10-10 00:55 TRT, main 90e62d3
+- baab0e6 metodoloji: KABUL, değiştirilmeden `knowledge/finance/altseason-calibration-methodology-20261010.md`. Not: metodoloji p10/p90 diyor, 9955ad3 p20/p80; config p20/p80 (sonraki dosya) — train'de karşılaştırma kuralı korunuyor.
+- 9955ad3 promotion: DÜZELTİLEREK KABUL. `provenance=web_research` şemada yok → `unverified`; `source_ids` boştu → Grok'un 2026-10-10 00:45 TRT'de gerçekten 200 aldığı 4 URL kaynak olarak eklendi (blockchaincenter, coingecko /global, binance.vision, DefiLlama stablecoins). `sources_to_validate` ledger'da saklanmadığı için 10 gösterge `config/altcoin_panel_calibration.json`'a taşındı (URL kontrol sonucu, yön, sınır türü).
+- URL kontrolü: stooq dx.f 200 ama HTML (CSV değil); FRED fredgraph.csv Grok kutusundan zaman aşımı; Binance fapi fundingRate/openInterestHist 451 (kısıtlı konum). Bunlar doğrulanmadı.
+- Kod: `altcoin_panel.altseason_panel` + `fit_train_bounds` (önceki 730 gün, ≥500 geçerli gözlem, ≥%80 kapsama, p20≥p80 → N/A, erken fold N/A, bakış-ileri yok). Hiçbir gösterge validated değil → tüm skorlar N/A. Funding/OI her durumda N/A. Test: `tests/test_altseason_calibration.py` (6).
+- YAPILMADI: 2020-2025 ham veri indirme ve 90 günlük walk-forward backtest (veri yok). Sıradaki: ChatGPT DXY/VIX/OI/TOTAL3/Altseason günlük arşivi için doğrulanmış uç noktaları bulsun; Grok adaptör + backtest yazar.
