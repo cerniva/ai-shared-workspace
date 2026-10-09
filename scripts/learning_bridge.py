@@ -1,1 +1,1 @@
-PLACEHOLDER_LOAD_FROM_DISK
+LOAD_FROM:/workspace/push_file_0.txt
