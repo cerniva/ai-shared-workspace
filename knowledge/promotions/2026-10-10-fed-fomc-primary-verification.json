@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "learnings": [
+    {
+      "title": "Fed 2026-09-16 FOMC 25bp increase verified against primary release",
+      "domain": "finance-news",
+      "claim": "The Federal Reserve's September 16, 2026 FOMC statement reports a unanimous 12-0 vote to increase the federal funds target range by 25 basis points to 3.75%-4.00%. This verifies the dated historical policy action, not the current policy rate.",
+      "evidence_status": "verified",
+      "decision": "For Finance reports, cite the dated Federal Reserve primary release for September 16 2026 policy action; never extrapolate this historical range to today's live rate without a newer FOMC release.",
+      "outcome": "validated",
+      "next_measurement": "Compare next Finance report's policy-rate headline to latest dated FOMC statement and H.15 effective-rate release, distinguishing target from effective rate.",
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_da3bcbb85f4595d6"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [
+        "If current FOMC release cannot be fetched, explicitly state freshness unknown instead of presenting September target as current."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_name": "Federal Reserve FOMC Statement — September 16 2026",
+      "canonical": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "category": "finance-news-primary",
+      "purpose": "Primary evidence for September 16 2026 FOMC target-rate decision",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public",
+      "reliability_limits": "Historical policy announcement, not live/current target rate",
+      "provenance": "verified",
+      "discovered_at": "2026-10-10T00:00:00+03:00",
+      "last_successful_use": "2026-10-10T00:00:00+03:00",
+      "failure_note": null,
+      "source_id": "src_da3bcbb85f4595d6"
+    }
+  ]
+}
