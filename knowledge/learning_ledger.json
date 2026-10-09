@@ -521,6 +521,35 @@
       "title": "Subscribed status is audience context, not causality"
     },
     {
+      "claim": "Without a Shopify store token, public official Shopify documentation can establish API field requirements, analytics definitions, rate limits, and safe read-only planning, but cannot reveal the user's live shop data or cohort metrics.",
+      "decision": "Do the following five steps without secret or live store writes; only then request read-only store access if truly needed. Steps: (1) Create a read-only GraphQL field checklist for products, variants, inventory, orders, customers, and analytics; label required scopes and API version. [src_64dbdcaa3ac686c8] (2) Define cohort metrics (first vs returning customers, repeat purchase rate) and prevent unsupported claims about attribution. [src_0acc40a4a170ff80, src_d04b5a72ae4029f9] (3) Prepare a product-opportunity scoring template: demand, landed cost, shipping, return risk, gross/net margin, and evidence confidence; no live shop assumptions. [src_97a7eb010a0d1efa] (4) Write a public-docs-based GraphQL query skeleton with minimal fields and cursor pagination, but do not execute against store or request credentials. [src_64dbdcaa3ac686c8] (5) Specify rate-limit-aware retries and a dry-run validation fixture; 401/403 must block rather than retry repeatedly. [src_843ab9beadd1f15b]",
+      "domain": "shopify",
+      "evidence_status": "mixed",
+      "failure_history": [
+        "No live Shopify store query or customer/order data was accessed in this task."
+      ],
+      "fallback_history": [
+        "If store read scope unavailable, retain templates and report BLOCKED_EXTERNAL instead of invented metrics."
+      ],
+      "learned_at": "2026-10-10T00:00:00+03:00",
+      "learning_id": "learn_7d2fad64925e5f70",
+      "next_measurement": "Review the field checklist against current Admin GraphQL API version; verify real Shopify connection/scopes before any actual query; measure first read-only dry run and record evidence.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "unverified",
+      "source_ids": [
+        "src_0acc40a4a170ff80",
+        "src_64dbdcaa3ac686c8",
+        "src_843ab9beadd1f15b",
+        "src_97a7eb010a0d1efa",
+        "src_d04b5a72ae4029f9"
+      ],
+      "supersedes": null,
+      "title": "HO-05 Shopify: first five secret-free preparation steps"
+    },
+    {
       "claim": "POSIX flock protects processes sharing one checkout, while GitHub Contents API updates require the current blob SHA and serialized remote writes.",
       "decision": "Keep local flock plus atomic replace; remote writers must read the current blob SHA, write serially, and re-read after conflicts.",
       "domain": "repository-concurrency",
@@ -1312,5 +1341,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T21:41:32+00:00"
+  "updated_at": "2026-10-09T21:45:35+00:00"
 }
