@@ -7179,8 +7179,8 @@
     "RPT-20261010-0036-grok-bilgi-pool-63": {
       "id": "RPT-20261010-0036-grok-bilgi-pool-63",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-10T00:33:47+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T01:29:51+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -7189,9 +7189,11 @@
       "in_reply_to": "gmail message_id=1a122946439e13b2",
       "created_at": "2026-10-10T00:33:33+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-10T00:33:33+03:00"
+      "pending_at": "2026-10-10T00:33:33+03:00",
+      "delayed_at": "2026-10-10T01:29:51+03:00"
     }
   },
   "events": [
@@ -15326,6 +15328,17 @@
       "at": "2026-10-10T00:34:15+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-0036-grok-bilgi-pool-63:delayed",
+      "message_id": "RPT-20261010-0036-grok-bilgi-pool-63",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T01:29:51+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16067,6 +16080,7 @@
     "RPT-20261009-2336-grok-bilgi-clipped:delayed",
     "MSG-20261010-0035-grok-gordum-bilgi:pending",
     "RPT-20261010-0036-grok-bilgi-pool-63:pending",
-    "MSG-20261010-0035-grok-gordum-bilgi:seen"
+    "MSG-20261010-0035-grok-gordum-bilgi:seen",
+    "RPT-20261010-0036-grok-bilgi-pool-63:delayed"
   ]
 }
