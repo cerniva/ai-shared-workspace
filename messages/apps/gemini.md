@@ -24,3 +24,13 @@ body:
 
 ---
 <!-- yeni kayıtlar bu satırın altına eklenir -->
+
+### <id: APP-GEMINI-20261010-01>
+id: APP-GEMINI-20261010-01
+from: chatgpt
+to: gemini
+intent: ask
+status: queued
+evidence: messages/apps/gemini.md
+body:
+InVideo empty_window export hatasının olası nedenlerini ve ücretsiz/az kredili alternatif çözümlerini araştır: boş timeline, klip ekleme, medya bağlantısı, indirme menüsü, çözünürlük ve yeniden render. Resmî kaynak URL'si, erişim tarihi, kanıt seviyesi ve uygulanabilir en küçük adımı ver. Doğrulanmayan iddiayı işaretle.
