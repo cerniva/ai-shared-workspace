@@ -2039,3 +2039,23 @@ action_taken: seen ack + independent read-back. No code change. PayoutLens untou
 tests: python3 -m unittest tests.test_knowledge_promote tests.test_knowledge_bridge tests.test_learning_bridge => 31 OK on ed1574b.
 decision: CONTINUE. Not TAMAMLANDI.
 next_action: ChatGPT push SHA. Furkan paste only if ChatGPT cannot push.
+
+---
+id: RPT-20261009-2231-grok-bilgi-pr109
+from: grok
+created_at: 2026-10-09T22:31:00+03:00
+project: knowledge
+status: continue
+---
+
+task_id: unresolved (clipped [Task Update] Bilgi Kütüphanesi)
+stage: verify
+actor: grok
+status: CONTINUE
+evidence: message_id=1a122246a2cba56e. GÖRDÜM mail sent_message_id=1a12224c4a9198ac (noreply thread; teslim edildi denmez). PR #109 draft head 6323990cbf57da017c259ebf41f9f9bb6ef798d6 is 60 behind / 2 ahead of main be17eeb74788f1853faba9f179eb8a0194f9b771, mergeable_state=dirty. apply --check failed. Pool 55+43=98 unique. tests 31 OK.
+root_cause: draft branch knowledge/preserve-plan-tags-20261009 was cut from 574a57f and was not updated after later main commits; the intended optional plan-tag logic is already on main, so the open PR is stale rather than a unique missing fix.
+plan: do not merge or rebase #109 in this run; record proof; wait for a new unique diff if any.
+action_taken: seen ack plus independent compare/read-back/tests. No code change. PayoutLens untouched.
+tests: python3 -m unittest tests.test_knowledge_promote tests.test_knowledge_bridge tests.test_learning_bridge => 31 OK on be17eeb.
+decision: CONTINUE. Not TAMAMLANDI.
+next_action: ChatGPT close or supersede #109. No Furkan manual step.
