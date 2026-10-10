@@ -114,6 +114,53 @@ def _valid_media_queries(value) -> bool:
     )
 
 
+LEARNINGS_DIR = SHORTS / "learnings"
+SUCCESS_PATTERNS = "knowledge/shorts/learnings/success-patterns.md"
+# Must mirror scripts/shorts_learnings.RULES (plan learnings applied at render time).
+REQUIRED_LEARNING_IDS = (
+    "learn_af28044522e96790",
+    "learn_f6b1a61d4538f86b",
+    "learn_53ca8fb858703eb6",
+    "learn_ae8a18babc190373",
+)
+
+
+def current_weekly_notes(limit: int = 2) -> list[str]:
+    """Repo-relative paths of the newest weekly learning notes (newest first)."""
+    notes = sorted(LEARNINGS_DIR.glob("weekly-*.md"), reverse=True)[:limit]
+    return [p.relative_to(ROOT).as_posix() for p in notes]
+
+
+def learnings_blockers(packet: dict) -> list[str]:
+    """A render packet must reference AND apply the current Shorts learnings.
+
+    packet["learnings"] = {
+      "learning_ids": [...REQUIRED_LEARNING_IDS],
+      "weekly_note": one of the two newest knowledge/shorts/learnings/weekly-*.md,
+      "success_patterns": "knowledge/shorts/learnings/success-patterns.md",
+      "applied": [>=2 concrete strings saying how a learning changed this packet]
+    }
+    """
+    block = packet.get("learnings")
+    if not isinstance(block, dict):
+        return ["learnings_missing"]
+    blockers = []
+    ids = block.get("learning_ids") if isinstance(block.get("learning_ids"), list) else []
+    blockers += ["learnings_missing_id_" + i for i in REQUIRED_LEARNING_IDS if i not in ids]
+    current = current_weekly_notes()
+    note = block.get("weekly_note")
+    if not isinstance(note, str) or not (ROOT / note).is_file():
+        blockers.append("learnings_weekly_note_missing")
+    elif current and note not in current:
+        blockers.append("learnings_weekly_note_stale")
+    if block.get("success_patterns") != SUCCESS_PATTERNS or not (ROOT / SUCCESS_PATTERNS).is_file():
+        blockers.append("learnings_success_patterns_unreferenced")
+    applied = block.get("applied")
+    if not isinstance(applied, list) or len([a for a in applied if isinstance(a, str) and len(a.strip()) >= 10]) < 2:
+        blockers.append("learnings_not_applied")
+    return blockers
+
+
 def gate_packet(packet: dict) -> list[str]:
     """Return research blockers, adding free-render fields only when explicitly requested."""
     blockers = []
@@ -143,6 +190,7 @@ def gate_packet(packet: dict) -> list[str]:
                 blockers.append("missing_" + key)
         if not _valid_media_queries(packet.get("media_queries")):
             blockers.append("missing_media_queries")
+        blockers.extend(learnings_blockers(packet))
 
     if is_duplicate(packet.get("title", ""), packet.get("hook", "")):
         blockers.append("duplicate_topic_or_hook")
