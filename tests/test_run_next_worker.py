@@ -56,9 +56,11 @@ class NextWorkerTests(unittest.TestCase):
             self.assertIsNone(select_job_info(path, now=NOW))
 
     def test_old_grok_job_is_not_stolen_by_age(self):
+        # 180 minutes old: older than both the default and the explicit 120-minute
+        # fallback threshold, so a return of age-based takeover would select it.
         with tempfile.TemporaryDirectory() as tmp:
             path = _write(tmp, [{"id": "g", "worker": "grok", "status": "queued", "priority": 5,
-                                 "created_at": "2026-10-10T00:30:00+00:00"}])
+                                 "created_at": "2026-10-09T23:00:00+00:00"}])
             self.assertIsNone(select_job_info(path, now=NOW))
             self.assertIsNone(select_job_info(path, now=NOW, fallback_minutes=120))
 
