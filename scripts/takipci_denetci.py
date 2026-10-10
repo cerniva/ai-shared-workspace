@@ -79,13 +79,13 @@ def check_doc_only_featfix(title: str, paths: list[str]) -> list[str]:
     return []
 
 
-def check_content(path: str, text: str | None) -> list[str]:
+def check_content(path: str, text: str | None, old_text: str | None = None) -> list[str]:
     out = []
     if not text:
         return out
     for m in MARKERS:
-        if m in text:
-            out.append(f"{path}: contains {m}")
+        if text.count(m) > (old_text or "").count(m):
+            out.append(f"{path}: introduced {m}")
     for n, line in enumerate(text.splitlines(), 1):
         if line.startswith(TMP_PREFIX):
             out.append(f"{path}:{n}: line starts with {TMP_PREFIX}")
@@ -201,7 +201,7 @@ def evaluate(title: str, files: list[dict], body: str | None = None,
     reasons += check_doc_only_featfix(title, paths)
     for f in files:
         if f.get("status") != "removed":
-            reasons += check_content(f["filename"], f.get("new_text"))
+            reasons += check_content(f["filename"], f.get("new_text"), f.get("old_text"))
         reasons += check_shrink(f["filename"], f.get("old_text"), f.get("new_text"), f.get("status", "modified"))
     if check_pr_body:
         body_issues = check_body(body)
