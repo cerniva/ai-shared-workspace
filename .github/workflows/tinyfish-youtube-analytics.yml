@@ -8,9 +8,12 @@ on:
         required: false
         default: Last 28 days
         type: string
+  schedule:
+    # weekly learning step: Mondays 06:00 UTC (09:00 Istanbul)
+    - cron: "0 6 * * 1"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   analytics:
@@ -21,7 +24,7 @@ jobs:
       - name: Read YouTube Studio analytics via TinyFish profile (read-only)
         env:
           TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
-          PERIOD: ${{ inputs.period }}
+          PERIOD: ${{ inputs.period || 'Last 28 days' }}
         run: |
           set +e
           mkdir -p artifacts
@@ -31,6 +34,35 @@ jobs:
           cat artifacts/youtube_analytics.json
           echo "exit_code=$code" | tee -a "$GITHUB_STEP_SUMMARY"
           echo "$code" > artifacts/exit_code.txt
+      - name: YouTube Analytics API metrics (read-only, existing YOUTUBE_* secrets)
+        if: always()
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          python3 -m pip install -q -r scripts/requirements-youtube.txt
+          python3 scripts/youtube_video_metrics.py > artifacts/youtube_api_metrics.json || true
+          cat artifacts/youtube_api_metrics.json
+      - name: Weekly Shorts learning note (real data only)
+        if: always()
+        run: |
+          set +e
+          python3 scripts/shorts_weekly_learning.py artifacts/youtube_analytics.json \
+            --api-metrics artifacts/youtube_api_metrics.json \
+            --source "tinyfish-youtube-analytics run ${{ github.run_id }}" | tee artifacts/weekly_learning.json
+          echo "learning_exit=$?" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - name: Commit weekly learning note to knowledge/
+        if: always()
+        run: |
+          git add knowledge/shorts/learnings
+          if git diff --cached --quiet; then echo "no learning note (no real analytics data)"; exit 0; fi
+          git config user.name "shorts-lessons-bot"
+          git config user.email "shorts-lessons-bot@users.noreply.github.com"
+          git commit -m "shorts: weekly learning note from YouTube analytics (run ${{ github.run_id }})"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push origin HEAD:main && exit 0; sleep 5; done
+          exit 1
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
