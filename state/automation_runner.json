@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-10T00:40:23+00:00",
+  "generated_at": "2026-10-10T06:33:58+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38008851532,
+          "id": 38027734320,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T00:23:40Z",
-          "event": "workflow_run"
+          "created_at": "2026-10-10T05:30:27Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -31,11 +31,11 @@
           "status": "never_run"
         },
         "youtube-upload.yml": {
-          "id": 36506246392,
+          "id": 38011519419,
           "status": "completed",
           "conclusion": "failure",
-          "created_at": "2026-09-29T01:05:43Z",
-          "event": "push"
+          "created_at": "2026-10-10T01:01:34Z",
+          "event": "workflow_dispatch"
         },
         "tinyfish-youtube-analytics.yml": {
           "id": 37991566901,
@@ -45,10 +45,10 @@
           "event": "workflow_dispatch"
         },
         "shorts-render-tests.yml": {
-          "id": 38009501496,
+          "id": 38011995250,
           "status": "completed",
-          "conclusion": "success",
-          "created_at": "2026-10-10T00:32:34Z",
+          "conclusion": "failure",
+          "created_at": "2026-10-10T01:08:28Z",
           "event": "push"
         }
       },
@@ -58,10 +58,10 @@
     "knowledge": {
       "workflows": {
         "knowledge-promote.yml": {
-          "id": 38008838108,
+          "id": 38017804571,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T00:23:28Z",
+          "created_at": "2026-10-10T02:40:11Z",
           "event": "push"
         }
       },
@@ -71,25 +71,25 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38009626591,
+          "id": 38026617086,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T00:34:21Z",
+          "created_at": "2026-10-10T05:10:38Z",
           "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 38009337215,
+          "id": 38029063089,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T00:30:22Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-10-10T05:53:54Z",
+          "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38009626574,
+          "id": 38029520789,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T00:34:21Z",
-          "event": "push"
+          "created_at": "2026-10-10T06:01:53Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad grubundaki youtube-upload.yml iş akışı başarısız olduğu, shorts-free-render.yml ise henüz hiç çalıştırılmadığı için bu otomasyonlar sağlıksız görünmektedir. Diğer tüm kategorilerdeki (finance, knowledge, system) otomasyonlar ise sorunsuz ve sağlıklı çalışmaktadır."
+  "model_summary": null
 }
