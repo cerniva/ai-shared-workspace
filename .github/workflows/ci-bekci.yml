@@ -1,0 +1,96 @@
+name: ci-bekci
+
+# Rule-based CI failure watcher (no model, no new secret; GITHUB_TOKEN only).
+# failure/timed_out -> dedup by open `ci-bekci` issue marker -> issue + (new signature,
+# max 3/day) repository_dispatch team-work {handoff_id: CI-<run_id>, task, source: ci-bekci}.
+# success on main -> close open ci-bekci issue for that workflow. Never writes to main.
+# Excluded (loop / publish guard): ci-bekci, takipci-denetci, auto-merge-gate, team-worker,
+# and any upload/publish/payment/gumroad/shopify workflow (scripts/ci_bekci.py is_excluded).
+on:
+  workflow_run:
+    workflows:
+      - "agents-reporter"
+      - "ai-roster-check"
+      - "ai-worker-gpt56"
+      - "automation-runner"
+      - "backup-supervisor"
+      - "AI Browser Worker"
+      - "chatgpt-intake"
+      - "Claude API Diagnostic"
+      - "claude-code"
+      - "CodeQL code scanning"
+      - "comms-watch"
+      - "desk-notify"
+      - "firecrawl-fallback"
+      - "gemini-cli-executor"
+      - "gemini-senses"
+      - "grok-file-desk"
+      - "handoff-audit"
+      - "improvement-bot"
+      - "knowledge-promote"
+      - "lesson-learner"
+      - "meta-bridge-auto"
+      - "meta-ingest"
+      - "meta-senses"
+      - "plan-learnings-check"
+      - "provider-health"
+      - "research-learner"
+      - "self-healing-health-controller"
+      - "shorts-free-build"
+      - "shorts-free-render"
+      - "shorts-free-smoke-once"
+      - "shorts-render-tests"
+      - "telegram-bot"
+      - "tinyfish-event-bridge"
+      - "tinyfish-senses"
+      - "tinyfish-youtube-analytics"
+      - "web-worker-tests"
+      - "worker-orchestration-tests"
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Workflow run id to analyze'
+        required: true
+      dry_run:
+        description: 'Analyze only: no issue, no dispatch'
+        type: boolean
+        default: false
+
+# contents: write is required ONLY by POST /dispatches (repository_dispatch);
+# the script never pushes, commits or edits files.
+permissions:
+  actions: read
+  contents: write
+  issues: write
+
+concurrency:
+  group: ci-bekci-${{ github.event.workflow_run.name || inputs.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' ||
+          github.event.workflow_run.conclusion == 'failure' ||
+          github.event.workflow_run.conclusion == 'timed_out' ||
+          (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: ci-bekci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        shell: bash
+        run: |
+          args=(--run-id "$RUN_ID")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          python3 scripts/ci_bekci.py "${args[@]}"
