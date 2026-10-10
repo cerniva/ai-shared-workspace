@@ -1,0 +1,59 @@
+name: team-worker
+
+# Event-triggered handoff worker. PR-only: works on bot/<handoff_id>-<run_id>,
+# never pushes main, never dispatches publish/payment workflows (see
+# scripts/team_worker.py DENYLIST). YAPAMADIM -> repository_dispatch team-research.
+on:
+  repository_dispatch:
+    types: [team-work]
+  workflow_dispatch:
+    inputs:
+      handoff_id:
+        description: 'Handoff id (state/handoffs.json)'
+        required: true
+      dry_run:
+        description: 'Dry run: no push, no PR, no dispatch'
+        type: boolean
+        default: true
+  push:
+    branches: [main]
+    paths:
+      - 'state/handoffs.json'
+
+concurrency:
+  group: team-worker-${{ github.event.client_payload.handoff_id || inputs.handoff_id || 'handoffs-push' }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  work:
+    # Commits by this bot land only on bot/* branches, so push events from them never reach here.
+    if: ${{ github.event_name != 'push' || github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: gpt-5.6-sol
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      XAI_MODEL: grok-4.7
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: gemini-3.8-flash
+      META_MODEL_API_KEY: ${{ secrets.META_MODEL_API_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Run team-worker
+        shell: bash
+        run: |
+          args=()
+          if [ "${{ inputs.dry_run }}" = "true" ]; then args+=(--dry-run); fi
+          python3 -m scripts.team_worker "${args[@]}"

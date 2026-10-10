@@ -24,6 +24,9 @@ on:
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
       - 'scripts/shorts_mp4_qc.py'
+      - 'scripts/team_worker.py'
+      - 'scripts/team_research.py'
+      - 'state/handoffs.json'
       - 'browser_worker/**'
       - 'orchestrator/**'
       - 'research_worker/**'
@@ -56,6 +59,9 @@ on:
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
       - 'scripts/shorts_mp4_qc.py'
+      - 'scripts/team_worker.py'
+      - 'scripts/team_research.py'
+      - 'state/handoffs.json'
       - 'browser_worker/**'
       - 'orchestrator/**'
       - 'research_worker/**'
@@ -85,6 +91,8 @@ jobs:
           sudo apt-get install -y ffmpeg
       - name: Shorts MP4 QC tests (HO-20261010-12)
         run: python3 -m unittest tests.test_shorts_mp4_qc -v
+      - name: team-worker tests
+        run: python3 -m unittest tests.test_team_worker -v
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Knowledge integrity and race tests

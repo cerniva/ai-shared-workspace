@@ -1,7 +1,22 @@
 name: research-learner
 
 on:
+  repository_dispatch:
+    types: [team-research]
   workflow_dispatch:
+    inputs:
+      handoff_id:
+        description: 'team-research: handoff id (empty = normal research-learner run)'
+        required: false
+        default: ''
+      reason:
+        description: 'team-research: YAPAMADIM reason'
+        required: false
+        default: ''
+      task:
+        description: 'team-research: task text'
+        required: false
+        default: ''
   schedule:
     - cron: '37 5 * * *'
 
@@ -30,9 +45,23 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: team-research (team-worker YAPAMADIM -> note on same handoff)
+        if: ${{ github.event_name == 'repository_dispatch' || (inputs.handoff_id || '') != '' }}
+        run: |
+          python3 -m scripts.team_research
+          git add -- state/handoffs.json
+          if git diff --cached --name-only | grep -vE '^state/handoffs\.json$'; then echo 'unexpected staged path'; exit 1; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "research-learner-bot"
+          git config user.email "research-learner-bot@users.noreply.github.com"
+          git commit -m "research-learner: team-research note"
+          git pull --rebase origin main
+          git push origin HEAD:main
       - name: Run agent (model step skipped cleanly if no provider key)
+        if: ${{ github.event_name != 'repository_dispatch' && (inputs.handoff_id || '') == '' }}
         run: python3 -m scripts.github_agents research-learner
       - name: Persist agent output only
+        if: ${{ github.event_name != 'repository_dispatch' && (inputs.handoff_id || '') == '' }}
         shell: bash
         run: |
           git add -A -- state/research_learner.json intake/promotions 2>/dev/null || true
