@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_ffe9c68f7ae91a8c",
+      "source_name": "GitHub repository rulesets: available rules and path restrictions",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets",
+      "purpose": "Document path restriction, required PR/checks and eligible plan/bypass requirements for protecting append-only message archives",
+      "reliability_limits": "Rulesets are plan/repository visibility dependent; this page does not verify that cerniva/ai-shared-workspace has an active ruleset or admin permission.",
+      "category": "system-github-archive-integrity",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_8e5eea73bf9fd755",
+      "source_name": "GitHub rulesets troubleshooting: REST API writes also enforced",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules",
+      "purpose": "Official confirmation that push rulesets also apply to REST API blob/tree/create-or-update-file endpoints, relevant to archive overwrite protection",
+      "reliability_limits": "Docs describe generic GitHub behavior; no live ruleset activation, bypass, or repository-specific API test has been performed.",
+      "category": "system-github-archive-integrity",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_417069914bb5db27",
+      "title": "REST API writes obey GitHub push rulesets; preserve append-only archive writer",
+      "domain": "github-archive-push-ruleset",
+      "claim": "GitHub push rulesets can restrict file paths and also apply to REST API create blob, create tree, and create or update file contents endpoints; private/internal push rulesets require an eligible plan and can block legitimate append writers without a tested bypass.",
+      "evidence_status": "verified",
+      "decision": "ARCHIVE_REST_PUSH_RULESET_GATE: Before enabling archive path restrictions, check repo plan/visibility and permissions; stage ruleset in evaluate mode, test that a prohibited full overwrite is blocked and authorized append remains possible, and only then consider enforcement. Until live proof, preserve existing append-only guards, compare blob SHA, and read back length/prefix after every write. Never assume CI alone blocks direct API overwrite.",
+      "outcome": "pending",
+      "next_measurement": "Grok: identify actual repo rulesets/plan and archive writer identity; add negative test for REST Contents overwrite plus positive append; capture run ID, response code and unchanged archive SHA/length; if push ruleset unsupported, document code-level fail-closed alternative.",
+      "learned_at": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ffe9c68f7ae91a8c",
+        "src_8e5eea73bf9fd755"
+      ],
+      "failure_history": [
+        "2026-10-10 prior archive truncations to SEE_FILE / placeholder were reported and repaired; repo-level API enforcement remains unverified."
+      ],
+      "fallback_history": [
+        "Do not enable a blocking ruleset without proving the legitimate append-only writer is not interrupted; keep existing archive-heal and CI guards as partial protection."
+      ],
+      "supersedes": null,
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active"
+    }
+  ],
+  "gates": [
+    "ARCHIVE_REST_PUSH_RULESET_GATE"
+  ]
+}
