@@ -431,6 +431,32 @@
       "title": "Studio Advanced Mode export has a 500-row completeness limit"
     },
     {
+      "claim": "On 2026-10-10 these official endpoints returned HTTP 200 without any key: Fed press_monetary.xml and speeches.xml RSS, TCMB kurlar/today.xml (XML with Bulten_No and ForexBuying/ForexSelling per currency; the Saturday fetch returned the 09.10.2026 bulletin 2026/191), the TCMB English press-release page, SEC pressreleases.rss, and CoinGecko /api/v3/ping. api.binance.com returned HTTP 451 from the fetch host, so Binance REST is region-blocked there.",
+      "decision": "Use these as the primary finance feed set; treat TCMB today.xml date as the bulletin date (not fetch date) and skip duplicate weekend bulletins; send a descriptive User-Agent to SEC; do not depend on api.binance.com from runners (use data.binance.vision or CoinGecko). EVDS requires a personal key kept in secrets.",
+      "domain": "finance-news-primary",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T04:20:00+03:00",
+      "learning_id": "learn_63b873bf5dbd8208",
+      "next_measurement": "Add a daily feed-poll job that records newest item date per feed and alerts if any feed is stale >3 business days.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_010d0572b6b8827a",
+        "src_26e23fdd1e2a58f3",
+        "src_4b4de56c419f648c",
+        "src_8940dd773777ae62",
+        "src_a12cd466770804ab",
+        "src_cab01a9c27c349ee"
+      ],
+      "supersedes": null,
+      "title": "Keyless official finance feeds: Fed, TCMB, SEC, CoinGecko"
+    },
+    {
       "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
       "decision": "ANALYTICS_MATURITY_GATE: do not close retention or watch-time learning from Analytics API data before the documented processing window. Do not treat missing recent Analytics rows as zero. Use Data API or verified Studio state for current counts, then re-read Analytics after at least 72 hours.",
       "domain": "youtube-shorts-analytics",
@@ -474,6 +500,30 @@
       ],
       "supersedes": null,
       "title": "Federal Reserve official RSS for speeches and rates"
+    },
+    {
+      "claim": "YouTube Help 'Get started creating YouTube Shorts' (fetched 2026-10-10) says Shorts can be up to 3 minutes, uploads max 1080p, titles max 100 characters; since 2025-03-31 Shorts views count every play or replay with no minimum watch time while the old metric is kept as Engaged views; YPP via Shorts needs 1,000 subscribers and 10 million qualified Shorts views in the last 90 days; the upload flow has a Get feedback button analysing hook and pacing.",
+      "decision": "Track growth on Engaged views (not raw views) and on qualified Shorts views toward the 10M/90-day YPP gate; render at 1080p; keep titles <=100 chars; use the in-app Get feedback hook/pacing check before upload. Follow blog.youtube RSS and the YouTube Creators feed for feature changes.",
+      "domain": "youtube-shorts-growth",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-10T04:20:00+03:00",
+      "learning_id": "learn_720e4b98aa447be9",
+      "next_measurement": "Record 90-day qualified Shorts views and subscribers weekly and compute distance to the YPP Shorts threshold.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_54116100929e3106",
+        "src_93d2863ea1f7e74f",
+        "src_c9c809d93bda2fee",
+        "src_e9c3ea7b60f62dab"
+      ],
+      "supersedes": null,
+      "title": "Shorts basics from YouTube Help: 3-minute limit, views vs engaged views, YPP Shorts threshold"
     },
     {
       "claim": "Shopify Analytics session measurement rolled out 2026-09-21 to 2026-09-23. Sessions follow continued activity and end after 30 minutes of inactivity instead of always splitting at midnight UTC. Some sessions without a pageview are counted. Identified bot sessions are filtered from session reports by default. Conversion rate and other session-derived metrics can move even when orders, sales and customer counts do not. Historical data is not reprocessed; post-update session data is a new baseline. Bot classification applies only to sessions from 2025-10-07 onward.",
@@ -1458,5 +1508,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-10T00:23:33+00:00"
+  "updated_at": "2026-10-10T01:08:58+00:00"
 }

@@ -3,6 +3,21 @@
   "sources": [
     {
       "access_status": "verified-public",
+      "canonical": "https://www.tcmb.gov.tr/kurlar/today.xml",
+      "category": "finance-tcmb",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Daily CBRT indicative FX rates: Tarih_Date with Bulten_No and per-currency ForexBuying/ForexSelling",
+      "reliability_limits": "Published on business days around 15:30 TSI; weekend/holiday returns the last bulletin (2026-10-10 fetch returned 09.10.2026, bulletin 2026/191). Indicative, not tradable.",
+      "source_id": "src_010d0572b6b8827a",
+      "source_name": "TCMB indicative exchange rates XML (today.xml)"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/reporting/revision_history",
       "category": "youtube-shorts-analytics",
       "cost_quota": "free public documentation; no API credit used",
@@ -165,6 +180,21 @@
       "reliability_limits": "Limitations list says Online Store or headless only and other channels unsupported, while the publish steps name Shop and POS. Treat conflicting channels as unverified until Shopify reconciles the page.",
       "source_id": "src_23c007ed449deb42",
       "source_name": "Shopify Help Shopify Bundles app"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://www.federalreserve.gov/feeds/speeches.xml",
+      "category": "finance-news-primary",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "primary",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Board member speeches feed for policy-tone monitoring",
+      "reliability_limits": "Speeches are individual views, not FOMC decisions.",
+      "source_id": "src_26e23fdd1e2a58f3",
+      "source_name": "Federal Reserve speeches RSS"
     },
     {
       "access_status": "verified-public",
@@ -348,6 +378,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://www.tcmb.gov.tr/wps/wcm/connect/EN/TCMB+EN/Main+Menu/Announcements/Press+Releases",
+      "category": "finance-tcmb",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "CBRT policy rate decisions and press releases",
+      "reliability_limits": "HTML listing, no RSS; parse conservatively.",
+      "source_id": "src_4b4de56c419f648c",
+      "source_name": "TCMB press releases (EN)"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://support.google.com/youtube/answer/9314416",
       "category": "youtube-shorts-analytics",
       "cost_quota": "free public documentation; no Studio query run",
@@ -375,6 +420,21 @@
       "reliability_limits": "Specifies container, codecs, channel layout, sample rate and bitrate. It does not prove that narration exists, is intelligible, matches the script, or is loud enough; those require separate content-level QC.",
       "source_id": "src_527e9618377fed71",
       "source_name": "YouTube recommended upload encoding settings"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://www.youtube.com/feeds/videos.xml?channel_id=UCkRfArvrzheW2E7b6SVT7vQ",
+      "category": "youtube-creator-official",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Atom feed of the official YouTube Creators channel (tutorials, feature announcements)",
+      "reliability_limits": "Video titles only; feature claims need a Help Center or blog confirmation.",
+      "source_id": "src_54116100929e3106",
+      "source_name": "YouTube Creators channel feed"
     },
     {
       "access_status": "verified-public",
@@ -633,6 +693,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://www.sec.gov/news/pressreleases.rss",
+      "category": "finance-news-primary",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "primary",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "SEC enforcement/rulemaking headlines",
+      "reliability_limits": "SEC requires a descriptive User-Agent; feed is headlines only.",
+      "source_id": "src_8940dd773777ae62",
+      "source_name": "SEC press releases RSS"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/analytics/data_model",
       "category": "youtube-analytics",
       "cost_quota": "free public documentation; no API credit used",
@@ -660,6 +735,36 @@
       "reliability_limits": "Proves ledger presence only. Does not prove Gmail delivery, YouTube Analytics, or publish state.",
       "source_id": "src_91963f39c01b2b6a",
       "source_name": "Shared learning ledger fail-closed gate"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://www.youtube.com/creators",
+      "category": "youtube-creator-official",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Official creator education hub (Create, Grow & Earn)",
+      "reliability_limits": "Marketing/education page; prefer Help Center for definitions.",
+      "source_id": "src_93d2863ea1f7e74f",
+      "source_name": "YouTube for Creators hub"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://evds2.tcmb.gov.tr/",
+      "category": "finance-tcmb",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Official CBRT time-series portal (EVDS) with web-service API",
+      "reliability_limits": "API calls need a free personal key; key must stay in secrets. Only the portal landing page was fetched.",
+      "source_id": "src_94e37ec39c3c994c",
+      "source_name": "TCMB EVDS data distribution system"
     },
     {
       "access_status": "verified-public",
@@ -735,6 +840,21 @@
       "reliability_limits": "Documents supported report combinations only. Does not prove owned-channel segment values or that subscription caused retention.",
       "source_id": "src_a07c7e21d17c1bf8",
       "source_name": "YouTube Analytics channel reports subscribed status"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://www.federalreserve.gov/feeds/press_monetary.xml",
+      "category": "finance-news-primary",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "primary",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "FOMC statements/minutes headlines (newest on 2026-10-10: Minutes of the FOMC, September 15-16, 2026)",
+      "reliability_limits": "Headline + link only; read the linked release before citing figures.",
+      "source_id": "src_a12cd466770804ab",
+      "source_name": "Federal Reserve monetary policy press releases RSS"
     },
     {
       "access_status": "verified-public",
@@ -873,6 +993,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://blog.youtube/rss",
+      "category": "youtube-creator-official",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Official YouTube product/creator announcements feed (e.g. Made On YouTube 2026, new creation tools)",
+      "reliability_limits": "Announcements, not analytics; rollout dates vary by region.",
+      "source_id": "src_c9c809d93bda2fee",
+      "source_name": "YouTube Official Blog RSS"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://support.google.com/youtube/answer/13748639",
       "category": "youtube-shorts-routing",
       "cost_quota": "free public documentation; no API credit used",
@@ -885,6 +1020,21 @@
       "reliability_limits": "Does not prove this channel has advanced-feature access.",
       "source_id": "src_ca3fdf40ca60849a",
       "source_name": "YouTube Shorts related video link"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://api.coingecko.com/api/v3/ping",
+      "category": "finance-crypto-data",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Keyless liveness check before crypto price pulls (returns gecko_says)",
+      "reliability_limits": "Liveness only; does not prove price endpoints are within rate limit.",
+      "source_id": "src_cab01a9c27c349ee",
+      "source_name": "CoinGecko API ping"
     },
     {
       "access_status": "verified-public",
@@ -1053,6 +1203,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://support.google.com/youtube/answer/10059070",
+      "category": "youtube-shorts-growth",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Shorts length (up to 3 min), view vs engaged view counting, discovery surfaces, Shorts YPP threshold",
+      "reliability_limits": "Help page; thresholds can change; does not prove channel eligibility.",
+      "source_id": "src_e9c3ea7b60f62dab",
+      "source_name": "YouTube Help: Get started creating YouTube Shorts"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/v3/docs/videos/insert",
       "category": "youtube-shorts-upload",
       "cost_quota": "free public documentation; no API credit used",
@@ -1110,7 +1275,22 @@
       "reliability_limits": "Clickability rules can vary by surface; this does not inventory every external clickable placement.",
       "source_id": "src_f492a0640e50dfce",
       "source_name": "YouTube links in descriptions and comments"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.coingecko.com/reference/simple-price",
+      "category": "finance-crypto-data",
+      "cost_quota": "free public, keyless; no API credit used",
+      "discovered_at": "2026-10-10T04:20:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T04:20:00+03:00",
+      "provenance": "verified",
+      "purpose": "Coin price by ids/symbols endpoint documentation",
+      "reliability_limits": "Vendor documentation; demo/public plan rate limits apply; aggregated prices, not exchange prints.",
+      "source_id": "src_fa1219f719140dd5",
+      "source_name": "CoinGecko API: simple/price reference"
     }
   ],
-  "updated_at": "2026-10-10T00:23:33+00:00"
+  "updated_at": "2026-10-10T01:08:58+00:00"
 }
