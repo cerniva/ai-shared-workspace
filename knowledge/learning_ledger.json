@@ -273,6 +273,31 @@
       "title": "Repeat value is returning customers over customers, not first purchase or traffic"
     },
     {
+      "claim": "GitHub Actions artifact digest mismatch is only a warning during download; it does not fail the workflow automatically.",
+      "decision": "When an artifact from another workflow/run is consumed for a plan decision or applied_learning_ids, a digest mismatch must cause an explicit nonzero integrity gate; successful download alone is not a PASS.",
+      "domain": "github-actions-artifact-integrity",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If expected digest is unavailable, mark cross-run artifact integrity unverified; do not claim the plan consumed verified artifact content."
+      ],
+      "learned_at": "2026-10-10T04:24:00+03:00",
+      "learning_id": "learn_4decad368966e2e6",
+      "next_measurement": "Create a downstream consumer negative test with a mismatched digest; require nonzero exit and no applied_learning_ids assertion; record run ID, artifact digest and test SHA.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system",
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_569c596da7048714"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "GitHub Actions artifact digest mismatch needs explicit fail-closed gate"
+    },
+    {
       "claim": "TRAFFIC_SOURCE_DETAIL_GATE: insightTrafficSourceType identifies how viewers reached a video; insightTrafficSourceDetail is populated only for supported source types and its meaning changes by source. SHORTS means referral by vertical swipe in the Shorts viewing experience, and the official detail list does not define insightTrafficSourceDetail for SHORTS. Do not infer a missing detail.",
       "decision": "TRAFFIC_SOURCE_DETAIL_GATE stays open. Interpret traffic source as a typed pair (source_type, source_detail). Never infer a missing detail. For Shorts-feed traffic, source_type=SHORTS is meaningful but detail stays unknown/not-applicable unless an official supported field or authenticated response proves otherwise. Markdown alone is not persistence. Human note learn_youtube_traffic_source_detail_gate_20261003 claimed write_read_back_pass before a ledger row existed; that claim was fail-closed.",
       "domain": "youtube-analytics",
@@ -1508,5 +1533,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-10T01:08:58+00:00"
+  "updated_at": "2026-10-10T02:40:35+00:00"
 }
