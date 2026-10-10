@@ -1,1 +1,1 @@
-$(cat /tmp/current-grok.md)
+PLACEHOLDER_WILL_BE_REPLACED
