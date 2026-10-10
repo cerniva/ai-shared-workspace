@@ -12,9 +12,9 @@ from tempfile import NamedTemporaryFile
 from typing import Any, Iterator
 
 try:
-    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
-except ModuleNotFoundError:  # Imported as scripts.learning_bridge by the test suite.
     from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
+except ModuleNotFoundError:  # Direct script execution from scripts/.
+    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
 
 
 UTC = timezone.utc
