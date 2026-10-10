@@ -95,11 +95,23 @@ def load_metadata(path: Path) -> dict:
     if not isinstance(description, str):
         raise ValueError("Metadata JSON must contain a string 'description'.")
     result = {"title": title.strip(), "description": description.strip()}
-    # Optional per-video flags; defaults preserve previous fixed behavior
+    # Optional per-video flags; defaults preserve previous fixed behavior.
+    # Strict parse: only real bools or exact "true"/"false" strings are accepted.
+    # bool("false") == True is a known footgun; never use bare bool() on untrusted strings.
+    def _as_bool(value, name: str) -> bool:
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            low = value.strip().lower()
+            if low == "true":
+                return True
+            if low == "false":
+                return False
+        raise ValueError(f"{name} must be a boolean or the string 'true'/'false'")
     if "selfDeclaredMadeForKids" in data:
-        result["selfDeclaredMadeForKids"] = bool(data["selfDeclaredMadeForKids"])
+        result["selfDeclaredMadeForKids"] = _as_bool(data["selfDeclaredMadeForKids"], "selfDeclaredMadeForKids")
     if "containsSyntheticMedia" in data:
-        result["containsSyntheticMedia"] = bool(data["containsSyntheticMedia"])
+        result["containsSyntheticMedia"] = _as_bool(data["containsSyntheticMedia"], "containsSyntheticMedia")
     return result
 
 
