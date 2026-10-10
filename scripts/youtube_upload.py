@@ -5,6 +5,9 @@ Requires YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, and YOUTUBE_REFRESH_TOKEN.
 A matching ready=true preflight JSON is mandatory so silent/broken media cannot
 bypass the render QA gate. The script never writes credentials to disk or prints
 token values.
+
+Note: Channel ownership verification (channels.list mine=True) requires youtube.readonly
+in addition to youtube.upload. Refresh token must be authorized with both scopes.
 """
 
 from __future__ import annotations
@@ -17,7 +20,10 @@ import sys
 from pathlib import Path
 
 CHANNEL_ID = "UCAKg-ZKPoazTnF2zDVORk4Q"
-UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.readonly",
+]
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 
@@ -30,12 +36,12 @@ def credentials_from_env():
     from google.oauth2.credentials import Credentials
     creds = Credentials(token=None, refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"], token_uri=TOKEN_URI,
                         client_id=os.environ["YOUTUBE_CLIENT_ID"], client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
-                        scopes=[UPLOAD_SCOPE])
+                        scopes=SCOPES)
     try:
         creds.refresh(Request())
     except Exception as exc:
         if "invalid_grant" in str(exc).lower():
-            raise RuntimeError("YOUTUBE_REFRESH_TOKEN was rejected (invalid_grant). Create a new refresh token with the same OAuth Client ID and Client Secret stored in GitHub Actions, authorize the correct YouTube channel with the youtube.upload scope, then replace the YOUTUBE_REFRESH_TOKEN repository secret.") from exc
+            raise RuntimeError("YOUTUBE_REFRESH_TOKEN was rejected (invalid_grant). Create a new refresh token with the same OAuth Client ID and Client Secret stored in GitHub Actions, authorize the correct YouTube channel with the youtube.upload and youtube.readonly scopes, then replace the YOUTUBE_REFRESH_TOKEN repository secret.") from exc
         raise
     return creds
 
