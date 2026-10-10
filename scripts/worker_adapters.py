@@ -142,11 +142,17 @@ def _default_transport(url: str, headers: dict[str, str], payload: dict[str, Any
     )
     try:
         with urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
+            body = response.read().decode("utf-8", errors="replace")
     except HTTPError as exc:
         raise _http_error_to_provider_error(url, exc) from exc
     except (URLError, TimeoutError) as exc:
         raise RetryableProviderError("provider network error") from exc
+    try:
+        return json.loads(body)
+    except ValueError as exc:
+        # Empty/HTML body from a provider (e.g. gateway page) must fall through
+        # to the next provider instead of crashing the whole runner.
+        raise RetryableProviderError("provider returned non-JSON body") from exc
 
 
 def _prompt(job: dict[str, Any]) -> str:
