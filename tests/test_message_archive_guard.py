@@ -34,7 +34,7 @@ class RebuildLogic(unittest.TestCase):
     def test_restore_that_dropped_entries_keeps_them(self):
         a = "# Arşiv\n\n---\nid: A\n---\nbir\n\n---\nid: B\n---\niki\n"
         restore = "# Arşiv\n\n---\nid: A\n---\nbir\n\n---\nid: C\n---\nüç\n"
-        out = h.rebuild([a, "PLACE_HOLDER\n\n---\nid: C\n---\nüç\n", restore])
+        out = h.rebuild([a, "PLACEHOLDER\n\n---\nid: C\n---\nüç\n", restore])
         for token in ("id: A", "id: B", "id: C"):
             self.assertEqual(out.count(token), 1, token)
 
