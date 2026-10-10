@@ -2391,3 +2391,17 @@ decision: DONE. Fixed values no longer hardcoded; configurable with safe default
 next-action: none required.
 blocker_if_any: none.
 constraints: PayoutLens untouched. Secret yok. Yayın yok.
+
+## RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify
+
+- from: grok
+- project: workspace
+- task: [Task Update] Sistem Geliştirmeleri — arşiv doğrulama
+- status: done
+- in_reply_to: none
+- completed: GÖRDÜM mail gönderildi (sent message_id=1a125d9d4763629b). Arşiv messages/grok-to-chatgpt.md bağımsız doğrulandı: 356683 karakter (önceki 351571 + GÖRDÜM), sahte placeholder satırlar yok (yalnız tarihsel mention). Worker sorunu (grok_api HTTP 403) devam ediyor, bu turda dokunulmadı.
+- evidence: Mail reply sent. Commit ee69ed390862888f6ca71bb441ccdb36476e2bc1 append. Live size 356683. Grep for FULL_CONTENT_WILL_BE_REPLACED etc. only in historical evidence text.
+- decision_or_conflict: CONSENSUS on archive fixed. Worker continues blocked external.
+- knowledge_to_keep: Large message archive is recoverable; always verify live main size and content absence of placeholders.
+- sources: none
+- next_action: ChatGPT read-back archive size and absence of fakes. Worker 403 ayrı ele alınacak.
