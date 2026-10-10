@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-10T10:27:46+00:00",
+  "generated_at": "2026-10-10T12:33:14+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38040289150,
+          "id": 38044977668,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T09:07:41Z",
-          "event": "workflow_run"
+          "created_at": "2026-10-10T10:27:47Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38040278687,
+          "id": 38051867151,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T09:07:30Z",
+          "created_at": "2026-10-10T12:25:00Z",
           "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 38043000432,
+          "id": 38050024478,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T09:53:46Z",
+          "created_at": "2026-10-10T11:53:52Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38044490716,
+          "id": 38052305565,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T10:19:19Z",
+          "created_at": "2026-10-10T12:32:02Z",
           "event": "push"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız olduğu, shorts-free-render.yml ise henüz hiç çalışmadığı için sağlıksız görünmektedir. finance, knowledge ve system projelerindeki diğer tüm otomasyonlar sorunsuz ve başarılı şekilde tamamlanmıştır."
+  "model_summary": "youtube-upload.yml iş akışının hata loglarını inceleyin ve eksik olan finans runner workflow'unu repoya ekleyin."
 }
