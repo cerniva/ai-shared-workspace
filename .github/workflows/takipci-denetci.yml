@@ -56,6 +56,7 @@ jobs:
           CP_HEAD: ${{ github.event.client_payload.head_sha }}
           CP_BASE: ${{ github.event.client_payload.base }}
           CP_MERGE: ${{ github.event.client_payload.merge_sha }}
+          CP_CI_PENDING: ${{ github.event.client_payload.ci_pending }}
           IN_PR: ${{ github.event.inputs.pr_number }}
           IN_HEAD: ${{ github.event.inputs.head_sha }}
           IN_BASE: ${{ github.event.inputs.base }}
@@ -70,8 +71,9 @@ jobs:
             if [ -z "$CP_MERGE" ]; then echo "main-merged without merge_sha"; exit 1; fi
             args=(--head-sha "$CP_MERGE")
           elif [ "$EVENT" = "repository_dispatch" ]; then
-            if [ -n "$CP_PR" ]; then args=(--pr "$CP_PR" --publish)
-            elif [ -n "$CP_HEAD" ]; then args=(--head-sha "$CP_HEAD" --publish ${CP_BASE:+--base "$CP_BASE"})
+            # team-pr-opened: unfinished CI or ci_pending=true -> published as failure
+            if [ -n "$CP_PR" ]; then args=(--pr "$CP_PR" --publish --dispatch --ci-pending "${CP_CI_PENDING:-false}")
+            elif [ -n "$CP_HEAD" ]; then args=(--head-sha "$CP_HEAD" --publish --dispatch --ci-pending "${CP_CI_PENDING:-false}" ${CP_BASE:+--base "$CP_BASE"})
             else echo "team-pr-opened needs client_payload.pr_number or head_sha"; exit 1; fi
           else
             if [ -n "$IN_PR" ]; then args=(--pr "$IN_PR" --publish)

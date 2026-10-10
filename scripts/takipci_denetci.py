@@ -15,6 +15,10 @@ GITHUB_TOKEN and emits a JSON verdict {verdict, reasons, warnings}. Rules:
   6. a Test:/CI: line (or the line right after it) mentions failure words -> fail
   7. (PR mode) any completed check run on head_sha (except this auditor) with
      conclusion failure/cancelled/timed_out -> fail
+  8. (dispatch mode, team-pr-opened) client_payload.ci_pending=true or any other
+     check on head_sha still queued/in_progress -> fail "ci_pending: CI not
+     finished" (plain pull_request mode ignores in-progress checks; the gate
+     handles those)
 When --publish is given the verdict is posted as a check run named exactly
 CHECK_NAME on the head SHA (that is what auto-merge-gate reads, see
 config/auto_merge.json `auditor_check_name`). Read-only otherwise.
@@ -47,6 +51,9 @@ RUN_BARE_RE = re.compile(r"(?i)(?:\brun\s+#?|#)(\d{8,})\b")
 EVIDENCE_LINE_RE = re.compile(r"(?i)^\s*[-*]?\s*(test|tests|ci)\s*:")
 FAIL_WORD_RE = re.compile(r"(?i)(?<!\b0 )\b(failure|failed|kırmızı)\b")
 BAD_CONCLUSIONS = {"failure", "cancelled", "timed_out"}
+CI_PENDING_REASON = "ci_pending: CI not finished"
+# Never wait on ourselves or on the gate (it runs until we finish).
+PENDING_IGNORE = {CHECK_NAME, "auto-merge-gate"}
 SHRINK_RATIO = 0.8
 MIN_LINES = 5
 
@@ -169,10 +176,22 @@ def check_head_checks(check_runs: list[dict]) -> list[str]:
     return out
 
 
+def check_ci_pending(check_runs: list[dict] | None, ci_pending: bool, strict: bool) -> list[str]:
+    """Dispatch mode: payload flag or any unfinished non-auditor check -> fail."""
+    if ci_pending:
+        return [CI_PENDING_REASON + " (client_payload.ci_pending=true)"]
+    if not strict:
+        return []
+    waiting = [c.get("name", "?") for c in check_runs or []
+               if c.get("name") not in PENDING_IGNORE and c.get("status") != "completed"]
+    return [f"{CI_PENDING_REASON} ({', '.join(waiting)})"] if waiting else []
+
+
 def evaluate(title: str, files: list[dict], body: str | None = None,
              head_ref: str = "", check_pr_body: bool = True,
              run_refs: list[dict] | None = None, head_checks: list[dict] | None = None,
-             repo: str = "", head_sha: str = "") -> dict:
+             repo: str = "", head_sha: str = "", ci_pending: bool = False,
+             strict_pending: bool = False) -> dict:
     """Pure verdict. files: [{filename, status, old_text, new_text}]."""
     reasons: list[str] = []
     warnings: list[str] = []
@@ -197,6 +216,7 @@ def evaluate(title: str, files: list[dict], body: str | None = None,
         warnings += w
     if head_checks is not None:
         reasons += check_head_checks(head_checks)
+    reasons += check_ci_pending(head_checks, ci_pending, strict_pending)
     return {"check": CHECK_NAME, "verdict": "fail" if reasons else "pass",
             "reasons": reasons, "warnings": warnings, "files": paths}
 
@@ -267,25 +287,33 @@ def fetch_run_refs(gh: GitHub, refs: list[dict]) -> list[dict]:
     return out
 
 
-def audit_pr(gh: GitHub, number: int) -> tuple[dict, str]:
+def head_check_runs(gh: GitHub, sha: str) -> list[dict]:
+    return gh.request("GET", f"/commits/{sha}/check-runs?per_page=100").get("check_runs", [])
+
+
+def audit_pr(gh: GitHub, number: int, dispatch: bool = False, ci_pending: bool = False) -> tuple[dict, str]:
     pr = gh.request("GET", f"/pulls/{number}")
     head = pr["head"]["sha"]
     files = collect(gh, gh.paged(f"/pulls/{number}/files"), pr["base"]["sha"], head)
     run_refs = fetch_run_refs(gh, extract_run_refs(pr.get("body")))
-    checks = gh.request("GET", f"/commits/{head}/check-runs?per_page=100").get("check_runs", [])
+    checks = head_check_runs(gh, head)
     res = evaluate(pr.get("title", ""), files, pr.get("body"), pr["head"].get("ref", ""),
-                   run_refs=run_refs, head_checks=checks, repo=gh.repo, head_sha=head)
+                   run_refs=run_refs, head_checks=checks, repo=gh.repo, head_sha=head,
+                   ci_pending=ci_pending, strict_pending=dispatch)
     res.update(pr_number=number, head_sha=head)
     return res, head
 
 
-def audit_commit(gh: GitHub, sha: str, base: str | None = None) -> dict:
+def audit_commit(gh: GitHub, sha: str, base: str | None = None,
+                 dispatch: bool = False, ci_pending: bool = False) -> dict:
     commit = gh.request("GET", f"/commits/{sha}")
     parents = commit.get("parents") or []
     base = base or (parents[0]["sha"] if parents else None)
     title = (commit.get("commit", {}).get("message") or "").splitlines()[0:1]
     files = collect(gh, commit.get("files") or [], base, sha)
-    res = evaluate(title[0] if title else "", files, check_pr_body=False)
+    checks = head_check_runs(gh, sha) if dispatch else None
+    res = evaluate(title[0] if title else "", files, check_pr_body=False, head_checks=checks,
+                   ci_pending=ci_pending, strict_pending=dispatch)
     res.update(head_sha=sha, base_sha=base)
     return res
 
@@ -306,16 +334,20 @@ def main(argv=None) -> int:
     p.add_argument("--head-sha")
     p.add_argument("--base")
     p.add_argument("--publish", action="store_true", help="post check run on the audited head SHA")
+    p.add_argument("--dispatch", action="store_true", help="team-pr-opened mode: unfinished CI -> fail")
+    p.add_argument("--ci-pending", default="", help="client_payload.ci_pending (true/false)")
     args = p.parse_args(argv)
     repo, token = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
     if not repo or not token:
         print("GITHUB_REPOSITORY/GITHUB_TOKEN missing", file=sys.stderr)
         return 2
     gh = GitHub(repo, token)
+    pending = str(args.ci_pending).strip().lower() in ("1", "true", "yes")
     if args.pr:
-        res, sha = audit_pr(gh, args.pr)
+        res, sha = audit_pr(gh, args.pr, dispatch=args.dispatch, ci_pending=pending)
     elif args.head_sha:
-        res, sha = audit_commit(gh, args.head_sha, args.base), args.head_sha
+        res = audit_commit(gh, args.head_sha, args.base, dispatch=args.dispatch, ci_pending=pending)
+        sha = args.head_sha
     else:
         p.error("--pr or --head-sha required")
     if args.publish:

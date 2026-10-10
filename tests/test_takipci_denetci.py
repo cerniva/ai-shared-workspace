@@ -130,6 +130,39 @@ class TakipciDenetciTests(unittest.TestCase):
         res = self._eval(GOOD_BODY, checks=[{"name": "test", "status": "in_progress", "conclusion": None}])
         self.assertEqual(res["verdict"], "pass")
 
+    def _dispatch(self, checks, ci_pending=False):
+        return td.evaluate("feat: x", [f("scripts/a.py", CODE, CODE + "y = 1\n")], GOOD_BODY, "bot/x",
+                           run_refs=[], head_checks=checks, repo="cerniva/ai-shared-workspace",
+                           head_sha="headsha1", ci_pending=ci_pending, strict_pending=True)
+
+    GREEN = [{"name": "test", "status": "completed", "conclusion": "success"},
+             {"name": "takipci-denetci", "status": "in_progress", "conclusion": None},
+             {"name": "auto-merge-gate", "status": "queued", "conclusion": None}]
+
+    def test_dispatch_ci_pending_flag_fails(self):
+        res = self._dispatch(self.GREEN, ci_pending=True)
+        self.assertEqual(res["verdict"], "fail")
+        self.assertTrue(any(r.startswith("ci_pending: CI not finished") for r in res["reasons"]))
+
+    def test_dispatch_in_progress_check_fails(self):
+        for st in ("in_progress", "queued"):
+            res = self._dispatch(self.GREEN + [{"name": "codeql", "status": st, "conclusion": None}])
+            self.assertEqual(res["verdict"], "fail", st)
+            self.assertTrue(any("ci_pending" in r and "codeql" in r for r in res["reasons"]))
+
+    def test_dispatch_all_done_green_passes(self):
+        res = self._dispatch(self.GREEN)
+        self.assertEqual(res["verdict"], "pass", res["reasons"])
+
+    def test_pull_request_mode_ignores_in_progress(self):
+        res = self._eval(GOOD_BODY, checks=[{"name": "codeql", "status": "in_progress", "conclusion": None}])
+        self.assertEqual(res["verdict"], "pass")
+
+    def test_workflow_passes_ci_pending_to_script(self):
+        wf = (ROOT / ".github" / "workflows" / "takipci-denetci.yml").read_text(encoding="utf-8")
+        self.assertIn("github.event.client_payload.ci_pending", wf)
+        self.assertIn('--dispatch --ci-pending "${CP_CI_PENDING:-false}"', wf)
+
 
 if __name__ == "__main__":
     unittest.main()
