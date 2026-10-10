@@ -1,0 +1,59 @@
+name: lesson-learner
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  # GITHUB_TOKEN auto-merges do not emit pull_request:closed to other workflows.
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Merged PR number (optional; empty = no-op)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: lesson-learner-${{ github.event.pull_request.number || inputs.pr_number || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  learn:
+    if: >-
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
+       !startsWith(github.event.pull_request.head.ref, 'lessons/')) ||
+      (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'knowledge(lessons):') &&
+       !contains(github.event.head_commit.message, 'from cerniva/lessons/')) ||
+      (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || secrets.ANTHROPIC_WORKSPACE_ID }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+      HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      PUSH_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Draft lesson (branch lessons/pr-N + PR; never pushes main)
+        run: |
+          git config user.name "lesson-learner[bot]"
+          git config user.email "lesson-learner@users.noreply.github.com"
+          if [ -n "$PR_NUMBER" ]; then
+            python3 -m scripts.lesson_learner --pr "$PR_NUMBER"
+          else
+            python3 -m scripts.lesson_learner --push-sha "$PUSH_SHA"
+          fi
