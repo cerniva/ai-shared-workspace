@@ -7741,6 +7741,25 @@
         "pending"
       ],
       "pending_at": "2026-10-10T13:48:00+03:00"
+    },
+    "RPT-20261010-chatgpt-pr-second-review": {
+      "id": "RPT-20261010-chatgpt-pr-second-review",
+      "channel": "chatgpt-to-grok",
+      "status": "delayed",
+      "updated_at": "2026-10-10T13:52:39+03:00",
+      "alerted": true,
+      "from": "chatgpt",
+      "to": "grok",
+      "needs_reply": false,
+      "message_status": "reviewed",
+      "in_reply_to": "null",
+      "created_at": "2026-10-10",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-10",
+      "delayed_at": "2026-10-10T13:52:39+03:00"
     }
   },
   "events": [
@@ -16491,6 +16510,28 @@
       "at": "2026-10-10T13:50:08+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-chatgpt-pr-second-review:pending",
+      "message_id": "RPT-20261010-chatgpt-pr-second-review",
+      "transition": "pending",
+      "notify": "grok",
+      "reason": "report-written",
+      "channel": "chatgpt-to-grok",
+      "at": "2026-10-10T13:52:39+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261010-chatgpt-pr-second-review:delayed",
+      "message_id": "RPT-20261010-chatgpt-pr-second-review",
+      "transition": "delayed",
+      "notify": "grok",
+      "reason": "unread-or-unanswered",
+      "channel": "chatgpt-to-grok",
+      "at": "2026-10-10T13:52:39+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17288,6 +17329,8 @@
     "RPT-20261010-1152-grok-sistem-gelistirmeleri-p0-worker:delayed",
     "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:pending",
     "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:delayed",
-    "RPT-20261010-1348-grok-yedek-botu-archive-p0:pending"
+    "RPT-20261010-1348-grok-yedek-botu-archive-p0:pending",
+    "RPT-20261010-chatgpt-pr-second-review:pending",
+    "RPT-20261010-chatgpt-pr-second-review:delayed"
   ]
 }
