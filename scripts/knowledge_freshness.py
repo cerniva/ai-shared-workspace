@@ -21,9 +21,9 @@ from pathlib import Path
 from typing import Any, Callable
 
 try:
-    from knowledge_bridge import CatalogError, SourceCatalog
-except ModuleNotFoundError:  # imported as scripts.knowledge_freshness
     from scripts.knowledge_bridge import CatalogError, SourceCatalog
+except ModuleNotFoundError:  # Direct script execution from scripts/.
+    from knowledge_bridge import CatalogError, SourceCatalog
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "knowledge" / "source_catalog.json"
