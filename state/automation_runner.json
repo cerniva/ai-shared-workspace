@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-10T18:31:25+00:00",
+  "generated_at": "2026-10-10T20:27:40+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38067771412,
+          "id": 38076121572,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T16:28:00Z",
+          "created_at": "2026-10-10T18:31:26Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38075109782,
+          "id": 38076125449,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T18:16:24Z",
-          "event": "push"
+          "created_at": "2026-10-10T18:31:29Z",
+          "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 38073508186,
+          "id": 38081495753,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T17:52:27Z",
+          "created_at": "2026-10-10T19:52:07Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38074050822,
+          "id": 38082064265,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T18:00:42Z",
+          "created_at": "2026-10-10T20:00:59Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad alanındaki youtube-upload.yml otomasyonu başarısız olduğu, shorts-free-render.yml otomasyonu ise hiç çalıştırılmadığı için sağlıksız görünmektedir. Diğer tüm projelerdeki otomasyonlar sorunsuz ve başarılı şekilde tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad altındaki youtube-upload.yml otomasyonu başarısız olduğu ('failure') için sağlıksız görünmektedir. Aynı gruptaki shorts-free-render.yml otomasyonu ise henüz hiç çalıştırılmamıştır ('never_run'). Finans, bilgi ve sistem grubundaki diğer tüm otomasyonlar ise sağlıklı ve başarılı bir şekilde tamamlanmıştır."
 }
