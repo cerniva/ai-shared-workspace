@@ -770,12 +770,10 @@
     "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:pending",
     "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T04:52:59+03:00",
+  "checked_at": "2026-10-10T05:02:47+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 115,
