@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-10T12:33:14+00:00",
+  "generated_at": "2026-10-10T14:27:40+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38044977668,
+          "id": 38052380563,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T10:27:47Z",
+          "created_at": "2026-10-10T12:33:16Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38051867151,
+          "id": 38056377357,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T12:25:00Z",
+          "created_at": "2026-10-10T13:36:36Z",
           "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 38050024478,
+          "id": 38057444105,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T11:53:52Z",
+          "created_at": "2026-10-10T13:53:06Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38052305565,
+          "id": 38059528777,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-10T12:32:02Z",
+          "created_at": "2026-10-10T14:25:14Z",
           "event": "push"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "youtube-upload.yml iş akışının hata loglarını inceleyin ve eksik olan finans runner workflow'unu repoya ekleyin."
+  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışı başarısız olmuş, shorts-free-render.yml ise hiç çalıştırılmamıştır. Ayrıca finance alanında ana finans runner iş akışının depoda bulunmadığı not edilmiştir. Sağlıksız görünen bu süreçlerin ve eksik workflow tanımlarının incelenmesi önerilir."
 }
