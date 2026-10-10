@@ -598,6 +598,29 @@
       "title": "Local and remote write locks are separate"
     },
     {
+      "claim": "Shopify developer changelog (feed.xml item and page global-catalog-rest-api-stops-serving-traffic-on-november-2-2026, published 9 Oct 2026, verified 2026-10-10) states the Global Catalog REST API, deprecated in April 2026, stops serving traffic on November 2, 2026, and apps still calling it must migrate to Global Catalog MCP, which implements the Universal Commerce Protocol (UCP).",
+      "decision": "REVIEW_ONLY: audit video_shopify code and connectors for any Global Catalog REST API call; if found, plan migration to Global Catalog MCP (not the Admin GraphQL API) before 2026-11-02. No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Intake decision named a GraphQL API as the migration target; the changelog names Global Catalog MCP (UCP). Corrected 2026-10-10."
+      ],
+      "fallback_history": [],
+      "learned_at": "2026-10-09T22:36:57+00:00",
+      "learning_id": "learn_7fb60df02e9c91f4",
+      "next_measurement": "Search the repo and connector configs for Global Catalog REST endpoints; record found/not-found before 2026-10-20.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Global Catalog REST API stops serving traffic on November 2, 2026"
+    },
+    {
       "claim": "Rights clearance is necessary but not sufficient for revenue-targeted Shorts; substantive original contribution is also required, and optional music can change Creator Pool allocation.",
       "decision": "Before publish require commercial rights clearance and a distinct originality or reused-content gate; evaluate music only when it adds narrative or retention value.",
       "domain": "youtube-shorts-monetization",
@@ -976,6 +999,29 @@
       ],
       "supersedes": null,
       "title": "YouTube Reporting CSV header-only no-data gate"
+    },
+    {
+      "claim": "Federal Reserve Board press release other20261009a (9 Oct 2026, verified 2026-10-10 via press_all.xml feed and the release page) published 2025 Survey of Consumer Finances results: between the 2022 and 2025 surveys real median family income rose 7 percent to $82,200 while real mean family income fell 6 percent to $145,200; real median net worth rose 2 percent to $215,900 and real mean net worth rose 7 percent to $1.24 million; homeownership was 66 percent, about unchanged.",
+      "decision": "REVIEW_ONLY: The 'finance' plan should review the 2025 Survey of Consumer Finances results to analyze shifts in American household balance sheets and economic health, while taking no immediate operational or financial action.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Original intake learning was headline-only and unverified; claim rewritten from the fetched release page on 2026-10-10."
+      ],
+      "fallback_history": [],
+      "learned_at": "2026-10-09T22:36:57+00:00",
+      "learning_id": "learn_d44f97b112d55564",
+      "next_measurement": "Read the summary report 'Changes in U.S. Family Finances from 2022 to 2025' (PDF) before using any distribution-level figure.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "supersedes": null,
+      "title": "Fed releases 2025 Survey of Consumer Finances (2022-2025 changes)"
     },
     {
       "claim": "Official Gumroad docs (fetched 2026-10-10) state POST /v2/products requires the edit_products or account scope and publishes immediately unless draft=true or published=false; if publishing is blocked the product is saved as a draft with a warning field; GET /v2/products lists products (sales_count only with view_sales/account) and PUT /v2/products/:id/enable publishes. A personal access token is generated from an application in Gumroad advanced settings and does not expire until revoked.",
@@ -1412,5 +1458,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-09T22:33:41+00:00"
+  "updated_at": "2026-10-10T00:23:33+00:00"
 }
