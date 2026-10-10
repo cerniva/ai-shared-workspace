@@ -27,6 +27,7 @@ on:
       - 'scripts/auto_merge_gate.py'
       - 'config/auto_merge.json'
       - 'scripts/team_worker.py'
+      - 'scripts/improvement_bot.py'
       - 'scripts/team_research.py'
       - 'scripts/model_fallback.py'
       - 'scripts/provider_health.py'
@@ -67,6 +68,7 @@ on:
       - 'scripts/auto_merge_gate.py'
       - 'config/auto_merge.json'
       - 'scripts/team_worker.py'
+      - 'scripts/improvement_bot.py'
       - 'scripts/team_research.py'
       - 'scripts/model_fallback.py'
       - 'scripts/provider_health.py'
@@ -103,6 +105,8 @@ jobs:
         run: python3 -m unittest tests.test_shorts_mp4_qc -v
       - name: team-worker tests
         run: python3 -m unittest tests.test_team_worker -v
+      - name: improvement-bot tests
+        run: python3 -m unittest tests.test_improvement_bot -v
       - name: Auto-merge gate tests
         run: python3 -m unittest tests.test_auto_merge_gate -v
       - name: provider-health + model fallback tests

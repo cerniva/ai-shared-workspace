@@ -1,0 +1,72 @@
+name: improvement-bot
+
+# Weekly rule-based bottleneck report (scripts/improvement_bot.py).
+# Commits only state/handoffs.json + report files to main; then hands ONE speed-up
+# job to team-worker via repository_dispatch team-work (idempotent per ISO week).
+on:
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: report only, no handoff, no commit, no dispatch'
+        type: boolean
+        default: true
+
+concurrency:
+  group: improvement-bot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Analyze
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python3 scripts/improvement_bot.py analyze --dry-run
+          else
+            python3 scripts/improvement_bot.py analyze
+          fi
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: improvement-report
+          path: |
+            state/improvement_report.json
+            messages/improvement-latest.md
+      - name: Commit handoffs + report (main, no PR)
+        if: env.DRY_RUN != 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add state/handoffs.json state/improvement_report.json messages/improvement-latest.md
+          if git diff --cached --quiet; then echo 'nothing to commit'; exit 0; fi
+          git commit -m "chore(improvement-bot): weekly report $(date -u +%GW%V)"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
+      - name: Dispatch team-work
+        if: env.DRY_RUN != 'true'
+        run: python3 scripts/improvement_bot.py dispatch
