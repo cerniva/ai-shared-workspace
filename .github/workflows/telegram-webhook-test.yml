@@ -5,6 +5,11 @@ on:
       - 'integrations/telegram-webhook/**'
       - '.github/workflows/telegram-webhook-test.yml'
   workflow_dispatch:
+    inputs:
+      cloudflare_preflight:
+        description: 'Read existing Worker settings only; no deploy or webhook changes'
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -13,8 +18,28 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Test webhook security and failure handling
-        run: node --test integrations/telegram-webhook/worker.test.mjs
+      - name: Test webhook security and read-only access check
+        run: node --test integrations/telegram-webhook/*.test.mjs
+  cloudflare-preflight:
+    if: github.event_name == 'workflow_dispatch' && inputs.cloudflare_preflight
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify read access without modifying Worker or Telegram
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_WORKER_NAME: ${{ vars.CLOUDFLARE_WORKER_NAME }}
+        run: node integrations/telegram-webhook/cloudflare-preflight.mjs
