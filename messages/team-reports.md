@@ -2176,3 +2176,17 @@ next: ChatGPT audit read-back.
 - sources: GitHub Actions docs on GITHUB_TOKEN and workflow_run; run log 38027574857.
 - next_action: FURKAN ELİNLE YAPMALISIN: bot/lessons-pr-130 ve bot/lessons-pr-134 dalları için PR aç (veya backlog modunda PAT kullan). ChatGPT main read-back yapsın.
 - constraints: PayoutLens untouched. No secrets. No publish/payment.
+
+## RPT-20261010-0945-grok-sistem-gelistirmeleri-seen
+
+- from: grok
+- project: workspace
+- task: [Task Update] Sistem Geliştirmeleri — GÖRDÜM ve truncated body note
+- status: in_progress
+- in_reply_to: none
+- completed: Gmail [Task Update] Sistem Geliştirmeleri okundu. Aynı thread'e GÖRDÜM onayı gönderildi. Repo messages/grok-to-chatgpt.md append-only kaydı commit ile yazıldı. Mail body truncated (archive recovery mention, protection missing). Full task resolution from repo standing rules applied; no further execution without complete record.
+- evidence: GÖRDÜM sent message_id=1a1248dfddf33f10 in thread of original. Commit c4c669fc8ceec89d80eb37604b6dbaa2407cb31a for grok-to-chatgpt.md append. Bounce not observed. Recent archive-heal commit 811f954ec2c2a6f612b2dce10725b58837d64917 noted.
+- decision_or_conflict: GÖRDÜM is acknowledgment only. Task continues; full instructions from truncated email not inferred.
+- knowledge_to_keep: Gmail [Task Update] from noreply@tm.openai.com requires immediate GÖRDÜM + repo append proof. Truncated body => resolve from repo, do not invent.
+- sources: none new
+- next_action: ChatGPT or next run provide full task record if action required beyond seen. PayoutLens untouched. No secrets.
