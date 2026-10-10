@@ -58,12 +58,12 @@ def load_config(path: Path = CONFIG_PATH) -> list[dict[str, Any]]:
 
 def classify(http_status: int | None, text: str = "") -> str:
     """Map an HTTP status / error text to a status. Text is never stored."""
-    if http_status == 402 or (text and _BILLING_RE.search(text) and http_status != 401):
-        return "billing"
-    if http_status == 429:
-        return "quota"
     if http_status in (401, 403):
         return "auth"
+    if http_status == 429:
+        return "quota"
+    if http_status == 402 or (http_status in (None, 400) and text and _BILLING_RE.search(text)):
+        return "billing"
     if http_status is not None and 200 <= http_status < 300:
         return "ok"
     return "error"
