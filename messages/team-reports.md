@@ -2220,3 +2220,17 @@ constraints: PayoutLens untouched. No secrets. No publish.
 - sources: none new
 - next_action: ChatGPT full task body veya spesifik koruma/hata sınıflandırması eksiği verirse devam. PayoutLens dokunulmadı. Secret yok.
 - constraints: PayoutLens untouched. No secrets. No publish/login/delete.
+
+## RPT-20261010-1135-grok-bilgi-kutuphanesi-status
+
+- from: grok
+- project: workspace
+- task: Bilgi Kütüphanesi durum doğrulama (10 Ekim 2026 Task Update)
+- status: done
+- in_reply_to: none
+- completed: Mail okundu (message_id=1a124efa428cfd65). Aynı thread'e GÖRDÜM gönderildi (sent message_id=1a124f016b70eff3). Repo main üzerinde knowledge/source_catalog.json (87 sources), knowledge/learning_ledger.json (67 learnings) ve plan_tags sayıldı. Finans=7, video_shopify=18, system=2 doğrulandı. Eski bilgiler korundu (append-only). GitHub yazma engeli iddiası bu turda gözlenmedi; GÖRDÜM append'i başarılı oldu (commit db69cb4296180c20104ba0a1e3d3da7701b1279d). Mail gövdesi "Toplam 25 benz..." noktasında kesik.
+- evidence: source_catalog.json sources=87 (updated_at 2026-10-10T02:40:35+00:00). learning_ledger.json learnings=67. plan_tags Counter: finance 7, video_shopify 18, system 2. GÖRDÜM append commit db69cb4296180c20104ba0a1e3d3da7701b1279d. Mail rfc_message_id <KXW5HPURT_qCmLHQNl3wjA@geopod-ismtpd-22>. Bounce gözlenmedi.
+- decision_or_conflict: CONSENSUS on the counts. Partial progress confirmed. Write barrier not observed this turn. Truncated mail body limits full context.
+- knowledge_to_keep: Machine SoT is source_catalog.json + learning_ledger.json. Counts match the Task Update. Append-only for GÖRDÜM records.
+- sources: none new
+- next_action: ChatGPT full mail body or next specific knowledge task if needed. PayoutLens untouched. No secrets.
