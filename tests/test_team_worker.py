@@ -9,7 +9,9 @@ from scripts.worker_adapters import MissingCredential, RetryableProviderError
 
 
 class FakeClient:
-    def __init__(self, open_pulls=None, fail_pr=False):
+    def __init__(self, open_pulls=None, fail_pr=False, checks=None):
+        self.checks = list(checks or [[{"name": "test", "status": "completed"}]])
+        self.check_calls = 0
         self.open_pulls = open_pulls or []
         self.fail_pr = fail_pr
         self.created, self.issues, self.dispatches = [], [], []
@@ -24,6 +26,10 @@ class FakeClient:
         n = len(self.created)
         return {"html_url": f"https://github.com/x/y/pull/{n}", "number": n, "head": {"sha": "abc123"}}
 
+    def list_check_runs(self, sha):
+        self.check_calls += 1
+        return self.checks[min(self.check_calls - 1, len(self.checks) - 1)]
+
     def create_issue(self, **kw):
         self.issues.append(kw)
         return {"html_url": "https://github.com/x/y/issues/1"}
@@ -36,11 +42,11 @@ class FakeClient:
 class FakeGit:
     def __init__(self, extra_paths=()):
         self.extra = list(extra_paths)
-        self.branch = self.pushed = self.committed = None
+        self.branch = self.pushed = self.committed = self.base = None
 
-    def checkout_new(self, branch):
+    def checkout_new(self, branch, base=None):
         tw.assert_push_target(branch)
-        self.branch = branch
+        self.branch, self.base = branch, base
 
     def changed_paths(self):
         return ["state/handoffs.json", *self.extra]
@@ -294,6 +300,88 @@ class AutoMergeGateCompat(Base):
         client = FakeClient()
         self.run_ho(client, factory=_missing_factory)
         self.assertNotIn("provider-check", [d[0] for d in client.dispatches])
+
+
+class CheckWait(unittest.TestCase):
+    def clock(self):
+        t = {"now": 0.0}
+        return (lambda: t["now"]), (lambda s: t.__setitem__("now", t["now"] + s)), t
+
+    def test_waits_until_checks_complete_ignoring_auditor_and_gate(self):
+        clock, sleep, t = self.clock()
+        client = FakeClient(checks=[
+            [{"name": "test", "status": "in_progress"}, {"name": "takipci-denetci", "status": "queued"}],
+            [{"name": "test", "status": "completed"}, {"name": "takipci-denetci", "status": "queued"},
+             {"name": "auto-merge-gate", "status": "in_progress"}],
+        ])
+        self.assertTrue(tw.wait_for_checks(client, "abc", sleep=sleep, clock=clock))
+        self.assertEqual(client.check_calls, 2)
+        self.assertEqual(t["now"], 30)
+
+    def test_timeout_after_20_minutes(self):
+        clock, sleep, t = self.clock()
+        client = FakeClient(checks=[[{"name": "test", "status": "in_progress"}]])
+        self.assertFalse(tw.wait_for_checks(client, "abc", sleep=sleep, clock=clock))
+        self.assertLessEqual(t["now"], 20 * 60)
+        self.assertEqual(client.check_calls, 41)
+
+    def test_no_checks_counts_as_pending(self):
+        clock, sleep, _ = self.clock()
+        client = FakeClient(checks=[[]])
+        self.assertFalse(tw.wait_for_checks(client, "abc", timeout=60, sleep=sleep, clock=clock))
+
+
+class PrOpenedAfterChecks(Base):
+    def test_dispatch_after_checks_no_ci_pending(self):
+        client = FakeClient()
+        order = []
+        tw.process_handoff("HO-T-1", run_id="9", client=client, env=self.env, root=self.root,
+                           adapter_factory=_ok_factory, test_runner=lambda: (True, "OK"), git_ops=FakeGit(),
+                           check_waiter=lambda c, sha: order.append(("wait", sha, len(c.dispatches))) or True)
+        self.assertEqual(order, [("wait", "abc123", 0)])  # waited before any team-pr-opened
+        opened = [d for d in client.dispatches if d[0] == "team-pr-opened"]
+        self.assertNotIn("ci_pending", opened[0][1])
+
+    def test_timeout_sends_with_ci_pending(self):
+        client = FakeClient()
+        tw.process_handoff("HO-T-1", run_id="9", client=client, env=self.env, root=self.root,
+                           adapter_factory=_ok_factory, test_runner=lambda: (True, "OK"), git_ops=FakeGit(),
+                           check_waiter=lambda c, sha: False)
+        opened = [d for d in client.dispatches if d[0] == "team-pr-opened"]
+        self.assertEqual(opened[0][1], {"pr_number": 1, "head_sha": "abc123", "handoff_id": "HO-T-1", "ci_pending": True})
+
+
+class ChatgptSource(Base):
+    def test_chatgpt_branch_is_base_and_untouched(self):
+        client, git = FakeClient(), FakeGit()
+        out = tw.process_handoff("HO-T-1", run_id="5", client=client, env=self.env, root=self.root, source="chatgpt",
+                                 adapter_factory=_ok_factory, test_runner=lambda: (True, "OK"), git_ops=git,
+                                 check_waiter=lambda c, sha: True, base_branch="chatgpt/ho-t-1", message_id="MSG-42")
+        self.assertEqual(git.base, "chatgpt/ho-t-1")
+        self.assertEqual(git.pushed, "bot/HO-T-1-5")
+        self.assertEqual(out["branch"], "bot/HO-T-1-5")
+        self.assertEqual(client.created[0]["head"], "bot/HO-T-1-5")
+        self.assertEqual(client.created[0]["base"], "main")
+        self.assertIn("chatgpt/ho-t-1", client.created[0]["body"])
+        self.assertIn("MSG-42", client.created[0]["body"])
+        with self.assertRaises(tw.PushRefused):
+            tw.assert_push_target("chatgpt/ho-t-1")
+
+    def test_non_chatgpt_base_rejected(self):
+        for bad in ("main", "feature/x", "chatgpt/../main", "bot/x"):
+            with self.assertRaises(tw.TeamWorkerError):
+                tw.chatgpt_base(bad)
+        self.assertIsNone(tw.chatgpt_base(None))
+        self.assertEqual(tw.chatgpt_base("refs/heads/chatgpt/a"), "chatgpt/a")
+
+    def test_payload_extras_and_message_only(self):
+        ev = {"client_payload": {"handoff_id": "HO-T-1", "source": "chatgpt", "message_id": "M1"}}
+        self.assertEqual(tw.payload_extras("repository_dispatch", ev), {"message_id": "M1"})
+        self.assertEqual(tw.resolve_targets("repository_dispatch", ev, None, {"items": []}), [("HO-T-1", None, "chatgpt")])
+        self.assertEqual(tw.payload_extras("push", ev), {})
+        client, git = FakeClient(), FakeGit()
+        self.run_ho(client, git)
+        self.assertIsNone(git.base)
 
 
 class PushBatchSafety(unittest.TestCase):
