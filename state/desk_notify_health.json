@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 12,
-    "answered": 41,
-    "delayed": 105
+    "pending": 1,
+    "seen": 119,
+    "answered": 72,
+    "delayed": 218
   },
-  "event_count": 800,
+  "event_count": 801,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -817,21 +817,22 @@
     "RPT-20261010-chatgpt-pr-second-review:delayed",
     "RPT-20261010-1405-grok-bilgi-kutuphanesi-status:pending",
     "RPT-20261010-1348-grok-yedek-botu-archive-p0:delayed",
-    "RPT-20261010-1430-grok-youtube-privacy-flags:pending"
+    "RPT-20261010-1430-grok-youtube-privacy-flags:pending",
+    "RPT-20261010-1405-grok-bilgi-kutuphanesi-status:delayed"
   ],
   "new_event_keys": [
-    "RPT-20261010-1430-grok-youtube-privacy-flags:pending"
+    "RPT-20261010-1405-grok-bilgi-kutuphanesi-status:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T14:24:18+03:00",
+  "checked_at": "2026-10-10T14:40:11+03:00",
   "historical_counts": {
-    "pending": 2,
+    "pending": 1,
     "seen": 119,
     "answered": 72,
-    "delayed": 217
+    "delayed": 218
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 291,
+  "active_source_id_count": 567,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
