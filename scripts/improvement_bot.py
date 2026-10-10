@@ -4,10 +4,10 @@
 Inputs (read-only): state/provider_health.json (current + git history of last 7 days),
 GitHub Actions runs of the last 7 days, state/handoffs.json, open ``bot/*`` PRs.
 Outputs: state/improvement_report.json, messages/improvement-latest.md and (not in dry run)
-one new handoff per ISO week + ``repository_dispatch`` ``team-work``.
+at most one new handoff per run (2/day) + ``repository_dispatch`` ``team-work``.
 
-Idempotent per ISO week: the handoff id is ``HO-IMP-<YYYY>W<WW>-<slug>``; if it already
-exists in handoffs.json nothing new is opened or dispatched. Publish/payment workflows are
+Idempotent per UTC day: handoff id ``HO-IMP-<YYYYMMDD>-<slug>``; at most 2 jobs per day and the
+same suggestion is not reopened within 7 days. Publish/payment workflows are
 never used as suggestion targets. Model enrichment is optional (scripts/model_fallback.py);
 without a usable provider the rule-based text is kept.
 """
@@ -40,6 +40,8 @@ DISPATCH_TYPE = "team-work"
 SOURCE = "improvement-bot"
 HANDOFF_FROM, HANDOFF_TO = "grok", "auditor"
 DOWN_STATUSES = ("no_key", "billing", "quota")
+DEDUP_WINDOW = timedelta(days=7)
+MAX_PER_DAY = 2
 
 # Publish / payment surfaces are never suggestion targets.
 DENYLIST_PATTERNS = (
@@ -110,6 +112,12 @@ class GitHubAPI:
 
     def open_pulls(self) -> list[dict]:
         return self._call("GET", "/pulls?state=open&per_page=100") or []
+
+    def workflows(self) -> list[dict]:
+        return (self._call("GET", "/actions/workflows?per_page=100") or {}).get("workflows") or []
+
+    def enable_workflow(self, workflow_id: Any) -> None:
+        self._call("PUT", f"/actions/workflows/{workflow_id}/enable")
 
     def repository_dispatch(self, event_type: str, client_payload: dict) -> None:
         self._call("POST", "/dispatches", {"event_type": event_type, "client_payload": client_payload})
@@ -211,6 +219,36 @@ def bot_prs(pulls: Iterable[dict], now: datetime) -> list[dict]:
     return out
 
 
+def has_schedule(path: str, root: Path = ROOT) -> bool:
+    try:
+        text = (root / path).read_text(encoding="utf-8")
+    except Exception:
+        return False
+    return re.search(r"^\s+schedule\s*:", text, re.M) is not None
+
+
+def reenable_inactive(api: Any, *, dry_run: bool, root: Path = ROOT) -> list[dict]:
+    """Re-enable scheduled workflows GitHub auto-disabled for inactivity; never disabled_manually."""
+    out = []
+    for wf in api.workflows():
+        if wf.get("state") != "disabled_inactivity":
+            continue
+        entry = {"id": wf.get("id"), "name": wf.get("name"), "path": wf.get("path"), "state": wf["state"]}
+        if not has_schedule(wf.get("path") or "", root):
+            entry["action"] = "skipped_no_schedule"
+        elif dry_run:
+            entry["action"] = "would_enable"
+        else:
+            try:
+                api.enable_workflow(wf["id"])
+                entry["action"] = "enabled"
+            except Exception as exc:
+                entry["action"] = "enable_failed"
+                entry["error"] = redact(exc)[:200]
+        out.append(entry)
+    return out
+
+
 # ------------------------------------------------------------------- rules ---
 def bottlenecks(wf: list[dict], down: dict[str, dict[str, float]], ho: dict, prs: list[dict]) -> dict:
     timed = [w for w in wf if w["runs"]]
@@ -268,12 +306,16 @@ def suggestions(b: dict) -> list[dict]:
     return [s for s in out if not is_denylisted(s["target"])]
 
 
+KIND_ORDER = ("speedup", "reliability", "provider", "handoff", "review")
+
+
+def rank_speedups(sugs: list[dict]) -> list[dict]:
+    return sorted(sugs, key=lambda s: KIND_ORDER.index(s["kind"]))
+
+
 def pick_speedup(sugs: list[dict]) -> dict | None:
-    for kind in ("speedup", "reliability", "provider", "handoff", "review"):
-        for s in sugs:
-            if s["kind"] == kind:
-                return s
-    return None
+    ranked = rank_speedups(sugs)
+    return ranked[0] if ranked else None
 
 
 def enrich(sug: dict, adapter_factory: Callable[[], Any] | None) -> dict:
@@ -312,27 +354,40 @@ def build_report(*, now: datetime, runs: list[dict], pulls: list[dict], handoffs
     prs = bot_prs(pulls, now)
     b = bottlenecks(wf, down, ho, prs)
     sugs = suggestions(b)
-    chosen = pick_speedup(sugs)
-    if chosen:
-        chosen = enrich(chosen, adapter_factory)
+    ranked = rank_speedups(sugs)
     wk = week_key(now)
     return {"schema_version": 1, "generated_at": now.replace(microsecond=0).isoformat(), "week": wk,
             "window_days": WINDOW.days, "inputs": {"workflow_runs": len(runs), "bot_prs": len(prs),
                                                    "health_snapshots": len(health_snaps)},
             "bottlenecks": b, "yapamadim": ho["yapamadim"], "long_open_handoffs": ho["long_open"],
-            "bot_prs": prs, "suggestions": sugs, "speedup": chosen, "dispatch": None}
+            "bot_prs": prs, "suggestions": sugs, "ranked_speedups": ranked,
+            "speedup": None, "dispatch": None, "_adapter_factory": adapter_factory}
 
 
-def handoff_id_for(week: str, sug: dict) -> str:
-    return f"HO-IMP-{week}-{slug(sug['key'])}"[:80]
+def day_key(at: datetime) -> str:
+    return at.strftime("%Y%m%d")
 
 
-def week_already_dispatched(data: dict, week: str) -> str | None:
-    prefix = f"HO-IMP-{week}-"
-    for i in data.get("items", []):
-        if i["id"].startswith(prefix):
-            return i["id"]
-    return None
+def handoff_id_for(day: str, sug: dict) -> str:
+    return f"HO-IMP-{day}-{slug(sug['key'])}"[:80]
+
+
+def _imp_items(data: dict) -> list[dict]:
+    return [i for i in data.get("items", []) if str(i.get("id", "")).startswith("HO-IMP-")]
+
+
+def opened_today(data: dict, day: str) -> list[str]:
+    return [i["id"] for i in _imp_items(data) if i["id"].startswith(f"HO-IMP-{day}-")]
+
+
+def recent_keys(data: dict, now: datetime) -> set[str]:
+    """Suggestion slugs opened in the last DEDUP_WINDOW (same suggestion is not reopened)."""
+    out = set()
+    for i in _imp_items(data):
+        created = parse_ts(i.get("created_at"))
+        if created and now - created < DEDUP_WINDOW:
+            out.add(i["id"].split("-", 3)[3] if i["id"].count("-") >= 3 else i["id"])
+    return out
 
 
 def dispatch_payload(hid: str, sug: dict) -> dict:
@@ -341,20 +396,27 @@ def dispatch_payload(hid: str, sug: dict) -> dict:
 
 
 def plan_handoff(report: dict, data: dict, *, dry_run: bool) -> dict:
-    """Add (not in dry run) the weekly handoff via scripts/handoff.add; idempotent per week."""
-    sug = report.get("speedup")
+    """Open (not in dry run) one handoff via scripts/handoff.add.
+
+    Daily key, at most MAX_PER_DAY jobs per UTC day, same suggestion not reopened within 7 days.
+    """
+    now = parse_ts(report["generated_at"])
+    day = day_key(now)
+    today = opened_today(data, day)
+    if len(today) >= MAX_PER_DAY:
+        return {"status": "daily_cap", "opened_today": today}
+    seen = recent_keys(data, now)
+    sug = next((s for s in report.get("ranked_speedups") or [] if slug(s["key"]) not in seen), None)
     if not sug:
-        return {"status": "no_suggestion"}
-    existing = week_already_dispatched(data, report["week"])
-    if existing:
-        return {"status": "already_this_week", "handoff_id": existing}
-    hid = handoff_id_for(report["week"], sug)
+        return {"status": "no_new_suggestion", "skipped_recent": sorted(seen)}
+    report["speedup"] = sug = enrich(sug, report.pop("_adapter_factory", None)) if "enriched_by" not in sug else sug
+    hid = handoff_id_for(day, sug)
     payload = dispatch_payload(hid, sug)
     if dry_run:
         return {"status": "dry_run", "handoff_id": hid, "payload": payload}
     handoff.add(data, item_id=hid, sender=HANDOFF_FROM, receiver=HANDOFF_TO, task=payload["task"],
-                reason="improvement-bot haftalik hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
-                evidence=f"state/improvement_report.json week={report['week']} key={sug['key']}",
+                reason="improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+                evidence=f"state/improvement_report.json day={day} key={sug['key']}",
                 at=report["generated_at"])
     handoff.validate(data)
     return {"status": "pending", "handoff_id": hid, "payload": payload}
@@ -362,7 +424,7 @@ def plan_handoff(report: dict, data: dict, *, dry_run: bool) -> dict:
 
 def render_md(r: dict) -> str:
     b = r["bottlenecks"]
-    L = [f"# improvement-bot raporu ({r['week']})", "", f"Uretim: {r['generated_at']} | pencere: {r['window_days']} gun | "
+    L = [f"# improvement-bot raporu ({r['generated_at'][:10]}, {r['week']})", "", f"Uretim: {r['generated_at']} | pencere: {r['window_days']} gun | "
          f"kosu: {r['inputs']['workflow_runs']} | bot PR: {r['inputs']['bot_prs']}", "", "## Darbogazlar", ""]
     L.append("**En yavas 3 workflow (medyan):**")
     L += [f"- {w['workflow']}: {w['median_s']:.0f} sn (maks {w['max_s']:.0f}, {w['runs']} kosu)" for w in b["slowest_workflows"]] or ["- veri yok"]
@@ -375,11 +437,15 @@ def render_md(r: dict) -> str:
     pr = b["longest_waiting_bot_pr"]
     L.append(f"- En uzun bekleyen bot PR: #{pr['number']} {pr['wait_h']} sa" if pr else "- Acik bot/ PR: yok")
     L.append(f"- YAPAMADIM notlu devir: {b['yapamadim_count']}")
+    re_en = r.get("reenabled_workflows") or []
+    L.append("- Inaktiflikten kapanan schedule'li workflow: "
+             + (", ".join(f"{w.get('name')} ({w.get('action')})" for w in re_en) if re_en else "yok"))
     L += ["", "## Oneriler", ""] + [f"- ({s['kind']}) {s['text']}" for s in r["suggestions"]]
     s = r.get("speedup")
     d = r.get("dispatch") or {}
-    L += ["", "## Bu haftanin team-worker isi", "",
-          f"- {s['key']} -> {d.get('handoff_id', '-')} ({d.get('status', '-')}); model: {s.get('enriched_by') or 'yok (kural tabanli)'}" if s else "- yok"]
+    L += ["", "## Bu kosunun team-worker isi", "",
+          f"- {s['key']} -> {d.get('handoff_id', '-')} ({d.get('status', '-')}); model: {s.get('enriched_by') or 'yok (kural tabanli)'}"
+          if s else f"- yok ({d.get('status', '-')})"]
     return "\n".join(L) + "\n"
 
 
@@ -400,6 +466,11 @@ def cmd_analyze(dry_run: bool, api: GitHubAPI, now: datetime, use_model: bool = 
     report = build_report(now=now, runs=api.workflow_runs(now - WINDOW), pulls=api.open_pulls(), handoffs=data,
                           health_snaps=health, adapter_factory=default_adapter_factory if use_model else None)
     report["dispatch"] = plan_handoff(report, data, dry_run=dry_run)
+    report.pop("_adapter_factory", None)
+    try:
+        report["reenabled_workflows"] = reenable_inactive(api, dry_run=dry_run)
+    except Exception as exc:
+        report["reenabled_workflows"] = [{"action": "list_failed", "error": redact(exc)[:200]}]
     if report["dispatch"]["status"] == "pending":
         handoff.save(data)
     write_outputs(report)
@@ -426,7 +497,8 @@ def main(argv: list[str] | None = None) -> int:
     api = GitHubAPI(os.environ["GITHUB_REPOSITORY"], os.environ["GITHUB_TOKEN"])
     if args.command == "analyze":
         r = cmd_analyze(args.dry_run, api, datetime.now(timezone.utc), use_model=not args.no_model)
-        log("report", week=r["week"], bottlenecks=r["bottlenecks"], dispatch=r["dispatch"])
+        log("report", week=r["week"], bottlenecks=r["bottlenecks"], dispatch=r["dispatch"],
+            reenabled=r.get("reenabled_workflows"))
         summary = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary:
             with open(summary, "a", encoding="utf-8") as fh:

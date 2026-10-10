@@ -65,56 +65,77 @@ class BottleneckTests(unittest.TestCase):
         r = report()
         targets = " ".join(s["target"] for s in r["suggestions"])
         self.assertNotIn("youtube-upload", targets)
-        self.assertEqual(r["speedup"]["target"], ".github/workflows/worker-orchestration-tests.yml")
+        self.assertEqual(r["ranked_speedups"][0]["target"], ".github/workflows/worker-orchestration-tests.yml")
         for name in ("youtube-upload", "shorts-free-render", "meta-ingest", "shopify-sync", "payout-x"):
             self.assertTrue(ib.is_denylisted(name))
         self.assertFalse(ib.is_denylisted("team-worker"))
 
+    def _plan(self, factory=None, data=None, dry_run=True, now=NOW):
+        data = data if data is not None else copy.deepcopy(HANDOFFS)
+        r = ib.build_report(now=now, runs=RUNS, pulls=PULLS, handoffs=data, health_snaps=HEALTH,
+                            adapter_factory=factory)
+        return r, ib.plan_handoff(r, data, dry_run=dry_run)
+
     def test_rule_based_without_model(self):
-        self.assertIsNone(report()["speedup"]["enriched_by"])
-        self.assertIsNone(report(lambda: None)["speedup"]["enriched_by"])
+        self.assertIsNone(self._plan()[0]["speedup"]["enriched_by"])
+        self.assertIsNone(self._plan(lambda: None)[0]["speedup"]["enriched_by"])
 
         class Down:
             def run(self, job):
                 raise CannotDo("YAPAMADIM: tum saglayicilar dustu")
-        s = report(lambda: Down())["speedup"]
+        r, res = self._plan(lambda: Down())
+        s = r["speedup"]
         self.assertIsNone(s["enriched_by"])
         self.assertIn("YAPAMADIM", s["model_error"])
-        self.assertIn("medyan", ib.dispatch_payload("HO-X", s)["task"])
+        self.assertIn("medyan", res["payload"]["task"])
+        self.assertNotIn("_adapter_factory", r)
 
     def test_model_enrichment(self):
         class Ok:
             provider = "gemini"
             def run(self, job):
                 return {"recommendation": "pip cache ekle", "provider": "gemini"}
-        s = report(lambda: Ok())["speedup"]
-        self.assertEqual(s["enriched_by"], "gemini")
-        self.assertIn("pip cache ekle", ib.dispatch_payload("HO-X", s)["task"])
+        r, res = self._plan(lambda: Ok())
+        self.assertEqual(r["speedup"]["enriched_by"], "gemini")
+        self.assertIn("pip cache ekle", res["payload"]["task"])
 
 
 class HandoffDispatchTests(unittest.TestCase):
-    def test_idempotent_week(self):
+    _plan = BottleneckTests._plan
+
+    def test_daily_key_and_no_repeat_within_7_days(self):
         data = copy.deepcopy(HANDOFFS)
-        r = report(handoffs=data)
-        first = ib.plan_handoff(r, data, dry_run=False)
+        _, first = self._plan(data=data, dry_run=False)
         self.assertEqual(first["status"], "pending")
-        self.assertTrue(first["handoff_id"].startswith("HO-IMP-2026W42-"))
+        self.assertEqual(first["handoff_id"], "HO-IMP-20261012-slow-worker-orchestration-tests")
         handoff.validate(data)
         item = data["items"][-1]
         self.assertEqual((item["from"], item["to"], item["status"]), ("grok", "auditor", "open"))
-        second = ib.plan_handoff(report(handoffs=data), data, dry_run=False)
-        self.assertEqual(second, {"status": "already_this_week", "handoff_id": first["handoff_id"]})
-        self.assertEqual(sum(i["id"].startswith("HO-IMP-") for i in data["items"]), 1)
+        # same day, second run: next suggestion (not the same one)
+        _, second = self._plan(data=data, dry_run=False, now=NOW + timedelta(hours=1))
+        self.assertEqual(second["handoff_id"], "HO-IMP-20261012-slow-codeql")
+        # third run same day: daily cap (2)
+        _, third = self._plan(data=data, dry_run=False, now=NOW + timedelta(hours=2))
+        self.assertEqual(third["status"], "daily_cap")
+        self.assertEqual(len(third["opened_today"]), 2)
+        # next day: first two not reopened (7-day dedupe), a new one is chosen
+        _, nxt = self._plan(data=data, dry_run=False, now=NOW + timedelta(days=1))
+        self.assertTrue(nxt["handoff_id"].startswith("HO-IMP-20261013-"))
+        self.assertNotIn("worker-orchestration", nxt["handoff_id"])
+        # after 7 days the first suggestion may come back
+        self.assertIn("slow-worker-orchestration-tests", ib.recent_keys(data, NOW + timedelta(days=6)))
+        self.assertNotIn("slow-worker-orchestration-tests", ib.recent_keys(data, NOW + timedelta(days=8)))
+        self.assertEqual(len({i["id"] for i in data["items"]}), len(data["items"]))
 
     def test_dry_run_does_not_add(self):
         data = copy.deepcopy(HANDOFFS)
-        res = ib.plan_handoff(report(handoffs=data), data, dry_run=True)
+        _, res = self._plan(data=data, dry_run=True)
         self.assertEqual(res["status"], "dry_run")
         self.assertEqual(len(data["items"]), 2)
 
     def test_dispatch_payload(self):
         data = copy.deepcopy(HANDOFFS)
-        res = ib.plan_handoff(report(handoffs=data), data, dry_run=False)
+        _, res = self._plan(data=data, dry_run=False)
         p = res["payload"]
         self.assertEqual(set(p), {"handoff_id", "task", "source"})
         self.assertEqual(p["source"], "improvement-bot")
@@ -128,23 +149,55 @@ class HandoffDispatchTests(unittest.TestCase):
     def test_dispatch_skips_when_not_pending(self):
         api = mock.Mock()
         with mock.patch.object(ib, "REPORT_PATH") as rp:
-            rp.read_text.return_value = '{"dispatch": {"status": "already_this_week"}}'
+            rp.read_text.return_value = '{"dispatch": {"status": "daily_cap"}}'
             self.assertEqual(ib.cmd_dispatch(api)["status"], "skip")
         api.repository_dispatch.assert_not_called()
 
     def test_markdown_renders(self):
-        r = report()
-        r["dispatch"] = {"status": "dry_run", "handoff_id": "HO-IMP-2026W42-x"}
+        r, r["dispatch"] = self._plan()
         md = ib.render_md(r)
         self.assertIn("En yavas 3 workflow", md)
         self.assertIn("comms-watch", md)
 
     def test_workflow_triggers(self):
         wf = (Path(ib.ROOT) / ".github/workflows/improvement-bot.yml").read_text()
-        for needle in ("cron: '23 6 * * 1'", "workflow_dispatch", "dry_run", "actions: read",
+        for needle in ("cron: '23 5 * * *'", "workflow_dispatch", "types: [improvement-check]", "dry_run", "actions: write",
                        "git add state/handoffs.json state/improvement_report.json messages/improvement-latest.md"):
             self.assertIn(needle, wf)
         self.assertNotIn("create_pull_request", wf)
+
+
+class ReenableTests(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        (root / ".github/workflows").mkdir(parents=True)
+        (root / ".github/workflows/sched.yml").write_text("on:\n  schedule:\n    - cron: '0 1 * * *'\n")
+        (root / ".github/workflows/manual.yml").write_text("on:\n  schedule:\n    - cron: '0 1 * * *'\n")
+        (root / ".github/workflows/push.yml").write_text("on:\n  push:\n")
+        self.root = root
+        self.api = mock.Mock()
+        self.api.workflows.return_value = [
+            {"id": 1, "name": "sched", "path": ".github/workflows/sched.yml", "state": "disabled_inactivity"},
+            {"id": 2, "name": "manual", "path": ".github/workflows/manual.yml", "state": "disabled_manually"},
+            {"id": 3, "name": "push", "path": ".github/workflows/push.yml", "state": "disabled_inactivity"},
+            {"id": 4, "name": "ok", "path": ".github/workflows/sched.yml", "state": "active"},
+        ]
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_enables_only_inactive_scheduled(self):
+        res = ib.reenable_inactive(self.api, dry_run=False, root=self.root)
+        self.api.enable_workflow.assert_called_once_with(1)
+        self.assertEqual({r["id"]: r["action"] for r in res}, {1: "enabled", 3: "skipped_no_schedule"})
+        self.assertNotIn(2, [r["id"] for r in res])
+
+    def test_dry_run_does_not_enable(self):
+        res = ib.reenable_inactive(self.api, dry_run=True, root=self.root)
+        self.api.enable_workflow.assert_not_called()
+        self.assertEqual(res[0]["action"], "would_enable")
 
 
 if __name__ == "__main__":

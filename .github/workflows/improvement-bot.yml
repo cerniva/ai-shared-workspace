@@ -1,11 +1,15 @@
 name: improvement-bot
 
-# Weekly rule-based bottleneck report (scripts/improvement_bot.py).
+# Daily (+ on-demand after YAPAMADIM / red CI) rule-based bottleneck report (scripts/improvement_bot.py).
 # Commits only state/handoffs.json + report files to main; then hands ONE speed-up
-# job to team-worker via repository_dispatch team-work (idempotent per ISO week).
+# job per run to team-worker via repository_dispatch team-work (daily key, max 2/day,
+# same suggestion not reopened within 7 days). Re-enables scheduled workflows that GitHub
+# disabled for inactivity (state disabled_inactivity; never disabled_manually).
 on:
   schedule:
-    - cron: '23 6 * * 1'
+    - cron: '23 5 * * *'
+  repository_dispatch:
+    types: [improvement-check]
   workflow_dispatch:
     inputs:
       dry_run:
@@ -19,7 +23,7 @@ concurrency:
 
 permissions:
   contents: write
-  actions: read
+  actions: write
   pull-requests: read
 
 jobs:
@@ -61,7 +65,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add state/handoffs.json state/improvement_report.json messages/improvement-latest.md
           if git diff --cached --quiet; then echo 'nothing to commit'; exit 0; fi
-          git commit -m "chore(improvement-bot): weekly report $(date -u +%GW%V)"
+          git commit -m "chore(improvement-bot): report $(date -u +%Y-%m-%d)"
           for i in 1 2 3; do
             git pull --rebase origin main && git push origin HEAD:main && exit 0
             sleep $((i * 5))
