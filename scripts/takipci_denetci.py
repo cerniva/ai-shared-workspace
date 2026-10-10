@@ -84,7 +84,7 @@ def check_content(path: str, text: str | None, old_text: str | None = None) -> l
     if not text:
         return out
     for m in MARKERS:
-        if text.count(m) > (old_text or "").count(m):
+        if m in text and (old_text is None or m not in old_text):
             out.append(f"{path}: introduced {m}")
     for n, line in enumerate(text.splitlines(), 1):
         if line.startswith(TMP_PREFIX):
