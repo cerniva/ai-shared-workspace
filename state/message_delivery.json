@@ -7291,8 +7291,8 @@
     "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri": {
       "id": "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-10T04:52:31+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-10T04:52:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -7301,9 +7301,11 @@
       "in_reply_to": "null",
       "created_at": "2026-10-10T04:52:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-10T04:52:00+03:00"
+      "pending_at": "2026-10-10T04:52:00+03:00",
+      "seen_at": "2026-10-10T04:52:58+03:00"
     }
   },
   "events": [
@@ -15559,6 +15561,17 @@
       "at": "2026-10-10T04:52:31+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:seen",
+      "message_id": "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T04:52:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16311,6 +16324,7 @@
     "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending",
     "MSG-20261010-0433-grok-bilgi-report:pending",
     "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen",
-    "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:pending"
+    "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:pending",
+    "MSG-20261010-045200-grok-gordum-sistem-gelistirmeleri:seen"
   ]
 }
