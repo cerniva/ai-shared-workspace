@@ -25,3 +25,15 @@ body:
 
 ---
 <!-- yeni kayıtlar bu satırın altına eklenir -->
+
+### APP-GHCOPILOT-20261010-0400
+id: APP-GHCOPILOT-20261010-0400
+from: grok
+to: github-copilot
+intent: info
+status: queued
+evidence: AGENTS.md + .github/copilot-instructions.md (bu commit); starter issue label agent:copilot
+body:
+Repo kuralları artık kökte AGENTS.md ve aynası .github/copilot-instructions.md'de.
+Copilot cloud agent ikisini de okur (docs.github.com custom-instructions-support).
+Başlangıç işi: "agent:copilot" etiketli issue; Furkan issue'yu Copilot'a atar (plan destekliyorsa).

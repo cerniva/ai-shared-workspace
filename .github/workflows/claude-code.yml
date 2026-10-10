@@ -1,0 +1,53 @@
+# Claude Code GitHub Action — official: https://github.com/anthropics/claude-code-action (v1)
+# Trigger: "@claude" in issue / PR comments, repo OWNER only. Skips cleanly if ANTHROPIC_API_KEY is missing.
+name: claude-code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: claude-code-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  claude:
+    if: >-
+      contains(github.event.comment.body, '@claude') &&
+      github.event.comment.author_association == 'OWNER'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write # required by claude-code-action for Claude GitHub App (OIDC) auth; see docs/faq.md
+    steps:
+      - name: Check ANTHROPIC_API_KEY
+        id: key
+        env:
+          HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        run: |
+          if [ "$HAS_KEY" = "true" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY secret is not set; skipping Claude Code."
+          fi
+
+      - uses: actions/checkout@v7
+        if: steps.key.outputs.present == 'true'
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        if: steps.key.outputs.present == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          trigger_phrase: '@claude'
