@@ -13,7 +13,7 @@ export default {
     const message = update.message;
     if (!message || String(message.chat?.id) !== String(env.TELEGRAM_ALLOWED_CHAT_ID))
       return new Response("OK");
-    const command = String(message.text || "").trim().split(/\\s+/)[0].split("@")[0].toLowerCase();
+    const command = String(message.text || "").trim().split(/\s+/)[0].split("@")[0].toLowerCase();
     const replies = {
       "/start": "Bot aktif. /yardim ile komutları görebilirsin.",
       "/yardim": "Komutlar: /start, /yardim, /durum. Diğer komutlar henüz bu hızlı kanalda etkin değil.",
