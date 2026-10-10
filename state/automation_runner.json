@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-09T22:36:31+00:00",
+  "generated_at": "2026-10-10T00:40:23+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 37999890427,
+          "id": 38008851532,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:33:49Z",
+          "created_at": "2026-10-10T00:23:40Z",
           "event": "workflow_run"
         }
       },
@@ -21,10 +21,10 @@
     "video_shorts_shopify_gumroad": {
       "workflows": {
         "shorts-free-build.yml": {
-          "id": 37995367680,
+          "id": 38009504919,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T21:45:38Z",
+          "created_at": "2026-10-10T00:32:37Z",
           "event": "workflow_dispatch"
         },
         "shorts-free-render.yml": {
@@ -45,10 +45,10 @@
           "event": "workflow_dispatch"
         },
         "shorts-render-tests.yml": {
-          "id": 37999563352,
+          "id": 38009501496,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:30:13Z",
+          "created_at": "2026-10-10T00:32:34Z",
           "event": "push"
         }
       },
@@ -58,10 +58,10 @@
     "knowledge": {
       "workflows": {
         "knowledge-promote.yml": {
-          "id": 37999870563,
+          "id": 38008838108,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:33:35Z",
+          "created_at": "2026-10-10T00:23:28Z",
           "event": "push"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38000057827,
+          "id": 38009626591,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:35:41Z",
+          "created_at": "2026-10-10T00:34:21Z",
           "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 38000057820,
+          "id": 38009337215,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:35:41Z",
-          "event": "push"
+          "created_at": "2026-10-10T00:30:22Z",
+          "event": "workflow_dispatch"
         },
         "desk-notify.yml": {
-          "id": 38000009735,
+          "id": 38009626574,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-09T22:35:09Z",
+          "created_at": "2026-10-10T00:34:21Z",
           "event": "push"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad kategorisindeki youtube-upload.yml iş akışı başarısız olduğu ve shorts-free-render.yml hiç çalıştırılmadığı için sağlıksız görünmektedir. Ayrıca finance modülünde eksik olan runner workflow'unun incelenmesi gerekmektedir. Diğer tüm kategorilerdeki otomasyonlar ise sorunsuz ve başarılı şekilde tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad grubundaki youtube-upload.yml iş akışı başarısız olduğu, shorts-free-render.yml ise henüz hiç çalıştırılmadığı için bu otomasyonlar sağlıksız görünmektedir. Diğer tüm kategorilerdeki (finance, knowledge, system) otomasyonlar ise sorunsuz ve sağlıklı çalışmaktadır."
 }
