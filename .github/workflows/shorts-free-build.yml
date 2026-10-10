@@ -105,6 +105,15 @@ jobs:
                 ",".join(item for item in report.get("blockers", []) if pending.match(item)))
           PY
 
+      - name: Real MP4 QC (fail-closed, keyless)
+        env:
+          OUTPUT_NAME: ${{ inputs.output_name }}
+        run: |
+          set -euo pipefail
+          # HO-20261010-12: measured evidence from the MP4 bytes (duration/9:16/audio/black/freeze/motion/hook).
+          python3 scripts/shorts_mp4_qc.py "artifacts/$OUTPUT_NAME" --manifest artifacts/bundle/render.json --out artifacts/mp4_qc.json
+          python3 scripts/shorts_mp4_qc.py "artifacts/$OUTPUT_NAME" --verify artifacts/mp4_qc.json
+
       - name: Upload free build bundle
         uses: actions/upload-artifact@v7
         with:
@@ -112,6 +121,7 @@ jobs:
           path: |
             artifacts/${{ inputs.output_name }}
             artifacts/preflight.json
+            artifacts/mp4_qc.json
             artifacts/plan_learnings.json
             artifacts/bundle/provenance.json
             artifacts/bundle/captions.srt

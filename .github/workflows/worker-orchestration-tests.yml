@@ -23,6 +23,7 @@ on:
       - 'scripts/run_worker.py'
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
+      - 'scripts/shorts_mp4_qc.py'
       - 'browser_worker/**'
       - 'orchestrator/**'
       - 'research_worker/**'
@@ -54,6 +55,7 @@ on:
       - 'scripts/run_worker.py'
       - 'scripts/run_next_worker.py'
       - 'scripts/worker_health.py'
+      - 'scripts/shorts_mp4_qc.py'
       - 'browser_worker/**'
       - 'orchestrator/**'
       - 'research_worker/**'
@@ -77,6 +79,12 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Install ffmpeg (MP4 QC tests need real media tools)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - name: Shorts MP4 QC tests (HO-20261010-12)
+        run: python3 -m unittest tests.test_shorts_mp4_qc -v
       - name: Unit and integration tests
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Knowledge integrity and race tests
