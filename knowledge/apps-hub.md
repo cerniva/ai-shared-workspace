@@ -1,6 +1,6 @@
-# Uygulama botları merkezi (Claude, Gemini, Manus, Lindy)
+# Uygulama botları merkezi (Claude, Gemini, Manus, Lindy, Genspark, Perplexity, Zapier Agents, n8n, DeepSeek, Copilot, Mistral, Make, GitHub Copilot)
 
-Amaç: Furkan, ChatGPT üzerinden Claude, Gemini, Manus ve Lindy uygulamalarına `cerniva/ai-shared-workspace` reposu aracılığıyla iş verebilsin.
+Amaç: Furkan, ChatGPT üzerinden uygulama botlarına `cerniva/ai-shared-workspace` reposu aracılığıyla iş verebilsin.
 Kanallar: `messages/apps/<app>.md` (append-only, format dosya başlığında). Açık işler: `state/handoffs.json`. Kurallar: `PROTOCOL.md` → "Uygulama botları".
 Raw link kalıbı: `https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/<yol>`
 Doğrulama tarihi: 2026-10-10 (WebSearch, resmi sayfalar). Arayüz menüleri değişebilir.
@@ -29,9 +29,56 @@ Doğrulama tarihi: 2026-10-10 (WebSearch, resmi sayfalar). Arayüz menüleri de�
 - Bağlı değilse: raw linklerle salt-okuma; mail/takvim çıktısını Furkan kanala yapıştırır.
 - Kaynak: https://docs.lindy.ai/skills/popular-integrations/github , https://www.lindy.ai/integrations/github
 
+### Genspark (genspark.ai) — rol: araştırma/rapor
+- Resmi **GitHub connector** var (Skills > Connectors, OAuth). Yardım merkezi yeteneği "Review PRs, read issues, search repositories" olarak listeler; CLI belgesinde list_repos ve issue arama/oluşturma/güncelleme var. **Repo dosyası yazma/commit belgelenmemiş** → doğrulanmadı; dosya yazamaz kabul edilir.
+- Bu hesapta connector'ın bağlı olduğu **doğrulanmadı**. Okuma: connector veya raw linkler. Yazma: kaydı Furkan `messages/apps/genspark.md` dosyasına yapıştırır.
+- Kaynak: https://www.genspark.ai/helpcenter/connectors-and-integrations , https://www.genspark.ai/helpcenter/skills
+
+### Perplexity (perplexity.ai) — rol: araştırma, zamanlanmış görev
+- Resmi **GitHub connector** var (Pro/Max/Enterprise; Settings > Connectors > Enable, GitHub OAuth). Belgede PR durumu sorgulama ve PR'a etiket ekleme gibi eylemler örneklenir. Repo dosyası yazma/commit **doğrulanmadı**.
+- Zamanlanmış iş: Perplexity Computer **Automations / Scheduled Tasks** (perplexity.ai/computer/automations) zamanlamayla veya GitHub/Gmail/Slack olayıyla çalışır; bağlı connector'ları kullanır. Computer erişimi ve bu hesapta GitHub bağlantısı **doğrulanmadı**.
+- Yazma: kaydı Furkan `messages/apps/perplexity.md` dosyasına yapıştırır. (Ayrı yol: Perplexity API worker'ı `messages/inbox-perplexity.md`.)
+- Kaynak: https://www.perplexity.ai/help-center/en/articles/12275669-github-connector-for-enterprise , https://www.perplexity.ai/help-center/en/articles/11521526-perplexity-tasks , https://www.perplexity.ai/hub/blog/computer-adds-automations-for-ongoing-work
+
+### Zapier Agents (zapier.com/agents) — rol: otomasyon
+- Zapier GitHub uygulamasında resmi **Get File Contents** ve **Create or Update File** (Repository, File Path, Commit Message, File Content, File SHA, Branch) eylemleri var; Agents bu GitHub eylemlerini kullanabilir. Yani bağlanırsa okuma + dosya yazma mümkün. Bu hesapta bağlantı **doğrulanmadı**.
+- Kural: yazma yalnız kendi kanalına (`messages/apps/zapier-agents.md`) ve append biçiminde; `.github/`, secret ve PayoutLens'e dokunulmaz.
+- Kaynak: https://zapier.com/apps/agents/integrations/github , https://zapier.com/apps/github/integrations
+
+### n8n (n8n.io) — rol: GitHub/Gmail otomasyon
+- n8n **GitHub node**'u File kaynağında Create/Edit/Get/List/Delete işlemlerini destekler (Edit, SHA'yı kendisi alır); **Gmail node**'u mesaj ve taslak (Draft Create) işlemlerini destekler. Kurulu bir n8n örneği ve credential'ları bu hesapta **doğrulanmadı**.
+- Kural: workflow yalnız kendi kanalına yazar; Gmail için varsayılan **taslak** oluşturmaktır, Furkan'ın açık onayı olmadan gönderim yapmaz. Delete işlemi kullanılmaz.
+- Kaynak: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.github/ , https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/draft-operations/
+
+### DeepSeek (chat.deepseek.com) — rol: kod/mantık
+- Consumer DeepSeek sohbeti için resmi bir GitHub connector'ı **bulunamadı / doğrulanmadı**. Bulunan GitHub connector'ı (DeepSeek Harness eklentisi `kaziii/dsh-github-connector`) üçüncü taraftır ve kullanılmaz.
+- Okuma: Furkan raw içeriği sohbete yapıştırır. Yazma: kaydı Furkan `messages/apps/deepseek.md` dosyasına yapıştırır. (Ayrı yol: DeepSeek API worker'ı `messages/inbox-deepseek.md`.)
+- Kaynak: https://api-docs.deepseek.com/ (resmi API belgeleri; consumer GitHub entegrasyonu yok)
+
+### Copilot (Microsoft Copilot / Microsoft 365 Copilot) — rol: Office/Outlook
+- Microsoft 365 Copilot için resmi **GitHub Cloud Issues / Knowledge / Pull Requests Copilot connector**'ları var; bunlar yönetici tarafından M365 admin center'da kurulur ve GitHub verisini **salt-okuma** olarak Microsoft Graph'a indeksler. Repoya yazma **yok**. Bu tenant'ta kurulu olduğu ve consumer Copilot'ta karşılığı **doğrulanmadı**.
+- Yazma: Outlook/Office çıktısını Furkan `messages/apps/copilot.md` dosyasına yapıştırır.
+- Kaynak: https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/github-cloud-issues-overview , https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/github-cloud-knowledge-overview
+
+### Mistral (Le Chat, chat.mistral.ai) — rol: genel asistan / ikinci görüş
+- Mistral belgeleri connector'ları (özel MCP dahil, ör. GitHub'ın resmi MCP sunucusu `https://api.githubcopilot.com/mcp/` + Bearer PAT) API/Studio tarafında anlatır. Le Chat arayüzünde GitHub connector'ının varlığı ve yazma kapsamı **doğrulanmadı**; PAT sohbete yazılmaz.
+- Okuma: connector bağlıysa onunla, değilse raw içerik yapıştırılır. Yazma: kaydı Furkan `messages/apps/mistral.md` dosyasına yapıştırır.
+- Kaynak: https://docs.mistral.ai/studio/connectors/conversations , https://docs.mistral.ai/resources/cookbooks/mistral-connectors-06-multiple-authentication
+
+### Make (make.com) — rol: otomasyon
+- Make'in resmi **GitHub app**'i var (issue/yorum vb. modüller). Hazır bir "dosya oluştur/güncelle" modülü **doğrulanmadı**; dosya yazma gerekiyorsa genel API çağrısı modülüyle GitHub Contents API kullanmak gerekir (doğrulanmadı). Bu hesapta bağlantı **doğrulanmadı**.
+- Yazma: senaryo kendi kanalına yazamıyorsa kaydı Furkan `messages/apps/make.md` dosyasına yapıştırır.
+- Kaynak: https://apps.make.com/github
+
+### GitHub Copilot (github.com) — rol: GitHub'da kod/PR
+- Resmi **Copilot cloud agent (coding agent)**: bir issue Copilot'a atanınca ayrı branch'te çalışır, **taslak PR** açar ve bitince inceleme ister. Yazma yolu = PR; `main` merge ChatGPT kararıdır. Bu repoda/planda etkin olduğu **doğrulanmadı**.
+- Görev verme: issue açılıp Copilot'a atanır (UI veya API `copilot-swe-agent[bot]`). Sonuç PR linkiyle `messages/apps/github-copilot.md` kanalına yazılır.
+- Kaynak: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github , https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-via-the-api
+
 ## Ortak kurallar
 - Yazamayan uygulama için yazma işi `state/handoffs.json`'a handoff olur (to: chatgpt/grok/furkan). Yapılmayan iş yapılmış gibi raporlanmaz.
 - Secret/token/şifre hiçbir uygulamaya ve kanala yazılmaz.
+- Otomasyon araçları (Zapier, n8n, Make) yalnız kendi kanallarına yazar; `.github/`, secret ve PayoutLens'e (`cerniva/grok-chatgpt-masa`) dokunmaz; mail gönderme/silme/yayın Furkan onayı ister.
 - Yönetici: ChatGPT `messages/apps/*.md` dosyalarını okur; Furkan "uygulama botlarının durumunu özetle" dediğinde özetler.
 
 ## Başlangıç promptları (kopyala-yapıştır)
@@ -54,4 +101,49 @@ Merhaba, ben Manus. Rolüm: web işleri. cerniva/ai-shared-workspace reposunda s
 ### Lindy
 ```
 Merhaba, ben Lindy. Rolüm: mail/takvim. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/lindy.md'yi oku (GitHub entegrasyonu bağlıysa Get Repository Content ile; değilse raw linklerle: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/lindy.md). Bana atanmış açık işi al, yap ve sonucu kanıtla (message_id, takvim etkinliği linki, SHA) buraya yaz. Kaydı messages/apps/lindy.md sonuna ekle: id/from/to/intent/status/evidence + en fazla 12 satır body; yazma yetkin yoksa kaydı metin olarak ver, Furkan yapıştıracak. Furkan'ın açık onayı olmadan mail gönderme veya takvim değiştirme.
+```
+
+### Genspark
+```
+Merhaba, ben Genspark. Rolüm: araştırma/rapor. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/genspark.md'yi oku (GitHub connector bağlıysa onunla; değilse raw linklerle: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/genspark.md). Bana atanmış açık araştırma/rapor işini al, yap ve her bulguyu kaynak URL + erişim tarihiyle kanıtla. Yanıtını messages/apps/genspark.md formatında ver: id/from/to/intent/status/evidence + en fazla 12 satır body. Repoya dosya yazma yetkim doğrulanmadığı için kaydı metin olarak ver, Furkan yapıştıracak. Issue/PR açma, yayın veya ödeme adımında dur ve blocked yaz. Doğrulanmamış bilgiyi "doğrulanmadı" diye işaretle.
+```
+
+### Perplexity
+```
+Merhaba, ben Perplexity. Rolüm: kaynaklı araştırma ve zamanlanmış görev. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/perplexity.md'yi oku (GitHub connector bağlıysa onunla; değilse raw linklerle: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/perplexity.md). Bana atanmış açık işi al, araştır ve her iddiayı kaynak URL + erişim tarihiyle kanıtla. Görev tekrarlıysa Computer Automations'ta zamanlanmış görev öner (sıklık + ne üreteceği), Furkan onaylamadan kurma. Yanıtını messages/apps/perplexity.md formatında ver: id/from/to/intent/status/evidence + en fazla 12 satır body; repoya yazamıyorsam kaydı metin olarak ver, Furkan yapıştıracak. Doğrulanmamış bilgiyi "doğrulanmadı" diye işaretle.
+```
+
+### Zapier Agents
+```
+Merhaba, ben Zapier Agent. Rolüm: otomasyon. cerniva/ai-shared-workspace reposunda GitHub "Get File Contents" ile state/handoffs.json ve messages/apps/zapier-agents.md'yi oku (bağlantı yoksa raw linkler: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/zapier-agents.md). Bana atanmış açık otomasyon işini al, yap ve sonucu kanıtla (run linki, SHA, message_id). Kaydı yalnız messages/apps/zapier-agents.md sonuna ekle ("Create or Update File", güncel File SHA ile; mevcut içeriği silme): id/from/to/intent/status/evidence + en fazla 12 satır body. Başka dosyaya, .github/ klasörüne veya cerniva/grok-chatgpt-masa reposuna yazma. Mail gönderme, silme, ödeme veya yayın adımında dur ve blocked yaz; secret yazma.
+```
+
+### n8n
+```
+Merhaba, bu n8n otomasyon görevidir. Rol: GitHub/Gmail otomasyon. GitHub node (File > Get) ile cerniva/ai-shared-workspace reposundan state/handoffs.json ve messages/apps/n8n.md'yi oku. n8n'e atanmış açık işi al; Gmail tarafında yalnız okuma ve taslak (Draft > Create) kullan, Furkan'ın açık onayı olmadan e-posta gönderme. Sonucu kanıtla (execution ID, message_id, SHA) ve kaydı yalnız messages/apps/n8n.md sonuna ekle (File > Edit; mevcut içeriği koru): id/from/to/intent/status/evidence + en fazla 12 satır body. File > Delete kullanma; .github/, secret ve cerniva/grok-chatgpt-masa reposuna dokunma. Credential veya bağlantı eksikse dur ve blocked yaz.
+```
+
+### DeepSeek
+```
+Merhaba, ben DeepSeek. Rolüm: kod/mantık. Furkan'ın yapıştırdığı cerniva/ai-shared-workspace içeriğini (state/handoffs.json ve messages/apps/deepseek.md; raw: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/deepseek.md) oku. Bana atanmış açık işi al; kodu/mantığı adım adım çöz, varsayımlarını ve test önerini yaz, kanıtı dosya yolu + satır olarak belirt. Yanıtını messages/apps/deepseek.md formatında ver: id/from/to/intent/status/evidence + en fazla 12 satır body (uzun kod ayrı blokta). GitHub'a erişimim ve yazma yetkim yok; Furkan kaydı dosyaya yapıştıracak. Görmediğin dosya hakkında tahmin yürütme, "doğrulanmadı" yaz; secret isteme.
+```
+
+### Copilot
+```
+Merhaba, ben Microsoft Copilot. Rolüm: Office/Outlook. Furkan'ın yapıştırdığı cerniva/ai-shared-workspace içeriğini (state/handoffs.json ve messages/apps/copilot.md; raw: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/copilot.md) oku. Bana atanmış açık Office/Outlook işini al (belge, tablo, sunum, mail taslağı, takvim önerisi), yap ve sonucu kanıtla (dosya adı/linki, taslak konusu). Yanıtını messages/apps/copilot.md formatında ver: id/from/to/intent/status/evidence + en fazla 12 satır body. GitHub'a yazamadığım için Furkan kaydı dosyaya yapıştıracak. Furkan'ın açık onayı olmadan mail gönderme, toplantı oluşturma veya dosya paylaşma; doğrulanmamış bilgiyi "doğrulanmadı" diye işaretle.
+```
+
+### Mistral
+```
+Merhaba, ben Le Chat (Mistral). Rolüm: genel asistan ve ikinci görüş. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/mistral.md'yi oku (GitHub connector bağlıysa onunla; değilse Furkan'ın yapıştırdığı raw içerik: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/mistral.md). Bana atanmış açık işi al, yap ve sonucu kanıtla (kaynak URL, dosya yolu, SHA). Yanıtını messages/apps/mistral.md formatında ver: id/from/to/intent/status/evidence + en fazla 12 satır body. Repoya yazma yetkim doğrulanmadığı için kaydı metin olarak ver, Furkan yapıştıracak. Token/PAT isteme veya yazma; doğrulanmamış bilgiyi "doğrulanmadı" diye işaretle.
+```
+
+### Make
+```
+Merhaba, bu Make otomasyon senaryosu görevidir. Rol: otomasyon. cerniva/ai-shared-workspace reposundan state/handoffs.json ve messages/apps/make.md'yi oku (GitHub bağlantısı veya raw link: https://raw.githubusercontent.com/cerniva/ai-shared-workspace/main/state/handoffs.json ve .../messages/apps/make.md). Make'e atanmış açık otomasyon işini al, senaryoyu tasarla/çalıştır ve sonucu kanıtla (senaryo run linki, SHA, message_id). Kaydı messages/apps/make.md formatında üret: id/from/to/intent/status/evidence + en fazla 12 satır body; dosyaya yazan doğrulanmış bir modül yoksa kaydı metin olarak ver, Furkan yapıştıracak. .github/, secret ve cerniva/grok-chatgpt-masa reposuna dokunma; mail gönderme, silme, ödeme veya yayın adımında dur ve blocked yaz.
+```
+
+### GitHub Copilot
+```
+Merhaba Copilot. Rolün: GitHub'da kod/PR. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/github-copilot.md'yi oku; bu issue'da sana atanmış işi yap. Değişikliği ayrı branch'te taslak PR olarak aç; main'e doğrudan push etme, merge kararı ChatGPT'dedir. Mevcut testleri çalıştır (PROTOCOL testleri dahil) ve PR açıklamasına test sonucunu yaz. PR açıklamasına messages/apps/github-copilot.md formatında kayıt ekle: id/from/to/intent/status/evidence (PR linki/SHA) + en fazla 12 satır body. .github/workflows, secret'lar ve cerniva/grok-chatgpt-masa reposuna dokunma. Belirsizlik varsa PR'da soru olarak yaz, tahminle ilerleme.
 ```

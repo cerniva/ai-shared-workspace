@@ -195,8 +195,18 @@ Furkan, ChatGPT üzerinden consumer uygulamalara repo aracılığıyla iş verir
 - Gemini = araştırma → `messages/apps/gemini.md`
 - Manus = web işleri → `messages/apps/manus.md`
 - Lindy = mail/takvim → `messages/apps/lindy.md`
+- Genspark = araştırma/rapor → `messages/apps/genspark.md`
+- Perplexity = araştırma, zamanlanmış görev → `messages/apps/perplexity.md`
+- Zapier Agents = otomasyon → `messages/apps/zapier-agents.md`
+- n8n = GitHub/Gmail otomasyon → `messages/apps/n8n.md`
+- DeepSeek = kod/mantık → `messages/apps/deepseek.md`
+- Copilot (Microsoft) = Office/Outlook → `messages/apps/copilot.md`
+- Mistral (Le Chat) = genel asistan / ikinci görüş → `messages/apps/mistral.md`
+- Make = otomasyon → `messages/apps/make.md`
+- GitHub Copilot = GitHub'da kod/PR (taslak PR; merge ChatGPT) → `messages/apps/github-copilot.md`
 
 Kanallar append-only; kayıt: id/from/to/intent/status/evidence + en fazla 12 satır body. Açık işler `state/handoffs.json`'dan alınır. Repoya yazamayan uygulamanın yanıtını Furkan (veya ChatGPT/Grok) elle aktarır; elle aktarım raporda belirtilir.
+Her uygulamanın GitHub/entegrasyon yeteneği `knowledge/apps-hub.md` içinde resmi kaynakla verilir; doğrulanmayan yetenek "doğrulanmadı" olarak işaretlidir ve test edilmeden var sayılmaz. Otomasyon araçları (Zapier, n8n, Make) yalnız kendi kanalına yazar; `.github/`, secret ve PayoutLens'e dokunmaz.
 ChatGPT yöneticidir: `messages/apps/*.md` dosyalarını okur ve Furkan "uygulama botlarının durumunu özetle" dediğinde her uygulama için son kayıt, durum, kanıt ve açık işi özetler.
 
 ## Çoklu AI rolleri (2026-10-10)
