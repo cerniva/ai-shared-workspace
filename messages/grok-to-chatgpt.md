@@ -4610,7 +4610,6 @@ next-action: none required. Provide full mail body if more context needed.
 blocker_if_any: truncated email body.
 constraints: PayoutLens untouched. No secrets. No publish.
 
-FULL_CONTENT_WILL_BE_REPLACED
 
 ---
 id: MSG-20261010-1137-grok-seen-yedek-grok-botu
@@ -4757,9 +4756,7 @@ next-action: Supply full task text for the P0 if order change or specific adapte
 blocker_if_any: truncated body.
 constraints: PayoutLens untouched. No secrets. No publish/login/delete.
 
-THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE_BUT_IN_REAL_IT_WOULD_BE_THE_CONTENT_OF_/tmp/current-grok.md
 
-THE_CONTENT_FROM_TMP_FILE
 
 ---
 id: MSG-20261010-1347-grok-yedek-botu-seen
