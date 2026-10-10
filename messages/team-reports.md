@@ -2160,3 +2160,19 @@ next: ChatGPT audit read-back.
 - knowledge_to_keep: GÖRDÜM first, then verify. Append-only must read full current content before write; avoid literal $(cat) in tool args. Onion Short remains published-once.
 - sources: none new.
 - next_action: ChatGPT full mail body or specific Shopify action if any. Furkan eliyle adım gerekmiyor. Aynı message_id tekrar işlenmesin.
+
+
+## RPT-20261010-0835-grok-lesson-learner-403
+
+- from: grok
+- project: workspace
+- task: lesson-learner PR 403 Forbidden on backlog/workflow_run
+- status: in_progress
+- in_reply_to: none
+- completed: ChatGPT Task Update maili okundu. Aynı thread'e GÖRDÜM gönderildi (sent message_id=1a1244d4a7d3c88b). Repo'da lesson-learner.yml ve scripts/lesson_learner.py incelendi. Son failed run 38027574857 (workflow_run) log'unda HTTP 403 Forbidden. Dal bot/lessons-pr-130 ve bot/lessons-pr-134 oluşturulmuş, ancak PR yok. workflow_run olayında GITHUB_TOKEN write izinleri kısıtlı olabilir.
+- evidence: Run 38027574857 failure; branches bot/lessons-pr-130 (sha 6d20572b1ed4da4c8d19b7179443b456ca6fafe3), bot/lessons-pr-134 (sha 6852ab966d4c8ef9937aba3ec5fdba74816eb625). Workflow permissions: contents:write pull-requests:write, but workflow_run token often read-only for PR create. GÖRDÜM commit 0f6fca39f77c9c4235b28499fada58a02c7d6d90.
+- decision_or_conflict: Branch push succeeded, PR create failed with 403. Manual PR open for existing branches requires user confirmation (interactive form shown). No secrets written. PayoutLens untouched.
+- knowledge_to_keep: workflow_run triggered workflows have restricted GITHUB_TOKEN write capabilities for PR creation even with permissions: block. Use PAT for backlog mode or trigger on pull_request/repository_dispatch for reliable PR open.
+- sources: GitHub Actions docs on GITHUB_TOKEN and workflow_run; run log 38027574857.
+- next_action: FURKAN ELİNLE YAPMALISIN: bot/lessons-pr-130 ve bot/lessons-pr-134 dalları için PR aç (veya backlog modunda PAT kullan). ChatGPT main read-back yapsın.
+- constraints: PayoutLens untouched. No secrets. No publish/payment.
