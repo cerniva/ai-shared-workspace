@@ -82,7 +82,8 @@ jobs:
           OUTPUT_NAME: ${{ inputs.output_name }}
         run: |
           set +e
-          python3 scripts/shorts_preflight.py "artifacts/$OUTPUT_NAME" > artifacts/preflight.json
+          # render.json carries production_gates; review evidence is checked later (fail-closed upload).
+          python3 scripts/shorts_preflight.py "artifacts/$OUTPUT_NAME" --manifest artifacts/bundle/render.json > artifacts/preflight.json
           code=$?
           set -e
           if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
@@ -90,16 +91,18 @@ jobs:
           fi
           python3 - <<'PY'
           import json
+          import re
           from pathlib import Path
 
           report = json.loads(Path("artifacts/preflight.json").read_text(encoding="utf-8"))
-          blockers = [
-              item for item in report.get("blockers", [])
-              if item != "independent_review_missing"
-          ]
+          pending = re.compile(r"^(independent_review_missing|gate_.+|review_(hook_storyboard|moving_footage)_checked_.+)$")
+          blockers = [item for item in report.get("blockers", []) if not pending.match(item)]
+          if report.get("manifest_gates_checked") is not True:
+              blockers.append("manifest_gates_not_checked")
           if blockers:
               raise SystemExit("technical preflight failed: " + ",".join(blockers))
-          print("Technical preflight passed; independent review is still required before publishing.")
+          print("Technical preflight passed; independent review is still required before publishing:",
+                ",".join(item for item in report.get("blockers", []) if pending.match(item)))
           PY
 
       - name: Upload free build bundle
