@@ -12,6 +12,21 @@ test('rejects wrong secret',async()=>assert.equal((await worker.fetch(request('P
 test('rejects malformed JSON',async()=>assert.equal((await worker.fetch(request('POST','{'),env)).status,400));
 test('ignores unauthorized chat',async()=>assert.equal((await worker.fetch(request('POST',update('/start',999)),env)).status,200));
 test('ignores noncommands without network call',async()=>{globalThis.fetch=()=>{throw Error('unexpected network')};try{assert.equal((await worker.fetch(request('POST',update('hello')),env)).status,200)}finally{globalThis.fetch=originalFetch}});
-test('sends authorized command',async()=>{let sent;globalThis.fetch=async(url,opts)=>{sent=JSON.parse(opts.body);return new Response('{}',{status:200})};try{assert.equal((await worker.fetch(request('POST',update('/start')),env)).status,200);assert.equal(sent.chat_id,123)}finally{globalThis.fetch=originalFetch}});
+test('sends authorized command',async()=>{let sent;globalThis.fetch=async(url,opts)=>{sent=JSON.parse(opts.body);return new Response('{"ok":true}',{status:200})};try{assert.equal((await worker.fetch(request('POST',update('/start')),env)).status,200);assert.equal(sent.chat_id,123)}finally{globalThis.fetch=originalFetch}});
 test('handles Telegram HTTP failure',async()=>{globalThis.fetch=async()=>new Response('failed',{status:500});try{assert.equal((await worker.fetch(request('POST',update('/durum')),env)).status,502)}finally{globalThis.fetch=originalFetch}});
 test('handles Telegram network failure',async()=>{globalThis.fetch=async()=>{throw Error('network down')};try{assert.equal((await worker.fetch(request('POST',update('/durum')),env)).status,502)}finally{globalThis.fetch=originalFetch}});
+
+test('rejects invalid update shapes', async () => {
+  for (const body of ['null', '[]', '42', '"text"'])
+    assert.equal((await worker.fetch(request('POST', body), env)).status, 400);
+});
+test('rejects Telegram API error in HTTP 200', async () => {
+  globalThis.fetch = async () => new Response('{"ok":false}', {status:200});
+  try { assert.equal((await worker.fetch(request('POST',update('/start')),env)).status,502); }
+  finally { globalThis.fetch=originalFetch; }
+});
+test('rejects invalid Telegram response JSON', async () => {
+  globalThis.fetch = async () => new Response('not JSON', {status:200});
+  try { assert.equal((await worker.fetch(request('POST',update('/start')),env)).status,502); }
+  finally { globalThis.fetch=originalFetch; }
+});
