@@ -1,0 +1,49 @@
+name: knowledge-freshness
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: List stale entries and re-verify their URLs
+        run: python3 scripts/knowledge_freshness.py --reverify --max-age-days 30 | tee freshness-report.json
+      - name: Stage refresh promotion and merge it through knowledge-promote
+        shell: bash
+        run: |
+          git add -- 'knowledge/promotions/freshness-*.json' 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nothing refreshed"; exit 0; fi
+          if git diff --cached --name-only | grep -vE '^knowledge/promotions/freshness-'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          python3 scripts/knowledge_promote.py apply
+          git checkout -- knowledge/source_catalog.json knowledge/learning_ledger.json
+          git config user.name "knowledge-freshness-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "knowledge-freshness: stage source re-verification"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          # GITHUB_TOKEN pushes do not trigger knowledge-promote; merge here.
+          python3 scripts/knowledge_promote.py publish
+      - name: Job summary
+        if: always()
+        run: |
+          echo '### knowledge-freshness' >> "$GITHUB_STEP_SUMMARY"
+          python3 -c "import json;d=json.load(open('freshness-report.json'));print(f\"stale sources: {len(d['stale_sources'])}, refreshed: {len(d.get('refreshed',[]))}, failed: {len(d.get('failed',[]))}\")" >> "$GITHUB_STEP_SUMMARY" || true

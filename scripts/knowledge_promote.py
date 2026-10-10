@@ -9,7 +9,8 @@ SourceCatalog.add / LearningLedger.add (dedup + read-back), so existing rows
 are never dropped.
 
 Promotion file shape (one or many):
-  {"source": {...} | "sources": [...], "learning": {...} | "learnings": [...]}
+  {"source": {...} | "sources": [...], "learning": {...} | "learnings": [...],
+   "source_refreshes": [{"source_id": "src_...", "verified_at": "<iso8601+tz>"}]}
 Each staged source_id / learning_id must equal the ID the bridge computes;
 otherwise the run fails closed and nothing is reported as persisted.
 """
@@ -31,9 +32,11 @@ from typing import Any, Iterator
 try:
     from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
     from learning_bridge import LearningLedger, learning_id, persistence_gate
+    from knowledge_freshness import refresh_source
 except ModuleNotFoundError:  # Imported as scripts.knowledge_promote by tests.
     from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
     from scripts.learning_bridge import LearningLedger, learning_id, persistence_gate
+    from scripts.knowledge_freshness import refresh_source
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PATHS = ("knowledge/source_catalog.json", "knowledge/learning_ledger.json")
@@ -201,8 +204,12 @@ def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) ->
         sources = _items(doc, "source", "sources", path.name)
         learnings = _items(doc, "learning", "learnings", path.name)
         gates = _gates(doc, path.name)
-        if not (sources or learnings or gates):
-            raise CatalogError(f"{path.name}: promotion stages no source, learning or gate")
+        refreshes = _items(doc, "source_refresh", "source_refreshes", path.name)
+        for ref in refreshes:
+            if not str(ref.get("source_id") or "").startswith("src_") or not ref.get("verified_at"):
+                raise CatalogError(f"{path.name}: source_refresh needs source_id and verified_at")
+        if not (sources or learnings or gates or refreshes):
+            raise CatalogError(f"{path.name}: promotion stages no source, learning, gate or refresh")
         # Reject a staged id before any local write. add() persists the bridge
         # id immediately; checking afterwards left the computed row on disk.
         for src in sources:
@@ -246,6 +253,9 @@ def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) ->
                 report["learnings_created"].append(saved["learning_id"])
         for gate in gates:
             persistence_gate(ledger, gate)
+        for ref in refreshes:
+            if refresh_source(catalog, str(ref["source_id"]), str(ref["verified_at"])):
+                report.setdefault("sources_refreshed", []).append(ref["source_id"])
         report["files"].append(path.name)
     catalog.validate()
     ledger.validate()
