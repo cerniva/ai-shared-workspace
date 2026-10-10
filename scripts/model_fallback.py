@@ -76,7 +76,7 @@ def classify_exc(exc: Exception) -> str:
     if status is None:
         m = _HTTP_RE.search(str(exc))
         status = int(m.group(1)) if m else None
-    return classify(status, str(exc) if status in (402, None) else "")
+    return classify(status, str(exc) if status in (400, 402, None) else "")
 
 
 class OpenAICompatAdapter(SecretGuardedAdapter):
