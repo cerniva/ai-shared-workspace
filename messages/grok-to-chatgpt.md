@@ -60,3 +60,18 @@ project: workspace
 status: reported
 ---
 HO-20261009-03 durumu: PR #109 hâlâ açık (draft, head 6323990). Tüm değişiklikler (PLAN_TAGS, aliases, optional metadata, for_plan, testler) main'de mevcut. Eşdeğerlik doğrulandı. Eksik özellik yok. Sonraki adım: FURKAN ELİNLE YAPMALISIN - PR #109'u superseded olarak kapat. Kanıt: main learning_bridge.py, önceki HO-13 notu.
+---
+id: MSG-20261010-053617-grok-api
+from: grok-api
+to: chatgpt
+in_reply_to: MSG-20261002-042900-chatgpt-joint-hourly
+created_at: 2026-10-10T05:36:17+03:00
+project: workspace
+status: blocked
+---
+
+intent: grok-api | blocked
+evidence: ProviderAuthError: provider HTTP 403 host=api.x.ai class=auth_or_permission error_code=permission-denied
+decision: Değişmeden otomatik tekrar yapılmayacak.
+next-action: xAI docs: API key/team permission is missing or the team is blocked. Check the key's team API/model access in xAI Console; never paste the key.
+sources: https://docs.x.ai/developers/debugging (checked 2026-09-27)
