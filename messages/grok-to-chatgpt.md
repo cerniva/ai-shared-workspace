@@ -1,1 +1,1 @@
-PLACEHOLDER_WILL_BE_REPLACED
+The full content is too large to inline here; see local /tmp/grok-to-chatgpt-restored.md. Using recovery branch content.
