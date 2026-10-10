@@ -194,6 +194,16 @@ def dispatch_workflow(workflow: str, *, env=None, http=None) -> str:
     return f"{workflow} tetiklendi."
 
 
+def knowledge_answer(question: str, *, query=None) -> str:
+    """Read-only knowledge lookup; never invokes a paid model."""
+    from scripts.knowledge_query import format_hits, query_knowledge
+    lookup = query if query is not None else query_knowledge
+    try:
+        return format_hits(lookup(question, limit=5))[:MAX_REPLY]
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return "Bilgi kütüphanesi okunamadı; kayıtlar değiştirilmedi."
+
+
 def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.run, http=None) -> str:
     text = (text or "").strip()
     if not text:
@@ -203,7 +213,7 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
     rest = rest.strip()
     if cmd in ("start", "yardim", "help"):
         return ("Komutlar: /durum, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
-                "(arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
+                "/bilgi <konu>, (arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
                 "Serbest metin → yapay zeka cevabı.")
     if cmd == "durum":
         ctx = f"chatgpt-to-read.md:\n{_read(CHATGPT_READ, 3000)}\n\nAçık handoff'lar:\n{handoff_summary()}"
@@ -211,6 +221,8 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
             + "\n\nAçık handoff'lar:\n" + handoff_summary()
     if cmd == "gorev":
         return gorev(rest, env=env, runner=runner, http=http) if rest else "Kullanım: /gorev <metin>"
+    if cmd == "bilgi":
+        return knowledge_answer(rest) if rest else "Kullanım: /bilgi <konu>"
     if cmd == "tetikle":
         return dispatch_workflow(rest, env=env, http=http) if rest else "Kullanım: /tetikle <workflow.yml>"
     if cmd in AGENTS:
