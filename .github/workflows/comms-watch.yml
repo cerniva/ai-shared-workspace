@@ -2,6 +2,10 @@ name: comms-watch
 
 on:
   workflow_dispatch:
+  # GITHUB_TOKEN merges/pushes start no workflows; senders use repository_dispatch.
+  # client_payload: {pr_number, merge_sha|head_sha, handoff_id}; handoff_id is checked first.
+  repository_dispatch:
+    types: [main-merged, team-pr-opened]
   schedule:
     - cron: "17 * * * *"
   push:

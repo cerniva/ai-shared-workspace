@@ -89,6 +89,19 @@ class CommsWatchTests(unittest.TestCase):
         self.assertEqual(len(second["alerts"]), 1)
         self.assertEqual(second["dispatches"], [])
 
+    def test_priority_handoff_from_dispatch_event(self):
+        self.write([item("HO-a", minutes=20), item("HO-b", minutes=30)])
+        event = self.dir / "event.json"
+        event.write_text(json.dumps({"action": "main-merged", "client_payload": {
+            "pr_number": 7, "merge_sha": "abc1234", "handoff_id": "HO-b"}}), encoding="utf-8")
+        hid = cw.priority_handoff_id(event)
+        self.assertEqual(hid, "HO-b")
+        self.assertIsNone(cw.priority_handoff_id(self.dir / "missing.json"))
+        out = cw.run(handoffs_path=self.handoffs, state_path=self.state, now=NOW, inbox_rows=[], priority_id=hid)
+        self.assertEqual(out["active"][0]["id"], "HO-b")
+        self.assertEqual(out["priority"], {"id": "HO-b", "found": True, "status": "open", "owner": "grok", "acked": False})
+        self.assertEqual(cw.priority_status({"items": []}, "HO-x"), {"id": "HO-x", "found": False})
+
     def test_corrupt_state_recovers(self):
         self.write([item("HO-new", minutes=20)])
         self.state.write_text("{bad", encoding="utf-8")
@@ -123,6 +136,7 @@ class CommsWatchTests(unittest.TestCase):
         self.assertIn("event_type", text)
         self.assertIn("comms-watch: bekleyen devir/mesaj", text)
         self.assertIn('"17 * * * *"', text)
+        self.assertIn("types: [main-merged, team-pr-opened]", text)
         for banned in ("youtube-upload", "git push", "workflow_run", "createWorkflowDispatch", "/actions/workflows/"):
             self.assertNotIn(banned, text)
 

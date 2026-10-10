@@ -11,7 +11,9 @@ Output: {"alerts": [{id, owner, kind, age_min}], "active": [...], "dispatches": 
 "alerts" holds only ids not alerted before (state/comms_watch.json); "active"
 holds every currently matching item so CI can keep one issue open/closed;
 "dispatches" holds repository_dispatch bodies (event_type team-work), sent once
-per handoff id.
+per handoff id. On repository_dispatch (main-merged / team-pr-opened; GITHUB_TOKEN
+merges/pushes start no workflows) client_payload.handoff_id is checked first
+and reported under "priority".
 """
 from __future__ import annotations
 
@@ -90,6 +92,29 @@ def dispatch_payloads(alerts: list[dict[str, Any]], dispatched: dict[str, str]) 
     return out
 
 
+def priority_handoff_id(event_path: str | os.PathLike | None) -> str | None:
+    """handoff_id from a repository_dispatch (main-merged / team-pr-opened) event payload."""
+    if not event_path:
+        return None
+    try:
+        event = json.loads(Path(event_path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    payload = event.get("client_payload") if isinstance(event, dict) else None
+    hid = payload.get("handoff_id") if isinstance(payload, dict) else None
+    return str(hid).strip() or None if hid else None
+
+
+def priority_status(data: dict[str, Any], hid: str | None) -> dict[str, Any] | None:
+    if not hid:
+        return None
+    for item in data.get("items", []):
+        if item.get("id") == hid:
+            return {"id": hid, "found": True, "status": item.get("status"), "owner": item.get("to"),
+                    "acked": bool(any(item.get(k) for k in ACK_KEYS) or item.get("notes"))}
+    return {"id": hid, "found": False}
+
+
 def load_state(path: Path) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -111,11 +136,13 @@ def save_state(state: dict[str, Any], path: Path) -> None:
 
 def run(*, handoffs_path: Path = handoff.DEFAULT_PATH, state_path: Path = STATE_PATH,
         now: datetime | None = None, inbox_rows: list[dict[str, Any]] | None = None,
-        write_state: bool = True) -> dict[str, Any]:
+        write_state: bool = True, priority_id: str | None = None) -> dict[str, Any]:
     current = now or datetime.now(timezone.utc)
     data = handoff.load(handoffs_path)
     rows = desk_bridge.unread_message_rows() if inbox_rows is None else inbox_rows
     active = handoff_alerts(data, now=current) + inbox_alerts(rows)
+    if priority_id:  # repository_dispatch payload handoff is checked/reported first
+        active.sort(key=lambda a: a["id"] != priority_id)
     state = load_state(state_path)
     alerted: dict[str, str] = state["alerted"]
     stamp = current.replace(microsecond=0).isoformat()
@@ -128,7 +155,8 @@ def run(*, handoffs_path: Path = handoff.DEFAULT_PATH, state_path: Path = STATE_
     state["last_run_at"] = stamp
     if write_state:
         save_state(state, state_path)
-    return {"alerts": fresh, "active": active, "dispatches": dispatches}
+    return {"alerts": fresh, "active": active, "dispatches": dispatches,
+            "priority": priority_status(data, priority_id)}
 
 
 def telegram_text(result: dict[str, Any], limit: int = 30) -> str:
@@ -160,8 +188,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--state", type=Path, default=STATE_PATH)
     p.add_argument("--no-write", action="store_true", help="do not update the dedupe state")
     p.add_argument("--telegram", action="store_true", help="send new alerts via telegram_bot helpers if token set")
+    p.add_argument("--event-path", default=os.environ.get("GITHUB_EVENT_PATH"),
+                   help="GitHub event JSON; client_payload.handoff_id is checked first")
     args = p.parse_args(argv)
-    result = run(handoffs_path=args.handoffs, state_path=args.state, write_state=not args.no_write)
+    result = run(handoffs_path=args.handoffs, state_path=args.state, write_state=not args.no_write,
+                 priority_id=priority_handoff_id(args.event_path))
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if args.telegram:
         notify_telegram(result)
