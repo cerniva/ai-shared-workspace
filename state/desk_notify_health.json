@@ -822,6 +822,6 @@
     "delayed": 214
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 554,
+  "active_source_id_count": 555,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
