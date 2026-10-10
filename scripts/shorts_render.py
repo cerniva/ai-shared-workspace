@@ -3,8 +3,10 @@
 
 It assembles existing local images/video, narration, optional music and optional
 SRT subtitles into a 1080x1920 H.264/AAC MP4. Narration can come from an
-existing audio file or be synthesized locally from text with eSpeak NG. It does
-not call external media/TTS APIs, upload anything, or spend generation credits.
+existing audio file or be synthesized from text. The default TTS is offline eSpeak
+NG; "narration_engine": "edge-tts" (or env SHORTS_TTS_ENGINE=edge-tts) opts into the
+free, keyless edge-tts neural voices (tr-TR-AhmetNeural) and falls back to eSpeak
+on any failure. It never uploads anything or spends generation credits.
 
 Usage:
   python3 scripts/shorts_render.py render.json output.mp4
@@ -36,6 +38,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -49,6 +52,11 @@ VIDEO_FILTER = (
     "crop=1080:1920,setsar=1,fps=30,format=yuv420p"
 )
 VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
+# "edge-tts" is a free, keyless neural voice (e.g. tr-TR-AhmetNeural); it needs
+# network access, so the renderer falls back to offline eSpeak NG on any failure.
+TTS_ENGINES = {"espeak", "edge-tts"}
+ESPEAK_SPEED_BASELINE = 165
+NEURAL_VOICES = {"tr": "tr-TR-AhmetNeural", "en-us": "en-US-GuyNeural", "en": "en-US-GuyNeural"}
 
 
 def _resolve(base: Path, value: str, field: str) -> Path:
@@ -113,6 +121,21 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
     narration_voice = spec.get("narration_voice", "en-us")
     if not isinstance(narration_voice, str) or not VOICE_RE.fullmatch(narration_voice):
         raise ValueError("narration_voice contains unsupported characters")
+    fallback_voice = spec.get("narration_fallback_voice")
+    narration_engine = spec.get("narration_engine")
+    if narration_engine is None:
+        narration_engine = "espeak"
+        env_engine = os.environ.get("SHORTS_TTS_ENGINE", "").strip()
+        if env_engine == "edge-tts" and narration_voice.lower() in NEURAL_VOICES:
+            fallback_voice = fallback_voice or narration_voice
+            narration_voice = NEURAL_VOICES[narration_voice.lower()]
+            narration_engine = "edge-tts"
+    if narration_engine not in TTS_ENGINES:
+        raise ValueError("narration_engine must be one of: " + ", ".join(sorted(TTS_ENGINES)))
+    if fallback_voice is not None and (
+        not isinstance(fallback_voice, str) or not VOICE_RE.fullmatch(fallback_voice)
+    ):
+        raise ValueError("narration_fallback_voice contains unsupported characters")
     try:
         narration_speed = int(spec.get("narration_speed", 165))
     except (TypeError, ValueError) as exc:
@@ -146,6 +169,8 @@ def validate_spec(spec: dict, base_dir: Path) -> dict:
         "narration": narration,
         "narration_text": narration_text,
         "narration_voice": narration_voice,
+        "narration_engine": narration_engine,
+        "narration_fallback_voice": fallback_voice,
         "narration_speed": narration_speed,
         "music": music,
         "subtitles": subtitles,
@@ -217,6 +242,56 @@ def _synthesize_narration(text: str, voice: str, speed: int, output: Path) -> No
         raise RuntimeError("offline narration produced no audio")
 
 
+def _edge_rate(speed: int) -> str:
+    """Map an eSpeak words-per-minute speed onto an edge-tts percentage rate."""
+    pct = round((speed - ESPEAK_SPEED_BASELINE) * 100 / ESPEAK_SPEED_BASELINE)
+    pct = max(-50, min(100, pct))
+    return f"{pct:+d}%"
+
+
+def _synthesize_edge(text: str, voice: str, speed: int, output: Path) -> None:
+    """Synthesize narration with the free, keyless edge-tts CLI into a WAV file."""
+    if not shutil.which("edge-tts"):
+        raise RuntimeError("edge-tts is not installed")
+    mp3 = output.with_suffix(".edge.mp3")
+    _run([
+        "edge-tts",
+        "--voice", voice,
+        f"--rate={_edge_rate(speed)}",
+        "--text", text,
+        "--write-media", str(mp3),
+    ])
+    if not mp3.is_file() or mp3.stat().st_size == 0:
+        raise RuntimeError("edge-tts produced no audio")
+    _run(["ffmpeg", "-y", "-i", str(mp3), "-ac", "1", "-ar", "24000", str(output)])
+    if not output.is_file() or output.stat().st_size == 0:
+        raise RuntimeError("edge-tts audio conversion produced no audio")
+
+
+def synthesize_with_fallback(normalized: dict, output: Path) -> dict:
+    """Synthesize narration with the requested engine, falling back to eSpeak NG.
+
+    Returns which engine/voice actually produced the audio so the result is auditable.
+    """
+    text = normalized["narration_text"]
+    speed = normalized["narration_speed"]
+    engine = normalized.get("narration_engine", "espeak")
+    errors: list[str] = []
+    if engine == "edge-tts":
+        try:
+            _synthesize_edge(text, normalized["narration_voice"], speed, output)
+            return {"engine": "edge-tts", "voice": normalized["narration_voice"], "fallback_errors": []}
+        except (OSError, RuntimeError) as exc:
+            errors.append(f"edge-tts: {str(exc)[-300:]}")
+        voice = normalized.get("narration_fallback_voice") or "en-us"
+    else:
+        voice = normalized["narration_voice"]
+    if not shutil.which("espeak-ng"):
+        raise RuntimeError("Missing required tools: espeak-ng; " + "; ".join(errors))
+    _synthesize_narration(text, voice, speed, output)
+    return {"engine": "espeak", "voice": voice, "fallback_errors": errors}
+
+
 def _probe_duration(path: Path) -> float:
     """Return media duration in seconds using ffprobe."""
     result = _run([
@@ -246,7 +321,10 @@ def render(manifest_path: Path, output_path: Path) -> dict:
     except json.JSONDecodeError as exc:
         raise ValueError("manifest is not valid JSON") from exc
     normalized = validate_spec(spec, manifest_path.parent)
-    _require_tools(require_tts=bool(normalized["narration_text"]))
+    _require_tools(
+        require_tts=bool(normalized["narration_text"])
+        and normalized["narration_engine"] == "espeak"
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="shorts-render-") as temp_name:
@@ -270,21 +348,17 @@ def render(manifest_path: Path, output_path: Path) -> dict:
 
         narration_track = normalized["narration"]
         narration_source = "file"
+        tts_info = None
         if normalized["narration_text"]:
             narration_track = temp / "narration.wav"
-            _synthesize_narration(
-                normalized["narration_text"],
-                normalized["narration_voice"],
-                normalized["narration_speed"],
-                narration_track,
-            )
+            tts_info = synthesize_with_fallback(normalized, narration_track)
             narration_seconds = _probe_duration(narration_track)
             if narration_seconds > normalized["target_seconds"] + 0.05:
                 raise ValueError(
                     "synthesized narration does not fit target_seconds: "
                     f"{narration_seconds:.2f}s > {normalized['target_seconds']:.2f}s"
                 )
-            narration_source = "offline_tts"
+            narration_source = "offline_tts" if tts_info["engine"] == "espeak" else "neural_tts"
 
         command = [
             "ffmpeg", "-y",
@@ -330,6 +404,7 @@ def render(manifest_path: Path, output_path: Path) -> dict:
         "target_seconds": normalized["target_seconds"],
         "visual_count": len(normalized["visuals"]),
         "narration_source": narration_source,
+        "tts": tts_info,
         "credits_spent": 0,
     }
 
