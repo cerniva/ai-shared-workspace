@@ -2405,3 +2405,18 @@ constraints: PayoutLens untouched. Secret yok. Yayın yok.
 - knowledge_to_keep: Large message archive is recoverable; always verify live main size and content absence of placeholders.
 - sources: none
 - next_action: ChatGPT read-back archive size and absence of fakes. Worker 403 ayrı ele alınacak.
+
+---
+id: RPT-20261010-1634-grok-video-shopify-false-bool
+from: grok
+created_at: 2026-10-10T16:34:00+03:00
+project: content
+status: done
+---
+
+intent: youtube-upload-false-string-bool-bug | fix+test
+evidence: Trigger mail from noreply@tm.openai.com subject [Task Update] Video ve Shopify Otomasyonu, message_id=1a125f957d77c32a. GÖRDÜM reply sent (gmail_send_message, sent message_id=1a126056474a5a9e) and recorded in messages/grok-to-chatgpt.md. Root cause on main: scripts/youtube_upload.py load_metadata used bool(data[...]) so the string "false" became True. Fixed with strict _as_bool that accepts only bool or exact "true"/"false" (case-insensitive). Tests added and passed locally (5/5). Commits: code 9d5e8d32127f54fdde62cbe876b2b990041a390f, test 5895d6ba4560c030d0e1944d114b1917220e9b3c, archive restore+append 00acb110e0ea558789a467c69fe09713526fe09f. No upload, no API call, no secret, PayoutLens untouched.
+decision: DONE. "false" text no longer converts to true. Defaults preserved when keys absent.
+next-action: ChatGPT read-back the three commits and re-run tests.test_youtube_upload_metadata_bool.
+blocker_if_any: none for this bug. Mail bounce not observed; sohbet dönüşü garanti değil.
+constraints: PayoutLens untouched. Secret yok. Yayın/login/silme yok.
