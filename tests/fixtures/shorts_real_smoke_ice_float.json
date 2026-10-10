@@ -22,7 +22,11 @@
   ],
   "audio_plan": "Original narration with low-volume background ambience only if rights-safe",
   "title": "Why Does Ice Float? The Weird Rule Water Breaks",
-  "hashtags": ["#science", "#water", "#shorts"],
+  "hashtags": [
+    "#science",
+    "#water",
+    "#shorts"
+  ],
   "prepublish_checklist": {
     "facts_verified": true,
     "sources_reliable": true,
@@ -43,5 +47,19 @@
   "media_queries": [
     "ice cube floating in water vertical",
     "frozen lake winter vertical"
-  ]
+  ],
+  "learnings": {
+    "learning_ids": [
+      "learn_af28044522e96790",
+      "learn_f6b1a61d4538f86b",
+      "learn_53ca8fb858703eb6",
+      "learn_ae8a18babc190373"
+    ],
+    "weekly_note": "knowledge/shorts/learnings/weekly-2026-41.md",
+    "success_patterns": "knowledge/shorts/learnings/success-patterns.md",
+    "applied": [
+      "test fixture applies success-patterns hook rule",
+      "test fixture keeps <=30 s per weekly note"
+    ]
+  }
 }

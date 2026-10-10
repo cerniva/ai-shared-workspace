@@ -63,5 +63,19 @@
     "render_requested_note": "render_requested kept false: shorts_research.gate_packet blocks render_requested=true (render_requested_before_gate). free_render_requested=true is the render-only flag."
   },
   "source_handoff": "HO-20261010-14",
-  "source_commit": "63819c1d471227df131482408b1996353051cea3"
+  "source_commit": "63819c1d471227df131482408b1996353051cea3",
+  "learnings": {
+    "learning_ids": [
+      "learn_af28044522e96790",
+      "learn_f6b1a61d4538f86b",
+      "learn_53ca8fb858703eb6",
+      "learn_ae8a18babc190373"
+    ],
+    "weekly_note": "knowledge/shorts/learnings/weekly-2026-41.md",
+    "success_patterns": "knowledge/shorts/learnings/success-patterns.md",
+    "applied": [
+      "success-patterns §1: frame 1 is a moving close-up of a cut onion with the question on screen; no intro.",
+      "learn_53ca8fb858703eb6 + weekly-2026-41 #5: 30 s cap, real moving footage only, payoff (protective tear reflex) before the end."
+    ]
+  }
 }

@@ -1,1 +1,81 @@
-PLACEHOLDER
+{
+  "id": "SHORT-CERNO-MBAPPE-001",
+  "derived_from": "knowledge/shorts/packets/2026-10-10-cerno-mbappe-sprint.md",
+  "topic": "Mbappé neden ilk adımda bu kadar tehlikeli? Sprint kalkışının üç görsel mekaniği",
+  "why_selected": "Cerno 28 günlük TinyFish analitiğinde en iyi Short (Mbappé 2.610 görüntülenme, kanal izlenmelerinin %49'u); konu ailesi tekrarı. Görüntülenme retention kanıtı değildir.",
+  "trend_or_evergreen": "mixed",
+  "hook": "Mbappé neden ilk adımda bu kadar tehlikeli?",
+  "target_seconds": 30,
+  "sources": [
+    "knowledge/shorts/packets/2026-10-10-cerno-mbappe-sprint.md (HO-04 hook/storyboard/lisans QC paketi)",
+    "knowledge/domains-plan-20261009.md (TinyFish YouTube Studio run 37991566901, Cerno 2026-09-11..2026-10-08)"
+  ],
+  "unique_angle": "Belirli hız ölçüsü iddiası olmadan, herhangi bir sprinterde görülebilen üç mekanik: öne yönelim, yere kuvvet, adım ritmi; başa dönen loop.",
+  "script_beats": [
+    "0-3 sn: Mbappé neden ilk adımda bu kadar tehlikeli?",
+    "3-9 sn: Birinci ipucu: kalkış anındaki öne yönelim.",
+    "9-16 sn: İkincisi: yere uygulanan kuvvet ve hızlanma.",
+    "16-23 sn: Üçüncüsü: ritim; hızlanırken adımların düzeni değişir.",
+    "23-28 sn: Bu üç fikri sahada nasıl görürsün?",
+    "28-30 sn: İlk adıma tekrar bak. (loop)"
+  ],
+  "visual_plan": [
+    "Lisanslı stok: sprint başlangıcı çok yakın plan + büyük soru altyazısı",
+    "Yan profilden hareketli kalkış (gövde açısı)",
+    "Ayak yere teması ağır çekim",
+    "Farklı açılardan kısa koşu klipleri, ritim senkron kurgu",
+    "İlk kadraja görsel eşleşme ile loop"
+  ],
+  "audio_plan": "Doğal Türkçe anlatım (espeak/tts), telifsiz müzik/SFX yok veya lisanslı; ses-görüntü senkronu QC.",
+  "title": "Mbappé neden ilk adımda bu kadar tehlikeli? #shorts",
+  "hashtags": [
+    "#shorts",
+    "#futbol",
+    "#mbappe",
+    "#sprint"
+  ],
+  "prepublish_checklist": {
+    "facts_verified": false,
+    "sources_reliable": false,
+    "strong_first_2s": true,
+    "no_empty_intro": true,
+    "audio_planned": true,
+    "portrait_9_16_planned": true,
+    "not_previously_published": true,
+    "title_matches": true,
+    "rights_ok": false,
+    "publishable_quality_planned": true
+  },
+  "checklist_notes": "facts_verified/sources_reliable/rights_ok bilerek false: kaynak paket biyomekanik iddiaların uzman kaynakla ve görsel haklarının henüz doğrulanmadığını söylüyor. Doğrulama + bağımsız kaynak URL'leri eklenince true yapılır; o zamana kadar gate render'ı engeller (doğru davranış).",
+  "free_render_requested": true,
+  "render_requested": false,
+  "language": "tr",
+  "content_type": "short_fact",
+  "narration_speed": 160,
+  "narration_text": "Mbappé neden ilk adımda bu kadar tehlikeli? Birinci ipucu: kalkış anındaki öne yönelim. İkincisi: yere uygulanan kuvvet ve hızlanma. Üçüncüsü: ritim; hızlanırken adımların düzeni değişir. Bu üç fikri sahada nasıl görürsün? İlk adıma tekrar bak.",
+  "media_queries": [
+    "sprinter start close up vertical",
+    "athlete sprint side view slow motion",
+    "running feet ground contact slow motion",
+    "football player sprinting training"
+  ],
+  "made_for_kids": false,
+  "uses_broadcast_clips": false,
+  "learnings": {
+    "learning_ids": [
+      "learn_af28044522e96790",
+      "learn_f6b1a61d4538f86b",
+      "learn_53ca8fb858703eb6",
+      "learn_ae8a18babc190373"
+    ],
+    "weekly_note": "knowledge/shorts/learnings/weekly-2026-41.md",
+    "success_patterns": "knowledge/shorts/learnings/success-patterns.md",
+    "applied": [
+      "weekly-2026-41 #1: en iyi konu ailesi (Mbappé) tekrar ediliyor, yayın klibi yerine lisanslı hareketli stok.",
+      "weekly-2026-41 #5 + success-patterns §2: izlenme başına ~6.5 sn -> 30 sn sınırı, payoff 25. saniyeden önce, başa dönen loop.",
+      "success-patterns §1: ilk kare hareket + ekranda soru; selamlama/giriş yok.",
+      "success-patterns §3: her 2-4 sn yeni görsel, 3 beat.",
+      "learn_53ca8fb858703eb6: broadcast klip yok, moving footage only; learn_af28044522e96790: private + made_for_kids=false açık."
+    ]
+  }
+}
