@@ -31,7 +31,7 @@ HEAD_BOGUS = re.compile(
 
 def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: tam `SEE_FILE` satırı veya `$(cat ` ile başlayan satır."""
-    return line.strip() == "SEE_FILE" or line.startswith("$(cat ")
+    return (line.strip() in {"SEE_FILE", "FULL_CONTENT_WILL_BE_REPLACED"}\n            or line.strip().startswith("THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE")\n            or line.startswith("$(cat "))
 
 
 def bogus_lines(text: str) -> list[int]:
