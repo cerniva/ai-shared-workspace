@@ -6,9 +6,12 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-import ci_bekci as cb  # noqa: E402
+# Package import only: putting scripts/ on sys.path makes later bare imports
+# (knowledge_bridge vs scripts.knowledge_bridge) load twice -> CatalogError mismatch.
+from scripts import ci_bekci as cb  # noqa: E402
 
 UNITTEST_LOG = """2026-10-10T01:00:00.1234567Z Run python3 -m unittest discover
 2026-10-10T01:00:01.0000000Z ok

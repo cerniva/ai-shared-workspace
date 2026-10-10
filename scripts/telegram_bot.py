@@ -194,6 +194,18 @@ def dispatch_workflow(workflow: str, *, env=None, http=None) -> str:
     return f"{workflow} tetiklendi."
 
 
+def knowledge_answer(question: str, *, limit: int = 5, query=None) -> str:
+    """/bilgi: search the knowledge ledger + source catalog (read-only, no LLM)."""
+    if query is None:
+        from scripts.knowledge_query import query_knowledge as query
+    from scripts.knowledge_query import format_hits
+    try:
+        hits = query(question, limit=limit)
+    except Exception as exc:  # noqa: BLE001
+        return f"Bilgi araması başarısız: {type(exc).__name__}"
+    return format_hits(hits)[:MAX_REPLY]
+
+
 def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.run, http=None) -> str:
     text = (text or "").strip()
     if not text:
@@ -202,7 +214,7 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
     cmd = head.split("@")[0].lstrip("/").lower() if head.startswith("/") else ""
     rest = rest.strip()
     if cmd in ("start", "yardim", "help"):
-        return ("Komutlar: /durum, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
+        return ("Komutlar: /durum, /bilgi <soru>, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
                 "(arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
                 "Serbest metin → yapay zeka cevabı.")
     if cmd == "durum":
@@ -211,6 +223,8 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
             + "\n\nAçık handoff'lar:\n" + handoff_summary()
     if cmd == "gorev":
         return gorev(rest, env=env, runner=runner, http=http) if rest else "Kullanım: /gorev <metin>"
+    if cmd == "bilgi":
+        return knowledge_answer(rest) if rest else "Kullanım: /bilgi <soru>"
     if cmd == "tetikle":
         return dispatch_workflow(rest, env=env, http=http) if rest else "Kullanım: /tetikle <workflow.yml>"
     if cmd in AGENTS:
