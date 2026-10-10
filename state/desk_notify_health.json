@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 119,
-    "answered": 72,
-    "delayed": 221
+    "seen": 12,
+    "answered": 41,
+    "delayed": 109
   },
   "event_count": 806,
   "event_keys": [
@@ -838,6 +838,6 @@
     "delayed": 221
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 576,
+  "active_source_id_count": 295,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
