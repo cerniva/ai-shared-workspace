@@ -29,6 +29,9 @@ CRITICAL_CHECKS = {
 }
 
 
+LEARNINGS_BLOCK = {'learning_ids': ['learn_af28044522e96790', 'learn_f6b1a61d4538f86b', 'learn_53ca8fb858703eb6', 'learn_ae8a18babc190373'], 'weekly_note': 'knowledge/shorts/learnings/weekly-2026-41.md', 'success_patterns': 'knowledge/shorts/learnings/success-patterns.md', 'applied': ['test fixture applies success-patterns hook rule', 'test fixture keeps <=30 s per weekly note']}
+
+
 def valid_packet(language="en", narration="A short original narration for the pipeline."):
     return {
         "topic": "Pipeline fixture topic zx7314",
@@ -49,6 +52,7 @@ def valid_packet(language="en", narration="A short original narration for the pi
         "content_type": "short_fact",
         "narration_text": narration,
         "media_queries": ["vertical forest", "vertical river"],
+        "learnings": dict(LEARNINGS_BLOCK),
     }
 
 

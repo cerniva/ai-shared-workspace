@@ -6,6 +6,7 @@ from unittest.mock import patch
 from scripts import shorts_research
 
 
+LEARNINGS_BLOCK = {'learning_ids': ['learn_af28044522e96790', 'learn_f6b1a61d4538f86b', 'learn_53ca8fb858703eb6', 'learn_ae8a18babc190373'], 'weekly_note': 'knowledge/shorts/learnings/weekly-2026-41.md', 'success_patterns': 'knowledge/shorts/learnings/success-patterns.md', 'applied': ['test fixture applies success-patterns hook rule', 'test fixture keeps <=30 s per weekly note']}
 BASE_SCORES = {key: 7 for key in shorts_research.CRITERIA}
 
 
@@ -127,6 +128,7 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
                 "content_type": "explainer",
                 "narration_text": "A complete narration.",
                 "media_queries": ["machine detail", "engineering mechanism"],
+                "learnings": dict(LEARNINGS_BLOCK),
             }
         )
         self.assertEqual(shorts_research.gate_packet(packet), [])
@@ -143,6 +145,7 @@ class ShortsResearchFreeRenderTests(unittest.TestCase):
                     "content_type": "explainer",
                     "narration_text": "Dil seçimine uygun özgün anlatım.",
                     "media_queries": ["visual one", "visual two"],
+                    "learnings": dict(LEARNINGS_BLOCK),
                 }
             )
             with self.subTest(language=language):
