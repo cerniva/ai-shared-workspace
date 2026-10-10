@@ -94,6 +94,26 @@ def assert_diff_allowed(paths: list[str]) -> None:
         raise DenylistViolation("diff touches denylisted publish/payment files: " + ", ".join(sorted(bad)))
 
 
+CHATGPT_BRANCH_RE = re.compile(r"^chatgpt/[A-Za-z0-9._/-]{1,100}$")
+
+
+def chatgpt_base(branch: str | None) -> str | None:
+    """Only chatgpt/* branches may be used as a base; they are read, never pushed/deleted."""
+    if not branch:
+        return None
+    branch = str(branch).removeprefix("refs/heads/")
+    if not CHATGPT_BRANCH_RE.match(branch) or ".." in branch:
+        raise TeamWorkerError(f"refusing base branch {branch!r}: only chatgpt/* is accepted")
+    return branch
+
+
+def payload_extras(event_name: str, event: dict) -> dict:
+    if event_name != "repository_dispatch":
+        return {}
+    p = event.get("client_payload") or {}
+    return {k: str(p[k]) for k in ("branch", "message_id") if p.get(k)}
+
+
 def bot_branch(handoff_id: str, run_id: str) -> str:
     if not HANDOFF_ID_RE.match(handoff_id or ""):
         raise TeamWorkerError(f"invalid handoff_id: {handoff_id!r}")
@@ -161,6 +181,10 @@ class GitHubClient:
         assert_workflow_allowed(event_type)
         self._call("POST", "/dispatches", {"event_type": event_type, "client_payload": client_payload})
 
+    def list_check_runs(self, sha: str) -> list[dict]:
+        data = self._call("GET", f"/commits/{sha}/check-runs?per_page=100") or {}
+        return data.get("check_runs") or []
+
     def create_issue(self, *, title: str, body: str) -> dict:
         return self._call("POST", "/issues", {"title": title, "body": body, "labels": ["team-worker"]})
 
@@ -191,6 +215,44 @@ def build_pr_body(*, handoff_id: str, source: str, run_id: str, task: str, failu
         lines.append("Kirmizi test -> PR draft. Neden (son satirlar):")
         lines.append("```\n" + test_tail + "\n```")
     return "\n".join(lines)
+
+
+CHECK_WAIT_SECONDS = 20 * 60
+CHECK_POLL_SECONDS = 30
+
+
+def _excluded_check_names(path: Path = Path("config/auto_merge.json")) -> set[str]:
+    names = {"takipci-denetci", "auto-merge-gate"}
+    try:
+        cfg = json.loads(path.read_text(encoding="utf-8"))
+        names.add(str(cfg.get("auditor_check_name") or ""))
+        names.update(str(n) for n in cfg.get("self_check_names") or [])
+    except (OSError, ValueError):
+        pass
+    return {n for n in names if n}
+
+
+def wait_for_checks(client: Any, sha: str, *, timeout: float = CHECK_WAIT_SECONDS,
+                    interval: float = CHECK_POLL_SECONDS, sleep: Callable[[float], None] | None = None,
+                    clock: Callable[[], float] | None = None, excluded: set[str] | None = None) -> bool:
+    """Poll check runs on sha (minus takipci-denetci/auto-merge-gate) until all are completed.
+    Returns True when done, False on timeout (-> ci_pending). No checks yet counts as pending."""
+    import time
+    sleep = sleep or time.sleep
+    clock = clock or time.monotonic
+    excluded = _excluded_check_names() if excluded is None else excluded
+    deadline = clock() + timeout
+    while True:
+        try:
+            runs = [r for r in client.list_check_runs(sha) if r.get("name") not in excluded]
+        except TeamWorkerError as exc:
+            log("check_poll_failed", sha=sha, reason=str(exc))
+            runs = []
+        if runs and all(r.get("status") == "completed" for r in runs):
+            return True
+        if clock() + interval > deadline:
+            return False
+        sleep(interval)
 
 
 RESEARCH_EVENT = "team-research"
@@ -309,6 +371,9 @@ def process_handoff(
     test_runner: Callable[[], tuple[bool, str]] | None = None,
     git_ops: Any = None,
     now: str | None = None,
+    check_waiter: Callable[[Any, str], bool] | None = None,
+    base_branch: str | None = None,
+    message_id: str | None = None,
 ) -> dict:
     now = now or datetime.now(UTC).isoformat(timespec="seconds")
     branch = bot_branch(handoff_id, run_id)
@@ -323,8 +388,9 @@ def process_handoff(
         log("skip_existing_pr", handoff_id=handoff_id, pr=existing.get("html_url") or existing.get("number"))
         return {"status": "exists", "pr": existing.get("html_url") or existing.get("number"), "branch": None}
 
+    base = chatgpt_base(base_branch)
     git = git_ops or _RealGit(root)
-    git.checkout_new(branch)
+    git.checkout_new(branch, base=base)
 
     result, failure, kind = run_model(task, handoff_id, env, adapter_factory)
     if failure:
@@ -361,9 +427,14 @@ def process_handoff(
     draft = not tests_ok
     # No self run URL in the evidence line: this run is still in progress when the PR opens and
     # takipci-denetci verifies referenced Actions runs.
-    body = redact(build_pr_body(handoff_id=handoff_id, source=source, run_id=run_id, task=task, failure=failure,
-                                result=result, tests_ok=tests_ok, test_tail=test_tail,
-                                test_cmd="python3 -m unittest discover -s tests", run_url=""), env)
+    body = build_pr_body(handoff_id=handoff_id, source=source, run_id=run_id, task=task, failure=failure,
+                         result=result, tests_ok=tests_ok, test_tail=test_tail,
+                         test_cmd="python3 -m unittest discover -s tests", run_url="")
+    if base or message_id:
+        body += "\n\n" + "\n".join(filter(None, [
+            f"Temel dal: `{base}` (dokunulmadi; degisiklikler bot/ dalinda)" if base else "",
+            f"Mesaj: {message_id} (chatgpt-to-grok.md)" if message_id else ""]))
+    body = redact(body, env)
 
     if dry_run:
         log("dry_run", handoff_id=handoff_id, branch=branch, draft=draft, yapamadim=bool(failure))
@@ -374,10 +445,15 @@ def process_handoff(
         git.push(branch)
         pr = client.create_pull(head=branch, base="main", title=title, body=body, draft=draft)
         log("pr_opened", handoff_id=handoff_id, pr=pr.get("html_url"), draft=draft)
+        head_sha = (pr.get("head") or {}).get("sha")
+        # team-pr-opened only after PR head checks (except takipci-denetci/auto-merge-gate) finish;
+        # max 20 min @30 s, then send anyway with ci_pending: true.
+        done = (check_waiter or wait_for_checks)(client, head_sha) if head_sha else False
+        payload = {"pr_number": pr.get("number"), "head_sha": head_sha, "handoff_id": handoff_id}
+        if not done:
+            payload["ci_pending"] = True
         try:
-            client.repository_dispatch(PR_OPENED_EVENT, {
-                "pr_number": pr.get("number"), "head_sha": (pr.get("head") or {}).get("sha"),
-                "handoff_id": handoff_id})
+            client.repository_dispatch(PR_OPENED_EVENT, payload)
         except TeamWorkerError as exc:
             log("pr_opened_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
         return {"status": "pr", "pr": pr.get("html_url"), "branch": branch, "draft": draft, "yapamadim": failure}
@@ -393,9 +469,14 @@ class _RealGit:
     def __init__(self, root: Path):
         self.root = root
 
-    def checkout_new(self, branch: str) -> None:
+    def checkout_new(self, branch: str, base: str | None = None) -> None:
         assert_push_target(branch)
-        _git("checkout", "-B", branch, cwd=self.root)
+        if base:
+            # Read-only use of chatgpt/*: fetch it and branch off; it is never pushed or deleted.
+            _git("fetch", "origin", f"refs/heads/{base}:refs/remotes/origin/{base}", cwd=self.root)
+            _git("checkout", "-B", branch, f"origin/{base}", cwd=self.root)
+        else:
+            _git("checkout", "-B", branch, cwd=self.root)
 
     def changed_paths(self) -> list[str]:
         return changed_paths(cwd=self.root)
@@ -441,14 +522,16 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     client = GitHubClient(env["GITHUB_REPOSITORY"], env["GITHUB_TOKEN"])
     run_id = env.get("GITHUB_RUN_ID", "local")
+    extras = payload_extras(env.get("GITHUB_EVENT_NAME", ""), event)
     rc = 0
     for hid, task, source in targets:
         try:
             outcome = process_handoff(hid, run_id=run_id, client=client, env=env, task=task,
-                                      source=source, dry_run=args.dry_run)
+                                      source=source, dry_run=args.dry_run,
+                                      base_branch=extras.get("branch"), message_id=extras.get("message_id"))
             log("done", handoff_id=hid, **{k: v for k, v in outcome.items() if k != "yapamadim"},
                 yapamadim=outcome.get("yapamadim"))
-        except (DenylistViolation, PushRefused) as exc:
+        except (DenylistViolation, PushRefused, TeamWorkerError) as exc:
             log("refused", handoff_id=hid, reason=str(exc))
             rc = 1
         _git("checkout", "--force", "main", check=False)

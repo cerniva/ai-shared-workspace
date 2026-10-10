@@ -29,13 +29,14 @@ permissions:
   pull-requests: write
   issues: write
   models: read
+  checks: read
 
 jobs:
   work:
     # Commits by this bot land only on bot/* branches, so push events from them never reach here.
     if: ${{ github.event_name != 'push' || github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40  # up to 20 min waiting on PR head checks before team-pr-opened
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Shared model chain: scripts.model_fallback.fallback_adapter (config/model_providers.json); GitHub Models uses GITHUB_TOKEN + models: read.
