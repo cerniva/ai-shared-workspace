@@ -24,7 +24,7 @@ import re
 import subprocess
 import sys
 from collections.abc import Callable, Mapping
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError
@@ -33,6 +33,7 @@ from urllib.request import Request, urlopen
 UTC = timezone.utc
 HANDOFFS = Path("state/handoffs.json")
 RESULT_DIR = Path("state/team_work")
+QUEUE = Path("state/team_worker_queue.json")
 WORKER_TARGETS = {"grok", "worker", "team-worker"}
 HANDOFF_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,80}$")
 PROTECTED_BRANCHES = {"main", "master", "HEAD"}
@@ -314,6 +315,89 @@ def append_note(path: Path, handoff_id: str, note: str, now: str) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+# ------------------------------------------------------------------- claim ---
+CLAIM_ACTOR = "team-worker"
+CLAIM_FRESH_MINUTES = 60
+
+
+def foreign_claim(item: dict, now_dt: datetime | None = None) -> bool:
+    """True if someone else (claimed_by != team-worker) claimed it less than 60 min ago."""
+    if item.get("status") != "claimed" or item.get("claimed_by") == CLAIM_ACTOR:
+        return False
+    try:
+        at = datetime.fromisoformat(str(item.get("claimed_at")))
+    except ValueError:
+        return False
+    if at.tzinfo is None:
+        at = at.replace(tzinfo=UTC)
+    return (now_dt or datetime.now(UTC)) - at < timedelta(minutes=CLAIM_FRESH_MINUTES)
+
+
+def claim(path: Path, handoff_id: str, now: str) -> bool:
+    """Write claimed_by: team-worker + claimed_at through scripts.handoff (validated save)."""
+    from scripts import handoff as ho
+    data = ho.load(path)
+    item = ho._find(data, handoff_id)
+    if item["status"] == "open":
+        ho.transition(data, handoff_id, "claim", actor=item["to"], note="team-worker devraldi", at=now)
+    elif item["status"] != "claimed":
+        return False  # done/merged: nothing to claim
+    item["claimed_by"] = CLAIM_ACTOR
+    item["claimed_at"] = now
+    ho.save(data, path)
+    return True
+
+
+# ------------------------------------------------------------------- queue ---
+def _load_queue(path: Path) -> dict:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data.get("items"), list) else {"items": []}
+    except (OSError, ValueError, AttributeError):
+        return {"items": []}
+
+
+def _save_queue(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def enqueue(path: Path, handoff_id: str, task: str, source: str, ts: str) -> bool:
+    """CannotDo -> keep the job. Same handoff never enters twice. Returns True if added."""
+    data = _load_queue(path)
+    if any(e.get("handoff_id") == handoff_id for e in data["items"]):
+        return False
+    data["items"].append({"handoff_id": handoff_id, "task": task, "source": source, "ts": ts})
+    _save_queue(path, data)
+    return True
+
+
+def dequeue(path: Path, handoff_id: str) -> bool:
+    data = _load_queue(path)
+    kept = [e for e in data["items"] if e.get("handoff_id") != handoff_id]
+    if len(kept) == len(data["items"]):
+        return False
+    data["items"] = kept
+    _save_queue(path, data)
+    return True
+
+
+def queued_oldest(path: Path) -> dict | None:
+    items = sorted(_load_queue(path)["items"], key=lambda e: (str(e.get("ts", "")), str(e.get("handoff_id", ""))))
+    return items[0] if items else None
+
+
+def with_queue(targets: list[tuple[str, str | None, str]], queue_path: Path, model_available: bool,
+               limit: int | None) -> list[tuple[str, str | None, str]]:
+    """When the model is back, take ONE job (oldest) from the CannotDo queue first."""
+    head = queued_oldest(queue_path) if model_available else None
+    if head:
+        hid = str(head["handoff_id"])
+        targets = [(hid, head.get("task") or None, f"queue:{head.get('source', '')}")] + [
+            t for t in targets if t[0] != hid]
+    return targets[:limit] if limit else targets
+
+
 # ------------------------------------------------------------------- model ---
 def default_adapter_factory(env: Mapping[str, str]):
     """Shared model chain scripts.model_fallback.fallback_adapter (config/model_providers.json).
@@ -387,10 +471,17 @@ def process_handoff(
     if existing:
         log("skip_existing_pr", handoff_id=handoff_id, pr=existing.get("html_url") or existing.get("number"))
         return {"status": "exists", "pr": existing.get("html_url") or existing.get("number"), "branch": None}
+    if foreign_claim(item, datetime.fromisoformat(now)):
+        log("skip_foreign_claim", handoff_id=handoff_id, claimed_by=item.get("claimed_by"))
+        return {"status": "claimed_elsewhere", "branch": None, "claimed_by": item.get("claimed_by")}
 
     base = chatgpt_base(base_branch)
     git = git_ops or _RealGit(root)
     git.checkout_new(branch, base=base)
+    try:
+        claim(handoffs_path, handoff_id, now)
+    except Exception as exc:  # HandoffError: invalid ledger/actor -> log, keep working (PR still shows owner)
+        log("claim_failed", handoff_id=handoff_id, reason=str(exc))
 
     result, failure, kind = run_model(task, handoff_id, env, adapter_factory)
     if failure:
@@ -407,10 +498,15 @@ def process_handoff(
                     log("provider_check_dispatched", handoff_id=handoff_id)
                 except TeamWorkerError as exc:
                     log("provider_check_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
+        queued = False
+        if kind == "cannot_do":
+            queued = enqueue(root / QUEUE, handoff_id, task, source, now)
         append_note(handoffs_path, handoff_id,
-                    f"YAPAMADIM: {failure}" + (f" | {RESEARCH_MARKER} ({RESEARCH_EVENT})" if research else ""), now)
+                    f"YAPAMADIM: {failure}" + (f" | {RESEARCH_MARKER} ({RESEARCH_EVENT})" if research else "")
+                    + (f" | kuyruga alindi ({QUEUE.as_posix()})" if queued else ""), now)
         title = f"team-worker: YAPAMADIM {handoff_id}"
     else:
+        dequeue(root / QUEUE, handoff_id)
         out = root / RESULT_DIR / f"{handoff_id}.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps({"handoff_id": handoff_id, "source": source, "run_id": run_id,
@@ -448,7 +544,8 @@ def process_handoff(
         head_sha = (pr.get("head") or {}).get("sha")
         # team-pr-opened only after PR head checks (except takipci-denetci/auto-merge-gate) finish;
         # max 20 min @30 s, then send anyway with ci_pending: true.
-        done = (check_waiter or wait_for_checks)(client, head_sha) if head_sha else False
+        waiter = check_waiter or wait_for_checks
+        done = waiter(client, head_sha) if head_sha else False
         payload = {"pr_number": pr.get("number"), "head_sha": head_sha, "handoff_id": handoff_id}
         if not done:
             payload["ci_pending"] = True
@@ -456,6 +553,15 @@ def process_handoff(
             client.repository_dispatch(PR_OPENED_EVENT, payload)
         except TeamWorkerError as exc:
             log("pr_opened_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
+        if not done and head_sha:
+            # CI was still running: keep waiting in this run; once it finishes, send team-pr-opened
+            # once more without ci_pending.
+            if waiter(client, head_sha):
+                try:
+                    client.repository_dispatch(PR_OPENED_EVENT, {k: v for k, v in payload.items() if k != "ci_pending"})
+                    log("pr_opened_resent_ci_done", handoff_id=handoff_id)
+                except TeamWorkerError as exc:
+                    log("pr_opened_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
         return {"status": "pr", "pr": pr.get("html_url"), "branch": branch, "draft": draft, "yapamadim": failure}
     except PushRefused:
         raise
@@ -484,7 +590,10 @@ class _RealGit:
     def commit(self, message: str) -> None:
         _git("config", "user.name", "team-worker-bot", cwd=self.root)
         _git("config", "user.email", "team-worker-bot@users.noreply.github.com", cwd=self.root)
-        _git("add", "-A", "state/handoffs.json", "state/team_work", cwd=self.root)
+        paths = ["state/handoffs.json", "state/team_work"]
+        if (self.root / QUEUE).exists():
+            paths.append(QUEUE.as_posix())
+        _git("add", "-A", *paths, cwd=self.root)
         _git("commit", "-m", message, cwd=self.root)
 
     def push(self, branch: str) -> None:
@@ -516,7 +625,15 @@ def main(argv: list[str] | None = None) -> int:
     env = os.environ
     event_path = env.get("GITHUB_EVENT_PATH")
     event = json.loads(Path(event_path).read_text()) if event_path and Path(event_path).exists() else {}
-    targets = resolve_targets(env.get("GITHUB_EVENT_NAME", ""), event, args.handoff_id, load_handoffs())
+    event_name = env.get("GITHUB_EVENT_NAME", "")
+    targets = resolve_targets(event_name, event, args.handoff_id, load_handoffs())
+    try:
+        default_adapter_factory(env)
+        model_ok = True
+    except Exception:
+        model_ok = False
+    # push / provider-health (workflow_run) triggers: still max 1 job per run.
+    targets = with_queue(targets, QUEUE, model_ok, 1 if event_name in ("push", "workflow_run") else None)
     if not targets:
         log("no_pending_handoff")
         return 0

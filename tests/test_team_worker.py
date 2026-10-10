@@ -78,8 +78,12 @@ class Base(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / "state").mkdir()
         (self.root / "state/handoffs.json").write_text(json.dumps({"schema_version": 1, "items": [
-            {"id": "HO-T-1", "from": "chatgpt", "to": "grok", "task": "do a thing", "status": "open", "notes": []},
-            {"id": "HO-T-2", "from": "chatgpt", "to": "auditor", "task": "other", "status": "open"},
+            {"id": "HO-T-1", "from": "chatgpt", "to": "grok", "task": "do a thing", "status": "open", "notes": [],
+             "reason_cannot_do": "r", "evidence": "e", "created_at": "2026-10-10T00:00:00+00:00",
+             "updated_at": "2026-10-10T00:00:00+00:00"},
+            {"id": "HO-T-2", "from": "chatgpt", "to": "auditor", "task": "other", "status": "open",
+             "reason_cannot_do": "r", "evidence": "e", "created_at": "2026-10-10T00:00:00+00:00",
+             "updated_at": "2026-10-10T00:00:00+00:00"},
         ]}))
         self.env = {"XAI_API_KEY": "xai-secretval12", "GITHUB_TOKEN": "ghs_tokentokentoken"}
 
@@ -382,6 +386,117 @@ class ChatgptSource(Base):
         client, git = FakeClient(), FakeGit()
         self.run_ho(client, git)
         self.assertIsNone(git.base)
+
+
+class CannotDoQueue(Base):
+    def chain(self):
+        from scripts.model_fallback import CannotDo
+
+        class Chain:
+            def run(self, job):
+                raise CannotDo("YAPAMADIM: all providers failed")
+        return lambda env: Chain()
+
+    def queue(self):
+        return json.loads((self.root / "state/team_worker_queue.json").read_text())["items"]
+
+    def test_cannot_do_enqueues_once(self):
+        self.run_ho(FakeClient(), factory=self.chain())
+        q = self.queue()
+        self.assertEqual(len(q), 1)
+        self.assertEqual(set(q[0]), {"handoff_id", "task", "source", "ts"})
+        self.assertEqual(q[0]["handoff_id"], "HO-T-1")
+        self.assertFalse(tw.enqueue(self.root / "state/team_worker_queue.json", "HO-T-1", "x", "y", "z"))
+        self.run_ho(FakeClient(), factory=self.chain())
+        self.assertEqual(len(self.queue()), 1)
+        self.assertTrue(any("kuyruga alindi" in n for n in self.notes()))
+
+    def test_no_key_does_not_enqueue(self):
+        self.run_ho(FakeClient(), factory=_missing_factory)
+        self.assertFalse((self.root / "state/team_worker_queue.json").exists())
+
+    def test_success_dequeues(self):
+        qp = self.root / "state/team_worker_queue.json"
+        tw.enqueue(qp, "HO-T-1", "do a thing", "push", "2026-10-10T00:00:00+00:00")
+        self.run_ho(FakeClient())
+        self.assertEqual(self.queue(), [])
+
+    def test_with_queue_takes_oldest_one_when_model_back(self):
+        qp = self.root / "state/team_worker_queue.json"
+        tw.enqueue(qp, "HO-Q2", "t2", "push", "2026-10-10T02:00:00+00:00")
+        tw.enqueue(qp, "HO-Q1", "t1", "chatgpt", "2026-10-10T01:00:00+00:00")
+        self.assertEqual(tw.with_queue([("HO-X", None, "push")], qp, True, 1), [("HO-Q1", "t1", "queue:chatgpt")])
+        self.assertEqual(tw.with_queue([("HO-X", None, "push")], qp, False, 1), [("HO-X", None, "push")])
+        self.assertEqual(tw.with_queue([("HO-X", None, "repository_dispatch")], qp, True, None),
+                         [("HO-Q1", "t1", "queue:chatgpt"), ("HO-X", None, "repository_dispatch")])
+        self.assertEqual(tw.with_queue([], qp, True, 1), [("HO-Q1", "t1", "queue:chatgpt")])
+
+
+class ClaimOwnership(Base):
+    def item(self):
+        return tw.find_handoff(json.loads((self.root / "state/handoffs.json").read_text()), "HO-T-1")
+
+    def set_item(self, **kw):
+        data = json.loads((self.root / "state/handoffs.json").read_text())
+        data["items"][0].update(kw)
+        (self.root / "state/handoffs.json").write_text(json.dumps(data))
+
+    def test_claims_via_handoff_api(self):
+        self.run_ho(FakeClient())
+        it = self.item()
+        self.assertEqual(it["status"], "claimed")
+        self.assertEqual(it["claimed_by"], "team-worker")
+        self.assertEqual(it["claimed_at"], "2026-10-10T00:00:00+00:00")
+
+    def test_skips_fresh_foreign_claim(self):
+        self.set_item(status="claimed", claimed_by="worker-orchestrator", claimed_at="2026-10-09T23:30:00+00:00")
+        client, git = FakeClient(), FakeGit()
+        out = self.run_ho(client, git)
+        self.assertEqual(out["status"], "claimed_elsewhere")
+        self.assertIsNone(git.branch)
+        self.assertEqual(client.created, [])
+
+    def test_takes_over_stale_foreign_claim(self):
+        self.set_item(status="claimed", claimed_by="worker-orchestrator", claimed_at="2026-10-09T22:00:00+00:00")
+        out = self.run_ho(FakeClient())
+        self.assertEqual(out["status"], "pr")
+        self.assertEqual(self.item()["claimed_by"], "team-worker")
+
+    def test_own_claim_not_blocking(self):
+        self.set_item(status="claimed", claimed_by="team-worker", claimed_at="2026-10-09T23:55:00+00:00")
+        self.assertEqual(self.run_ho(FakeClient())["status"], "pr")
+
+    def test_open_bot_pr_counts_as_ownership(self):
+        client = FakeClient(open_pulls=[{"number": 3, "head": {"ref": "bot/HO-T-1-1"}}])
+        self.assertEqual(self.run_ho(client)["status"], "exists")
+        self.assertEqual(self.item()["status"], "open")
+
+
+class CiPendingResend(Base):
+    def run_with(self, results):
+        it = iter(results)
+        client = FakeClient()
+        tw.process_handoff("HO-T-1", run_id="9", client=client, env=self.env, root=self.root,
+                           adapter_factory=_ok_factory, test_runner=lambda: (True, "OK"), git_ops=FakeGit(),
+                           check_waiter=lambda c, sha: next(it))
+        return [d[1] for d in client.dispatches if d[0] == "team-pr-opened"]
+
+    def test_resend_without_ci_pending_when_ci_finishes_later(self):
+        sent = self.run_with([False, True])
+        self.assertEqual(len(sent), 2)
+        self.assertTrue(sent[0]["ci_pending"])
+        self.assertNotIn("ci_pending", sent[1])
+        self.assertEqual(sent[1]["head_sha"], "abc123")
+
+    def test_no_resend_if_ci_never_finishes(self):
+        sent = self.run_with([False, False])
+        self.assertEqual(len(sent), 1)
+        self.assertTrue(sent[0]["ci_pending"])
+
+    def test_single_send_when_ci_done_first_time(self):
+        sent = self.run_with([True])
+        self.assertEqual(len(sent), 1)
+        self.assertNotIn("ci_pending", sent[0])
 
 
 class PushBatchSafety(unittest.TestCase):

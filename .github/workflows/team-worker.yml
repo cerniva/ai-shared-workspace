@@ -19,6 +19,11 @@ on:
     branches: [main]
     paths:
       - 'state/handoffs.json'
+      - 'state/team_worker_queue.json'
+  # After provider-health finishes, retry the oldest CannotDo-queued job (if a model is back).
+  workflow_run:
+    workflows: [provider-health]
+    types: [completed]
 
 concurrency:
   group: team-worker-${{ github.event.client_payload.handoff_id || inputs.handoff_id || 'handoffs-push' }}
@@ -36,7 +41,7 @@ jobs:
     # Commits by this bot land only on bot/* branches, so push events from them never reach here.
     if: ${{ github.event_name != 'push' || github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 40  # up to 20 min waiting on PR head checks before team-pr-opened
+    timeout-minutes: 60  # up to 2x20 min waiting on PR head checks (team-pr-opened, then re-send once CI finishes)
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Shared model chain: scripts.model_fallback.fallback_adapter (config/model_providers.json); GitHub Models uses GITHUB_TOKEN + models: read.
