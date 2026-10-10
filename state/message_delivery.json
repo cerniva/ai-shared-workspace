@@ -7480,8 +7480,8 @@
     "MSG-20261010-0633-grok-seen-yedek": {
       "id": "MSG-20261010-0633-grok-seen-yedek",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-10T07:24:04+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-10T08:13:45+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -7491,10 +7491,11 @@
       "created_at": "2026-10-10T06:33:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-10T06:33:00+03:00",
-      "delayed_at": "2026-10-10T07:24:04+03:00"
+      "seen_at": "2026-10-10T08:13:45+03:00"
     },
     "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss": {
       "id": "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss",
@@ -7518,8 +7519,8 @@
     "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol": {
       "id": "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T07:35:35+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T08:13:45+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7528,9 +7529,45 @@
       "in_reply_to": "none",
       "created_at": "2026-10-10T07:33:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-10T07:33:00+03:00",
+      "delayed_at": "2026-10-10T08:13:45+03:00"
+    },
+    "MSG-20261010-0815-grok-arsiv-kurtarma": {
+      "id": "MSG-20261010-0815-grok-arsiv-kurtarma",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-10T08:13:45+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "restored",
+      "in_reply_to": "null",
+      "created_at": "2026-10-10T08:15:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-10T07:33:00+03:00"
+      "pending_at": "2026-10-10T08:15:00+03:00"
+    },
+    "RPT-20261010-0815-grok-arsiv-kurtarma": {
+      "id": "RPT-20261010-0815-grok-arsiv-kurtarma",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-10T08:13:45+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-10T08:15:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-10T08:15:00+03:00"
     }
   },
   "events": [
@@ -16028,6 +16065,50 @@
       "at": "2026-10-10T07:35:35+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261010-0633-grok-seen-yedek:seen",
+      "message_id": "MSG-20261010-0633-grok-seen-yedek",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T08:13:45+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261010-0815-grok-arsiv-kurtarma:pending",
+      "message_id": "MSG-20261010-0815-grok-arsiv-kurtarma",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T08:13:45+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261010-0815-grok-arsiv-kurtarma:pending",
+      "message_id": "RPT-20261010-0815-grok-arsiv-kurtarma",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-10T08:13:45+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol:delayed",
+      "message_id": "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-10T08:13:45+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16802,6 +16883,10 @@
     "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:pending",
     "MSG-20261010-0633-grok-seen-yedek:delayed",
     "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:delayed",
-    "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol:pending"
+    "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol:pending",
+    "MSG-20261010-0633-grok-seen-yedek:seen",
+    "MSG-20261010-0815-grok-arsiv-kurtarma:pending",
+    "RPT-20261010-0815-grok-arsiv-kurtarma:pending",
+    "RPT-20261010-0733-grok-bilgi-kutuphanesi-kontrol:delayed"
   ]
 }
