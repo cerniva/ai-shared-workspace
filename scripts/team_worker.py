@@ -138,6 +138,20 @@ def _git(*args: str, cwd: Path | None = None, check: bool = True) -> str:
     return proc.stdout
 
 
+def commit_pathspecs(root: Path) -> list[str]:
+    """State paths to stage; skip ones absent on disk and in the index.
+
+    `git add -A <missing>` fails with "pathspec did not match" (team-worker run
+    38031600967: state/team_work did not exist yet), so only existing or tracked
+    paths are passed.
+    """
+    out = []
+    for p in ("state/handoffs.json", RESULT_DIR.as_posix(), QUEUE.as_posix()):
+        if (root / p).exists() or _git("ls-files", "--", p, cwd=root, check=False).strip():
+            out.append(p)
+    return out
+
+
 def git_push_branch(branch: str, cwd: Path | None = None) -> None:
     assert_push_target(branch)
     _git("push", "origin", f"HEAD:refs/heads/{branch}", cwd=cwd)
@@ -590,9 +604,9 @@ class _RealGit:
     def commit(self, message: str) -> None:
         _git("config", "user.name", "team-worker-bot", cwd=self.root)
         _git("config", "user.email", "team-worker-bot@users.noreply.github.com", cwd=self.root)
-        paths = ["state/handoffs.json", "state/team_work"]
-        if (self.root / QUEUE).exists():
-            paths.append(QUEUE.as_posix())
+        paths = commit_pathspecs(self.root)
+        if not paths:
+            raise TeamWorkerError("commit: no state paths to add")
         _git("add", "-A", *paths, cwd=self.root)
         _git("commit", "-m", message, cwd=self.root)
 
