@@ -1,0 +1,55 @@
+name: provider-health
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [provider-check]
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+  models: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      OLLAMA_HOST: ${{ vars.OLLAMA_HOST }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Probe providers (max_tokens 1; no secrets written)
+        run: python3 -m scripts.provider_health
+      - name: Persist state/provider_health.json only
+        shell: bash
+        run: |
+          git add -- state/provider_health.json
+          if git diff --cached --name-only | grep -vxF 'state/provider_health.json'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "provider-health-bot"
+          git config user.email "provider-health-bot@users.noreply.github.com"
+          git commit -m "provider-health: state/provider_health.json"
+          git pull --rebase origin main
+          git push origin HEAD:main

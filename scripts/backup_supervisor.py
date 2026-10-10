@@ -44,9 +44,11 @@ _SAFE_ID = re.compile(r"[^A-Za-z0-9_.-]+")
 
 
 def supervisor_adapter(*, env: Mapping[str, str] | None = None):
-    values = os.environ if env is None else env
-    adapters = [make_adapter(n, env=values) for n in SUPERVISOR_ORDER if values.get(PROVIDER_ENV[n], "").strip()]
-    return FailoverAdapter(adapters) if adapters else None
+    """Shared chain from scripts.model_fallback (config/model_providers.json):
+    GitHub Models -> Groq -> OpenRouter :free -> Cerebras -> Mistral ->
+    SUPERVISOR_ORDER (+grok) -> local (simple jobs). None if nothing configured."""
+    from scripts.model_fallback import fallback_adapter
+    return fallback_adapter(env=os.environ if env is None else env)
 
 
 def ci_status(repo: str | None, token: str | None, fetch=None) -> dict[str, Any]:
@@ -174,7 +176,7 @@ def write_status(report: dict[str, Any], path: Path) -> None:
         "# Yedek denetçi (backup-supervisor) — son durum",
         "",
         f"- Zaman (UTC): {report['generated_at']}",
-        "- Sağlayıcı: " + ("var (gemini → deepseek → claude → openai)" if report["provider_available"]
+        "- Sağlayıcı: " + ("var (ortak zincir: config/model_providers.json)" if report["provider_available"]
                            else "anahtar yok, model adımı atlandı"),
         f"- Gecikmiş handoff (>2 sa açık): {', '.join(report['overdue']) or 'yok'}",
         f"- Açık/claimed handoff: {', '.join(report['open_handoffs']) or 'yok'}",

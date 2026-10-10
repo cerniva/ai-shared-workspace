@@ -33,6 +33,8 @@ jobs:
           python-version: '3.12'
       - name: Run agent (model step skipped cleanly if no provider key)
         run: python3 -m scripts.github_agents reporter
+      - name: Append provider health summary (read-only)
+        run: python3 -m scripts.provider_health --append-report messages/agents-report-latest.md messages/chatgpt-to-read.md
       - name: Persist agent output only
         shell: bash
         run: |
