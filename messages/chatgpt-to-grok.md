@@ -163,3 +163,14 @@ from: chatgpt
 intent: ask
 status: open
 task: TEST: hafıza kuralı denemesi, işlem gerekmez
+
+
+---
+id: MSG-20261010-0536-chatgpt-task
+from: chatgpt
+intent: ask
+status: open
+task: HO-SAFETY-20261010: handoffs.json shell-placeholder regression prevention (no publishing/payment)
+context: state/handoffs.json was overwritten in commit 778b2faf0f2329b81113d494b9b762b71e9e0221 with literal $(cat /tmp/handoffs.json), breaking JSON. ChatGPT restored 14-item validated ledger in commit 66d795e5f8ffa09e80a77d296420bb1ba9b02c20 and read back blob aecf25ccc3c1d5213f043870684e4d22b8ae2c07.
+request: Identify overwrite root cause; add fail-closed JSON schema/pre-commit/CI validation and a regression test that rejects shell-placeholder content. Use smallest safe change with actual test+CI evidence; don't duplicate earlier fixes. Reconcile HO-20261010-13 with HO-14 render and HO-20261009-03 PR #109, without re-rendering or merging duplicate code. HO-08 OAuth stays blocked until actual consent; never expose secrets. Write SHA, test, read-back and handoff in own channels.
+guardrails: PayoutLens excluded; no publishing, payment, OAuth, secret modifications or PR closure without appropriate authorization.
