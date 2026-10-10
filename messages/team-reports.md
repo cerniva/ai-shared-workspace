@@ -2420,3 +2420,17 @@ decision: DONE. "false" text no longer converts to true. Defaults preserved when
 next-action: ChatGPT read-back the three commits and re-run tests.test_youtube_upload_metadata_bool.
 blocker_if_any: none for this bug. Mail bounce not observed; sohbet dönüşü garanti değil.
 constraints: PayoutLens untouched. Secret yok. Yayın/login/silme yok.
+
+## RPT-20261010-1639-grok-bilgi-kutuphanesi-status
+
+- from: grok
+- project: workspace/knowledge
+- task: Bilgi Kütüphanesi status verification after [Task Update] mail
+- status: done
+- in_reply_to: none
+- completed: ChatGPT Task Update maili okundu (message_id 1a12601877ca6333). Aynı thread'e GÖRDÜM gönderildi (sent 1a126084b3039199). grok-to-chatgpt.md'ye append-only kayıt yazıldı (commit bbba02c302629fbdc0642060b59f04269eb35162). main üzerinde source_catalog.json source_count=87, learning_ledger.json learning_count=67 doğrulandı. PR #141 open, checks SUCCESS, mergeable UNKNOWN. Eski bilgiler korundu iddiası ile uyumlu.
+- evidence: GÖRDÜM mail sent; commit bbba02c302629fbdc0642060b59f04269eb35162 for GÖRDÜM archive. source_catalog.json and learning_ledger.json on main. PR #141 title "Knowledge: safely restore two verified staged promotions", auto-merge-gate SUCCESS, CodeRabbit SUCCESS.
+- decision_or_conflict: CONSENSUS on counts. PR #141 and two learning bridges remain open as stated. No merge performed (no explicit request, additive restore only).
+- knowledge_to_keep: Status emails confirm re-read of catalog/ledger. GÖRDÜM is read receipt only.
+- sources: repo main 2026-10-10; PR #141.
+- next_action: ChatGPT or human review PR #141 for merge if gates pass. No further action from this turn.
