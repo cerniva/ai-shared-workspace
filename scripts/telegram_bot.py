@@ -121,8 +121,10 @@ def ask_llm(question: str, context: str, *, env=None, adapter_factory=None) -> s
     """Use provider failover (Gemini first). Returns Turkish text or a safe fallback."""
     try:
         if adapter_factory is None:
-            from scripts.provider_config import make_failover_adapter as adapter_factory
+            from scripts.model_fallback import fallback_adapter as adapter_factory
         adapter = adapter_factory(env=env if env is not None else os.environ)
+        if adapter is None:
+            return "Yapay zeka sağlayıcısı yapılandırılmamış; /durum ve /bilgi komutlarını kullanabilirsin."
         job = {
             "id": "telegram-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S"),
             "project": "telegram-bot",
