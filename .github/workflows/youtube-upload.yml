@@ -52,7 +52,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -217,7 +217,23 @@ jobs:
             fi
           done
           if [[ "$PUBLISH_PUBLICLY" == "true" ]]; then
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --publish
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --publish | tee "$RUNNER_TEMP/upload_result.json"
           else
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH"
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" | tee "$RUNNER_TEMP/upload_result.json"
           fi
+
+      - name: Record upload in 48h lesson ledger
+        env:
+          METADATA_PATH: ${{ inputs.metadata_path }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          vid=$(python3 -c 'import json,sys; print(json.loads(open(sys.argv[1]).read().strip().splitlines()[-1])["video_id"])' "$RUNNER_TEMP/upload_result.json")
+          title=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("title",""))' "$METADATA_PATH")
+          python3 scripts/shorts_lesson_48h.py record --video-id "$vid" --title "$title" --packet "$METADATA_PATH" --run-id "${{ github.run_id }}"
+          git add knowledge/shorts/upload_ledger.json
+          git config user.name "shorts-lessons-bot"
+          git config user.email "shorts-lessons-bot@users.noreply.github.com"
+          git commit -m "shorts: ledger upload $vid (run ${{ github.run_id }})"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push origin HEAD:main && exit 0; sleep 5; done
+          exit 1
