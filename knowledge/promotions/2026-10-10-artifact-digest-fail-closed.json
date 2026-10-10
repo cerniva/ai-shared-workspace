@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_569c596da7048714",
+    "source_name": "GitHub Actions artifact SHA-256 digest verification behavior",
+    "canonical": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
+    "category": "system-artifact-integrity",
+    "purpose": "Official behavior of artifact SHA256 mismatch when download-artifact verifies uploaded artifacts",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official changelog; no key required",
+    "reliability_limits": "Documented for artifact actions v4+ as of March 18, 2025; behavior may change in later versions, verify before enforcement",
+    "discovered_at": "2026-10-10T04:24:00+03:00",
+    "last_successful_use": "2026-10-10T05:30:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_4decad368966e2e6",
+    "title": "GitHub Actions artifact digest mismatch needs explicit fail-closed gate",
+    "domain": "github-actions-artifact-integrity",
+    "claim": "GitHub Actions artifact digest mismatch is only a warning during download; it does not fail the workflow automatically.",
+    "evidence_status": "verified",
+    "decision": "When an artifact from another workflow/run is consumed for a plan decision or applied_learning_ids, a digest mismatch must cause an explicit nonzero integrity gate; successful download alone is not a PASS.",
+    "outcome": "pending",
+    "next_measurement": "Create a downstream consumer negative test with a mismatched digest; require nonzero exit and no applied_learning_ids assertion; record run ID, artifact digest and test SHA.",
+    "learned_at": "2026-10-10T04:24:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_569c596da7048714"
+    ],
+    "failure_history": [],
+    "fallback_history": [
+      "If expected digest is unavailable, mark cross-run artifact integrity unverified; do not claim the plan consumed verified artifact content."
+    ],
+    "plan_tags": [
+      "system",
+      "video_shopify"
+    ],
+    "status": "active"
+  }
+}
