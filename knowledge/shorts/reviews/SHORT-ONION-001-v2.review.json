@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "video_id": "SHORT-ONION-001-v2",
+  "sha256": "7d55355920159bdbc323b6a0b1a383172f961be43e46229d5e28059b1cba2fb0",
+  "source": {"render_run_id": 38009504919, "artifact_id": 11652961952, "artifact_name": "shorts-free-build", "file": "short-onion-001-v2.mp4", "bytes": 11868097},
+  "reviewer": "Furkan Akdemir (human)",
+  "reviewed_at": "2026-10-10T03:39:00+03:00",
+  "approval_quote": ["Bu iyi", "Videoyu paylaşın"],
+  "approval_scope": "Upload as PRIVATE only (not public, not unlisted).",
+  "checks": {
+    "speech_intelligible": true,
+    "audio_visual_sync": true,
+    "text_readable": true,
+    "hook_storyboard_checked": true,
+    "moving_footage_checked": true,
+    "facts_verified": true,
+    "rights_checked": true,
+    "correct_channel": true,
+    "duplicate_checked": true
+  },
+  "basis": {
+    "speech_intelligible": "Furkan watched the final MP4 and approved it ('Bu iyi', 2026-10-10 03:39 TRT).",
+    "audio_visual_sync": "Furkan approval of the final MP4; tool QC rev 2 (865fd4e evidence): captions from edge-tts word timings, ~0.3 s lead.",
+    "text_readable": "Furkan approval of the final MP4 (burned Turkish captions).",
+    "hook_storyboard_checked": "Furkan approval of the final MP4; first-3s hook = question caption over moving onion-cutting close-up.",
+    "moving_footage_checked": "Furkan approval; tool QC: freezedetect 0 freezes, scene cuts 10.0/20.0/20.33 s, 3 Pexels video clips (intake/grok/2026-10-10-ho12-onion-qc.md).",
+    "facts_verified": "Script claim (cut cells mix compounds -> volatile eye irritant -> reflex tears) matches the established lachrymatory-factor mechanism (syn-propanethial-S-oxide); Furkan approved content. Script makes no numeric claims.",
+    "rights_checked": "Pexels License pages for 7752901 / 4146098 / 3115386 checked 2026-10-10 (ho12-onion-qc.md Rev 2); no identifiable people/brands; creators credited in description.",
+    "correct_channel": "Enforced in code: scripts/youtube_upload.py requires the authorized account to own channel UCAKg-ZKPoazTnF2zDVORk4Q and re-verifies snippet.channelId after upload.",
+    "duplicate_checked": "No youtube-upload workflow run has ever succeeded (runs 1-23 all failed, last dispatch 36265608527 failed); YOUTUBE_* secrets were first added 2026-10-10 00:55 UTC, so this sha256 has never been uploaded."
+  },
+  "qc_evidence": ["865fd4eae1bf8e2c24e7b36387cca5ae7ff94dc0:intake/grok/2026-10-10-ho12-onion-qc.md", "1172cdd: scripts/shorts_mp4_qc.py passes on 7d553559 (HO-20261010-12 note)"],
+  "notes": "Technical/tool checks by Grok Bot executor; human acceptance by Furkan. This file does not authorize public or unlisted visibility."
+}

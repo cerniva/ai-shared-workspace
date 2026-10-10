@@ -40,6 +40,11 @@ on:
         required: false
         default: ""
         type: string
+      review_path:
+        description: "Optional repo-relative independent review JSON (render_artifact mode); regenerates preflight with --review and the artifact's bundle/render.json"
+        required: false
+        default: ""
+        type: string
       publish_publicly:
         description: "Make the video public after upload (otherwise upload privately)"
         required: true
@@ -152,6 +157,35 @@ jobs:
           fi
           printf 'VIDEO_PATH=%s\n' "$candidate" >> "$GITHUB_ENV"
           printf 'PREFLIGHT_PATH=%s\n' "$preflight" >> "$GITHUB_ENV"
+
+      - name: Regenerate preflight with independent review evidence
+        if: ${{ inputs.source_mode == 'render_artifact' && inputs.review_path != '' }}
+        env:
+          REVIEW_PATH: ${{ inputs.review_path }}
+          PUBLISH_PUBLICLY: ${{ inputs.publish_publicly }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$REVIEW_PATH" in /*|*..*) echo "review_path must be repository-relative" >&2; exit 1;; esac
+          [[ "$REVIEW_PATH" == *.json && -f "$REVIEW_PATH" ]] || { echo "review_path must be an existing .json file" >&2; exit 1; }
+          manifest="downloaded-render/bundle/render.json"
+          [[ -f "$manifest" ]] || { echo "Artifact has no bundle/render.json" >&2; exit 1; }
+          policy=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("upload_policy",{}).get("privacyStatus",""))' "$manifest")
+          if [[ "$policy" == "private" && "$PUBLISH_PUBLICLY" == "true" ]]; then
+            echo "render.json upload_policy.privacyStatus=private forbids publish_publicly=true" >&2
+            exit 1
+          fi
+          out="$RUNNER_TEMP/preflight-reviewed.json"
+          set +e
+          python3 scripts/shorts_preflight.py "$VIDEO_PATH" --review "$REVIEW_PATH" --manifest "$manifest" > "$out"
+          rc=$?
+          set -e
+          cat "$out"
+          if [[ $rc -ne 0 ]]; then
+            echo "Reviewed preflight is not ready (exit $rc)" >&2
+            exit 1
+          fi
+          printf 'PREFLIGHT_PATH=%s\n' "$out" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v7
