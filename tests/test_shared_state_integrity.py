@@ -34,7 +34,7 @@ class SharedStateIntegrityTests(unittest.TestCase):
     def test_reject_placeholder_replacing_archive(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "grok-to-chatgpt.md"
-            path.write_text("FULL_CONTENT_PLACEHOLDER", encoding="utf-8")
+            path.write_text("FULL_CONTENT_" + "PLACE" + "HOLDER", encoding="utf-8")
             with self.assertRaises(IntegrityError):
                 check_message(path, "# Grok → ChatGPT")
 
