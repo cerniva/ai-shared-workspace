@@ -67,13 +67,7 @@ def _fallback_reason(entry: dict, now: datetime, fallback_minutes: float, down: 
     worker = str(entry.get("worker"))
     if WORKER_PROVIDER.get(worker, worker) in down:
         return True
-    if entry.get("status") == "queued":
-        stamp = entry.get("updated_at") or entry.get("created_at")
-        if stamp:
-            try:
-                return _parse(stamp) + timedelta(minutes=fallback_minutes) <= now
-            except Exception:
-                return False
+    # Age alone cannot transfer ownership of another worker's queued job.
     return False
 
 
