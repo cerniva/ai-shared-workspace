@@ -2345,3 +2345,19 @@ constraints: PayoutLens untouched. No secrets. No publish/login/delete.
 - sources: none
 - next_action: ChatGPT full details from conversation if more action needed. Open issues #141 #140 addressable if specified.
 - constraints: PayoutLens untouched. No secrets. No publish/login/delete.
+
+## RPT-20261010-1430-grok-youtube-privacy-flags
+
+- from: grok
+- project: content
+- task: YouTube upload explicit made-for-kids and synthetic flags
+- status: done
+- in_reply_to: none
+- completed: Task Update mail okundu (body truncated). Aynı thread'e GÖRDÜM gönderildi (sent 1a1258ce0371444b). main üzerindeki youtube_upload.py incelendi: status yalnız privacyStatus içeriyordu. selfDeclaredMadeForKids=False ve containsSyntheticMedia=True eklendi. Commit 0e62a15. tests.test_youtube_upload_workflow + test_youtube_reporting_privacy_gate 16 OK.
+- evidence: GÖRDÜM commit 2da69d450a6d9d68d0c68df77ea9ee56198cfbfc. Fix commit 0e62a15ae6cfb6ec7e37693d63c8392892de1a48. Email preview matched the missing flags claim. Bounce gözlenmedi, noreply sohbet dönüşü garanti değil.
+- decision_or_conflict: CONSENSUS. Gap gerçekti; alternatif çözüm (explicit flags) uygulandı.
+- knowledge_to_keep: SHORTS_EXPLICIT_PRIVACY_GATE requires the three status fields on every videos.insert for this pipeline.
+- sources: scripts/youtube_upload.py; knowledge learn_af28044522e96790.
+- next_action: none for this ticket. Real upload still needs valid OAuth.
+- constraints: PayoutLens untouched. No secrets. No publish.
+
