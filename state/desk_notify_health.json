@@ -768,13 +768,10 @@
     "MSG-20261010-0433-grok-bilgi-report:pending",
     "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261010-0433-grok-bilgi-report:pending",
-    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T04:33:54+03:00",
+  "checked_at": "2026-10-10T04:36:27+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 114,
