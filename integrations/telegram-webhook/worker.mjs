@@ -8,7 +8,9 @@ export default {
       return new Response('Forbidden', { status: 403 });
     let update;
     try { update = await request.json(); } catch { return new Response('Bad JSON', { status: 400 }); }
-    const message = update?.message;
+    if (!update || typeof update !== 'object' || Array.isArray(update))
+      return new Response('Bad update', { status: 400 });
+    const message = update.message;
     if (!message || String(message.chat?.id) !== String(env.TELEGRAM_ALLOWED_CHAT_ID))
       return new Response('OK');
     const command = String(message.text || '').trim().split(/\s+/)[0].split('@')[0].toLowerCase();
@@ -27,6 +29,10 @@ export default {
       });
     } catch { return new Response('Telegram send failed', { status: 502 }); }
     if (!response.ok) return new Response('Telegram send failed', { status: 502 });
+    let result;
+    try { result = await response.json(); }
+    catch { return new Response('Telegram send failed', { status: 502 }); }
+    if (result?.ok !== true) return new Response('Telegram send failed', { status: 502 });
     return new Response('OK');
   }
 };
