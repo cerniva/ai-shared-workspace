@@ -1,7 +1,7 @@
 {
   "auditor_check_name": "takipci-denetci",
   "required_checks": ["test"],
-  "self_check_names": ["auto-merge-gate"],
+  "self_check_names": ["auto-merge-gate", "CodeRabbit"],
   "allowed_head_prefixes": ["bot/"],
   "allowed_head_branches": [],
   "merge_method": "squash",
