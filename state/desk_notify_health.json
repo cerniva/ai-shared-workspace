@@ -788,12 +788,10 @@
     "MSG-20261010-0633-grok-seen-yedek:pending",
     "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T06:45:39+03:00",
+  "checked_at": "2026-10-10T07:02:38+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 118,
