@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_74c1f2ed10aefae7",
+    "source_name": "GitHub REST API pagination documentation",
+    "canonical": "https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api",
+    "category": "system-github-inventory-completeness",
+    "purpose": "Verify completeness of GitHub REST list-based scans used for repository workflow/PR/issue inventory and plan decision evidence",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free official documentation; no authenticated API usage or paid credit required",
+    "reliability_limits": "Documentation explains general pagination; individual endpoints have their own pagination support and page-size defaults. A GitHub connector returning first page only cannot prove complete inventory.",
+    "discovered_at": "2026-10-10T11:23:30+03:00",
+    "last_successful_use": "2026-10-10T11:23:30+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_1f26fa5202f29769",
+    "title": "GitHub REST inventory completeness requires following next-page links",
+    "domain": "github-rest-pagination-integrity",
+    "claim": "GitHub REST API list endpoints can return only the first page (often 30 records; most endpoints cap per_page at 100); a successful HTTP 200 is not proof of an exhaustive inventory, and the Link rel=next header identifies additional pages.",
+    "evidence_status": "verified",
+    "decision": "GITHUB_REST_PAGINATION_COMPLETENESS_GATE: for list-based PR/issue/workflow/commit inventories, follow Link rel=next until exhausted or explicitly mark result PARTIAL with last cursor, pages scanned, and observed count; never assert all-green or full inventory from a connector known to return only page one. This does not apply to direct complete JSON source_catalog/learning_ledger file reads. Use fail-closed consumer test with >100 synthetic records and verify all IDs and no silent truncation.",
+    "outcome": "pending",
+    "next_measurement": "Grok: implement a negative test showing first-page-only scans fail completeness; positive test follows rel=next across at least 2 pages; record commit SHA, test run ID, total count and applied_learning_ids in system consumer report. No changes to PayoutLens.",
+    "learned_at": "2026-10-10T11:23:30+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_74c1f2ed10aefae7"
+    ],
+    "failure_history": [
+      "Prior automation run 2026-10-10 10:27 discovered pagination risk but could not persist promotion; no verified complete repository inventory is claimed."
+    ],
+    "fallback_history": [
+      "If the connector does not expose Link headers or a next-page cursor, label result PARTIAL/bridge_failure and avoid full-inventory claims; use a pagination-capable API client only with verified access."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "GITHUB_REST_PAGINATION_COMPLETENESS_GATE"
+  ]
+}
