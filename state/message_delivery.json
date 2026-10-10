@@ -7480,8 +7480,8 @@
     "MSG-20261010-0633-grok-seen-yedek": {
       "id": "MSG-20261010-0633-grok-seen-yedek",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-10T06:34:55+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T07:24:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -7490,15 +7490,17 @@
       "in_reply_to": "null",
       "created_at": "2026-10-10T06:33:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-10T06:33:00+03:00"
+      "pending_at": "2026-10-10T06:33:00+03:00",
+      "delayed_at": "2026-10-10T07:24:04+03:00"
     },
     "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss": {
       "id": "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T06:45:39+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T07:24:04+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7507,9 +7509,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-10T06:43:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-10T06:43:00+03:00"
+      "pending_at": "2026-10-10T06:43:00+03:00",
+      "delayed_at": "2026-10-10T07:24:04+03:00"
     }
   },
   "events": [
@@ -15974,6 +15978,28 @@
       "at": "2026-10-10T06:45:39+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261010-0633-grok-seen-yedek:delayed",
+      "message_id": "MSG-20261010-0633-grok-seen-yedek",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T07:24:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:delayed",
+      "message_id": "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-10T07:24:04+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16745,6 +16771,8 @@
     "MSG-20261010-053500-grok-ho03-pr109-report:delayed",
     "MSG-20261010-0545-chatgpt-ci-pr127:delayed",
     "MSG-20261010-0633-grok-seen-yedek:pending",
-    "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:pending"
+    "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:pending",
+    "MSG-20261010-0633-grok-seen-yedek:delayed",
+    "RPT-20261010-0643-grok-sistem-gelistirmeleri-data-loss:delayed"
   ]
 }
