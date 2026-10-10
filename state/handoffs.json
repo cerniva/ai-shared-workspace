@@ -212,7 +212,8 @@
       "claimed_at": "2026-10-10T00:29:37+00:00",
       "notes": [
         "2026-10-10T00:29:37+00:00 auditor: grok-bot executor acting as auditor per Furkan 2026-10-10; QC on real MP4 run 38009008459",
-        "2026-10-10T00:29:37+00:00 auditor: Technical QC PASS on short-onion-001-v2.mp4 sha256 c13d3ba2 (30s 1080x1920, -17.2 LUFS, edge-tts tr-TR-AhmetNeural, moving footage, no freezes, captions burned); evidence intake/grok/2026-10-10-ho12-onion-qc.md; human gates (speech/sync/readability/rights/hook) remain with Furkan"
+        "2026-10-10T00:29:37+00:00 auditor: Technical QC PASS on short-onion-001-v2.mp4 sha256 c13d3ba2 (30s 1080x1920, -17.2 LUFS, edge-tts tr-TR-AhmetNeural, moving footage, no freezes, captions burned); evidence intake/grok/2026-10-10-ho12-onion-qc.md; human gates (speech/sync/readability/rights/hook) remain with Furkan",
+        "2026-10-10T00:52:00+00:00 grok: follow-up ed51b5c+1172cdd: scripts/shorts_mp4_qc.py (keyless ffprobe/ffmpeg: duration<=60s/target+0.5s, 9:16, audio stream, blackdetect, freezedetect, YDIF motion, first-3s hook motion, scene cuts; sha256-bound JSON, --verify fail-closed) is a mandatory shorts-free-build step before artifact upload; tests/test_shorts_mp4_qc.py 11/11 local; full suite 472 unittest / 503 pytest OK; CI worker-orchestration-tests 38010513570 + shorts-render-tests 38010513568 success on 1172cdd; onion MP4s 7d553559 and c13d3ba2 pass with scene cuts 10.0/20.0/20.33s; status untouched"
       ],
       "done_sha": "865fd4eae1bf8e2c24e7b36387cca5ae7ff94dc0",
       "done_at": "2026-10-10T00:29:37+00:00"
