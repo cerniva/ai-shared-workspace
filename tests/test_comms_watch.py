@@ -200,7 +200,8 @@ class CommsWatchTests(unittest.TestCase):
     def test_real_chatgpt_file_parses(self):
         parsed = cw.parse_chatgpt_messages((ROOT / "messages/chatgpt-to-grok.md").read_text(encoding="utf-8"))
         self.assertTrue(parsed)
-        self.assertTrue(all(p["message_id"].startswith("MSG-") for p in parsed))
+        # ChatGPT desk file may carry MSG- messages and RPT- report blocks (desk_bridge treats RPT- as team-reports).
+        self.assertTrue(all(p["message_id"].startswith(("MSG-", "RPT-")) for p in parsed))
 
     def test_telegram_handoff_not_redispatched(self):
         self.write([item("TG-20261010-010000", minutes=20), item("HO-live", minutes=20)])
