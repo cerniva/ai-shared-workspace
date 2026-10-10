@@ -29,13 +29,28 @@ HEAD_BOGUS = re.compile(
 )
 
 
+# Gövdeye gömülü tam-satır sentinel'ler (2026-10-10: FULL_CONTENT_WILL_BE_REPLACED,
+# THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
+BODY_SENTINEL = re.compile(
+    r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
+    r"THE_CONTENT_FROM_[A-Z0-9_]+)$"
+)
+
+
 def is_bogus_line(line: str) -> bool:
-    """CI guard kuralı: tam `SEE_FILE` satırı veya `$(cat ` ile başlayan satır."""
-    return line.strip() == "SEE_FILE" or line.startswith("$(cat ")
+    """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
+    (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
+    Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
+    return line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
 
 
 def bogus_lines(text: str) -> list[int]:
     return [i + 1 for i, line in enumerate(text.splitlines()) if is_bogus_line(line)]
+
+
+def drop_bogus(text: str) -> str:
+    """Gövdeye gömülü sahte satırları sil (gerçek satırlara dokunmaz)."""
+    return "\n".join(line for line in text.split("\n") if not is_bogus_line(line))
 
 
 def has_bogus_head(text: str) -> bool:
@@ -179,17 +194,19 @@ def heal(path: str, since: str, write: bool) -> dict:
     versions = history(path, since)
     if not versions or versions[-1] != head:
         versions.append(head)
-    max_full = max((len(v) for v in versions if v.strip() and not has_bogus_head(v)), default=0)
+    max_full = max((len(drop_bogus(v)) for v in versions if v.strip() and not has_bogus_head(v)),
+                   default=0)
     damaged = has_bogus_head(head) or bool(bogus_lines(head)) or len(head) < 0.9 * max_full
     result = head
     if damaged:
-        result = rebuild(versions)
+        result = drop_bogus(rebuild(versions))
         if has_bogus_head(result) or bogus_lines(result):
             raise SystemExit(f"{path}: onarılan metinde sahte satır kaldı, yazılmadı")
         if len(result) < max_full:
             raise SystemExit(f"{path}: onarılan metin ({len(result)}) en uzun tam sürümden ({max_full}) kısa")
         for b in blocks(strip_head(head)):
-            if norm(strip_head(b)) and norm(strip_head(b)) not in norm(result):
+            real = norm(drop_bogus(strip_head(b)))
+            if real and real not in norm(result):
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
     changed = result != head
