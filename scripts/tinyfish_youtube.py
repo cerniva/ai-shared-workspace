@@ -42,11 +42,17 @@ ANALYTICS_SCHEMA = {
         "views": {"type": "number"},
         "watch_time_hours": {"type": "number"},
         "subscribers_change": {"type": "number"},
+        "likes": {"type": "number"},
+        "engaged_views": {"type": "number"},
+        "stayed_to_watch_percent": {"type": "number"},
         "top_videos": {
             "type": "array",
             "items": {
                 "type": "object",
-                "properties": {"title": {"type": "string"}, "views": {"type": "number"}},
+                "properties": {"title": {"type": "string"}, "views": {"type": "number"},
+                               "likes": {"type": "number"},
+                               "stayed_to_watch_percent": {"type": "number"},
+                               "average_view_duration_seconds": {"type": "number"}},
             },
         },
     },
@@ -75,8 +81,9 @@ def analytics_payload(period: str = "Last 28 days", env: Mapping[str, str] | Non
         "url": STUDIO_URL,
         "goal": (
             f"READ ONLY. Open YouTube Studio Analytics for the signed-in channel, select '{period}', "
-            "and extract channel name, period, views, watch time (hours), subscriber change and the top "
-            "5 videos with views. Do not upload, edit, publish, delete, comment or change any setting. "
+            "and extract channel name, period, views, engaged views, watch time (hours), subscriber change, "
+            "likes, Shorts 'stayed to watch' / 'viewed vs swiped away' percent (null if not shown), and the "
+            "top 5 videos with views, likes, stayed-to-watch percent and average view duration. Do not upload, edit, publish, delete, comment or change any setting. "
             "If not signed in or a login/2FA/CAPTCHA appears, stop and report NOT_SIGNED_IN."
         ),
         "output_schema": ANALYTICS_SCHEMA,

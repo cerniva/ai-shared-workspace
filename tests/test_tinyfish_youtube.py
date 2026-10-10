@@ -50,8 +50,10 @@ class TinyfishYoutubeTests(unittest.TestCase):
     def test_analytics_workflow_is_manual_and_read_only(self):
         text = (ROOT / ".github" / "workflows" / "tinyfish-youtube-analytics.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch", text)
-        self.assertNotIn("schedule", text)
-        self.assertIn("contents: read", text)
+        # weekly learning loop: scheduled, commits only knowledge/shorts/learnings
+        self.assertIn("schedule", text)
+        self.assertIn("git add knowledge/shorts/learnings", text)
+        self.assertNotIn("youtube_upload.py", text)
         self.assertIn("python3 scripts/tinyfish_youtube.py analytics --execute", text)
         self.assertIn("secrets.TINYFISH_API_KEY", text)
         self.assertIn("upload-artifact", text)
