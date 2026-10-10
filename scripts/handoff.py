@@ -38,7 +38,10 @@ def now() -> str:
 def load(path: Path = DEFAULT_PATH) -> dict[str, Any]:
     if not path.exists():
         return {"schema_version": 1, "items": []}
-    data = json.loads(path.read_text(encoding="utf-8"))
+    raw = path.read_text(encoding="utf-8")
+    if any(pat in raw for pat in ("$(cat ", "`cat ", "$(echo ", "\$(")):
+        raise HandoffError("shell-placeholder content rejected")
+    data = json.loads(raw)
     validate(data)
     return data
 
