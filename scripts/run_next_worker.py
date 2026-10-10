@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from scripts.provider_config import make_failover_adapter
+from scripts.model_fallback import fallback_adapter
 from scripts.work_queue import WorkQueue, _parse
 from scripts.worker_runner import run_job
 
@@ -67,13 +67,7 @@ def _fallback_reason(entry: dict, now: datetime, fallback_minutes: float, down: 
     worker = str(entry.get("worker"))
     if WORKER_PROVIDER.get(worker, worker) in down:
         return True
-    if entry.get("status") == "queued":
-        stamp = entry.get("updated_at") or entry.get("created_at")
-        if stamp:
-            try:
-                return _parse(stamp) + timedelta(minutes=fallback_minutes) <= now
-            except Exception:
-                return False
+    # Elapsed time alone is not authorization to take another worker's job.
     return False
 
 
@@ -129,10 +123,14 @@ def main() -> None:
     job_id = info["job_id"]
     if "fallback_from" in info:
         print(json.dumps({"event": "fallback_selected", **info}, ensure_ascii=False))
+    adapter = fallback_adapter()
+    if adapter is None:
+        print(json.dumps({"status": "blocked_no_provider", "job_id": job_id}))
+        return
     state = run_job(
         WorkQueue(queue_path),
         job_id,
-        make_failover_adapter(),
+        adapter,
         worker=SELF_NAME,
         dead_letter_path=Path(args.dead_letter),
     )
