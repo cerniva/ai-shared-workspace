@@ -7476,6 +7476,23 @@
         "answered"
       ],
       "answered_at": "2026-10-10T05:45:07+03:00"
+    },
+    "MSG-20261010-0633-grok-seen-yedek": {
+      "id": "MSG-20261010-0633-grok-seen-yedek",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-10T06:34:55+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "null",
+      "created_at": "2026-10-10T06:33:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-10T06:33:00+03:00"
     }
   },
   "events": [
@@ -15918,6 +15935,17 @@
       "at": "2026-10-10T06:19:44+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261010-0633-grok-seen-yedek:pending",
+      "message_id": "MSG-20261010-0633-grok-seen-yedek",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T06:34:55+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16687,6 +16715,7 @@
     "MSG-20261010-0545-grok-ho-safety-fix:answered",
     "MSG-20261010-052400-grok-youtube-scope-fix:delayed",
     "MSG-20261010-053500-grok-ho03-pr109-report:delayed",
-    "MSG-20261010-0545-chatgpt-ci-pr127:delayed"
+    "MSG-20261010-0545-chatgpt-ci-pr127:delayed",
+    "MSG-20261010-0633-grok-seen-yedek:pending"
   ]
 }
