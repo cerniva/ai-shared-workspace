@@ -18,7 +18,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PATH = ROOT / "state" / "handoffs.json"
-ACTORS = {"grok", "chatgpt", "auditor", "gemini", "claude", "perplexity", "deepseek"}
+ACTORS = {"grok", "chatgpt", "auditor", "gemini", "claude", "perplexity", "deepseek", "furkan",
+          "backup-supervisor", "automation-runner", "research-learner", "agents-reporter"}
 STATUSES = ("open", "claimed", "done", "merged")
 NEXT = {"claim": ("open", "claimed"), "done": ("claimed", "done"), "merge": ("done", "merged")}
 SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")

@@ -1,0 +1,56 @@
+name: telegram-bot
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_ALLOWED_CHAT_ID: ${{ secrets.TELEGRAM_ALLOWED_CHAT_ID || vars.TELEGRAM_ALLOWED_CHAT_ID }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Skip cleanly without token
+        if: ${{ env.TELEGRAM_BOT_TOKEN == '' }}
+        run: echo "::notice::TELEGRAM_BOT_TOKEN missing; telegram bot skipped"
+      - uses: actions/checkout@v7
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}
+      - uses: actions/setup-python@v7
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}
+        with:
+          python-version: '3.12'
+      - name: Poll Telegram and reply
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}
+        run: python3 scripts/telegram_bot.py
+      - name: Persist state only
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}
+        shell: bash
+        run: |
+          git add -A -- state/ 2>/dev/null || true
+          if git diff --cached --name-only | grep -vE '^state/'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "telegram-bot"
+          git config user.email "telegram-bot@users.noreply.github.com"
+          git commit -m "telegram-bot: state update"
+          git pull --rebase origin main
+          git push origin HEAD:main
