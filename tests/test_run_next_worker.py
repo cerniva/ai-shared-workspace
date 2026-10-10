@@ -55,11 +55,11 @@ class NextWorkerTests(unittest.TestCase):
                                  "created_at": "2026-10-10T01:30:00+00:00"}])
             self.assertIsNone(select_job_info(path, now=NOW))
 
-    def test_old_grok_job_selected_with_fallback_from(self):
+    def test_old_grok_job_is_not_stolen_by_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = _write(tmp, [{"id": "g", "worker": "grok", "status": "queued", "priority": 5,
                                  "created_at": "2026-10-10T00:30:00+00:00"}])
-            self.assertEqual(select_job_info(path, now=NOW), {"job_id": "g", "fallback_from": "grok"})
+            self.assertIsNone(select_job_info(path, now=NOW))
             self.assertIsNone(select_job_info(path, now=NOW, fallback_minutes=120))
 
     def test_provider_health_down_selects_immediately(self):
