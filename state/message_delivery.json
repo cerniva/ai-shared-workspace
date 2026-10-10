@@ -7823,8 +7823,8 @@
     "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify": {
       "id": "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T15:48:09+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T16:35:52+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7833,9 +7833,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-10T15:46:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-10T15:46:00+03:00"
+      "pending_at": "2026-10-10T15:46:00+03:00",
+      "delayed_at": "2026-10-10T16:35:52+03:00"
     }
   },
   "events": [
@@ -16696,6 +16698,17 @@
       "at": "2026-10-10T15:48:09+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify:delayed",
+      "message_id": "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-10T16:35:52+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17503,6 +17516,7 @@
     "RPT-20261010-1451-grok-archive-fake-lines-reheal:pending",
     "RPT-20261010-1430-grok-youtube-privacy-flags:delayed",
     "RPT-20261010-1451-grok-archive-fake-lines-reheal:delayed",
-    "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify:pending"
+    "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify:pending",
+    "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify:delayed"
   ]
 }
