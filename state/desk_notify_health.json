@@ -12,11 +12,11 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 2,
-    "seen": 11,
-    "answered": 41,
-    "delayed": 19
+    "seen": 15,
+    "answered": 42,
+    "delayed": 91
   },
-  "event_count": 759,
+  "event_count": 760,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -776,19 +776,22 @@
     "MSG-20261010-053300-grok-gordum-yedek-grok-botu:pending",
     "MSG-20261010-053300-grok-gordum-yedek-grok-botu:seen",
     "MSG-20261010-053500-grok-ho03-pr109-report:pending",
-    "MSG-202610100406-chatgpt-task:delayed"
+    "MSG-202610100406-chatgpt-task:delayed",
+    "MSG-20261010-053617-grok-api:answered"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "MSG-20261010-053617-grok-api:answered"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T05:36:08+03:00",
+  "checked_at": "2026-10-10T05:36:50+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 117,
-    "answered": 70,
+    "answered": 71,
     "delayed": 200
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 154,
+  "active_source_id_count": 274,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
