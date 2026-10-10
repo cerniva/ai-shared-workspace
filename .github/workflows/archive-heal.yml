@@ -1,0 +1,59 @@
+name: archive-heal
+
+# Append-only mesaj arşivlerini (messages/grok-to-chatgpt.md, messages/team-reports.md)
+# SEE_FILE / PLACEHOLDER / $(cat ...) ile ezildiğinde git geçmişinden onarır.
+# Yalnız bu iki dosya + knowledge/lessons.md (tek seferlik notlar) yazılır; publish/ödeme yok.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - messages/grok-to-chatgpt.md
+      - messages/team-reports.md
+      - scripts/archive_heal.py
+      - config/archive_heal_notes.json
+      - .github/workflows/archive-heal.yml
+
+concurrency:
+  group: repo-main-writers
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Heal archives from git history (fail-closed)
+        run: python3 scripts/archive_heal.py
+      - name: Guard (no SEE_FILE / $(cat lines)
+        run: python3 scripts/archive_heal.py --check
+      - name: Commit healed archives only
+        shell: bash
+        run: |
+          git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md
+          if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\.md|messages/team-reports\.md|knowledge/lessons\.md)$'; then
+            echo 'unexpected staged path'; exit 1
+          fi
+          git diff --cached --quiet && exit 0
+          git diff --cached --stat
+          git config user.name "archive-heal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "archive-heal: append-only mesaj arşivleri geçmişten onarıldı"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && python3 scripts/archive_heal.py --check && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep "$attempt"
+          done
+          echo "archive-heal push failed after 3 attempts" >&2
+          exit 1
