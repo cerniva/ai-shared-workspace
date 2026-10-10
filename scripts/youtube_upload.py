@@ -94,10 +94,16 @@ def load_metadata(path: Path) -> dict:
         raise ValueError("Metadata JSON must contain a non-empty 'title'.")
     if not isinstance(description, str):
         raise ValueError("Metadata JSON must contain a string 'description'.")
-    return {"title": title.strip(), "description": description.strip()}
+    result = {"title": title.strip(), "description": description.strip()}
+    # Optional per-video flags; defaults preserve previous fixed behavior
+    if "selfDeclaredMadeForKids" in data:
+        result["selfDeclaredMadeForKids"] = bool(data["selfDeclaredMadeForKids"])
+    if "containsSyntheticMedia" in data:
+        result["containsSyntheticMedia"] = bool(data["containsSyntheticMedia"])
+    return result
 
 
-def upload(video: Path, metadata: dict, publish: bool) -> dict:
+def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False, contains_synthetic: bool = True) -> dict:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
@@ -112,8 +118,8 @@ def upload(video: Path, metadata: dict, publish: bool) -> dict:
     # Default: not made for kids; synthetic/AI-voiced content from this pipeline.
     status = {
         "privacyStatus": "public" if publish else "private",
-        "selfDeclaredMadeForKids": False,
-        "containsSyntheticMedia": True,
+        "selfDeclaredMadeForKids": made_for_kids,
+        "containsSyntheticMedia": contains_synthetic,
     }
     body = {"snippet": {"title": metadata["title"], "description": metadata["description"]}, "status": status}
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
@@ -157,7 +163,10 @@ def main() -> int:
         parser.error("preflight JSON file does not exist")
     try:
         require_ready_preflight(args.video, args.preflight)
-        result = upload(args.video, load_metadata(args.metadata), args.publish)
+        meta = load_metadata(args.metadata)
+        made_for_kids = meta.get("selfDeclaredMadeForKids", False)
+        contains_synthetic = meta.get("containsSyntheticMedia", True)
+        result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
