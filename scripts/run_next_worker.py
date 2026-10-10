@@ -13,8 +13,11 @@ UTC = timezone.utc
 
 
 def _eligible(entry: dict, now: datetime) -> bool:
-    if entry.get("worker") not in {"openai", "chatgpt", "any", None}:
-        return False
+    primary = entry.get("worker")
+    if primary not in {"openai", "chatgpt", "any", None}:
+        fallbacks = entry.get("fallback_workers", [])
+        if not isinstance(fallbacks, list) or "worker-orchestrator" not in fallbacks:
+            return False
     status = entry.get("status")
     if status == "queued":
         return True
