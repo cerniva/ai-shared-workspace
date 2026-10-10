@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "source_name": "Shopify developer changelog feed",
+      "canonical": "https://shopify.dev/changelog/feed.xml",
+      "category": "commerce-platform",
+      "purpose": "Keyless primary feed for video_shopify research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed item description read in full and item page returned HTTP 200 on 2026-10-10. Does not prove this workspace uses the Global Catalog REST API.",
+      "discovered_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "verified",
+      "last_successful_use": "2026-10-10T03:30:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_7fb60df02e9c91f4",
+      "title": "Shopify developer changelog feed: Global Catalog REST API stops serving traffic on November 2, 2026",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog (feed.xml item and page global-catalog-rest-api-stops-serving-traffic-on-november-2-2026, published 9 Oct 2026, verified 2026-10-10) states the Global Catalog REST API, deprecated in April 2026, stops serving traffic on November 2, 2026, and apps still calling it must migrate to Global Catalog MCP, which implements the Universal Commerce Protocol (UCP).",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: audit video_shopify code and connectors for any Global Catalog REST API call; if found, plan migration to Global Catalog MCP (not the Admin GraphQL API) before 2026-11-02. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search the repo and connector configs for Global Catalog REST endpoints; record found/not-found before 2026-10-20.",
+      "learned_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [
+        "Intake decision named a GraphQL API as the migration target; the changelog names Global Catalog MCP (UCP). Corrected 2026-10-10."
+      ],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

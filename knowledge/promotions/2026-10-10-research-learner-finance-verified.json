@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "source_name": "Federal Reserve Board press releases RSS",
+      "canonical": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "finance-news",
+      "purpose": "Keyless primary feed for finance research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed gives headline/link only; figures in this learning were read from the linked release page https://www.federalreserve.gov/newsevents/pressreleases/other20261009a.htm. Survey data is triennial and backward-looking.",
+      "discovered_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "verified",
+      "last_successful_use": "2026-10-10T03:30:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_d44f97b112d55564",
+      "title": "Fed releases 2025 Survey of Consumer Finances (2022-2025 changes)",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press release other20261009a (9 Oct 2026, verified 2026-10-10 via press_all.xml feed and the release page) published 2025 Survey of Consumer Finances results: between the 2022 and 2025 surveys real median family income rose 7 percent to $82,200 while real mean family income fell 6 percent to $145,200; real median net worth rose 2 percent to $215,900 and real mean net worth rose 7 percent to $1.24 million; homeownership was 66 percent, about unchanged.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: The 'finance' plan should review the 2025 Survey of Consumer Finances results to analyze shifts in American household balance sheets and economic health, while taking no immediate operational or financial action.",
+      "outcome": "pending",
+      "next_measurement": "Read the summary report 'Changes in U.S. Family Finances from 2022 to 2025' (PDF) before using any distribution-level figure.",
+      "learned_at": "2026-10-09T22:36:57+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [
+        "Original intake learning was headline-only and unverified; claim rewritten from the fetched release page on 2026-10-10."
+      ],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
