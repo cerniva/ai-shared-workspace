@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """lesson-learner: turn one merged PR into ONE ledger line for knowledge/lessons.md.
 
-Event-driven: pull_request closed+merged on main, push to main (GITHUB_TOKEN
-auto-merges emit no pull_request event; PR resolved from commit message or
-/commits/{sha}/pulls), or workflow_dispatch pr_number.
+Event-driven: pull_request closed+merged on main (human merges),
+repository_dispatch ``main-merged`` from auto-merge-gate (GITHUB_TOKEN merges
+emit no pull_request/push events; client_payload {pr_number, merge_sha,
+handoff_id}), or workflow_dispatch pr_number. After opening the lesson PR it
+sends repository_dispatch ``team-pr-opened`` {pr_number, head_sha, handoff_id}
+because PRs opened with GITHUB_TOKEN do not trigger CI/reviewer workflows.
 LLM drafting goes ONLY through the existing failover helper
 ``scripts.backup_supervisor.supervisor_adapter`` (same chain/secrets as
 automation-runner / research-learner / agents-reporter:
@@ -113,28 +116,19 @@ def append_to_ledger(text: str, line: str, date: str) -> str:
     return "\n".join(lines) + "\n"
 
 
-MERGE_MSG_RE = re.compile(r"^Merge pull request #(\d+)\b")
-SQUASH_MSG_RE = re.compile(r"\(#(\d+)\)\s*$")
-
-
-def pr_number_from_commit_message(message: str | None) -> int | None:
-    """Merge commit 'Merge pull request #N ...' or squash '... (#N)' on the first line."""
-    first = (message or "").split("\n", 1)[0].strip()
-    m = MERGE_MSG_RE.match(first) or SQUASH_MSG_RE.search(first)
-    return int(m.group(1)) if m else None
-
-
-def resolve_push_pr(sha: str, message: str | None, gh) -> int | None:
-    """Find the merged PR for a push to main: commit message first, then API commit->PR map."""
-    n = pr_number_from_commit_message(message)
-    if n:
-        return n
+def parse_dispatch_payload(payload: Mapping[str, Any] | None) -> int | None:
+    """repository_dispatch main-merged client_payload -> pr_number (validated int > 0)."""
+    raw = (payload or {}).get("pr_number")
     try:
-        pulls = gh.call("GET", f"/commits/{sha}/pulls") or []
-    except Exception:
+        n = int(str(raw).strip())
+    except (TypeError, ValueError):
         return None
-    merged = [p for p in pulls if p.get("merged_at") and (p.get("base") or {}).get("ref") == "main"]
-    return int(merged[0]["number"]) if merged else None
+    return n if n > 0 else None
+
+
+def team_pr_opened_payload(pr_number: int, head_sha: str, handoff_id: str | None) -> dict[str, Any]:
+    return {"event_type": "team-pr-opened",
+            "client_payload": {"pr_number": pr_number, "head_sha": head_sha, "handoff_id": handoff_id}}
 
 
 def build_objective(pr: Mapping[str, Any], files: list[str], checks: dict[str, str], handoff_id: str | None) -> str:
@@ -246,24 +240,33 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
         return {"status": "skip", "reason": f"branch {branch} already pushed by a parallel run"}
     new = gh.call("POST", "/pulls", {"title": f"knowledge(lessons): PR #{pr_number} dersi", "head": branch,
                                      "base": "main", "body": f"Kaynak: PR #{pr_number} ({sha[:7]}).\n\n{line}"})
-    return {"status": "opened", "pr": new.get("number"), "line": line}
+    new_no = new.get("number")
+    head_sha = (new.get("head") or {}).get("sha") or ""
+    try:
+        gh.call("POST", "/dispatches", team_pr_opened_payload(new_no, head_sha, hid))
+    except Exception as exc:  # PR exists; dispatch failure must be visible but not fatal
+        return {"status": "opened", "pr": new_no, "line": line, "dispatch_error": type(exc).__name__}
+    return {"status": "opened", "pr": new_no, "line": line, "dispatched": "team-pr-opened"}
 
 
 def main(argv=None, env: Mapping[str, str] | None = None) -> int:
     values = os.environ if env is None else env
     p = argparse.ArgumentParser(description="lesson-learner")
-    p.add_argument("--pr", type=int)
-    p.add_argument("--push-sha", help="push event: resolve merged PR from this commit")
+    p.add_argument("--pr", default="", help="PR number (pull_request / workflow_dispatch)")
+    p.add_argument("--dispatch-payload", default="", help="repository_dispatch client_payload JSON")
     args = p.parse_args(argv)
     from scripts.backup_supervisor import supervisor_adapter
     gh = GH(values.get("GITHUB_REPOSITORY", ""), values.get("GITHUB_TOKEN", ""))
-    if args.pr is None:
-        n = resolve_push_pr(args.push_sha or "", values.get("HEAD_COMMIT_MESSAGE"), gh) if args.push_sha else None
-        if n is None:
-            print(json.dumps({"status": "skip", "reason": "no merged PR for push"}))
-            return 0
-        args.pr = n
-    out = run(args.pr, gh=gh, env=values, adapter=supervisor_adapter(env=values))
+    pr_no = parse_dispatch_payload({"pr_number": args.pr}) if args.pr else None
+    if pr_no is None and args.dispatch_payload:
+        try:
+            pr_no = parse_dispatch_payload(json.loads(args.dispatch_payload))
+        except ValueError:
+            pr_no = None
+    if pr_no is None:
+        print(json.dumps({"status": "skip", "reason": "no valid pr_number"}))
+        return 0
+    out = run(pr_no, gh=gh, env=values, adapter=supervisor_adapter(env=values))
     print(json.dumps(out, ensure_ascii=False))
     return 0
 

@@ -4,9 +4,10 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
-  # GITHUB_TOKEN auto-merges do not emit pull_request:closed to other workflows.
-  push:
-    branches: [main]
+  # auto-merge-gate merges with GITHUB_TOKEN (no pull_request/push events) and
+  # sends repository_dispatch main-merged {pr_number, merge_sha, handoff_id}.
+  repository_dispatch:
+    types: [main-merged]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -19,7 +20,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: lesson-learner-${{ github.event.pull_request.number || inputs.pr_number || github.sha }}
+  group: lesson-learner-${{ github.event.pull_request.number || inputs.pr_number || github.event.client_payload.pr_number }}
   cancel-in-progress: false
 
 jobs:
@@ -27,8 +28,7 @@ jobs:
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
        !startsWith(github.event.pull_request.head.ref, 'lessons/')) ||
-      (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'knowledge(lessons):') &&
-       !contains(github.event.head_commit.message, 'from cerniva/lessons/')) ||
+      (github.event_name == 'repository_dispatch' && github.event.action == 'main-merged') ||
       (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
     runs-on: ubuntu-latest
     env:
@@ -39,8 +39,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
-      HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-      PUSH_SHA: ${{ github.sha }}
+      DISPATCH_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -52,8 +51,4 @@ jobs:
         run: |
           git config user.name "lesson-learner[bot]"
           git config user.email "lesson-learner@users.noreply.github.com"
-          if [ -n "$PR_NUMBER" ]; then
-            python3 -m scripts.lesson_learner --pr "$PR_NUMBER"
-          else
-            python3 -m scripts.lesson_learner --push-sha "$PUSH_SHA"
-          fi
+          python3 -m scripts.lesson_learner --pr "$PR_NUMBER" --dispatch-payload "$DISPATCH_PAYLOAD"

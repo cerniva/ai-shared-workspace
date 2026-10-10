@@ -1,3 +1,4 @@
+import json
 import re
 import tempfile
 import unittest
@@ -19,7 +20,7 @@ class FakeGH:
     def call(self, method, path, body=None):
         if method == "POST":
             self.posts.append((path, body))
-            return {"number": 99}
+            return {"number": 99, "head": {"sha": "feedbeef"}}
         if path == "/pulls/7":
             return self.pr
         if path.startswith("/pulls/7/files"):
@@ -135,7 +136,7 @@ class FlowTests(Base):
         self.assertIn("HO-20261010-03", text)
         self.assertIn(["push", "origin", "HEAD:refs/heads/lessons/pr-7"], self.git_calls)
         self.assertFalse(any("main" in " ".join(c) for c in self.git_calls))
-        path, body = gh.posts[-1]
+        path, body = gh.posts[0]
         self.assertEqual(path, "/pulls")
         self.assertEqual(body["title"], "knowledge(lessons): PR #7 dersi")
         self.assertEqual(body["base"], "main")
@@ -148,49 +149,51 @@ class FlowTests(Base):
         self.assertEqual(self.go(FakeGH(), Adapter(text=GOOD))["status"], "skip")
 
 
-class PushPathTests(Base):
-    def test_commit_message_parsing(self):
-        self.assertEqual(ll.pr_number_from_commit_message("Merge pull request #12 from cerniva/feat\n\nx"), 12)
-        self.assertEqual(ll.pr_number_from_commit_message("feat: thing (#34)\n\nbody"), 34)
-        self.assertIsNone(ll.pr_number_from_commit_message("chore: direct push"))
-        self.assertIsNone(ll.pr_number_from_commit_message("feat x\n\n(#5)"))
+class DispatchPathTests(Base):
+    def test_parse_dispatch_payload(self):
+        self.assertEqual(ll.parse_dispatch_payload({"pr_number": 12, "merge_sha": SHA}), 12)
+        self.assertEqual(ll.parse_dispatch_payload({"pr_number": "34"}), 34)
+        for bad in (None, {}, {"pr_number": ""}, {"pr_number": "x"}, {"pr_number": -1}, {"pr_number": 0}):
+            self.assertIsNone(ll.parse_dispatch_payload(bad))
 
-    def test_resolve_push_pr_api_fallback(self):
-        class G:
-            def call(self, m, path, body=None):
-                assert path == f"/commits/{SHA}/pulls"
-                return [{"number": 3, "merged_at": None, "base": {"ref": "main"}},
-                        {"number": 9, "merged_at": "2026-10-10T00:00:00Z", "base": {"ref": "main"}}]
-        self.assertEqual(ll.resolve_push_pr(SHA, "direct commit", G()), 9)
-        self.assertEqual(ll.resolve_push_pr(SHA, "Merge pull request #4 from a/b", G()), 4)
-
-        class E:
-            def call(self, *a):
-                raise RuntimeError("x")
-        self.assertIsNone(ll.resolve_push_pr(SHA, "direct", E()))
-
-    def test_push_main_no_pr_is_skip(self):
-        class G:
-            def call(self, *a):
-                return []
+    def _main(self, argv, gh):
         import io, contextlib
-        orig = ll.GH
-        ll.GH = lambda *a, **k: G()
+        orig_gh, orig_run = ll.GH, ll.run
+        seen = {}
+        ll.GH = lambda *a, **k: gh
+        ll.run = lambda n, **k: seen.setdefault("pr", n) and {"status": "fake"}
         try:
             buf = io.StringIO()
             with contextlib.redirect_stdout(buf):
-                rc = ll.main(["--push-sha", SHA], env={"HEAD_COMMIT_MESSAGE": "chore: x"})
+                rc = ll.main(argv, env={})
         finally:
-            ll.GH = orig
-        self.assertEqual(rc, 0)
-        self.assertIn("no merged PR", buf.getvalue())
+            ll.GH, ll.run = orig_gh, orig_run
+        return rc, buf.getvalue(), seen.get("pr")
 
-    def test_push_resolved_pr_uses_same_dedup_and_self_loop(self):
-        gh = FakeGH(head="lessons/pr-2", files=[ll.LEDGER_REL])
-        n = ll.resolve_push_pr(SHA, "Merge pull request #7 from cerniva/lessons/pr-2", gh)
-        self.assertEqual(n, 7)
-        self.assertEqual(self.go(gh, Adapter(text=GOOD))["status"], "skip")
+    def test_main_uses_dispatch_payload(self):
+        rc, _, pr = self._main(["--pr", "", "--dispatch-payload",
+                                json.dumps({"pr_number": 7, "merge_sha": SHA, "handoff_id": "HO-20261010-03"})], FakeGH())
+        self.assertEqual((rc, pr), (0, 7))
+
+    def test_main_invalid_payload_skips_exit0(self):
+        rc, out, pr = self._main(["--pr", "", "--dispatch-payload", "{bad"], FakeGH())
+        self.assertEqual(rc, 0)
+        self.assertIsNone(pr)
+        self.assertIn("no valid pr_number", out)
+
+    def test_dispatched_pr_same_dedup_and_self_loop(self):
+        self.assertEqual(self.go(FakeGH(head="lessons/pr-2"), Adapter(text=GOOD))["status"], "skip")
+        self.assertEqual(self.go(FakeGH(files=[ll.LEDGER_REL]), Adapter(text=GOOD))["status"], "skip")
         self.assertEqual(self.go(FakeGH(open_heads=["lessons/pr-7"]), Adapter(text=GOOD))["status"], "skip")
+
+    def test_team_pr_opened_dispatch_after_pr(self):
+        gh = FakeGH()
+        out = self.go(gh, Adapter(text=GOOD))
+        self.assertEqual(out["dispatched"], "team-pr-opened")
+        self.assertEqual([p for p, _ in gh.posts], ["/pulls", "/dispatches"])
+        body = gh.posts[-1][1]
+        self.assertEqual(body["event_type"], "team-pr-opened")
+        self.assertEqual(body["client_payload"], {"pr_number": 99, "head_sha": "feedbeef", "handoff_id": "HO-20261010-03"})
 
 
 class WorkflowTests(unittest.TestCase):
@@ -199,8 +202,10 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("merged == true", wf)
         self.assertIn("types: [closed]", wf)
         self.assertIn("workflow_dispatch", wf)
-        self.assertIn("push:", wf)
-        self.assertIn("--push-sha", wf)
+        self.assertIn("repository_dispatch:", wf)
+        self.assertIn("types: [main-merged]", wf)
+        self.assertNotIn("push:", wf)
+        self.assertNotIn("models: read", wf)  # no GitHub Models adapter in shared provider_config yet
         self.assertNotIn("schedule", wf)
         self.assertIn("contents: write", wf)
         self.assertIn("pull-requests: write", wf)
