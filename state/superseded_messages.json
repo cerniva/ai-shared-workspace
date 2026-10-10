@@ -1,0 +1,23 @@
+{
+  "cutoff": "2026-10-09T00:00:00+03:00",
+  "reason": "Grok Bot onayı 2026-10-10: 9 Ekim öncesi birikim",
+  "ids": [
+    "MSG-20260926-020021-chatgpt-004",
+    "MSG-20260926-141900-grok-payments-read",
+    "MSG-20260926-165200-grok-core04",
+    "MSG-20260926-174200-chatgpt-roles",
+    "MSG-20260926-174200-grok-gate",
+    "MSG-20260926-174500-meta-onay",
+    "MSG-20260927-002900-grok-cerno-shorts",
+    "MSG-20260927-011700-chatgpt-comms-project",
+    "MSG-20260927-012500-chatgpt-comms-audit",
+    "MSG-20260927-023500-chatgpt-staged-loop",
+    "MSG-20260927-215100-grok-meta-share-audit",
+    "MSG-20260928-154800-chatgpt-current-blockers",
+    "MSG-20260928-171000-chatgpt-continuation-policy",
+    "MSG-20261002-042900-chatgpt-joint-hourly",
+    "MSG-20261002-2003-grok-delta-42c35989",
+    "MSG-20261002-chatgpt-shorts-joint",
+    "MSG-20261003-062000-grok-repeat-value"
+  ]
+}

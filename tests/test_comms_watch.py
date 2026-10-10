@@ -50,6 +50,23 @@ class CommsWatchTests(unittest.TestCase):
         self.assertEqual(out["alerts"], [{"id": "HO-new", "owner": "grok", "kind": "handoff_unacked",
                                           "age_min": 20, "task": "t"}])
 
+    def test_watch_since_drops_pre_cutoff_messages(self):
+        self.write([])
+        rows = [
+            {"channel": "chatgpt-to-grok", "id": "MSG-old", "created_at": "2026-10-08T23:59:00+03:00", "age_hours": 30},
+            {"channel": "shared-inbox", "id": "MSG-naive-old", "created_at": "2026-10-08T12:00:00", "age_hours": 40},
+            {"channel": "chatgpt-to-grok", "id": "MSG-new", "created_at": "2026-10-09T00:00:00+03:00", "age_hours": 5},
+        ]
+        out = self.run_cw(rows)
+        self.assertEqual([a["id"] for a in out["alerts"]], ["MSG-new"])
+        self.assertEqual(cw.WATCH_SINCE.isoformat(), "2026-10-09T00:00:00+03:00")
+
+    def test_backlog_migration_alerts_but_never_dispatches(self):
+        self.write([item("HO-mig", minutes=20, source="backlog-migration"), item("HO-live", minutes=20)])
+        out = self.run_cw()
+        self.assertEqual(sorted(a["id"] for a in out["alerts"]), ["HO-live", "HO-mig"])
+        self.assertEqual([d["client_payload"]["handoff_id"] for d in out["dispatches"]], ["HO-live"])
+
     def test_inbox_threshold_owner_and_skip(self):
         self.write([])
         rows = [

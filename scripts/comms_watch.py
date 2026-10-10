@@ -6,6 +6,8 @@
     territory and is not repeated here);
 (b) unread desk_bridge INBOX_WATCH_CHANNELS rows older than
     desk_bridge.INBOX_UNREAD_ALARM_MINUTES.
+Messages created before WATCH_SINCE (9 Ekim backlog, closed as superseded in
+state/superseded_messages.json) are never alerted.
 
 Output: {"alerts": [{id, owner, kind, age_min}], "active": [...], "dispatches": [...]}.
 "alerts" holds only ids not alerted before (state/comms_watch.json); "active"
@@ -36,6 +38,9 @@ NEW_HANDOFF_MINUTES = 15
 SKIP_IDS = frozenset({"HO-20261009-03", "HO-20261009-08"})  # Furkan already knows
 ACK_KEYS = ("claimed_at", "acked_at", "ack", "ack_at")
 DISPATCH_EVENT = "team-work"
+NO_DISPATCH_SOURCES = frozenset({"backlog-migration"})  # alerted, never auto-dispatched
+# Grok Bot onayı 2026-10-10: older messages are closed as superseded; watch only new ones.
+WATCH_SINCE = datetime.fromisoformat("2026-10-09T00:00:00+03:00")
 
 
 def _age_min(created: datetime, now: datetime) -> int:
@@ -58,8 +63,11 @@ def handoff_alerts(data: dict[str, Any], *, now: datetime) -> list[dict[str, Any
         age = now - created
         if age < timedelta(minutes=NEW_HANDOFF_MINUTES) or age > handoff.ESCALATE_AFTER:
             continue
-        out.append({"id": item["id"], "owner": item.get("to", "unknown"), "kind": "handoff_unacked",
-                    "age_min": _age_min(created, now), "task": item.get("task", "")})
+        alert = {"id": item["id"], "owner": item.get("to", "unknown"), "kind": "handoff_unacked",
+                 "age_min": _age_min(created, now), "task": item.get("task", "")}
+        if item.get("source"):
+            alert["source"] = item["source"]
+        out.append(alert)
     return out
 
 
@@ -68,10 +76,20 @@ def _channel_owner(channel: str) -> str:
     return spec[2] if spec else "team"
 
 
+def _before_watch_since(created_at: Any) -> bool:
+    try:
+        created = datetime.fromisoformat(str(created_at))
+    except ValueError:
+        return False
+    if created.tzinfo is None:
+        created = created.replace(tzinfo=timezone(timedelta(hours=3)))
+    return created < WATCH_SINCE
+
+
 def inbox_alerts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     out = []
     for row in rows:
-        if row.get("id") in SKIP_IDS:
+        if row.get("id") in SKIP_IDS or _before_watch_since(row.get("created_at")):
             continue
         age_min = int(round(float(row.get("age_hours", 0)) * 60))
         if age_min < desk_bridge.INBOX_UNREAD_ALARM_MINUTES:
@@ -85,7 +103,7 @@ def dispatch_payloads(alerts: list[dict[str, Any]], dispatched: dict[str, str]) 
     """repository_dispatch bodies for new handoff alerts not dispatched before."""
     out = []
     for a in alerts:
-        if a.get("kind") != "handoff_unacked" or a["id"] in dispatched:
+        if a.get("kind") != "handoff_unacked" or a["id"] in dispatched or a.get("source") in NO_DISPATCH_SOURCES:
             continue
         out.append({"event_type": DISPATCH_EVENT,
                     "client_payload": {"handoff_id": a["id"], "task": a.get("task", ""), "source": "comms-watch"}})

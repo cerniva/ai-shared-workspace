@@ -47,6 +47,7 @@ INBOX_UNREAD_ALARM_MINUTES = 10
 INBOX_READ_PATH = ROOT / "state" / "inbox_read.json"
 DELIVERY_PATH = ROOT / "state" / "message_delivery.json"
 HEALTH_PATH = ROOT / "state" / "desk_notify_health.json"
+SUPERSEDED_PATH = ROOT / "state" / "superseded_messages.json"
 TEAM_REPORTS_PATH = ROOT / "messages" / "team-reports.md"
 DELIVERY_STATUSES = ("pending", "seen", "answered", "delayed")
 DELAYED_AFTER_MINUTES = 30
@@ -402,15 +403,32 @@ def latest_message(channel: str) -> str:
     return "\n".join([f"{k}: {block.get(k, '')}" for k in ("id", "from", "to", "in_reply_to", "created_at", "project", "status")] + ["", block.get("body", "")])
 
 
+def superseded_ids() -> frozenset[str]:
+    """Message ids closed as superseded in state/superseded_messages.json (append-only channels stay untouched)."""
+    try:
+        value = json.loads(SUPERSEDED_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return frozenset()
+    ids = value.get("ids") if isinstance(value, dict) else None
+    return frozenset(str(i) for i in ids) if isinstance(ids, list) else frozenset()
+
+
+def _is_open(block: dict, closed: frozenset[str]) -> bool:
+    return block.get("status") == "open" and block.get("id") not in closed
+
+
 def open_message_ids(channel: str) -> list[str]:
     path, _, _ = CHANNELS[channel]
-    return [b["id"] for b in _parse_blocks(path.read_text(encoding="utf-8")) if b.get("status") == "open"] if path.exists() else []
+    closed = superseded_ids()
+    return [b["id"] for b in _parse_blocks(path.read_text(encoding="utf-8")) if _is_open(b, closed)] if path.exists() else []
 
 
 def channel_status(channel: str) -> dict:
     path, _, _ = CHANNELS[channel]
     blocks = _parse_blocks(path.read_text(encoding="utf-8")) if path.exists() else []
+    closed = superseded_ids()
     counts = {s: sum(b.get("status") == s for b in blocks) for s in VALID_STATUS}
+    counts["open"] = sum(_is_open(b, closed) for b in blocks)
     last = blocks[-1] if blocks else {}
     return {"channel": channel, "total": len(blocks), **counts, "latest_id": last.get("id"), "latest_created_at": last.get("created_at"), "path": _rel(path)}
 
@@ -421,8 +439,9 @@ def stale_open_ids(channel: str, older_than_hours: float = STALE_HOURS) -> list[
     out = []
     if not path.exists():
         return out
+    closed = superseded_ids()
     for block in _parse_blocks(path.read_text(encoding="utf-8")):
-        if block.get("status") == "open" and block.get("id") and (parsed := _parse_created_at(block.get("created_at", ""))) and parsed < cutoff:
+        if _is_open(block, closed) and block.get("id") and (parsed := _parse_created_at(block.get("created_at", ""))) and parsed < cutoff:
             out.append(block["id"])
     return out
 
@@ -431,6 +450,7 @@ def open_backlog_rows(channel: str | None = None) -> list[dict]:
     names = [channel] if channel else sorted(CHANNELS)
     out = []
     now = now_tr()
+    closed = superseded_ids()
     for name in names:
         if name not in CHANNELS:
             continue
@@ -438,7 +458,7 @@ def open_backlog_rows(channel: str | None = None) -> list[dict]:
         if not path.exists():
             continue
         for block in _parse_blocks(path.read_text(encoding="utf-8")):
-            if block.get("status") != "open" or "id" not in block:
+            if not _is_open(block, closed) or "id" not in block:
                 continue
             created = _parse_created_at(block.get("created_at", ""))
             age = None if created is None else round((now - created).total_seconds() / 3600, 2)

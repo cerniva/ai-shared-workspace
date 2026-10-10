@@ -60,6 +60,11 @@ class HandoffTests(unittest.TestCase):
         data = h.load(ROOT / "state" / "handoffs.json")
         self.assertGreaterEqual(h.validate(data), 1)
 
+    def test_backlog_migration_source_field_is_valid(self):
+        data = self.new()
+        data["items"][0]["source"] = "backlog-migration"
+        self.assertEqual(h.validate(data), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
