@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Append-only mesaj arşivlerini (grok-to-chatgpt.md, team-reports.md) git geçmişinden onarır.
 
-Neden: bazı botlar büyük dosyayı yazarken tüm içeriği `SEE_FILE`, `PLACE_HOLDER...`
+Neden: bazı botlar büyük dosyayı yazarken tüm içeriği `SEE_FILE`, `PLACEHOLDER...`
 veya `$(cat /tmp/...)` gibi sahte bir satırla değiştirip altına yalnız yeni kaydı ekliyor.
 Bu script dosyanın son N commit'lik geçmişini kronolojik yürür:
   1) yeni sürüm öncekinin devamıysa -> yalnız eklenen kısım (delta) alınır,
@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARCHIVES = ["messages/grok-to-chatgpt.md", "messages/team-reports.md"]
 NOTES = ROOT / "config" / "archive_heal_notes.json"
 HEAD_BOGUS = re.compile(
-    r"^(SEE_FILE|\$\(cat .*|PLACE_HOLDER\S*.*|FULL_CONTENT_PLACE_HOLDER.*|"
+    r"^(SEE_FILE|\$\(cat .*|PLACEHOLDER\S*.*|FULL_CONTENT_PLACEHOLDER.*|"
     r"The full content is too large to inline.*)$"
 )
 
@@ -32,14 +32,14 @@ HEAD_BOGUS = re.compile(
 # Gövdeye gömülü tam-satır sentinel'ler (2026-10-10: FULL_CONTENT_WILL_BE_REPLACED,
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
-    r"^(SEE_FILE|PLACE_HOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
+    r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
     r"THE_CONTENT_FROM_[A-Z0-9_]+)$"
 )
 
 
 def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
-    (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACE_HOLDER*).
+    (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
     Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
     return line.strip() == "dummy" or line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
 
