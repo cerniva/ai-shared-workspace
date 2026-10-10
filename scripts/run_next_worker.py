@@ -71,7 +71,7 @@ def _fallback_reason(entry: dict, now: datetime, fallback_minutes: float, down: 
         stamp = entry.get("updated_at") or entry.get("created_at")
         if stamp:
             try:
-                return _parse(stamp) + timedelta(minutes=fallback_minutes) <= now
+                return False  # Age alone does not authorize cross-worker takeover
             except Exception:
                 return False
     return False
