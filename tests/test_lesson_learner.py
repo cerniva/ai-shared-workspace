@@ -30,7 +30,8 @@ class FakeGH:
         if path.startswith("/pulls?state=open"):
             return [{"head": {"ref": h}} for h in self.open_heads]
         if "/check-runs" in path:
-            return {"check_runs": [{"name": "worker-orchestration-tests", "conclusion": "success"}]}
+            return {"check_runs": [{"name": "worker-orchestration-tests", "conclusion": "success",
+                                    "details_url": "https://github.com/cerniva/ai-shared-workspace/actions/runs/555/job/1"}]}
         raise AssertionError(path)
 
 
@@ -85,15 +86,15 @@ class PureTests(unittest.TestCase):
         self.assertTrue(ll.is_duplicate(f"x {SHA[:7]} y", 7, SHA))
         self.assertTrue(ll.is_duplicate("- a | PR #7 | b", 7, SHA))
         self.assertFalse(ll.is_duplicate("- a | PR #70 | b", 7, SHA))
-        self.assertTrue(ll.is_duplicate("", 7, SHA, existing_branches=["lessons/pr-7"]))
-        self.assertTrue(ll.is_duplicate("", 7, SHA, open_pr_heads=["lessons/pr-7"]))
+        self.assertTrue(ll.is_duplicate("", 7, SHA, existing_branches=["bot/lessons-pr-7"]))
+        self.assertTrue(ll.is_duplicate("", 7, SHA, open_pr_heads=["bot/lessons-pr-7"]))
         self.assertFalse(ll.is_duplicate("", 7, SHA))
 
     def test_should_skip(self):
         pr = {"merged": True, "base": {"ref": "main"}, "head": {"ref": "feat"}}
         self.assertIsNone(ll.should_skip(pr, ["a.py"]))
         self.assertIn("self-loop", ll.should_skip(pr, [ll.LEDGER_REL]))
-        self.assertIn("self-loop", ll.should_skip({**pr, "head": {"ref": "lessons/pr-3"}}, ["a.py"]))
+        self.assertIn("self-loop", ll.should_skip({**pr, "head": {"ref": "bot/lessons-pr-3"}}, ["a.py"]))
         self.assertEqual(ll.should_skip({**pr, "merged": False}, ["a.py"]), "not merged")
 
     def test_append_to_ledger(self):
@@ -134,7 +135,7 @@ class FlowTests(Base):
         self.assertIn("PR #7", text)
         self.assertIn(SHA[:7], text)
         self.assertIn("HO-20261010-03", text)
-        self.assertIn(["push", "origin", "HEAD:refs/heads/lessons/pr-7"], self.git_calls)
+        self.assertIn(["push", "origin", "HEAD:refs/heads/bot/lessons-pr-7"], self.git_calls)
         self.assertFalse(any("main" in " ".join(c) for c in self.git_calls))
         path, body = gh.posts[0]
         self.assertEqual(path, "/pulls")
@@ -142,9 +143,9 @@ class FlowTests(Base):
         self.assertEqual(body["base"], "main")
 
     def test_dedup_and_self_loop_skip(self):
-        self.assertEqual(self.go(FakeGH(branches=["lessons/pr-7"]), Adapter(text=GOOD))["status"], "skip")
+        self.assertEqual(self.go(FakeGH(branches=["bot/lessons-pr-7"]), Adapter(text=GOOD))["status"], "skip")
         self.assertEqual(self.go(FakeGH(files=[ll.LEDGER_REL]), Adapter(text=GOOD))["status"], "skip")
-        self.assertEqual(self.go(FakeGH(head="lessons/pr-1"), Adapter(text=GOOD))["status"], "skip")
+        self.assertEqual(self.go(FakeGH(head="bot/lessons-pr-1"), Adapter(text=GOOD))["status"], "skip")
         (self.root / ll.LEDGER_REL).write_text("## 2026-10-01\n- a | PR #7 | b | c | d\n")
         self.assertEqual(self.go(FakeGH(), Adapter(text=GOOD))["status"], "skip")
 
@@ -182,9 +183,9 @@ class DispatchPathTests(Base):
         self.assertIn("no valid pr_number", out)
 
     def test_dispatched_pr_same_dedup_and_self_loop(self):
-        self.assertEqual(self.go(FakeGH(head="lessons/pr-2"), Adapter(text=GOOD))["status"], "skip")
+        self.assertEqual(self.go(FakeGH(head="bot/lessons-pr-2"), Adapter(text=GOOD))["status"], "skip")
         self.assertEqual(self.go(FakeGH(files=[ll.LEDGER_REL]), Adapter(text=GOOD))["status"], "skip")
-        self.assertEqual(self.go(FakeGH(open_heads=["lessons/pr-7"]), Adapter(text=GOOD))["status"], "skip")
+        self.assertEqual(self.go(FakeGH(open_heads=["bot/lessons-pr-7"]), Adapter(text=GOOD))["status"], "skip")
 
     def test_team_pr_opened_dispatch_after_pr(self):
         gh = FakeGH()
@@ -194,6 +195,52 @@ class DispatchPathTests(Base):
         body = gh.posts[-1][1]
         self.assertEqual(body["event_type"], "team-pr-opened")
         self.assertEqual(body["client_payload"], {"pr_number": 99, "head_sha": "feedbeef", "handoff_id": "HO-20261010-03"})
+
+
+class GateContractTests(Base):
+    """Lesson PRs must meet scripts/auto_merge_gate.py + config/auto_merge.json conditions."""
+
+    def setUp(self):
+        super().setUp()
+        self.cfg = json.loads((Path(__file__).resolve().parents[1] / "config/auto_merge.json").read_text())
+
+    def _opened(self, gh):
+        self.assertEqual(self.go(gh, Adapter(text=GOOD))["status"], "opened")
+        return gh.posts[0][1]
+
+    def test_branch_prefix_draft_and_body_pass_gate_regexes(self):
+        body = self._opened(FakeGH())
+        self.assertTrue(any(body["head"].startswith(p) for p in self.cfg["allowed_head_prefixes"]))
+        self.assertEqual(body["head"], "bot/lessons-pr-7")
+        self.assertIs(body["draft"], False)
+        self.assertEqual(re.search(self.cfg["handoff_regex"], body["body"]).group(0), "HO-20261010-03")
+        self.assertRegex(body["body"], self.cfg["evidence_regex"])
+        self.assertIn("\nCI: kaynak merge abcdef1", body["body"])
+        self.assertIn("/actions/runs/555", body["body"])
+
+    def test_no_handoff_id_opens_pr_but_gate_regex_fails(self):
+        gh = FakeGH()
+        gh.pr["title"] = "feat: no handoff"
+        body = self._opened(gh)
+        self.assertIsNone(re.search(self.cfg["handoff_regex"], body["body"]))
+        self.assertIn("handoff: yok", body["body"])
+
+    def test_dispatch_handoff_id_fallback(self):
+        gh = FakeGH()
+        gh.pr["title"] = "feat: no handoff"
+        out = ll.run(7, gh=gh, env={"DISPATCH_HANDOFF_ID": "HO-20261010-09"}, root=self.root,
+                     adapter=Adapter(text=GOOD), git=self.git_calls.append)
+        self.assertEqual(out["status"], "opened")
+        self.assertIn("HO-20261010-09", gh.posts[0][1]["body"])
+
+    def test_ci_line_reports_failure_honestly(self):
+        line = ll.ci_evidence_line(SHA, {"a": "failure"}, [])
+        self.assertIn("a=failure", line)
+        self.assertNotRegex(line, self.cfg["evidence_regex"])
+
+    def test_only_ledger_changed_so_denylist_safe(self):
+        self._opened(FakeGH())
+        self.assertEqual([c for c in self.git_calls if c[0] == "add"], [["add", ll.LEDGER_REL]])
 
 
 class WorkflowTests(unittest.TestCase):
@@ -212,6 +259,7 @@ class WorkflowTests(unittest.TestCase):
         for bad in ll.PROTECTED_WORKFLOWS:
             self.assertNotIn(bad, wf)
         self.assertNotIn("git push", wf)
+        self.assertIn("'bot/lessons-pr-'", wf)
 
 
 if __name__ == "__main__":

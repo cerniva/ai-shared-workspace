@@ -27,7 +27,7 @@ jobs:
   learn:
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
-       !startsWith(github.event.pull_request.head.ref, 'lessons/')) ||
+       !startsWith(github.event.pull_request.head.ref, 'bot/lessons-pr-')) ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'main-merged') ||
       (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - name: Draft lesson (branch lessons/pr-N + PR; never pushes main)
+      - name: Draft lesson (branch bot/lessons-pr-N + PR; never pushes main)
         run: |
           git config user.name "lesson-learner[bot]"
           git config user.email "lesson-learner@users.noreply.github.com"

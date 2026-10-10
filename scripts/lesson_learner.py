@@ -13,7 +13,10 @@ automation-runner / research-learner / agents-reporter:
 GEMINI_API_KEY, DEEPSEEK_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY).
 No key / provider failure / invalid output -> no lesson, no PLACEHOLDER; a
 ``YAPAMADIM:`` comment is posted on the merged PR and the process exits 0.
-Output goes to branch ``lessons/pr-<n>`` + a PR; never pushes to main.
+Output goes to branch ``bot/lessons-pr-<n>`` + a PR; never pushes to main.
+The PR body satisfies auto-merge-gate (config/auto_merge.json): handoff id
+``HO-...`` and a ``CI:`` evidence line. Without a source HO id the body says
+"handoff: yok" (no HO- token) so the gate leaves the PR open for a human.
 """
 from __future__ import annotations
 
@@ -37,6 +40,9 @@ LEDGER_REL = "knowledge/lessons.md"
 HANDOFF_RE = re.compile(r"HO-\d{8}-\d{2}")
 SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,60}$")
 BANNED = ("placeholder", "todo", "tbd", "lorem ipsum")
+BRANCH_PREFIX = "bot/lessons-pr-"
+SELF_PREFIXES = (BRANCH_PREFIX, "lessons/")
+RUN_URL_RE = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/actions/runs/(\d+)")
 PROTECTED_WORKFLOWS = ("youtube-upload", "shorts-free-", "meta-", "shopify", "gumroad")
 
 
@@ -74,13 +80,17 @@ def build_ledger_line(slug: str, evidence: str, lesson: str, decision: str, metr
     return "- " + " | ".join([slug, *fields])
 
 
+def lesson_branch(pr_number: int) -> str:
+    return f"{BRANCH_PREFIX}{int(pr_number)}"
+
+
 def is_duplicate(ledger_text: str, pr_number: int, merge_sha: str | None,
                  existing_branches: list[str] | None = None, open_pr_heads: list[str] | None = None) -> bool:
     if merge_sha and (merge_sha in ledger_text or merge_sha[:7] in ledger_text):
         return True
     if re.search(rf"PR #{int(pr_number)}(?!\d)", ledger_text):
         return True
-    branch = f"lessons/pr-{int(pr_number)}"
+    branch = lesson_branch(pr_number)
     return branch in (existing_branches or []) or branch in (open_pr_heads or [])
 
 
@@ -91,8 +101,8 @@ def should_skip(pr: Mapping[str, Any], changed_files: list[str]) -> str | None:
     if (pr.get("base") or {}).get("ref") != "main":
         return "base is not main"
     head = (pr.get("head") or {}).get("ref") or ""
-    if head.startswith("lessons/"):
-        return "self-loop: lessons/ branch"
+    if head.startswith(SELF_PREFIXES):
+        return f"self-loop: {head} branch"
     if changed_files and all(f == LEDGER_REL for f in changed_files):
         return "self-loop: only knowledge/lessons.md"
     return None
@@ -129,6 +139,21 @@ def parse_dispatch_payload(payload: Mapping[str, Any] | None) -> int | None:
 def team_pr_opened_payload(pr_number: int, head_sha: str, handoff_id: str | None) -> dict[str, Any]:
     return {"event_type": "team-pr-opened",
             "client_payload": {"pr_number": pr_number, "head_sha": head_sha, "handoff_id": handoff_id}}
+
+
+def ci_evidence_line(merge_sha: str, checks: dict[str, str], run_urls: list[str]) -> str:
+    """`CI:` line for the gate's evidence_regex; reports real conclusions, never invents success."""
+    summary = ", ".join(f"{k}={v}" for k, v in sorted(checks.items())[:10]) or "check-run bulunamadı"
+    line = f"CI: kaynak merge {merge_sha[:7]} check-run sonuçları: {summary}"
+    if run_urls:
+        line += " — " + " ".join(sorted(set(run_urls))[:3])
+    return line
+
+
+def lesson_pr_body(pr_number: int, merge_sha: str, handoff_id: str | None, ci_line: str, line: str) -> str:
+    ho = handoff_id if handoff_id else "handoff: yok (kaynak PR'da handoff id bulunamadı; gate birleştirmez, insan incelemesi)"
+    return (f"Kaynak: PR #{pr_number} ({merge_sha[:7]})\n{ho}\n{ci_line}\n\n"
+            f"Ders satırı (knowledge/lessons.md):\n{line}\n")
 
 
 def build_objective(pr: Mapping[str, Any], files: list[str], checks: dict[str, str], handoff_id: str | None) -> str:
@@ -222,14 +247,16 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
         return {"status": "skip", "reason": "duplicate"}
     runs = (gh.call("GET", f"/commits/{sha}/check-runs?per_page=100") or {}).get("check_runs") or []
     checks = {r["name"]: (r.get("conclusion") or r.get("status") or "?") for r in runs}
-    hid = extract_handoff_id(pr.get("title"), pr.get("body"), (pr.get("head") or {}).get("ref"))
+    run_urls = [m.group(0) for r in runs if (m := RUN_URL_RE.search(r.get("details_url") or r.get("html_url") or ""))]
+    hid = extract_handoff_id(pr.get("title"), pr.get("body"), (pr.get("head") or {}).get("ref"),
+                             env.get("DISPATCH_HANDOFF_ID"))
     line, why = draft_line(adapter, pr, files, checks, hid, env.get("GITHUB_RUN_ID"))
     if line is None:
         gh.call("POST", f"/issues/{pr_number}/comments", {"body": yapamadim_body(why or "?", pr_number)})
         return {"status": "yapamadim", "reason": why}
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     (root / LEDGER_REL).write_text(append_to_ledger(ledger, line, date), encoding="utf-8")
-    branch = f"lessons/pr-{pr_number}"
+    branch = lesson_branch(pr_number)
     g = git or (lambda a: subprocess.run(["git", *a], cwd=root, check=True))
     g(["checkout", "-b", branch])
     g(["add", LEDGER_REL])
@@ -239,7 +266,8 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
     except subprocess.CalledProcessError:
         return {"status": "skip", "reason": f"branch {branch} already pushed by a parallel run"}
     new = gh.call("POST", "/pulls", {"title": f"knowledge(lessons): PR #{pr_number} dersi", "head": branch,
-                                     "base": "main", "body": f"Kaynak: PR #{pr_number} ({sha[:7]}).\n\n{line}"})
+                                     "base": "main", "draft": False,
+                                     "body": lesson_pr_body(pr_number, sha, hid, ci_evidence_line(sha, checks, run_urls), line)})
     new_no = new.get("number")
     head_sha = (new.get("head") or {}).get("sha") or ""
     try:
@@ -266,6 +294,13 @@ def main(argv=None, env: Mapping[str, str] | None = None) -> int:
     if pr_no is None:
         print(json.dumps({"status": "skip", "reason": "no valid pr_number"}))
         return 0
+    if args.dispatch_payload:
+        try:
+            ho = (json.loads(args.dispatch_payload) or {}).get("handoff_id")
+        except (ValueError, AttributeError):
+            ho = None
+        if ho:
+            values = {**values, "DISPATCH_HANDOFF_ID": str(ho)}
     out = run(pr_no, gh=gh, env=values, adapter=supervisor_adapter(env=values))
     print(json.dumps(out, ensure_ascii=False))
     return 0
