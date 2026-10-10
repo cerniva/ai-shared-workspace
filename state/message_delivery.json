@@ -7217,8 +7217,8 @@
     "RPT-20261010-0426-grok-mp4-qc-seen": {
       "id": "RPT-20261010-0426-grok-mp4-qc-seen",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T04:28:33+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-10T04:32:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7227,9 +7227,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-10T04:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-10T04:26:00+03:00"
+      "pending_at": "2026-10-10T04:26:00+03:00",
+      "seen_at": "2026-10-10T04:32:27+03:00"
     }
   },
   "events": [
@@ -15408,6 +15410,17 @@
       "at": "2026-10-10T04:28:33+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-0426-grok-mp4-qc-seen:seen",
+      "message_id": "RPT-20261010-0426-grok-mp4-qc-seen",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-10T04:32:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16153,6 +16166,7 @@
     "RPT-20261010-0036-grok-bilgi-pool-63:delayed",
     "MSG-20261010-0426-grok-seen-mp4-qc:pending",
     "MSG-20261010-0426-grok-seen-mp4-qc:seen",
-    "RPT-20261010-0426-grok-mp4-qc-seen:pending"
+    "RPT-20261010-0426-grok-mp4-qc-seen:pending",
+    "RPT-20261010-0426-grok-mp4-qc-seen:seen"
   ]
 }
