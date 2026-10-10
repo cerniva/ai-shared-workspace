@@ -6,7 +6,8 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from scripts.provider_config import make_failover_adapter
+from scripts.model_fallback import CannotDo, fallback_adapter
+from scripts.worker_adapters import RetryableProviderError
 from scripts.work_queue import WorkQueue, _parse
 from scripts.worker_runner import run_job
 
@@ -105,6 +106,20 @@ def select_job(queue_path: Path, now: datetime | None = None,
     return info["job_id"] if info else None
 
 
+class SharedFallbackAdapter:
+    """Same run(job) contract as the old failover adapter, backed by the shared chain."""
+
+    def __init__(self, inner):
+        self.inner = inner
+
+    def run(self, job):
+        try:
+            return self.inner.run(job)
+        except CannotDo as exc:
+            # All providers down is retryable; do not dead-letter the queue item.
+            raise RetryableProviderError(str(exc)) from exc
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--queue", default="state/work_queue.json")
@@ -123,10 +138,14 @@ def main() -> None:
     job_id = info["job_id"]
     if "fallback_from" in info:
         print(json.dumps({"event": "fallback_selected", **info}, ensure_ascii=False))
+    chain = fallback_adapter()
+    if chain is None:
+        print(json.dumps({"status": "blocked_no_provider", "job_id": job_id}))
+        return
     state = run_job(
         WorkQueue(queue_path),
         job_id,
-        make_failover_adapter(),
+        SharedFallbackAdapter(chain),
         worker=SELF_NAME,
         dead_letter_path=Path(args.dead_letter),
     )

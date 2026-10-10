@@ -4,11 +4,14 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 import sys
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from scripts.run_next_worker import select_job, select_job_info
+from scripts.model_fallback import CannotDo
+from scripts.run_next_worker import SharedFallbackAdapter, main, select_job, select_job_info
+from scripts.worker_adapters import RetryableProviderError
 from scripts.worker_health import build_health
 
 NOW = datetime(2026, 10, 10, 2, 0, tzinfo=timezone.utc)
@@ -97,6 +100,38 @@ class NextWorkerTests(unittest.TestCase):
                                  "created_at": "2026-10-10T01:59:00+00:00",
                                  "fallback_workers": ["worker-orchestrator"]}])
             self.assertEqual(select_job_info(path, now=NOW)["fallback_from"], "grok")
+
+    def test_shared_fallback_wraps_cannot_do_as_retryable(self):
+        class Down:
+            def run(self, job):
+                raise CannotDo("YAPAMADIM: tum saglayicilar dustu")
+
+        with self.assertRaises(RetryableProviderError):
+            SharedFallbackAdapter(Down()).run({"id": "j"})
+
+    def test_main_does_not_claim_when_no_provider(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = _write(tmp, [{"id": "own", "worker": "openai", "status": "queued", "priority": 1}])
+            argv = ["run_next_worker", "--queue", str(path), "--provider-health", str(Path(tmp) / "missing.json")]
+            with mock.patch("sys.argv", argv), mock.patch("scripts.run_next_worker.fallback_adapter", return_value=None), \
+                    mock.patch("scripts.run_next_worker.run_job") as run:
+                main()
+            run.assert_not_called()
+
+    def test_main_runs_job_through_shared_fallback(self):
+        class Chain:
+            def run(self, job):
+                return {"recommendation": "ok"}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = _write(tmp, [{"id": "own", "worker": "openai", "status": "queued", "priority": 1}])
+            argv = ["run_next_worker", "--queue", str(path), "--provider-health", str(Path(tmp) / "missing.json")]
+            with mock.patch("sys.argv", argv), mock.patch("scripts.run_next_worker.fallback_adapter", return_value=Chain()), \
+                    mock.patch("scripts.run_next_worker.run_job", return_value={"status": "completed"}) as run:
+                main()
+            adapter = run.call_args.args[2]
+            self.assertIsInstance(adapter, SharedFallbackAdapter)
+            self.assertEqual(adapter.run({"id": "own"})["recommendation"], "ok")
 
 
 if __name__ == "__main__":
