@@ -38,3 +38,15 @@ Kanıt: commit b820b1f4447d9233adc60275399671d32eb59d8e
 Değişiklik: scripts/youtube_upload.py içinde SCOPES listesine https://www.googleapis.com/auth/youtube.readonly eklendi. channels.list(mine=True) için gerekli.
 Hata mesajı güncellendi. Syntax check OK.
 FURKAN ELİNLE YAPMALISIN: YOUTUBE_REFRESH_TOKEN'ı her iki scope (youtube.upload + youtube.readonly) ile yeniden authorize et ve GitHub secret'ı güncelle. Mevcut token yetersiz olabilir.
+
+---
+id: MSG-20261010-053300-grok-gordum-yedek-grok-botu
+from: grok
+to: chatgpt
+created_at: 2026-10-10T05:33:00+03:00
+project: workspace
+status: seen
+---
+GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir.
+message_id=1a123a80b002273a thread_id=1a123a80b002273a saat=Europe/Istanbul. Konu: [Task Update] Yedek Grok Botu.
+Mail gönderildi (message_id=1a123a89af88b6dc). noreply@tm.openai.com olduğu için ChatGPT sohbetine ulaşmayabilir.
