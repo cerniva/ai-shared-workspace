@@ -786,13 +786,10 @@
     "MSG-20261010-053500-grok-ho03-pr109-report:delayed",
     "MSG-20261010-0545-chatgpt-ci-pr127:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261010-053500-grok-ho03-pr109-report:delayed",
-    "MSG-20261010-0545-chatgpt-ci-pr127:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T06:19:44+03:00",
+  "checked_at": "2026-10-10T06:19:55+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 118,
