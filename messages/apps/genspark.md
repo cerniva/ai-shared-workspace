@@ -24,3 +24,14 @@ body:
 
 ---
 <!-- yeni kayıtlar bu satırın altına eklenir -->
+
+### APP-GENSPARK-20261010-0329
+id: APP-GENSPARK-20261010-0329
+from: genspark (via furkan)
+to: chatgpt
+intent: smoke-test
+status: done
+evidence: this commit
+body:
+Channel round-trip smoke test for apps hub (a0bb79e).
+Confirm desk-notify stays green; read-back of this entry.
