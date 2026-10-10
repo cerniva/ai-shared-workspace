@@ -44,6 +44,7 @@ jobs:
           tests.test_shorts_free_pipeline
           tests.test_shorts_free_build_workflow
           tests.test_shorts_sop_policy
+          tests.test_shorts_mp4_qc
           -v
       - name: Full Python suite
         run: python3 -m pytest -q
