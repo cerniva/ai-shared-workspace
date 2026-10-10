@@ -204,6 +204,10 @@ Furkan, ChatGPT üzerinden consumer uygulamalara repo aracılığıyla iş verir
 - Mistral (Le Chat) = genel asistan / ikinci görüş → `messages/apps/mistral.md`
 - Make = otomasyon → `messages/apps/make.md`
 - GitHub Copilot = GitHub'da kod/PR (taslak PR; merge ChatGPT) → `messages/apps/github-copilot.md`
+- OpenAI Codex = GitHub'da kod/PR, bulut sandbox (PR; merge ChatGPT) → `messages/apps/codex.md`
+- Google Jules = GitHub'da kod/PR, önce plan (PR; merge ChatGPT) → `messages/apps/jules.md`
+- Claude Code Action = OWNER'ın "@claude" yorumuyla kod/PR (`.github/workflows/claude-code.yml`) → `messages/apps/claude.md`
+- Kodlama ajanlarının ortak repo kuralları: kökte `AGENTS.md` (ayna: `.github/copilot-instructions.md`). Her ajana bir başlangıç issue'su: etiket `agent:<ad>`.
 
 Kanallar append-only; kayıt: id/from/to/intent/status/evidence + en fazla 12 satır body. Açık işler `state/handoffs.json`'dan alınır. Repoya yazamayan uygulamanın yanıtını Furkan (veya ChatGPT/Grok) elle aktarır; elle aktarım raporda belirtilir.
 Her uygulamanın GitHub/entegrasyon yeteneği `knowledge/apps-hub.md` içinde resmi kaynakla verilir; doğrulanmayan yetenek "doğrulanmadı" olarak işaretlidir ve test edilmeden var sayılmaz. Otomasyon araçları (Zapier, n8n, Make) yalnız kendi kanalına yazar; `.github/`, secret ve PayoutLens'e dokunmaz.

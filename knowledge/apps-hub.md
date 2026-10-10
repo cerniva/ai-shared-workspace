@@ -1,4 +1,4 @@
-# Uygulama botları merkezi (Claude, Gemini, Manus, Lindy, Genspark, Perplexity, Zapier Agents, n8n, DeepSeek, Copilot, Mistral, Make, GitHub Copilot)
+# Uygulama botları merkezi (Claude, Gemini, Manus, Lindy, Genspark, Perplexity, Zapier Agents, n8n, DeepSeek, Copilot, Mistral, Make, GitHub Copilot, OpenAI Codex, Google Jules, Claude Code Action)
 
 Amaç: Furkan, ChatGPT üzerinden uygulama botlarına `cerniva/ai-shared-workspace` reposu aracılığıyla iş verebilsin.
 Kanallar: `messages/apps/<app>.md` (append-only, format dosya başlığında). Açık işler: `state/handoffs.json`. Kurallar: `PROTOCOL.md` → "Uygulama botları".
@@ -75,6 +75,24 @@ Doğrulama tarihi: 2026-10-10 (WebSearch, resmi sayfalar). Arayüz menüleri de�
 - Görev verme: issue açılıp Copilot'a atanır (UI veya API `copilot-swe-agent[bot]`). Sonuç PR linkiyle `messages/apps/github-copilot.md` kanalına yazılır.
 - Kaynak: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github , https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-via-the-api
 
+### OpenAI Codex (chatgpt.com/codex) — rol: GitHub'da kod/PR (bulut sandbox)
+- ChatGPT hesabıyla açılır; Codex Cloud ortamında GitHub bağlanır, repo seçilir, her görev ayrı bulut çalışma alanında koşar; sonuç incelenip commit/**PR** açılır. Kaynak: https://developers.openai.com/codex/cloud (2026-10-10 doğrulandı).
+- Kök `AGENTS.md` dosyasını okur. Kaynak: https://developers.openai.com/codex/guides/agents-md (doğrulandı).
+- Hangi ChatGPT planlarına dahil olduğu ve kota: **doğrulanmadı** (bu turda fiyat sayfası okunmadı).
+- Kanal: `messages/apps/codex.md`. Başlangıç işi: `agent:codex` etiketli issue.
+
+### Google Jules (jules.google) — rol: GitHub'da kod/PR (VM)
+- Google hesabıyla giriş → "Connect to GitHub account" → tüm/seçili repolar; görev VM'de koşar, önce **plan** sunar, onaydan sonra kod değiştirir. Kök `AGENTS.md`'yi otomatik okur. Kaynak: https://jules.google/docs/ (doğrulandı).
+- PR açma akışının ayrıntısı ve plan/kota limitleri: **doğrulanmadı**.
+- Kanal: `messages/apps/jules.md`. Başlangıç işi: `agent:jules` etiketli issue.
+
+### GitHub Copilot — ek (AGENTS.md)
+- Copilot cloud agent kök `AGENTS.md` ve `.github/copilot-instructions.md` dosyalarını okur. Kaynak: https://docs.github.com/en/copilot/reference/custom-instructions-support , https://github.blog/changelog/2025-08-28-copilot-coding-agent-now-supports-agents-md-custom-instructions/ (doğrulandı). Başlangıç işi: `agent:copilot`.
+
+### Claude Code GitHub Action — rol: issue/PR yorumunda "@claude" ile kod/PR
+- Workflow: `.github/workflows/claude-code.yml`, resmi `anthropics/claude-code-action@v1`; yalnız repo OWNER yorumları, `ANTHROPIC_API_KEY` yoksa temiz atlar. Varsayılan kimlik doğrulama Claude GitHub App + OIDC (`id-token: write`) gerektirir. Kaynak: https://github.com/anthropics/claude-code-action (README, docs/setup.md, docs/faq.md, examples/claude.yml; doğrulandı).
+- Kanal: `messages/apps/claude.md`. Başlangıç işi: `agent:claude`.
+
 ## Ortak kurallar
 - Yazamayan uygulama için yazma işi `state/handoffs.json`'a handoff olur (to: chatgpt/grok/furkan). Yapılmayan iş yapılmış gibi raporlanmaz.
 - Secret/token/şifre hiçbir uygulamaya ve kanala yazılmaz.
@@ -146,4 +164,19 @@ Merhaba, bu Make otomasyon senaryosu görevidir. Rol: otomasyon. cerniva/ai-shar
 ### GitHub Copilot
 ```
 Merhaba Copilot. Rolün: GitHub'da kod/PR. cerniva/ai-shared-workspace reposunda state/handoffs.json ve messages/apps/github-copilot.md'yi oku; bu issue'da sana atanmış işi yap. Değişikliği ayrı branch'te taslak PR olarak aç; main'e doğrudan push etme, merge kararı ChatGPT'dedir. Mevcut testleri çalıştır (PROTOCOL testleri dahil) ve PR açıklamasına test sonucunu yaz. PR açıklamasına messages/apps/github-copilot.md formatında kayıt ekle: id/from/to/intent/status/evidence (PR linki/SHA) + en fazla 12 satır body. .github/workflows, secret'lar ve cerniva/grok-chatgpt-masa reposuna dokunma. Belirsizlik varsa PR'da soru olarak yaz, tahminle ilerleme.
+```
+
+### OpenAI Codex
+```
+Merhaba Codex. Rolün: GitHub'da kod/PR. cerniva/ai-shared-workspace reposunda önce AGENTS.md'yi, sonra state/handoffs.json ve messages/apps/codex.md'yi oku; "agent:codex" etiketli issue'daki işi yap. Ayrı branch'te çalış, PR aç; main'e push etme, merge kararı ChatGPT'dedir. python -m unittest discover tests çalıştır ve sonucu PR açıklamasına yaz. PR açıklamasına messages/apps/codex.md formatında kayıt ekle: id/from/to/intent/status/evidence + en fazla 12 satır body. .github/workflows, secret'lar, PayoutLens (cerniva/grok-chatgpt-masa), yayın ve ödeme adımlarına dokunma; PLACEHOLDER yazma; belirsizlikte PR'da soru sor.
+```
+
+### Google Jules
+```
+Merhaba Jules. Rolün: GitHub'da kod/PR. cerniva/ai-shared-workspace reposunda AGENTS.md, state/handoffs.json ve messages/apps/jules.md'yi oku; "agent:jules" etiketli issue'daki işi yap. Önce planını göster, Furkan onaylamadan kod değiştirme. Ayrı branch + PR; main'e push yok. python -m unittest discover tests yeşil olmadan "done" yazma; sonucu PR'a ekle. PR açıklamasına messages/apps/jules.md formatında kayıt ekle (id/from/to/intent/status/evidence + en fazla 12 satır). .github/workflows, secret'lar, PayoutLens, yayın/ödeme yasak; PLACEHOLDER yok.
+```
+
+### Claude Code (GitHub Action)
+```
+@claude Rolün: kod inceleme ve küçük düzeltme. AGENTS.md kurallarına uy. Bu issue'daki işi yap: ayrı branch'te değişiklik, PR aç, main'e push etme. python -m unittest discover tests çalıştır, sonucu yaz. .github/workflows, secret'lar ve PayoutLens'e dokunma; yayın/ödeme yok; PLACEHOLDER yok. Bitince messages/apps/claude.md formatında kayıt (id/from/to/intent/status/evidence + en fazla 12 satır) yorum olarak ver.
 ```
