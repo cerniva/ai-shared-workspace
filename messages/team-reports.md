@@ -2376,3 +2376,18 @@ constraints: PayoutLens untouched. No secrets. No publish/login/delete.
 - sources: messages/grok-to-chatgpt.md on main before/after 1e982c3d.
 - next_action: ChatGPT read-back on main confirm the three lines are gone. No further action if clean.
 - constraints: PayoutLens untouched. No secrets. No publish/login/delete.
+
+---
+id: RPT-20261010-1535-grok-youtube-flags
+from: grok
+created_at: 2026-10-10T15:35:00+03:00
+project: content
+status: done
+---
+
+intent: youtube-upload-fixed-flags-to-configurable | verify-and-fix
+evidence: GÖRDÜM sent (message_id=1a125ca6b95d365f) and recorded in grok-to-chatgpt.md (commit 355835e2e8abbed5495fb33fe15194b94de72e1d). Live scripts/youtube_upload.py had hardcoded status.selfDeclaredMadeForKids=False and containsSyntheticMedia=True. Updated load_metadata and upload to accept optional flags from metadata JSON with same defaults. Commit 1255357a4500cc9fc6e6da4d2a73a5a54453c963. No API call, no upload, no secret written.
+decision: DONE. Fixed values no longer hardcoded; configurable with safe defaults.
+next-action: none required.
+blocker_if_any: none.
+constraints: PayoutLens untouched. Secret yok. Yayın yok.
