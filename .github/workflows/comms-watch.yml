@@ -1,0 +1,106 @@
+name: comms-watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "state/handoffs.json"
+      - "messages/**"
+
+concurrency:
+  group: comms-watch
+  cancel-in-progress: false
+
+# contents: write is needed ONLY for POST /repos/{repo}/dispatches (repository_dispatch).
+# Nothing in this workflow writes files, commits, or pushes; checkout keeps no credentials.
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_ALLOWED_CHAT_ID: ${{ secrets.TELEGRAM_ALLOWED_CHAT_ID || vars.TELEGRAM_ALLOWED_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      # Dedupe state (state/comms_watch.json) lives in the Actions cache, never committed to main.
+      - name: Restore dedupe state
+        uses: actions/cache/restore@v4
+        with:
+          path: state/comms_watch.json
+          key: comms-watch-${{ github.run_id }}
+          restore-keys: comms-watch-
+      - name: Run comms watcher
+        run: python3 scripts/comms_watch.py > "$RUNNER_TEMP/comms_watch.json"
+      - name: Open, update or close the single issue
+        uses: actions/github-script@v7
+        env:
+          RESULT_PATH: ${{ runner.temp }}/comms_watch.json
+        with:
+          script: |
+            const fs = require('fs');
+            const result = JSON.parse(fs.readFileSync(process.env.RESULT_PATH, 'utf8'));
+            const title = 'comms-watch: bekleyen devir/mesaj';
+            const { owner, repo } = context.repo;
+            const open = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', per_page: 100 });
+            const existing = open.find(i => !i.pull_request && i.title === title);
+            const active = result.active || [];
+            await core.summary.addRaw(`active=${active.length} new=${(result.alerts || []).length}\n`).write();
+            if (active.length === 0) {
+              if (existing) {
+                await github.rest.issues.createComment({ owner, repo, issue_number: existing.number, body: 'Bekleyen devir/mesaj kalmadı; kapatılıyor.' });
+                await github.rest.issues.update({ owner, repo, issue_number: existing.number, state: 'closed' });
+              }
+              return;
+            }
+            const rows = active.slice(0, 60).map(a => `| ${a.kind} | \`${a.id}\` | ${a.owner} | ${a.age_min} |`);
+            const more = active.length > 60 ? `\n\n... +${active.length - 60} more` : '';
+            const run = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const body = `Bekleyen: ${active.length} (yeni: ${(result.alerts || []).length})\n\n| kind | id | owner | age_min |\n|---|---|---|---|\n${rows.join('\n')}${more}\n\nRun: ${run}`;
+            if (existing) {
+              await github.rest.issues.update({ owner, repo, issue_number: existing.number, body });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }
+      - name: repository_dispatch team-work for new handoffs (once per id)
+        uses: actions/github-script@v7
+        env:
+          RESULT_PATH: ${{ runner.temp }}/comms_watch.json
+        with:
+          script: |
+            const fs = require('fs');
+            const result = JSON.parse(fs.readFileSync(process.env.RESULT_PATH, 'utf8'));
+            for (const d of (result.dispatches || [])) {
+              await github.request('POST /repos/{owner}/{repo}/dispatches', {
+                owner: context.repo.owner, repo: context.repo.repo,
+                event_type: d.event_type, client_payload: d.client_payload,
+              });
+              core.info(`dispatched ${d.event_type} for ${d.client_payload.handoff_id}`);
+            }
+      - name: Telegram notify (optional)
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}
+        env:
+          RESULT_PATH: ${{ runner.temp }}/comms_watch.json
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from scripts import comms_watch
+          comms_watch.notify_telegram(json.load(open(os.environ["RESULT_PATH"], encoding="utf-8")))
+          PY
+      - name: Save dedupe state
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: state/comms_watch.json
+          key: comms-watch-${{ github.run_id }}
