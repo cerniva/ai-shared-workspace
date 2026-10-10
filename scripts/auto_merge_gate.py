@@ -69,8 +69,31 @@ def denied_files(files: list[str], patterns: list[str]) -> list[str]:
     return bad
 
 
+def _run_key(run: dict) -> tuple:
+    return (run.get("started_at") or "", run.get("completed_at") or "", int(run.get("id") or 0))
+
+
+def _status_key(st: dict) -> tuple:
+    return (st.get("updated_at") or "", st.get("created_at") or "", int(st.get("id") or 0))
+
+
+def latest_by(items: list[dict], field: str, key) -> list[dict]:
+    """Keep only the most recent item per name/context (ties: later in list wins)."""
+    best: dict[str, dict] = {}
+    for it in items:
+        n = it.get(field, "")
+        if n not in best or key(it) >= key(best[n]):
+            best[n] = it
+    return list(best.values())
+
+
 def evaluate_checks(check_runs: list[dict], statuses: list[dict], cfg: dict) -> tuple[list[str], list[str]]:
-    """Return (blocking reasons, pending reasons)."""
+    """Return (blocking reasons, pending reasons).
+
+    Aynı isimli check run'lardan / aynı context'li status'lardan yalnız en sonuncusu sayılır.
+    """
+    check_runs = latest_by(check_runs, "name", _run_key)
+    statuses = latest_by(statuses, "context", _status_key)
     reasons, pending = [], []
     selfs = set(cfg.get("self_check_names", []))
     auditor = cfg["auditor_check_name"]
@@ -84,8 +107,7 @@ def evaluate_checks(check_runs: list[dict], statuses: list[dict], cfg: dict) -> 
             seen.setdefault(name, "pending")
             continue
         concl = run.get("conclusion") or "unknown"
-        if seen.get(name) != "success":
-            seen[name] = "success" if concl in OK_CONCLUSIONS else concl
+        seen[name] = "success" if concl in OK_CONCLUSIONS else concl
         if concl not in OK_CONCLUSIONS:
             reasons.append(f"check `{name}` başarısız ({concl})")
     for st in statuses:

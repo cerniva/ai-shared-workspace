@@ -138,6 +138,62 @@ class AutoMergeGateTests(unittest.TestCase):
         self.assertEqual(len(gh.comments), 1)
         self.assertEqual(len(gh.did("POST", "/comments")), 1)
 
+    # --- en son check run / status sayılır ---
+    @staticmethod
+    def _run(name, concl, ts, rid):
+        return {"id": rid, "name": name, "status": "completed", "conclusion": concl,
+                "started_at": ts, "completed_at": ts}
+
+    def _base_runs(self):
+        return [self._run("test", "success", "2026-10-10T00:00:00Z", 1),
+                {"name": "auto-merge-gate", "status": "in_progress", "conclusion": None}]
+
+    def test_old_red_new_green_same_name_merges(self):
+        runs = self._base_runs() + [
+            self._run("takipci-denetci", "failure", "2026-10-10T01:00:00Z", 10),
+            self._run("takipci-denetci", "success", "2026-10-10T02:00:00Z", 11)]
+        gh = FakeGitHub(runs=runs)
+        res = self.run_gate(gh)
+        self.assertTrue(res.get("merged"))
+        self.assertEqual(len(gh.did("PUT", "/merge")), 1)
+
+    def test_old_red_new_green_reversed_order_merges(self):
+        runs = self._base_runs() + [
+            self._run("takipci-denetci", "success", "2026-10-10T02:00:00Z", 11),
+            self._run("takipci-denetci", "failure", "2026-10-10T01:00:00Z", 10)]
+        gh = FakeGitHub(runs=runs)
+        self.assertTrue(self.run_gate(gh).get("merged"))
+
+    def test_old_green_new_red_same_name_no_merge(self):
+        runs = self._base_runs() + [
+            self._run("takipci-denetci", "success", "2026-10-10T01:00:00Z", 10),
+            self._run("takipci-denetci", "failure", "2026-10-10T02:00:00Z", 11)]
+        gh = FakeGitHub(runs=runs)
+        self.assert_no_merge(gh, self.run_gate(gh), "takipci-denetci")
+
+    def test_rerun_ci_old_green_new_red_no_merge(self):
+        runs = [self._run("test", "success", "2026-10-10T00:00:00Z", 1),
+                self._run("test", "failure", "2026-10-10T00:30:00Z", 2),
+                self._run("takipci-denetci", "success", "2026-10-10T01:00:00Z", 10)]
+        gh = FakeGitHub(runs=runs)
+        self.assert_no_merge(gh, self.run_gate(gh), "test")
+
+    def test_different_names_one_red_no_merge(self):
+        runs = self._base_runs() + [
+            self._run("takipci-denetci", "success", "2026-10-10T02:00:00Z", 11),
+            self._run("lint", "failure", "2026-10-10T02:00:00Z", 12)]
+        gh = FakeGitHub(runs=runs)
+        self.assert_no_merge(gh, self.run_gate(gh), "lint")
+
+    def test_status_latest_per_context(self):
+        old_red = {"id": 1, "context": "ext", "state": "failure", "updated_at": "2026-10-10T01:00:00Z"}
+        new_green = {"id": 2, "context": "ext", "state": "success", "updated_at": "2026-10-10T02:00:00Z"}
+        gh = FakeGitHub(statuses=[old_red, new_green])
+        self.assertTrue(self.run_gate(gh).get("merged"))
+        old_green = dict(new_green, updated_at="2026-10-10T00:00:00Z")
+        gh = FakeGitHub(statuses=[old_green, old_red])
+        self.assert_no_merge(gh, self.run_gate(gh), "ext")
+
 
 if __name__ == "__main__":
     unittest.main()
