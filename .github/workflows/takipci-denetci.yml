@@ -1,0 +1,91 @@
+name: takipci-denetci
+
+# Rule-based PR auditor (no model, no API keys). auto-merge-gate requires a
+# check named exactly `takipci-denetci` (config/auto_merge.json auditor_check_name).
+# - pull_request: this job's own check run is `takipci-denetci` on the PR head.
+# - repository_dispatch team-pr-opened: run is on main, so the verdict is posted
+#   explicitly via the Checks API on client_payload.head_sha (or pr_number's head).
+# - repository_dispatch main-merged: audit merge_sha files, write job summary only
+#   (scripts/handoff.py has no safe append-note mechanism; auditor never writes to main).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  repository_dispatch:
+    types: [team-pr-opened, main-merged]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to audit (publishes check on its head SHA)"
+        required: false
+      head_sha:
+        description: "Commit SHA to audit (when no PR number)"
+        required: false
+      base:
+        description: "Base SHA for comparison (default: first parent)"
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+  statuses: write
+
+concurrency:
+  group: takipci-denetci-${{ github.event.pull_request.number || github.event.client_payload.pr_number || github.event.client_payload.head_sha || github.event.client_payload.merge_sha || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  takipci-denetci:
+    name: takipci-denetci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Audit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_EVENT_NUMBER: ${{ github.event.pull_request.number }}
+          CP_PR: ${{ github.event.client_payload.pr_number }}
+          CP_HEAD: ${{ github.event.client_payload.head_sha }}
+          CP_BASE: ${{ github.event.client_payload.base }}
+          CP_MERGE: ${{ github.event.client_payload.merge_sha }}
+          IN_PR: ${{ github.event.inputs.pr_number }}
+          IN_HEAD: ${{ github.event.inputs.head_sha }}
+          IN_BASE: ${{ github.event.inputs.base }}
+          TAKIPCI_OUT: ${{ runner.temp }}/takipci.json
+        shell: bash
+        run: |
+          set +e
+          args=()
+          if [ "$EVENT" = "pull_request" ]; then
+            args=(--pr "$PR_EVENT_NUMBER")
+          elif [ "$EVENT" = "repository_dispatch" ] && [ "$ACTION" = "main-merged" ]; then
+            if [ -z "$CP_MERGE" ]; then echo "main-merged without merge_sha"; exit 1; fi
+            args=(--head-sha "$CP_MERGE")
+          elif [ "$EVENT" = "repository_dispatch" ]; then
+            if [ -n "$CP_PR" ]; then args=(--pr "$CP_PR" --publish)
+            elif [ -n "$CP_HEAD" ]; then args=(--head-sha "$CP_HEAD" --publish ${CP_BASE:+--base "$CP_BASE"})
+            else echo "team-pr-opened needs client_payload.pr_number or head_sha"; exit 1; fi
+          else
+            if [ -n "$IN_PR" ]; then args=(--pr "$IN_PR" --publish)
+            elif [ -n "$IN_HEAD" ]; then args=(--head-sha "$IN_HEAD" --publish ${IN_BASE:+--base "$IN_BASE"})
+            else echo "workflow_dispatch needs pr_number or head_sha"; exit 1; fi
+          fi
+          python3 scripts/takipci_denetci.py "${args[@]}"
+          rc=$?
+          {
+            echo "## takipci-denetci ($EVENT${ACTION:+/$ACTION})"
+            if [ -f "$TAKIPCI_OUT" ]; then
+              python3 -c "import json,sys;r=json.load(open(sys.argv[1]));print('verdict: **%s** sha %s'%(r['verdict'],r.get('head_sha')));[print('- FAIL:',x) for x in r['reasons']];[print('- WARN:',x) for x in r['warnings']]" "$TAKIPCI_OUT"
+            else
+              echo "auditor did not produce a verdict (rc=$rc)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $rc
