@@ -11,10 +11,12 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Any, Iterator
 
-try:
-    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
-except ModuleNotFoundError:  # Imported as scripts.learning_bridge by the test suite.
+# scripts.X olarak import edildiyse daima paket yolunu kullan: scripts/ sys.path'te olsa bile
+# knowledge_bridge iki kez (bare + scripts.) yüklenip CatalogError sınıfı ikiye bölünmesin.
+if __package__ == "scripts":
     from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
+else:
+    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
 
 
 UTC = timezone.utc

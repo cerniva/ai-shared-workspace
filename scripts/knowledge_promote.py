@@ -29,14 +29,16 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Iterator
 
-try:
-    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
-    from learning_bridge import LearningLedger, learning_id, persistence_gate
-    from knowledge_freshness import refresh_source
-except ModuleNotFoundError:  # Imported as scripts.knowledge_promote by tests.
+# scripts.X olarak import edildiyse daima paket yolunu kullan: scripts/ sys.path'te olsa bile
+# knowledge_bridge iki kez (bare + scripts.) yüklenip CatalogError sınıfı ikiye bölünmesin.
+if __package__ == "scripts":
     from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
     from scripts.learning_bridge import LearningLedger, learning_id, persistence_gate
     from scripts.knowledge_freshness import refresh_source
+else:
+    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe, canonicalize, source_id
+    from learning_bridge import LearningLedger, learning_id, persistence_gate
+    from knowledge_freshness import refresh_source
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_PATHS = ("knowledge/source_catalog.json", "knowledge/learning_ledger.json")
