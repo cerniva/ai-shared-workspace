@@ -9,6 +9,12 @@ GITHUB_TOKEN and emits a JSON verdict {verdict, reasons, warnings}. Rules:
   3. a code file (.py/.yml/.yaml/.js/.ts) shrinks by >80% or to <5 lines -> fail
   4. PR body lacks an HO-... id or a Test:/CI: line -> fail (warn-only for
      human PRs whose head branch is not bot/)
+  5. (PR mode) every Actions run referenced in the body (.../actions/runs/<id>,
+     'run <id>', '#<id>' with 8+ digits) must exist in this repo with
+     conclusion success; head_sha != PR head -> warning
+  6. a Test:/CI: line (or the line right after it) mentions failure words -> fail
+  7. (PR mode) any completed check run on head_sha (except this auditor) with
+     conclusion failure/cancelled/timed_out -> fail
 When --publish is given the verdict is posted as a check run named exactly
 CHECK_NAME on the head SHA (that is what auto-merge-gate reads, see
 config/auto_merge.json `auditor_check_name`). Read-only otherwise.
@@ -36,6 +42,11 @@ DOC_PREFIXES = ("docs/", "outputs/", "intake/")
 HO_RE = re.compile(r"\bHO-[0-9A-Za-z][0-9A-Za-z_-]*")
 EVIDENCE_RE = re.compile(r"(?im)^\s*[-*]?\s*(test|tests|ci)\s*:")
 FEATFIX_RE = re.compile(r"^\s*(feat|fix)\b", re.I)
+RUN_URL_RE = re.compile(r"github\.com/([\w.-]+/[\w.-]+)/actions/runs/(\d+)")
+RUN_BARE_RE = re.compile(r"(?i)(?:\brun\s+#?|#)(\d{8,})\b")
+EVIDENCE_LINE_RE = re.compile(r"(?i)^\s*[-*]?\s*(test|tests|ci)\s*:")
+FAIL_WORD_RE = re.compile(r"(?i)(?<!\b0 )\b(failure|failed|kırmızı)\b")
+BAD_CONCLUSIONS = {"failure", "cancelled", "timed_out"}
 SHRINK_RATIO = 0.8
 MIN_LINES = 5
 
@@ -98,8 +109,70 @@ def check_body(body: str | None) -> list[str]:
     return out
 
 
+def extract_run_refs(body: str | None) -> list[dict]:
+    """[{id, repo}] in order, deduped; repo is None for bare references."""
+    refs: dict[int, dict] = {}
+    body = body or ""
+    for m in RUN_URL_RE.finditer(body):
+        refs.setdefault(int(m.group(2)), {"id": int(m.group(2)), "repo": m.group(1)})
+    for m in RUN_BARE_RE.finditer(body):
+        refs.setdefault(int(m.group(1)), {"id": int(m.group(1)), "repo": None})
+    return list(refs.values())
+
+
+def check_run_refs(runs: list[dict], repo: str, head_sha: str) -> tuple[list[str], list[str]]:
+    """runs: [{id, ref_repo, run (API dict) or None, error}] -> (reasons, warnings)."""
+    reasons: list[str] = []
+    warnings: list[str] = []
+    for r in runs:
+        rid = r["id"]
+        if r.get("ref_repo") and r["ref_repo"].lower() != repo.lower():
+            reasons.append(f"run {rid} belongs to another repo ({r['ref_repo']})")
+            continue
+        run = r.get("run")
+        if not run:
+            reasons.append(f"run {rid} could not be fetched ({r.get('error', 'not found')})")
+            continue
+        run_repo = ((run.get("repository") or {}).get("full_name") or repo)
+        if run_repo.lower() != repo.lower():
+            reasons.append(f"run {rid} belongs to another repo ({run_repo})")
+            continue
+        concl = run.get("conclusion")
+        if run.get("status") != "completed" or concl != "success":
+            reasons.append(f"run {rid} conclusion is {concl or run.get('status')} (not success)")
+        if head_sha and run.get("head_sha") and run["head_sha"] != head_sha:
+            warnings.append(f"run {rid} head_sha {run['head_sha'][:7]} != PR head {head_sha[:7]}")
+    return reasons, warnings
+
+
+def check_evidence_words(body: str | None) -> list[str]:
+    lines = (body or "").splitlines()
+    out = []
+    for i, line in enumerate(lines):
+        if not EVIDENCE_LINE_RE.match(line):
+            continue
+        for chunk in lines[i:i + 2]:
+            m = FAIL_WORD_RE.search(chunk)
+            if m:
+                out.append(f"evidence line {i + 1} mentions '{m.group(1)}': {line.strip()[:80]}")
+                break
+    return out
+
+
+def check_head_checks(check_runs: list[dict]) -> list[str]:
+    out = []
+    for c in check_runs:
+        if c.get("name") == CHECK_NAME or c.get("status") != "completed":
+            continue
+        if c.get("conclusion") in BAD_CONCLUSIONS:
+            out.append(f"check `{c.get('name')}` on head is {c['conclusion']}")
+    return out
+
+
 def evaluate(title: str, files: list[dict], body: str | None = None,
-             head_ref: str = "", check_pr_body: bool = True) -> dict:
+             head_ref: str = "", check_pr_body: bool = True,
+             run_refs: list[dict] | None = None, head_checks: list[dict] | None = None,
+             repo: str = "", head_sha: str = "") -> dict:
     """Pure verdict. files: [{filename, status, old_text, new_text}]."""
     reasons: list[str] = []
     warnings: list[str] = []
@@ -117,6 +190,13 @@ def evaluate(title: str, files: list[dict], body: str | None = None,
             reasons += body_issues
         else:
             warnings += body_issues
+        reasons += check_evidence_words(body)
+    if run_refs is not None:
+        r, w = check_run_refs(run_refs, repo, head_sha)
+        reasons += r
+        warnings += w
+    if head_checks is not None:
+        reasons += check_head_checks(head_checks)
     return {"check": CHECK_NAME, "verdict": "fail" if reasons else "pass",
             "reasons": reasons, "warnings": warnings, "files": paths}
 
@@ -174,11 +254,27 @@ def collect(gh: GitHub, raw_files: list[dict], base: str | None, head: str) -> l
     return out
 
 
+def fetch_run_refs(gh: GitHub, refs: list[dict]) -> list[dict]:
+    out = []
+    for ref in refs:
+        item = {"id": ref["id"], "ref_repo": ref.get("repo"), "run": None}
+        if not ref.get("repo") or ref["repo"].lower() == gh.repo.lower():
+            try:
+                item["run"] = gh.request("GET", f"/actions/runs/{ref['id']}")
+            except urllib.error.HTTPError as e:
+                item["error"] = f"HTTP {e.code}"
+        out.append(item)
+    return out
+
+
 def audit_pr(gh: GitHub, number: int) -> tuple[dict, str]:
     pr = gh.request("GET", f"/pulls/{number}")
     head = pr["head"]["sha"]
     files = collect(gh, gh.paged(f"/pulls/{number}/files"), pr["base"]["sha"], head)
-    res = evaluate(pr.get("title", ""), files, pr.get("body"), pr["head"].get("ref", ""))
+    run_refs = fetch_run_refs(gh, extract_run_refs(pr.get("body")))
+    checks = gh.request("GET", f"/commits/{head}/check-runs?per_page=100").get("check_runs", [])
+    res = evaluate(pr.get("title", ""), files, pr.get("body"), pr["head"].get("ref", ""),
+                   run_refs=run_refs, head_checks=checks, repo=gh.repo, head_sha=head)
     res.update(pr_number=number, head_sha=head)
     return res, head
 

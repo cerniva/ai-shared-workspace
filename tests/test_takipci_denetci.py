@@ -79,6 +79,57 @@ class TakipciDenetciTests(unittest.TestCase):
         res = td.evaluate("feat: x", [f("scripts/a.py", CODE, CODE + "y\n")], check_pr_body=False)
         self.assertEqual(res["verdict"], "pass")
 
+    def _run(self, rid, concl="success", sha="headsha1", repo="cerniva/ai-shared-workspace"):
+        return {"id": rid, "ref_repo": None, "run": {"id": rid, "status": "completed", "conclusion": concl,
+                                                     "head_sha": sha, "repository": {"full_name": repo}}}
+
+    def _eval(self, body, runs=None, checks=None):
+        return td.evaluate("feat: x", [f("scripts/a.py", CODE, CODE + "y = 1\n")], body, "bot/x",
+                           run_refs=runs if runs is not None else [], head_checks=checks or [],
+                           repo="cerniva/ai-shared-workspace", head_sha="headsha1")
+
+    def test_extract_run_refs(self):
+        body = ("CI: https://github.com/cerniva/ai-shared-workspace/actions/runs/38011158413 ok\n"
+                "Test: run 38011185625 green, also #38011225554; not #123\n"
+                "see https://github.com/other/repo/actions/runs/99999999\n")
+        refs = td.extract_run_refs(body)
+        self.assertEqual([r["id"] for r in refs], [38011158413, 99999999, 38011185625, 38011225554])
+        self.assertEqual(refs[1]["repo"], "other/repo")
+
+    def test_mixed_green_red_runs_fail(self):
+        res = self._eval(GOOD_BODY, [self._run(11111111), self._run(22222222, "failure")])
+        self.assertEqual(res["verdict"], "fail")
+        self.assertTrue(any("22222222" in r for r in res["reasons"]))
+
+    def test_all_green_runs_pass(self):
+        res = self._eval(GOOD_BODY, [self._run(11111111), self._run(22222222)],
+                         [{"name": "test", "status": "completed", "conclusion": "success"},
+                          {"name": "takipci-denetci", "status": "completed", "conclusion": "failure"}])
+        self.assertEqual(res["verdict"], "pass", res["reasons"])
+
+    def test_foreign_or_missing_run_fails_and_sha_mismatch_warns(self):
+        foreign = {"id": 3, "ref_repo": "other/repo", "run": None}
+        self.assertEqual(self._eval(GOOD_BODY, [foreign])["verdict"], "fail")
+        missing = {"id": 4, "ref_repo": None, "run": None, "error": "HTTP 404"}
+        self.assertEqual(self._eval(GOOD_BODY, [missing])["verdict"], "fail")
+        res = self._eval(GOOD_BODY, [self._run(5, sha="othersha")])
+        self.assertEqual(res["verdict"], "pass")
+        self.assertTrue(any("head_sha" in w for w in res["warnings"]))
+
+    def test_red_word_in_ci_line_fails(self):
+        for body in ("HO-1\nCI: build failed\n", "HO-1\nTest: kırmızı\n", "HO-1\n- CI: 3 FAILED\n",
+                     "HO-1\nTest: see below\nfailure in step 3\n"):
+            res = self._eval(body)
+            self.assertEqual(res["verdict"], "fail", body)
+        self.assertEqual(self._eval("HO-1\nTest: 42 passed, 0 failed\n")["verdict"], "pass")
+
+    def test_failed_head_check_fails(self):
+        for concl in ("failure", "cancelled", "timed_out"):
+            res = self._eval(GOOD_BODY, checks=[{"name": "test", "status": "completed", "conclusion": concl}])
+            self.assertEqual(res["verdict"], "fail", concl)
+        res = self._eval(GOOD_BODY, checks=[{"name": "test", "status": "in_progress", "conclusion": None}])
+        self.assertEqual(res["verdict"], "pass")
+
 
 if __name__ == "__main__":
     unittest.main()
