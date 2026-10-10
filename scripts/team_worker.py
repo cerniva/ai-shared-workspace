@@ -165,6 +165,34 @@ class GitHubClient:
         return self._call("POST", "/issues", {"title": title, "body": body, "labels": ["team-worker"]})
 
 
+PR_OPENED_EVENT = "team-pr-opened"
+PROVIDER_CHECK_EVENT = "provider-check"
+HO_RE = re.compile(r"\bHO-[0-9A-Za-z][0-9A-Za-z_-]*")
+
+
+def handoff_line(handoff_id: str) -> str:
+    """auto-merge-gate needs an HO-... id; non-HO ids get 'handoff: yok' (never 'HO-yok')."""
+    return f"Handoff: {handoff_id}" if HO_RE.fullmatch(handoff_id) else f"handoff: yok (kaynak id: {handoff_id})"
+
+
+def build_pr_body(*, handoff_id: str, source: str, run_id: str, task: str, failure: str | None,
+                  result: dict | None, tests_ok: bool, test_tail: str, test_cmd: str, run_url: str) -> str:
+    lines = [handoff_line(handoff_id), f"Kaynak: {source}, run: {run_id}", f"Gorev: {task}", ""]
+    if failure:
+        lines.append(f"**YAPAMADIM:** {failure}")
+    else:
+        lines.append(f"Model sonucu: `{RESULT_DIR.as_posix()}/{handoff_id}.json`")
+        lines.append(f"Oneri: {(result or {}).get('recommendation', '')}")
+    lines.append("")
+    if tests_ok:
+        # Evidence line for auto-merge-gate: only written when tests really passed.
+        lines.append(f"Test: geçti ({test_cmd}) {run_url}".rstrip())
+    else:
+        lines.append("Kirmizi test -> PR draft. Neden (son satirlar):")
+        lines.append("```\n" + test_tail + "\n```")
+    return "\n".join(lines)
+
+
 RESEARCH_EVENT = "team-research"
 RESEARCH_MARKER = "team-research dispatched"
 
@@ -226,26 +254,35 @@ def append_note(path: Path, handoff_id: str, note: str, now: str) -> None:
 
 # ------------------------------------------------------------------- model ---
 def default_adapter_factory(env: Mapping[str, str]):
-    from scripts.provider_config import make_failover_adapter
-    return make_failover_adapter(env=env)
+    """Shared model chain scripts.model_fallback.fallback_adapter (config/model_providers.json).
+    None -> no key configured anywhere."""
+    from scripts.model_fallback import fallback_adapter
+    from scripts.worker_adapters import MissingCredential
+    adapter = fallback_adapter(env=env)
+    if adapter is None:
+        raise MissingCredential("no AI provider credential is configured (shared supervisor chain empty)")
+    return adapter
 
 
 def run_model(task: str, handoff_id: str, env: Mapping[str, str],
-              adapter_factory: Callable[[Mapping[str, str]], Any]) -> tuple[dict | None, str | None]:
-    """Returns (result, None) or (None, YAPAMADIM reason). Never raises for provider issues."""
+              adapter_factory: Callable[[Mapping[str, str]], Any]) -> tuple[dict | None, str | None, str | None]:
+    """Returns (result, None, None) or (None, YAPAMADIM reason, kind). kind: no_key | cannot_do |
+    no_answer | invalid. Never raises for provider issues."""
     try:
         adapter = adapter_factory(env)
     except Exception as exc:  # MissingCredential / ConfigError
-        return None, redact(f"model anahtari yok veya yapilandirilamadi ({type(exc).__name__}: {exc})", env)
+        return None, redact(f"model anahtari yok veya yapilandirilamadi ({type(exc).__name__}: {exc})", env), "no_key"
     job = {"id": handoff_id, "project": "ai-shared-workspace", "objective": task,
            "evidence_requirements": ["repo-relative paths or commit SHAs for every claim"]}
     try:
         result = adapter.run(job)
     except Exception as exc:
-        return None, redact(f"model cevap vermedi ({type(exc).__name__}: {exc})", env)
+        kind = "cannot_do" if type(exc).__name__ == "CannotDo" else "no_answer"
+        msg = str(exc).removeprefix("YAPAMADIM:").strip()
+        return None, redact(f"model cevap vermedi ({type(exc).__name__}: {msg})", env), kind
     if not isinstance(result, dict) or not (result.get("recommendation") or result.get("factual_findings")):
-        return None, "model bos/gecersiz cevap dondu"
-    return result, None
+        return None, "model bos/gecersiz cevap dondu", "invalid"
+    return result, None, None
 
 
 def run_tests(cmd: list[str], cwd: Path | None = None) -> tuple[bool, str]:
@@ -289,7 +326,7 @@ def process_handoff(
     git = git_ops or _RealGit(root)
     git.checkout_new(branch)
 
-    result, failure = run_model(task, handoff_id, env, adapter_factory)
+    result, failure, kind = run_model(task, handoff_id, env, adapter_factory)
     if failure:
         research = False
         if not dry_run:
@@ -297,6 +334,13 @@ def process_handoff(
                 research = trigger_research(client, item, handoff_id, failure, task)
             except TeamWorkerError as exc:
                 log("research_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
+            if kind in ("cannot_do", "no_answer"):
+                # Whole chain fell over: ask provider-health to re-probe providers.
+                try:
+                    client.repository_dispatch(PROVIDER_CHECK_EVENT, {"handoff_id": handoff_id, "reason": failure[:500]})
+                    log("provider_check_dispatched", handoff_id=handoff_id)
+                except TeamWorkerError as exc:
+                    log("provider_check_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
         append_note(handoffs_path, handoff_id,
                     f"YAPAMADIM: {failure}" + (f" | {RESEARCH_MARKER} ({RESEARCH_EVENT})" if research else ""), now)
         title = f"team-worker: YAPAMADIM {handoff_id}"
@@ -315,11 +359,11 @@ def process_handoff(
 
     tests_ok, test_tail = (test_runner or (lambda: run_tests(DEFAULT_TEST_CMD, root)))()
     draft = not tests_ok
-    body_lines = [f"Handoff: `{handoff_id}` (source: {source}, run: {run_id})", f"Gorev: {task}", ""]
-    body_lines.append(f"**YAPAMADIM:** {failure}" if failure else
-                      f"Model sonucu: `{RESULT_DIR.as_posix()}/{handoff_id}.json`\n\nOneri: {result.get('recommendation', '')}")
-    body_lines += ["", "Testler: " + ("YESIL" if tests_ok else "KIRMIZI -> PR draft acildi. Neden:\n```\n" + test_tail + "\n```")]
-    body = redact("\n".join(body_lines), env)
+    # No self run URL in the evidence line: this run is still in progress when the PR opens and
+    # takipci-denetci verifies referenced Actions runs.
+    body = redact(build_pr_body(handoff_id=handoff_id, source=source, run_id=run_id, task=task, failure=failure,
+                                result=result, tests_ok=tests_ok, test_tail=test_tail,
+                                test_cmd="python3 -m unittest discover -s tests", run_url=""), env)
 
     if dry_run:
         log("dry_run", handoff_id=handoff_id, branch=branch, draft=draft, yapamadim=bool(failure))
@@ -330,6 +374,12 @@ def process_handoff(
         git.push(branch)
         pr = client.create_pull(head=branch, base="main", title=title, body=body, draft=draft)
         log("pr_opened", handoff_id=handoff_id, pr=pr.get("html_url"), draft=draft)
+        try:
+            client.repository_dispatch(PR_OPENED_EVENT, {
+                "pr_number": pr.get("number"), "head_sha": (pr.get("head") or {}).get("sha"),
+                "handoff_id": handoff_id})
+        except TeamWorkerError as exc:
+            log("pr_opened_dispatch_failed", handoff_id=handoff_id, reason=str(exc))
         return {"status": "pr", "pr": pr.get("html_url"), "branch": branch, "draft": draft, "yapamadim": failure}
     except PushRefused:
         raise

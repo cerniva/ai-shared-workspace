@@ -21,7 +21,8 @@ class FakeClient:
         if self.fail_pr:
             raise tw.TeamWorkerError("GitHub API POST /pulls -> 403")
         self.created.append(kw)
-        return {"html_url": f"https://github.com/x/y/pull/{len(self.created)}"}
+        n = len(self.created)
+        return {"html_url": f"https://github.com/x/y/pull/{n}", "number": n, "head": {"sha": "abc123"}}
 
     def create_issue(self, **kw):
         self.issues.append(kw)
@@ -134,6 +135,7 @@ class NoKeyYapamadim(Base):
         self.assertEqual(client.dispatches[0][0], "team-research")
         self.assertEqual(set(client.dispatches[0][1]), {"handoff_id", "reason", "task"})
         self.assertEqual(client.dispatches[0][1]["handoff_id"], "HO-T-1")
+        self.assertEqual(client.dispatches[1][0], "team-pr-opened")
 
     def test_model_no_answer_is_yapamadim(self):
         class Dead:
@@ -142,7 +144,7 @@ class NoKeyYapamadim(Base):
         client = FakeClient()
         self.run_ho(client, factory=lambda env: Dead())
         self.assertTrue(any("model cevap vermedi" in n for n in self.notes()))
-        self.assertEqual(len(client.dispatches), 1)
+        self.assertEqual(len([d for d in client.dispatches if d[0] == "team-research"]), 1)
 
     def test_pr_failure_falls_back_to_issue(self):
         client = FakeClient(fail_pr=True)
@@ -161,7 +163,7 @@ class NoKeyYapamadim(Base):
         out = self.run_ho(client)
         self.assertEqual(out["status"], "pr")
         self.assertFalse(out["draft"])
-        self.assertEqual(client.dispatches, [])
+        self.assertEqual([d for d in client.dispatches if d[0] == "team-research"], [])
         self.assertTrue((self.root / "state/team_work/HO-T-1.json").exists())
 
     def test_secret_never_in_output(self):
@@ -213,6 +215,85 @@ class Targets(Base):
         self.assertEqual(tw.resolve_targets("push", {}, None, data), [("HO-T-1", None, "push")])
         with self.assertRaises(tw.TeamWorkerError):
             tw.resolve_targets("repository_dispatch", {"client_payload": {}}, None, data)
+
+
+class AutoMergeGateCompat(Base):
+    def cfg(self):
+        return json.loads(Path("config/auto_merge.json").read_text())
+
+    def _research(self, client):
+        return [d for d in client.dispatches if d[0] == "team-research"]
+
+    def test_green_body_has_ho_and_evidence_and_bot_prefix(self):
+        import re
+        client, git = FakeClient(), FakeGit()
+        tw_data = json.loads((self.root / "state/handoffs.json").read_text())
+        tw_data["items"][0]["id"] = "HO-20261010-99"
+        (self.root / "state/handoffs.json").write_text(json.dumps(tw_data))
+        tw.process_handoff("HO-20261010-99", run_id="7", client=client, env=self.env, root=self.root,
+                           adapter_factory=_ok_factory, test_runner=lambda: (True, "OK"), git_ops=git)
+        body, cfg = client.created[0]["body"], self.cfg()
+        self.assertTrue(any(git.pushed.startswith(p) for p in cfg["allowed_head_prefixes"]))
+        self.assertEqual(re.search(cfg["handoff_regex"], body).group(0), "HO-20261010-99")
+        self.assertRegex(body, cfg["evidence_regex"])
+        self.assertIn("\nTest: geçti", body)
+        self.assertFalse(client.created[0]["draft"])
+
+    def test_red_body_draft_without_evidence_line(self):
+        import re
+        client = FakeClient()
+        self.run_ho(client, tests=(False, "FAILED (errors=2)"))
+        body = client.created[0]["body"]
+        self.assertTrue(client.created[0]["draft"])
+        self.assertIsNone(re.search(self.cfg()["evidence_regex"], body))
+        self.assertNotRegex(body, r"(?m)^\s*(Test|CI)\s*:")
+
+    def test_non_ho_id_writes_handoff_yok(self):
+        body = tw.build_pr_body(handoff_id="TASK-5", source="s", run_id="1", task="t", failure=None,
+                                result={"recommendation": "r"}, tests_ok=True, test_tail="", test_cmd="c", run_url="")
+        self.assertIn("handoff: yok", body)
+        self.assertNotIn("HO-yok", body)
+        self.assertEqual(tw.handoff_line("HO-20261010-1"), "Handoff: HO-20261010-1")
+
+    def test_pr_opened_dispatch_payload(self):
+        client = FakeClient()
+        self.run_ho(client)
+        opened = [d for d in client.dispatches if d[0] == "team-pr-opened"]
+        self.assertEqual(opened, [("team-pr-opened", {"pr_number": 1, "head_sha": "abc123", "handoff_id": "HO-T-1"})])
+        self.assertEqual(self._research(client), [])
+
+    def test_no_pr_no_pr_opened_dispatch(self):
+        client = FakeClient(fail_pr=True)
+        self.run_ho(client)
+        self.assertEqual([d for d in client.dispatches if d[0] == "team-pr-opened"], [])
+
+    def test_default_factory_uses_model_fallback(self):
+        from unittest import mock
+        with mock.patch("scripts.model_fallback.fallback_adapter", return_value=None) as fb:
+            with self.assertRaises(MissingCredential):
+                tw.default_adapter_factory({})
+            fb.assert_called_once()
+        sentinel = OkAdapter()
+        with mock.patch("scripts.model_fallback.fallback_adapter", return_value=sentinel):
+            self.assertIs(tw.default_adapter_factory({}), sentinel)
+
+    def test_cannot_do_dispatches_research_and_provider_check(self):
+        from scripts.model_fallback import CannotDo
+
+        class Chain:
+            def run(self, job):
+                raise CannotDo("YAPAMADIM: all providers failed")
+        client = FakeClient()
+        self.run_ho(client, factory=lambda env: Chain())
+        kinds = [d[0] for d in client.dispatches]
+        self.assertIn("team-research", kinds)
+        self.assertIn("provider-check", kinds)
+        self.assertTrue(any("YAPAMADIM: model cevap vermedi (CannotDo" in n for n in self.notes()))
+
+    def test_no_key_no_provider_check(self):
+        client = FakeClient()
+        self.run_ho(client, factory=_missing_factory)
+        self.assertNotIn("provider-check", [d[0] for d in client.dispatches])
 
 
 class PushBatchSafety(unittest.TestCase):
