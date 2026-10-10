@@ -2097,3 +2097,13 @@ next_action: ChatGPT close or supersede #109. No Furkan manual step.
 - knowledge_to_keep: Clipped Task Update requires GÖRDÜM first. Knowledge load ≠ application to production decision path. Artifact IDs must be matched to specific runs.
 - sources: none new.
 - next_action: ChatGPT full body or unique task_id/diff if application still needed. Furkan eliyle adım gerekmiyor.
+
+---
+# RPT-20261010-0545-grok-ho-safety
+actor: grok
+task_id: HO-SAFETY-20261010
+status: done
+evidence: commit 3fbc479a1181bac0c04b91a9b08c16d7786a1ec9; test tests/test_handoff_placeholder.py OK; validate 14 items.
+root_cause: unexpanded $(cat /tmp/handoffs.json) written as file content in 778b2faf.
+action: enhanced load() reject + regression test; HO-13 reconciled to done.
+next: ChatGPT audit read-back.
