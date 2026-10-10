@@ -17,6 +17,11 @@ Output goes to branch ``bot/lessons-pr-<n>`` + a PR; never pushes to main.
 The PR body satisfies auto-merge-gate (config/auto_merge.json): handoff id
 ``HO-...`` and a ``CI:`` evidence line. Without a source HO id the body says
 "handoff: yok" (no HO- token) so the gate leaves the PR open for a human.
+Backlog mode (``--backlog``; workflow_run after provider-health or
+workflow_dispatch without pr_number): no state file. The backlog is derived
+from merged PRs of the last 14 days carrying a ``YAPAMADIM:`` comment and no
+lesson yet (ledger / bot/lessons-pr-N branch / open PR / "Ders yazıldı:"
+comment); at most 3 per run. No provider key -> nothing happens, exit 0.
 """
 from __future__ import annotations
 
@@ -43,6 +48,9 @@ BANNED = ("placeholder", "todo", "tbd", "lorem ipsum")
 BRANCH_PREFIX = "bot/lessons-pr-"
 SELF_PREFIXES = (BRANCH_PREFIX, "lessons/")
 RUN_URL_RE = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/actions/runs/(\d+)")
+BACKLOG_DAYS = 14
+BACKLOG_LIMIT = 3
+DONE_PREFIX = "Ders yazıldı:"
 PROTECTED_WORKFLOWS = ("youtube-upload", "shorts-free-", "meta-", "shopify", "gumroad")
 
 
@@ -156,6 +164,45 @@ def lesson_pr_body(pr_number: int, merge_sha: str, handoff_id: str | None, ci_li
             f"Ders satırı (knowledge/lessons.md):\n{line}\n")
 
 
+def _parse_ts(value: str | None) -> datetime | None:
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+
+
+def select_backlog(candidates: list[Mapping[str, Any]], ledger_text: str, *, now: datetime,
+                   existing_branches: list[str] | None = None, open_pr_heads: list[str] | None = None,
+                   days: int = BACKLOG_DAYS, limit: int = BACKLOG_LIMIT) -> list[int]:
+    """Pick merged PRs (newest first) with a YAPAMADIM comment and no lesson yet.
+
+    candidate keys: number, merge_sha, merged_at (ISO), head_ref, comments (list[str]).
+    """
+    picked: list[int] = []
+    seen: set[int] = set()
+    cutoff = now.timestamp() - days * 86400
+    ordered = sorted(candidates, key=lambda c: c.get("merged_at") or "", reverse=True)
+    for c in ordered:
+        n = int(c.get("number") or 0)
+        merged = _parse_ts(c.get("merged_at"))
+        if n <= 0 or n in seen or merged is None or merged.timestamp() < cutoff:
+            continue
+        seen.add(n)
+        if (c.get("head_ref") or "").startswith(SELF_PREFIXES):
+            continue
+        comments = [str(x or "").lstrip() for x in c.get("comments") or []]
+        if not any(x.startswith("YAPAMADIM:") for x in comments):
+            continue
+        if any(x.startswith(DONE_PREFIX) for x in comments):
+            continue
+        if is_duplicate(ledger_text, n, c.get("merge_sha"), existing_branches, open_pr_heads):
+            continue
+        picked.append(n)
+        if len(picked) >= limit:
+            break
+    return picked
+
+
 def build_objective(pr: Mapping[str, Any], files: list[str], checks: dict[str, str], handoff_id: str | None) -> str:
     return (
         "Bu birleşmiş PR'dan TEK, tekrar kullanılabilir, kanıta dayalı bir ders çıkar. Sadece JSON döndür: "
@@ -233,7 +280,7 @@ class GH:
 
 
 def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, adapter=None,
-        git: Callable[[list[str]], None] | None = None) -> dict[str, Any]:
+        git: Callable[[list[str]], None] | None = None, comment_on_fail: bool = True) -> dict[str, Any]:
     pr = gh.call("GET", f"/pulls/{pr_number}")
     files = [f["filename"] for f in gh.call("GET", f"/pulls/{pr_number}/files?per_page=100")]
     reason = should_skip(pr, files)
@@ -252,7 +299,8 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
                              env.get("DISPATCH_HANDOFF_ID"))
     line, why = draft_line(adapter, pr, files, checks, hid, env.get("GITHUB_RUN_ID"))
     if line is None:
-        gh.call("POST", f"/issues/{pr_number}/comments", {"body": yapamadim_body(why or "?", pr_number)})
+        if comment_on_fail:
+            gh.call("POST", f"/issues/{pr_number}/comments", {"body": yapamadim_body(why or "?", pr_number)})
         return {"status": "yapamadim", "reason": why}
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     (root / LEDGER_REL).write_text(append_to_ledger(ledger, line, date), encoding="utf-8")
@@ -277,14 +325,60 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
     return {"status": "opened", "pr": new_no, "line": line, "dispatched": "team-pr-opened"}
 
 
+def fetch_backlog_candidates(gh: GH, *, now: datetime, days: int = BACKLOG_DAYS) -> list[dict[str, Any]]:
+    cutoff = now.timestamp() - days * 86400
+    pulls = gh.call("GET", "/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100") or []
+    out = []
+    for p in pulls:
+        merged = _parse_ts(p.get("merged_at"))
+        if merged is None or merged.timestamp() < cutoff:
+            continue
+        ref = (p.get("head") or {}).get("ref") or ""
+        if ref.startswith(SELF_PREFIXES):
+            continue
+        comments = gh.call("GET", f"/issues/{p['number']}/comments?per_page=100") or []
+        out.append({"number": p["number"], "merge_sha": p.get("merge_commit_sha"), "merged_at": p.get("merged_at"),
+                    "head_ref": ref, "comments": [c.get("body") or "" for c in comments]})
+    return out
+
+
+def run_backlog(*, gh: GH, env: Mapping[str, str], root: Path = ROOT, adapter=None,
+                git: Callable[[list[str]], None] | None = None, now: datetime | None = None,
+                limit: int = BACKLOG_LIMIT) -> dict[str, Any]:
+    """Retry YAPAMADIM PRs once a provider is available. No key -> no API calls, exit 0."""
+    if adapter is None:
+        return {"status": "skip", "reason": "no provider key; backlog untouched"}
+    now = now or datetime.now(timezone.utc)
+    ledger = (root / LEDGER_REL).read_text(encoding="utf-8")
+    branches = [b["name"] for b in gh.call("GET", "/branches?per_page=100") or []]
+    heads = [p["head"]["ref"] for p in gh.call("GET", "/pulls?state=open&per_page=100") or []]
+    picked = select_backlog(fetch_backlog_candidates(gh, now=now), ledger, now=now,
+                            existing_branches=branches, open_pr_heads=heads, limit=limit)
+    results = []
+    for n in picked:
+        if git is None:  # each lesson branch starts from a clean main checkout
+            subprocess.run(["git", "checkout", "-q", "-f", "main"], cwd=root, check=True)
+        res = run(n, gh=gh, env=env, root=root, adapter=adapter, git=git, comment_on_fail=False)
+        results.append({"source": n, **{k: v for k, v in res.items() if k != "line"}})
+        if res.get("status") == "yapamadim":
+            break  # provider chain failed again: stop, keep quota, no duplicate YAPAMADIM
+        if res.get("status") == "opened" and res.get("pr"):
+            gh.call("POST", f"/issues/{n}/comments", {"body": f"{DONE_PREFIX} #{res['pr']}"})
+    return {"status": "backlog", "picked": picked, "results": results}
+
+
 def main(argv=None, env: Mapping[str, str] | None = None) -> int:
     values = os.environ if env is None else env
     p = argparse.ArgumentParser(description="lesson-learner")
     p.add_argument("--pr", default="", help="PR number (pull_request / workflow_dispatch)")
     p.add_argument("--dispatch-payload", default="", help="repository_dispatch client_payload JSON")
+    p.add_argument("--backlog", action="store_true", help="retry YAPAMADIM PRs (max 3)")
     args = p.parse_args(argv)
     from scripts.backup_supervisor import supervisor_adapter
     gh = GH(values.get("GITHUB_REPOSITORY", ""), values.get("GITHUB_TOKEN", ""))
+    if args.backlog and not args.pr:
+        print(json.dumps(run_backlog(gh=gh, env=values, adapter=supervisor_adapter(env=values)), ensure_ascii=False))
+        return 0
     pr_no = parse_dispatch_payload({"pr_number": args.pr}) if args.pr else None
     if pr_no is None and args.dispatch_payload:
         try:

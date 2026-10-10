@@ -243,6 +243,93 @@ class GateContractTests(Base):
         self.assertEqual([c for c in self.git_calls if c[0] == "add"], [["add", ll.LEDGER_REL]])
 
 
+from datetime import datetime, timedelta, timezone  # noqa: E402
+
+NOW = datetime(2026, 10, 10, 1, 0, tzinfo=timezone.utc)
+
+
+def cand(n, days_ago=1, comments=("YAPAMADIM: sebep",), head="feat/x", sha=None):
+    return {"number": n, "merge_sha": sha or f"{n:07d}" + "f" * 33, "head_ref": head,
+            "merged_at": (NOW - timedelta(days=days_ago)).isoformat().replace("+00:00", "Z"),
+            "comments": list(comments)}
+
+
+class BacklogSelectionTests(unittest.TestCase):
+    def test_requires_yapamadim_and_window_and_limit(self):
+        cs = [cand(1, 1), cand(2, 2), cand(3, 3), cand(4, 4), cand(5, 15), cand(6, 1, comments=("ok",))]
+        self.assertEqual(ll.select_backlog(cs, "", now=NOW), [1, 2, 3])
+        self.assertEqual(ll.select_backlog(cs, "", now=NOW, limit=10), [1, 2, 3, 4])
+
+    def test_dedup_and_skip_existing_lessons(self):
+        cs = [cand(1), cand(1), cand(2), cand(3), cand(4, comments=("YAPAMADIM: x", "Ders yazıldı: #9")),
+              cand(5, head="bot/lessons-pr-1"), cand(6)]
+        ledger = "- a | PR #2 | b | c | d\n"
+        got = ll.select_backlog(cs, ledger, now=NOW, existing_branches=["bot/lessons-pr-3"],
+                                open_pr_heads=["bot/lessons-pr-6"])
+        self.assertEqual(got, [1])
+
+    def test_skip_when_merge_sha_in_ledger(self):
+        c = cand(8, sha="1234567" + "a" * 33)
+        self.assertEqual(ll.select_backlog([c], "x 1234567 y", now=NOW), [])
+
+
+class BacklogGH(FakeGH):
+    def __init__(self, cands, **kw):
+        super().__init__(**kw)
+        self.cands = cands
+        self.gets = []
+
+    def call(self, method, path, body=None):
+        self.gets.append((method, path))
+        if method == "GET" and path.startswith("/pulls?state=closed"):
+            return [{"number": c["number"], "merge_commit_sha": c["merge_sha"], "merged_at": c["merged_at"],
+                     "head": {"ref": c["head_ref"]}} for c in self.cands]
+        if method == "GET" and path.startswith("/issues/") and "/comments" in path:
+            n = int(path.split("/")[2])
+            return [{"body": b} for c in self.cands if c["number"] == n for b in c["comments"]]
+        if method == "GET" and path.startswith("/pulls/") and not path.startswith("/pulls/7"):
+            n = int(path.split("/")[2].split("?")[0])
+            if path.endswith("files?per_page=100"):
+                return [{"filename": "scripts/a.py"}]
+            return {**self.pr, "number": n, "title": f"feat {n}", "merge_commit_sha": f"{n:07d}" + "e" * 33}
+        return super().call(method, path, body)
+
+
+class BacklogRunTests(Base):
+    def test_no_key_does_nothing_exit0(self):
+        gh = BacklogGH([cand(1)])
+        out = ll.run_backlog(gh=gh, env={}, root=self.root, adapter=None, git=self.git_calls.append, now=NOW)
+        self.assertEqual(out["status"], "skip")
+        self.assertEqual(gh.gets, [])
+        self.assertEqual(gh.posts, [])
+        self.assertEqual(self.git_calls, [])
+
+    def test_main_backlog_no_key_exit0(self):
+        import io, contextlib
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = ll.main(["--backlog"], env={})
+        self.assertEqual(rc, 0)
+        self.assertIn("no provider key", buf.getvalue())
+
+    def test_processes_max3_and_comments_done(self):
+        gh = BacklogGH([cand(n, n) for n in (11, 12, 13, 14)])
+        out = ll.run_backlog(gh=gh, env={}, root=self.root, adapter=Adapter(text=GOOD),
+                             git=self.git_calls.append, now=NOW)
+        self.assertEqual(out["picked"], [11, 12, 13])
+        done = [(p, b["body"]) for p, b in gh.posts if p.startswith("/issues/")]
+        self.assertEqual(done, [(f"/issues/{n}/comments", "Ders yazıldı: #99") for n in (11, 12, 13)])
+        self.assertEqual(sum(1 for p, _ in gh.posts if p == "/pulls"), 3)
+
+    def test_provider_fails_stops_without_new_yapamadim(self):
+        gh = BacklogGH([cand(11), cand(12)])
+        out = ll.run_backlog(gh=gh, env={}, root=self.root, adapter=Adapter(exc=RuntimeError("down")),
+                             git=self.git_calls.append, now=NOW)
+        self.assertEqual(len(out["results"]), 1)
+        self.assertEqual(out["results"][0]["status"], "yapamadim")
+        self.assertEqual(gh.posts, [])
+
+
 class WorkflowTests(unittest.TestCase):
     def test_workflow_contract(self):
         wf = (Path(__file__).resolve().parents[1] / ".github/workflows/lesson-learner.yml").read_text()
@@ -260,6 +347,11 @@ class WorkflowTests(unittest.TestCase):
             self.assertNotIn(bad, wf)
         self.assertNotIn("git push", wf)
         self.assertIn("'bot/lessons-pr-'", wf)
+        self.assertIn('workflows: ["provider-health"]', wf)
+        self.assertIn("--backlog", wf)
+        root = Path(__file__).resolve().parents[1]
+        ph = (root / ".github/workflows/provider-health.yml").read_text()
+        self.assertIn("name: provider-health", ph)
 
 
 if __name__ == "__main__":
