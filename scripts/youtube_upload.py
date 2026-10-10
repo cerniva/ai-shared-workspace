@@ -108,7 +108,13 @@ def upload(video: Path, metadata: dict, publish: bool) -> dict:
     if not any(item.get("id") == CHANNEL_ID for item in channels):
         ids = ", ".join(item.get("id", "<missing>") for item in channels) or "none"
         raise RuntimeError(f"Authorized account does not own target channel {CHANNEL_ID}; found: {ids}")
-    status = {"privacyStatus": "public" if publish else "private"}
+    # Explicit flags required by SHORTS_EXPLICIT_PRIVACY_GATE (learn_af28044522e96790).
+    # Default: not made for kids; synthetic/AI-voiced content from this pipeline.
+    status = {
+        "privacyStatus": "public" if publish else "private",
+        "selfDeclaredMadeForKids": False,
+        "containsSyntheticMedia": True,
+    }
     body = {"snippet": {"title": metadata["title"], "description": metadata["description"]}, "status": status}
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
     request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
