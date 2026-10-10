@@ -15,8 +15,8 @@ else:
 
 ROOT = Path(__file__).resolve().parents[1]
 MESSAGE_FILES = {
-    "messages/team-reports.md": "# Ortak ekip raporları",
-    "messages/grok-to-chatgpt.md": "# Grok → ChatGPT",
+    "messages/team-reports.md": ("# Ortak ekip raporları", 180000),
+    "messages/grok-to-chatgpt.md": ("# Grok → ChatGPT", 300000),
 }
 
 
@@ -24,13 +24,13 @@ class IntegrityError(ValueError):
     """A shared state file has been truncated, replaced, or made invalid."""
 
 
-def check_message(path: Path, expected_heading: str) -> None:
+def check_message(path: Path, expected_heading: str, minimum_chars: int = 0) -> None:
     if not path.is_file():
         raise IntegrityError(f"{path}: missing shared message file")
     text = path.read_text(encoding="utf-8")
     if not text.startswith(expected_heading + "\n"):
         raise IntegrityError(f"{path}: missing original heading; possible overwrite")
-    if len(text.strip()) <= len(expected_heading):
+    if len(text.strip()) <= max(len(expected_heading), minimum_chars):
         raise IntegrityError(f"{path}: unexpectedly empty shared message archive")
 
 
@@ -47,8 +47,8 @@ def check_handoffs(path: Path) -> int:
 
 
 def check_repo(root: Path = ROOT) -> int:
-    for rel, heading in MESSAGE_FILES.items():
-        check_message(root / rel, heading)
+    for rel, (heading, minimum_chars) in MESSAGE_FILES.items():
+        check_message(root / rel, heading, minimum_chars)
     return check_handoffs(root / "state/handoffs.json")
 
 
