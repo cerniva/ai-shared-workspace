@@ -141,7 +141,10 @@
       "evidence": "TinyFish: run 37991566901 @718cd5f COMPLETED, profil youtube_studio prof_2ef79634882f4d6b oturum açık (kanal Cerno, 28g 5300 izlenme). Upload: scripts/tinyfish_youtube.py upload-route => blocked (missing YOUTUBE_*).",
       "status": "open",
       "created_at": "2026-10-09T20:59:40+00:00",
-      "updated_at": "2026-10-09T21:15:00+00:00"
+      "updated_at": "2026-10-10T01:05:00+00:00",
+      "notes": [
+        "2026-10-10T01:05:00+00:00 grok: secrets eklendi (00:55Z), refresh OK. Furkan onayi (2026-10-10 03:39 TRT 'Bu iyi'/'Videoyu paylasin', yalniz PRIVATE) knowledge/shorts/reviews/SHORT-ONION-001-v2.review.json (sha256 7d553559, QC 865fd4e) olarak 10ce2a5'te; youtube-upload.yml review_path adimi (artifact preflight'i --review+--manifest ile yeniden uretir, private manifest'te publish_publicly=true reddedilir). Run 38011237628 @10ce2a5: preflight inspection_failed_FileNotFoundError (runner'da ffprobe yok) -> f367265 ffmpeg kurulumu. Retry run 38011519419 @f367265: reviewed preflight ready, OAuth refresh OK, ama channels.list(mine=true) HTTP 403 insufficientPermissions: refresh token sadece youtube.upload scope'lu, script kanal dogrulamasi icin okuma scope'u istiyor. videos.insert CAGRILMADI, video YUKLENMEDI. Kalan: Furkan youtube.upload + youtube.readonly scope'lu yeni YOUTUBE_REFRESH_TOKEN (ayni client, kanal UCAKg-ZKPoazTnF2zDVORk4Q) ya da kod degisikligi karari; sonra ayni inputlarla tekrar dispatch."
+      ]
     },
     {
       "id": "HO-20261010-09",
