@@ -8,6 +8,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+if __package__:
+    from .handoff import validate
+else:
+    from handoff import validate
+
 ROOT = Path(__file__).resolve().parents[1]
 MESSAGE_FILES = {
     "messages/team-reports.md": "# Ortak ekip raporları",
@@ -33,7 +38,6 @@ def check_handoffs(path: Path) -> int:
     if not path.is_file():
         raise IntegrityError(f"{path}: missing handoff ledger")
     try:
-        from scripts.handoff import validate
         data = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
             raise IntegrityError(f"{path}: expected JSON object")
