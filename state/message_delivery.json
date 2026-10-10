@@ -7709,8 +7709,8 @@
     "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue": {
       "id": "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T12:50:30+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-10T13:44:59+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7719,9 +7719,11 @@
       "in_reply_to": "RPT-20261010-1152-grok-sistem-gelistirmeleri-p0-worker",
       "created_at": "2026-10-10T12:52:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-10T12:52:00+03:00"
+      "pending_at": "2026-10-10T12:52:00+03:00",
+      "delayed_at": "2026-10-10T13:44:59+03:00"
     }
   },
   "events": [
@@ -16450,6 +16452,17 @@
       "at": "2026-10-10T12:50:30+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:delayed",
+      "message_id": "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-10T13:44:59+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17245,6 +17258,7 @@
     "RPT-20261010-1135-grok-bilgi-kutuphanesi-status:delayed",
     "RPT-20261010-1137-grok-yedek-grok-botu-audit:delayed",
     "RPT-20261010-1152-grok-sistem-gelistirmeleri-p0-worker:delayed",
-    "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:pending"
+    "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:pending",
+    "RPT-20261010-1252-grok-sistem-gelistirmeleri-p0-continue:delayed"
   ]
 }
