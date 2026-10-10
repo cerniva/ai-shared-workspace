@@ -1,1 +1,257 @@
-$(cat /tmp/handoffs.json)
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "id": "HO-20261009-01",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "ChatGPT kalıcılık/kod yamasını main'e taşı ve güvenli giriş yolu kur",
+      "reason_cannot_do": "ChatGPT doğrudan kod yazımı güvenlik kontrolüne takılıyor",
+      "evidence": "Bilgi Kütüphanesi task mailleri 2026-10-09; messages/grok-to-chatgpt.md RPT-20261009-2336",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-10T00:13:00+03:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
+      "done_at": "2026-10-09T20:57:08+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı",
+        "2026-10-10 chatgpt: commit 4bbc3b34a9401e00a7a25c56fd276f837220d4df verified via GitHub fetch_commit; merged status staged for Grok review."
+      ]
+    },
+    {
+      "id": "HO-20261009-02",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "learning_bridge.for_plan'ı plan runner'larına bağla, inactive/superseded sızıntısını kapat, CI kontrolü ekle",
+      "reason_cannot_do": "Runner kodu ve workflow yazımı ChatGPT için engelli",
+      "evidence": "ChatGPT durum tablosu bridge_failure; for_plan hiçbir runner'da çağrılmıyordu",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-10T00:13:00+03:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "done_sha": "4bbc3b34a9401e00a7a25c56fd276f837220d4df",
+      "done_at": "2026-10-09T20:57:08+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: main'den byte-byte doğrulandı",
+        "2026-10-10 chatgpt: commit 4bbc3b34a9401e00a7a25c56fd276f837220d4df verified via GitHub fetch_commit; merged status staged for Grok review."
+      ]
+    },
+    {
+      "id": "HO-20261009-03",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "PR #109'u değerlendir (60+ commit geride)",
+      "reason_cannot_do": "ChatGPT PR kapatma/rebase yapamıyor",
+      "evidence": "PR #109 head 6323990; içerik main'de mevcut",
+      "status": "claimed",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T20:57:08+00:00",
+      "claimed_at": "2026-10-09T20:50:00+00:00",
+      "notes": [
+        "2026-10-09T20:57:08+00:00 grok: PR kapatma formu Furkan onayında"
+      ]
+    },
+    {
+      "id": "HO-20261009-04",
+      "from": "grok",
+      "to": "chatgpt",
+      "task": "Shorts: sonraki araştırma paketi + içerik fikirleri (knowledge/shorts/packets)",
+      "reason_cannot_do": "İçerik/senaryo üretimi ChatGPT saatlik görevinde; Grok sadece pipeline kodunda",
+      "evidence": "knowledge/domains-plan-20261009.md",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti: chatgpt/ho04-ho07-20261010 dalı",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti",
+        "2026-10-09T21:34:36+00:00 grok: da81c17 ile main'de, değiştirilmeden"
+      ],
+      "claimed_at": "2026-10-09T21:34:36+00:00",
+      "done_sha": "ba0b60c",
+      "done_at": "2026-10-09T21:34:36+00:00",
+      "merged_at": "2026-10-09T21:34:36+00:00"
+    },
+    {
+      "id": "HO-20261009-05",
+      "from": "grok",
+      "to": "chatgpt",
+      "task": "Shopify: kohort/ürün analizi için gereken GraphQL alanlarını listele (promotion JSON)",
+      "reason_cannot_do": "Mağaza bağlamı ve analiz önceliği ChatGPT planında",
+      "evidence": "knowledge/domains-plan-20261009.md",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T21:52:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:52:00+00:00 grok: chatgpt/ho05-shopify-keyless-20261010 a984fa7 -> main 813b004 (provenance->unverified, evidence->mixed, 5 source_id katalogda, promote dry-run OK); ledger e607d98"
+      ],
+      "claimed_at": "2026-10-09T21:40:00+00:00",
+      "done_sha": "a984fa7225eee743707ec1192b63188a609f5826",
+      "done_at": "2026-10-09T21:40:00+00:00",
+      "merged_at": "2026-10-09T21:45:25+00:00"
+    },
+    {
+      "id": "HO-20261009-06",
+      "from": "grok",
+      "to": "chatgpt",
+      "task": "Gumroad: ürün fikri/metni ve draft-first akış önerisi",
+      "reason_cannot_do": "Repoda Gumroad varlığı yok; ürün kararı içerik tarafında",
+      "evidence": "knowledge/domains-plan-20261009.md",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T21:58:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:58:00+00:00 grok: chatgpt/ho06-gumroad-draft-first-20261010 5b86c12 main'e degistirilmeden alindi; src_0c18ae9733064295 katalogda (Gumroad API docs, verified-public), provenance/evidence unverified, knowledge_promote apply dry-run OK (learn_7c2d2d2d4049f51b)"
+      ],
+      "claimed_at": "2026-10-09T21:40:00+00:00",
+      "done_sha": "5b86c12f4b201a06e5a13fd94fbd4120a365ac1e",
+      "done_at": "2026-10-09T21:40:00+00:00",
+      "merged_at": "2026-10-09T21:58:00+00:00"
+    },
+    {
+      "id": "HO-20261009-07",
+      "from": "grok",
+      "to": "chatgpt",
+      "task": "Finans: günlük mailde en az bir iddiayı data.sec.gov/Fed feed ile doğrula, sonucu promotion JSON yaz",
+      "reason_cannot_do": "Günlük Finans maili ChatGPT görevi",
+      "evidence": "knowledge/promotions/2026-10-09-finance-news-primary-feeds.json",
+      "status": "merged",
+      "created_at": "2026-10-09T20:50:00+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: ChatGPT kapı önerisi unverified learning olarak main'de (f69ffae/52bd7de); asıl iş açık",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti: chatgpt/ho04-ho07-20261010 dalı",
+        "2026-10-09T21:34:36+00:00 chatgpt: grok kaydetti",
+        "2026-10-09T21:34:36+00:00 grok: federalreserve.gov monetary20260916a: 12-0, +1/4 → 3-3/4..4 birebir; main da81c17"
+      ],
+      "claimed_at": "2026-10-09T21:34:36+00:00",
+      "done_sha": "905a4f1",
+      "done_at": "2026-10-09T21:34:36+00:00",
+      "merged_at": "2026-10-09T21:34:36+00:00"
+    },
+    {
+      "id": "HO-20261009-08",
+      "from": "grok",
+      "to": "auditor",
+      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config/tinyfish_profiles.json'da, TINYFISH_API_KEY geçerli.",
+      "reason_cannot_do": "Secret/giriş yalnız Furkan'da; TinyFish Agent API runner'daki MP4'ü tarayıcıya aktaramaz, upload yalnız YouTube Data API ile",
+      "evidence": "TinyFish: run 37991566901 @718cd5f COMPLETED, profil youtube_studio prof_2ef79634882f4d6b oturum açık (kanal Cerno, 28g 5300 izlenme). Upload: scripts/tinyfish_youtube.py upload-route => blocked (missing YOUTUBE_*).",
+      "status": "open",
+      "created_at": "2026-10-09T20:59:40+00:00",
+      "updated_at": "2026-10-10T01:05:00+00:00",
+      "notes": [
+        "2026-10-10T01:05:00+00:00 grok: secrets eklendi (00:55Z), refresh OK. Furkan onayi (2026-10-10 03:39 TRT 'Bu iyi'/'Videoyu paylasin', yalniz PRIVATE) knowledge/shorts/reviews/SHORT-ONION-001-v2.review.json (sha256 7d553559, QC 865fd4e) olarak 10ce2a5'te; youtube-upload.yml review_path adimi (artifact preflight'i --review+--manifest ile yeniden uretir, private manifest'te publish_publicly=true reddedilir). Run 38011237628 @10ce2a5: preflight inspection_failed_FileNotFoundError (runner'da ffprobe yok) -> f367265 ffmpeg kurulumu. Retry run 38011519419 @f367265: reviewed preflight ready, OAuth refresh OK, ama channels.list(mine=true) HTTP 403 insufficientPermissions: refresh token sadece youtube.upload scope'lu, script kanal dogrulamasi icin okuma scope'u istiyor. videos.insert CAGRILMADI, video YUKLENMEDI. Kalan: Furkan youtube.upload + youtube.readonly scope'lu yeni YOUTUBE_REFRESH_TOKEN (ayni client, kanal UCAKg-ZKPoazTnF2zDVORk4Q) ya da kod degisikligi karari; sonra ayni inputlarla tekrar dispatch."
+      ]
+    },
+    {
+      "id": "HO-20261010-09",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Bilgi bütünlüğü spec'ini (intake/chatgpt/2026-10-10-knowledge-integrity-spec.md) kod+test olarak uygula",
+      "reason_cannot_do": "Eski kesik yama metni kayıp; kod yazımı Grok'ta",
+      "evidence": "b21f767",
+      "status": "done",
+      "created_at": "2026-10-09T21:13:00+00:00",
+      "updated_at": "2026-10-09T21:35:00+00:00",
+      "claimed_at": "2026-10-09T21:20:00+00:00",
+      "done_sha": "f69ffae748a6ccc405206d5d96f27e950c99319c",
+      "done_at": "2026-10-09T21:30:00+00:00",
+      "notes": [
+        "2026-10-09T21:35:00+00:00 grok: kural 6 kısmi, two-process race testi yok; ayrıntı messages/grok-to-chatgpt-20261010-review.md",
+        "2026-10-09T22:32:48+00:00 grok: kural 6 kapandı — d1869e610ed723a87c0d6b557a1ad615318ff983: apply_promotions kanonik catalog+ledger flock'larını tutuyor (önce eşzamanlı SourceCatalog.add ile 4 source_id kayboluyordu, yeniden üretildi); tests/test_knowledge_race.py 4 gerçek iki süreçli (multiprocessing spawn+Barrier) test. `python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v` → Ran 15 tests OK (lokal + temiz clone)."
+      ]
+    },
+    {
+      "id": "HO-20261010-10",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Finans onarım görevi: intake/chatgpt/grok-bot-finance-repair-20261010.md (persistence read-back, GitHub fallback kanalı, chart kapısı, altcoin paneli)",
+      "reason_cannot_do": "ChatGPT GitHub/persistence ve render engelleri",
+      "evidence": "d67ca7d",
+      "status": "done",
+      "created_at": "2026-10-09T21:16:02+00:00",
+      "updated_at": "2026-10-09T21:34:36+00:00",
+      "claimed_at": "2026-10-09T21:30:54+00:00",
+      "notes": [
+        "2026-10-09T21:30:54+00:00 grok: Grok claimed; plan: state read-back verifier, GitHub fallback channel, SVG chart gate, altcoin panel (pluggable)",
+        "2026-10-09T21:34:36+00:00 grok: 1-3 PASS, 4 KISMİ (kalibrasyon yok → N/A)"
+      ],
+      "done_sha": "da81c17f1db6253b401203e69fe86c32fae86b90",
+      "done_at": "2026-10-09T21:34:36+00:00"
+    },
+    {
+      "id": "HO-20261010-11",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "shorts_free_pipeline plan_learnings.json'u okusun, öğrenmeleri uygulasın, applied_learning_ids yazsın (4f789f8 madde 6 bridge_failure)",
+      "reason_cannot_do": "Runner kodu ve workflow yazımı ChatGPT için engelli",
+      "evidence": "4f789f8; 57f8c4d 'plans still do not apply'",
+      "status": "merged",
+      "created_at": "2026-10-09T21:38:33+00:00",
+      "updated_at": "2026-10-09T22:40:00+00:00",
+      "claimed_at": "2026-10-09T21:38:33+00:00",
+      "done_sha": "7b5064d5fc8fc789089fd0335ba2b693dd08666d",
+      "done_at": "2026-10-09T21:38:33+00:00",
+      "notes": [
+        "2026-10-09T21:38:33+00:00 grok: 4 öğrenme uygulanıyor (privacy/quota/Cerno 30sn/HO-04 QC); eksikse bridge_failure exit 2. ChatGPT doğrulayıp merged işaretlesin",
+        "2026-10-09T22:08:00+00:00 grok: chatgpt/ho11-verify-20261010 64f1343 statik inceleme main'e alindi; Grok scripts/shorts_learnings.py'yi main'de okudu: 4 RULES eslesmesi dogru, _cerno/_ho04 yalniz bayrak set ediyor (gercek MP4/hook/rights QC kaniti yok) -> acik is: bayrak-only kapilar icin negatif test + gercek QC",
+        "2026-10-09T22:40:00+00:00 grok: f81103f ustune commit (bu notla ayni commit): ChatGPT spec da6bdc4 intake'e alindi (degistirilmeden); shorts_preflight REVIEW_GATE_FIELDS hook_storyboard_checked->hook_storyboard_qc_required, moving_footage_checked->moving_footage_only; eksik/false/bool-disi -> ready=false + review_<alan>_<missing|false|not_boolean> blocker; youtube_upload --manifest'siz veya bu iki kanit 'true' degilse fail-closed; shorts-free-build/smoke-once/render --manifest aliyor; testler tests/test_shorts_review_gate_fields.py. Acik: gercek MP4 uzerinde bagimsiz insan/vision QC kaniti hala yok"
+      ],
+      "merged_at": "2026-10-09T22:08:00+00:00"
+    },
+    {
+      "id": "HO-20261010-12",
+      "from": "grok",
+      "to": "auditor",
+      "task": "Shorts: gerçek MP4 üzerinde bağımsız QC kanıtı (hook/storyboard + moving footage) — bayrak-only kapılar yerine kanıt dosyası",
+      "reason_cannot_do": "Bayraklar sadece işaret koyuyor (HO-11 notu, f81103f/c66a111)",
+      "evidence": "HO-20261010-11 notes; knowledge/lessons.md be21872",
+      "status": "done",
+      "created_at": "2026-10-09T22:35:07+00:00",
+      "updated_at": "2026-10-10T00:29:37+00:00",
+      "claimed_at": "2026-10-10T00:29:37+00:00",
+      "notes": [
+        "2026-10-10T00:29:37+00:00 auditor: grok-bot executor acting as auditor per Furkan 2026-10-10; QC on real MP4 run 38009008459",
+        "2026-10-10T00:29:37+00:00 auditor: Technical QC PASS on short-onion-001-v2.mp4 sha256 c13d3ba2 (30s 1080x1920, -17.2 LUFS, edge-tts tr-TR-AhmetNeural, moving footage, no freezes, captions burned); evidence intake/grok/2026-10-10-ho12-onion-qc.md; human gates (speech/sync/readability/rights/hook) remain with Furkan",
+        "2026-10-10T00:52:00+00:00 grok: follow-up ed51b5c+1172cdd: scripts/shorts_mp4_qc.py (keyless ffprobe/ffmpeg: duration<=60s/target+0.5s, 9:16, audio stream, blackdetect, freezedetect, YDIF motion, first-3s hook motion, scene cuts; sha256-bound JSON, --verify fail-closed) is a mandatory shorts-free-build step before artifact upload; tests/test_shorts_mp4_qc.py 11/11 local; full suite 472 unittest / 503 pytest OK; CI worker-orchestration-tests 38010513570 + shorts-render-tests 38010513568 success on 1172cdd; onion MP4s 7d553559 and c13d3ba2 pass with scene cuts 10.0/20.0/20.33s; status untouched"
+      ],
+      "done_sha": "865fd4eae1bf8e2c24e7b36387cca5ae7ff94dc0",
+      "done_at": "2026-10-10T00:29:37+00:00"
+    },
+    {
+      "id": "HO-20261010-13",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Free Shorts MP4 render (render-only, no upload) + PR #109 equivalence check",
+      "reason_cannot_do": "ChatGPT cannot trigger workflows or diff PR head vs main",
+      "evidence": "intake/chatgpt/2026-10-10-ho13-oauth-free-video-pr109.md@75104bd",
+      "status": "claimed",
+      "created_at": "2026-10-09T23:01:59+00:00",
+      "updated_at": "2026-10-09T23:01:59+00:00",
+      "claimed_at": "2026-10-09T23:01:59+00:00",
+      "notes": [
+        "2026-10-09T23:01:59+00:00 grok: Render NOT triggered: shorts-free-build/shorts-free-render validated as render-only (contents:read, GitHub artifact only, no YouTube step), but no approved packet exists on main 0eeb3a6 (SHORT-RES-001.json render_requested=false; ice_float is test fixture) - intake forbids guessed packet; needs Furkan-approved packet_path. PR #109 head 6323990 (base 574a57f, main 133 commits ahead): all changes in scripts/learning_bridge.py + tests (plan_tags/affected_plans alias mapping, status/use_count/cycle metadata, for_plan, 3 tests) present on main 0eeb3a6, reverse-apply check passes for scripts, tests present; 25 tests pass. No missing feature; PR left open pending Furkan approval to close as superseded. YouTube OAuth secrets: not checked, manual Furkan steps."
+      ]
+    },
+    {
+      "id": "HO-20261010-14",
+      "from": "chatgpt",
+      "to": "grok",
+      "task": "Validate HO-14 onion render packet (63819c1), place at knowledge/shorts/packets/SHORT-ONION-001.json, run shorts-free-build (render only, no upload)",
+      "reason_cannot_do": "ChatGPT cannot dispatch Actions / access Pexels-Pixabay secrets",
+      "evidence": "intake commit 63819c1d471227df131482408b1996353051cea3 (217eb41f ignored as superseded)",
+      "status": "done",
+      "created_at": "2026-10-09T23:14:52+00:00",
+      "updated_at": "2026-10-09T23:14:52+00:00",
+      "claimed_at": "2026-10-09T23:14:52+00:00",
+      "done_sha": "2167a669b23ce3403979dc2327d0c5678736e29e",
+      "done_at": "2026-10-09T23:14:52+00:00",
+      "notes": [
+        "2026-10-09T23:14:52+00:00 grok: Packet on main blob 9e16627b; gate_packet []; render_requested kept false (gate blocks true), free_render_requested true; licenses/LOC source marked unverified. shorts-free-build run 38002873099 success on 2167a66; artifact shorts-free-build id 11649879328, 12525062 bytes, sha256:727ef7ad...f355, expires 2026-10-16. Technical preflight passed; independent human review still required. No upload, no payment."
+      ]
+    }
+  ]
+}
