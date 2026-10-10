@@ -826,12 +826,10 @@
     "RPT-20261010-1546-grok-sistem-gelistirmeleri-archive-verify:delayed",
     "RPT-20261010-1639-grok-bilgi-kutuphanesi-status:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261010-1639-grok-bilgi-kutuphanesi-status:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T16:40:51+03:00",
+  "checked_at": "2026-10-10T16:41:36+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 119,
