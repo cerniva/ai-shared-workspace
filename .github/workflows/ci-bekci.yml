@@ -12,6 +12,7 @@ on:
       - "agents-reporter"
       - "ai-roster-check"
       - "ai-worker-gpt56"
+      - "archive-heal"
       - "automation-runner"
       - "backup-supervisor"
       - "AI Browser Worker"
