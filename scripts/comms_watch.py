@@ -16,10 +16,19 @@ holds every currently matching item so CI can keep one issue open/closed;
 per handoff id. On repository_dispatch (main-merged / team-pr-opened; GITHUB_TOKEN
 merges/pushes start no workflows) client_payload.handoff_id is checked first
 and reported under "priority".
+
+ChatGPT triggers (event read from GITHUB_EVENT_NAME / GITHUB_EVENT_PATH):
+- push to a chatgpt/* branch -> team-work {source: chatgpt, branch, sha}, once per
+  branch+sha (state key "chatgpt_branches"). chatgpt/* branches are only read, never modified.
+- new message block appended to messages/chatgpt-to-grok.md -> team-work
+  {source: chatgpt, message_id (or line_hash), path}, once per message key (state key
+  "chatgpt_messages"). The first run without that key only records a baseline so the
+  existing backlog is not dispatched. Items with source backlog-migration are never dispatched.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -41,6 +50,13 @@ DISPATCH_EVENT = "team-work"
 NO_DISPATCH_SOURCES = frozenset({"backlog-migration"})  # alerted, never auto-dispatched
 # Grok Bot onayı 2026-10-10: older messages are closed as superseded; watch only new ones.
 WATCH_SINCE = datetime.fromisoformat("2026-10-09T00:00:00+03:00")
+CHATGPT_SOURCE = "chatgpt"
+CHATGPT_BRANCH_PREFIX = "chatgpt/"
+CHATGPT_MESSAGES_REL = "messages/chatgpt-to-grok.md"
+CHATGPT_MESSAGES_PATH = ROOT / CHATGPT_MESSAGES_REL
+SKIP_SOURCES = NO_DISPATCH_SOURCES
+# Telegram /gorev handoffs (TG-*) are dispatched by telegram_bot itself; never twice.
+SELF_DISPATCHED_PREFIXES = ("TG-",)
 
 
 def _age_min(created: datetime, now: datetime) -> int:
@@ -103,7 +119,8 @@ def dispatch_payloads(alerts: list[dict[str, Any]], dispatched: dict[str, str]) 
     """repository_dispatch bodies for new handoff alerts not dispatched before."""
     out = []
     for a in alerts:
-        if a.get("kind") != "handoff_unacked" or a["id"] in dispatched or a.get("source") in NO_DISPATCH_SOURCES:
+        if a.get("kind") != "handoff_unacked" or a["id"] in dispatched or a.get("source") in NO_DISPATCH_SOURCES \
+                or str(a["id"]).startswith(SELF_DISPATCHED_PREFIXES):
             continue
         out.append({"event_type": DISPATCH_EVENT,
                     "client_payload": {"handoff_id": a["id"], "task": a.get("task", ""), "source": "comms-watch"}})
@@ -133,6 +150,86 @@ def priority_status(data: dict[str, Any], hid: str | None) -> dict[str, Any] | N
     return {"id": hid, "found": False}
 
 
+def chatgpt_branch_from_event(event_name: str | None, event: dict[str, Any] | None) -> dict[str, str] | None:
+    """{branch, sha} for a push to refs/heads/chatgpt/*; None otherwise (deletes ignored)."""
+    if event_name != "push" or not isinstance(event, dict):
+        return None
+    ref = str(event.get("ref") or "")
+    if not ref.startswith("refs/heads/" + CHATGPT_BRANCH_PREFIX) or event.get("deleted"):
+        return None
+    sha = str(event.get("after") or "").strip()
+    if not sha or set(sha) == {"0"}:
+        return None
+    head = event.get("head_commit") if isinstance(event.get("head_commit"), dict) else {}
+    message = str(head.get("message") or "")
+    if any(f"source: {src}" in message or f"source:{src}" in message for src in SKIP_SOURCES):
+        return None
+    return {"branch": ref[len("refs/heads/"):], "sha": sha}
+
+
+def chatgpt_branch_dispatch(info: dict[str, str] | None, done: dict[str, str]) -> list[dict[str, Any]]:
+    if not info:
+        return []
+    key = f"{info['branch']}@{info['sha']}"
+    if key in done:
+        return []
+    return [{"event_type": DISPATCH_EVENT, "dispatch_key": key,
+             "client_payload": {"source": CHATGPT_SOURCE, "branch": info["branch"], "sha": info["sha"]}}]
+
+
+def parse_chatgpt_messages(text: str) -> list[dict[str, str]]:
+    """Message blocks of the append-only desk file: each starts at an `id:` header line
+    (or any `key: value` header after a `---` line) and runs to the next `---`-delimited header."""
+    lines = text.splitlines()
+    starts = [i for i, line in enumerate(lines) if line.strip().startswith("id:")
+              and (i == 0 or lines[i - 1].strip() in ("---", ""))]
+    out = []
+    for n, start in enumerate(starts):
+        end = starts[n + 1] if n + 1 < len(starts) else len(lines)
+        block = lines[start:end]
+        while block and block[-1].strip() in ("---", ""):
+            block = block[:-1]
+        header: dict[str, str] = {}
+        for line in block:
+            if line.strip() == "---":
+                break
+            if ":" in line:
+                k, v = line.split(":", 1)
+                header[k.strip()] = v.strip()
+        body = "\n".join(block)
+        msg_id = header.get("id", "")
+        out.append({"message_id": msg_id, "line_hash": hashlib.sha256(body.encode("utf-8")).hexdigest()[:16],
+                    "source": header.get("source", ""), "key": msg_id or "hash:" + hashlib.sha256(body.encode("utf-8")).hexdigest()[:16]})
+    return out
+
+
+def chatgpt_message_dispatches(messages: list[dict[str, str]], done: dict[str, str],
+                               path: str = CHATGPT_MESSAGES_REL) -> list[dict[str, Any]]:
+    out = []
+    seen = set()
+    for m in messages:
+        if m["key"] in done or m["key"] in seen or m.get("source") in SKIP_SOURCES:
+            continue
+        seen.add(m["key"])
+        payload = {"source": CHATGPT_SOURCE, "path": path}
+        if m["message_id"]:
+            payload["message_id"] = m["message_id"]
+        else:
+            payload["line_hash"] = m["line_hash"]
+        out.append({"event_type": DISPATCH_EVENT, "dispatch_key": m["key"], "client_payload": payload})
+    return out
+
+
+def read_event(event_path: str | os.PathLike | None) -> dict[str, Any] | None:
+    if not event_path:
+        return None
+    try:
+        event = json.loads(Path(event_path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return event if isinstance(event, dict) else None
+
+
 def load_state(path: Path) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -154,7 +251,9 @@ def save_state(state: dict[str, Any], path: Path) -> None:
 
 def run(*, handoffs_path: Path = handoff.DEFAULT_PATH, state_path: Path = STATE_PATH,
         now: datetime | None = None, inbox_rows: list[dict[str, Any]] | None = None,
-        write_state: bool = True, priority_id: str | None = None) -> dict[str, Any]:
+        write_state: bool = True, priority_id: str | None = None,
+        event_name: str | None = None, event: dict[str, Any] | None = None,
+        chatgpt_messages_path: Path = CHATGPT_MESSAGES_PATH) -> dict[str, Any]:
     current = now or datetime.now(timezone.utc)
     data = handoff.load(handoffs_path)
     rows = desk_bridge.unread_message_rows() if inbox_rows is None else inbox_rows
@@ -170,6 +269,27 @@ def run(*, handoffs_path: Path = handoff.DEFAULT_PATH, state_path: Path = STATE_
     dispatches = dispatch_payloads(fresh, state["dispatched"])
     for d in dispatches:
         state["dispatched"][d["client_payload"]["handoff_id"]] = stamp
+    branches = state.setdefault("chatgpt_branches", {})
+    if not isinstance(branches, dict):
+        branches = state["chatgpt_branches"] = {}
+    branch_d = chatgpt_branch_dispatch(chatgpt_branch_from_event(event_name, event), branches)
+    for d in branch_d:
+        branches[d["dispatch_key"]] = stamp
+    # On chatgpt/* pushes the Actions cache is branch-scoped, so message dedupe stays on main runs.
+    on_chatgpt_branch = event_name == "push" and isinstance(event, dict) and \
+        str(event.get("ref") or "").startswith("refs/heads/" + CHATGPT_BRANCH_PREFIX)
+    msg_d: list[dict[str, Any]] = []
+    if not on_chatgpt_branch:
+        try:
+            messages = parse_chatgpt_messages(chatgpt_messages_path.read_text(encoding="utf-8"))
+        except OSError:
+            messages = []
+        baseline = not isinstance(state.get("chatgpt_messages"), dict)
+        seen_msgs = state["chatgpt_messages"] = {} if baseline else state["chatgpt_messages"]
+        msg_d = [] if baseline else chatgpt_message_dispatches(messages, seen_msgs)
+        for m in messages:
+            seen_msgs.setdefault(m["key"], stamp)
+    dispatches = dispatches + branch_d + msg_d
     state["last_run_at"] = stamp
     if write_state:
         save_state(state, state_path)
@@ -208,9 +328,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--telegram", action="store_true", help="send new alerts via telegram_bot helpers if token set")
     p.add_argument("--event-path", default=os.environ.get("GITHUB_EVENT_PATH"),
                    help="GitHub event JSON; client_payload.handoff_id is checked first")
+    p.add_argument("--event-name", default=os.environ.get("GITHUB_EVENT_NAME"))
     args = p.parse_args(argv)
     result = run(handoffs_path=args.handoffs, state_path=args.state, write_state=not args.no_write,
-                 priority_id=priority_handoff_id(args.event_path))
+                 priority_id=priority_handoff_id(args.event_path),
+                 event_name=args.event_name, event=read_event(args.event_path))
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if args.telegram:
         notify_telegram(result)

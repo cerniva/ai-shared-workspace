@@ -85,11 +85,44 @@ class TelegramBotTests(unittest.TestCase):
         def runner(cmd, **kw):
             seen["cmd"] = cmd
             return SimpleNamespace(returncode=0, stdout="{}", stderr="")
-        out = tb.handle_text("/gorev raporu güncelle", runner=runner)
+        out = tb.handle_text("/gorev raporu güncelle", runner=runner, env={})
         self.assertIn("furkan→chatgpt", out)
+        self.assertIn("team-work tetiklenmedi", out)
         cmd = seen["cmd"]
         self.assertEqual(cmd[cmd.index("--from") + 1], "furkan")
         self.assertEqual(cmd[cmd.index("--to") + 1], "chatgpt")
+
+    def test_gorev_sends_team_work_repository_dispatch(self):
+        calls = []
+
+        def runner(cmd, **kw):
+            return SimpleNamespace(returncode=0, stdout="{}", stderr="")
+
+        def http(url, payload=None, headers=None):
+            calls.append((url, payload, headers))
+            return {}
+        env = {"GITHUB_TOKEN": "tok", "GITHUB_REPOSITORY": "o/r"}
+        out = tb.handle_text("/gorev raporu güncelle", runner=runner, env=env, http=http)
+        self.assertIn("team-work tetiklendi: TG-", out)
+        self.assertEqual(len(calls), 1)
+        url, payload, headers = calls[0]
+        self.assertEqual(url, "https://api.github.com/repos/o/r/dispatches")
+        self.assertEqual(payload["event_type"], "team-work")
+        self.assertEqual(payload["client_payload"]["source"], "telegram")
+        self.assertTrue(payload["client_payload"]["message_key"].startswith("TG-"))
+        self.assertEqual(headers["Authorization"], "Bearer tok")
+
+    def test_gorev_no_dispatch_when_handoff_fails_or_http_errors(self):
+        calls = []
+        fail = lambda cmd, **kw: SimpleNamespace(returncode=1, stdout="bad", stderr="")  # noqa: E731
+        env = {"GITHUB_TOKEN": "tok", "GITHUB_REPOSITORY": "o/r"}
+        out = tb.handle_text("/gorev x", runner=fail, env=env, http=lambda *a: calls.append(a) or {})
+        self.assertIn("Handoff eklenemedi", out)
+        self.assertEqual(calls, [])
+
+        def boom(*a, **k):
+            raise OSError("down")
+        self.assertIn("tetiklenemedi", tb.dispatch_team_work("TG-1", env=env, http=boom))
 
     def test_agent_command_with_text_adds_handoff_to_agent(self):
         seen = {}

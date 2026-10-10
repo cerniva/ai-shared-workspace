@@ -8,11 +8,14 @@ on:
     types: [main-merged, team-pr-opened]
   schedule:
     - cron: "17 * * * *"
+  # push: main (only when state/handoffs.json, messages/** or messages/chatgpt-to-grok.md
+  # changed; filtered by the job-level `if` because GitHub path filters cannot differ per
+  # branch) and ChatGPT work branches 'chatgpt/**' (read-only trigger ->
+  # team-work {source: chatgpt, branch, sha}; chatgpt/* branches are never modified).
   push:
-    branches: [main]
-    paths:
-      - "state/handoffs.json"
-      - "messages/**"
+    branches:
+      - main
+      - "chatgpt/**"
 
 concurrency:
   group: comms-watch
@@ -28,6 +31,13 @@ jobs:
   watch:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    if: >-
+      github.event_name != 'push' ||
+      startsWith(github.ref, 'refs/heads/chatgpt/') ||
+      contains(join(github.event.commits.*.added, ','), 'messages/') ||
+      contains(join(github.event.commits.*.modified, ','), 'messages/') ||
+      contains(join(github.event.commits.*.modified, ','), 'state/handoffs.json') ||
+      contains(join(github.event.commits.*.added, ','), 'state/handoffs.json')
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_ALLOWED_CHAT_ID: ${{ secrets.TELEGRAM_ALLOWED_CHAT_ID || vars.TELEGRAM_ALLOWED_CHAT_ID }}
@@ -35,6 +45,8 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+          # Always run the watcher from main; a chatgpt/* push is only read from the event.
+          ref: ${{ github.event.repository.default_branch || 'main' }}
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
@@ -77,7 +89,7 @@ jobs:
             } else {
               await github.rest.issues.create({ owner, repo, title, body });
             }
-      - name: repository_dispatch team-work for new handoffs (once per id)
+      - name: repository_dispatch team-work for new handoffs and chatgpt branch/messages (once per key)
         uses: actions/github-script@v7
         env:
           RESULT_PATH: ${{ runner.temp }}/comms_watch.json
@@ -90,7 +102,7 @@ jobs:
                 owner: context.repo.owner, repo: context.repo.repo,
                 event_type: d.event_type, client_payload: d.client_payload,
               });
-              core.info(`dispatched ${d.event_type} for ${d.client_payload.handoff_id}`);
+              core.info(`dispatched ${d.event_type} for ${d.client_payload.handoff_id || d.dispatch_key}`);
             }
       - name: Telegram notify (optional)
         if: ${{ env.TELEGRAM_BOT_TOKEN != '' }}

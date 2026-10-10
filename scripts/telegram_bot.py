@@ -148,6 +148,36 @@ def add_handoff(task: str, *, receiver: str, runner=subprocess.run, file: Path =
     return f"Görev eklendi: {item_id} (furkan→{receiver})"
 
 
+TEAM_WORK_EVENT = "team-work"
+
+
+def dispatch_team_work(message_key: str, *, env=None, http=None) -> str:
+    """repository_dispatch team-work {source: telegram, message_key, handoff_id} after /gorev.
+    Commits made with GITHUB_TOKEN start no push workflows; repository_dispatch does.
+    comms_watch never re-dispatches TG-* handoffs, so one message is processed once."""
+    values = os.environ if env is None else env
+    token, repo = values.get("GITHUB_TOKEN", ""), values.get("GITHUB_REPOSITORY", "")
+    if not token or not repo:
+        return "team-work tetiklenmedi: GITHUB_TOKEN/GITHUB_REPOSITORY yok."
+    http = http or default_http
+    try:
+        http(f"https://api.github.com/repos/{repo}/dispatches",
+             {"event_type": TEAM_WORK_EVENT,
+              "client_payload": {"source": "telegram", "message_key": message_key, "handoff_id": message_key}},
+             {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
+    except Exception as exc:  # noqa: BLE001
+        return f"team-work tetiklenemedi: {type(exc).__name__}"
+    return f"team-work tetiklendi: {message_key}"
+
+
+def gorev(task: str, *, env=None, runner=subprocess.run, http=None) -> str:
+    out = add_handoff(task, receiver="chatgpt", runner=runner)
+    m = re.match(r"Görev eklendi: (TG-[0-9-]+)", out)
+    if not m:
+        return out
+    return out + "\n" + dispatch_team_work(m.group(1), env=env, http=http)
+
+
 def dispatch_workflow(workflow: str, *, env=None, http=None) -> str:
     if not is_dispatch_allowed(workflow):
         return f"'{workflow}' tetiklenemez: yalnızca check/test/render workflow'ları izinli; yayın/ödeme asla."
@@ -164,18 +194,6 @@ def dispatch_workflow(workflow: str, *, env=None, http=None) -> str:
     return f"{workflow} tetiklendi."
 
 
-def knowledge_answer(question: str, *, limit: int = 5, query=None) -> str:
-    """/bilgi: search the knowledge ledger + source catalog (read-only, no LLM)."""
-    if query is None:
-        from scripts.knowledge_query import query_knowledge as query
-    from scripts.knowledge_query import format_hits
-    try:
-        hits = query(question, limit=limit)
-    except Exception as exc:  # noqa: BLE001
-        return f"Bilgi araması başarısız: {type(exc).__name__}"
-    return format_hits(hits)[:MAX_REPLY]
-
-
 def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.run, http=None) -> str:
     text = (text or "").strip()
     if not text:
@@ -184,7 +202,7 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
     cmd = head.split("@")[0].lstrip("/").lower() if head.startswith("/") else ""
     rest = rest.strip()
     if cmd in ("start", "yardim", "help"):
-        return ("Komutlar: /durum, /bilgi <soru>, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
+        return ("Komutlar: /durum, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
                 "(arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
                 "Serbest metin → yapay zeka cevabı.")
     if cmd == "durum":
@@ -192,9 +210,7 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
         return ask_llm("Çalışma alanının güncel durumunu kısaca özetle.", ctx, env=env, adapter_factory=adapter_factory) \
             + "\n\nAçık handoff'lar:\n" + handoff_summary()
     if cmd == "gorev":
-        return add_handoff(rest, receiver="chatgpt", runner=runner) if rest else "Kullanım: /gorev <metin>"
-    if cmd == "bilgi":
-        return knowledge_answer(rest) if rest else "Kullanım: /bilgi <soru>"
+        return gorev(rest, env=env, runner=runner, http=http) if rest else "Kullanım: /gorev <metin>"
     if cmd == "tetikle":
         return dispatch_workflow(rest, env=env, http=http) if rest else "Kullanım: /tetikle <workflow.yml>"
     if cmd in AGENTS:
