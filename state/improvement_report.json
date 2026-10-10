@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-10T05:35:10+00:00",
+  "week": "2026W41",
+  "window_days": 7,
+  "inputs": {
+    "workflow_runs": 1000,
+    "bot_prs": 0,
+    "health_snapshots": 7
+  },
+  "bottlenecks": {
+    "slowest_workflows": [
+      {
+        "workflow": "github_actions in /. - Update #1620214326",
+        "path": "dynamic/dependabot/dependabot-updates",
+        "runs": 1,
+        "failures": 0,
+        "median_s": 120.0,
+        "max_s": 120.0,
+        "failure_rate": 0.0
+      },
+      {
+        "workflow": "CodeQL code scanning",
+        "path": ".github/workflows/codeql.yml",
+        "runs": 59,
+        "failures": 0,
+        "median_s": 83.0,
+        "max_s": 104.0,
+        "failure_rate": 0.0
+      },
+      {
+        "workflow": "shorts-render-tests",
+        "path": ".github/workflows/shorts-render-tests.yml",
+        "runs": 7,
+        "failures": 4,
+        "median_s": 55.0,
+        "max_s": 106.0,
+        "failure_rate": 0.571
+      }
+    ],
+    "most_failing_workflow": {
+      "workflow": "team-worker",
+      "path": ".github/workflows/team-worker.yml",
+      "runs": 49,
+      "failures": 33,
+      "median_s": 39.0,
+      "max_s": 1316.0,
+      "failure_rate": 0.673
+    },
+    "longest_open_handoff": {
+      "id": "HO-20261009-03",
+      "to": "grok",
+      "status": "claimed",
+      "age_h": 8.8,
+      "task": "PR #109'u değerlendir (60+ commit geride)"
+    },
+    "most_down_provider": {
+      "provider": "cerebras",
+      "down_h": 4.5,
+      "no_key_h": 4.5,
+      "billing_h": 0.0,
+      "quota_h": 0.0
+    },
+    "providers_down": [
+      {
+        "provider": "cerebras",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "claude",
+        "down_h": 4.5,
+        "no_key_h": 0.0,
+        "billing_h": 4.5,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "deepseek",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "grok",
+        "down_h": 4.5,
+        "no_key_h": 0.0,
+        "billing_h": 4.5,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "groq",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "local",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "mistral",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "openai",
+        "down_h": 4.5,
+        "no_key_h": 0.0,
+        "billing_h": 4.5,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "openrouter_free",
+        "down_h": 4.5,
+        "no_key_h": 4.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      }
+    ],
+    "longest_waiting_bot_pr": null,
+    "yapamadim_count": 0
+  },
+  "yapamadim": [],
+  "long_open_handoffs": [
+    {
+      "id": "HO-20261009-03",
+      "to": "grok",
+      "status": "claimed",
+      "age_h": 8.8,
+      "task": "PR #109'u değerlendir (60+ commit geride)"
+    },
+    {
+      "id": "HO-20261009-08",
+      "to": "auditor",
+      "status": "open",
+      "age_h": 8.6,
+      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
+    }
+  ],
+  "bot_prs": [],
+  "suggestions": [
+    {
+      "key": "slow-github-actions-in-update-1620214326",
+      "kind": "speedup",
+      "target": "dynamic/dependabot/dependabot-updates",
+      "text": "'github_actions in /. - Update #1620214326' medyan 120 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "slow-codeql-code-scanning",
+      "kind": "speedup",
+      "target": ".github/workflows/codeql.yml",
+      "text": "'CodeQL code scanning' medyan 83 sn (59 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "slow-shorts-render-tests",
+      "kind": "speedup",
+      "target": ".github/workflows/shorts-render-tests.yml",
+      "text": "'shorts-render-tests' medyan 55 sn (7 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "fail-team-worker",
+      "kind": "reliability",
+      "target": ".github/workflows/team-worker.yml",
+      "text": "'team-worker' basarisizlik orani %67 (33/49). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+    },
+    {
+      "key": "provider-cerebras",
+      "kind": "provider",
+      "target": "config/model_providers.json",
+      "text": "'cerebras' 7 gunde 4.5 saat dustu (no_key 4.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+    },
+    {
+      "key": "handoff-ho-20261009-03",
+      "kind": "handoff",
+      "target": "state/handoffs.json",
+      "text": "HO-20261009-03 (grok, claimed) 8.8 saattir acik; sahibine hatirlat veya kapat."
+    }
+  ],
+  "ranked_speedups": [
+    {
+      "key": "slow-github-actions-in-update-1620214326",
+      "kind": "speedup",
+      "target": "dynamic/dependabot/dependabot-updates",
+      "text": "'github_actions in /. - Update #1620214326' medyan 120 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "slow-codeql-code-scanning",
+      "kind": "speedup",
+      "target": ".github/workflows/codeql.yml",
+      "text": "'CodeQL code scanning' medyan 83 sn (59 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "slow-shorts-render-tests",
+      "kind": "speedup",
+      "target": ".github/workflows/shorts-render-tests.yml",
+      "text": "'shorts-render-tests' medyan 55 sn (7 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
+      "key": "fail-team-worker",
+      "kind": "reliability",
+      "target": ".github/workflows/team-worker.yml",
+      "text": "'team-worker' basarisizlik orani %67 (33/49). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+    },
+    {
+      "key": "provider-cerebras",
+      "kind": "provider",
+      "target": "config/model_providers.json",
+      "text": "'cerebras' 7 gunde 4.5 saat dustu (no_key 4.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+    },
+    {
+      "key": "handoff-ho-20261009-03",
+      "kind": "handoff",
+      "target": "state/handoffs.json",
+      "text": "HO-20261009-03 (grok, claimed) 8.8 saattir acik; sahibine hatirlat veya kapat."
+    }
+  ],
+  "speedup": {
+    "key": "slow-github-actions-in-update-1620214326",
+    "kind": "speedup",
+    "target": "dynamic/dependabot/dependabot-updates",
+    "text": "'github_actions in /. - Update #1620214326' medyan 120 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+    "enriched_by": null,
+    "model_error": "YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, local=no_key, claude=no_key, openai=no_key, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin)"
+  },
+  "dispatch": {
+    "status": "pending",
+    "handoff_id": "HO-IMP-20261010-slow-github-actions-in-update-1620214326",
+    "payload": {
+      "handoff_id": "HO-IMP-20261010-slow-github-actions-in-update-1620214326",
+      "task": "[dynamic/dependabot/dependabot-updates] 'github_actions in /. - Update #1620214326' medyan 120 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "improvement-bot"
+    }
+  },
+  "reenabled_workflows": []
+}
