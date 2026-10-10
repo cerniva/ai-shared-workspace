@@ -265,7 +265,10 @@
       "evidence": "state/improvement_report.json day=20261010 key=slow-github-actions-in-update-1620214326",
       "status": "open",
       "created_at": "2026-10-10T05:35:10+00:00",
-      "updated_at": "2026-10-10T05:35:10+00:00"
+      "updated_at": "2026-10-10T06:38:51+00:00",
+      "notes": [
+        "2026-10-10T06:38:51+00:00 team-worker: research-learner (team-research): First, update state/provider_health.json with at least one active, quota-enabled LLM provider API key. Once agent connectivity is restored, modify the target GitHub Actions workflow to add actions/cache for pip/apt, configure path triggers, and split test steps into separate parallel jobs. | sonraki: Configure valid AI provider credentials in state/provider_health.json and trigger the workflow optimization task."
+      ]
     }
   ]
 }
