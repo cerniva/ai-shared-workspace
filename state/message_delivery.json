@@ -7779,6 +7779,23 @@
         "pending"
       ],
       "pending_at": "2026-10-10T14:05:00+03:00"
+    },
+    "RPT-20261010-1430-grok-youtube-privacy-flags": {
+      "id": "RPT-20261010-1430-grok-youtube-privacy-flags",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-10T14:24:18+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-10T14:30:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-10T14:30:00+03:00"
     }
   },
   "events": [
@@ -16573,6 +16590,17 @@
       "at": "2026-10-10T14:23:00+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261010-1430-grok-youtube-privacy-flags:pending",
+      "message_id": "RPT-20261010-1430-grok-youtube-privacy-flags",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-10T14:24:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17374,6 +17402,7 @@
     "RPT-20261010-chatgpt-pr-second-review:pending",
     "RPT-20261010-chatgpt-pr-second-review:delayed",
     "RPT-20261010-1405-grok-bilgi-kutuphanesi-status:pending",
-    "RPT-20261010-1348-grok-yedek-botu-archive-p0:delayed"
+    "RPT-20261010-1348-grok-yedek-botu-archive-p0:delayed",
+    "RPT-20261010-1430-grok-youtube-privacy-flags:pending"
   ]
 }
