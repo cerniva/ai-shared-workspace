@@ -194,6 +194,17 @@ def dispatch_workflow(workflow: str, *, env=None, http=None) -> str:
     return f"{workflow} tetiklendi."
 
 
+def knowledge_answer(question: str, *, query=None) -> str:
+    if not question.strip():
+        return "Kullanım: /bilgi <aranacak konu>"
+    from scripts.knowledge_query import format_hits, query_knowledge
+    try:
+        hits = (query or query_knowledge)(question.strip(), limit=5)
+        return format_hits(hits)[:MAX_REPLY]
+    except (OSError, ValueError, TypeError, KeyError):
+        return "Bilgi kütüphanesi şu an okunamadı."
+
+
 def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.run, http=None) -> str:
     text = (text or "").strip()
     if not text:
@@ -202,9 +213,11 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
     cmd = head.split("@")[0].lstrip("/").lower() if head.startswith("/") else ""
     rest = rest.strip()
     if cmd in ("start", "yardim", "help"):
-        return ("Komutlar: /durum, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
+        return ("Komutlar: /durum, /bilgi <konu>, /gorev <metin>, /yedek, /yurutucu, /arastirma, /rapor "
                 "(arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
                 "Serbest metin → yapay zeka cevabı.")
+    if cmd == "bilgi":
+        return knowledge_answer(rest)
     if cmd == "durum":
         ctx = f"chatgpt-to-read.md:\n{_read(CHATGPT_READ, 3000)}\n\nAçık handoff'lar:\n{handoff_summary()}"
         return ask_llm("Çalışma alanının güncel durumunu kısaca özetle.", ctx, env=env, adapter_factory=adapter_factory) \

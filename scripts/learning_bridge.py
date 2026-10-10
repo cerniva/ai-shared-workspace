@@ -5,16 +5,18 @@ import fcntl
 import hashlib
 import json
 import os
+import sys
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Any, Iterator
 
-try:
-    from knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
-except ModuleNotFoundError:  # Imported as scripts.learning_bridge by the test suite.
-    from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.knowledge_bridge import CatalogError, SourceCatalog, _assert_safe
 
 
 UTC = timezone.utc
