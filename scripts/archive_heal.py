@@ -200,6 +200,12 @@ def heal(path: str, since: str, write: bool) -> dict:
     result = head
     if damaged:
         result = drop_bogus(rebuild(versions))
+        if len(result) < max_full:
+            # rebuild() join'leri boş satırları sıkıştırabiliyor (2026-10-10 run 38072838863:
+            # 358404 < 358406). En uzun tam sürümü taban al, rebuild'deki eksik blokları ekle.
+            best = max((drop_bogus(v) for v in versions if v.strip() and not has_bogus_head(v)),
+                       key=len)
+            result = drop_bogus(merge_missing(best, result))
         if has_bogus_head(result) or bogus_lines(result):
             raise SystemExit(f"{path}: onarılan metinde sahte satır kaldı, yazılmadı")
         if len(result) < max_full:
