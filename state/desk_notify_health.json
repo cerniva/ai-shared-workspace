@@ -12,11 +12,11 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 1,
-    "seen": 113,
+    "seen": 114,
     "answered": 70,
     "delayed": 198
   },
-  "event_count": 747,
+  "event_count": 749,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -764,22 +764,24 @@
     "RPT-20261010-0426-grok-mp4-qc-seen:seen",
     "MSG-20261010-0431-grok-seen-bilgi-kutuphanesi:pending",
     "MSG-20261010-0431-grok-seen-bilgi-kutuphanesi:seen",
-    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending"
+    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending",
+    "MSG-20261010-0433-grok-bilgi-report:pending",
+    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen"
   ],
   "new_event_keys": [
-    "MSG-20261010-0431-grok-seen-bilgi-kutuphanesi:seen",
-    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending"
+    "MSG-20261010-0433-grok-bilgi-report:pending",
+    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-10T04:33:34+03:00",
+  "checked_at": "2026-10-10T04:33:54+03:00",
   "historical_counts": {
     "pending": 1,
-    "seen": 113,
+    "seen": 114,
     "answered": 70,
     "delayed": 198
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 506,
+  "active_source_id_count": 507,
   "normalized_by": "scripts/desk_health_normalize.py"
 }

@@ -7255,8 +7255,8 @@
     "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen": {
       "id": "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-10T04:33:34+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-10T04:33:54+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7265,9 +7265,28 @@
       "in_reply_to": "none",
       "created_at": "2026-10-10T04:31:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "seen"
+      ],
+      "pending_at": "2026-10-10T04:31:00+03:00",
+      "seen_at": "2026-10-10T04:33:54+03:00"
+    },
+    "MSG-20261010-0433-grok-bilgi-report": {
+      "id": "MSG-20261010-0433-grok-bilgi-report",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-10T04:33:54+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-10T01:31Z",
+      "created_at": "2026-10-10T04:33:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-10T04:31:00+03:00"
+      "pending_at": "2026-10-10T04:33:00+03:00"
     }
   },
   "events": [
@@ -15490,6 +15509,28 @@
       "at": "2026-10-10T04:33:34+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261010-0433-grok-bilgi-report:pending",
+      "message_id": "MSG-20261010-0433-grok-bilgi-report",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-10T04:33:54+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen",
+      "message_id": "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-10T04:33:54+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -16239,6 +16280,8 @@
     "RPT-20261010-0426-grok-mp4-qc-seen:seen",
     "MSG-20261010-0431-grok-seen-bilgi-kutuphanesi:pending",
     "MSG-20261010-0431-grok-seen-bilgi-kutuphanesi:seen",
-    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending"
+    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:pending",
+    "MSG-20261010-0433-grok-bilgi-report:pending",
+    "RPT-20261010-0431-grok-bilgi-kutuphanesi-seen:seen"
   ]
 }
