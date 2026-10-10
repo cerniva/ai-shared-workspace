@@ -1,0 +1,25 @@
+{
+  "auditor_check_name": "takipci-denetci",
+  "required_checks": ["test"],
+  "self_check_names": ["auto-merge-gate"],
+  "allowed_head_prefixes": ["bot/"],
+  "allowed_head_branches": [],
+  "merge_method": "squash",
+  "dispatch_event_type": "main-merged",
+  "handoff_regex": "\\bHO-[0-9A-Za-z][0-9A-Za-z_-]*",
+  "evidence_regex": "(?im)^\\s*[-*]?\\s*(test|tests|ci|kanıt|evidence)\\s*[:=].*(pass|passed|ok|success|geçti|yeşil|green|https?://\\S+/actions/runs/\\d+)",
+  "denylist": [
+    ".github/workflows/**",
+    "**/*secret*", "**/*secrets*", "**/*credential*", "**/*credentials*",
+    "**/.env", "**/.env.*", "**/*token*.json", "**/*.pem", "**/*.key",
+    "**/youtube*", "youtube*",
+    "**/shorts*publish*", "shorts*publish*",
+    "**/shorts-free-render*", "shorts-free-render*",
+    "**/meta*", "meta*",
+    "**/shopify*", "shopify*",
+    "**/gumroad*", "gumroad*",
+    "**/whop*", "whop*",
+    "**/payment*", "payment*",
+    "**/payout*", "payout*"
+  ]
+}
