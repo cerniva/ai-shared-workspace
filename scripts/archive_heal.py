@@ -41,7 +41,7 @@ def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
     (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
     Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
-    return line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
+    return line.strip() == "dummy" or line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
 
 
 def bogus_lines(text: str) -> list[int]:
