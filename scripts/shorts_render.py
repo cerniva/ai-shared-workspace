@@ -56,6 +56,7 @@ VOICE_RE = re.compile(r"^[A-Za-z0-9_.+\-]{1,64}$")
 # network access, so the renderer falls back to offline eSpeak NG on any failure.
 TTS_ENGINES = {"espeak", "edge-tts"}
 ESPEAK_SPEED_BASELINE = 165
+END_PAD_SECONDS = 0.6
 NEURAL_VOICES = {"tr": "tr-TR-AhmetNeural", "en-us": "en-US-GuyNeural", "en": "en-US-GuyNeural"}
 
 
@@ -249,23 +250,87 @@ def _edge_rate(speed: int) -> str:
     return f"{pct:+d}%"
 
 
-def _synthesize_edge(text: str, voice: str, speed: int, output: Path) -> None:
-    """Synthesize narration with the free, keyless edge-tts CLI into a WAV file."""
-    if not shutil.which("edge-tts"):
-        raise RuntimeError("edge-tts is not installed")
+def _edge_word_boundaries(text: str, voice: str, rate: str, mp3: Path) -> list[dict]:
+    """Stream edge-tts audio to ``mp3`` and return WordBoundary timings in seconds."""
+    try:
+        import asyncio
+        import edge_tts  # type: ignore[import-not-found]
+    except ImportError as exc:
+        raise RuntimeError("edge-tts is not installed") from exc
+
+    async def _stream() -> list[dict]:
+        words: list[dict] = []
+        communicate = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+        with mp3.open("wb") as handle:
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    handle.write(chunk["data"])
+                elif chunk["type"] == "WordBoundary":
+                    start = chunk["offset"] / 10_000_000
+                    words.append({
+                        "text": chunk["text"],
+                        "start": start,
+                        "end": start + chunk["duration"] / 10_000_000,
+                    })
+        return words
+
+    try:
+        return asyncio.run(asyncio.wait_for(_stream(), timeout=120))
+    except Exception as exc:  # network/service errors -> caller falls back to eSpeak
+        raise RuntimeError(f"edge-tts synthesis failed: {exc}") from exc
+
+
+def _synthesize_edge(text: str, voice: str, speed: int, output: Path) -> list[dict]:
+    """Synthesize narration with free, keyless edge-tts into WAV; return word timings."""
     mp3 = output.with_suffix(".edge.mp3")
-    _run([
-        "edge-tts",
-        "--voice", voice,
-        f"--rate={_edge_rate(speed)}",
-        "--text", text,
-        "--write-media", str(mp3),
-    ])
+    words = _edge_word_boundaries(text, voice, _edge_rate(speed), mp3)
     if not mp3.is_file() or mp3.stat().st_size == 0:
         raise RuntimeError("edge-tts produced no audio")
     _run(["ffmpeg", "-y", "-i", str(mp3), "-ac", "1", "-ar", "24000", str(output)])
     if not output.is_file() or output.stat().st_size == 0:
         raise RuntimeError("edge-tts audio conversion produced no audio")
+    return words
+
+
+def _srt_ts(seconds: float) -> str:
+    """Format seconds as an SRT timestamp."""
+    millis = max(0, int(round(seconds * 1000)))
+    h, rem = divmod(millis, 3_600_000)
+    m, rem = divmod(rem, 60_000)
+    sec, ms = divmod(rem, 1000)
+    return f"{h:02d}:{m:02d}:{sec:02d},{ms:03d}"
+
+
+def srt_from_word_boundaries(text: str, words: list[dict], *, max_chars: int = 42,
+                             tail: float = 0.4) -> str:
+    """Build SRT cues from real TTS word timings (punctuation restored from ``text``)."""
+    if not words:
+        raise ValueError("no word boundaries")
+    tokens = text.split()
+    labels = tokens if len(tokens) == len(words) else [w["text"] for w in words]
+    cues: list[list[int]] = []
+    current: list[int] = []
+    for index, label in enumerate(labels):
+        candidate = " ".join(labels[i] for i in current + [index])
+        if current and len(candidate) > max_chars:
+            cues.append(current)
+            current = []
+        current.append(index)
+        if label.endswith((".", "?", "!")):
+            cues.append(current)
+            current = []
+    if current:
+        cues.append(current)
+    lines = []
+    for number, cue in enumerate(cues, start=1):
+        start = words[cue[0]]["start"]
+        end = words[cue[-1]]["end"] + tail
+        if number < len(cues):
+            end = min(end, words[cues[number][0]]["start"])
+        end = max(end, start + 0.3)
+        lines.append(f"{number}\n{_srt_ts(start)} --> {_srt_ts(end)}\n"
+                     + " ".join(labels[i] for i in cue) + "\n")
+    return "\n".join(lines)
 
 
 def synthesize_with_fallback(normalized: dict, output: Path) -> dict:
@@ -279,8 +344,9 @@ def synthesize_with_fallback(normalized: dict, output: Path) -> dict:
     errors: list[str] = []
     if engine == "edge-tts":
         try:
-            _synthesize_edge(text, normalized["narration_voice"], speed, output)
-            return {"engine": "edge-tts", "voice": normalized["narration_voice"], "fallback_errors": []}
+            words = _synthesize_edge(text, normalized["narration_voice"], speed, output)
+            return {"engine": "edge-tts", "voice": normalized["narration_voice"],
+                    "fallback_errors": [], "words": words}
         except (OSError, RuntimeError) as exc:
             errors.append(f"edge-tts: {str(exc)[-300:]}")
         voice = normalized.get("narration_fallback_voice") or "en-us"
@@ -289,7 +355,7 @@ def synthesize_with_fallback(normalized: dict, output: Path) -> dict:
     if not shutil.which("espeak-ng"):
         raise RuntimeError("Missing required tools: espeak-ng; " + "; ".join(errors))
     _synthesize_narration(text, voice, speed, output)
-    return {"engine": "espeak", "voice": voice, "fallback_errors": errors}
+    return {"engine": "espeak", "voice": voice, "fallback_errors": errors, "words": []}
 
 
 def _probe_duration(path: Path) -> float:
@@ -349,6 +415,8 @@ def render(manifest_path: Path, output_path: Path) -> dict:
         narration_track = normalized["narration"]
         narration_source = "file"
         tts_info = None
+        output_seconds = normalized["target_seconds"]
+        subtitle_source = "manifest" if normalized["subtitles"] else None
         if normalized["narration_text"]:
             narration_track = temp / "narration.wav"
             tts_info = synthesize_with_fallback(normalized, narration_track)
@@ -359,6 +427,8 @@ def render(manifest_path: Path, output_path: Path) -> dict:
                     f"{narration_seconds:.2f}s > {normalized['target_seconds']:.2f}s"
                 )
             narration_source = "offline_tts" if tts_info["engine"] == "espeak" else "neural_tts"
+            # Cut the video to the voice so the Short never ends on dead air.
+            output_seconds = min(output_seconds, narration_seconds + END_PAD_SECONDS)
 
         command = [
             "ffmpeg", "-y",
@@ -370,7 +440,14 @@ def render(manifest_path: Path, output_path: Path) -> dict:
 
         if normalized["subtitles"]:
             subtitle_copy = temp / "captions.srt"
-            shutil.copyfile(normalized["subtitles"], subtitle_copy)
+            if tts_info and tts_info.get("words"):
+                # Real TTS word timings replace evenly-spread manifest cues.
+                srt = srt_from_word_boundaries(normalized["narration_text"], tts_info["words"])
+                subtitle_copy.write_text(srt, encoding="utf-8")
+                normalized["subtitles"].write_text(srt, encoding="utf-8")
+                subtitle_source = "tts_word_boundary"
+            else:
+                shutil.copyfile(normalized["subtitles"], subtitle_copy)
             command.extend(["-vf", "subtitles=captions.srt"])
 
         if normalized["music"]:
@@ -385,7 +462,7 @@ def render(manifest_path: Path, output_path: Path) -> dict:
             command.extend(["-map", "0:v:0", "-map", "1:a:0"])
 
         command.extend([
-            "-t", f"{normalized['target_seconds']:.3f}",
+            "-t", f"{output_seconds:.3f}",
             "-c:v", "libx264",
             "-preset", "veryfast",
             "-crf", "21",
@@ -402,9 +479,14 @@ def render(manifest_path: Path, output_path: Path) -> dict:
     return {
         "output": str(output_path),
         "target_seconds": normalized["target_seconds"],
+        "output_seconds": round(output_seconds, 3),
+        "subtitle_source": subtitle_source,
         "visual_count": len(normalized["visuals"]),
         "narration_source": narration_source,
-        "tts": tts_info,
+        "tts": (
+            {k: v for k, v in tts_info.items() if k != "words"} | {"word_count": len(tts_info["words"])}
+            if tts_info else None
+        ),
         "credits_spent": 0,
     }
 

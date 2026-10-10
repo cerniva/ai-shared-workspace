@@ -94,15 +94,38 @@ class EdgeTtsTests(unittest.TestCase):
         self.assertEqual(n["narration_engine"], "espeak")
         self.assertEqual(n["narration_voice"], "de")
 
+    def test_srt_from_word_boundaries_uses_real_timings_and_punctuation(self):
+        words = [
+            {"text": "Soğan", "start": 0.1, "end": 0.5},
+            {"text": "keserken", "start": 0.6, "end": 1.2},
+            {"text": "ağlarız", "start": 1.3, "end": 2.0},
+            {"text": "Bıçak", "start": 3.2, "end": 3.7},
+            {"text": "keser", "start": 3.8, "end": 4.3},
+        ]
+        srt = shorts_render.srt_from_word_boundaries("Soğan keserken ağlarız? Bıçak keser.", words)
+        self.assertIn("1\n00:00:00,100 --> 00:00:02,400\nSoğan keserken ağlarız?\n", srt)
+        self.assertIn("2\n00:00:03,200 --> 00:00:04,700\nBıçak keser.\n", srt)
+
+    def test_srt_chunks_respect_max_chars(self):
+        words = [{"text": f"kelime{i}", "start": i * 0.5, "end": i * 0.5 + 0.4} for i in range(12)]
+        srt = shorts_render.srt_from_word_boundaries(" ".join(w["text"] for w in words), words)
+        for block in srt.strip().split("\n\n"):
+            self.assertLessEqual(len(block.split("\n")[2]), 42)
+
+    def test_srt_requires_words(self):
+        with self.assertRaises(ValueError):
+            shorts_render.srt_from_word_boundaries("x", [])
+
     @unittest.skipUnless(shutil.which("edge-tts") and shutil.which("ffmpeg"), "edge-tts/ffmpeg required")
     def test_edge_live_turkish(self):
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "n.wav"
             try:
-                shorts_render._synthesize_edge("Soğan.", "tr-TR-AhmetNeural", 165, out)
+                words = shorts_render._synthesize_edge("Soğan.", "tr-TR-AhmetNeural", 165, out)
             except RuntimeError as exc:
                 self.skipTest(f"edge-tts network unavailable: {exc}")
             self.assertGreater(out.stat().st_size, 1000)
+            self.assertEqual(words[0]["text"], "Soğan")
 
 
 if __name__ == "__main__":
