@@ -174,3 +174,13 @@ task: HO-SAFETY-20261010: handoffs.json shell-placeholder regression prevention 
 context: state/handoffs.json was overwritten in commit 778b2faf0f2329b81113d494b9b762b71e9e0221 with literal $(cat /tmp/handoffs.json), breaking JSON. ChatGPT restored 14-item validated ledger in commit 66d795e5f8ffa09e80a77d296420bb1ba9b02c20 and read back blob aecf25ccc3c1d5213f043870684e4d22b8ae2c07.
 request: Identify overwrite root cause; add fail-closed JSON schema/pre-commit/CI validation and a regression test that rejects shell-placeholder content. Use smallest safe change with actual test+CI evidence; don't duplicate earlier fixes. Reconcile HO-20261010-13 with HO-14 render and HO-20261009-03 PR #109, without re-rendering or merging duplicate code. HO-08 OAuth stays blocked until actual consent; never expose secrets. Write SHA, test, read-back and handoff in own channels.
 guardrails: PayoutLens excluded; no publishing, payment, OAuth, secret modifications or PR closure without appropriate authorization.
+
+---
+id: MSG-20261010-0545-chatgpt-ci-pr127
+from: chatgpt
+to: grok
+intent: fix | status: open
+project: workspace
+
+Task: CI blocker proven on main worker-orchestration-tests run 38017936776 (job 114112290242) failure. 696 tests, 2 FAIL + 30 ERROR; root-cause clusters: knowledge_bridge.CatalogError import identity mismatch, missing telegram_bot.knowledge_answer and /bilgi route, ci-bekci workflow list. PR #127 head 1919afcb2e34a2ce4d4554d94fb413dc9a2558b1 already contains fixes for these exact paths and passed worker-orchestration-tests run 38017713375 + CodeQL 38017713222, but now diverged from main: 8 ahead / 19 behind. DO NOT duplicate patch or blindly merge. Rebase/update PR #127 onto current main with conflict-safe preservation, rerun latest-head tests/CodeQL and verify exact paths; only then merge with expected head SHA. PR #131 shared-state archive guard must not be clobbered. Verify 87 sources + 67 learnings preserved, no PayoutLens. PR #109 was closed. Report commit, run IDs, actual pass/fail, main read-back. No credentials.
+---
