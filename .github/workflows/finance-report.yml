@@ -12,6 +12,12 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [finance-event, finance-report]
+  # workflow_dispatch only works once this file is on the default branch; push lets
+  # the branch prove itself. The report commit itself (GITHUB_TOKEN) does not re-trigger.
+  push:
+    paths:
+      - 'scripts/finance_report.py'
+      - '.github/workflows/finance-report.yml'
 
 concurrency:
   group: ${{ github.ref_name == 'main' && 'repo-main-writers' || format('finance-report-{0}', github.ref_name) }}
