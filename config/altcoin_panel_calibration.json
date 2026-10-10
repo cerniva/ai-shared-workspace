@@ -105,7 +105,7 @@
     {
       "name": "dxy",
       "label": "DXY",
-      "source_url": "https://stooq.com/q/d/l/?s=dx.f&i=d",
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?range=5d&interval=1d",
       "url_check_20261010": "200 but HTML, not CSV",
       "limitations": "Public Stooq dollar index futures proxy, NOT ICE DXY; verify historical coverage and continuity; exact DXY keyless archive not verified",
       "transform": "rolling train p20,p80 of 90d % change",
@@ -113,12 +113,14 @@
       "bounds": "train_p20_p80",
       "lo": null,
       "hi": null,
-      "validated": false
+      "validated": false,
+      "previous_source_url": "https://stooq.com/q/d/l/?s=dx.f&i=d",
+      "source_note_20261010": "Yahoo chart JSON (ICE DXY, DX-Y.NYB); browser User-Agent required, no-UA -> 429; unofficial, no SLA; verified box+GitHub runner 2026-10-10"
     },
     {
       "name": "vix",
       "label": "VIX",
-      "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS",
+      "source_url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
       "url_check_20261010": "timeout from Grok box",
       "limitations": "Public FRED graph CSV, no API key (unlike FRED API observations endpoint); verify response and gaps",
       "transform": "rolling train p20,p80 of 30d median",
@@ -126,12 +128,14 @@
       "bounds": "train_p20_p80",
       "lo": null,
       "hi": null,
-      "validated": false
+      "validated": false,
+      "previous_source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS",
+      "source_note_20261010": "CBOE official daily VIX OHLC since 1990 (CSV, follow redirect); verified box+GitHub runner 2026-10-10; FRED VIXCLS intermittent"
     },
     {
       "name": "funding_and_oi_excess",
       "label": "Funding and OI excess",
-      "source_url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1000",
+      "source_url": "https://www.okx.com/api/v5/public/funding-rate?instId=BTC-USDT-SWAP",
       "url_check_20261010": "451 restricted location from Grok box",
       "limitations": "Funding history endpoint is public; historical OI endpoint https://fapi.binance.com/futures/data/openInterestHist only latest 30d, hence 2020-25 combined series NOT available from these endpoints",
       "transform": "N/A until multi-year historical OI source and train-fitted two-tail function",
@@ -139,7 +143,9 @@
       "bounds": "none",
       "lo": null,
       "hi": null,
-      "validated": false
+      "validated": false,
+      "previous_source_url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1000",
+      "source_note_20261010": "OKX public funding + open-interest (/api/v5/public/open-interest, history /api/v5/rubik/stat/contracts/open-interest-volume); Deribit BTC-PERPETUAL book summary as backup; fapi.binance.com 451 restricted; verified box+GitHub runner 2026-10-10"
     }
   ]
 }

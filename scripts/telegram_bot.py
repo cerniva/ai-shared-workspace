@@ -26,6 +26,7 @@ OFFSET_PATH = ROOT / "state" / "telegram_offset.json"
 HANDOFFS_PATH = ROOT / "state" / "handoffs.json"
 CHATGPT_READ = ROOT / "messages" / "chatgpt-to-read.md"
 AGENTS_REPORT = ROOT / "messages" / "agents-report-latest.md"
+FINANCE_REPORT = ROOT / "messages" / "finance-report-latest.md"
 MAX_CTX = 6000
 MAX_REPLY = 3900
 
@@ -80,6 +81,18 @@ def _read(path: Path, limit: int = MAX_CTX) -> str:
         return path.read_text(encoding="utf-8")[-limit:]
     except OSError:
         return ""
+
+
+def finance_report_text(path: Path | None = None, limit: int = MAX_REPLY) -> str:
+    """/durum: return messages/finance-report-latest.md (head, trimmed to Telegram size)."""
+    try:
+        text = (path or FINANCE_REPORT).read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+    if len(text) <= limit:
+        return text
+    note = "\n\n… (kısaltıldı; tam rapor: messages/finance-report-latest.md)"
+    return text[: limit - len(note)].rstrip() + note
 
 
 def load_offset(path: Path = OFFSET_PATH) -> int:
@@ -176,6 +189,9 @@ def handle_text(text: str, *, env=None, adapter_factory=None, runner=subprocess.
                 "(arkasına metin → o ajana görev; 'calistir' → izinliyse tetikle), /tetikle <workflow.yml>. "
                 "Serbest metin → yapay zeka cevabı.")
     if cmd == "durum":
+        report = finance_report_text()
+        if report:
+            return report
         ctx = f"chatgpt-to-read.md:\n{_read(CHATGPT_READ, 3000)}\n\nAçık handoff'lar:\n{handoff_summary()}"
         return ask_llm("Çalışma alanının güncel durumunu kısaca özetle.", ctx, env=env, adapter_factory=adapter_factory) \
             + "\n\nAçık handoff'lar:\n" + handoff_summary()

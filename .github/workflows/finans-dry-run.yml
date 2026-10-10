@@ -1,0 +1,40 @@
+name: finans-dry-run
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'projects/finance/**'
+      - 'config/altcoin_panel_calibration.json'
+      - 'scripts/finance_dry_run.py'
+      - 'tests/test_finance_repair.py'
+      - 'tests/test_finance_report.py'
+      - 'scripts/finance_report.py'
+      - 'scripts/telegram_bot.py'
+      - '.github/workflows/finance-report.yml'
+      - '.github/workflows/finans-dry-run.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FINANCE_DRY_RUN: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile finance modules
+        run: python -m py_compile projects/finance/*.py scripts/finance_dry_run.py scripts/finance_report.py scripts/telegram_bot.py
+      - name: Unit tests
+        run: python -m unittest tests.test_finance_repair tests.test_finance_report tests.test_telegram_bot tests.test_altseason_calibration -v
+      - name: Dry-run pipeline (no secrets, no posting)
+        run: python scripts/finance_dry_run.py | tee finance-dry-run.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: finance-dry-run
+          path: finance-dry-run.json
