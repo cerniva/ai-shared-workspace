@@ -175,6 +175,11 @@ jobs:
             echo "render.json upload_policy.privacyStatus=private forbids publish_publicly=true" >&2
             exit 1
           fi
+          if ! command -v ffprobe >/dev/null || ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends ffmpeg
+          fi
+          ffprobe -version | head -1
           out="$RUNNER_TEMP/preflight-reviewed.json"
           set +e
           python3 scripts/shorts_preflight.py "$VIDEO_PATH" --review "$REVIEW_PATH" --manifest "$manifest" > "$out"
