@@ -626,7 +626,17 @@ def main(argv: list[str] | None = None) -> int:
     event_path = env.get("GITHUB_EVENT_PATH")
     event = json.loads(Path(event_path).read_text()) if event_path and Path(event_path).exists() else {}
     event_name = env.get("GITHUB_EVENT_NAME", "")
-    targets = resolve_targets(event_name, event, args.handoff_id, load_handoffs())
+    try:
+        targets = resolve_targets(event_name, event, args.handoff_id, load_handoffs())
+    except TeamWorkerError as exc:
+        if event_name != "repository_dispatch":
+            raise
+        # comms-watch also sends ChatGPT branch/message notices ({source, branch|path, sha|message_id})
+        # on team-work; they carry no handoff_id. Skip cleanly (no queue pick-up on a chatgpt/* base).
+        p = event.get("client_payload") or {}
+        log("skip_no_handoff_id", reason=str(exc), source=str(p.get("source") or ""),
+            branch=str(p.get("branch") or ""), message_id=str(p.get("message_id") or ""))
+        return 0
     try:
         default_adapter_factory(env)
         model_ok = True
