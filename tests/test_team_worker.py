@@ -215,6 +215,29 @@ class Targets(Base):
             tw.resolve_targets("repository_dispatch", {"client_payload": {}}, None, data)
 
 
+class PushBatchSafety(unittest.TestCase):
+    def data(self):
+        return {"items": [
+            {"id": "HO-B", "to": "grok", "status": "open", "created_at": "2026-10-10T02:00:00+00:00"},
+            {"id": "HO-A", "to": "worker", "status": "open", "created_at": "2026-10-10T01:00:00+00:00"},
+            {"id": "HO-C", "to": "grok", "status": "open", "created_at": "2026-10-10T03:00:00+00:00"},
+            {"id": "HO-M1", "to": "grok", "status": "open", "source": "backlog-migration", "created_at": "2026-01-01T00:00:00+00:00"},
+            {"id": "HO-M2", "to": "grok", "status": "open", "notes": ["x Migrated from old board"], "created_at": "2026-01-01T00:00:00+00:00"},
+        ]}
+
+    def test_push_starts_only_oldest_one(self):
+        self.assertEqual(tw.resolve_targets("push", {}, None, self.data()), [("HO-A", None, "push")])
+        self.assertEqual(tw.pending_worker_handoffs(self.data()), ["HO-A", "HO-B", "HO-C"])
+
+    def test_migrated_never_auto_picked_but_dispatchable(self):
+        only_migrated = {"items": [i for i in self.data()["items"] if i["id"].startswith("HO-M")]}
+        self.assertEqual(tw.resolve_targets("push", {}, None, only_migrated), [])
+        self.assertEqual(tw.resolve_targets("repository_dispatch", {"client_payload": {"handoff_id": "HO-M1"}}, None, only_migrated),
+                         [("HO-M1", None, "repository_dispatch")])
+        self.assertEqual(tw.resolve_targets("workflow_dispatch", {"inputs": {"handoff_id": "HO-M2"}}, None, only_migrated),
+                         [("HO-M2", None, "workflow_dispatch")])
+
+
 class TeamResearch(Base):
     def test_research_appends_note_once(self):
         path = self.root / "state/handoffs.json"

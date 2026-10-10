@@ -196,12 +196,22 @@ def find_handoff(data: dict, handoff_id: str) -> dict | None:
     return next((i for i in data.get("items", []) if i.get("id") == handoff_id), None)
 
 
+def _is_migrated(item: dict) -> bool:
+    return str(item.get("source", "")).lower() == "backlog-migration" or any(
+        "migrated" in str(n).lower() for n in item.get("notes") or [])
+
+
 def pending_worker_handoffs(data: dict) -> list[str]:
-    return [
-        str(i["id"]) for i in data.get("items", [])
+    """Push-trigger candidates, oldest first. Migrated/backlog items are never auto-picked
+    (only workflow_dispatch / repository_dispatch may start them)."""
+    items = [
+        i for i in data.get("items", [])
         if i.get("status") == "open" and str(i.get("to", "")).lower() in WORKER_TARGETS and i.get("id")
         and not any("team-worker:" in str(n) for n in i.get("notes") or [])
+        and not _is_migrated(i)
     ]
+    items.sort(key=lambda i: (str(i.get("created_at", "")), str(i["id"])))
+    return [str(i["id"]) for i in items]
 
 
 def append_note(path: Path, handoff_id: str, note: str, now: str) -> None:
@@ -363,7 +373,8 @@ def resolve_targets(event_name: str, event: dict, cli_id: str | None, data: dict
         if not hid:
             raise TeamWorkerError("workflow_dispatch input handoff_id missing")
         return [(str(hid), None, "workflow_dispatch")]
-    return [(hid, None, "push") for hid in pending_worker_handoffs(data)]
+    # Push trigger: at most ONE job per commit (oldest); the rest stay queued for later pushes/dispatches.
+    return [(hid, None, "push") for hid in pending_worker_handoffs(data)[:1]]
 
 
 def main(argv: list[str] | None = None) -> int:
