@@ -1,11 +1,11 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-10 22:00 TRT
+Zaman: 2026-10-10 22:55 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-03, HO-20261009-08, HO-IMP-20261010-slow-github-actions-in-update-1620214326
 - Gecikmiş (>2 sa): HO-20261009-08, HO-IMP-20261010-slow-github-actions-in-update-1620214326
-- CI (main): 14 workflow; başarısız: yok
+- CI (main): 11 workflow; başarısız: yok
 - Otomasyonlar (automation-runner):
   - finance: plan-learnings-check=success#38067771412; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#37991566901, shorts-render-tests=success#38040278632
@@ -17,10 +17,10 @@ Zaman: 2026-10-10 22:00 TRT
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 22; en yüksek gecikmiş: 2; aşamalanan promotion: 42
+- Rapor sayısı: 23; en yüksek gecikmiş: 2; aşamalanan promotion: 44
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-10T18:30:17+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-10T19:26:21+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models, gemini
