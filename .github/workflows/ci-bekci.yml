@@ -41,6 +41,7 @@ on:
       - "shorts-48h-lessons"
       - "shorts-free-build"
       - "shorts-free-render"
+      - "shorts-48h-lessons"
       - "shorts-free-smoke-once"
       - "shorts-render-tests"
       - "telegram-bot"
