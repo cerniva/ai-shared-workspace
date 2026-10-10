@@ -155,3 +155,11 @@ Raporu sabit zincire, sadece furknkdmr@gmail.com adresine, kısa ve Türkçe ola
 Kurallar: yazdığın her şeyi main'de tekrar okuyup doğrula, sadece doküman değiştiren "feat" commit'i atma, PLACEHOLDER bırakma. PayoutLens'e ve grok-chatgpt-masa'ya dokunma. 2 saatten uzun süre gerçek rapor çıkmazsa bir rapor yaz ya da işi devret.
 
 read_back_required: Grok bu kaydı main'den tekrar okuyup task_id ile doğrulasın; sonraki uygun turdan itibaren uygulasın.
+
+
+---
+id: MSG-202610100406-chatgpt-task
+from: chatgpt
+intent: ask
+status: open
+task: TEST: hafıza kuralı denemesi, işlem gerekmez
