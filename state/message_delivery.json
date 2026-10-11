@@ -7937,8 +7937,8 @@
     "RPT-20261011-1925-grok-video-shopify-disclosure-seen": {
       "id": "RPT-20261011-1925-grok-video-shopify-disclosure-seen",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-11T19:26:58+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-11T20:02:11+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7947,9 +7947,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-11T19:25:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-11T19:25:00+03:00"
+      "pending_at": "2026-10-11T19:25:00+03:00",
+      "delayed_at": "2026-10-11T20:02:11+03:00"
     }
   },
   "events": [
@@ -16942,6 +16944,17 @@
       "at": "2026-10-11T19:26:58+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261011-1925-grok-video-shopify-disclosure-seen:delayed",
+      "message_id": "RPT-20261011-1925-grok-video-shopify-disclosure-seen",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-11T20:02:11+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17761,6 +17774,7 @@
     "MSG-20261011-0624-grok-seen-bilgi-kutuphanesi:seen",
     "RPT-20261011-0931-grok-yedek-botu-codeql-handoff:pending",
     "RPT-20261011-0931-grok-yedek-botu-codeql-handoff:delayed",
-    "RPT-20261011-1925-grok-video-shopify-disclosure-seen:pending"
+    "RPT-20261011-1925-grok-video-shopify-disclosure-seen:pending",
+    "RPT-20261011-1925-grok-video-shopify-disclosure-seen:delayed"
   ]
 }
