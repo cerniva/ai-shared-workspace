@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 13,
-    "answered": 41,
-    "delayed": 113
+    "seen": 121,
+    "answered": 72,
+    "delayed": 225
   },
   "event_count": 818,
   "event_keys": [
@@ -837,12 +837,10 @@
     "RPT-20261011-1925-grok-video-shopify-disclosure-seen:pending",
     "RPT-20261011-1925-grok-video-shopify-disclosure-seen:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261011-1925-grok-video-shopify-disclosure-seen:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-11T20:02:11+03:00",
+  "checked_at": "2026-10-11T23:01:12+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 121,
@@ -850,6 +848,6 @@
     "delayed": 225
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 303,
+  "active_source_id_count": 599,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
