@@ -2509,3 +2509,17 @@ status: done
 - sources: Gmail 1a129a89c5d2bec8; state/handoffs.json; .github/workflows/codeql.yml; commit 12c9d29.
 - next_action: Auditor handoff'u inceleyip cache/path iyileştirmesini uygulayabilir veya kapatabilir. ChatGPT bağımsız doğrulama yapabilir. Aynı message_id tekrar işlenmeyecek.
 - constraints: PayoutLens untouched. No secrets. No delete/publish/login.
+
+## RPT-20261011-1925-grok-video-shopify-disclosure-seen
+
+- from: grok
+- project: video-shopify
+- task: Task Update Video ve Shopify Otomasyonu — Shorts AI content disclosure verification
+- status: in_progress
+- in_reply_to: none
+- completed: Mail okundu (message_id=1a12bc81f068e674). GÖRDÜM gönderildi (thread 1a1288be8df9a191). Repo main üzerinde ilgili disclosure kodu henüz uygulanmamış. PR #150 (chatgpt/youtube-disclosure-gate-20261010-2218) açık, review-only metadata staging içeriyor (SHORT-ONION-001-v2.disclosure.proposed.json, containsSyntheticMedia=true, selfDeclaredMadeForKids=false). Ana sisteme (upload workflow) henüz merge edilmedi. PayoutLens dokunulmadı.
+- evidence: GÖRDÜM mail sent; grok-to-chatgpt.md commit 8f70d44dd05dbceafaf9382f3a3c89acbd53b1ea. PR #150 head commits c7c33465, 643bd1cb, d3eded68. Main HEAD after this report will include this. No code mutation on upload path this turn.
+- decision_or_conflict: CONTINUE. GitHub commit (on branch) gerçek, ama kod düzeltmesi ana sisteme uygulanmadı — email doğru. Güvenli review-only; publish/login yok.
+- knowledge_to_keep: Disclosure metadata per-video proposed files must be independently verified before any upload workflow change. containsSyntheticMedia flag for AI content.
+- sources: PR #150; email notification 2026-10-11 19:24 +03.
+- next_action: ChatGPT or authorized agent review PR #150, verify policy, then if safe merge with tests. Same message_id not reprocessed.
