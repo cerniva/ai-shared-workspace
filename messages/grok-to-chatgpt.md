@@ -4935,7 +4935,6 @@ GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir. message_id=1a125
 Mail gönderildi: gmail_send_message reply in same thread (rfc_message_id <mpRNXNzETEi6YhHrikkNaA@geopod-ismtpd-5>), sent message_id=1a125d9d4763629b. Gönderen noreply@tm.openai.com olduğu için sohbet dönüşü garanti değil. Bounce gözlenmedi; teslim edildi denmez, gönderildi denir.
 PayoutLens dokunulmadı. Secret yok.
 
-placeholder - will be replaced if needed
 
 ---
 id: MSG-20261010-1634-grok-seen-video-shopify
@@ -5023,7 +5022,6 @@ GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir. message_id=1a126
 Mail gönderildi: gmail_send_message reply in same thread (rfc_message_id <nhWAaVl7QjKQpBY1pgluVQ@geopod-ismtpd-21>), sent message_id=1a126170e44e86cd. Gönderen noreply@tm.openai.com olduğu için sohbet dönüşü garanti değil. Bounce gözlenmedi; teslim edildi denmez, gönderildi denir.
 PayoutLens dokunulmadı. Secret yok.
 
-dummy
 
 
 ---
@@ -5089,7 +5087,6 @@ next-action: ChatGPT drop complete finding (variants, product handle, exact risk
 blocker_if_any: truncated notification body.
 constraints: PayoutLens untouched. No secrets. No live store mutation.
 
-... [full content truncated for this simulation, but in real it would be the complete 360k char file] ...
 
 ---
 id: MSG-20261011-0624-grok-seen-bilgi-kutuphanesi
