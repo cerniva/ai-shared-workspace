@@ -46,5 +46,23 @@ class SentinelTests(unittest.TestCase):
                 self.assertEqual(ah.bogus_lines(f.read_text(encoding="utf-8")), [], p)
 
 
+    def test_filler_and_truncation_lines_are_bogus(self):
+        for line in [
+            "placeholder - will be replaced if needed",
+            "dummy",
+            "... [full content truncated for this simulation, but in real it would be the complete 360k char file] ...",
+            "PLACEHOLDER",
+            "placeholder",
+        ]:
+            self.assertTrue(ah.is_bogus_line(line), line)
+
+    def test_real_records_mentioning_fillers_are_kept(self):
+        for line in [
+            "evidence: placeholder was removed from archive",
+            "decision: dummy value not used",
+            "note: ... [truncated] ... marker is historical evidence",
+        ]:
+            self.assertFalse(ah.is_bogus_line(line), line)
+
 if __name__ == "__main__":
     unittest.main()
