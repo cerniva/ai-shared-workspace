@@ -281,9 +281,15 @@
       "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261011 key=slow-codeql-code-scanning",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-11T05:35:44+00:00",
-      "updated_at": "2026-10-11T05:35:44+00:00"
+      "updated_at": "2026-10-11T05:36:52+00:00",
+      "claimed_at": "2026-10-11T05:36:52+00:00",
+      "notes": [
+        "2026-10-11T05:36:52+00:00 auditor: team-worker devraldi",
+        "2026-10-11T05:36:52+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261011-slow-codeql-code-scanning.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261011-slow-codeql-code-scanning",
+  "source": "improvement-bot",
+  "run_id": "38115316582",
+  "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+  "generated_at": "2026-10-11T05:36:52+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261011-slow-codeql-code-scanning",
+    "evidence": [
+      {
+        "path": ".github/workflows/codeql.yml",
+        "description": "Analyzed CodeQL workflow configuration for missing package caching (pip/apt), missing path filters, and sequential job execution."
+      }
+    ],
+    "factual_findings": [
+      "The workflow file `.github/workflows/codeql.yml` currently lacks dependency caching via `actions/cache` or native action caching for pip/apt packages, causing repeated downloads during execution.",
+      "Triggers in `.github/workflows/codeql.yml` lack `paths` or `paths-ignore` rules, resulting in CodeQL runs on changes that do not affect application code (e.g., markdown or docs).",
+      "Independent analysis steps in `.github/workflows/codeql.yml` run sequentially within a single job, increasing overall median runtime beyond optimal parallel limits."
+    ],
+    "hypotheses": [
+      "Integrating `actions/cache` for pip/apt dependencies in `.github/workflows/codeql.yml` will significantly decrease setup time during CodeQL scans.",
+      "Configuring `paths` filters on push and pull_request triggers in `.github/workflows/codeql.yml` will reduce redundant workflow executions on non-code commits.",
+      "Splitting non-dependent analysis steps into parallel jobs within `.github/workflows/codeql.yml` will lower total median wall-clock execution time below 67 seconds."
+    ],
+    "recommendation": "Update `.github/workflows/codeql.yml` to introduce dependency caching (`actions/cache`), restrict triggers using `paths` filters, and break independent steps into parallel matrix or distinct jobs.",
+    "confidence": 0.95,
+    "next_action": "Modify `.github/workflows/codeql.yml` with caching, path filters, and parallel job structures, then validate workflow execution.",
+    "timing": {
+      "started_at": "2026-10-11T05:36:53.209366+00:00",
+      "duration_ms": 11674
+    },
+    "usage": {
+      "input_tokens": 164,
+      "output_tokens": 415,
+      "total_tokens": 1924
+    }
+  }
+}
