@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-11T18:31:55+00:00",
+  "generated_at": "2026-10-11T20:28:38+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38155655104,
+          "id": 38164207080,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-11T16:29:12Z",
+          "created_at": "2026-10-11T18:31:56Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38155661730,
+          "id": 38164212569,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-11T16:29:18Z",
+          "created_at": "2026-10-11T18:32:01Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 38161507276,
+          "id": 38169886403,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-11T17:53:15Z",
+          "created_at": "2026-10-11T19:53:06Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38162046030,
+          "id": 38170425036,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-11T18:01:10Z",
+          "created_at": "2026-10-11T20:01:02Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml otomasyonu başarısız sonuçlandığı için sağlıklı görünmemektedir. Ayrıca aynı gruptaki shorts-free-render.yml otomasyonu henüz hiç çalıştırılmamıştır (never_run). Finans, bilgi ve sistem gruplarındaki diğer tüm otomasyonlar ise sorunsuz ve sağlıklı şekilde tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad altındaki youtube-upload.yml iş akışı başarısız olmuş (failure), shorts-free-render.yml ise hiç çalıştırılmamıştır (never_run). Finans, bilgi ve sistem kategorilerindeki diğer tüm otomasyonlar başarıyla tamamlanmıştır. Bu nedenle yalnızca video_shorts_shopify_gumroad grubundaki bu iki otomasyon sağlıksız görünmektedir."
 }
