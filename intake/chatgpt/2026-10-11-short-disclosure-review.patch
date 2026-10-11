@@ -67,3 +67,15 @@
 +
 +if __name__ == "__main__":
 +    unittest.main()
+
+--- a/tests/test_shorts_free_pipeline.py
++++ b/tests/test_shorts_free_pipeline.py
+@@ -52,6 +52,8 @@ def valid_packet(language="en", narration="A short original narration for the pipeline."):
+         "content_type": "short_fact",
+         "narration_text": narration,
+         "media_queries": ["vertical forest", "vertical river"],
++        "made_for_kids": False,
++        "contains_synthetic_media": True,
+         "learnings": dict(LEARNINGS_BLOCK),
+     }
+ 
