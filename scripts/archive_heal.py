@@ -37,11 +37,23 @@ BODY_SENTINEL = re.compile(
 )
 
 
+# Exact orphan artifacts observed in the live archive on 2026-10-11.
+# Match only entire stripped lines; ordinary evidence mentioning these strings is valid.
+EXACT_ORPHAN_SENTINELS = frozenset({
+    "placeholder - will be replaced if needed",
+    "dummy",
+    "... [full content truncated for this simulation, but in real it would be the complete 360k char file] ...",
+    "_fixed_by_full_content",
+})
+
+
 def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
     (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
     Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
-    return line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
+    stripped = line.strip()
+    return (line.startswith("$(cat ") or bool(BODY_SENTINEL.match(stripped))
+            or stripped.casefold() in EXACT_ORPHAN_SENTINELS)
 
 
 def bogus_lines(text: str) -> list[int]:
@@ -55,12 +67,13 @@ def drop_bogus(text: str) -> str:
 
 def has_bogus_head(text: str) -> bool:
     first = text.lstrip("\n").split("\n", 1)[0]
-    return bool(HEAD_BOGUS.match(first.strip()))
+    return bool(HEAD_BOGUS.match(first.strip())) or is_bogus_line(first)
 
 
 def strip_head(text: str) -> str:
     lines = text.split("\n")
-    while lines and (not lines[0].strip() or HEAD_BOGUS.match(lines[0].strip())):
+    while lines and (not lines[0].strip() or HEAD_BOGUS.match(lines[0].strip())
+                     or is_bogus_line(lines[0])):
         lines.pop(0)
     return "\n".join(lines)
 
