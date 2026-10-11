@@ -329,6 +329,20 @@ def append_note(path: Path, handoff_id: str, note: str, now: str) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+CI_SOURCE = "ci-bekci"
+
+
+def register_ci_handoff(path: Path, handoff_id: str, task: str, now: str) -> None:
+    """Add a ci-bekci CI-<run_id> job to the ledger (validated) so claim/append_note work."""
+    from scripts import handoff as ho
+    data = ho.load(path)
+    if find_handoff(data, handoff_id) is None:
+        ho.add(data, item_id=handoff_id, sender="auditor", receiver="grok", task=task[:2000],
+               reason="ci-bekci: kirmizi CI otomatik onarim isi", evidence=f"ci-bekci dispatch {handoff_id}", at=now)
+        ho.save(data, path)
+        log("ci_handoff_registered", handoff_id=handoff_id)
+
+
 # ------------------------------------------------------------------- claim ---
 CLAIM_ACTOR = "team-worker"
 CLAIM_FRESH_MINUTES = 60
@@ -477,8 +491,15 @@ def process_handoff(
     branch = bot_branch(handoff_id, run_id)
     handoffs_path = root / HANDOFFS
     item = find_handoff(load_handoffs(handoffs_path), handoff_id)
+    register_ci = False
     if item is None:
-        raise TeamWorkerError(f"handoff {handoff_id} not found")
+        # ci-bekci dispatches CI-<run_id> jobs that were never in the ledger; register them on the
+        # bot branch (below) instead of refusing, otherwise every CI auto-fix dispatch goes red.
+        if source == CI_SOURCE and task and handoff_id.startswith("CI-"):
+            item = {"id": handoff_id, "from": "auditor", "to": "grok", "task": str(task), "status": "open"}
+            register_ci = True
+        else:
+            raise TeamWorkerError(f"handoff {handoff_id} not found")
     task = task or str(item.get("task", ""))
 
     existing = find_open_pr(client, handoff_id)
@@ -492,6 +513,8 @@ def process_handoff(
     base = chatgpt_base(base_branch)
     git = git_ops or _RealGit(root)
     git.checkout_new(branch, base=base)
+    if register_ci:
+        register_ci_handoff(handoffs_path, handoff_id, str(task), now)
     try:
         claim(handoffs_path, handoff_id, now)
     except Exception as exc:  # HandoffError: invalid ledger/actor -> log, keep working (PR still shows owner)
