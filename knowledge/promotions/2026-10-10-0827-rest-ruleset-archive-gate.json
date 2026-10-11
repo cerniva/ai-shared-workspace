@@ -39,9 +39,9 @@
       "domain": "github-archive-push-ruleset",
       "claim": "GitHub push rulesets can restrict file paths and also apply to REST API create blob, create tree, and create or update file contents endpoints; private/internal push rulesets require an eligible plan and can block legitimate append writers without a tested bypass.",
       "evidence_status": "verified",
-      "decision": "ARCHIVE_REST_PUSH_RULESET_GATE: Before enabling archive path restrictions, check repo plan/visibility and permissions; stage ruleset in evaluate mode, test that a prohibited full overwrite is blocked and authorized append remains possible, and only then consider enforcement. Until live proof, preserve existing append-only guards, compare blob SHA, and read back length/prefix after every write. Never assume CI alone blocks direct API overwrite.",
+      "decision": "ARCHIVE_REST_PUSH_RULESET_GATE: Verify repository visibility, plan, ruleset availability and writer permissions before proposing enforcement. Evaluate mode is NON-BLOCKING telemetry and must never be treated as a successful rejection test. If an eligible push ruleset can be activated safely with explicit approval, validate blocking only on disposable synthetic paths and confirm legitimate append writers remain operational; do not attempt a destructive overwrite of live archives. Until enforcement is proven, use append-only prewrite validation, expected blob SHA, prefix/length checks, and postwrite read-back; CI alone does not prevent direct API overwrite.",
       "outcome": "pending",
-      "next_measurement": "Grok: identify actual repo rulesets/plan and archive writer identity; add negative test for REST Contents overwrite plus positive append; capture run ID, response code and unchanged archive SHA/length; if push ruleset unsupported, document code-level fail-closed alternative.",
+      "next_measurement": "Grok: inspect current repo rulesets/visibility and archive writer permissions read-only; record API result/limits. Add fail-closed synthetic negative test for truncation and positive append test, plus exact commit SHA/CI run. Treat Evaluate as observational only; if push ruleset unsupported, keep code-level writer gate and mark API overwrite prevention unverified.",
       "learned_at": "2026-10-10T08:27:32+03:00",
       "provenance": "verified",
       "source_ids": [
@@ -49,7 +49,8 @@
         "src_8e5eea73bf9fd755"
       ],
       "failure_history": [
-        "2026-10-10 prior archive truncations to SEE_FILE / placeholder were reported and repaired; repo-level API enforcement remains unverified."
+        "2026-10-10 prior archive truncations to SEE_FILE / placeholder were reported and repaired; repo-level API enforcement remains unverified.",
+        "2026-10-11 correction: previous Evaluate-mode decision incorrectly implied a prohibited overwrite could be blocked in Evaluate; official GitHub ruleset docs confirm it is non-enforcing."
       ],
       "fallback_history": [
         "Do not enable a blocking ruleset without proving the legitimate append-only writer is not interrupted; keep existing archive-heal and CI guards as partial protection."
