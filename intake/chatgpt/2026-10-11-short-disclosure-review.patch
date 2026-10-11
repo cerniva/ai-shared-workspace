@@ -1,0 +1,69 @@
+--- a/scripts/shorts_learnings.py
++++ b/scripts/shorts_learnings.py
+@@ -39,11 +39,13 @@
+ 
+ 
+ def _privacy(packet: dict, m: dict) -> None:
+-    kids = packet.get("made_for_kids", False)
+-    if not isinstance(kids, bool):
+-        raise LearningsError("made_for_kids must be true/false (explicit privacy gate)")
+-    m["upload_policy"].update({"privacyStatus": "private", "selfDeclaredMadeForKids": kids,
+-                               "containsSyntheticMedia": True})
++    # Policy disclosures must be reviewed per video; never infer them from TTS.
++    for field in ("made_for_kids", "contains_synthetic_media"):
++        if field not in packet or type(packet[field]) is not bool:
++            raise LearningsError(f"{field} must be an explicit true/false decision")
++    m["upload_policy"].update({"privacyStatus": "private",
++                               "selfDeclaredMadeForKids": packet["made_for_kids"],
++                               "containsSyntheticMedia": packet["contains_synthetic_media"]})
+ 
+ 
+ def _quota(packet: dict, m: dict) -> None:
+--- /dev/null
++++ b/tests/test_shorts_learning_privacy.py
+@@ -0,0 +1,45 @@
++import importlib.util
++import unittest
++from pathlib import Path
++
++spec = importlib.util.spec_from_file_location("shorts_learnings", Path(__file__).resolve().parents[1] / "scripts" / "shorts_learnings.py")
++mod = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(mod)
++
++
++class PerVideoDisclosureGateTests(unittest.TestCase):
++    def test_missing_kids_is_rejected(self):
++        with self.assertRaisesRegex(mod.LearningsError, "made_for_kids"):
++            mod._privacy({"contains_synthetic_media": False}, {"upload_policy": {}})
++
++    def test_missing_synthetic_is_rejected(self):
++        with self.assertRaisesRegex(mod.LearningsError, "contains_synthetic_media"):
++            mod._privacy({"made_for_kids": False}, {"upload_policy": {}})
++
++    def test_invalid_strings_are_rejected(self):
++        for field in ("made_for_kids", "contains_synthetic_media"):
++            with self.subTest(field=field):
++                packet={"made_for_kids": False, "contains_synthetic_media": False}
++                packet[field]="false"
++                with self.assertRaisesRegex(mod.LearningsError, field):
++                    mod._privacy(packet, {"upload_policy": {}})
++
++    def test_explicit_false_is_preserved(self):
++        manifest={"upload_policy": {}}
++        mod._privacy({"made_for_kids": False, "contains_synthetic_media": False}, manifest)
++        self.assertEqual(manifest["upload_policy"], {"privacyStatus": "private", "selfDeclaredMadeForKids": False, "containsSyntheticMedia": False})
++
++    def test_explicit_true_is_preserved(self):
++        manifest={"upload_policy": {}}
++        mod._privacy({"made_for_kids": True, "contains_synthetic_media": True}, manifest)
++        self.assertEqual(manifest["upload_policy"], {"privacyStatus": "private", "selfDeclaredMadeForKids": True, "containsSyntheticMedia": True})
++
++    def test_apply_requires_review_before_recording_learning(self):
++        doc={"learnings": [{"learning_id": x} for x in mod.RULES]}
++        manifest={"target_seconds": 30}
++        with self.assertRaisesRegex(mod.LearningsError, "contains_synthetic_media"):
++            mod.apply(doc, {"made_for_kids": False}, manifest)
++        self.assertNotIn("applied_learning_ids", manifest)
++
++if __name__ == "__main__":
++    unittest.main()
