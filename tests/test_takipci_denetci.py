@@ -43,6 +43,12 @@ class TakipciDenetciTests(unittest.TestCase):
         res = td.evaluate("fix: x", [f("scripts/a.py", CODE, CODE + td.MARKERS[1] + "\n")], GOOD_BODY, "bot/x")
         self.assertEqual(res["verdict"], "fail")
 
+    def test_existing_marker_mentions_do_not_block_unrelated_fix(self):
+        old = CODE + "# " + td.MARKERS[0] + "\\n"
+        new = old + "fix_applied = True\\n"
+        res = td.evaluate("fix: x", [f("scripts/a.py", old, new)], GOOD_BODY, "bot/x")
+        self.assertEqual(res["verdict"], "pass", res["reasons"])
+
     def test_tmp_paste_line_fails(self):
         res = td.evaluate("fix: x", [f("scripts/a.py", CODE, CODE + td.TMP_PREFIX + "out.py\n")],
                           GOOD_BODY, "bot/x")

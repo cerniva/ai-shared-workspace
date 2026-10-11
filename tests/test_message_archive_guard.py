@@ -38,6 +38,11 @@ class RebuildLogic(unittest.TestCase):
         for token in ("id: A", "id: B", "id: C"):
             self.assertEqual(out.count(token), 1, token)
 
+
+    def test_orphan_dummy_line_is_rejected_without_matching_prose(self):
+        self.assertTrue(h.is_bogus_line("dummy"))
+        self.assertFalse(h.is_bogus_line("The dummy line was removed."))
+
     def test_check_rule(self):
         self.assertTrue(h.is_bogus_line("SEE_FILE"))
         self.assertTrue(h.is_bogus_line("$(cat /tmp/team-reports-append.md)"))
