@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 14,
-    "answered": 42,
-    "delayed": 111
+    "seen": 121,
+    "answered": 72,
+    "delayed": 223
   },
   "event_count": 814,
   "event_keys": [
@@ -833,12 +833,10 @@
     "MSG-20261011-0624-grok-seen-bilgi-kutuphanesi:pending",
     "MSG-20261011-0624-grok-seen-bilgi-kutuphanesi:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261011-0624-grok-seen-bilgi-kutuphanesi:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-11T07:02:52+03:00",
+  "checked_at": "2026-10-11T07:11:30+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 121,
@@ -846,6 +844,6 @@
     "delayed": 223
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 303,
+  "active_source_id_count": 593,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
