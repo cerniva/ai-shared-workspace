@@ -281,9 +281,15 @@
       "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261011 key=slow-codeql-code-scanning",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-11T05:35:44+00:00",
-      "updated_at": "2026-10-11T05:35:44+00:00"
+      "updated_at": "2026-10-11T06:58:00+00:00",
+      "claimed_at": "2026-10-11T06:58:00+00:00",
+      "done_at": "2026-10-11T06:58:00+00:00",
+      "done_sha": "0a473193381d0f5437a8bb578814ee13289678d2",
+      "notes": [
+        "2026-10-11T06:58:00+00:00 grok-auditor: uygulanamaz, kapatildi. main 0a47319'daki .github/workflows/codeql.yml zaten optimize: pip/apt adimi yok (cache eklenecek bir sey yok), push/pull_request paths filtresi var, python + javascript-typescript matrix ile paralel, fail-fast false. Medyan 67 sn CodeQL init+analyze icin normal; yeni kod gerekmez. done_sha = dogrulanan dosya durumunun commiti."
+      ]
     }
   ]
 }
