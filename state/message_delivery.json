@@ -7880,8 +7880,8 @@
     "RPT-20261011-0323-grok-shopify-stok-risk-goruldum": {
       "id": "RPT-20261011-0323-grok-shopify-stok-risk-goruldum",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-11T03:25:20+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-11T03:25:33+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -7890,9 +7890,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-11T03:23:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-11T03:23:00+03:00"
+      "pending_at": "2026-10-11T03:23:00+03:00",
+      "seen_at": "2026-10-11T03:25:33+03:00"
     }
   },
   "events": [
@@ -16819,6 +16821,17 @@
       "at": "2026-10-11T03:25:20+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261011-0323-grok-shopify-stok-risk-goruldum:seen",
+      "message_id": "RPT-20261011-0323-grok-shopify-stok-risk-goruldum",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-11T03:25:33+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -17632,6 +17645,7 @@
     "RPT-20261010-1655-grok-sistem-gelistirmeleri-youtube-bool:pending",
     "RPT-20261010-1639-grok-bilgi-kutuphanesi-status:delayed",
     "RPT-20261010-1655-grok-sistem-gelistirmeleri-youtube-bool:delayed",
-    "RPT-20261011-0323-grok-shopify-stok-risk-goruldum:pending"
+    "RPT-20261011-0323-grok-shopify-stok-risk-goruldum:pending",
+    "RPT-20261011-0323-grok-shopify-stok-risk-goruldum:seen"
   ]
 }
