@@ -95,7 +95,7 @@ def load_metadata(path: Path) -> dict:
     if not isinstance(description, str):
         raise ValueError("Metadata JSON must contain a string 'description'.")
     result = {"title": title.strip(), "description": description.strip()}
-    # Optional per-video flags; defaults preserve previous fixed behavior.
+    # Required per-video flags (no silent defaults).
     # Strict parse: only real bools or exact "true"/"false" strings are accepted.
     # bool("false") == True is a known footgun; never use bare bool() on untrusted strings.
     def _as_bool(value, name: str) -> bool:
@@ -108,14 +108,16 @@ def load_metadata(path: Path) -> dict:
             if low == "false":
                 return False
         raise ValueError(f"{name} must be a boolean or the string 'true'/'false'")
-    if "selfDeclaredMadeForKids" in data:
-        result["selfDeclaredMadeForKids"] = _as_bool(data["selfDeclaredMadeForKids"], "selfDeclaredMadeForKids")
-    if "containsSyntheticMedia" in data:
-        result["containsSyntheticMedia"] = _as_bool(data["containsSyntheticMedia"], "containsSyntheticMedia")
+    # SHORTS_EXPLICIT_PRIVACY_GATE (learn_af28044522e96790): both policy flags are
+    # mandatory per video; a missing flag blocks the upload before any API call.
+    for key in ("selfDeclaredMadeForKids", "containsSyntheticMedia"):
+        if key not in data:
+            raise ValueError(f"Metadata JSON must explicitly set '{key}' (true/false).")
+        result[key] = _as_bool(data[key], key)
     return result
 
 
-def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False, contains_synthetic: bool = True) -> dict:
+def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool, contains_synthetic: bool) -> dict:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
@@ -127,7 +129,9 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
         ids = ", ".join(item.get("id", "<missing>") for item in channels) or "none"
         raise RuntimeError(f"Authorized account does not own target channel {CHANNEL_ID}; found: {ids}")
     # Explicit flags required by SHORTS_EXPLICIT_PRIVACY_GATE (learn_af28044522e96790).
-    # Default: not made for kids; synthetic/AI-voiced content from this pipeline.
+    # Values come only from the reviewed per-video metadata JSON; no defaults.
+    if not isinstance(made_for_kids, bool) or not isinstance(contains_synthetic, bool):
+        raise ValueError("selfDeclaredMadeForKids and containsSyntheticMedia must be explicit booleans")
     status = {
         "privacyStatus": "public" if publish else "private",
         "selfDeclaredMadeForKids": made_for_kids,
@@ -176,8 +180,8 @@ def main() -> int:
     try:
         require_ready_preflight(args.video, args.preflight)
         meta = load_metadata(args.metadata)
-        made_for_kids = meta.get("selfDeclaredMadeForKids", False)
-        contains_synthetic = meta.get("containsSyntheticMedia", True)
+        made_for_kids = meta["selfDeclaredMadeForKids"]
+        contains_synthetic = meta["containsSyntheticMedia"]
         result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

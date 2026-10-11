@@ -64,6 +64,7 @@ class MetadataBoolParseTests(unittest.TestCase):
             "title": "t",
             "description": "d",
             "selfDeclaredMadeForKids": "yes",
+            "containsSyntheticMedia": True,
         })
         try:
             with self.assertRaises(ValueError):
@@ -71,15 +72,29 @@ class MetadataBoolParseTests(unittest.TestCase):
         finally:
             path.unlink(missing_ok=True)
 
-    def test_absent_keys_use_defaults_later(self):
+    def test_absent_keys_raise(self):
         path = self._write({"title": "t", "description": "d"})
         try:
-            meta = load_metadata(path)
-            self.assertNotIn("selfDeclaredMadeForKids", meta)
-            self.assertNotIn("containsSyntheticMedia", meta)
+            with self.assertRaises(ValueError):
+                load_metadata(path)
         finally:
             path.unlink(missing_ok=True)
 
+    def test_single_missing_flag_raises(self):
+        for present in ("selfDeclaredMadeForKids", "containsSyntheticMedia"):
+            path = self._write({"title": "t", "description": "d", present: False})
+            try:
+                with self.assertRaises(ValueError):
+                    load_metadata(path)
+            finally:
+                path.unlink(missing_ok=True)
+
+    def test_upload_has_no_policy_defaults(self):
+        import inspect
+        from youtube_upload import upload
+        params = inspect.signature(upload).parameters
+        for name in ("made_for_kids", "contains_synthetic"):
+            self.assertIs(params[name].default, inspect.Parameter.empty)
 
 if __name__ == "__main__":
     unittest.main()
