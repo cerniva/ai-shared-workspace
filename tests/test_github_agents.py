@@ -96,6 +96,20 @@ class ResearchLearnerTests(Base):
             self.assertEqual(doc["learnings"][0]["source_ids"], [doc["sources"][0]["source_id"]])
         self.assertFalse((self.root / "knowledge" / "promotions").exists())
 
+    def test_headline_already_in_ledger_is_not_restaged(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+        first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        ledger = json.loads(ledger_path.read_text())
+        for v in first["domains"].values():
+            if v["status"] == "staged":
+                doc = json.loads((self.root / v["path"]).read_text())
+                ledger["learnings"].append(doc["learnings"][0])
+                (self.root / v["path"]).unlink()
+        ledger_path.write_text(json.dumps(ledger))
+        again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        self.assertTrue(all(v["status"] == "already_in_ledger" for v in again["domains"].values()), again)
+
     def test_fetch_error_recorded(self):
         def boom(url):
             raise OSError("down")

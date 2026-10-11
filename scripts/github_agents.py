@@ -231,6 +231,15 @@ def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, deci
     }
 
 
+def _known_learning_titles(root: Path) -> set[str]:
+    """Titles already in the canonical ledger, so the same feed headline is not re-staged every day."""
+    try:
+        ledger = json.loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return set()
+    return {str(l.get("title")) for l in ledger.get("learnings") or [] if isinstance(l, dict) and l.get("title")}
+
+
 def validate_promotion(root: Path, doc: dict[str, Any]) -> None:
     from scripts.knowledge_promote import _apply_batch
     with tempfile.TemporaryDirectory(prefix="research-learner-") as scratch:
@@ -263,6 +272,11 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             continue
         if not item or not item.get("title"):
             entry["status"] = "no_item"
+            report["domains"][key] = entry
+            continue
+        known = _known_learning_titles(root)
+        if f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180] in known:
+            entry["status"] = "already_in_ledger"
             report["domains"][key] = entry
             continue
         decision = _summarize(adapter, f"In one English sentence, what should the '{spec['plan']}' plan do about "
