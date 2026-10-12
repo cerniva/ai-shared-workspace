@@ -42,6 +42,23 @@ CHECK_NAME = "takipci-denetci"
 # Built by concatenation so this file does not trip its own rule.
 MARKERS = ("PLACE" + "HOLDER", "INCOMPLETE" + "_PUSH")
 TMP_PREFIX = "@" + "/tmp/"
+CODE_EXT = (".py", ".yml", ".yaml", ".js", ".ts")
+DOC_PREFIXES = ("docs/", "outputs/", "intake/")
+HO_RE = re.compile(r"\bHO-[0-9A-Za-z][0-9A-Za-z_-]*")
+EVIDENCE_RE = re.compile(r"(?im)^\s*[-*]?\s*(test|tests|ci)\s*:")
+FEATFIX_RE = re.compile(r"^\s*(feat|fix)\b", re.I)
+RUN_URL_RE = re.compile(r"github\.com/([\w.-]+/[\w.-]+)/actions/runs/(\d+)")
+RUN_BARE_RE = re.compile(r"(?i)(?:\brun\s+#?|#)(\d{8,})\b")
+EVIDENCE_LINE_RE = re.compile(r"(?i)^\s*[-*]?\s*(test|tests|ci)\s*:")
+FAIL_WORD_RE = re.compile(r"(?i)(?<!\b0 )\b(failure|failed|kırmızı)\b")
+BAD_CONCLUSIONS = {"failure", "cancelled", "timed_out"}
+CI_PENDING_REASON = "ci_pending: CI not finished"
+# Never wait on ourselves or on the gate (it runs until we finish).
+PENDING_IGNORE = {CHECK_NAME, "auto-merge-gate"}
+SHRINK_RATIO = 0.8
+MIN_LINES = 5
+
+
 # Line-start stub marker: marker as a standalone token at line start (optional
 # '# ' comment prefix allowed), NOT followed by an identifier char or an
 # assignment. Catches bot-pasted stub lines without flagging legitimate
@@ -66,7 +83,6 @@ CI_PENDING_REASON = "ci_pending: CI not finished"
 PENDING_IGNORE = {CHECK_NAME, "auto-merge-gate"}
 SHRINK_RATIO = 0.8
 MIN_LINES = 5
-
 
 def is_doc_only_path(path: str) -> bool:
     p = path.lstrip("./")
@@ -220,117 +236,155 @@ def evaluate(title: str, files: list[dict], body: str | None = None,
         else:
             warnings += body_issues
         reasons += check_evidence_words(body)
-    reasons += check_head_checks(head_checks or [])
+    if run_refs is not None:
+        r, w = check_run_refs(run_refs, repo, head_sha)
+        reasons += r
+        warnings += w
+    if head_checks is not None:
+        reasons += check_head_checks(head_checks)
     reasons += check_ci_pending(head_checks, ci_pending, strict_pending)
-    if check_pr_body:
-        if run_refs:
-            run_reasons, run_warnings = check_run_refs(run_refs, repo, head_sha)
-            reasons += run_reasons
-            warnings += run_warnings
-    verdict = "fail" if reasons else "pass"
-    return {"verdict": verdict, "reasons": reasons, "warnings": warnings}
+    return {"check": CHECK_NAME, "verdict": "fail" if reasons else "pass",
+            "reasons": reasons, "warnings": warnings, "files": paths}
 
 
-def api_json(url: str, token: str) -> Any:
-    req = urllib.request.Request(url, headers={
-        "Authorization": f"Bearer {token}",
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "takipci-denetci",
-    })
-    with urllib.request.urlopen(req) as resp:
-        return json.load(resp)
+class GitHub:
+    def __init__(self, repo: str, token: str, api: str = "https://api.github.com"):
+        self.repo, self.token, self.api = repo, token, api.rstrip("/")
 
-
-def fetch_file_text(token: str, repo: str, ref: str, path: str) -> str | None:
-    url = f"https://api.github.com/repos/{repo}/contents/{path}?ref={ref}"
-    try:
-        data = api_json(url, token)
-        if isinstance(data, dict) and data.get("encoding") == "base64":
-            return base64.b64decode(data["content"]).decode("utf-8", "replace")
-        return None
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return None
-        raise
-
-
-def collect_changed_files(token: str, repo: str, base: str, head: str) -> list[dict]:
-    """Files changed between base and head (names, statuses, old/new text)."""
-    url = f"https://api.github.com/repos/{repo}/compare/{base}...{head}"
-    data = api_json(url, token)
-    out = []
-    for f in data.get("files", []):
-        out.append({
-            "filename": f["filename"],
-            "status": f["status"],
-            "old_text": fetch_file_text(token, repo, base, f["filename"]),
-            "new_text": fetch_file_text(token, repo, head, f["filename"]),
+    def request(self, method: str, path: str, body: Any = None) -> Any:
+        url = path if path.startswith("http") else f"{self.api}/repos/{self.repo}{path}"
+        data = json.dumps(body).encode() if body is not None else None
+        req = urllib.request.Request(url, data=data, method=method, headers={
+            "Authorization": f"Bearer {self.token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json",
         })
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            raw = resp.read()
+            return json.loads(raw) if raw else {}
+
+    def paged(self, path: str) -> list:
+        out, page = [], 1
+        sep = "&" if "?" in path else "?"
+        while True:
+            items = self.request("GET", f"{path}{sep}per_page=100&page={page}")
+            out.extend(items)
+            if len(items) < 100:
+                return out
+            page += 1
+
+    def text_at(self, path: str, ref: str) -> str | None:
+        try:
+            res = self.request("GET", f"/contents/{urllib.parse.quote(path)}?ref={ref}")
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None
+            raise
+        if not isinstance(res, dict) or res.get("encoding") != "base64":
+            return None
+        try:
+            return base64.b64decode(res.get("content", "")).decode("utf-8")
+        except UnicodeDecodeError:
+            return None
+
+
+def collect(gh: GitHub, raw_files: list[dict], base: str | None, head: str) -> list[dict]:
+    out = []
+    for f in raw_files:
+        name, status = f["filename"], f.get("status", "modified")
+        prev = f.get("previous_filename") or name
+        new = None if status == "removed" else gh.text_at(name, head)
+        old = gh.text_at(prev, base) if base and status != "added" else None
+        out.append({"filename": name, "status": status, "old_text": old, "new_text": new})
     return out
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description="takipci-denetci PR/commit auditor")
-    ap.add_argument("--pr", type=int)
-    ap.add_argument("--head-sha")
-    ap.add_argument("--base")
-    ap.add_argument("--publish", action="store_true")
-    ap.add_argument("--dispatch", action="store_true")
-    ap.add_argument("--ci-pending", default="false")
-    args = ap.parse_args()
+def fetch_run_refs(gh: GitHub, refs: list[dict]) -> list[dict]:
+    out = []
+    for ref in refs:
+        item = {"id": ref["id"], "ref_repo": ref.get("repo"), "run": None}
+        if not ref.get("repo") or ref["repo"].lower() == gh.repo.lower():
+            try:
+                item["run"] = gh.request("GET", f"/actions/runs/{ref['id']}")
+            except urllib.error.HTTPError as e:
+                item["error"] = f"HTTP {e.code}"
+        out.append(item)
+    return out
 
-    token = os.environ.get("GITHUB_TOKEN", "")
-    repo = os.environ.get("GITHUB_REPOSITORY", "")
-    if not repo:
-        print("GITHUB_REPOSITORY not set", file=sys.stderr)
-        return 1
 
+def head_check_runs(gh: GitHub, sha: str) -> list[dict]:
+    return gh.request("GET", f"/commits/{sha}/check-runs?per_page=100").get("check_runs", [])
+
+
+def audit_pr(gh: GitHub, number: int, dispatch: bool = False, ci_pending: bool = False) -> tuple[dict, str]:
+    pr = gh.request("GET", f"/pulls/{number}")
+    head = pr["head"]["sha"]
+    files = collect(gh, gh.paged(f"/pulls/{number}/files"), pr["base"]["sha"], head)
+    run_refs = fetch_run_refs(gh, extract_run_refs(pr.get("body")))
+    checks = head_check_runs(gh, head)
+    res = evaluate(pr.get("title", ""), files, pr.get("body"), pr["head"].get("ref", ""),
+                   run_refs=run_refs, head_checks=checks, repo=gh.repo, head_sha=head,
+                   ci_pending=ci_pending, strict_pending=dispatch)
+    res.update(pr_number=number, head_sha=head)
+    return res, head
+
+
+def audit_commit(gh: GitHub, sha: str, base: str | None = None,
+                 dispatch: bool = False, ci_pending: bool = False) -> dict:
+    commit = gh.request("GET", f"/commits/{sha}")
+    parents = commit.get("parents") or []
+    base = base or (parents[0]["sha"] if parents else None)
+    title = (commit.get("commit", {}).get("message") or "").splitlines()[0:1]
+    files = collect(gh, commit.get("files") or [], base, sha)
+    checks = head_check_runs(gh, sha) if dispatch else None
+    res = evaluate(title[0] if title else "", files, check_pr_body=False, head_checks=checks,
+                   ci_pending=ci_pending, strict_pending=dispatch)
+    res.update(head_sha=sha, base_sha=base)
+    return res
+
+
+def publish_check(gh: GitHub, sha: str, res: dict) -> dict:
+    lines = [f"- FAIL: {r}" for r in res["reasons"]] + [f"- WARN: {w}" for w in res["warnings"]]
+    summary = f"verdict: {res['verdict']} ({len(res['files'])} files)"
+    return gh.request("POST", "/check-runs", {
+        "name": CHECK_NAME, "head_sha": sha, "status": "completed",
+        "conclusion": "success" if res["verdict"] == "pass" else "failure",
+        "output": {"title": f"{CHECK_NAME}: {res['verdict']}", "summary": summary,
+                   "text": "\n".join(lines) or "no findings"}})
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    p.add_argument("--pr", type=int)
+    p.add_argument("--head-sha")
+    p.add_argument("--base")
+    p.add_argument("--publish", action="store_true", help="post check run on the audited head SHA")
+    p.add_argument("--dispatch", action="store_true", help="team-pr-opened mode: unfinished CI -> fail")
+    p.add_argument("--ci-pending", default="", help="client_payload.ci_pending (true/false)")
+    args = p.parse_args(argv)
+    repo, token = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
+    if not repo or not token:
+        print("GITHUB_REPOSITORY/GITHUB_TOKEN missing", file=sys.stderr)
+        return 2
+    gh = GitHub(repo, token)
+    pending = str(args.ci_pending).strip().lower() in ("1", "true", "yes")
     if args.pr:
-        pr = api_json(f"https://api.github.com/repos/{repo}/pulls/{args.pr}", token)
-        head = pr["head"]["sha"]
-        base = pr["base"]["sha"]
-        title = pr["title"]
-        body = pr["body"] or ""
-        head_ref = pr["head"]["ref"]
-        files = collect_changed_files(token, repo, base, head)
-        run_refs = extract_run_refs(body)
-        check_runs = api_json(f"https://api.github.com/repos/{repo}/commits/{head}/check-runs", token)
-        verdict = evaluate(title, files, body, head_ref, True,
-                           run_refs, check_runs.get("check_runs", []), repo, head)
+        res, sha = audit_pr(gh, args.pr, dispatch=args.dispatch, ci_pending=pending)
+    elif args.head_sha:
+        res = audit_commit(gh, args.head_sha, args.base, dispatch=args.dispatch, ci_pending=pending)
+        sha = args.head_sha
     else:
-        head = args.head_sha or os.environ.get("GITHUB_SHA", "")
-        base = args.base or "main"
-        pr = None
-        title = "merge"
-        body = ""
-        head_ref = ""
-        files = collect_changed_files(token, repo, base, head)
-        check_runs = api_json(f"https://api.github.com/repos/{repo}/commits/{head}/check-runs", token)
-        strict = args.dispatch and args.ci_pending.lower() == "true"
-        verdict = evaluate(title, files, body, head_ref, False, None,
-                           check_runs.get("check_runs", []), repo, head,
-                           args.dispatch, strict)
-
-    print(json.dumps(verdict, ensure_ascii=False, indent=2))
-
+        p.error("--pr or --head-sha required")
     if args.publish:
-        conclusion = "success" if verdict["verdict"] == "pass" else "failure"
-        payload = {
-            "name": CHECK_NAME,
-            "head_sha": head,
-            "status": "completed",
-            "conclusion": conclusion,
-            "output": {
-                "title": f"takipci-denetci: {verdict['verdict']}",
-                "summary": "\n".join(verdict["reasons"] or ["All rules passed."]),
-                "text": json.dumps(verdict, ensure_ascii=False, indent=2),
-            },
-        }
-        if pr:
-            payload["details_url"] = pr["html_url"]
-        api_json(f"https://api.github.com/repos/{repo}/check-runs", token, payload=payload)
-    return 0
+        run = publish_check(gh, sha, res)
+        res["check_run_url"] = run.get("html_url")
+    print(json.dumps(res, ensure_ascii=False, indent=2))
+    out = os.environ.get("TAKIPCI_OUT")
+    if out:
+        Path(out).write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
+    return 0 if res["verdict"] == "pass" else 1
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
