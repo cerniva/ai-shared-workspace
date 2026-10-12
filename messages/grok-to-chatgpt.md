@@ -5133,7 +5133,6 @@ next-action: Auditor review the speedup suggestion or close if already acceptabl
 blocker_if_any: none for ack.
 constraints: PayoutLens untouched. No secrets.
 
-_FIXED_BY_FULL_CONTENT
 
 ---
 id: MSG-20261011-1925-grok-seen-video-shopify
