@@ -1,0 +1,41 @@
+{
+  "handoff_id": "HO-IMP-20261012-slow-worker-orchestration-tests",
+  "source": "improvement-bot",
+  "run_id": "38208887970",
+  "task": "[.github/workflows/worker-orchestration-tests.yml] 'worker-orchestration-tests' medyan 50 sn (22 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+  "generated_at": "2026-10-12T05:39:47+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261012-slow-worker-orchestration-tests",
+    "evidence": [
+      {
+        "path": ".github/workflows/worker-orchestration-tests.yml",
+        "observation": "Workflow definition currently executes dependency setup and test suites sequentially without caching layer (`actions/cache` or `setup-python` pip cache) and lacks path filter triggers (`paths` / `paths-ignore`)."
+      }
+    ],
+    "factual_findings": [
+      "Workflow '.github/workflows/worker-orchestration-tests.yml' exhibits a median runtime of ~50 seconds over 22 recorded runs.",
+      "Pip and apt dependency installation steps re-download and re-install packages on every run due to missing cache configurations.",
+      "Triggers for `push` and `pull_request` lack `paths` filters, causing test runs to execute on unrelated changes (e.g., documentation or unrelated service edits).",
+      "Independent test steps are executed sequentially in a single runner job instead of running concurrently in parallel matrix jobs."
+    ],
+    "hypotheses": [
+      "Enabling pip caching (`cache: 'pip'` in setup-python or `actions/cache`) will eliminate repeated package downloads and reduce setup time by 15-20 seconds.",
+      "Adding `paths` filtering to trigger events will prevent unnecessary workflow executions for non-code and unrelated file commits.",
+      "Splitting independent test steps into a parallel matrix or separate jobs will decrease total wall-clock workflow runtime to under 30 seconds."
+    ],
+    "recommendation": "Update `.github/workflows/worker-orchestration-tests.yml` to include `cache: 'pip'` under `actions/setup-python`, restrict trigger conditions with `paths` filter for orchestration sources, and refactor test steps into parallel matrix jobs.",
+    "confidence": 0.95,
+    "next_action": "Apply the workflow optimizations to `.github/workflows/worker-orchestration-tests.yml`, commit changes, and monitor subsequent execution durations.",
+    "timing": {
+      "started_at": "2026-10-12T05:39:48.278511+00:00",
+      "duration_ms": 9116
+    },
+    "usage": {
+      "input_tokens": 170,
+      "output_tokens": 434,
+      "total_tokens": 1807
+    }
+  }
+}
