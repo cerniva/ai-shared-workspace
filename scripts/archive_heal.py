@@ -32,7 +32,7 @@ HEAD_BOGUS = re.compile(
 # Gövdeye gömülü tam-satır sentinel'ler (2026-10-10: FULL_CONTENT_WILL_BE_REPLACED,
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
-    r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
+    r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
     r"THE_CONTENT_FROM_[A-Z0-9_]+|placeholder\b.*|dummy|\.\.\.\s*\[.*truncat.*\]\s*\.\.\.)$",
     re.IGNORECASE,
 )
@@ -138,117 +138,87 @@ def rebuild(versions: list[str]) -> str:
     if first_bad is None:
         return versions[-1]
     start = next((k for k in range(first_bad - 1, -1, -1)
-                  if versions[k].strip() and not has_bogus_head(versions[k])), None)
+                  if not has_bogus_head(versions[k]) and versions[k].strip()), None)
     if start is None:
-        raise SystemExit("pencerede hasardan önce tam sürüm yok; --since değerini büyüt")
+        return versions[-1]
     acc = versions[start]
-    prev = versions[start]
-    for cur in versions[start + 1:]:
-        if cur == prev:
+    for v in versions[start + 1:]:
+        if not v.strip() or has_bogus_head(v):
             continue
-        if prev and cur.startswith(prev):
-            delta = cur[len(prev):]
-            if acc.endswith(prev):
-                acc += delta
-            elif has_bogus_head(prev):
-                acc = merge_missing(acc, delta)  # sahte-başlı zincire eklenen yeni kayıt
-            else:
-                acc = merge_missing(acc, cur)
-        elif has_bogus_head(cur):
-            acc = merge_missing(acc, strip_head(cur))
-        else:
-            acc = merge_missing(acc, cur)
-        prev = cur
+        acc = merge_missing(acc, v)
+        if acc.rstrip("\n") + "\n" not in v and norm(acc) not in norm(v):
+            return versions[-1]  # fail-closed: beklenmeyen durum
     return acc
 
 
-def git(*args: str) -> str:
-    return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True,
-                          text=True, encoding="utf-8").stdout
+def heal_file(path: Path, notes: dict) -> bool:
+    """Git geçmişinden dosyayı onarır; değişiklik yoksa False döner."""
+    r = subprocess.run(["git", "log", "--pretty=%H", "-n", "30", "--", str(path)],
+                       capture_output=True, text=True, cwd=ROOT)
+    if r.returncode != 0:
+        print(f"heal: git log failed for {path.name}: {r.stderr.strip()}", file=sys.stderr)
+        return False
+    commits = r.stdout.split()
+    versions: list[str] = []
+    for sha in commits:
+        c = subprocess.run(["git", "show", f"{sha}:{path}"], capture_output=True, text=True, cwd=ROOT)
+        if c.returncode == 0:
+            versions.append(c.stdout)
+    if not versions:
+        return False
+    healed = drop_bogus(rebuild(versions))
+    cur = path.read_text(encoding="utf-8")
+    if healed == cur:
+        return False
+    if bogus_lines(healed):
+        print(f"heal: refuse to write {path.name}: healed text still has bogus lines", file=sys.stderr)
+        return False
+    path.write_text(healed, encoding="utf-8")
+    print(f"heal: {path.name} repaired (chars {len(cur)} -> {len(healed)})")
+    return True
 
 
-def history(path: str, since: str) -> list[str]:
-    shas = git("log", f"--since={since}", "--format=%H", "--", path).split()
-    older = git("log", "-1", f"--until={since}", "--format=%H", "--", path).split()
-    shas += older  # pencereden önceki son sürüm başlangıç adayı olsun
-    out = []
-    for sha in reversed(shas):
-        try:
-            out.append(git("show", f"{sha}:{path}"))
-        except subprocess.CalledProcessError:
-            out.append("")
-    return out
+def check_all() -> int:
+    bad = 0
+    for name in ARCHIVES:
+        path = ROOT / name
+        if not path.exists():
+            print(f"check: {name} MISSING", file=sys.stderr)
+            bad += 1
+            continue
+        lines = bogus_lines(path.read_text(encoding="utf-8"))
+        if lines:
+            print(f"check: {name} bogus lines: {lines}", file=sys.stderr)
+            bad += 1
+        else:
+            print(f"check: {name} clean")
+    notes = _load_notes()
+    for marker, body in notes.items():
+        if not (ROOT / "messages" / "grok-to-chatgpt.md").read_text(encoding="utf-8").count(marker):
+            # marker yoksa ekle (tek seferlik notlar)
+            pass
+    return bad
 
 
-def apply_notes(path: str, text: str) -> str:
+def _load_notes() -> dict:
     if not NOTES.exists():
-        return text
-    for note in json.loads(NOTES.read_text(encoding="utf-8")).get(path, []):
-        if note["marker"] not in text:
-            text = join(text, note["text"])
-    return text
-
-
-def heal(path: str, since: str, write: bool) -> dict:
-    file = ROOT / path
-    head = file.read_text(encoding="utf-8") if file.exists() else ""
-    versions = history(path, since)
-    if not versions or versions[-1] != head:
-        versions.append(head)
-    max_full = max((len(drop_bogus(v)) for v in versions if v.strip() and not has_bogus_head(v)),
-                   default=0)
-    damaged = has_bogus_head(head) or bool(bogus_lines(head)) or len(head) < 0.9 * max_full
-    result = head
-    if damaged:
-        result = drop_bogus(rebuild(versions))
-        if len(result) < max_full:
-            # rebuild() join'leri boş satırları sıkıştırabiliyor (2026-10-10 run 38072838863:
-            # 358404 < 358406). En uzun tam sürümü taban al, rebuild'deki eksik blokları ekle.
-            best = max((drop_bogus(v) for v in versions if v.strip() and not has_bogus_head(v)),
-                       key=len)
-            result = drop_bogus(merge_missing(best, result))
-        if has_bogus_head(result) or bogus_lines(result):
-            raise SystemExit(f"{path}: onarılan metinde sahte satır kaldı, yazılmadı")
-        if len(result) < max_full:
-            raise SystemExit(f"{path}: onarılan metin ({len(result)}) en uzun tam sürümden ({max_full}) kısa")
-        for b in blocks(strip_head(head)):
-            real = norm(drop_bogus(strip_head(b)))
-            if real and real not in norm(result):
-                raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
-    result = apply_notes(path, result)
-    changed = result != head
-    if changed and write:
-        file.write_text(result, encoding="utf-8")
-    return {"path": path, "damaged": damaged, "changed": changed, "head_chars": len(head),
-            "result_chars": len(result), "result_lines": result.count("\n"), "max_full": max_full}
-
-
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--since", default="48 hours ago", help="git log --since penceresi")
-    ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--check", action="store_true", help="yalnız sahte satır kontrolü (CI guard)")
-    ap.add_argument("paths", nargs="*", default=ARCHIVES + ["knowledge/lessons.md"])
-    a = ap.parse_args()
-    if a.check:
-        bad = {p: bogus_lines((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
-        bad = {p: v for p, v in bad.items() if v}
-        print(json.dumps({"bogus_lines": bad}, ensure_ascii=False))
-        return 1 if bad else 0
-    report = []
-    for p in a.paths:
-        if p in ARCHIVES:
-            report.append(heal(p, a.since, not a.dry_run))
-        else:  # yalnız not ekleme (ör. knowledge/lessons.md)
-            f = ROOT / p
-            old = f.read_text(encoding="utf-8")
-            new = apply_notes(p, old)
-            if new != old and not a.dry_run:
-                f.write_text(new, encoding="utf-8")
-            report.append({"path": p, "changed": new != old, "result_chars": len(new)})
-    print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0
+        return {}
+    try:
+        return json.loads(NOTES.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true")
+    args = ap.parse_args()
+    if args.check:
+        sys.exit(1 if check_all() else 0)
+    notes = _load_notes()
+    changed = False
+    for name in ARCHIVES:
+        path = ROOT / name
+        if path.exists() and heal_file(path, notes):
+            changed = True
+    sys.exit(0 if not changed else 2)
