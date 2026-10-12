@@ -8051,8 +8051,8 @@
     "RPT-20261012-1956-grok-yedek-pr183": {
       "id": "RPT-20261012-1956-grok-yedek-pr183",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-12T19:56:53+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-12T21:02:17+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -8061,9 +8061,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-12T19:56:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-12T19:56:00+03:00"
+      "pending_at": "2026-10-12T19:56:00+03:00",
+      "delayed_at": "2026-10-12T21:02:17+03:00"
     }
   },
   "events": [
@@ -17188,6 +17190,17 @@
       "at": "2026-10-12T19:56:53+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261012-1956-grok-yedek-pr183:delayed",
+      "message_id": "RPT-20261012-1956-grok-yedek-pr183",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-12T21:02:17+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18019,6 +18032,7 @@
     "RPT-20261012-0740-grok-archive-regex-pr:delayed",
     "RPT-20261012-1652-grok-yedek-grok-botu-seen:pending",
     "RPT-20261012-1652-grok-yedek-grok-botu-seen:delayed",
-    "RPT-20261012-1956-grok-yedek-pr183:pending"
+    "RPT-20261012-1956-grok-yedek-pr183:pending",
+    "RPT-20261012-1956-grok-yedek-pr183:delayed"
   ]
 }
