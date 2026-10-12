@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -56,6 +57,46 @@ def _fmt(n: Any) -> str:
     if isinstance(n, float) and not n.is_integer():
         return f"{n:,.1f}"
     return f"{int(n):,}" if isinstance(n, (int, float)) else "n/a"
+
+
+def _period_bounds(period: Any) -> tuple[dt.date, dt.date] | None:
+    """Read explicit ISO or English-month date ranges; never infer a rolling label."""
+    if not isinstance(period, str):
+        return None
+    iso = re.findall(r"\\b\\d{4}-\\d{2}-\\d{2}\\b", period)
+    if len(iso) == 2:
+        try:
+            start, end = (dt.date.fromisoformat(value) for value in iso)
+            return (start, end) if start <= end else None
+        except ValueError:
+            return None
+    month_numbers = {name: i for i, name in enumerate(
+        ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug",
+         "sep", "oct", "nov", "dec"), start=1)}
+    parts = list(re.finditer(r"\\b(\\d{1,2})\\s+([A-Za-z]{3,9})(?:\\s+(\\d{4}))?\\b", period))
+    if len(parts) != 2:
+        return None
+    first, second = parts
+    end_year = second.group(3) or first.group(3)
+    if not end_year:
+        return None
+    start_year = first.group(3) or end_year
+    try:
+        start = dt.date(int(start_year), month_numbers[first.group(2)[:3].lower()], int(first.group(1)))
+        end = dt.date(int(end_year), month_numbers[second.group(2)[:3].lower()], int(second.group(1)))
+        if not first.group(3) and start > end:
+            start = start.replace(year=start.year - 1)
+        return (start, end) if start <= end else None
+    except (ValueError, KeyError):
+        return None
+
+
+def _comparable_periods(current: dict[str, Any], previous: dict[str, Any]) -> bool:
+    now = _period_bounds(current.get("period"))
+    before = _period_bounds(previous.get("period"))
+    return bool(now and before and
+                (now[1] - now[0]) == (before[1] - before[0]) and
+                before[1] < now[0])
 
 
 def takeaways(m: dict[str, Any], prev: dict[str, Any] | None = None) -> list[str]:
@@ -110,8 +151,10 @@ def takeaways(m: dict[str, Any], prev: dict[str, Any] | None = None) -> list[str
         )
     if prev:
         pv = prev.get("views")
-        if isinstance(pv, (int, float)) and pv > 0:
-            out.append(f"Views vs previous note: {(views - pv) / pv * 100:+.0f}% ({_fmt(pv)} -> {_fmt(views)}). Same period window required for a fair compare.")
+        if _comparable_periods(m, prev) and isinstance(pv, (int, float)) and pv > 0:
+            out.append(f"Views vs previous non-overlapping period: {(views - pv) / pv * 100:+.0f}% ({_fmt(pv)} -> {_fmt(views)}).")
+        else:
+            out.append("Views comparison unavailable: periods overlap, differ in duration, lack explicit dates, or are out of order; no percent change inferred.")
     out.append(
         "Caveat: view counts alone are not retention evidence; check engaged views, stayed-to-watch and "
         "average percentage viewed in Studio before concluding causality."
