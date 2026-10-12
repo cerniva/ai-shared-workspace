@@ -115,6 +115,16 @@ def load_metadata(path: Path) -> dict:
     return result
 
 
+REQUIRED_DECLARATIONS = ("selfDeclaredMadeForKids", "containsSyntheticMedia")
+
+
+def require_explicit_declarations(meta: dict) -> None:
+    """Fail closed unless metadata explicitly declares both YouTube status flags (learn_af28044522e96790)."""
+    missing = [key for key in REQUIRED_DECLARATIONS if key not in meta]
+    if missing:
+        raise ValueError("Metadata JSON must explicitly declare: " + ", ".join(missing) + " (no implicit defaults before upload).")
+
+
 def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False, contains_synthetic: bool = True) -> dict:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
@@ -176,8 +186,9 @@ def main() -> int:
     try:
         require_ready_preflight(args.video, args.preflight)
         meta = load_metadata(args.metadata)
-        made_for_kids = meta.get("selfDeclaredMadeForKids", False)
-        contains_synthetic = meta.get("containsSyntheticMedia", True)
+        require_explicit_declarations(meta)
+        made_for_kids = meta["selfDeclaredMadeForKids"]
+        contains_synthetic = meta["containsSyntheticMedia"]
         result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

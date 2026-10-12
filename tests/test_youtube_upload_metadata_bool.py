@@ -7,7 +7,7 @@ from unittest.mock import patch
 # Import the function under test
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from youtube_upload import load_metadata
+from youtube_upload import load_metadata, require_explicit_declarations
 
 
 class MetadataBoolParseTests(unittest.TestCase):
@@ -79,6 +79,22 @@ class MetadataBoolParseTests(unittest.TestCase):
             self.assertNotIn("containsSyntheticMedia", meta)
         finally:
             path.unlink(missing_ok=True)
+
+
+class ExplicitDeclarationGateTests(unittest.TestCase):
+    def test_missing_declarations_fail_closed(self):
+        with self.assertRaises(ValueError) as ctx:
+            require_explicit_declarations({"title": "t", "description": "d"})
+        self.assertIn("selfDeclaredMadeForKids", str(ctx.exception))
+        self.assertIn("containsSyntheticMedia", str(ctx.exception))
+
+    def test_one_missing_declaration_fails(self):
+        with self.assertRaises(ValueError):
+            require_explicit_declarations({"title": "t", "description": "d", "selfDeclaredMadeForKids": False})
+
+    def test_explicit_declarations_pass(self):
+        require_explicit_declarations({"title": "t", "description": "d",
+                                       "selfDeclaredMadeForKids": False, "containsSyntheticMedia": True})
 
 
 if __name__ == "__main__":
