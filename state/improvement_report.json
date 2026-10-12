@@ -1,122 +1,122 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-11T05:35:44+00:00",
-  "week": "2026W41",
+  "generated_at": "2026-10-12T05:38:56+00:00",
+  "week": "2026W42",
   "window_days": 7,
   "inputs": {
     "workflow_runs": 1000,
-    "bot_prs": 1,
-    "health_snapshots": 33
+    "bot_prs": 3,
+    "health_snapshots": 59
   },
   "bottlenecks": {
     "slowest_workflows": [
       {
         "workflow": "CodeQL code scanning",
         "path": ".github/workflows/codeql.yml",
-        "runs": 17,
+        "runs": 14,
         "failures": 0,
-        "median_s": 67.0,
-        "max_s": 99.0,
+        "median_s": 86.5,
+        "max_s": 92.0,
         "failure_rate": 0.0
       },
       {
         "workflow": "worker-orchestration-tests",
         "path": ".github/workflows/worker-orchestration-tests.yml",
-        "runs": 27,
-        "failures": 8,
-        "median_s": 54.0,
+        "runs": 22,
+        "failures": 3,
+        "median_s": 50.0,
         "max_s": 77.0,
-        "failure_rate": 0.296
+        "failure_rate": 0.136
       },
       {
-        "workflow": "team-worker",
-        "path": ".github/workflows/team-worker.yml",
-        "runs": 60,
-        "failures": 3,
-        "median_s": 34.0,
-        "max_s": 63.0,
-        "failure_rate": 0.05
+        "workflow": "auto-merge-gate",
+        "path": ".github/workflows/auto-merge-gate.yml",
+        "runs": 46,
+        "failures": 0,
+        "median_s": 46.0,
+        "max_s": 77.0,
+        "failure_rate": 0.0
       }
     ],
     "most_failing_workflow": {
       "workflow": "takipci-denetci",
       "path": ".github/workflows/takipci-denetci.yml",
-      "runs": 24,
-      "failures": 14,
-      "median_s": 12.0,
-      "max_s": 22.0,
-      "failure_rate": 0.583
+      "runs": 7,
+      "failures": 3,
+      "median_s": 10.0,
+      "max_s": 12.0,
+      "failure_rate": 0.429
     },
     "longest_open_handoff": {
-      "id": "HO-20261009-03",
-      "to": "grok",
-      "status": "claimed",
-      "age_h": 32.8,
-      "task": "PR #109'u değerlendir (60+ commit geride)"
+      "id": "HO-20261009-08",
+      "to": "auditor",
+      "status": "open",
+      "age_h": 56.7,
+      "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     },
     "most_down_provider": {
       "provider": "cerebras",
-      "down_h": 28.5,
-      "no_key_h": 28.5,
+      "down_h": 52.5,
+      "no_key_h": 52.5,
       "billing_h": 0.0,
       "quota_h": 0.0
     },
     "providers_down": [
       {
         "provider": "cerebras",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
+        "down_h": 52.5,
+        "no_key_h": 52.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "claude",
-        "down_h": 28.5,
+        "down_h": 52.5,
         "no_key_h": 0.0,
-        "billing_h": 28.5,
+        "billing_h": 52.5,
         "quota_h": 0.0
       },
       {
         "provider": "deepseek",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
+        "down_h": 52.5,
+        "no_key_h": 52.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "groq",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
+        "down_h": 52.5,
+        "no_key_h": 52.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "local",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
+        "down_h": 52.5,
+        "no_key_h": 52.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "mistral",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
+        "down_h": 52.5,
+        "no_key_h": 52.5,
+        "billing_h": 0.0,
+        "quota_h": 0.0
+      },
+      {
+        "provider": "openrouter_free",
+        "down_h": 52.5,
+        "no_key_h": 52.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "openai",
-        "down_h": 28.5,
+        "down_h": 51.6,
         "no_key_h": 0.0,
         "billing_h": 17.5,
-        "quota_h": 11.0
-      },
-      {
-        "provider": "openrouter_free",
-        "down_h": 28.5,
-        "no_key_h": 28.5,
-        "billing_h": 0.0,
-        "quota_h": 0.0
+        "quota_h": 34.0
       },
       {
         "provider": "grok",
@@ -127,34 +127,38 @@
       },
       {
         "provider": "gemini",
-        "down_h": 4.1,
+        "down_h": 9.3,
         "no_key_h": 0.0,
         "billing_h": 0.9,
-        "quota_h": 3.2
+        "quota_h": 8.4
       }
     ],
     "longest_waiting_bot_pr": {
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 8.3
+      "wait_h": 32.3
     },
-    "yapamadim_count": 0
+    "yapamadim_count": 2
   },
-  "yapamadim": [],
-  "long_open_handoffs": [
+  "yapamadim": [
     {
-      "id": "HO-20261009-03",
+      "id": "CI-38192796518",
       "to": "grok",
-      "status": "claimed",
-      "age_h": 32.8,
-      "task": "PR #109'u değerlendir (60+ commit geride)"
+      "status": "merged"
     },
+    {
+      "id": "CI-38196054525",
+      "to": "grok",
+      "status": "merged"
+    }
+  ],
+  "long_open_handoffs": [
     {
       "id": "HO-20261009-08",
       "to": "auditor",
       "status": "open",
-      "age_h": 32.6,
+      "age_h": 56.7,
       "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     }
   ],
@@ -163,7 +167,19 @@
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 8.3
+      "wait_h": 32.3
+    },
+    {
+      "number": 170,
+      "branch": "bot/CI-38192796518-38192830481",
+      "url": "https://github.com/cerniva/ai-shared-workspace/pull/170",
+      "wait_h": 3.9
+    },
+    {
+      "number": 172,
+      "branch": "bot/CI-38196054525-38196088152",
+      "url": "https://github.com/cerniva/ai-shared-workspace/pull/172",
+      "wait_h": 3.1
     }
   ],
   "suggestions": [
@@ -171,43 +187,43 @@
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 86 sn (14 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-worker-orchestration-tests",
       "kind": "speedup",
       "target": ".github/workflows/worker-orchestration-tests.yml",
-      "text": "'worker-orchestration-tests' medyan 54 sn (27 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'worker-orchestration-tests' medyan 50 sn (22 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
-      "key": "slow-team-worker",
+      "key": "slow-auto-merge-gate",
       "kind": "speedup",
-      "target": ".github/workflows/team-worker.yml",
-      "text": "'team-worker' medyan 34 sn (60 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "target": ".github/workflows/auto-merge-gate.yml",
+      "text": "'auto-merge-gate' medyan 46 sn (46 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "fail-takipci-denetci",
       "kind": "reliability",
       "target": ".github/workflows/takipci-denetci.yml",
-      "text": "'takipci-denetci' basarisizlik orani %58 (14/24). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+      "text": "'takipci-denetci' basarisizlik orani %43 (3/7). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
     },
     {
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 28.5 saat dustu (no_key 28.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 52.5 saat dustu (no_key 52.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
-      "key": "handoff-ho-20261009-03",
+      "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-03 (grok, claimed) 32.8 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 56.7 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 8.3 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 32.3 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "ranked_speedups": [
@@ -215,59 +231,59 @@
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 86 sn (14 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-worker-orchestration-tests",
       "kind": "speedup",
       "target": ".github/workflows/worker-orchestration-tests.yml",
-      "text": "'worker-orchestration-tests' medyan 54 sn (27 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'worker-orchestration-tests' medyan 50 sn (22 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
-      "key": "slow-team-worker",
+      "key": "slow-auto-merge-gate",
       "kind": "speedup",
-      "target": ".github/workflows/team-worker.yml",
-      "text": "'team-worker' medyan 34 sn (60 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "target": ".github/workflows/auto-merge-gate.yml",
+      "text": "'auto-merge-gate' medyan 46 sn (46 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "fail-takipci-denetci",
       "kind": "reliability",
       "target": ".github/workflows/takipci-denetci.yml",
-      "text": "'takipci-denetci' basarisizlik orani %58 (14/24). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+      "text": "'takipci-denetci' basarisizlik orani %43 (3/7). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
     },
     {
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 28.5 saat dustu (no_key 28.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 52.5 saat dustu (no_key 52.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
-      "key": "handoff-ho-20261009-03",
+      "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-03 (grok, claimed) 32.8 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 56.7 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 8.3 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 32.3 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "speedup": {
-    "key": "slow-codeql-code-scanning",
+    "key": "slow-worker-orchestration-tests",
     "kind": "speedup",
-    "target": ".github/workflows/codeql.yml",
-    "text": "'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+    "target": ".github/workflows/worker-orchestration-tests.yml",
+    "text": "'worker-orchestration-tests' medyan 50 sn (22 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
     "enriched_by": null,
     "model_error": "YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=no_key, local=no_key, claude=no_key, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin)"
   },
   "dispatch": {
     "status": "pending",
-    "handoff_id": "HO-IMP-20261011-slow-codeql-code-scanning",
+    "handoff_id": "HO-IMP-20261012-slow-worker-orchestration-tests",
     "payload": {
-      "handoff_id": "HO-IMP-20261011-slow-codeql-code-scanning",
-      "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 67 sn (17 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "handoff_id": "HO-IMP-20261012-slow-worker-orchestration-tests",
+      "task": "[.github/workflows/worker-orchestration-tests.yml] 'worker-orchestration-tests' medyan 50 sn (22 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
       "source": "improvement-bot"
     }
   },
