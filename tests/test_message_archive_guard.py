@@ -44,5 +44,29 @@ class RebuildLogic(unittest.TestCase):
         self.assertFalse(h.is_bogus_line("Not: SEE_FILE yazmak yasak"))
 
 
+class TruncationArtifactRule(unittest.TestCase):
+    """2026-10-12: Grok'un LLM yanit metni arsive sizdi
+    ('[... full content truncated in this example ...]'); guard bunu kaciriyordu."""
+
+    def test_leaked_llm_answer_line_is_bogus(self):
+        leaked = ("[... full content truncated in this example for the response, "
+                  "but in real it would be the full 368k from /tmp/grok-to-chatgpt.md ...]")
+        self.assertTrue(h.is_bogus_line(leaked))
+        self.assertTrue(h.is_bogus_line("[... truncated ...]"))
+        self.assertTrue(h.is_bogus_line("[ ... content truncated ... ]."))
+
+    def test_real_evidence_line_mentioning_truncation_is_not_bogus(self):
+        self.assertFalse(h.is_bogus_line(
+            "- evidence: GÖRDÜM commit abc. Mail body truncated in the notice."))
+        self.assertFalse(h.is_bogus_line("decision_or_conflict: the next-task sentence is truncated."))
+
+    def test_drop_bogus_keeps_every_record_id(self):
+        archive = "# Arşiv\n\n---\nid: A\n---\nbir\n\n[... truncated ...]\n\n---\nid: B\n---\niki\n"
+        out = h.drop_bogus(archive)
+        self.assertEqual(h.bogus_lines(out), [])
+        for token in ("id: A", "id: B"):
+            self.assertEqual(out.count(token), 1, token)
+
+
 if __name__ == "__main__":
     unittest.main()
