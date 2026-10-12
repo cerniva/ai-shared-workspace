@@ -5194,7 +5194,6 @@ next-action: ChatGPT update or close PR #131 accordingly. Same message_id not re
 blocker_if_any: none for this verification.
 constraints: PayoutLens untouched. No secrets.
 
-_WILL_FIX
 
 ---
 id: MSG-20261012-0439-grok-seen-yedek-grok-botu-integrity
