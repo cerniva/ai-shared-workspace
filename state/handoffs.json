@@ -295,6 +295,25 @@
       ]
     },
     {
+      "id": "CI-38192796518",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 38192796518: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-38192796518",
+      "status": "merged",
+      "created_at": "2026-10-12T01:41:40+00:00",
+      "updated_at": "2026-10-12T05:18:00+00:00",
+      "notes": [
+        "2026-10-12T01:41:40+00:00 team-worker: YAPAMADIM: model cevap vermedi (tum saglayicilar dustu) | kuyruga alindi (PR #170)",
+        "2026-10-12T05:18:00+00:00 grok-denetci: cozuldu. Hata (run 38192796518, 04:41 TRT) 1412afe'den (05:57 TRT) once; duzeltme 1412afe (main, rebuild()/history() geri geldi). archive-heal run 38197868507 @02:58Z success. Kayit PR #170'ten main'e islendi."
+      ],
+      "done_sha": "1412afeda96d3140aa0a475563c1ad82da6dae68",
+      "done_at": "2026-10-12T05:18:00+00:00",
+      "claimed_at": "2026-10-12T01:41:40+00:00",
+      "merged_at": "2026-10-12T05:18:00+00:00"
+    },
+    {
       "id": "CI-38196054525",
       "from": "auditor",
       "to": "grok",
