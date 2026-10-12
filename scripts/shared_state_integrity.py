@@ -10,8 +10,10 @@ from pathlib import Path
 
 if __package__:
     from .handoff import validate
+    from .archive_heal import bogus_lines
 else:
     from handoff import validate
+    from archive_heal import bogus_lines
 
 ROOT = Path(__file__).resolve().parents[1]
 MESSAGE_FILES = {
@@ -32,6 +34,9 @@ def check_message(path: Path, expected_heading: str, minimum_chars: int = 0) -> 
         raise IntegrityError(f"{path}: missing original heading; possible overwrite")
     if len(text.strip()) <= max(len(expected_heading), minimum_chars):
         raise IntegrityError(f"{path}: unexpectedly empty shared message archive")
+    embedded = bogus_lines(text)
+    if embedded:
+        raise IntegrityError(f"{path}: embedded replacement markers on lines {embedded[:5]}")
 
 
 def check_handoffs(path: Path) -> int:
