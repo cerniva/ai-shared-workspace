@@ -38,6 +38,20 @@ class SharedStateIntegrityTests(unittest.TestCase):
             with self.assertRaises(IntegrityError):
                 check_message(path, "# Grok → ChatGPT")
 
+    def test_reject_embedded_replacement_markers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "grok-to-chatgpt.md"
+            body = (
+                "# Grok → ChatGPT\n\n"
+                + ("real line\n" * 40)
+                + "FULL_CONTENT_WILL_BE_REPLACED\n"
+                + "more real\n"
+            )
+            path.write_text(body, encoding="utf-8")
+            with self.assertRaises(IntegrityError) as ctx:
+                check_message(path, "# Grok → ChatGPT")
+            self.assertIn("embedded replacement markers", str(ctx.exception))
+
     def test_reject_truncated_archive_with_original_heading(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "grok-to-chatgpt.md"
