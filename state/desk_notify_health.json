@@ -848,12 +848,10 @@
     "RPT-20261012-1652-grok-yedek-grok-botu-seen:delayed",
     "RPT-20261012-1956-grok-yedek-pr183:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261012-1956-grok-yedek-pr183:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-12T19:56:53+03:00",
+  "checked_at": "2026-10-12T19:57:34+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 121,
@@ -861,6 +859,6 @@
     "delayed": 230
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 614,
+  "active_source_id_count": 615,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
