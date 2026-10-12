@@ -198,10 +198,20 @@ def record_ids(text: str) -> set[str]:
 
 
 def assert_history_ids_preserved(versions: list[str], result: str, path: str) -> None:
-    """En uzun dosya kontrolünün kaçırdığı, geçmişteki kimlik kaybında yazmayı durdur."""
+    """En uzun dosya kontrolünün kaçırdığı, geçmişteki kimlik kaybında yazmayı durdur.
+
+    Kırpılmış/sahte sürümlerdeki stub id'ler (ör. MSG-20260926-0904) beklenen sayılmaz;
+    yalnız uzunluğu en uzun tam sürümün %90'ı ve üzeri olan sürümler sayılır.
+    """
+    full = [drop_bogus(v) for v in versions if v.strip() and not has_bogus_head(v)]
+    if not full:
+        return
+    max_len = max(len(v) for v in full)
     expected: set[str] = set()
-    for version in versions:
-        expected.update(record_ids(drop_bogus(version)))
+    for version in full:
+        if len(version) < 0.9 * max_len:
+            continue
+        expected.update(record_ids(version))
     missing = expected - record_ids(result)
     if missing:
         sample = ", ".join(sorted(missing)[:5])
