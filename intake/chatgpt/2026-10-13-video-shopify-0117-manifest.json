@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "plan": "video_shopify",
+  "run_at": "2026-10-13T01:17:52+03:00",
+  "status": "CONTINUE",
+  "repo_main_sha": "af4fbc6415d44c09acee83961c260f51b9dd959f",
+  "ledger_count": 69,
+  "source_catalog_count": 89,
+  "video_shopify_active_learning_count": 19,
+  "plan_learnings_require": {
+    "last_verified_ci_run": 38264305868,
+    "last_verified_ci_job": 114862462988,
+    "stdout": "plan_learnings tag=video_shopify count=18 error=None",
+    "rerun_this_turn": false,
+    "current_ledger_19_not_yet_revalidated_by_CI": true
+  },
+  "applied_learning_ids": [
+    "learn_ae8a18babc190373",
+    "learn_af28044522e96790",
+    "learn_4decad368966e2e6",
+    "learn_e74d8dd625c30863",
+    "learn_3d679ef374927694",
+    "learn_991df8ed39245aef",
+    "learn_f0de38014bef7448",
+    "learn_e1b34af6bbc7cf0d"
+  ],
+  "applied_learning_evidence": [
+    {
+      "learning_id": "learn_ae8a18babc190373",
+      "decision": "Block v4 publish until SHA-bound independent review, verified individual clip provenance, and semantic audio/visual review.",
+      "evidence": "Local FFmpeg QA 2026-10-13 01:17: SHA 5be7e44f..., 27.3 s, no black/freeze; Pressmaster Pexels 3115386 exact page unresolved; 8 sampled frames only."
+    },
+    {
+      "learning_id": "learn_af28044522e96790",
+      "decision": "Require explicit made-for-kids and synthetic-media declarations in metadata before upload; retain private-by-default.",
+      "evidence": "main scripts/youtube_upload.py blob 715241091fdc90e2a6e751b9f479463e25921b7c still allows missing declarations; attempted update_file blocked by safety checks."
+    },
+    {
+      "learning_id": "learn_4decad368966e2e6",
+      "decision": "Bind local QA evidence to exact MP4 hash; do not equate render artifact download with publish-ready.",
+      "evidence": "sha256sum 5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334 and full decode exit 0."
+    },
+    {
+      "learning_id": "learn_e74d8dd625c30863",
+      "decision": "Prioritize first two seconds and stayed-to-watch rather than views alone for next concept; no unauthorized Mbappé broadcast clips.",
+      "evidence": "GitHub Actions analytics job 114688805559 run 38212246628: Cerno 5,323 views, 2,009 engaged, 38.2% stayed-to-watch (13 Sep–10 Oct); Analytics API 403 insufficient_scope."
+    },
+    {
+      "learning_id": "learn_3d679ef374927694",
+      "decision": "Treat GraphQL errors/userErrors as failures even on HTTP 200; no product mutations.",
+      "evidence": "Shopify schema→validate revision 2 VALID→GraphQL ProductCostsAudit read 2026-10-13; errors=null; 9/9 DRAFT."
+    },
+    {
+      "learning_id": "learn_991df8ed39245aef",
+      "decision": "No discounts or margin claims without buyer-context price and actual landed cost.",
+      "evidence": "Live Shopify GraphQL: pet hair roller eight variant unitCosts exactly equal to prices, oil sprayer price EUR24.90 unitCost EUR7.42; shipping/returns unknown."
+    },
+    {
+      "learning_id": "learn_f0de38014bef7448",
+      "decision": "Do not claim demand or conversion with zero store sessions; avoid publishing.",
+      "evidence": "ShopifyQL 2026-10-06 through 2026-10-12: sessions=0, checkout sessions=0, orders=0, total sales=0."
+    },
+    {
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "decision": "Keep Gumroad product local draft; no create, publish or price update without authenticated account and approval.",
+      "evidence": "TinyFish profiles 2026-10-13: gumroad profile has signed_in_sites=[]; no verified Gumroad account access."
+    }
+  ],
+  "shorts": {
+    "asset": "short-onion-001-v4-tail-trim-REVIEW.mp4",
+    "sha256": "5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334",
+    "duration_seconds": 27.3,
+    "resolution": "1080x1920",
+    "fps": 30,
+    "full_decode_exit": 0,
+    "black_intervals": 0,
+    "freezes_over_1_5_seconds": 0,
+    "low_audio_seconds_at_minus_38_db": 8.06,
+    "visual_sample_count": 8,
+    "rights_all_verified": false,
+    "pressmaster_pexels_id_3115386_exact_source_unverified": true,
+    "independent_review_for_sha": false,
+    "publish_ready": false,
+    "remote_youtube_id": null,
+    "uploaded_this_run": false
+  },
+  "shopify": {
+    "domain": "i19cci-4e.myshopify.com",
+    "currency": "EUR",
+    "products": 9,
+    "drafts": 9,
+    "graphql_schema_inspected": true,
+    "graphql_validated": true,
+    "graphql_errors": null,
+    "pet_roller_variants_with_price_equal_unit_cost": 8,
+    "oil_sprayer_price_eur": 24.9,
+    "oil_sprayer_unit_cost_eur": 7.42,
+    "landed_cost_verified": false,
+    "period": "2026-10-06..2026-10-12",
+    "sessions": 0,
+    "checkout_sessions": 0,
+    "orders": 0,
+    "total_sales_eur": 0,
+    "mutations_this_run": 0
+  },
+  "gumroad": {
+    "signed_in_sites": [],
+    "authenticated": false,
+    "changes_this_run": 0
+  },
+  "github": {
+    "branch": "chatgpt/youtube-metadata-explicit-gate-20261013-0117",
+    "attempted_code_fix": "explicit metadata declaration gate in scripts/youtube_upload.py",
+    "code_update_result": "blocked by safety checks",
+    "new_code_commit": false
+  },
+  "payoutlens_touched": false,
+  "paid_credits_used": false
+}

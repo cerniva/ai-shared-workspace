@@ -8,10 +8,13 @@
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
-      "status": "staged",
+      "status": "rejected_duplicate",
       "path": "intake/promotions/2026-10-11-research-learner-video_shopify.json",
       "learning_id": "learn_ca10b26496d09b24",
-      "source_id": "src_14818279e16364ff"
+      "source_id": "src_14818279e16364ff",
+      "duplicate_of": "learn_7fb60df02e9c91f4",
+      "failure_reason": "Staged promotion intake/promotions/2026-10-11-research-learner-video_shopify.json is absent from main: commit 560e4b78 rejected learn_ca10b26496d09b24 as a duplicate of verified learn_7fb60df02e9c91f4 (same Shopify changelog headline, src_14818279e16364ff). Original source_id and learning_id retained. Research learner must verify write/read-back before reporting staged.",
+      "checked_main_sha": "538adc33"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
