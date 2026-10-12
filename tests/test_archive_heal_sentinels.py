@@ -10,6 +10,8 @@ class SentinelTests(unittest.TestCase):
     def test_embedded_sentinels_are_bogus(self):
         for line in [
             "SEE_FILE",
+            "_WILL_FIX",
+            "WILL_FIX",
             "$(cat /tmp/x.md)",
             "FULL_CONTENT_WILL_BE_REPLACED",
             "  FULL_CONTENT_WILL_BE_REPLACED  ",
