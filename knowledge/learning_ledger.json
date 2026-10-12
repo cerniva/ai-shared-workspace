@@ -786,6 +786,30 @@
       "title": "Sharing service is Share-button destination context, not downstream proof"
     },
     {
+      "claim": "Shopify developer changelog published October 9, 2026 states the Catalog API may return a variant compare-at price as optional list_price and a product list_price_range; list_price is only supplied when merchant mapping, buyer-context price comparison, and regional visibility permit it. The price field is unchanged, and the price object amount is in minor currency units.",
+      "decision": "SHOPIFY_CATALOG_LIST_PRICE_CONTEXT_GATE: In video_shopify product evaluation, use list_price only when provided in the same currency and buyer context as price; amounts are minor units. Treat missing list_price as unknown, not as zero or proof of no discount. Do not infer realized margins or change prices from compare-at values; report applicability and require real product data before any product decision.",
+      "domain": "shopify-catalog-pricing-context",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If list_price is absent, use independently verified landed cost and actual price for product evaluation, with markdown unknown."
+      ],
+      "learned_at": "2026-10-12T20:30:00+03:00",
+      "learning_id": "learn_991df8ed39245aef",
+      "next_measurement": "On the next authorized Catalog API read, record a real variant price/list_price/currency/buyer region, show the gate result and applied_learning_ids in the actual product decision report. If no authorized API read is available, mark blocked and do not claim application.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_012e3cb92c1de975"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "Catalog list_price is optional and buyer-context dependent"
+    },
+    {
       "claim": "The Federal Reserve's September 16, 2026 FOMC statement reports a unanimous 12-0 vote to increase the federal funds target range by 25 basis points to 3.75%-4.00%. This verifies the dated historical policy action, not the current policy rate.",
       "decision": "For Finance reports, cite the dated Federal Reserve primary release for September 16 2026 policy action; never extrapolate this historical range to today's live rate without a newer FOMC release.",
       "domain": "finance-news",
@@ -1556,5 +1580,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-12T12:39:50+00:00"
+  "updated_at": "2026-10-12T21:03:32+00:00"
 }

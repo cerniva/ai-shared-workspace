@@ -18,6 +18,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://shopify.dev/changelog/posts/catalog-api-now-returns-compare-at-prices-as-list_price",
+      "category": "shopify-catalog-pricing-context",
+      "cost_quota": "free public documentation; no paid API calls",
+      "discovered_at": "2026-10-12T20:30:00+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-12T20:30:00+03:00",
+      "provenance": "verified",
+      "purpose": "Check whether compare-at price is present and region-valid before showing a markdown or scoring products",
+      "reliability_limits": "Documentation only; no merchant product payload or authorized store/catalog access was verified. Optional field may be absent due to merchant settings or buyer region.",
+      "source_id": "src_012e3cb92c1de975",
+      "source_name": "Shopify developer changelog: Catalog API list_price"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://developers.google.com/youtube/reporting/revision_history",
       "category": "youtube-shorts-analytics",
       "cost_quota": "free public documentation; no API credit used",
@@ -1322,5 +1337,5 @@
       "source_name": "CoinGecko API: simple/price reference"
     }
   ],
-  "updated_at": "2026-10-12T12:39:50+00:00"
+  "updated_at": "2026-10-12T21:03:32+00:00"
 }
