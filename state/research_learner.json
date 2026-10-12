@@ -8,10 +8,12 @@
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
-      "status": "staged",
+      "status": "bridge_failure",
       "path": "intake/promotions/2026-10-11-research-learner-video_shopify.json",
       "learning_id": "learn_ca10b26496d09b24",
-      "source_id": "src_14818279e16364ff"
+      "source_id": "src_14818279e16364ff",
+      "failure_reason": "Staged promotion path is absent from main (GitHub Contents API 404); retain original source_id and learning_id without assuming equivalence to an existing learning. Research learner must verify write/read-back before staged and reconcile historical state.",
+      "checked_main_sha": "af4fbc6415d44c09acee83961c260f51b9dd959f"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
