@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_554c15b47398880e",
+      "source_name": "SIFMA 2026 Columbus Day fixed-income market closure recommendation",
+      "canonical": "https://www.sifma.org/news/press-releases/sifma-fixed-income-market-close-recommendations-in-the-u-s-the-u-k-and-japan-for-u-s-columbus-day-and-japan-health-and-sports-day-holidays-2026",
+      "category": "finance-market-calendar",
+      "purpose": "Determine bond-market holiday and last-valid-session data freshness for daily Finance reports",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public web",
+      "reliability_limits": "SIFMA holiday closes are recommendations, not legally binding; actual member trading decisions and data availability may differ; 2026 event-specific release, check each year's official schedule.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-12T09:00:00+03:00",
+      "last_successful_use": "2026-10-12T09:00:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_2a769140d18d9dbe",
+      "title": "Finance bond yield freshness must respect SIFMA market holidays",
+      "domain": "finance",
+      "claim": "SIFMA's 2026-09-29 official release recommends a full market close for U.S.-dollar-denominated fixed income in the U.S., U.K. and Japan on Monday 2026-10-12. This is a recommendation to members, not a legal market closure. A Monday 09:00 Europe/Istanbul Finance report must not present Friday's U.S. Treasury yield as a Monday live closing quote or infer zero yield change on a bond holiday.",
+      "evidence_status": "verified",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-12T09:00:00+03:00",
+      "decision": "FINANCE_BOND_HOLIDAY_FRESHNESS_GATE: Check official SIFMA fixed-income holiday schedule and U.S. Treasury dated yield series before daily rate comparisons. Label last valid U.S. Treasury observation with exact date; mark same-day change N/A when no official observation. Equity and crypto calendars are independent.",
+      "next_measurement": "In the next finance report verify last published Treasury business-day par yields and record source observation date; do not fill a holiday with Friday rates as new data.",
+      "source_ids": [
+        "src_554c15b47398880e"
+      ],
+      "failure_history": [],
+      "fallback_history": [
+        "If SIFMA current-year schedule cannot be fetched, consult the dated U.S. Treasury daily par yield table; mark current-day yield N/A until a dated official observation is available."
+      ],
+      "supersedes": null
+    }
+  ]
+}
