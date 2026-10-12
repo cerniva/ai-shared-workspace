@@ -160,10 +160,16 @@ def issues_to_close(issues: list[dict], workflow: str) -> list[dict]:
     return out
 
 
+def defang_shell(text: str) -> str:
+    """Neutralise shell-substitution tokens (e.g. a step named "$(cat lines")
+    so handoff.load()'s placeholder guard does not reject state/handoffs.json."""
+    return text.replace("$(", "$ (").replace("`", "'")
+
+
 def summarize(workflow: str, run_id: Any, failed: list[dict], errors: list[str], test_ids: list[str]) -> str:
     jobs = ", ".join(f"{j['name']}[{'/'.join(j.get('steps') or []) or '?'}]" for j in failed) or "?"
     head = test_ids[0] if test_ids else (errors[0] if errors else "no error line matched")
-    return f"CI failure in '{workflow}' run {run_id}: jobs {jobs}; first error: {head}"[:900]
+    return defang_shell(f"CI failure in '{workflow}' run {run_id}: jobs {jobs}; first error: {head}")[:900]
 
 
 def issue_body(run: dict, failed: list[dict], errors: list[str], test_ids: list[str], sig: str) -> str:

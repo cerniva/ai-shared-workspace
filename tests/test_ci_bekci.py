@@ -189,5 +189,13 @@ class FlowTests(unittest.TestCase):
         self.assertEqual(gh.calls, [])
 
 
+class DefangTests(unittest.TestCase):
+    def test_summary_has_no_shell_placeholder(self):
+        s = cb.summarize("archive-heal", 1, [{"name": "heal", "steps": ["Guard (no SEE_FILE / $(cat lines)"]}],
+                         ["`cat x` $(echo y)"], [])
+        for pat in ("$(cat ", "`cat ", "$(echo ", "\\$("):
+            self.assertNotIn(pat, s)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -295,7 +295,7 @@
       "id": "CI-38196054525",
       "from": "auditor",
       "to": "grok",
-      "task": "CI failure in 'archive-heal' run 38196054525: jobs heal[Guard (no SEE_FILE / $(cat lines)]; first error: Process completed with exit code 1.",
+      "task": "CI failure in 'archive-heal' run 38196054525: jobs heal[Guard (no SEE_FILE / $ (cat lines)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38196054525",
       "status": "open",
