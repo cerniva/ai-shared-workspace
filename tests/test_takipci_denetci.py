@@ -163,6 +163,36 @@ class TakipciDenetciTests(unittest.TestCase):
         self.assertIn("github.event.client_payload.ci_pending", wf)
         self.assertIn('--dispatch --ci-pending "${CP_CI_PENDING:-false}"', wf)
 
+    def test_stub_marker_inside_regex_or_docstring_passes(self):
+        # False-positive regression (PR #179 / takipci-denetci): legitimate
+        # sentinel regex/docstring mentions (e.g. archive_heal.py's
+        # BODY_SENTINEL list) must NOT fail the audit.
+        doc = '"""Neden: baz\u0131 botlar \u2018SEE_FILE\u2019, PLACE' + 'HOLDER... gibi sahte sat\u0131rlar yaz\u0131yor."""\n'
+        code = 'import re\nSENTINEL = re.compile(r"^(SEE_FILE|PLACE' + 'HOLDER)\\S*")  # sentinel\n'
+        res = td.evaluate("fix(archive): correct historical ID matching regexes",
+                          [f("scripts/archive_heal.py", "def x():\n    pass\n", doc + code)],
+                          GOOD_BODY, "bot/x")
+        self.assertEqual(res["verdict"], "pass")
+        self.assertFalse(any("stub marker" in r for r in res["reasons"]))
+
+    def test_stub_marker_assignment_identifier_passes(self):
+        # Marker as part of an assignment or identifier (not a standalone
+        # stub line) must not fail.
+        res = td.evaluate("fix: x",
+                          [f("scripts/a.py", CODE, "MARKERS = (\"PLACE" + "HOLDER\",)\n" + CODE)],
+                          GOOD_BODY, "bot/x")
+        self.assertEqual(res["verdict"], "pass")
+
+    def test_stub_marker_standalone_lines_fail(self):
+        # Real bot-pasted stub lines must still fail (bare, commented,
+        # dotted, lowercase).
+        for stub in ["PLACE" + "HOLDER\n", "# PLACE" + "HOLDER\n",
+                     "PLACE" + "HOLDER...\n", "place" + "holder\n"]:
+            res = td.evaluate("fix: x", [f("scripts/a.py", CODE, CODE + stub)],
+                              GOOD_BODY, "bot/x")
+            self.assertEqual(res["verdict"], "fail", f"stub {stub!r} should fail")
+            self.assertTrue(any("stub marker" in r for r in res["reasons"]))
+
 
 if __name__ == "__main__":
     unittest.main()
