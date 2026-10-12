@@ -191,8 +191,8 @@ def apply_notes(path: str, text: str) -> str:
 
 def record_ids(text: str) -> set[str]:
     """Kimlikleri koru; rapor başlıkları da append-only kayıttır."""
-    message_ids = re.findall(r"^id:\\s*([^\\r\\n]+)", text, re.MULTILINE)
-    report_ids = re.findall(r"^##\\s+(RPT-[A-Za-z0-9_-]+)\\b", text, re.MULTILINE)
+    message_ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
+    report_ids = re.findall(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", text, re.MULTILINE)
     return set(message_ids) | set(report_ids)
 
 
