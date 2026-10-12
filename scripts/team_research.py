@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from scripts.team_worker import HANDOFF_ID_RE, append_note, find_handoff, load_handoffs, redact
+from scripts.team_worker import HANDOFF_ID_RE, append_note, find_handoff, load_handoffs, redact, register_ci_handoff
 
 MARK = "research-learner (team-research)"
 
@@ -35,6 +35,12 @@ def research(payload: dict[str, str], *, adapter, handoffs: Path = Path("state/h
     if not HANDOFF_ID_RE.match(hid):
         raise ValueError(f"invalid handoff_id: {hid!r}")
     item = find_handoff(load_handoffs(handoffs), hid)
+    if item is None and hid.startswith("CI-"):
+        # ci-bekci CI-<run_id> jobs are only registered on team-worker bot branches, never on main;
+        # register them here too so the YAPAMADIM research note lands instead of the run going red.
+        register_ci_handoff(handoffs, hid, payload.get("task") or f"ci-bekci {hid}",
+                            now or datetime.now(timezone.utc).isoformat(timespec="seconds"))
+        item = find_handoff(load_handoffs(handoffs), hid)
     if item is None:
         raise ValueError(f"handoff {hid} not found")
     if any(MARK in str(n) for n in item.get("notes") or []):

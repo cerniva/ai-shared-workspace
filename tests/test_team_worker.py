@@ -535,6 +535,19 @@ class TeamResearch(Base):
         research({"handoff_id": "HO-T-1", "reason": "r", "task": "t"}, adapter=None, handoffs=path, env={})
         self.assertTrue(any("model anahtari yok" in n for n in self.notes()))
 
+    def test_research_registers_missing_ci_handoff(self):
+        path = self.root / "state/handoffs.json"
+        payload = {"handoff_id": "CI-38192796518", "reason": "r", "task": "ci-bekci kirmizi CI"}
+        self.assertEqual(research(payload, adapter=None, handoffs=path, env={}), "noted")
+        item = tw.find_handoff(tw.load_handoffs(path), "CI-38192796518")
+        self.assertIsNotNone(item)
+        self.assertTrue(any("research-learner (team-research)" in str(n) for n in item.get("notes") or []))
+
+    def test_research_unknown_non_ci_still_raises(self):
+        path = self.root / "state/handoffs.json"
+        with self.assertRaises(ValueError):
+            research({"handoff_id": "HO-NOPE-9", "reason": "r", "task": "t"}, adapter=None, handoffs=path, env={})
+
 
 class WorkflowWiring(unittest.TestCase):
     def test_workflow_triggers(self):
