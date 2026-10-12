@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_012e3cb92c1de975",
+      "source_name": "Shopify developer changelog: Catalog API list_price",
+      "canonical": "https://shopify.dev/changelog/posts/catalog-api-now-returns-compare-at-prices-as-list_price",
+      "category": "shopify-catalog-pricing-context",
+      "purpose": "Check whether compare-at price is present and region-valid before showing a markdown or scoring products",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no paid API calls",
+      "reliability_limits": "Documentation only; no merchant product payload or authorized store/catalog access was verified. Optional field may be absent due to merchant settings or buyer region.",
+      "discovered_at": "2026-10-12T20:30:00+03:00",
+      "last_successful_use": "2026-10-12T20:30:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_991df8ed39245aef",
+      "title": "Catalog list_price is optional and buyer-context dependent",
+      "domain": "shopify-catalog-pricing-context",
+      "claim": "Shopify developer changelog published October 9, 2026 states the Catalog API may return a variant compare-at price as optional list_price and a product list_price_range; list_price is only supplied when merchant mapping, buyer-context price comparison, and regional visibility permit it. The price field is unchanged, and the price object amount is in minor currency units.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_CATALOG_LIST_PRICE_CONTEXT_GATE: In video_shopify product evaluation, use list_price only when provided in the same currency and buyer context as price; amounts are minor units. Treat missing list_price as unknown, not as zero or proof of no discount. Do not infer realized margins or change prices from compare-at values; report applicability and require real product data before any product decision.",
+      "outcome": "pending",
+      "next_measurement": "On the next authorized Catalog API read, record a real variant price/list_price/currency/buyer region, show the gate result and applied_learning_ids in the actual product decision report. If no authorized API read is available, mark blocked and do not claim application.",
+      "learned_at": "2026-10-12T20:30:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_012e3cb92c1de975"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If list_price is absent, use independently verified landed cost and actual price for product evaluation, with markdown unknown."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_CATALOG_LIST_PRICE_CONTEXT_GATE"
+  ]
+}
