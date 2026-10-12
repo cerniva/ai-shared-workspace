@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 121,
     "answered": 72,
-    "delayed": 228
+    "delayed": 229
   },
-  "event_count": 827,
+  "event_count": 828,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -844,17 +844,20 @@
     "RPT-20261012-0740-grok-archive-regex-pr:pending",
     "MSG-20260926-0904:delayed",
     "RPT-20261012-0740-grok-archive-regex-pr:delayed",
-    "RPT-20261012-1652-grok-yedek-grok-botu-seen:pending"
+    "RPT-20261012-1652-grok-yedek-grok-botu-seen:pending",
+    "RPT-20261012-1652-grok-yedek-grok-botu-seen:delayed"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "RPT-20261012-1652-grok-yedek-grok-botu-seen:delayed"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-12T17:11:22+03:00",
+  "checked_at": "2026-10-12T18:09:21+03:00",
   "historical_counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 121,
     "answered": 72,
-    "delayed": 229
+    "delayed": 230
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 612,
