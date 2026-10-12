@@ -10,10 +10,10 @@ from pathlib import Path
 
 if __package__:
     from .handoff import validate
-    from .archive_heal import bogus_lines
+    from .archive_heal import bogus_lines, assert_unique_record_ids
 else:
     from handoff import validate
-    from archive_heal import bogus_lines
+    from archive_heal import bogus_lines, assert_unique_record_ids
 
 ROOT = Path(__file__).resolve().parents[1]
 MESSAGE_FILES = {
@@ -37,6 +37,10 @@ def check_message(path: Path, expected_heading: str, minimum_chars: int = 0) -> 
     embedded = bogus_lines(text)
     if embedded:
         raise IntegrityError(f"{path}: embedded replacement markers on lines {embedded[:5]}")
+    try:
+        assert_unique_record_ids(text, str(path))
+    except SystemExit as exc:
+        raise IntegrityError(f"{path}: {exc}") from exc
 
 
 def check_handoffs(path: Path) -> int:
