@@ -197,6 +197,21 @@ def record_ids(text: str) -> set[str]:
     return set(message_ids) | set(report_ids)
 
 
+def assert_unique_record_ids(text: str, path: str) -> None:
+    """Fail closed if a rebuilt archive repeats a message or report record ID."""
+    ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
+    ids += re.findall(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", text, re.MULTILINE)
+    seen: set[str] = set()
+    duplicates: set[str] = set()
+    for record_id in ids:
+        if record_id in seen:
+            duplicates.add(record_id)
+        seen.add(record_id)
+    if duplicates:
+        sample = ", ".join(sorted(duplicates)[:5])
+        raise SystemExit(f"{path}: duplicate record IDs ({len(duplicates)}): {sample}; no write")
+
+
 def assert_history_ids_preserved(versions: list[str], result: str, path: str) -> None:
     """En uzun dosya kontrolünün kaçırdığı, geçmişteki kimlik kaybında yazmayı durdur.
 
@@ -245,6 +260,7 @@ def heal(path: str, since: str, write: bool) -> dict:
             if real and real not in norm(result):
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
+    assert_unique_record_ids(result, path)
     assert_history_ids_preserved(versions, result, path)
     changed = result != head
     if changed and write:
