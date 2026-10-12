@@ -189,6 +189,25 @@ def apply_notes(path: str, text: str) -> str:
     return text
 
 
+
+def record_ids(text: str) -> set[str]:
+    """Kimlikleri koru; rapor başlıkları da append-only kayıttır."""
+    message_ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
+    report_ids = re.findall(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", text, re.MULTILINE)
+    return set(message_ids) | set(report_ids)
+
+
+def assert_history_ids_preserved(versions: list[str], result: str, path: str) -> None:
+    """En uzun dosya kontrolünün kaçırdığı, geçmişteki kimlik kaybında yazmayı durdur."""
+    expected: set[str] = set()
+    for version in versions:
+        expected.update(record_ids(drop_bogus(version)))
+    missing = expected - record_ids(result)
+    if missing:
+        sample = ", ".join(sorted(missing)[:5])
+        raise SystemExit(f"{path}: historical record IDs missing ({len(missing)}): {sample}; no write")
+
+
 def heal(path: str, since: str, write: bool) -> dict:
     file = ROOT / path
     head = file.read_text(encoding="utf-8") if file.exists() else ""
@@ -216,6 +235,7 @@ def heal(path: str, since: str, write: bool) -> dict:
             if real and real not in norm(result):
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
+    assert_history_ids_preserved(versions, result, path)
     changed = result != head
     if changed and write:
         file.write_text(result, encoding="utf-8")
@@ -225,7 +245,7 @@ def heal(path: str, since: str, write: bool) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--since", default="48 hours ago", help="git log --since penceresi")
+    ap.add_argument("--since", default="14 days ago", help="git log --since penceresi")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--check", action="store_true", help="yalnız sahte satır kontrolü (CI guard)")
     ap.add_argument("paths", nargs="*", default=ARCHIVES + ["knowledge/lessons.md"])
