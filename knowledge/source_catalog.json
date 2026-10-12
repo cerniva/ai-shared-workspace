@@ -438,6 +438,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://www.sifma.org/news/press-releases/sifma-fixed-income-market-close-recommendations-in-the-u-s-the-u-k-and-japan-for-u-s-columbus-day-and-japan-health-and-sports-day-holidays-2026",
+      "category": "finance-market-calendar",
+      "cost_quota": "free public web",
+      "discovered_at": "2026-10-12T09:00:00+03:00",
+      "evidence_tier": "primary",
+      "failure_note": null,
+      "last_successful_use": "2026-10-12T09:00:00+03:00",
+      "provenance": "verified",
+      "purpose": "Determine bond-market holiday and last-valid-session data freshness for daily Finance reports",
+      "reliability_limits": "SIFMA holiday closes are recommendations, not legally binding; actual member trading decisions and data availability may differ; 2026 event-specific release, check each year's official schedule.",
+      "source_id": "src_554c15b47398880e",
+      "source_name": "SIFMA 2026 Columbus Day fixed-income market closure recommendation"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
       "category": "system-artifact-integrity",
       "cost_quota": "free public official changelog; no key required",
@@ -1307,5 +1322,5 @@
       "source_name": "CoinGecko API: simple/price reference"
     }
   ],
-  "updated_at": "2026-10-10T02:40:35+00:00"
+  "updated_at": "2026-10-12T12:39:50+00:00"
 }

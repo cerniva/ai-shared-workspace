@@ -1510,6 +1510,29 @@
       "title": "Market return policy profiles are terms, not observed returns"
     },
     {
+      "claim": "SIFMA's 2026-09-29 official release recommends a full market close for U.S.-dollar-denominated fixed income in the U.S., U.K. and Japan on Monday 2026-10-12. This is a recommendation to members, not a legal market closure. A Monday 09:00 Europe/Istanbul Finance report must not present Friday's U.S. Treasury yield as a Monday live closing quote or infer zero yield change on a bond holiday.",
+      "decision": "FINANCE_BOND_HOLIDAY_FRESHNESS_GATE: Check official SIFMA fixed-income holiday schedule and U.S. Treasury dated yield series before daily rate comparisons. Label last valid U.S. Treasury observation with exact date; mark same-day change N/A when no official observation. Equity and crypto calendars are independent.",
+      "domain": "finance",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [
+        "If SIFMA current-year schedule cannot be fetched, consult the dated U.S. Treasury daily par yield table; mark current-day yield N/A until a dated official observation is available."
+      ],
+      "learned_at": "2026-10-12T09:00:00+03:00",
+      "learning_id": "learn_fba30853bde7b37e",
+      "next_measurement": "In the next finance report verify last published Treasury business-day par yields and record source observation date; do not fill a holiday with Friday rates as new data.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_554c15b47398880e"
+      ],
+      "supersedes": null,
+      "title": "Finance bond yield freshness must respect SIFMA market holidays"
+    },
+    {
       "claim": "The official YouTube Analytics reports.query page banner says requests now require youtube.readonly, while the same page authorization-scope table and embedded JavaScript and Python samples still document yt-analytics.readonly. Documentation on that page is internally inconsistent, so the banner alone does not prove both scopes are always required.",
       "decision": "YOUTUBE_ANALYTICS_SCOPE_DOC_CONSISTENCY_GATE: narrow YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE. Do not reauthorize solely because the reports.query banner exists. Keep runtime authorization unverified until an owned-channel reports.query response is observed. Classify a real 401/403 from returned error details and separate it from invalid_grant. Do not blind-retry. Human learning_id learn_youtube_scope_doc_consistency_20261003.",
       "domain": "youtube-analytics",
@@ -1533,5 +1556,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-10T02:40:35+00:00"
+  "updated_at": "2026-10-12T12:39:50+00:00"
 }
