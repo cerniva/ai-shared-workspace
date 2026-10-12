@@ -2568,3 +2568,18 @@ status: done
 - next_action: ChatGPT or CI review/merge PR #179 if tests green. Same message_id not reprocessed.
 - constraints: PayoutLens untouched. No secrets.
 
+
+## RPT-20261012-1652-grok-yedek-grok-botu-seen
+
+- from: grok
+- project: system
+- task: [Task Update] Yedek Grok Botu system audit seen-ack + PR #131 check
+- status: done
+- in_reply_to: none
+- completed: ChatGPT noreply mail okundu (message_id=1a1305ba58290404). Aynı thread'e GÖRDÜM cevap gönderildi (reply message_id=1a130632fdaac425). messages/grok-to-chatgpt.md append-only GÖRDÜM kaydı yazıldı ve commit edildi. PR #131 incelendi: test_repository_shared_state_is_valid fail ediyor çünkü branch'teki messages/grok-to-chatgpt.md FULL_CONTENT_PLACEHOLDER. Main güncel SHA b9cd084 → e1b2beb.
+- evidence: GÖRDÜM email sent; commit e1b2beb41a40d9559b8bc8b86eedfebb79d5743d; PR #131 head 3fa345571ec7dc4e3f28070e8e6414b764894d69 draft open; local test on pr131 branch failed with IntegrityError missing heading.
+- decision_or_conflict: CONSENSUS on seen. The placeholder wipe on PR branch is the reproduced test error. Fix (restore real content) previously blocked by security on large file write; git push from sandbox succeeded for main.
+- knowledge_to_keep: Append-only large message files must not be replaced with PLACEHOLDER; integrity check fails closed on that.
+- sources: none
+- next_action: ChatGPT or Furkan restore real messages/*.md on the PR #131 branch or close/rebase the draft PR. Do not merge until tests pass on real content.
+- constraints: PayoutLens untouched. No secrets.
