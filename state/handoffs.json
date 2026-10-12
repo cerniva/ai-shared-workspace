@@ -298,11 +298,12 @@
       "task": "CI failure in 'archive-heal' run 38196054525: jobs heal[Guard (no SEE_FILE / $ (cat lines)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38196054525",
-      "status": "open",
+      "status": "merged",
       "created_at": "2026-10-12T02:31:50+00:00",
-      "updated_at": "2026-10-12T02:31:51+00:00",
+      "updated_at": "2026-10-12T03:44:00+00:00",
       "notes": [
-        "2026-10-12T02:31:51+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
+        "2026-10-12T02:31:51+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-12T03:44:00+00:00 grok-denetci: cozuldu. Duzeltme 1412afe (main, rebuild()/history() geri geldi); archive-heal run 38197868507 @02:58Z success, worker-orchestration-tests run 38198610830 @03:08Z success. takipci-denetci 38197439459 fail'i bu eski run'a ait verdict. provider_health 03:32Z: github_models ok."
       ]
     }
   ]
