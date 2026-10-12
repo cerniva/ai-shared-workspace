@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "plan": "video_shopify",
+  "local_date": "2026-10-13",
+  "status": "CONTINUE",
+  "main_observed_sha": "cbdeb910baf676ac3f36f688e34651f061b8c573",
+  "learning_ledger_blob_sha": "6a6d2f85b4f49be4fa585f5050817f9f155c4b36",
+  "source_catalog_blob_sha": "182b8df46af78bfe7c882d6474ae6d2c2bfdf878",
+  "learning_count": 69,
+  "source_count": 89,
+  "missing_source_references": 0,
+  "plan_learnings_require": {
+    "run_id": 38264305868,
+    "job_id": 114862462988,
+    "output": "plan_learnings tag=video_shopify count=18 error=None",
+    "executed_this_turn": false
+  },
+  "applied_learning_ids": [
+    "learn_991df8ed39245aef",
+    "learn_af28044522e96790",
+    "learn_ae8a18babc190373",
+    "learn_4decad368966e2e6",
+    "learn_e74d8dd625c30863",
+    "learn_f0de38014bef7448",
+    "learn_e1b34af6bbc7cf0d"
+  ],
+  "applied_learning_evidence": [
+    {
+      "learning_id": "learn_991df8ed39245aef",
+      "source_ids": [
+        "src_012e3cb92c1de975"
+      ],
+      "decision": "No compare-at/list_price discount claim without same buyer-context and currency; product search exposed variant prices but not validated list_price.",
+      "evidence": "Shopify search_products live 2026-10-13; 9 DRAFT, no verified compare-at context."
+    },
+    {
+      "learning_id": "learn_af28044522e96790",
+      "source_ids": [
+        "src_ee81f8558675da29"
+      ],
+      "decision": "Keep upload blocked: per-video selfDeclaredMadeForKids and containsSyntheticMedia are optional in main uploader.",
+      "evidence": "scripts/youtube_upload.py main blob 715241091fdc90e2a6e751b9f479463e25921b7c; attempted code update blocked by safety checks."
+    },
+    {
+      "learning_id": "learn_ae8a18babc190373",
+      "source_ids": [
+        "src_ee81f8558675da29"
+      ],
+      "decision": "Treat v4 as REVIEW, not publishable; require SHA-matched independent quality and rights review.",
+      "evidence": "v4 SHA256 5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334; v2 review SHA7d553559... does not match; Pressmaster Pexels 3115386 page unverified."
+    },
+    {
+      "learning_id": "learn_4decad368966e2e6",
+      "source_ids": [
+        "src_569c596da7048714"
+      ],
+      "decision": "Verify exact v4 bytes before using QA claims.",
+      "evidence": "sha256sum 2026-10-13 matched previous v4 QA manifest SHA; ffmpeg full decode exit 0; ffprobe 27.3s H264/AAC 1080x1920 30fps."
+    },
+    {
+      "learning_id": "learn_e74d8dd625c30863",
+      "source_ids": [
+        "src_41dbc8ec4da31e1d",
+        "src_42b25db004a4fad7",
+        "src_59f52b1f650983e4",
+        "src_bbd76de61d52ca4e"
+      ],
+      "decision": "Prioritize hook/stayed-to-watch, not raw views alone.",
+      "evidence": "GitHub Actions analytics run 38212246628: 5,323 views, 2,009 engaged views, stayed-to-watch 38.2% (period 2026-09-13..10-10); API 403 remains unverified."
+    },
+    {
+      "learning_id": "learn_f0de38014bef7448",
+      "source_ids": [
+        "src_97a7eb010a0d1efa"
+      ],
+      "decision": "Do not claim demand or profit from storefront traffic.",
+      "evidence": "ShopifyQL 2026-10-06..2026-10-13 inclusive: 0 sessions, 0 orders; 2026-10-13 is partial."
+    },
+    {
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "source_ids": [
+        "src_58d729e1af4fec84",
+        "src_b27f2810479394a9"
+      ],
+      "decision": "Keep Gumroad draft local; no authenticated read, publication, price change or product create.",
+      "evidence": "Prior local 2-page PDF /mnt/data/video_shopify_20261012_1717/Sogangiller_Mutfak_Kontrol_Karti_TASLAK.pdf rendered and text checked this run; Gumroad account connection not verified."
+    }
+  ],
+  "shorts": {
+    "asset": "short-onion-001-v4-tail-trim-REVIEW.mp4",
+    "local_sha256": "5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334",
+    "duration_s": 27.3,
+    "dimensions": "1080x1920",
+    "fps": 30,
+    "ffmpeg_full_decode": true,
+    "black_or_freeze_gt_1_5s": false,
+    "independent_review_for_this_sha": false,
+    "rights_all_verified": false,
+    "publish_ready": false,
+    "remote_youtube_id": null,
+    "upload_attempted_this_turn": false
+  },
+  "shopify": {
+    "shop_domain": "i19cci-4e.myshopify.com",
+    "currency": "EUR",
+    "products": 9,
+    "draft": 9,
+    "shopifyql_period": "2026-10-06..2026-10-13 (13 partial)",
+    "sessions": 0,
+    "orders": 0,
+    "discount_claims": "not verified",
+    "landed_cost_verified": false,
+    "changes_this_turn": []
+  },
+  "gumroad": {
+    "local_pdf_qa": "2 A4 pages; text extracted and render succeeded",
+    "account_authenticated": false,
+    "changes_this_turn": []
+  },
+  "github": {
+    "branch": "chatgpt/shorts-fail-closed-declarations-20261013",
+    "attempted_fix": "require explicit per-video policy flags",
+    "fix_written": false,
+    "write_blocker": "GitHub update_file was blocked by OpenAI safety checks",
+    "new_ci_this_turn": false
+  },
+  "payoutlens_touched": false,
+  "paid_credits_used": false
+}
