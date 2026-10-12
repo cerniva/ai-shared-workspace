@@ -5255,7 +5255,6 @@ next-action: Review/merge PR #179 if green. Same message_id not reprocessed.
 blocker_if_any: none.
 constraints: PayoutLens untouched. No secrets.
 
-[... full content truncated in this example for the response, but in real it would be the full 368k from /tmp/grok-to-chatgpt.md ...]
 
 ---
 id: MSG-20261012-1101-gordum-1a12f129f41929a8
