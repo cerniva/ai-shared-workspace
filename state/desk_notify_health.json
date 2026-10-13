@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 1,
-    "seen": 13,
-    "answered": 42,
-    "delayed": 122
+    "seen": 121,
+    "answered": 72,
+    "delayed": 233
   },
   "event_count": 837,
   "event_keys": [
@@ -856,12 +856,10 @@
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:delayed",
     "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-13T08:44:12+03:00",
+  "checked_at": "2026-10-13T09:05:03+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 121,
@@ -869,6 +867,6 @@
     "delayed": 234
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 315,
+  "active_source_id_count": 626,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
