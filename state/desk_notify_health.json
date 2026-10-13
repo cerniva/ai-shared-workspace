@@ -858,12 +858,10 @@
     "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:delayed",
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:seen"
   ],
-  "new_event_keys": [
-    "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-13T15:37:13+03:00",
+  "checked_at": "2026-10-13T16:13:29+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 122,
