@@ -1,26 +1,26 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-13 05:01 TRT
+Zaman: 2026-10-13 06:01 TRT
 
 ## Saatlik
-- Açık/claimed handoff: HO-20261009-08
+- Açık/claimed handoff: HO-20261009-08, CI-38337554641, CI-38337738841
 - Gecikmiş (>2 sa): HO-20261009-08
-- CI (main): 12 workflow; başarısız: yok
+- CI (main): 11 workflow; başarısız: takipci-denetci
 - Otomasyonlar (automation-runner):
-  - finance: plan-learnings-check=success#38316962211; tetiklenen: plan-learnings-check.yml
+  - finance: plan-learnings-check=success#38328694482; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#38040278632
   - knowledge: knowledge-promote=success#38308205665
-  - system: worker-orchestration-tests=success#38320061647, handoff-audit=success#38324580809, desk-notify=success#38325337213; tetiklenen: worker-orchestration-tests.yml
+  - system: worker-orchestration-tests=success#38329950374, handoff-audit=success#38334515586, desk-notify=success#38335163716; tetiklenen: worker-orchestration-tests.yml
 - Araştırma (research-learner, inceleme için intake/promotions/):
   - finance: model_unavailable
   - video_shopify: rejected_duplicate → intake/promotions/2026-10-11-research-learner-video_shopify.json
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 24; en yüksek gecikmiş: 1; aşamalanan promotion: 21
+- Rapor sayısı: 25; en yüksek gecikmiş: 1; aşamalanan promotion: 21
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-13T01:31:26+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
-  - kullanilabilir: github_models, gemini
+  - 2026-10-13T02:39:50+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - kullanilabilir: github_models
