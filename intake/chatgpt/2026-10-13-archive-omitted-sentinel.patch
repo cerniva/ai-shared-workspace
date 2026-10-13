@@ -1,0 +1,6 @@
+diff --git a/scripts/archive_heal.py b/scripts/archive_heal.py
+--- a/scripts/archive_heal.py
++++ b/scripts/archive_heal.py
+@@ -38,1 +38,1 @@
+-    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\\b.*|dummy|\\.\\.\\.\\s*\\[.*truncat.*\\]\\s*\\.\\.\\.|\\[\\s*\\.\\.\\.[^\\[\\]]*truncat[^\\[\\]]*\\]\\s*\\.?)$",
++    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\\b.*|dummy|\\.\\.\\.\\s*\\[.*(?:truncat|omitt?ed).*\\]\\s*\\.\\.\\.|\\[\\s*\\.\\.\\.[^\\[\\]]*(?:truncat|omitt?ed)[^\\[\\]]*\\]\\s*\\.?)$",
