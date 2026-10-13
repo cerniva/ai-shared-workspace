@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261013-slow-research-learner",
+      "task": "[.github/workflows/research-learner.yml] 'research-learner' medyan 92 sn (3 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "improvement-bot",
+      "ts": "2026-10-13T05:40:40+00:00"
+    }
+  ]
+}
