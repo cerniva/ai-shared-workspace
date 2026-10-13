@@ -349,6 +349,20 @@
       "notes": [
         "2026-10-12T05:47:40+00:00 grok-auditor: uygulanamaz, kapatildi. main 342bbb5 uzerinde worker-orchestration-tests.yml zaten push/pull_request paths filtresi var (scripts/tests/workflows kapsami genis); pip install adimi yok (sadece apt ffmpeg + stdlib unittest) dolayisiyla cache:pip anlamsiz; medyan ~50sn ffmpeg+discover icin normal. PR #181 yalniz claimed notu + team_work JSON, workflow yamasi yok. Yeni kod gerekmez."
       ]
+    },
+    {
+      "id": "CI-38337554641",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 38337554641: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-38337554641",
+      "status": "open",
+      "created_at": "2026-10-13T02:37:48+00:00",
+      "updated_at": "2026-10-13T02:37:56+00:00",
+      "notes": [
+        "2026-10-13T02:37:56+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
+      ]
     }
   ]
 }
