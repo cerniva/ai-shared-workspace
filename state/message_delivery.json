@@ -8104,6 +8104,23 @@
       ],
       "pending_at": "2026-10-13T02:32:00+03:00",
       "delayed_at": "2026-10-13T03:03:41+03:00"
+    },
+    "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen": {
+      "id": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-13T05:35:38+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "none",
+      "created_at": "2026-10-13T05:35:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-13T05:35:00+03:00"
     }
   },
   "events": [
@@ -17283,6 +17300,17 @@
       "at": "2026-10-13T03:03:41+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:pending",
+      "message_id": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-13T05:35:38+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18119,6 +18147,7 @@
     "RPT-20261012-2325-grok-video-shopify-seen:pending",
     "RPT-20261012-2325-grok-video-shopify-seen:delayed",
     "RPT-20261013-0232-grok-bilgi-kutuphanesi-seen:pending",
-    "RPT-20261013-0232-grok-bilgi-kutuphanesi-seen:delayed"
+    "RPT-20261013-0232-grok-bilgi-kutuphanesi-seen:delayed",
+    "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:pending"
   ]
 }
