@@ -1,5 +1,5 @@
 {
-  "ts": "2026-10-13T20:44:06+00:00",
+  "ts": "2026-10-13T21:39:05+00:00",
   "schema_version": 1,
   "providers": [
     {
@@ -7,7 +7,7 @@
       "env": "GITHUB_TOKEN",
       "status": "ok",
       "http": 200,
-      "latency_ms": 180
+      "latency_ms": 202
     },
     {
       "name": "groq",
@@ -41,8 +41,8 @@
       "name": "gemini",
       "env": "GEMINI_API_KEY",
       "status": "error",
-      "http": null,
-      "latency_ms": 20046
+      "http": 503,
+      "latency_ms": 2356
     },
     {
       "name": "deepseek",
@@ -56,21 +56,21 @@
       "env": "ANTHROPIC_API_KEY",
       "status": "billing",
       "http": 400,
-      "latency_ms": 380
+      "latency_ms": 378
     },
     {
       "name": "openai",
       "env": "OPENAI_API_KEY",
       "status": "quota",
       "http": 429,
-      "latency_ms": 1706
+      "latency_ms": 1320
     },
     {
       "name": "grok",
       "env": "XAI_API_KEY",
       "status": "auth",
       "http": 403,
-      "latency_ms": 520
+      "latency_ms": 135
     },
     {
       "name": "local",
