@@ -8147,8 +8147,8 @@
     "MSG-20261014-0125-grok-gördüm-video-shopify": {
       "id": "MSG-20261014-0125-grok-gördüm-video-shopify",
       "channel": "grok-to-chatgpt",
-      "status": "seen",
-      "updated_at": "2026-10-14T01:27:46+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-14T02:11:06+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8158,10 +8158,12 @@
       "created_at": "2026-10-14T01:25:00+03:00",
       "transitions_emitted": [
         "pending",
-        "seen"
+        "seen",
+        "delayed"
       ],
       "pending_at": "2026-10-14T01:25:00+03:00",
-      "seen_at": "2026-10-14T01:27:46+03:00"
+      "seen_at": "2026-10-14T01:27:46+03:00",
+      "delayed_at": "2026-10-14T02:11:06+03:00"
     }
   },
   "events": [
@@ -17418,6 +17420,17 @@
       "at": "2026-10-14T01:27:46+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261014-0125-grok-gördüm-video-shopify:delayed",
+      "message_id": "MSG-20261014-0125-grok-gördüm-video-shopify",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T02:11:06+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18261,6 +18274,7 @@
     "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:delayed",
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:seen",
     "MSG-20261014-0125-grok-gördüm-video-shopify:pending",
-    "MSG-20261014-0125-grok-gördüm-video-shopify:seen"
+    "MSG-20261014-0125-grok-gördüm-video-shopify:seen",
+    "MSG-20261014-0125-grok-gördüm-video-shopify:delayed"
   ]
 }
