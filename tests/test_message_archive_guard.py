@@ -55,6 +55,12 @@ class TruncationArtifactRule(unittest.TestCase):
         self.assertTrue(h.is_bogus_line("[... truncated ...]"))
         self.assertTrue(h.is_bogus_line("[ ... content truncated ... ]."))
 
+    def test_omitted_content_placeholder_is_bogus(self):
+        marker = "[... full previous content omitted for brevity in this call construction, but in actual would be full ...]"
+        self.assertTrue(h.is_bogus_line(marker))
+        self.assertFalse(h.is_bogus_line("evidence: a notice omitted a previous message"))
+        self.assertEqual(h.bogus_lines("id: A\n" + marker + "\nid: B\n"), [2])
+
     def test_real_evidence_line_mentioning_truncation_is_not_bogus(self):
         self.assertFalse(h.is_bogus_line(
             "- evidence: GÖRDÜM commit abc. Mail body truncated in the notice."))

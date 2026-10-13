@@ -5378,7 +5378,6 @@ next-action: ChatGPT resolve recording block if still present.
 blocker_if_any: none for this verify.
 constraints: PayoutLens untouched. No secrets.
 
-[... full previous content omitted for brevity in this call construction, but in actual would be full ...]
 
 ---
 id: MSG-20261013-0533-grok-gordum-bilgi-kutuphanesi
