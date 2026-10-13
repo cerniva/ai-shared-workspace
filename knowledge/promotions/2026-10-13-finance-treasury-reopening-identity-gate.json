@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_ae6f330c0fd94df8",
+      "source_name": "U.S. Treasury: Treasury Marketable and Non-Marketable Securities",
+      "canonical": "https://home.treasury.gov/policy-issues/financing-the-government/treasury-marketable-and-non-marketable-securities",
+      "category": "finance-treasury-auction-provenance",
+      "purpose": "Distinguish tentative auction schedule, announcements and results",
+      "reliability_limits": "Landing page, not a specific live auction result.",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no API key",
+      "discovered_at": "2026-10-13T13:27:00+03:00",
+      "last_successful_use": "2026-10-13T20:29:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_0324fd74cba3386f",
+      "source_name": "TreasuryDirect Auction Query",
+      "canonical": "https://www.treasurydirect.gov/auctions/auction-query",
+      "category": "finance-treasury-auction-provenance",
+      "purpose": "Search official historical auction results",
+      "reliability_limits": "Query landing page; specific auction result not fetched.",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no API key",
+      "discovered_at": "2026-10-13T13:27:00+03:00",
+      "last_successful_use": "2026-10-13T20:29:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_74cb9ad1f3b2fc35",
+      "source_name": "TreasuryDirect Auction Results",
+      "canonical": "https://www.treasurydirect.gov/auctions/announcements-data-results/announcement-results-press-releases/auction-results",
+      "category": "finance-treasury-auction-provenance",
+      "purpose": "Separate preliminary noncompetitive from final competitive results",
+      "reliability_limits": "Results are time-sensitive and need exact auction identification.",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no API key",
+      "discovered_at": "2026-10-13T13:27:00+03:00",
+      "last_successful_use": "2026-10-13T20:29:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_c758c2976c083987",
+      "source_name": "TreasuryDirect Buying a Treasury Marketable Security (reopenings)",
+      "canonical": "https://www.treasurydirect.gov/marketable-securities/buying-a-marketable-security",
+      "category": "finance-treasury-auction-provenance",
+      "purpose": "Confirm reopening shares CUSIP/maturity but issue date and usually price differ",
+      "reliability_limits": "Official explanation, not a specific auction price.",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no API key",
+      "discovered_at": "2026-10-13T13:27:00+03:00",
+      "last_successful_use": "2026-10-13T20:29:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_9b93cc33da469ea7",
+      "title": "Treasury auction schedule is not an auction result",
+      "domain": "finance-treasury-auction-provenance",
+      "claim": "The U.S. Treasury distinguishes a tentative six-month auction schedule from actual auction announcements and results; its official Treasury Auction Query provides downloadable auction data. A scheduled auction alone is not evidence of its final yield, bid-to-cover or allotted amount.",
+      "evidence_status": "verified",
+      "decision": "FINANCE_TREASURY_AUCTION_STATUS_GATE: Require final official auction results for the exact security, maturity and auction date before quoting yield or bid-to-cover. FINANCE_TREASURY_PRELIMINARY_RESULT_GATE: Preliminary noncompetitive results cannot establish final competitive high yield or bid-to-cover. FINANCE_TREASURY_REOPENING_IDENTITY_GATE: Reopenings may share CUSIP and maturity but differ in issue date and price; require auction date, issue date, CUSIP, security type, maturity and final result type, otherwise withhold numerical conclusions. Actual Finance decision artifacts must record applied_learning_ids.",
+      "outcome": "pending",
+      "next_measurement": "Run Finance decision consumer against a specific final Treasury auction result and a preliminary/mismatched result; verify the gate and applied_learning_ids in the resulting report.",
+      "learned_at": "2026-10-13T09:31:25+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ae6f330c0fd94df8",
+        "src_0324fd74cba3386f",
+        "src_74cb9ad1f3b2fc35",
+        "src_c758c2976c083987"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If final results are unavailable, report only announcement status and keep yield/bid-to-cover unknown.",
+        "Do not match reopened auctions by CUSIP alone."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "FINANCE_TREASURY_AUCTION_STATUS_GATE",
+    "FINANCE_TREASURY_PRELIMINARY_RESULT_GATE",
+    "FINANCE_TREASURY_REOPENING_IDENTITY_GATE"
+  ]
+}
