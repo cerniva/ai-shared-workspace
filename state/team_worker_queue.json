@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "CI-38372167749",
+      "task": "CI failure in 'archive-heal' run 38372167749: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "source": "ci-bekci",
+      "ts": "2026-10-13T08:52:54+00:00"
+    }
+  ]
+}
