@@ -8108,8 +8108,8 @@
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen": {
       "id": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen",
       "channel": "team-reports",
-      "status": "delayed",
-      "updated_at": "2026-10-13T07:05:27+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-13T15:37:13+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -8119,10 +8119,11 @@
       "created_at": "2026-10-13T05:35:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-13T05:35:00+03:00",
-      "delayed_at": "2026-10-13T07:05:27+03:00"
+      "seen_at": "2026-10-13T15:37:13+03:00"
     },
     "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri": {
       "id": "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri",
@@ -17365,6 +17366,17 @@
       "at": "2026-10-13T10:12:02+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:seen",
+      "message_id": "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-13T15:37:13+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18205,6 +18217,7 @@
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:pending",
     "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:delayed",
     "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:pending",
-    "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:delayed"
+    "MSG-20261013-0843-grok-gordum-sistem-gelistirmeleri:delayed",
+    "RPT-20261013-0535-grok-bilgi-kutuphanesi-seen:seen"
   ]
 }
