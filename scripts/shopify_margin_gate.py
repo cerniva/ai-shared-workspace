@@ -83,8 +83,11 @@ def audit_variant(row: dict) -> dict:
         missing = [key for key in needed if not isinstance(evidence.get(key), str) or not evidence[key].strip()]
         return {"status": "BLOCK_EVIDENCE", "reason": "missing independent provenance for: " + ", ".join(missing),
                 "contribution_eur": str(contribution)}
-    return {"status": "REVIEW_ONLY", "contribution_eur": str(contribution),
-            "note": "not approval to publish, alter price, order, or advertise"}
+    # Caller-supplied evidence strings are not authenticated. A label such as
+    # "independent documented source" cannot establish independent provenance.
+    # Fail closed until a separate trusted verifier checks the underlying source.
+    return {"status": "REVIEW_PROVENANCE_UNVERIFIED", "contribution_eur": str(contribution),
+            "note": "external independent provenance verification required; not publish approval"}
 
 
 def main() -> int:
