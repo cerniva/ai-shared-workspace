@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "plan": "video_shopify",
+  "run_at": "2026-10-13T19:19:00+03:00",
+  "status": "CONTINUE",
+  "scope_excludes": [
+    "PayoutLens"
+  ],
+  "main_sha_observed": "879aee3beb047a369f3cba8cc0b0351ed0a51d69",
+  "learning_ledger_count": 69,
+  "source_catalog_count": 89,
+  "active_video_shopify_learnings": 19,
+  "plan_learnings_require_cli": "not executed; JS-independent ledger filter and source-id cross-check only",
+  "applied_learning_ids": [
+    "learn_ae8a18babc190373",
+    "learn_af28044522e96790",
+    "learn_4decad368966e2e6",
+    "learn_3d679ef374927694",
+    "learn_991df8ed39245aef",
+    "learn_e74d8dd625c30863",
+    "learn_e1b34af6bbc7cf0d"
+  ],
+  "applied_learning_evidence": [
+    {
+      "learning_id": "learn_ae8a18babc190373",
+      "decision": "BLOCK_SHORTS_PUBLICATION",
+      "evidence": "SHORT-ONION-001 production_notes.license_status=unverified; full video human QA and per-clip licenses absent"
+    },
+    {
+      "learning_id": "learn_af28044522e96790",
+      "decision": "NO_YOUTUBE_UPLOAD",
+      "evidence": "No exact-file independent PUBLIC approval, declared kids/synthetic status or verified uploader OAuth"
+    },
+    {
+      "learning_id": "learn_4decad368966e2e6",
+      "decision": "EXACT_SHA_BOUND_TECHNICAL_QA_ONLY",
+      "evidence": "local MP4 SHA256=5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334, 27.30s, 1080x1920, 30fps, full FFmpeg decode exit 0"
+    },
+    {
+      "learning_id": "learn_3d679ef374927694",
+      "decision": "GRAPHQL_ERRORS_CHECKED",
+      "evidence": "Shopify schema introspection -> VALID query -> read-only execution errors=null, 9 draft products, 16 variants"
+    },
+    {
+      "learning_id": "learn_991df8ed39245aef",
+      "decision": "BLOCK_PRODUCTS_NO_VERIFIED_NET_MARGIN",
+      "evidence": "8 hair-roller variants have unitCost=price; oil sprayer EUR24.90-7.42 before shipping, fees, returns; weights for 1-4 pack variants all 0.347kg"
+    },
+    {
+      "learning_id": "learn_e74d8dd625c30863",
+      "decision": "NO_RETENTION_CLAIM",
+      "evidence": "Metricool brand 7082876 youtube published-in-range 2026-10-06..13 returned rows=[]; no stayed-to-watch/retention"
+    },
+    {
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "decision": "GUMROAD_DRAFT_ONLY",
+      "evidence": "TinyFish Gumroad profile signed_in_sites=[], seller sales not accessible"
+    }
+  ],
+  "shorts": {
+    "file": "short-onion-001-v4-tail-trim-REVIEW.mp4",
+    "duration_seconds": 27.3,
+    "resolution": "1080x1920",
+    "fps": 30,
+    "sha256": "5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334",
+    "full_decode_pass": true,
+    "black_over_1_5s": 0,
+    "freeze_over_1_5s": 0,
+    "silence_segments_over_0_45s": 6,
+    "silence_total_seconds": 7.838437,
+    "rights_verified": false,
+    "human_review": false,
+    "published": false,
+    "remote_id": null
+  },
+  "shopify": {
+    "shop": "i19cci-4e.myshopify.com",
+    "products": 9,
+    "variants": 16,
+    "all_draft": true,
+    "graphQL_validated": true,
+    "graphql_errors": null,
+    "sessions_20261006_13": 0,
+    "orders_20261006_13": 0,
+    "sales_eur_20261006_13": 0,
+    "changed": false
+  },
+  "gumroad": {
+    "authenticated": false,
+    "changed": false
+  },
+  "github": {
+    "existing_branch": "chatgpt/shopify-margin-evidence-20261013-1617",
+    "previous_commit": "82492bbf8e8af90cec70375367910738a59c0db6",
+    "branch_ahead_by": 3,
+    "branch_behind_by": 26,
+    "pr_creation": "blocked_by_tool_safety_check",
+    "code_patch": "blocked_by_tool_safety_check",
+    "merged": false
+  },
+  "paid_credits_used": false,
+  "payoutlens_touched": false
+}
