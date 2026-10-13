@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "plan": "video_shopify",
+  "run_at": "2026-10-13T17:22:00+03:00",
+  "status": "CONTINUE",
+  "scope_excludes": [
+    "PayoutLens"
+  ],
+  "evidence_sources": {
+    "github_repo": "cerniva/ai-shared-workspace",
+    "main_sha_observed": "cea0e2155280c9679f4c11c386293801597bd8ba",
+    "learning_ledger_count": 69,
+    "source_catalog_count": 89,
+    "active_video_shopify_learnings": 19,
+    "learning_source_reference_check": "19/19 linked IDs present",
+    "plan_learnings_require_cli_this_run": "not executed; source ledger validated independently"
+  },
+  "applied_learning_ids": [
+    "learn_ae8a18babc190373",
+    "learn_4decad368966e2e6",
+    "learn_af28044522e96790",
+    "learn_3d679ef374927694",
+    "learn_991df8ed39245aef",
+    "learn_e74d8dd625c30863",
+    "learn_e1b34af6bbc7cf0d"
+  ],
+  "applied_learning_evidence": [
+    {
+      "learning_id": "learn_ae8a18babc190373",
+      "decision": "BLOCK_PUBLICATION",
+      "evidence": "Real v4 SHA 5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334; ffprobe 27.3 s 1080x1920 30fps, full decode exit 0; individual clip license and independent semantic QA still missing."
+    },
+    {
+      "learning_id": "learn_4decad368966e2e6",
+      "decision": "NO_ARTIFACT_EQUALS_PUBLISHED",
+      "evidence": "Full FFmpeg decode succeeded; hash bound to local file, but no remote YouTube ID/read-back."
+    },
+    {
+      "learning_id": "learn_af28044522e96790",
+      "decision": "BLOCK_UPLOAD",
+      "evidence": "Explicit OAuth, public review, made-for-kids and synthetic declarations not independently verified for this exact file."
+    },
+    {
+      "learning_id": "learn_3d679ef374927694",
+      "decision": "NO_SHOPIFY_MUTATION",
+      "evidence": "Connected ShopifyQL sales and sessions 2026-10-06..2026-10-13: 0 orders, 0 sales, 0 sessions; read-only connector query, no GraphQL mutation; GraphQL error status not re-verified in this run."
+    },
+    {
+      "learning_id": "learn_991df8ed39245aef",
+      "decision": "BLOCK_PRODUCT_PUBLICATION",
+      "evidence": "Shopify connected catalog 9 products all DRAFT; landed cost, fees, returns, rights and independent demand unverified. Do not infer margin from price-cost difference."
+    },
+    {
+      "learning_id": "learn_e74d8dd625c30863",
+      "decision": "DO_NOT_INFER_RETENTION",
+      "evidence": "Metricool connected brand 7082876, 2026-10-06..2026-10-13: only sparse evolution rows, no stayed-to-watch or AVD/APV; no Shorts performance inference."
+    },
+    {
+      "learning_id": "learn_e1b34af6bbc7cf0d",
+      "decision": "GUMROAD_DRAFT_ONLY",
+      "evidence": "TinyFish profile named gumroad has signed_in_sites=[]; no verified authenticated sales access; no create/publish/update."
+    }
+  ],
+  "shorts": {
+    "asset": "short-onion-001-v4-tail-trim-REVIEW.mp4",
+    "sha256": "5be7e44f2148281a21b93738ffcde8bc8882a865a318807f9b860745ab107334",
+    "duration_seconds": 27.3,
+    "resolution": "1080x1920",
+    "fps": 30,
+    "codec_video": "h264",
+    "codec_audio": "aac",
+    "full_decode_exit": 0,
+    "black_intervals_over_1_5_seconds": 0,
+    "freezes_over_1_5_seconds": 0,
+    "rights_verified": false,
+    "independent_review": false,
+    "publish_ready": false,
+    "remote_youtube_id": null,
+    "new_publications": 0
+  },
+  "shopify": {
+    "domain": "i19cci-4e.myshopify.com",
+    "products": 9,
+    "draft_products": 9,
+    "period": "2026-10-06..2026-10-13",
+    "sessions": 0,
+    "orders": 0,
+    "sales": 0,
+    "landed_cost_verified": false,
+    "product_changes": 0
+  },
+  "gumroad": {
+    "authenticated": false,
+    "changes": 0
+  },
+  "github": {
+    "branch": "chatgpt/shopify-margin-evidence-20261013-1617",
+    "code_commit": "8b261001c62fdcbb6136e554ef49fe3116a6ed2d",
+    "tests_commit": "b7f20264b4df1e72174d3dc980f4e86afaeb84da",
+    "draft_pr_attempt": "blocked by OpenAI safety checks",
+    "ci_for_branch": "no PR workflow runs found",
+    "merged": false
+  },
+  "paid_credits_used": false,
+  "payoutlens_touched": false
+}
