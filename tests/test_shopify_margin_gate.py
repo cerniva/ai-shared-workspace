@@ -19,8 +19,24 @@ def sample():
 
 
 class MarginGateTests(unittest.TestCase):
-    def test_positive_is_review_only(self):
-        self.assertEqual(audit_variant(sample())["status"], "REVIEW_ONLY")
+    def test_unverified_source_labels_never_grant_review(self):
+        self.assertEqual(audit_variant(sample())["status"], "REVIEW_PROVENANCE_UNVERIFIED")
+
+    def test_missing_demand_does_not_grant_review(self):
+        row = sample()
+        row["demand_evidence_verified"] = False
+        self.assertEqual(audit_variant(row)["status"], "REVIEW_DEMAND_UNVERIFIED")
+
+    def test_missing_digital_delivery_blocks(self):
+        row = sample()
+        row["requires_shipping"] = False
+        row["digital_delivery_verified"] = False
+        self.assertEqual(audit_variant(row)["status"], "BLOCK_DELIVERY")
+
+    def test_negative_fee_blocks(self):
+        row = sample()
+        row["payment_fees"] = "-1"
+        self.assertEqual(audit_variant(row)["status"], "BLOCK_LANDED_COST_UNKNOWN")
 
     def test_equal_cost_blocks(self):
         row = sample()
