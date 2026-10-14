@@ -15,6 +15,16 @@ class LiveArchiveGuard(unittest.TestCase):
             text = (ROOT / rel).read_text(encoding="utf-8")
             self.assertEqual(h.bogus_lines(text), [], f"{rel}: SEE_FILE veya $(cat satırı var")
 
+    def test_every_message_record_has_archive_separator(self):
+        for rel in h.ARCHIVES:
+            lines = (ROOT / rel).read_text(encoding="utf-8").splitlines()
+            missing = [
+                line_no
+                for line_no, line in enumerate(lines)
+                if line.startswith("id:") and line_no > 0 and lines[line_no - 1].strip() != "---"
+            ]
+            self.assertEqual(missing, [], f"{rel}: kayıt ayıracı eksik, satırlar={missing[:5]}")
+
 
 class RebuildLogic(unittest.TestCase):
     def test_bogus_overwrite_is_healed_append_only(self):

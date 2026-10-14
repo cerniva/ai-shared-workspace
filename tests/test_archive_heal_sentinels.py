@@ -55,6 +55,9 @@ class SentinelTests(unittest.TestCase):
             "... [full content truncated for this simulation, but in real it would be the complete 360k char file] ...",
             "PLACEHOLDER",
             "placeholder",
+            "test content for size check",
+            "RESTORED_FROM_PREVIOUS_COMMIT_892adbc60d88696c8e908249186677da2f6da441",
+            "[... full previous content omitted for brevity in this call construction, but in actual would be full ...]",
         ]:
             self.assertTrue(ah.is_bogus_line(line), line)
 
