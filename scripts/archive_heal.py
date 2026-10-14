@@ -202,6 +202,39 @@ def record_ids(text: str) -> set[str]:
     return set(message_ids) | set(report_ids)
 
 
+def dedupe_records(text: str, path: str) -> str:
+    """Remove duplicate archive records, retaining the longest block per ID.
+
+    Historical healing can see the same append-only record in multiple restore
+    versions. Keep the first position for stable ordering, but replace it with
+    the longest occurrence so a partial duplicate never wins.
+    """
+    if path.endswith("grok-to-chatgpt.md"):
+        pattern = r"^---\n(?=id: )"
+        id_pattern = r"^id:\s*([^\r\n]+)"
+    else:
+        pattern = r"^##\s+(RPT-[A-Za-z0-9_-]+)\b"
+        id_pattern = r"^##\s+(RPT-[A-Za-z0-9_-]+)\b"
+    starts = list(re.finditer(pattern, text, re.MULTILINE))
+    if not starts:
+        return text
+    prefix = text[:starts[0].start()]
+    records: dict[str, tuple[int, str]] = {}
+    order: list[str] = []
+    for i, start in enumerate(starts):
+        end = starts[i + 1].start() if i + 1 < len(starts) else len(text)
+        block = text[start.start():end]
+        match = re.search(id_pattern, block, re.MULTILINE)
+        if not match:
+            continue
+        record_id = match.group(1)
+        if record_id not in records:
+            order.append(record_id)
+            records[record_id] = (start.start(), block)
+        elif len(block) > len(records[record_id][1]):
+            records[record_id] = (records[record_id][0], block)
+    return prefix + "".join(records[k][1] for k in order)
+
 def assert_unique_record_ids(text: str, path: str) -> None:
     """Fail closed if a rebuilt archive repeats a message or report record ID."""
     ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
@@ -265,6 +298,7 @@ def heal(path: str, since: str, write: bool) -> dict:
             if real and real not in norm(result):
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
+    result = dedupe_records(result, path)
     assert_unique_record_ids(result, path)
     assert_history_ids_preserved(versions, result, path)
     changed = result != head
