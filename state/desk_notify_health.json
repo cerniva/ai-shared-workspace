@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 14,
+    "seen": 20,
     "answered": 45,
-    "delayed": 31
+    "delayed": 25
   },
   "event_count": 886,
   "event_keys": [
@@ -905,23 +905,15 @@
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:delayed",
     "RPT-20261014-1348-grok-batch-task-updates-seen:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:delayed",
-    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:delayed",
-    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:delayed",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:delayed",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:delayed",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:delayed",
-    "RPT-20261014-1348-grok-batch-task-updates-seen:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T15:16:54+03:00",
+  "checked_at": "2026-10-14T16:23:31+03:00",
   "historical_counts": {
     "pending": 0,
-    "seen": 128,
+    "seen": 134,
     "answered": 75,
-    "delayed": 244
+    "delayed": 238
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 176,
