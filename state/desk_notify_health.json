@@ -898,17 +898,10 @@
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:seen",
-    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:seen",
-    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:seen",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:seen",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T13:49:27+03:00",
+  "checked_at": "2026-10-14T13:49:55+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 134,
