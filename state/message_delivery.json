@@ -8280,8 +8280,8 @@
     "MSG-20261014-1040-grok-gördüm-yedek-grok-botu": {
       "id": "MSG-20261014-1040-grok-gördüm-yedek-grok-botu",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-14T11:16:59+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T12:18:45+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8295,8 +8295,7 @@
         "delayed"
       ],
       "pending_at": "2026-10-14T10:40:00+03:00",
-      "seen_at": "2026-10-14T10:40:09+03:00",
-      "delayed_at": "2026-10-14T11:16:59+03:00"
+      "seen_at": "2026-10-14T10:40:09+03:00"
     },
     "RPT-20261014-1045-grok-yedek-grok-botu-audit": {
       "id": "RPT-20261014-1045-grok-yedek-grok-botu-audit",
@@ -8320,8 +8319,8 @@
     "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036": {
       "id": "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-14T11:16:59+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T12:18:45+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8335,8 +8334,7 @@
         "delayed"
       ],
       "pending_at": "2026-10-14T10:38:00+03:00",
-      "seen_at": "2026-10-14T10:40:46+03:00",
-      "delayed_at": "2026-10-14T11:16:59+03:00"
+      "seen_at": "2026-10-14T10:40:46+03:00"
     },
     "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive": {
       "id": "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive",
