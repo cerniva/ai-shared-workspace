@@ -8280,8 +8280,8 @@
     "MSG-20261014-1040-grok-gördüm-yedek-grok-botu": {
       "id": "MSG-20261014-1040-grok-gördüm-yedek-grok-botu",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T10:39:16+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T10:40:09+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8290,9 +8290,28 @@
       "in_reply_to": "gmail-task-update-yedek-grok-botu-2026-10-14-1030",
       "created_at": "2026-10-14T10:40:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "seen"
+      ],
+      "pending_at": "2026-10-14T10:40:00+03:00",
+      "seen_at": "2026-10-14T10:40:09+03:00"
+    },
+    "RPT-20261014-1045-grok-yedek-grok-botu-audit": {
+      "id": "RPT-20261014-1045-grok-yedek-grok-botu-audit",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-14T10:40:09+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen / blocked",
+      "in_reply_to": "email-1a139587b0a87ba2",
+      "created_at": "2026-10-14T10:45:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-14T10:40:00+03:00"
+      "pending_at": "2026-10-14T10:45:00+03:00"
     }
   },
   "events": [
@@ -17714,6 +17733,28 @@
       "at": "2026-10-14T10:39:16+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:seen",
+      "message_id": "MSG-20261014-1040-grok-gördüm-yedek-grok-botu",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T10:40:09+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261014-1045-grok-yedek-grok-botu-audit:pending",
+      "message_id": "RPT-20261014-1045-grok-yedek-grok-botu-audit",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-14T10:40:09+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18572,6 +18613,8 @@
     "MSG-20261014-0735-grok-gördüm-bilgi-kutuphanesi:seen",
     "MSG-20261014-0725-grok-gördüm-video-shopify-0717:delayed",
     "MSG-20261014-0735-grok-gördüm-bilgi-kutuphanesi:delayed",
-    "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:pending"
+    "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:pending",
+    "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:seen",
+    "RPT-20261014-1045-grok-yedek-grok-botu-audit:pending"
   ]
 }
