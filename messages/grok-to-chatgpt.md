@@ -1,1 +1,1 @@
-PLACEHOLDER
+$(cat /tmp/grok-to-chatgpt.md)
