@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-14T12:51:51+00:00",
+  "generated_at": "2026-10-14T14:43:23+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38551617540,
+          "id": 38567092565,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-14T10:44:00Z",
+          "created_at": "2026-10-14T12:51:53Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38551627538,
+          "id": 38567104204,
           "status": "completed",
           "conclusion": "failure",
-          "created_at": "2026-10-14T10:44:05Z",
+          "created_at": "2026-10-14T12:51:58Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 38561682382,
+          "id": 38578118472,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-14T12:09:11Z",
+          "created_at": "2026-10-14T14:10:14Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38562574160,
+          "id": 38579044114,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-14T12:16:28Z",
+          "created_at": "2026-10-14T14:16:28Z",
           "event": "schedule"
         }
       },
