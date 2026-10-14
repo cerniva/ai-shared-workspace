@@ -12,8 +12,8 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 21,
-    "answered": 46,
+    "seen": 8,
+    "answered": 41,
     "delayed": 26
   },
   "event_count": 892,
@@ -914,7 +914,7 @@
   "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T19:20:23+03:00",
+  "checked_at": "2026-10-14T19:55:08+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 135,
@@ -922,6 +922,6 @@
     "delayed": 239
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 179,
+  "active_source_id_count": 161,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
