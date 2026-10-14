@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 16,
+    "seen": 18,
     "answered": 44,
-    "delayed": 123
+    "delayed": 121
   },
   "event_count": 855,
   "event_keys": [
@@ -874,19 +874,15 @@
     "MSG-20261014-0725-grok-gördüm-video-shopify-0717:delayed",
     "MSG-20261014-0735-grok-gördüm-bilgi-kutuphanesi:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261014-0735-grok-gördüm-bilgi-kutuphanesi:seen",
-    "MSG-20261014-0725-grok-gördüm-video-shopify-0717:delayed",
-    "MSG-20261014-0735-grok-gördüm-bilgi-kutuphanesi:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T08:16:15+03:00",
+  "checked_at": "2026-10-14T09:14:08+03:00",
   "historical_counts": {
     "pending": 0,
-    "seen": 124,
+    "seen": 126,
     "answered": 74,
-    "delayed": 237
+    "delayed": 235
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 322,
