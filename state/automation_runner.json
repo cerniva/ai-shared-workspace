@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-13T22:41:07+00:00",
+  "generated_at": "2026-10-14T00:53:44+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38465226269,
+          "id": 38479428173,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-13T20:44:42Z",
+          "created_at": "2026-10-13T22:41:09Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,25 +71,25 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38465236015,
+          "id": 38479438057,
           "status": "completed",
-          "conclusion": "success",
-          "created_at": "2026-10-13T20:44:46Z",
+          "conclusion": "failure",
+          "created_at": "2026-10-13T22:41:14Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 38475437065,
+          "id": 38487715439,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-13T22:06:10Z",
+          "created_at": "2026-10-14T00:01:15Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38477890776,
+          "id": 38488460141,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-13T22:27:12Z",
-          "event": "push"
+          "created_at": "2026-10-14T00:08:50Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": null
+  "model_summary": "Sağlıksız görünen video_shorts_shopify_gumroad (youtube-upload.yml, shorts-free-render.yml) ve system (worker-orchestration-tests.yml) otomasyonlarının logları incelenerek düzeltilmelidir."
 }
