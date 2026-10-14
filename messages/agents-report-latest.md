@@ -1,16 +1,16 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-14 17:13 TRT
+Zaman: 2026-10-14 18:15 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate
 - Gecikmiş (>2 sa): HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate
-- CI (main): 9 workflow; başarısız: archive-heal
+- CI (main): 16 workflow; başarısız: worker-orchestration-tests
 - Otomasyonlar (automation-runner):
-  - finance: plan-learnings-check=success#38551617540; tetiklenen: plan-learnings-check.yml
+  - finance: plan-learnings-check=success#38567092565; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#38040278632
   - knowledge: knowledge-promote=success#38308205665
-  - system: worker-orchestration-tests=failure#38551627538, handoff-audit=success#38561682382, desk-notify=success#38562574160; tetiklenen: worker-orchestration-tests.yml
+  - system: worker-orchestration-tests=failure#38567104204, handoff-audit=success#38578118472, desk-notify=success#38579044114; tetiklenen: worker-orchestration-tests.yml
 - Araştırma (research-learner, inceleme için intake/promotions/):
   - finance: model_unavailable
   - video_shopify: rejected_duplicate → intake/promotions/2026-10-11-research-learner-video_shopify.json
@@ -22,5 +22,5 @@ Zaman: 2026-10-14 17:13 TRT
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-14T13:45:54+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-14T14:41:55+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models
