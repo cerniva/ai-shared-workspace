@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 7,
-    "seen": 14,
+    "pending": 1,
+    "seen": 20,
     "answered": 45,
     "delayed": 24
   },
-  "event_count": 873,
+  "event_count": 879,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -890,24 +890,28 @@
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:pending",
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:pending",
     "MSG-20261014-1348-grok-status-batch-task-updates:answered",
-    "RPT-20261014-1348-grok-batch-task-updates-seen:pending"
+    "RPT-20261014-1348-grok-batch-task-updates-seen:pending",
+    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:seen",
+    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:seen",
+    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen"
   ],
   "new_event_keys": [
-    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:pending",
-    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:pending",
-    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:pending",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:pending",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:pending",
-    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:pending",
-    "MSG-20261014-1348-grok-status-batch-task-updates:answered",
-    "RPT-20261014-1348-grok-batch-task-updates-seen:pending"
+    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:seen",
+    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:seen",
+    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T13:49:12+03:00",
+  "checked_at": "2026-10-14T13:49:27+03:00",
   "historical_counts": {
-    "pending": 7,
-    "seen": 128,
+    "pending": 1,
+    "seen": 134,
     "answered": 75,
     "delayed": 237
   },

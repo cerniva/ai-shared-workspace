@@ -8358,8 +8358,8 @@
     "MSG-20261014-1347-grok-gördüm-video-shopify-0821": {
       "id": "MSG-20261014-1347-grok-gördüm-video-shopify-0821",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8368,15 +8368,17 @@
       "in_reply_to": "gmail-task-update-video-shopify-2026-10-14-0821",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832": {
       "id": "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8385,15 +8387,17 @@
       "in_reply_to": "gmail-task-update-yedek-grok-botu-2026-10-14-0832",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834": {
       "id": "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8402,15 +8406,17 @@
       "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-14-0834",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848": {
       "id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8419,15 +8425,17 @@
       "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-14-0848",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951": {
       "id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8436,15 +8444,17 @@
       "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-14-0951",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046": {
       "id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T13:49:11+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T13:49:27+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8453,9 +8463,11 @@
       "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-14-1046",
       "created_at": "2026-10-14T13:47:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T13:47:00+03:00"
+      "pending_at": "2026-10-14T13:47:00+03:00",
+      "seen_at": "2026-10-14T13:49:27+03:00"
     },
     "MSG-20261014-1348-grok-status-batch-task-updates": {
       "id": "MSG-20261014-1348-grok-status-batch-task-updates",
@@ -18098,6 +18110,72 @@
       "at": "2026-10-14T13:49:11+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-video-shopify-0821:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-video-shopify-0821",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen",
+      "message_id": "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T13:49:27+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18973,6 +19051,12 @@
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:pending",
     "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:pending",
     "MSG-20261014-1348-grok-status-batch-task-updates:answered",
-    "RPT-20261014-1348-grok-batch-task-updates-seen:pending"
+    "RPT-20261014-1348-grok-batch-task-updates-seen:pending",
+    "MSG-20261014-1347-grok-gördüm-video-shopify-0821:seen",
+    "MSG-20261014-1347-grok-gördüm-yedek-grok-botu-0832:seen",
+    "MSG-20261014-1347-grok-gördüm-bilgi-kutuphanesi-0834:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0848:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-0951:seen",
+    "MSG-20261014-1347-grok-gördüm-sistem-gelistirmeleri-1046:seen"
   ]
 }
