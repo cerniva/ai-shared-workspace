@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261014-slow-auto-merge-gate",
+      "task": "[.github/workflows/auto-merge-gate.yml] 'auto-merge-gate' medyan 50 sn (42 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "improvement-bot",
+      "ts": "2026-10-14T05:52:49+00:00"
+    }
+  ]
+}
