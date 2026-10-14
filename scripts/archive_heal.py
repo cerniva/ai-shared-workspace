@@ -21,6 +21,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scripts.archive_record_guard import assert_record_delimiters, missing_record_delimiters
+
 ARCHIVES = ["messages/grok-to-chatgpt.md", "messages/team-reports.md"]
 NOTES = ROOT / "config" / "archive_heal_notes.json"
 HEAD_BOGUS = re.compile(
@@ -263,6 +267,7 @@ def heal(path: str, since: str, write: bool) -> dict:
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
     assert_unique_record_ids(result, path)
+    assert_record_delimiters(result, path)
     assert_history_ids_preserved(versions, result, path)
     changed = result != head
     if changed and write:
@@ -281,8 +286,10 @@ def main() -> int:
     if a.check:
         bad = {p: bogus_lines((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
         bad = {p: v for p, v in bad.items() if v}
-        print(json.dumps({"bogus_lines": bad}, ensure_ascii=False))
-        return 1 if bad else 0
+        missing = {p: missing_record_delimiters((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
+        missing = {p: v for p, v in missing.items() if v}
+        print(json.dumps({"bogus_lines": bad, "missing_record_delimiters": missing}, ensure_ascii=False))
+        return 1 if bad or missing else 0
     report = []
     for p in a.paths:
         if p in ARCHIVES:
