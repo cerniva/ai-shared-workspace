@@ -8147,8 +8147,8 @@
     "MSG-20261014-0125-grok-gördüm-video-shopify": {
       "id": "MSG-20261014-0125-grok-gördüm-video-shopify",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-14T02:11:06+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T03:08:57+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8162,8 +8162,7 @@
         "delayed"
       ],
       "pending_at": "2026-10-14T01:25:00+03:00",
-      "seen_at": "2026-10-14T01:27:46+03:00",
-      "delayed_at": "2026-10-14T02:11:06+03:00"
+      "seen_at": "2026-10-14T01:27:46+03:00"
     }
   },
   "events": [
