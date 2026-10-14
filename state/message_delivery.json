@@ -8316,8 +8316,8 @@
     "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036": {
       "id": "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-14T10:40:34+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T10:40:46+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8326,9 +8326,11 @@
       "in_reply_to": "gmail-task-update-bilgi-kutuphanesi-2026-10-14-1036",
       "created_at": "2026-10-14T10:38:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-14T10:38:00+03:00"
+      "pending_at": "2026-10-14T10:38:00+03:00",
+      "seen_at": "2026-10-14T10:40:46+03:00"
     }
   },
   "events": [
@@ -17783,6 +17785,17 @@
       "at": "2026-10-14T10:40:34+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:seen",
+      "message_id": "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-14T10:40:46+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18644,6 +18657,7 @@
     "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:pending",
     "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:seen",
     "RPT-20261014-1045-grok-yedek-grok-botu-audit:pending",
-    "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:pending"
+    "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:pending",
+    "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:seen"
   ]
 }
