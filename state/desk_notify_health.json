@@ -909,12 +909,10 @@
     "RPT-20261014-1647-grok-sistem-gelistirmeleri-p0:pending",
     "MSG-20261014-1650-grok-status-sistem-gelistirmeleri-1637:answered"
   ],
-  "new_event_keys": [
-    "MSG-20261014-1650-grok-status-sistem-gelistirmeleri-1637:answered"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T16:51:59+03:00",
+  "checked_at": "2026-10-14T17:16:36+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 135,
