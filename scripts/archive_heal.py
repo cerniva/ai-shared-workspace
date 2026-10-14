@@ -35,7 +35,10 @@ HEAD_BOGUS = re.compile(
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
     r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
-    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?)$",
+    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|"
+    r"RESTORED_FROM_PREVIOUS_COMMIT_[A-Fa-f0-9]+|test content for size check|"
+    r"\[\.\.\. full previous content omitted for brevity.*|"
+    r"\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?)$",
     re.IGNORECASE,
 )
 
