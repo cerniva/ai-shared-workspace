@@ -70,3 +70,17 @@ class TruncationArtifactRule(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class DuplicateRecordRule(unittest.TestCase):
+    def test_longest_duplicate_grok_record_wins(self):
+        text = "# Arşiv\n\n---\nid: A\n---\nshort\n\n---\nid: A\n---\nlong complete body\n"
+        out = h.dedupe_records(text, "messages/grok-to-chatgpt.md")
+        self.assertEqual(out.count("id: A"), 1)
+        self.assertIn("long complete body", out)
+        self.assertNotIn("short\n", out)
+
+    def test_duplicate_team_report_is_deduped(self):
+        text = "# Raporlar\n\n## RPT-1\nshort\n\n## RPT-1\nlong complete report\n"
+        out = h.dedupe_records(text, "messages/team-reports.md")
+        self.assertEqual(out.count("## RPT-1"), 1)
+        self.assertIn("long complete report", out)
