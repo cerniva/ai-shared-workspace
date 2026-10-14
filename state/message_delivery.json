@@ -8167,8 +8167,8 @@
     "MSG-20261014-0424-grok-gördüm-video-shopify-0417": {
       "id": "MSG-20261014-0424-grok-gördüm-video-shopify-0417",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-14T05:12:46+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-14T06:15:05+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8182,8 +8182,7 @@
         "delayed"
       ],
       "pending_at": "2026-10-14T04:24:20+03:00",
-      "seen_at": "2026-10-14T04:26:16+03:00",
-      "delayed_at": "2026-10-14T05:12:46+03:00"
+      "seen_at": "2026-10-14T04:26:16+03:00"
     },
     "RPT-20261014-0425-grok-video-shopify-status-ack": {
       "id": "RPT-20261014-0425-grok-video-shopify-status-ack",

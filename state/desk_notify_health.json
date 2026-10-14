@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 15,
+    "seen": 16,
     "answered": 43,
-    "delayed": 122
+    "delayed": 121
   },
   "event_count": 848,
   "event_keys": [
@@ -867,18 +867,15 @@
     "MSG-20261014-0424-grok-gördüm-video-shopify-0417:delayed",
     "RPT-20261014-0425-grok-video-shopify-status-ack:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261014-0424-grok-gördüm-video-shopify-0417:delayed",
-    "RPT-20261014-0425-grok-video-shopify-status-ack:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-14T05:12:46+03:00",
+  "checked_at": "2026-10-14T06:15:05+03:00",
   "historical_counts": {
     "pending": 0,
-    "seen": 123,
+    "seen": 124,
     "answered": 73,
-    "delayed": 236
+    "delayed": 235
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 319,
