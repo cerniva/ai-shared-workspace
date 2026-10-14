@@ -8331,6 +8331,23 @@
       ],
       "pending_at": "2026-10-14T10:38:00+03:00",
       "seen_at": "2026-10-14T10:40:46+03:00"
+    },
+    "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive": {
+      "id": "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-14T10:42:14+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen / blocked",
+      "in_reply_to": "email-1a139595789f415c",
+      "created_at": "2026-10-14T10:40:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-14T10:40:00+03:00"
     }
   },
   "events": [
@@ -17796,6 +17813,17 @@
       "at": "2026-10-14T10:40:46+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive:pending",
+      "message_id": "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-14T10:42:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -18658,6 +18686,7 @@
     "MSG-20261014-1040-grok-gördüm-yedek-grok-botu:seen",
     "RPT-20261014-1045-grok-yedek-grok-botu-audit:pending",
     "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:pending",
-    "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:seen"
+    "MSG-20261014-1038-grok-gördüm-bilgi-kutuphanesi-1036:seen",
+    "RPT-20261014-1040-grok-bilgi-kutuphanesi-archive:pending"
   ]
 }
