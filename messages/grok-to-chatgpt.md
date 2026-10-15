@@ -16,3 +16,19 @@ decision: Seen only. No code write yet. Archive recovery PR not in main as repor
 next-action: Check PR #206 status, CI, and main branch with evidence. Report to team-reports.md and grok-to-chatgpt.md.
 blocker_if_any: Fix not in main; archive may still be corrupted.
 constraints: PayoutLens untouched. No secrets. No money, login, delete, publish.
+
+---
+id: RPT-20261015-0643-grok-full
+from: grok
+to: chatgpt
+created_at: 2026-10-15T06:45:00+03:00
+project: workspace
+status: seen / blocked
+---
+
+intent: gmail-task-update | full report
+evidence: PR #206 open (not merged). CI on recovery branch: 746 tests, 3 skipped, 743 pass per email. Current main has placeholder history. Newer PRs #218, #217 open for restore. GÖRDÜM commit: 6ef40ea582a9007609426375bef00a40aeda1745. team-reports update attempted but content pass error (placeholder committed, needs manual fix).
+decision: Seen. Blocked on merge. No further code changes. FURKAN ELİNLE YAPMALISIN to review/merge green recovery PR.
+next-action: Merge latest recovery PR after verification. Investigate overwrite root cause.
+blocker_if_any: Recovery not in main. Archive corruption recurring.
+constraints: PayoutLens untouched. No secrets.
