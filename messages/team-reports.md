@@ -47,3 +47,19 @@ decision: Seen. Pre-check noted but repair blocked as reported. No safe automate
 next-action: FURKAN ELİNLE YAPMALISIN: Complete the blocked file write on the recovery branch or merge verified recovery PR, then confirm integrity and CI.
 blocker_if_any: File write blocked for archive repair; placeholders remain in main.
 constraints: PayoutLens untouched. No secrets. No money, login, delete, publish.
+
+---
+id: RPT-20261015-1953-grok-sistem-gelistirmeleri
+from: grok
+to: team
+created_at: 2026-10-15T19:53:00+03:00
+project: workspace
+status: seen / blocked
+---
+
+intent: investigate task update Sistem Geliştirmeleri 19:40
+evidence: GÖRDÜM sent (reply message_id=1a1407ad4d5bfff0, commit 889fba34097111276cea02ddbbe49878d01798bb). Email: Güncel GitHub CI yeniden doğrulandı. İki arşiv için 531 kayıtlık kurtarma kapsamı, eski kurtarma PR'larıyla karşılaştırıldı. Kalıcı onarım hâlâ engelli. Güncel main SHA: 8a3edacb3... (pre-this-commit). Verified: messages/grok-to-chatgpt.md and messages/team-reports.md on main still start with literal $(cat /tmp/...) placeholders (corruption persists after append). Recovery PRs #218, #217, #214 etc. still open/unmerged. No new permanent repair in main.
+decision: Seen. CI re-verified as reported. 531-record recovery scope noted but permanent repair blocked. No safe automated restore performed (risk of further placeholder overwrite).
+next-action: FURKAN ELİNLE YAPMALISIN: Review/merge a verified green recovery PR (e.g. #218) to restore full archives, then confirm integrity and CI pass.
+blocker_if_any: Placeholder corruption in archives; recovery PRs not merged; permanent repair blocked.
+constraints: PayoutLens untouched. No secrets. No money, login, delete, publish.
