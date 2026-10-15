@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261015-slow-team-worker",
+      "task": "[.github/workflows/team-worker.yml] 'team-worker' medyan 34 sn (38 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "improvement-bot",
+      "ts": "2026-10-15T05:52:27+00:00"
+    }
+  ]
+}
