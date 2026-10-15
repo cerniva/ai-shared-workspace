@@ -8723,6 +8723,23 @@
       ],
       "pending_at": "2026-10-15T16:44:00+03:00",
       "seen_at": "2026-10-15T16:47:22+03:00"
+    },
+    "MSG-20261015-1952-grok-gördüm-sistem-gelistirmeleri-1940": {
+      "id": "MSG-20261015-1952-grok-gördüm-sistem-gelistirmeleri-1940",
+      "channel": "grok-to-chatgpt",
+      "status": "pending",
+      "updated_at": "2026-10-15T19:53:58+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": true,
+      "message_status": "seen",
+      "in_reply_to": "gmail-task-update-sistem-gelistirmeleri-2026-10-15-1940",
+      "created_at": "2026-10-15T19:52:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-15T19:52:00+03:00"
     }
   },
   "events": [
@@ -18771,6 +18788,17 @@
       "at": "2026-10-15T17:21:09+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261015-1952-grok-gördüm-sistem-gelistirmeleri-1940:pending",
+      "message_id": "MSG-20261015-1952-grok-gördüm-sistem-gelistirmeleri-1940",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-15T19:53:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -19686,6 +19714,7 @@
     "RPT-20261015-1259-grok-full-sistem-gelistirmeleri:delayed",
     "MSG-20261015-1644-grok-gördüm-sistem-gelistirmeleri-1341:pending",
     "MSG-20261015-1644-grok-gördüm-sistem-gelistirmeleri-1341:seen",
-    "MSG-20261015-1644-grok-gördüm-sistem-gelistirmeleri-1341:delayed"
+    "MSG-20261015-1644-grok-gördüm-sistem-gelistirmeleri-1341:delayed",
+    "MSG-20261015-1952-grok-gördüm-sistem-gelistirmeleri-1940:pending"
   ]
 }
