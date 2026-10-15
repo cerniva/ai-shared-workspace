@@ -279,9 +279,19 @@ def main() -> int:
     ap.add_argument("paths", nargs="*", default=ARCHIVES + ["knowledge/lessons.md"])
     a = ap.parse_args()
     if a.check:
-        bad = {p: bogus_lines((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
-        bad = {p: v for p, v in bad.items() if v}
-        print(json.dumps({"bogus_lines": bad}, ensure_ascii=False))
+        # Reuse the already-tested heading/size/marker/ID guard. A file with
+        # a valid header but truncated history must never be reported as PASS.
+        if __package__:
+            from .shared_state_integrity import MESSAGE_FILES, IntegrityError, check_message
+        else:
+            from shared_state_integrity import MESSAGE_FILES, IntegrityError, check_message
+        bad: dict[str, str] = {}
+        for path, (heading, minimum_chars) in MESSAGE_FILES.items():
+            try:
+                check_message(ROOT / path, heading, minimum_chars)
+            except IntegrityError as exc:
+                bad[path] = str(exc)
+        print(json.dumps({"archive_integrity_errors": bad}, ensure_ascii=False))
         return 1 if bad else 0
     report = []
     for p in a.paths:
