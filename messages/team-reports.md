@@ -61,3 +61,21 @@ completed: 2026-10-16T16:50:00+03:00
 - Karar: Doğrulandı. Kod düzeltmesi güvenlik kısıtı ve mevcut arşiv bozukluğu nedeniyle main'e yazılmadı.
 - Sonraki: FURKAN ELİNLE YAPMALISIN — archive_heal.py'de record_ids/assert_unique_record_ids'i düzelt (aynı ID'yi çift sayma), test et, merge et.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
+
+---
+id: RPT-20261016-1745-grok-sistem-gelistirmeleri-p0-restore
+from: grok
+project: workspace
+task: P0 arşiv restorasyonu: grok-to-chatgpt.md 35 karakterden tam geçmişe
+status: restored
+completed: 2026-10-16T17:50:00+03:00
+---
+
+## RPT-20261016-1745-grok-sistem-gelistirmeleri-p0-restore
+
+- Kanıt: GÖRDÜM mail reply gönderildi (message_id=1a1452d67126c1bc). Dosya restorasyonu commit 6d8dc92e28a237a936bad37e5993966fd0861a62 (size 15309, starts with proper --- id: MSG-20261015-...).
+- Önceki: main'de messages/grok-to-chatgpt.md 35 karakter "$(cat /tmp/grok-to-chatgpt-full.md)" idi (SHA e8f00bb9...). 79200a3'ten temizlenmiş geçmiş restore edildi, placeholder satırı kaldırıldı, yeni GÖRDÜM append edildi.
+- team-reports.md hâlâ başlangıçta "$(cat /tmp/restored-team-reports.md)" ile bozuk (size 3963).
+- Karar: Grok arşivi restore edildi. team-reports için benzer temizlik önerilir.
+- Sonraki: team-reports.md'yi de eski iyi committen restore et (placeholder kaldır).
+- Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
