@@ -1,26 +1,26 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-16 13:14 TRT
+Zaman: 2026-10-16 14:12 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate, CI-38602242863, CI-38656678945, HO-IMP-20261015-slow-team-worker, HO-IMP-20261016-slow-improvement-bot
 - Gecikmiş (>2 sa): HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate, CI-38602242863, CI-38656678945, HO-IMP-20261015-slow-team-worker, HO-IMP-20261016-slow-improvement-bot
 - CI (main): 9 workflow; başarısız: archive-heal
 - Otomasyonlar (automation-runner):
-  - finance: plan-learnings-check=success#38863795432; tetiklenen: plan-learnings-check.yml
+  - finance: plan-learnings-check=success#38875760738; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#38040278632
   - knowledge: knowledge-promote=success#38308205665
-  - system: worker-orchestration-tests=failure#38863800617, handoff-audit=success#38872005866, desk-notify=success#38872536341; tetiklenen: worker-orchestration-tests.yml
+  - system: worker-orchestration-tests=failure#38875770133, handoff-audit=success#38885558371, desk-notify=success#38886220916; tetiklenen: worker-orchestration-tests.yml
 - Araştırma (research-learner, inceleme için intake/promotions/):
   - finance: model_unavailable
   - video_shopify: rejected_duplicate → intake/promotions/2026-10-11-research-learner-video_shopify.json
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 24; en yüksek gecikmiş: 10; aşamalanan promotion: 0
+- Rapor sayısı: 25; en yüksek gecikmiş: 10; aşamalanan promotion: 0
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-16T09:40:45+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-16T10:41:55+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models, gemini
