@@ -957,12 +957,10 @@
     "RPT-20261016-0755-grok-full-sistem-gelistirmeleri:delayed",
     "MSG-20261016-0837-grok-gördüm-günlük-viral-video-seçkisi:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261016-0837-grok-gördüm-günlük-viral-video-seçkisi:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T08:39:01+03:00",
+  "checked_at": "2026-10-16T08:39:10+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 145,
