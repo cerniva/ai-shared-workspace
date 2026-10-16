@@ -199,13 +199,43 @@ def record_ids(text: str) -> set[str]:
     return set(message_ids) | set(report_ids)
 
 
+def record_id_occurrences(text: str) -> list[str]:
+    """Count one RPT metadata/heading pair as one record, never dedupe content.
+
+    Two metadata IDs or two headings with the same ID remain duplicates.
+    A heading pairs only with its immediately preceding metadata ID and
+    within twenty lines; a different Markdown heading resets the pairing.
+    """
+    occurrences: list[str] = []
+    last_id: str | None = None
+    last_id_line = -100
+    paired = False
+    for index, line in enumerate(text.splitlines()):
+        metadata = re.match(r"^id:\s*([^\r\n]+)", line)
+        if metadata:
+            last_id = metadata.group(1).strip()
+            last_id_line = index
+            paired = False
+            occurrences.append(last_id)
+            continue
+        heading = re.match(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", line)
+        if heading:
+            report_id = heading.group(1)
+            if not paired and last_id == report_id and 0 < index - last_id_line <= 20:
+                paired = True
+            else:
+                occurrences.append(report_id)
+            continue
+        if line.startswith("## "):
+            last_id = None
+    return occurrences
+
+
 def assert_unique_record_ids(text: str, path: str) -> None:
-    """Fail closed if a rebuilt archive repeats a message or report record ID."""
-    ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
-    ids += re.findall(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", text, re.MULTILINE)
+    """Fail closed on repeated records; allow one matching RPT metadata/heading pair."""
     seen: set[str] = set()
     duplicates: set[str] = set()
-    for record_id in ids:
+    for record_id in record_id_occurrences(text):
         if record_id in seen:
             duplicates.add(record_id)
         seen.add(record_id)
