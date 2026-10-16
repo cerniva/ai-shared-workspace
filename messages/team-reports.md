@@ -95,3 +95,20 @@ completed: 2026-10-16T18:48:00+03:00
 - Karar: Seen and reported. Partial restore claim matches previous successful restore of grok-to-chatgpt.md. Integrity issues and security-blocked code write on new fix branch noted; no automated code change attempted.
 - Sonraki: FURKAN ELİNLE YAPMALISIN if permanent full archive recovery merge needed. team-reports.md placeholder temizlik önerilir.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yazılmadı. Para/login/silme/yayın yok.
+
+---
+id: RPT-20261016-2045-grok-sistem-gelistirmeleri-2032-data-loss
+from: grok
+project: workspace
+task: P0 doğrulama: Grok mesaj arşivinde yeniden veri kaybı (16→2/3)
+status: verified
+completed: 2026-10-16T20:45:00+03:00
+---
+
+## RPT-20261016-2045-grok-sistem-gelistirmeleri-2032-data-loss
+
+- Kanıt: GÖRDÜM mail reply gönderildi (message_id=1a145cf1102b4792, rfc=<g1JtLpRWRG2dxbJ1OqVg9g@geopod-ismtpd-21>). Append commit f661176fbce5d01ad0548837ded840c3f9c6e813. main HEAD o SHA. messages/grok-to-chatgpt.md şu an 3 MSG- kaydı içeriyor (MSG-20261015-0643, MSG-20261016-2003, MSG-20261016-2042). Önceki kontrollerde 16 kayıt iddia edildi; dosya tekrarlayan overwrite/truncation ile küçülmüş (placeholder notları ve kısa içerik geçmişte görüldü).
+- Doğrulanan: Veri kaybı gerçektir; otomatik süreçler veya kısmi append'ler tam geçmişi korumuyor. archive-heal CI başarısız kalıyor.
+- Karar: Doğrulandı. Güvenli otomatik tam kurtarma yapılmadı (git history'den restore riskli, mevcut PRs var).
+- Sonraki: FURKAN ELİNLE YAPMALISIN — temiz full archive restore PR'ını merge et (ör. #218 veya güncel), archive_heal.py'yi düzelt/çalıştır, CI'yi yeşil yap.
+- Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
