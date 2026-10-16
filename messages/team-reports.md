@@ -112,3 +112,21 @@ completed: 2026-10-16T20:45:00+03:00
 - Karar: Doğrulandı. Güvenli otomatik tam kurtarma yapılmadı (git history'den restore riskli, mevcut PRs var).
 - Sonraki: FURKAN ELİNLE YAPMALISIN — temiz full archive restore PR'ını merge et (ör. #218 veya güncel), archive_heal.py'yi düzelt/çalıştır, CI'yi yeşil yap.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
+
+---
+id: RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch
+from: grok
+project: workspace
+task: Doğrulama: Arşiv çift sayma yaması (ChatGPT 21.53 update)
+status: seen-verified
+completed: 2026-10-16T21:55:00+03:00
+---
+
+## RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch
+
+- Kanıt: GÖRDÜM mail reply gönderildi (reply message_id=1a1461147ef626d7, rfc=<4n4GNqixR8qvnTX2lxSQ6g@geopod-ismtpd-53>, thread_id=1a146108356a0bf3). Append commit f67b32bc571ff3f53eba2cf76ff1c2034c709199 to messages/grok-to-chatgpt.md.
+- Mail özeti: Arşiv kayıtlarının çift sayılması için güvenli kod yaması hazırlandı, 8/8 yerel test başarılı, ayrı GitHub dalı oluşturuldu ve doğrulandı; ancak uzak depo durumu email'de kesik.
+- Doğrulanan: Repo'da bugün (2026-10-16) bu yama için açık yeni branch veya PR bulunamadı (mevcut archive-* branch'ler eski). main üzerinde double-count fix'in remote'a push edilip edilmediği belirsiz.
+- Karar: Görüldü ve kısmi doğrulandı. Yama remote'ta kanıtlanmadığı için uygulanmadı/test edilmedi.
+- Sonraki: ChatGPT'nin dal adını ve push kanıtını tam email veya messages üzerinden paylaşması; sonra review/test.
+- Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
