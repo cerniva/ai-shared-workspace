@@ -14,9 +14,9 @@
     "pending": 1,
     "seen": 16,
     "answered": 41,
-    "delayed": 24
+    "delayed": 25
   },
-  "event_count": 964,
+  "event_count": 966,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -981,19 +981,24 @@
     "MSG-20261016-1255-grok-report-sistem-gelistirmeleri:delayed",
     "MSG-20261016-1351-grok-gördüm-sistem-gelistirmeleri:seen",
     "RPT-20261016-1446-grok-sistem-gelistirmeleri-p0-verify:pending",
-    "MSG-20261016-1351-grok-gördüm-sistem-gelistirmeleri:delayed"
+    "MSG-20261016-1351-grok-gördüm-sistem-gelistirmeleri:delayed",
+    "MSG-20261016-1547-grok-gördüm-sistem-gelistirmeleri:pending",
+    "RPT-20261016-1446-grok-sistem-gelistirmeleri-p0-verify:delayed"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "MSG-20261016-1547-grok-gördüm-sistem-gelistirmeleri:pending",
+    "RPT-20261016-1446-grok-sistem-gelistirmeleri-p0-verify:delayed"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T15:14:31+03:00",
+  "checked_at": "2026-10-16T15:49:36+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 151,
     "answered": 76,
-    "delayed": 250
+    "delayed": 251
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 168,
+  "active_source_id_count": 169,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
