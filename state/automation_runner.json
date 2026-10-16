@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-16T12:53:13+00:00",
+  "generated_at": "2026-10-16T14:44:47+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 38889063844,
+          "id": 38903704690,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-16T10:43:05Z",
+          "created_at": "2026-10-16T12:53:14Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,25 +71,25 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 38889071733,
+          "id": 38903714003,
           "status": "completed",
           "conclusion": "failure",
-          "created_at": "2026-10-16T10:43:10Z",
+          "created_at": "2026-10-16T12:53:19Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 38898400763,
+          "id": 38913998632,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-16T12:07:55Z",
+          "created_at": "2026-10-16T14:13:15Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 38903308644,
+          "id": 38914745544,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-16T12:49:58Z",
-          "event": "push"
+          "created_at": "2026-10-16T14:18:50Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "Başarısız olan 'youtube-upload.yml' ve 'worker-orchestration-tests.yml' workflow loglarını inceleyin ve 'shorts-free-render.yml' akışının tetikleme koşullarını denetleyin."
+  "model_summary": null
 }
