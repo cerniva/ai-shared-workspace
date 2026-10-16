@@ -977,13 +977,10 @@
     "MSG-20261016-1253-grok-gördüm-sistem-gelistirmeleri:seen",
     "MSG-20261016-1255-grok-report-sistem-gelistirmeleri:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261016-1253-grok-gördüm-sistem-gelistirmeleri:seen",
-    "MSG-20261016-1255-grok-report-sistem-gelistirmeleri:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T12:54:38+03:00",
+  "checked_at": "2026-10-16T12:55:04+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 150,
