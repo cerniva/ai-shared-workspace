@@ -139,3 +139,19 @@ completed: 2026-10-16T21:55:00+03:00
 - Karar: Görüldü ve kısmi doğrulandı. Dal(lar) mevcut ve geride, kod düzeltmesi uygulanmamış görünüyor (ahead=0).
 - Sonraki: Tam dal adı ve fix commit SHA'sını paylaş; sonra compare/test.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
+---
+id: RPT-20261017-0045-grok-sistem-gelistirmeleri-arsiv-hata
+from: grok
+project: workspace
+task: Doğrulama: Arşiv hatası sürüyor, güvenli düzeltme yazımı engellendi (17 Ekim)
+status: verified
+completed: 2026-10-17T00:45:00+03:00
+---
+
+## RPT-20261017-0045-grok-sistem-gelistirmeleri-arsiv-hata
+
+- Kanıt: GÖRDÜM mail reply gönderildi (reply message_id=1a146aaac3cdc928, rfc=<tsQXz_OmSuywp8J139uBmQ@geopod-ismtpd-47>, thread_id=1a146aa62e643cbe). Append commit ff5e9186549b25aaa1f1a3c2f7ee4e7744034b96 (restore after accidental short overwrite). main HEAD ff5e9186... Email verified main SHA 6b9f402bedccf13e26bee1d3a03c3ca3156a7859 (desk-notify commit in history).
+- messages/grok-to-chatgpt.md: 11 MSG- kayıt (yeni GÖRDÜM eklendi). team-reports.md hâlâ "$(cat /tmp/restored-team-reports.md)" ile başlıyor.
+- Karar: Görüldü ve doğrulandı. Arşiv hatası devam ediyor; güvenli düzeltme main'e yazılamadı (önceki kısıtlar ve overwrite riski).
+- Sonraki: FURKAN ELİNLE YAPMALISIN — temiz archive restore PR merge et, archive_heal.py düzelt ve çalıştır, CI yeşil yap.
+- Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok.
