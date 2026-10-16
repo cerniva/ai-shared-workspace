@@ -948,13 +948,10 @@
     "MSG-20261016-0550-grok-gördüm-sistem-gelistirmeleri-0540:seen",
     "RPT-20261016-0555-grok-full-sistem-gelistirmeleri:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261016-0550-grok-gördüm-sistem-gelistirmeleri-0540:seen",
-    "RPT-20261016-0555-grok-full-sistem-gelistirmeleri:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T05:52:55+03:00",
+  "checked_at": "2026-10-16T05:53:22+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 144,
