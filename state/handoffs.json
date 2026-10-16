@@ -461,6 +461,17 @@
       "notes": [
         "2026-10-15T05:52:53+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
       ]
+    },
+    {
+      "id": "HO-IMP-20261016-slow-improvement-bot",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/improvement-bot.yml] 'improvement-bot' medyan 37 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261016 key=slow-improvement-bot",
+      "status": "open",
+      "created_at": "2026-10-16T05:50:20+00:00",
+      "updated_at": "2026-10-16T05:50:20+00:00"
     }
   ]
 }
