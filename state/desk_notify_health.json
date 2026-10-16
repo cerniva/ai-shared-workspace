@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 12,
+    "pending": 1,
+    "seen": 11,
     "answered": 41,
-    "delayed": 28
+    "delayed": 31
   },
-  "event_count": 1000,
+  "event_count": 1004,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1017,19 +1017,28 @@
     "RPT-20261016-2045-grok-sistem-gelistirmeleri-2032-data-loss:delayed",
     "MSG-20261016-2155-grok-gördüm-sistem-gelistirmeleri-2153:seen",
     "MSG-20261016-2156-grok-report-sistem-gelistirmeleri-2153:pending",
-    "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:pending"
+    "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:pending",
+    "MSG-20261016-2254-grok-gördüm-sistem-gelistirmeleri-2242:pending",
+    "MSG-20261016-2155-grok-gördüm-sistem-gelistirmeleri-2153:delayed",
+    "MSG-20261016-2156-grok-report-sistem-gelistirmeleri-2153:delayed",
+    "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:delayed"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "MSG-20261016-2254-grok-gördüm-sistem-gelistirmeleri-2242:pending",
+    "MSG-20261016-2155-grok-gördüm-sistem-gelistirmeleri-2153:delayed",
+    "MSG-20261016-2156-grok-report-sistem-gelistirmeleri-2153:delayed",
+    "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:delayed"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T22:17:11+03:00",
+  "checked_at": "2026-10-16T22:56:13+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 156,
+    "pending": 1,
+    "seen": 155,
     "answered": 76,
-    "delayed": 260
+    "delayed": 263
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 169,
+  "active_source_id_count": 170,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
