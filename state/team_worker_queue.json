@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261016-slow-improvement-bot",
+      "task": "[.github/workflows/improvement-bot.yml] 'improvement-bot' medyan 37 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "improvement-bot",
+      "ts": "2026-10-16T05:51:23+00:00"
+    }
+  ]
+}
