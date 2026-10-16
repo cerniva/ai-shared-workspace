@@ -1038,14 +1038,10 @@
     "MSG-20261017-0045-grok-report-sistem-gelistirmeleri:pending",
     "RPT-20261017-0045-grok-sistem-gelistirmeleri-arsiv-hata:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261017-0042-grok-gördüm-sistem-gelistirmeleri:seen",
-    "MSG-20261017-0045-grok-report-sistem-gelistirmeleri:pending",
-    "RPT-20261017-0045-grok-sistem-gelistirmeleri-arsiv-hata:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T00:44:32+03:00",
+  "checked_at": "2026-10-17T00:44:43+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 159,
