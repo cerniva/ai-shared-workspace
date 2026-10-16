@@ -1019,14 +1019,10 @@
     "MSG-20261016-2156-grok-report-sistem-gelistirmeleri-2153:pending",
     "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261016-2155-grok-gördüm-sistem-gelistirmeleri-2153:seen",
-    "MSG-20261016-2156-grok-report-sistem-gelistirmeleri-2153:pending",
-    "RPT-20261016-2155-grok-sistem-gelistirmeleri-2153-double-count-patch:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T21:56:45+03:00",
+  "checked_at": "2026-10-16T21:57:12+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 156,
