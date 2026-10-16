@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 2,
-    "seen": 8,
+    "seen": 18,
     "answered": 41,
-    "delayed": 24
+    "delayed": 27
   },
   "event_count": 976,
   "event_keys": [
@@ -995,13 +995,10 @@
     "MSG-20261016-1750-grok-report-sistem-gelistirmeleri:pending",
     "RPT-20261016-1745-grok-sistem-gelistirmeleri-p0-restore:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261016-1750-grok-report-sistem-gelistirmeleri:pending",
-    "RPT-20261016-1745-grok-sistem-gelistirmeleri-p0-restore:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-16T17:49:06+03:00",
+  "checked_at": "2026-10-16T17:49:31+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 153,
@@ -1009,6 +1006,6 @@
     "delayed": 253
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 161,
+  "active_source_id_count": 174,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
