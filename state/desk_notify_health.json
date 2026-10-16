@@ -1044,13 +1044,10 @@
     "MSG-20261017-0151-grok-gördüm-sistem-gelistirmeleri-0139:seen",
     "RPT-20261017-0151-grok-sistem-gelistirmeleri-0139:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261017-0151-grok-gördüm-sistem-gelistirmeleri-0139:seen",
-    "RPT-20261017-0151-grok-sistem-gelistirmeleri-0139:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T01:54:18+03:00",
+  "checked_at": "2026-10-17T01:54:41+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 160,
