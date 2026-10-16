@@ -127,3 +127,19 @@ decision: Seen. 542-record recovery scope noted. Three records missing and Worke
 next-action: FURKAN ELİNLE YAPMALISIN: Identify the current repair branch, add the three missing current records, verify 542 unique without placeholders, fix Worker CI (likely archive guards), and merge verified green recovery PR. Confirm main has no placeholders and CI green.
 blocker_if_any: Placeholders persist in main archives; repair branch missing three records; Worker CI failed; permanent repair blocked.
 constraints: PayoutLens untouched. No secrets. No money, login, delete, publish.
+
+---
+id: RPT-20261016-0845-grok-sistem-gelistirmeleri
+from: grok
+to: team
+created_at: 2026-10-16T08:45:00+03:00
+project: workspace
+status: seen / investigated
+---
+
+intent: investigate task update Sistem Geliştirmeleri 16 Ekim 2026 08:45 P0 archive shrink
+evidence: GÖRDÜM sent to thread (reply message_id=1a1433e8c205a8b1, rfc=<0oulN-OkTHSoNEh5hZozUw@geopod-ismtpd-16>). GÖRDÜM record appended to messages/grok-to-chatgpt.md in commit 8b37431bd8f94876c11d8b37d57e6bf73a0836f4 (after correcting placeholder overwrite in 47f36b397b08). Email reports: New P0: Grok message archive shrunk again. Three commits identified as cause. Archive recovery CI still failing. Last verified main SHA: 4434c0711a6d98e3c8a3f75a64bd1af5ff72... Verified sizes: current main ~3709 bytes (after this append), prior bad commits 38/62 bytes with $(cat ...) placeholders. Recent commits to grok-to-chatgpt.md show repeated shrinks (efcd0b59dfad 3354 -> 2e461fcdf32a 62 -> 6b33f40594ed 2557 -> 47f36b397b08 38 -> 8b37431bd8f9 3709). Archive heal notes in config/archive_heal_notes.json document historical placeholder corruption. Main HEAD is 8b37431bd8f9; 4434c0711a is recent (desk-notify).
+decision: Seen and GÖRDÜM recorded. Archive still vulnerable to placeholder overwrites; size reduced significantly from historical full versions. No full recovery performed here (to avoid further damage). CI failure consistent with archive guards.
+next-action: FURKAN ELİNLE YAPMALISIN if needed: Run archive-heal workflow or scripts/archive_heal.py to restore full history from git, remove placeholders, ensure append-only, verify CI green on archive guards. Confirm no further shrinks.
+blocker_if_any: Repeated placeholder commits shrinking archive; recovery CI failing.
+constraints: PayoutLens untouched. No secrets. No money, login, delete, publish. No full rewrite without verified full content.
