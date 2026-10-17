@@ -122,9 +122,9 @@ class FailoverAuthTests(unittest.TestCase):
             adapter.run(JOB)
         self.assertNotIsInstance(ctx.exception, ProviderAuthError)
 
-    def test_missing_credential_behaviour_unchanged(self):
+    def test_all_missing_credentials_raise_non_retryable(self):
         adapter = FailoverAdapter([_Raising("grok", MissingCredential("missing"))])
-        with self.assertRaises(RetryableProviderError):
+        with self.assertRaises(NonRetryableProviderError):
             adapter.run(JOB)
 
     def test_auth_plus_missing_credential_is_non_retryable(self):
