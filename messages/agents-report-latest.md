@@ -1,16 +1,16 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-17 07:10 TRT
+Zaman: 2026-10-17 08:09 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08
 - Gecikmiş (>2 sa): HO-20261009-08
-- CI (main): 10 workflow; başarısız: yok
+- CI (main): 9 workflow; başarısız: yok
 - Otomasyonlar (automation-runner):
-  - finance: plan-learnings-check=success#38988389065; tetiklenen: plan-learnings-check.yml
+  - finance: plan-learnings-check=success#38995880948; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#38040278632
   - knowledge: knowledge-promote=success#38308205665
-  - system: worker-orchestration-tests=failure#38988395551, handoff-audit=success#38993623192, desk-notify=success#38994106106; tetiklenen: worker-orchestration-tests.yml
+  - system: worker-orchestration-tests=success#38998111632, handoff-audit=success#39001388183, desk-notify=success#39001736301; tetiklenen: worker-orchestration-tests.yml
 - Araştırma (research-learner, inceleme için intake/promotions/):
   - finance: model_unavailable
   - video_shopify: rejected_duplicate → intake/promotions/2026-10-11-research-learner-video_shopify.json
@@ -22,5 +22,5 @@ Zaman: 2026-10-17 07:10 TRT
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-17T03:39:10+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-17T04:39:46+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models, gemini
