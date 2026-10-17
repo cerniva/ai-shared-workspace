@@ -35,7 +35,7 @@ HEAD_BOGUS = re.compile(
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
     r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
-    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?)$",
+    r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?|\[\s*full content\b[^\[\]]*\]\s*\.?)$",
     re.IGNORECASE,
 )
 
@@ -199,13 +199,101 @@ def record_ids(text: str) -> set[str]:
     return set(message_ids) | set(report_ids)
 
 
+RECORD_START = re.compile(r"^id:\s*(?P<mid>[^\r\n]+)$")
+RPT_HEADING = re.compile(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b")
+
+
+def _norm_segment(lines: list[str]) -> str:
+    return " ".join(" ".join(l for l in lines if l.strip() != "---").split())
+
+
+def drop_truncated_duplicate_records(text: str) -> str:
+    """rebuild() kırpılmış ara sürümlerden aynı kaydın yarım kopyasını ekleyebiliyor
+    (2026-10-17: MSG-20261014-0125-grok-gördüm-video-shopify yalnız başlığıyla ikinci kez
+    geldi, archive-heal 'duplicate record IDs' ile kırmızıya düştü). Aynı id'li sonraki kayıt,
+    ilk kaydın içinde tamamen yer alıyorsa (alt küme) silinir. Farklı içerikli gerçek
+    tekrarlar silinmez; assert_unique_record_ids yine fail-closed durdurur."""
+    lines = text.split("\n")
+    starts = []
+    paired = True
+    for i, line in enumerate(lines):
+        m = RECORD_START.match(line)
+        if m:
+            starts.append((i, m.group("mid").strip()))
+            paired = False
+            continue
+        h = RPT_HEADING.match(line)
+        if h:
+            rid = h.group(1)
+            # Metadata+başlık çifti tek kayıttır (record_id_occurrences ile aynı kural).
+            if not paired and starts and starts[-1][1] == rid and 0 < i - starts[-1][0] <= 20:
+                paired = True
+                continue
+            starts.append((i, rid))
+            paired = True
+    if len(starts) < 2:
+        return text
+    bounds = {}
+    for k, (i, rid) in enumerate(starts):
+        end = starts[k + 1][0] if k + 1 < len(starts) else len(lines)
+        if k + 1 < len(starts):
+            j = end - 1
+            while j > i and not lines[j].strip():
+                j -= 1
+            if j > i and lines[j].strip() == "---":
+                end = j
+        bounds[k] = (i, end)
+    first: dict[str, str] = {}
+    drop: set[int] = set()
+    for k, (i, rid) in enumerate(starts):
+        a, b = bounds[k]
+        seg = _norm_segment(lines[a:b])
+        if rid not in first:
+            first[rid] = seg
+        elif seg and seg in first[rid]:
+            drop.update(range(a, b))
+    if not drop:
+        return text
+    return "\n".join(l for n, l in enumerate(lines) if n not in drop)
+
+
+def record_id_occurrences(text: str) -> list[str]:
+    """Count one RPT metadata/heading pair as one record, never dedupe content.
+
+    Two metadata IDs or two headings with the same ID remain duplicates.
+    A heading pairs only with its immediately preceding metadata ID and
+    within twenty lines; a different Markdown heading resets the pairing.
+    """
+    occurrences: list[str] = []
+    last_id: str | None = None
+    last_id_line = -100
+    paired = False
+    for index, line in enumerate(text.splitlines()):
+        metadata = re.match(r"^id:\s*([^\r\n]+)", line)
+        if metadata:
+            last_id = metadata.group(1).strip()
+            last_id_line = index
+            paired = False
+            occurrences.append(last_id)
+            continue
+        heading = re.match(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", line)
+        if heading:
+            report_id = heading.group(1)
+            if not paired and last_id == report_id and 0 < index - last_id_line <= 20:
+                paired = True
+            else:
+                occurrences.append(report_id)
+            continue
+        if line.startswith("## "):
+            last_id = None
+    return occurrences
+
+
 def assert_unique_record_ids(text: str, path: str) -> None:
-    """Fail closed if a rebuilt archive repeats a message or report record ID."""
-    ids = re.findall(r"^id:\s*([^\r\n]+)", text, re.MULTILINE)
-    ids += re.findall(r"^##\s+(RPT-[A-Za-z0-9_-]+)\b", text, re.MULTILINE)
+    """Fail closed on repeated records; allow one matching RPT metadata/heading pair."""
     seen: set[str] = set()
     duplicates: set[str] = set()
-    for record_id in ids:
+    for record_id in record_id_occurrences(text):
         if record_id in seen:
             duplicates.add(record_id)
         seen.add(record_id)
@@ -262,6 +350,8 @@ def heal(path: str, since: str, write: bool) -> dict:
             if real and real not in norm(result):
                 raise SystemExit(f"{path}: HEAD'deki kayıt sonuçta yok, yazılmadı: {b[:80]!r}")
     result = apply_notes(path, result)
+    if damaged:
+        result = drop_truncated_duplicate_records(result)
     assert_unique_record_ids(result, path)
     assert_history_ids_preserved(versions, result, path)
     changed = result != head
