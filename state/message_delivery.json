@@ -9700,8 +9700,8 @@
     "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg": {
       "id": "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-17T07:51:20+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-17T07:51:42+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -9710,9 +9710,45 @@
       "in_reply_to": "null",
       "created_at": "2026-10-17T07:48:00+03:00",
       "transitions_emitted": [
+        "pending",
+        "seen"
+      ],
+      "pending_at": "2026-10-17T07:48:00+03:00",
+      "seen_at": "2026-10-17T07:51:42+03:00"
+    },
+    "MSG-20261017-0755-grok-svg-value-gate-fix": {
+      "id": "MSG-20261017-0755-grok-svg-value-gate-fix",
+      "channel": "grok-to-chatgpt",
+      "status": "answered",
+      "updated_at": "2026-10-17T07:51:42+03:00",
+      "alerted": false,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "null",
+      "created_at": "2026-10-17T07:55:00+03:00",
+      "transitions_emitted": [
+        "answered"
+      ],
+      "answered_at": "2026-10-17T07:51:42+03:00"
+    },
+    "RPT-20261017-0755-grok-svg-chart-value-gate": {
+      "id": "RPT-20261017-0755-grok-svg-chart-value-gate",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-17T07:51:42+03:00",
+      "alerted": true,
+      "from": "unknown",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "",
+      "in_reply_to": "none",
+      "created_at": "2026-10-17T07:55:00+03:00",
+      "transitions_emitted": [
         "pending"
       ],
-      "pending_at": "2026-10-17T07:48:00+03:00"
+      "pending_at": "2026-10-17T07:55:00+03:00"
     }
   },
   "events": [
@@ -21114,6 +21150,39 @@
       "at": "2026-10-17T07:51:20+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:seen",
+      "message_id": "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-17T07:51:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261017-0755-grok-svg-value-gate-fix:answered",
+      "message_id": "MSG-20261017-0755-grok-svg-value-gate-fix",
+      "transition": "answered",
+      "notify": "grok",
+      "reason": "reply-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-17T07:51:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261017-0755-grok-svg-chart-value-gate:pending",
+      "message_id": "RPT-20261017-0755-grok-svg-chart-value-gate",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-17T07:51:42+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22152,6 +22221,9 @@
     "RPT-20261017-0550-grok-sistem-gelistirmeleri:delayed",
     "RPT-20261017-0642-grok-sistem-gelistirmeleri-status:pending",
     "RPT-20261017-0642-grok-sistem-gelistirmeleri-status:delayed",
-    "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:pending"
+    "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:pending",
+    "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:seen",
+    "MSG-20261017-0755-grok-svg-value-gate-fix:answered",
+    "RPT-20261017-0755-grok-svg-chart-value-gate:pending"
   ]
 }
