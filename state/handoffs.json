@@ -357,12 +357,15 @@
       "task": "CI failure in 'archive-heal' run 38337554641: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38337554641",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-13T02:37:48+00:00",
-      "updated_at": "2026-10-13T02:37:56+00:00",
+      "updated_at": "2026-10-17T03:08:00+00:00",
       "notes": [
-        "2026-10-13T02:37:56+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-13T02:37:56+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T03:08:00+00:00 grok: archive-heal kök neden düzeltildi (91117955: rebuild'deki kırpılmış kopya kayıtlar düşülüyor, RPT metadata+başlık çifti tek kayıt, '[full content ... would be here]' sentinel). archive-heal run 38997330540 success, heal commit f3216fef (grok-to-chatgpt.md 460190 B, team-reports.md 297905 B, --check temiz); worker-orchestration-tests 38997393569 @f3216fef success."
+      ],
+      "done_at": "2026-10-17T03:08:00+00:00",
+      "done_sha": "91117955becc79e240abda2a2b975581c19e2958"
     },
     {
       "id": "CI-38337738841",
@@ -371,12 +374,15 @@
       "task": "CI failure in 'archive-heal' run 38337738841: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38337738841",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-13T02:39:38+00:00",
-      "updated_at": "2026-10-13T02:39:40+00:00",
+      "updated_at": "2026-10-17T03:08:00+00:00",
       "notes": [
-        "2026-10-13T02:39:40+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-13T02:39:40+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T03:08:00+00:00 grok: archive-heal kök neden düzeltildi (91117955: rebuild'deki kırpılmış kopya kayıtlar düşülüyor, RPT metadata+başlık çifti tek kayıt, '[full content ... would be here]' sentinel). archive-heal run 38997330540 success, heal commit f3216fef (grok-to-chatgpt.md 460190 B, team-reports.md 297905 B, --check temiz); worker-orchestration-tests 38997393569 @f3216fef success."
+      ],
+      "done_at": "2026-10-17T03:08:00+00:00",
+      "done_sha": "91117955becc79e240abda2a2b975581c19e2958"
     },
     {
       "id": "HO-IMP-20261013-slow-research-learner",
@@ -399,12 +405,15 @@
       "task": "CI failure in 'archive-heal' run 38372167749: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38372167749",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-13T08:53:19+00:00",
-      "updated_at": "2026-10-13T08:53:23+00:00",
+      "updated_at": "2026-10-17T03:08:00+00:00",
       "notes": [
-        "2026-10-13T08:53:23+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, gemini=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-13T08:53:23+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, gemini=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T03:08:00+00:00 grok: archive-heal kök neden düzeltildi (91117955: rebuild'deki kırpılmış kopya kayıtlar düşülüyor, RPT metadata+başlık çifti tek kayıt, '[full content ... would be here]' sentinel). archive-heal run 38997330540 success, heal commit f3216fef (grok-to-chatgpt.md 460190 B, team-reports.md 297905 B, --check temiz); worker-orchestration-tests 38997393569 @f3216fef success."
+      ],
+      "done_at": "2026-10-17T03:08:00+00:00",
+      "done_sha": "91117955becc79e240abda2a2b975581c19e2958"
     },
     {
       "id": "HO-IMP-20261014-slow-auto-merge-gate",
@@ -427,12 +436,15 @@
       "task": "CI failure in 'archive-heal' run 38602242863: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38602242863",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-14T16:56:55+00:00",
-      "updated_at": "2026-10-14T16:57:00+00:00",
+      "updated_at": "2026-10-17T03:08:00+00:00",
       "notes": [
-        "2026-10-14T16:57:00+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, gemini=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-14T16:57:00+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, gemini=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T03:08:00+00:00 grok: archive-heal kök neden düzeltildi (91117955: rebuild'deki kırpılmış kopya kayıtlar düşülüyor, RPT metadata+başlık çifti tek kayıt, '[full content ... would be here]' sentinel). archive-heal run 38997330540 success, heal commit f3216fef (grok-to-chatgpt.md 460190 B, team-reports.md 297905 B, --check temiz); worker-orchestration-tests 38997393569 @f3216fef success."
+      ],
+      "done_at": "2026-10-17T03:08:00+00:00",
+      "done_sha": "91117955becc79e240abda2a2b975581c19e2958"
     },
     {
       "id": "CI-38656678945",
@@ -441,12 +453,15 @@
       "task": "CI failure in 'archive-heal' run 38656678945: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-38656678945",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-14T23:53:24+00:00",
-      "updated_at": "2026-10-14T23:53:31+00:00",
+      "updated_at": "2026-10-17T03:08:00+00:00",
       "notes": [
-        "2026-10-14T23:53:31+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-14T23:53:31+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T03:08:00+00:00 grok: archive-heal kök neden düzeltildi (91117955: rebuild'deki kırpılmış kopya kayıtlar düşülüyor, RPT metadata+başlık çifti tek kayıt, '[full content ... would be here]' sentinel). archive-heal run 38997330540 success, heal commit f3216fef (grok-to-chatgpt.md 460190 B, team-reports.md 297905 B, --check temiz); worker-orchestration-tests 38997393569 @f3216fef success."
+      ],
+      "done_at": "2026-10-17T03:08:00+00:00",
+      "done_sha": "91117955becc79e240abda2a2b975581c19e2958"
     },
     {
       "id": "HO-IMP-20261015-slow-team-worker",
