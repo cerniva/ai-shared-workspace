@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-17T12:45:26+00:00",
+  "generated_at": "2026-10-17T14:37:55+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 39025678693,
+          "id": 39033795350,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T10:38:39Z",
+          "created_at": "2026-10-17T12:45:27Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 39032441827,
+          "id": 39033800866,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T12:25:11Z",
-          "event": "push"
+          "created_at": "2026-10-17T12:45:32Z",
+          "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 39030875679,
+          "id": 39039065010,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T12:01:01Z",
+          "created_at": "2026-10-17T14:02:36Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 39031351843,
+          "id": 39039559393,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T12:08:26Z",
+          "created_at": "2026-10-17T14:09:41Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad kategorisinde bulunan youtube-upload.yml otomasyonu başarısız olduğu için, shorts-free-render.yml otomasyonu ise hiç çalışmadığı için sağlıksız görünmektedir. Finance, knowledge ve system kategorilerindeki diğer tüm otomasyonlar ise sorunsuz şekilde başarıyla tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml otomasyonu başarısız olduğu için ve shorts-free-render.yml hiç çalışmadığı için sağlıksız görünmektedir. Finans, bilgi ve sistem alanlarındaki tüm diğer otomasyonlar sorunsuz çalışmaktadır. Başarısız olan YouTube yükleme otomasyonunun hata günlüklerinin incelenmesi gerekmektedir."
 }
