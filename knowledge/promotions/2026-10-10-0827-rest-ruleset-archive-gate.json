@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_ffe9c68f7ae91a8c",
+      "source_name": "GitHub repository rulesets: available rules and path restrictions",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets",
+      "purpose": "Document path restriction, required PR/checks and eligible plan/bypass requirements for protecting append-only message archives",
+      "reliability_limits": "Rulesets are plan/repository visibility dependent; this page does not verify that cerniva/ai-shared-workspace has an active ruleset or admin permission.",
+      "category": "system-github-archive-integrity",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_8e5eea73bf9fd755",
+      "source_name": "GitHub rulesets troubleshooting: REST API writes also enforced",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules",
+      "purpose": "Official confirmation that push rulesets also apply to REST API blob/tree/create-or-update-file endpoints, relevant to archive overwrite protection",
+      "reliability_limits": "Docs describe generic GitHub behavior; no live ruleset activation, bypass, or repository-specific API test has been performed.",
+      "category": "system-github-archive-integrity",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_417069914bb5db27",
+      "title": "REST API writes obey GitHub push rulesets; preserve append-only archive writer",
+      "domain": "github-archive-push-ruleset",
+      "claim": "GitHub push rulesets can restrict file paths and also apply to REST API create blob, create tree, and create or update file contents endpoints; private/internal push rulesets require an eligible plan and can block legitimate append writers without a tested bypass.",
+      "evidence_status": "verified",
+      "decision": "ARCHIVE_REST_PUSH_RULESET_GATE: Verify repository visibility, plan, ruleset availability and writer permissions before proposing enforcement. Evaluate mode is NON-BLOCKING telemetry and must never be treated as a successful rejection test. If an eligible push ruleset can be activated safely with explicit approval, validate blocking only on disposable synthetic paths and confirm legitimate append writers remain operational; do not attempt a destructive overwrite of live archives. Until enforcement is proven, use append-only prewrite validation, expected blob SHA, prefix/length checks, and postwrite read-back; CI alone does not prevent direct API overwrite.",
+      "outcome": "pending",
+      "next_measurement": "Grok: inspect current repo rulesets/visibility and archive writer permissions read-only; record API result/limits. Add fail-closed synthetic negative test for truncation and positive append test, plus exact commit SHA/CI run. Treat Evaluate as observational only; if push ruleset unsupported, keep code-level writer gate and mark API overwrite prevention unverified.",
+      "learned_at": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ffe9c68f7ae91a8c",
+        "src_8e5eea73bf9fd755"
+      ],
+      "failure_history": [
+        "2026-10-10 prior archive truncations to SEE_FILE / placeholder were reported and repaired; repo-level API enforcement remains unverified.",
+        "2026-10-11 correction: previous Evaluate-mode decision incorrectly implied a prohibited overwrite could be blocked in Evaluate; official GitHub ruleset docs confirm it is non-enforcing."
+      ],
+      "fallback_history": [
+        "Do not enable a blocking ruleset without proving the legitimate append-only writer is not interrupted; keep existing archive-heal and CI guards as partial protection."
+      ],
+      "supersedes": null,
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active"
+    }
+  ],
+  "gates": [
+    "ARCHIVE_REST_PUSH_RULESET_GATE"
+  ]
+}
