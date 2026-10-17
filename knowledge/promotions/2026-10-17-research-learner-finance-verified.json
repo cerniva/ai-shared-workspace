@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-10-17T09:12:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_084a973ea4587745",
+      "title": "Federal Reserve Board terminates enforcement actions with Gardner Bancshares, Inc. and Small Business Bank",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press release enforcement20261016a (16 Oct 2026, read 2026-10-17) announces termination, effective October 13, 2026, of three enforcement actions: the Cease and Desist Order of September 1, 2023 against Gardner Bancshares, Inc. and Small Business Bank (Lenexa, Kansas), the Cease and Desist Order of November 13, 2024 against Small Business Bank, and the Prompt Corrective Action of June 29, 2026 against Small Business Bank.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: regulatory-awareness item about a single small Kansas bank; no market-moving content and no action for Finance reports or Shorts unless a reviewer finds a specific use.",
+      "outcome": "pending",
+      "next_measurement": "Next finance research run: record whether this item was used in any report; if unused, treat similar single-bank enforcement terminations as low priority.",
+      "learned_at": "2026-10-17T05:26:33+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

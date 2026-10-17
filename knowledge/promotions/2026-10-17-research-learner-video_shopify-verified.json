@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "verified_at": "2026-10-17T09:12:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_b04bb06a2671984f",
+      "title": "Shopify developer changelog feed: Checkout MCP and Cart MCP now support UCP buyer consent",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog (feed item and page checkout-mcp-and-cart-mcp-now-support-ucp-buyer-consent, published 16 Oct 2026, read 2026-10-17) states Checkout MCP and Cart MCP support the UCP buyer consent extension dev.ucp.shopping.buyer_consent from UCP 2026-08-25: agents that negotiate it get a buyer.consent object (analytics, preferences, sale_or_sharing, marketing with email/sms segments) and can send buyer choices on cart/checkout create, update or complete; without sent consent Shopify applies the shop's country defaults (opt-out if country unknown), and a missing_consent_data warning blocks checkout until the contact detail is provided. Integrations that do not declare the extension or use an earlier UCP version are not affected.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify builds an agent checkout on Checkout MCP or Cart MCP with UCP 2026-08-25; then declare dev.ucp.shopping.buyer_consent, show the shop's consent options and handle missing_consent_data. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code and connector configs for Checkout MCP/Cart MCP or UCP usage; record found/not-found before 2026-10-24.",
+      "learned_at": "2026-10-17T05:26:33+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
