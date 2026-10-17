@@ -141,8 +141,14 @@ def _summarize(adapter, objective: str) -> str | None:
     try:
         result = adapter.run({"id": "github-agents-summary", "project": "workspace",
                               "objective": objective, "evidence_requirements": []})
-        return str(result.get("recommendation") or "")[:600] or None
-    except WorkerError:
+        text = str(result.get("recommendation") or "")[:600]
+        if not text:
+            print("github_agents: model returned empty recommendation", file=sys.stderr)
+        return text or None
+    except WorkerError as exc:
+        # Log why the model step failed (research-learner #24 on 2026-10-17 ended
+        # model_unavailable for every domain with no trace while provider_health was ok).
+        print(f"github_agents: model_unavailable: {type(exc).__name__}: {str(exc)[:300]}", file=sys.stderr)
         return None
 
 
