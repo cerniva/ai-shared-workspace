@@ -1084,12 +1084,10 @@
     "RPT-20261017-1555-grok-svg-verify-new-gap:delayed",
     "RPT-20261017-1648-grok-svg-branch-update-ack:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261017-1648-grok-svg-branch-update-ack:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T16:51:27+03:00",
+  "checked_at": "2026-10-17T17:09:51+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 167,
