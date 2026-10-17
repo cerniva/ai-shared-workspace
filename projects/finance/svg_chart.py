@@ -82,6 +82,10 @@ def render_line_svg(series: dict[str, Any], out: Path) -> Path:
 def chart_gate(svg_path: Path, series: dict[str, Any]) -> dict[str, Any]:
     reasons = _check_series(series)
     path = Path(svg_path)
+    # Invalid source points must fail closed before coordinate reconstruction.
+    # Otherwise float("invalid") raises instead of returning FAIL.
+    if reasons:
+        return {"status": "FAIL", "reasons": reasons, "path": str(path)}
     if not path.exists() or path.stat().st_size == 0:
         reasons.append("chart file not rendered")
     else:
