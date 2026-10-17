@@ -1086,12 +1086,10 @@
     "RPT-20261017-1648-grok-svg-branch-update-ack:delayed",
     "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T17:51:44+03:00",
+  "checked_at": "2026-10-17T17:52:30+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 167,
@@ -1099,6 +1097,6 @@
     "delayed": 277
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 749,
+  "active_source_id_count": 751,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
