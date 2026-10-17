@@ -23,6 +23,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # GitHub Models (github_models provider in the shared chain) needs models: read (same gap as d8f3311/8f2746e).
+  models: read
 
 concurrency:
   group: lesson-learner-${{ github.event.pull_request.number || inputs.pr_number || github.event.client_payload.pr_number || 'backlog' }}

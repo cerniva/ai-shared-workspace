@@ -12,6 +12,8 @@ concurrency:
 permissions:
   contents: write
   actions: read
+  # GitHub Models (github_models provider in the shared chain) needs models: read (same gap as d8f3311/8f2746e).
+  models: read
 
 jobs:
   supervise:
