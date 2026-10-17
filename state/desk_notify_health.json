@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 167,
     "answered": 80,
     "delayed": 276
   },
-  "event_count": 1066,
+  "event_count": 1067,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1083,19 +1083,22 @@
     "RPT-20261017-1555-grok-svg-verify-new-gap:pending",
     "RPT-20261017-1555-grok-svg-verify-new-gap:delayed",
     "RPT-20261017-1648-grok-svg-branch-update-ack:pending",
-    "RPT-20261017-1648-grok-svg-branch-update-ack:delayed"
+    "RPT-20261017-1648-grok-svg-branch-update-ack:delayed",
+    "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T17:49:17+03:00",
+  "checked_at": "2026-10-17T17:51:44+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 167,
     "answered": 80,
     "delayed": 277
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 747,
+  "active_source_id_count": 749,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
