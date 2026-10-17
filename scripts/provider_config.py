@@ -9,6 +9,7 @@ from scripts.worker_adapters import (
     GrokAdapter,
     MetaAdapter,
     MissingCredential,
+    NonRetryableProviderError,
     OpenAIAdapter,
     ProviderAuthError,
     RetryableProviderError,
@@ -116,9 +117,9 @@ class FailoverAdapter:
 
     A provider-scoped 401/403 (ProviderAuthError, e.g. Issue #101 xAI 403) must
     not block unrelated jobs: skip that provider and try the next one. If every
-    provider failed only with auth/permission errors, or with auth errors plus
-    missing credentials (no transient 429/5xx), raise ProviderAuthError
-    (non-retryable) so the queue does not blind-retry a 403.
+    provider failed only with auth/permission errors or missing credentials
+    (no transient 429/5xx), raise a non-retryable error so the queue does not
+    blind-retry a permanent configuration or permission problem.
     """
     provider = "failover"
     model = "automatic"
@@ -130,27 +131,32 @@ class FailoverAdapter:
         errors = []
         transient = False
         last_auth = None
+        has_permanent = False
         for adapter in self.adapters:
             try:
                 return adapter.run(job)
             except ProviderAuthError as exc:
                 errors.append(f"{adapter.provider}: {exc}")
                 last_auth = exc
+                has_permanent = True
             except MissingCredential as exc:
                 # Config gap, not a transient outage: retrying unchanged cannot fix it.
                 errors.append(f"{adapter.provider}: {exc}")
+                has_permanent = True
             except RetryableProviderError as exc:
                 errors.append(f"{adapter.provider}: {exc}")
                 transient = True
         message = "all configured providers unavailable: " + " | ".join(errors)
-        # 403 + missing credential (no transient error) must not be blind-retried.
-        if errors and last_auth is not None and not transient:
-            raise ProviderAuthError(
-                message,
-                http_status=last_auth.http_status,
-                endpoint_host=last_auth.endpoint_host,
-                error_code=last_auth.error_code,
-            )
+        # Permanent failures (auth or missing credential) with no transient must not be blind-retried.
+        if errors and has_permanent and not transient:
+            if last_auth is not None:
+                raise ProviderAuthError(
+                    message,
+                    http_status=last_auth.http_status,
+                    endpoint_host=last_auth.endpoint_host,
+                    error_code=last_auth.error_code,
+                )
+            raise NonRetryableProviderError(message)
         raise RetryableProviderError(message)
 
 
