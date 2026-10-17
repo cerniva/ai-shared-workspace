@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
-    "seen": 162,
+    "pending": 0,
+    "seen": 163,
     "answered": 77,
     "delayed": 271
   },
-  "event_count": 1042,
+  "event_count": 1043,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1059,17 +1059,18 @@
     "RPT-20261017-0755-grok-svg-chart-value-gate:pending",
     "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:delayed",
     "RPT-20261017-0755-grok-svg-chart-value-gate:delayed",
-    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:pending"
+    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:pending",
+    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:seen"
   ],
   "new_event_keys": [
-    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:pending"
+    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T08:55:03+03:00",
+  "checked_at": "2026-10-17T08:55:18+03:00",
   "historical_counts": {
-    "pending": 1,
-    "seen": 162,
+    "pending": 0,
+    "seen": 163,
     "answered": 77,
     "delayed": 272
   },

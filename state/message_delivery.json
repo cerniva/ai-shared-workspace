@@ -9756,8 +9756,8 @@
     "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri": {
       "id": "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-17T08:55:02+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-17T08:55:18+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -9766,9 +9766,11 @@
       "in_reply_to": "null",
       "created_at": "2026-10-17T08:53:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-17T08:53:00+03:00"
+      "pending_at": "2026-10-17T08:53:00+03:00",
+      "seen_at": "2026-10-17T08:55:18+03:00"
     }
   },
   "events": [
@@ -21236,6 +21238,17 @@
       "at": "2026-10-17T08:55:02+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:seen",
+      "message_id": "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-17T08:55:18+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22280,6 +22293,7 @@
     "RPT-20261017-0755-grok-svg-chart-value-gate:pending",
     "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:delayed",
     "RPT-20261017-0755-grok-svg-chart-value-gate:delayed",
-    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:pending"
+    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:pending",
+    "MSG-20261017-0853-grok-gördüm-sistem-geliştirmeleri:seen"
   ]
 }
