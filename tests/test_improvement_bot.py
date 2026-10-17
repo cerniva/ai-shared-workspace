@@ -49,6 +49,15 @@ def report(factory=None, handoffs=None):
 
 
 class BottleneckTests(unittest.TestCase):
+    def test_managed_dynamic_workflows_ignored(self):
+        runs = RUNS + [run("github_actions in /. - Update #1632471704",
+                           "dynamic/dependabot/dependabot-updates", 120)] * 3
+        stats = ib.workflow_stats(runs, NOW)
+        self.assertNotIn("dynamic/dependabot/dependabot-updates", [w["path"] for w in stats])
+        self.assertTrue(ib.is_managed_workflow("dynamic/pages/pages-build-deployment"))
+        self.assertFalse(ib.is_managed_workflow(".github/workflows/team-worker.yml"))
+        self.assertFalse(ib.is_managed_workflow(""))
+
     def test_ranking(self):
         b = report()["bottlenecks"]
         self.assertEqual([w["workflow"] for w in b["slowest_workflows"]],

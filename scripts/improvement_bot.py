@@ -164,11 +164,19 @@ def provider_downtime(snapshots: list[dict], now: datetime) -> dict[str, dict[st
     return out
 
 
+def is_managed_workflow(path: str) -> bool:
+    """GitHub-managed dynamic workflows (dependabot, pages, copilot) have no YAML in the repo,
+    so speed-up handoffs for them are unactionable and invite fabricated findings."""
+    return bool(path) and not path.startswith(".github/workflows/")
+
+
 def workflow_stats(runs: Iterable[dict], now: datetime) -> list[dict]:
     by: dict[str, dict] = {}
     for r in runs:
         created = parse_ts(r.get("created_at"))
         if created and now - created > WINDOW:
+            continue
+        if is_managed_workflow(r.get("path") or ""):
             continue
         name = r.get("name") or r.get("path") or "?"
         s = by.setdefault(name, {"workflow": name, "path": r.get("path", ""), "runs": 0,
