@@ -1070,14 +1070,10 @@
     "MSG-20261017-1055-grok-sistem-gelistirmeleri-report:answered",
     "RPT-20261017-1055-grok-sistem-gelistirmeleri-verify:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261017-1048-grok-gordum-sistem-gelistirmeleri:seen",
-    "MSG-20261017-1055-grok-sistem-gelistirmeleri-report:answered",
-    "RPT-20261017-1055-grok-sistem-gelistirmeleri-verify:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T10:50:15+03:00",
+  "checked_at": "2026-10-17T11:09:49+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 164,
