@@ -94,6 +94,28 @@ def chart_gate(svg_path: Path, series: dict[str, Any]) -> dict[str, Any]:
                 pts = lines[0].get("points", "").split()
                 if len(pts) != len(series.get("points") or []):
                     reasons.append(f"polyline has {len(pts)} points, data has {len(series.get('points') or [])}")
+                else:
+                    # Verify actual y-values match expected (tolerance for float)
+                    expected_ys = []
+                    values = [float(v) for _, v in series.get("points") or []]
+                    if values:
+                        lo, hi = min(values), max(values)
+                        span = (hi - lo) or 1.0
+                        n = len(values)
+                        for i, v in enumerate(values):
+                            y = H - PAD - (H - 2 * PAD) * (v - lo) / span
+                            expected_ys.append(y)
+                    for i, pt in enumerate(pts):
+                        if "," not in pt:
+                            reasons.append(f"polyline point {i} malformed")
+                            continue
+                        try:
+                            x_str, y_str = pt.split(",")
+                            y_actual = float(y_str)
+                            if i < len(expected_ys) and abs(y_actual - expected_ys[i]) > 0.2:
+                                reasons.append(f"polyline y[{i}] {y_actual:.1f} != expected {expected_ys[i]:.1f}")
+                        except ValueError:
+                            reasons.append(f"polyline point {i} not numeric")
                 ys = {p.split(",")[1] for p in pts if "," in p}
                 if len(ys) < 2 and len(set(v for _, v in series.get("points") or [])) > 1:
                     reasons.append("flat line for non-flat data")
