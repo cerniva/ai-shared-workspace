@@ -1,35 +1,84 @@
 {
   "schema_version": 1,
-  "description": "Ortak model yedek sirasi. Yalniz env ADLARI burada; degerler calisma aninda okunur, asla loglanmaz. Sira listedeki siradir.",
+  "description": "Ortak model yedek sirasi. Yalniz env ADLARI burada; degerler calisma aninda okunur, asla loglanmaz. Sira listedeki siradir. GitHub Models 2026-07-30 tarihinde kapandigi icin aktif listede tutulmaz.",
   "verified_at": "2026-10-10",
   "providers": [
-    {"name": "github_models", "kind": "openai_compat", "env": "GITHUB_TOKEN",
-     "endpoint": "https://models.github.ai/inference/chat/completions", "model": "openai/gpt-4.1-mini",
-     "model_env": "GITHUB_MODELS_MODEL", "workflow_permission": "models: read",
-     "doc": "https://docs.github.com/en/rest/models/inference",
-     "note": "Resmi dokuman (2026-10-10): GitHub Models 2026-07-30 itibariyla emekli. Sirada tutuldu; saglik kontrolu gercek durumu yazar, auth/billing/error ise zincir onu atlar."},
-    {"name": "groq", "kind": "openai_compat", "env": "GROQ_API_KEY",
-     "endpoint": "https://api.groq.com/openai/v1/chat/completions", "model": "openai/gpt-oss-20b",
-     "model_env": "GROQ_MODEL", "doc": "https://console.groq.com/docs/models"},
-    {"name": "openrouter_free", "kind": "openai_compat", "env": "OPENROUTER_API_KEY",
-     "endpoint": "https://openrouter.ai/api/v1/chat/completions", "model": "google/gemma-4-31b-it:free",
-     "fallback_models": ["nvidia/nemotron-3-super-120b-a12b:free", "google/gemma-4-26b-a4b-it:free"],
-     "model_env": "OPENROUTER_MODEL", "require_suffix": ":free",
-     "doc": "https://openrouter.ai/api/v1/models (yalniz :free kimlikli modeller)"},
-    {"name": "cerebras", "kind": "openai_compat", "env": "CEREBRAS_API_KEY",
-     "endpoint": "https://api.cerebras.ai/v1/chat/completions", "model": "gpt-oss-120b",
-     "model_env": "CEREBRAS_MODEL", "doc": "https://inference-docs.cerebras.ai/models/overview"},
-    {"name": "mistral", "kind": "openai_compat", "env": "MISTRAL_API_KEY",
-     "endpoint": "https://api.mistral.ai/v1/chat/completions", "model": "mistral-small-4-0-26-03",
-     "model_env": "MISTRAL_MODEL", "doc": "https://docs.mistral.ai/getting-started/models/models_overview/"},
-    {"name": "gemini", "kind": "existing", "env": "GEMINI_API_KEY"},
-    {"name": "deepseek", "kind": "existing", "env": "DEEPSEEK_API_KEY"},
-    {"name": "claude", "kind": "existing", "env": "ANTHROPIC_API_KEY"},
-    {"name": "openai", "kind": "existing", "env": "OPENAI_API_KEY"},
-    {"name": "grok", "kind": "existing", "env": "XAI_API_KEY"},
-    {"name": "local", "kind": "local", "env": "OLLAMA_HOST",
-     "endpoint_path": "/v1/chat/completions", "model": "qwen2.5:1.5b", "model_env": "LOCAL_MODEL",
-     "simple_only": true, "doc": "https://docs.ollama.com/api/openai-compatibility",
-     "note": "Son yedek; yalniz job.simple=true isler. OLLAMA_HOST (or. http://localhost:11434) yoksa no_key."}
+    {
+      "name": "groq",
+      "kind": "openai_compat",
+      "env": "GROQ_API_KEY",
+      "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+      "model": "openai/gpt-oss-20b",
+      "model_env": "GROQ_MODEL",
+      "doc": "https://console.groq.com/docs/models"
+    },
+    {
+      "name": "openrouter_free",
+      "kind": "openai_compat",
+      "env": "OPENROUTER_API_KEY",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "model": "google/gemma-4-31b-it:free",
+      "fallback_models": [
+        "nvidia/nemotron-3-super-120b-a12b:free",
+        "google/gemma-4-26b-a4b-it:free"
+      ],
+      "model_env": "OPENROUTER_MODEL",
+      "require_suffix": ":free",
+      "doc": "https://openrouter.ai/api/v1/models (yalniz :free kimlikli modeller)"
+    },
+    {
+      "name": "cerebras",
+      "kind": "openai_compat",
+      "env": "CEREBRAS_API_KEY",
+      "endpoint": "https://api.cerebras.ai/v1/chat/completions",
+      "model": "gpt-oss-120b",
+      "model_env": "CEREBRAS_MODEL",
+      "doc": "https://inference-docs.cerebras.ai/models/overview"
+    },
+    {
+      "name": "mistral",
+      "kind": "openai_compat",
+      "env": "MISTRAL_API_KEY",
+      "endpoint": "https://api.mistral.ai/v1/chat/completions",
+      "model": "mistral-small-4-0-26-03",
+      "model_env": "MISTRAL_MODEL",
+      "doc": "https://docs.mistral.ai/getting-started/models/models_overview/"
+    },
+    {
+      "name": "gemini",
+      "kind": "existing",
+      "env": "GEMINI_API_KEY"
+    },
+    {
+      "name": "deepseek",
+      "kind": "existing",
+      "env": "DEEPSEEK_API_KEY"
+    },
+    {
+      "name": "claude",
+      "kind": "existing",
+      "env": "ANTHROPIC_API_KEY"
+    },
+    {
+      "name": "openai",
+      "kind": "existing",
+      "env": "OPENAI_API_KEY"
+    },
+    {
+      "name": "grok",
+      "kind": "existing",
+      "env": "XAI_API_KEY"
+    },
+    {
+      "name": "local",
+      "kind": "local",
+      "env": "OLLAMA_HOST",
+      "endpoint_path": "/v1/chat/completions",
+      "model": "qwen2.5:1.5b",
+      "model_env": "LOCAL_MODEL",
+      "simple_only": true,
+      "doc": "https://docs.ollama.com/api/openai-compatibility",
+      "note": "Son yedek; yalniz job.simple=true isler. OLLAMA_HOST (or. http://localhost:11434) yoksa no_key."
+    }
   ]
 }
