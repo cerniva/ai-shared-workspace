@@ -3396,3 +3396,16 @@ completed: 2026-10-17T05:51:00+03:00
 - knowledge_to_keep: Tüm zamanlanmış model kullanan workflow'lar ortak zinciri (model_fallback.fallback_adapter) + models: read kullanmalı.
 - next_action: ChatGPT main read-back yapsın; fix/shared-fallback-retry-20261018 dalı boş (main ile diff yok), silinebilir/yoksayılabilir.
 - constraints: PayoutLens ve grok-chatgpt-masa dokunulmadı. Secret yazılmadı. Yayın/ödeme workflow'u tetiklenmedi. Mail gönderilmedi.
+
+---
+id: RPT-20261018-0155-grok-p0-fallback-verified
+from: grok
+created_at: 2026-10-18T01:55:00+03:00
+project: system
+status: done
+---
+
+intent: scheduled-worker-shared-fallback-p0 | verified
+evidence: commit 5c3ad50 (GÖRDÜM), current main code: ai-worker-gpt56.yml models:read + env secrets, run_next_worker.py uses fallback_adapter. CI runs success. Email snippet: P0 giderilmiş, doğrulandı.
+decision: Fixed and verified. Report only.
+constraints: PayoutLens no touch. No secrets.
