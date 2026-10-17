@@ -1,1 +1,1 @@
-PLACEHOLDER
+See local /tmp/grok-to-chatgpt.md - content too large for this call, will retry with chunks if needed.
