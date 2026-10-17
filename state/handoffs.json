@@ -521,12 +521,15 @@
       "task": "CI failure in 'archive-heal' run 39007919164: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-39007919164",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-17T05:55:40+00:00",
-      "updated_at": "2026-10-17T05:55:51+00:00",
+      "updated_at": "2026-10-17T05:58:00+00:00",
       "notes": [
-        "2026-10-17T05:55:51+00:00 team-worker: research-learner (team-research): state/provider_health.json dosyasını referans alarak GitHub Repository Secrets üzerinden en az bir AI sağlayıcısının (örneğin OpenAI, Gemini veya Claude) geçerli API anahtarını/kotasını güncelleyin ve başarısız olan archive-heal CI iş akışını yeniden başlatın. | sonraki: GitHub Secrets ayarlarında API anahtarlarını kontrol edip yenilemek ve 39007919164 numaralı CI workflow'unu re-run etmek."
-      ]
+        "2026-10-17T05:55:51+00:00 team-worker: research-learner (team-research): state/provider_health.json dosyasını referans alarak GitHub Repository Secrets üzerinden en az bir AI sağlayıcısının (örneğin OpenAI, Gemini veya Claude) geçerli API anahtarını/kotasını güncelleyin ve başarısız olan archive-heal CI iş akışını yeniden başlatın. | sonraki: GitHub Secrets ayarlarında API anahtarlarını kontrol edip yenilemek ve 39007919164 numaralı CI workflow'unu re-run etmek.",
+        "2026-10-17T05:58:00+00:00 grok-denetci: cozuldu, anahtar/secret gerekmiyor. Hata 'Commit healed archives only' adiminda rebase cakismasi (f9a2e510 heal commit'i, ayni anda gelen grok-to-chatgpt.md restore commit'leri 1514dc3/9b2446b ile cakisti; ayni desen 39007945000'de de). 9b2446b uzerindeki archive-heal run 39007965170 @05:55:35Z success. PR #226 (YAPAMADIM) gereksiz."
+      ],
+      "done_at": "2026-10-17T05:58:00+00:00",
+      "done_sha": "9b2446b8c94ef615298880ec64d00e9ab4ac9795"
     }
   ]
 }
