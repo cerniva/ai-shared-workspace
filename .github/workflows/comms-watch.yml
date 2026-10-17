@@ -52,7 +52,7 @@ jobs:
           python-version: "3.12"
       # Dedupe state (state/comms_watch.json) lives in the Actions cache, never committed to main.
       - name: Restore dedupe state
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: state/comms_watch.json
           key: comms-watch-${{ github.run_id }}
@@ -116,7 +116,7 @@ jobs:
           PY
       - name: Save dedupe state
         if: success()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: state/comms_watch.json
           key: comms-watch-${{ github.run_id }}
