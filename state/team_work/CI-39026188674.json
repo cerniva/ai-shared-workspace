@@ -1,0 +1,37 @@
+{
+  "handoff_id": "CI-39026188674",
+  "source": "ci-bekci",
+  "run_id": "39026245674",
+  "task": "CI failure in 'archive-heal' run 39026188674: jobs heal[Heal archives from git history (fail-closed)]; first error: Traceback (most recent call last):",
+  "generated_at": "2026-10-17T10:48:06+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-39026188674",
+    "evidence": [
+      {
+        "path": ".github/workflows/archive-heal.yml",
+        "observation": "CI run 39026188674 job 'heal[Heal archives from git history (fail-closed)]' failed with a Python execution error beginning with 'Traceback (most recent call last):'."
+      }
+    ],
+    "factual_findings": [
+      "CI workflow run 39026188674 executing '.github/workflows/archive-heal.yml' failed during the 'heal[Heal archives from git history (fail-closed)]' job step.",
+      "The initial logged error is an unhandled Python exception ('Traceback (most recent call last):')."
+    ],
+    "hypotheses": [
+      "A script invoked by '.github/workflows/archive-heal.yml' raised an unhandled exception when attempting to process or heal archives from git history in fail-closed mode."
+    ],
+    "recommendation": "Retrieve the full stdout/stderr logs for job 'heal[Heal archives from git history (fail-closed)]' in run 39026188674 and inspect the Python script invoked by '.github/workflows/archive-heal.yml' to patch the exception source.",
+    "confidence": 0.8,
+    "next_action": "Read the workflow file '.github/workflows/archive-heal.yml' and full execution logs for run 39026188674 to identify the exact Python script path and line triggering the exception.",
+    "timing": {
+      "started_at": "2026-10-17T10:48:06.776223+00:00",
+      "duration_ms": 10073
+    },
+    "usage": {
+      "input_tokens": 143,
+      "output_tokens": 356,
+      "total_tokens": 1799
+    }
+  }
+}
