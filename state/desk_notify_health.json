@@ -1082,12 +1082,10 @@
     "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:seen",
     "RPT-20261017-1555-grok-svg-verify-new-gap:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261017-1555-grok-svg-verify-new-gap:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T15:54:47+03:00",
+  "checked_at": "2026-10-17T15:55:00+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 167,
