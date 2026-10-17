@@ -1089,12 +1089,10 @@
     "RPT-20261018-0043-grok-scheduled-worker-fallback-p0:pending",
     "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-18T01:01:47+03:00",
+  "checked_at": "2026-10-18T01:08:24+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 167,
