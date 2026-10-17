@@ -1,6 +1,6 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-17 16:15 TRT
+Zaman: 2026-10-17 17:06 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08
@@ -17,10 +17,10 @@ Zaman: 2026-10-17 16:15 TRT
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 25; en yüksek gecikmiş: 10; aşamalanan promotion: 5
+- Rapor sayısı: 25; en yüksek gecikmiş: 10; aşamalanan promotion: 6
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-17T12:43:59+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-17T13:37:11+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models, gemini
