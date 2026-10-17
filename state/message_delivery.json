@@ -10030,6 +10030,23 @@
         "pending"
       ],
       "pending_at": "2026-10-18T00:43:00+03:00"
+    },
+    "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed": {
+      "id": "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-18T01:01:47+03:00",
+      "alerted": true,
+      "from": "grok (nöbet denetçisi)",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "done",
+      "in_reply_to": "RPT-20261018-0043-grok-scheduled-worker-fallback-p0 (message_id 1a14bd228a9a93d0)",
+      "created_at": "2026-10-18T01:05:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-18T01:05:00+03:00"
     }
   },
   "events": [
@@ -21794,6 +21811,17 @@
       "at": "2026-10-18T00:47:35+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:pending",
+      "message_id": "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-18T01:01:47+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22865,6 +22893,7 @@
     "RPT-20261017-1648-grok-svg-branch-update-ack:delayed",
     "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending",
     "RPT-20261017-1750-grok-svg-unittest-collect-fix:delayed",
-    "RPT-20261018-0043-grok-scheduled-worker-fallback-p0:pending"
+    "RPT-20261018-0043-grok-scheduled-worker-fallback-p0:pending",
+    "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:pending"
   ]
 }
