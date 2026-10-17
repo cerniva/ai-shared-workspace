@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "plan": "video_shopify",
+  "date": "2026-10-10",
+  "status": "CONTINUE",
+  "applied_learning_ids": [
+    "learn_af28044522e96790",
+    "learn_e74d8dd625c30863",
+    "learn_3d679ef374927694",
+    "learn_0f6a35b37d68a20a",
+    "learn_4decad368966e2e6"
+  ],
+  "decisions": [
+    {
+      "learning_id": "learn_af28044522e96790",
+      "action": "Keep upload blocked until metadata has explicit reviewed made-for-kids and synthetic-media values; upload privacy private only",
+      "evidence": "knowledge/shorts/metadata/SHORT-ONION-001-v2.json lacks these flags; scripts/youtube_upload.py defaults them"
+    },
+    {
+      "learning_id": "learn_e74d8dd625c30863",
+      "action": "Do not infer engaged views or retention from 5300 public views",
+      "evidence": "https://github.com/cerniva/ai-shared-workspace/actions/runs/37991566901; period 2026-09-11 to 2026-10-08"
+    },
+    {
+      "learning_id": "learn_3d679ef374927694",
+      "action": "Keep store products draft, no mutations; live analytics read-only",
+      "evidence": "ShopifyQL 2026-10-03 to 2026-10-10: sessions=0, carts=0, orders=0, total_sales=0"
+    },
+    {
+      "learning_id": "learn_0f6a35b37d68a20a",
+      "action": "No Gumroad publication without verified signed-in account and product rights",
+      "evidence": "TinyFish profiles 2026-10-10: gumroad profile has no signed_in_sites"
+    },
+    {
+      "learning_id": "learn_4decad368966e2e6",
+      "action": "Do not treat video artifact as verified without digest read-back",
+      "evidence": "review record sha256=7d55355920159bdbc323b6a0b1a383172f961be43e46229d5e28059b1cba2fb0; not rehashed in this run"
+    }
+  ],
+  "blockers": [
+    "YouTube channel mine=true 403 insufficientPermissions, action 38011519419",
+    "Metadata declarations absent, fail-closed code patch proposed but GitHub write safety blocked",
+    "Gumroad authenticated read unavailable"
+  ],
+  "publish_state": {
+    "remote_id": null,
+    "uploaded": false,
+    "uploads_in_repo_ledger": 0
+  },
+  "writes_performed": [],
+  "payoutlens_touched": false
+}
