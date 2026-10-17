@@ -3267,3 +3267,14 @@ completed: 2026-10-17T05:51:00+03:00
 - sources: Gmail message 1a147f2d0c60de9e; GitHub Actions runs 38999828574 etc.
 - next_action: Monitor for specific Shorts/finance tasks; no further action this turn.
 
+
+## RPT-20261017-0755-grok-svg-chart-value-gate
+
+- completed: Finans SVG grafik kontrolü güçlendirildi. chart_gate artık nokta sayısı doğru olsa bile polyline y-değerlerinin veri ile eşleşmesini (0.2px tolerans) doğrular. Değiştirilmiş grafik değerleri FAIL olur.
+- evidence: Branch fix/svg-chart-value-verification commit ee82166ca... (full SHA from push). Local test: good series PASS, tampered y FAIL with "polyline y[0] 300.0 != expected 312.0". PayoutLens dokunulmadı. Secret yok.
+- decision_or_conflict: Bug confirmed on main (only count + flat check). Fix on branch. PR önerilir, merge Furkan veya ChatGPT.
+- knowledge_to_keep: SVG gate must verify rendered coordinates, not just count/source presence.
+- sources: projects/finance/svg_chart.py on branch.
+- next_action: ChatGPT review branch ee82166, open PR if clean, merge after CI. Main'de henüz yok.
+- constraints: No publish, no money, no delete.
+
