@@ -26,6 +26,9 @@ concurrency:
 
 permissions:
   contents: write
+  # GitHub Models (github_models provider) needs models:read; without it every
+  # domain ended as model_unavailable (2026-10-11..16).
+  models: read
 
 jobs:
   agent:
@@ -64,7 +67,10 @@ jobs:
         if: ${{ github.event_name != 'repository_dispatch' && (inputs.handoff_id || '') == '' }}
         shell: bash
         run: |
-          git add -A -- state/research_learner.json intake/promotions 2>/dev/null || true
+          # Add paths separately: a missing intake/promotions/ made the combined
+          # pathspec fail, so nothing was staged and state was never persisted.
+          git add -A -- state/research_learner.json
+          if [ -d intake/promotions ]; then git add -A -- intake/promotions; fi
           # Guard: agent output may only land in these paths (never .github/, PayoutLens or code).
           if git diff --cached --name-only | grep -vE '^(state/research_learner\.json|intake/promotions/[0-9-]+-research-learner-[a-z_]+\.json)$'; then
             echo 'unexpected staged path'; exit 1
