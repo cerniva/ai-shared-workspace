@@ -1,12 +1,10 @@
 {
-  "generated_at": "2026-10-17T14:48:00+00:00",
+  "generated_at": "2026-10-17T22:25:14+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
       "source": "https://www.federalreserve.gov/feeds/press_all.xml",
-      "status": "already_in_ledger",
-      "learning_id": "learn_084a973ea4587745",
-      "note": "intake staging learn_c3d32d4003b951c4 dropped in a6af07e7; same Fed press item enforcement20261016a already verified in knowledge/promotions/2026-10-17-research-learner-finance-verified.json"
+      "status": "model_unavailable"
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
