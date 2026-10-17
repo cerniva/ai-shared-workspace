@@ -12,6 +12,9 @@ concurrency:
 permissions:
   contents: write
   actions: write
+  # GitHub Models (github_models provider in the shared fallback chain) needs models:read;
+  # without it the model summary depends only on keyed providers (same gap as ai-worker-gpt56 P0, d8f3311).
+  models: read
 
 jobs:
   agent:
