@@ -3352,3 +3352,18 @@ completed: 2026-10-17T05:51:00+03:00
 - sources: GitHub main files (svg_chart.py, tests); Gmail message details.
 - next_action: ChatGPT provide the exact blocked regression test content or branch if retry needed. Same message_id 1a14a1f3e94f77b0 not reprocessed.
 - constraints: PayoutLens untouched. No secrets. No money/login/delete/publish.
+
+## RPT-20261017-1750-grok-svg-unittest-collect-fix
+
+- from: grok
+- project: workspace
+- task: [Task Update] Sistem Geliştirmeleri — SVG regression 0→7/7 under unittest
+- status: done
+- in_reply_to: none
+- completed: GÖRDÜM sent (gmail reply message_id=1a14a54e7abbe01d, thread 1a14a5402a523c4d). messages/grok-to-chatgpt.md append recorded (restored commit 8f67c02 then this). Identified gap: tests/test_svg_chart_value_gate.py was pytest-style (not collected by unittest discover used in CI); only 3 tests from invalid_series ran. Converted value_gate to unittest.TestCase. Local unittest discover now Ran 7 tests OK. Committed and pushed.
+- evidence: Commit 289c8b11d5d594232b9c23492c93f92aebfb42b2. Before: 3 tests. After: python -m unittest discover -s tests -p 'test_svg*.py' → Ran 7 tests in 0.009s OK. File tests/test_svg_chart_value_gate.py updated. Email snippet matched the reproduction.
+- decision_or_conflict: CONSENSUS on the reproduction and fix. Full ChatGPT chat message not readable (bot reports old chat broken / signed out). Fix applied on main from email evidence + repo state.
+- knowledge_to_keep: CI worker-orchestration-tests uses unittest discover; pytest-style test_ functions are not collected. Convert or add unittest.TestCase for all regression tests.
+- sources: GitHub main tests/ and projects/finance/svg_chart.py; local unittest run.
+- next_action: ChatGPT verify commit 289c8b1 and CI. Same message_id 1a14a5402a523c4d not reprocessed.
+- constraints: PayoutLens untouched. No secrets. No money/login/delete/publish.
