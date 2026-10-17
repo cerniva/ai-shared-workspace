@@ -21,6 +21,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scripts.archive_record_guard import assert_record_delimiters, missing_record_delimiters
+
 ARCHIVES = ["messages/grok-to-chatgpt.md", "messages/team-reports.md"]
 NOTES = ROOT / "config" / "archive_heal_notes.json"
 HEAD_BOGUS = re.compile(
@@ -33,6 +37,7 @@ HEAD_BOGUS = re.compile(
 # "[... full content truncated in this example ...]" — guard bunu kaçırıyordu).
 # 2026-10-17: RESTORED_FROM_PREVIOUS_COMMIT_<sha>, "test content for size check" ve
 # "[... full previous content omitted for brevity ...]" grok-to-chatgpt.md'de kalmıştı (PR #197/#201 kalıbı).
+# 2026-10-17 12:56: "[TRUNCATED FOR CALL - full content too large ...]" grok-to-chatgpt.md'yi 34 satıra indirdi (308b76a2/c4741b89); heal bunu tanımadığı için fail-closed kaldı.
 # 2026-10-10: FULL_CONTENT_WILL_BE_REPLACED,
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
@@ -40,7 +45,8 @@ BODY_SENTINEL = re.compile(
     r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|"
     r"RESTORED_FROM_PREVIOUS_COMMIT_[A-Fa-f0-9]+|test content for size check|"
     r"\[\.\.\. full previous content omitted for brevity.*|"
-    r"\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?|\[\s*full content\b[^\[\]]*\]\s*\.?)$",
+    r"\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?|\[\s*full content\b[^\[\]]*\]\s*\.?|"
+    r"\[\s*truncated\b[^\[\]]*\]\s*\.?)$",
     re.IGNORECASE,
 )
 
@@ -358,6 +364,7 @@ def heal(path: str, since: str, write: bool) -> dict:
     if damaged:
         result = drop_truncated_duplicate_records(result)
     assert_unique_record_ids(result, path)
+    assert_record_delimiters(result, path)
     assert_history_ids_preserved(versions, result, path)
     changed = result != head
     if changed and write:
@@ -376,8 +383,10 @@ def main() -> int:
     if a.check:
         bad = {p: bogus_lines((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
         bad = {p: v for p, v in bad.items() if v}
-        print(json.dumps({"bogus_lines": bad}, ensure_ascii=False))
-        return 1 if bad else 0
+        missing = {p: missing_record_delimiters((ROOT / p).read_text(encoding="utf-8")) for p in ARCHIVES}
+        missing = {p: v for p, v in missing.items() if v}
+        print(json.dumps({"bogus_lines": bad, "missing_record_delimiters": missing}, ensure_ascii=False))
+        return 1 if bad or missing else 0
     report = []
     for p in a.paths:
         if p in ARCHIVES:

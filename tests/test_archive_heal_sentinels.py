@@ -55,6 +55,8 @@ class SentinelTests(unittest.TestCase):
             "... [full content truncated for this simulation, but in real it would be the complete 360k char file] ...",
             "PLACEHOLDER",
             "placeholder",
+            "[TRUNCATED FOR CALL - full content too large for single tool arg in this context; see local /tmp/grok-to-chatgpt.md which has the correct append]",
+            "[truncated]",
         ]:
             self.assertTrue(ah.is_bogus_line(line), line)
 
@@ -63,6 +65,7 @@ class SentinelTests(unittest.TestCase):
             "evidence: placeholder was removed from archive",
             "decision: dummy value not used",
             "note: ... [truncated] ... marker is historical evidence",
+            "evidence: [TRUNCATED FOR CALL] line was healed from history",
         ]:
             self.assertFalse(ah.is_bogus_line(line), line)
 
