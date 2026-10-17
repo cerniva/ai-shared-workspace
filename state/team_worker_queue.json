@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261017-slow-github-actions-in-update-1632471704",
+      "task": "[dynamic/dependabot/dependabot-updates] 'github_actions in /. - Update #1632471704' medyan 119 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "comms-watch",
+      "ts": "2026-10-17T06:29:03+00:00"
+    }
+  ]
+}
