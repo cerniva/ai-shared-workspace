@@ -10055,8 +10055,8 @@
     "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack": {
       "id": "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-18T02:57:47+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-18T02:57:58+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10065,9 +10065,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-18T02:54:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "seen"
       ],
-      "pending_at": "2026-10-18T02:54:00+03:00"
+      "pending_at": "2026-10-18T02:54:00+03:00",
+      "seen_at": "2026-10-18T02:57:58+03:00"
     }
   },
   "events": [
@@ -21876,6 +21878,17 @@
       "at": "2026-10-18T02:57:47+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:seen",
+      "message_id": "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "team-reports",
+      "at": "2026-10-18T02:57:58+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22951,6 +22964,7 @@
     "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:pending",
     "RPT-20261018-0043-grok-scheduled-worker-fallback-p0:delayed",
     "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:delayed",
-    "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:pending"
+    "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:pending",
+    "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:seen"
   ]
 }
