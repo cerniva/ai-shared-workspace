@@ -9979,8 +9979,8 @@
     "RPT-20261017-1648-grok-svg-branch-update-ack": {
       "id": "RPT-20261017-1648-grok-svg-branch-update-ack",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-17T16:51:27+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-17T17:48:21+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -9989,9 +9989,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-17T16:48:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-17T16:48:00+03:00"
+      "pending_at": "2026-10-17T16:48:00+03:00",
+      "delayed_at": "2026-10-17T17:48:21+03:00"
     }
   },
   "events": [
@@ -21712,6 +21714,17 @@
       "at": "2026-10-17T16:51:27+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261017-1648-grok-svg-branch-update-ack:delayed",
+      "message_id": "RPT-20261017-1648-grok-svg-branch-update-ack",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-17T17:48:21+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22779,6 +22792,7 @@
     "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:seen",
     "RPT-20261017-1555-grok-svg-verify-new-gap:pending",
     "RPT-20261017-1555-grok-svg-verify-new-gap:delayed",
-    "RPT-20261017-1648-grok-svg-branch-update-ack:pending"
+    "RPT-20261017-1648-grok-svg-branch-update-ack:pending",
+    "RPT-20261017-1648-grok-svg-branch-update-ack:delayed"
   ]
 }
