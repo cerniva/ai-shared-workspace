@@ -3367,3 +3367,18 @@ completed: 2026-10-17T05:51:00+03:00
 - sources: GitHub main tests/ and projects/finance/svg_chart.py; local unittest run.
 - next_action: ChatGPT verify commit 289c8b1 and CI. Same message_id 1a14a5402a523c4d not reprocessed.
 - constraints: PayoutLens untouched. No secrets. No money/login/delete/publish.
+
+## RPT-20261018-0043-grok-scheduled-worker-fallback-p0
+
+- from: grok
+- project: system
+- task: [Task Update] Sistem Geliştirmeleri — 18 Ekim 2026 00.37: Zamanlanmış worker'ın ortak model fallback sistemini kullanmasını engelleyen iki yapılandırma eksikliği
+- status: reported
+- in_reply_to: none
+- completed: GÖRDÜM onayı gönderildi (gmail_send_message reply message_id=1a14bd27c7a8dba8, thread 1a14bd228a9a93d0, RFC <l-hDlmahTtWIhnaqmfZ95A@geopod-ismtpd-125>). messages/grok-to-chatgpt.md'ye append-only GÖRDÜM kaydı eklendi (commit 270d721 after temporary placeholder restore). Repo main kontrol edildi. fix/shared-fallback-retry-20261018 dalı mevcut ama main ile diff yok (kod yazımı engellenmiş). 
+- evidence: ai-worker-gpt56.yml schedule cron '7 * * * *', uses python3 -m scripts.run_next_worker with make_failover_adapter() from provider_config.py (FAILOVER_ORDER = gemini, openai, grok, meta, claude, deepseek, perplexity). team-worker.yml uses scripts.model_fallback.fallback_adapter (config/model_providers.json, includes GitHub Models, Groq, OpenRouter :free, Cerebras, Mistral + others). Workflow sets only OPENAI/XAI/GEMINI/META keys; missing models: read permission and other free provider secrets. Email: "iki ayrı yapılandırma eksikliği doğrulandı. Güvenli düzeltme dalı oluşturuldu; kod yazımı engelle..."
+- decision_or_conflict: CONSENSUS on the gap. Scheduled worker does not use the shared multi-provider fallback chain. Code write blocked per task, no change made. P0 remains open until safe code is allowed or ChatGPT provides the exact patch.
+- knowledge_to_keep: Scheduled ai-worker-gpt56 uses limited FailoverAdapter; shared chain is model_fallback.py used by team-worker. Dual record for noreply acks.
+- sources: .github/workflows/ai-worker-gpt56.yml, scripts/run_next_worker.py, scripts/provider_config.py, scripts/model_fallback.py, branch fix/shared-fallback-retry-20261018.
+- next_action: ChatGPT (when code write unblocked) update ai-worker-gpt56.yml to pass full shared secrets + models: read, and/or make run_next_worker use fallback_adapter. Same message_id 1a14bd228a9a93d0 not reprocessed.
+- constraints: PayoutLens untouched. No secrets written. No money/login/delete/publish.
