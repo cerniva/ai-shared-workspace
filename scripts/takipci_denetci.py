@@ -320,6 +320,13 @@ def head_check_runs(gh: GitHub, sha: str) -> list[dict]:
 def audit_pr(gh: GitHub, number: int, dispatch: bool = False, ci_pending: bool = False) -> tuple[dict, str]:
     pr = gh.request("GET", f"/pulls/{number}")
     head = pr["head"]["sha"]
+    if pr.get("state") == "closed" and not pr.get("merged"):
+        # Late dispatch for a PR that was already closed without merge (e.g. a
+        # superseded team-worker YAPAMADIM PR): nothing can land, so do not paint
+        # CI red. Merged PRs are still audited via the main-merged commit path.
+        return {"check": CHECK_NAME, "verdict": "skip",
+                "reasons": [], "warnings": [f"PR #{number} closed without merge; audit skipped"],
+                "files": [], "pr_number": number, "head_sha": head}, head
     files = collect(gh, gh.paged(f"/pulls/{number}/files"), pr["base"]["sha"], head)
     run_refs = fetch_run_refs(gh, extract_run_refs(pr.get("body")))
     checks = head_check_runs(gh, head)
@@ -376,14 +383,14 @@ def main(argv=None) -> int:
         sha = args.head_sha
     else:
         p.error("--pr or --head-sha required")
-    if args.publish:
+    if args.publish and res["verdict"] != "skip":
         run = publish_check(gh, sha, res)
         res["check_run_url"] = run.get("html_url")
     print(json.dumps(res, ensure_ascii=False, indent=2))
     out = os.environ.get("TAKIPCI_OUT")
     if out:
         Path(out).write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
-    return 0 if res["verdict"] == "pass" else 1
+    return 0 if res["verdict"] in ("pass", "skip") else 1
 
 
 if __name__ == "__main__":
