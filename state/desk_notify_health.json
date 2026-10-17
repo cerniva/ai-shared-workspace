@@ -13,8 +13,8 @@
   "counts": {
     "pending": 0,
     "seen": 14,
-    "answered": 41,
-    "delayed": 146
+    "answered": 52,
+    "delayed": 152
   },
   "event_count": 1068,
   "event_keys": [
@@ -1087,12 +1087,10 @@
     "RPT-20261017-1750-grok-svg-unittest-collect-fix:pending",
     "RPT-20261017-1750-grok-svg-unittest-collect-fix:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261017-1750-grok-svg-unittest-collect-fix:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T18:47:19+03:00",
+  "checked_at": "2026-10-17T18:48:18+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 167,
@@ -1100,6 +1098,6 @@
     "delayed": 278
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 355,
+  "active_source_id_count": 372,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
