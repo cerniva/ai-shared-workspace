@@ -204,10 +204,25 @@ class GitHub:
             "Authorization": f"Bearer {self.token}", "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"})
 
-    def request(self, method: str, path: str, body: Any = None) -> Any:
-        with urllib.request.urlopen(self._req(method, path, body), timeout=30) as resp:
-            raw = resp.read()
-            return json.loads(raw) if raw else {}
+    RETRY_STATUSES = (500, 502, 503, 504)
+
+    def request(self, method: str, path: str, body: Any = None, attempts: int = 3) -> Any:
+        """Transient GitHub 5xx / network errors are retried (GET only) so a
+        single 502 Bad Gateway does not turn the watchdog itself red."""
+        import time
+        tries = attempts if method.upper() == "GET" else 1
+        for i in range(tries):
+            try:
+                with urllib.request.urlopen(self._req(method, path, body), timeout=30) as resp:
+                    raw = resp.read()
+                    return json.loads(raw) if raw else {}
+            except urllib.error.HTTPError as e:
+                if e.code not in self.RETRY_STATUSES or i == tries - 1:
+                    raise
+            except urllib.error.URLError:
+                if i == tries - 1:
+                    raise
+            time.sleep(2 * (i + 1))
 
     def paged(self, path: str, max_pages: int = 10) -> list:
         out, sep = [], "&" if "?" in path else "?"
