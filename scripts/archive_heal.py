@@ -51,11 +51,18 @@ BODY_SENTINEL = re.compile(
 )
 
 
+# 2026-10-17 20:48: GitHub MCP get_file_contents büyük dosyayı kesip satır sonuna
+# "[+467706 bytes at .content[1].resource.text]" ekliyor; bot bu kesik okumayı geri yazınca
+# grok-to-chatgpt.md 480336 B -> 12674 B (283 satır) oldu (7b08d67f) ve heal fail-closed kaldı.
+CONNECTOR_TRUNC = re.compile(r"\s*\[\+\d+ (?:bytes|chars|characters) at \.content\[\d+\][^\[\]]*\]\s*$")
+
+
 def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
     (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
     Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
-    return line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
+    return (line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
+            or bool(CONNECTOR_TRUNC.search(line)))
 
 
 def bogus_lines(text: str) -> list[int]:
@@ -63,7 +70,8 @@ def bogus_lines(text: str) -> list[int]:
 
 
 def drop_bogus(text: str) -> str:
-    """Gövdeye gömülü sahte satırları sil (gerçek satırlara dokunmaz)."""
+    """Gövdeye gömülü sahte satırları sil (gerçek satırlara dokunmaz). Konektör kesme
+    işaretiyle biten satır da eksik olduğundan bütünüyle atılır; tam hali git geçmişinde."""
     return "\n".join(line for line in text.split("\n") if not is_bogus_line(line))
 
 
