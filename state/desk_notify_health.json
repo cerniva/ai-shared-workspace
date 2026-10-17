@@ -1058,14 +1058,10 @@
     "MSG-20261017-0755-grok-svg-value-gate-fix:answered",
     "RPT-20261017-0755-grok-svg-chart-value-gate:pending"
   ],
-  "new_event_keys": [
-    "MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg:seen",
-    "MSG-20261017-0755-grok-svg-value-gate-fix:answered",
-    "RPT-20261017-0755-grok-svg-chart-value-gate:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T07:51:42+03:00",
+  "checked_at": "2026-10-17T07:52:07+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 162,
