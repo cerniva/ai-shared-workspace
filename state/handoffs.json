@@ -545,12 +545,16 @@
       "task": "CI failure in 'archive-heal' run 39023008660: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-39023008660",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-17T09:58:20+00:00",
-      "updated_at": "2026-10-17T09:58:29+00:00",
+      "updated_at": "2026-10-17T10:02:46+00:00",
       "notes": [
-        "2026-10-17T09:58:29+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))"
-      ]
+        "2026-10-17T09:58:29+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin))",
+        "2026-10-17T10:02:46+00:00 grok: grok nöbet: kök neden grok-to-chatgpt.md'nin 308b76a2'de '[TRUNCATED FOR CALL ...]' satırıyla 34 satıra indirilmesi; heal bu sentinel'i tanımadığı için fail-closed + c4741b89 ile rebase çakışması. 1f0dbc80: BODY_SENTINEL '[truncated ...]' yakalıyor + test, arşiv 5ab55156 geçmişi + MSG-20261017-1255 kaydıyla geri yüklendi (main'den byte-byte okundu). archive-heal 39023302507 success, worker-orchestration-tests 39023302460 success."
+      ],
+      "claimed_at": "2026-10-17T10:02:46+00:00",
+      "done_sha": "1f0dbc80314a4a00e9ac947d357405519bec1fc8",
+      "done_at": "2026-10-17T10:02:46+00:00"
     }
   ]
 }
