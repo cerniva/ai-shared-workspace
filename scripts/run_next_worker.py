@@ -10,6 +10,17 @@ from scripts.provider_config import make_failover_adapter
 from scripts.work_queue import WorkQueue, _parse
 from scripts.worker_runner import run_job
 
+
+def make_worker_adapter(env=None):
+    """Shared model chain first (scripts.model_fallback.fallback_adapter, config/model_providers.json,
+    incl. GitHub Models via GITHUB_TOKEN + models: read); legacy FailoverAdapter only if the shared
+    chain has no configured provider at all."""
+    from scripts.model_fallback import fallback_adapter
+    adapter = fallback_adapter(env=env)
+    if adapter is not None:
+        return adapter
+    return make_failover_adapter(env=env)
+
 UTC = timezone.utc
 
 OWN_WORKERS = {"openai", "chatgpt", "any", None}
@@ -126,7 +137,7 @@ def main() -> None:
     state = run_job(
         WorkQueue(queue_path),
         job_id,
-        make_failover_adapter(),
+        make_worker_adapter(),
         worker=SELF_NAME,
         dead_letter_path=Path(args.dead_letter),
     )
