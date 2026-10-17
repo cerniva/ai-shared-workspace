@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-17T22:24:53+00:00",
+  "generated_at": "2026-10-17T22:36:20+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 39067542913,
+          "id": 39074970090,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T20:38:06Z",
+          "created_at": "2026-10-17T22:24:54Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,11 +71,11 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 39074952688,
-          "status": "in_progress",
-          "conclusion": null,
-          "created_at": "2026-10-17T22:24:39Z",
-          "event": "push"
+          "id": 39074973367,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-17T22:24:57Z",
+          "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
           "id": 39073344499,
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışı başarısız (failure) olmuştur ve shorts-free-render.yml henüz hiç çalıştırılmamıştır. Diğer projelerdeki otomasyonlar ise başarılı (success) tamamlanmış veya aktif olarak devam etmektedir (in_progress). Dolayısıyla yalnızca video_shorts_shopify_gumroad projesindeki bu otomasyonlar sağlıksız görünmektedir."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml otomasyonu başarısızlıkla (failure) sonuçlandığı için sağlıksız görünmektedir. Aynı projede yer alan shorts-free-render.yml otomasyonu ise henüz hiç çalıştırılmamıştır (never_run). Diğer tüm projelerdeki otomasyonlar başarıyla tamamlanmıştır ve sağlıklı durumdadır."
 }
