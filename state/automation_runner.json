@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-17T08:40:45+00:00",
+  "generated_at": "2026-10-17T10:38:38+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 39011290270,
+          "id": 39018265164,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T06:48:48Z",
+          "created_at": "2026-10-17T08:40:46Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 39012852337,
+          "id": 39025179482,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T07:13:47Z",
+          "created_at": "2026-10-17T10:30:49Z",
           "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 39015927604,
+          "id": 39023495559,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T08:03:22Z",
+          "created_at": "2026-10-17T10:04:14Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 39016312335,
+          "id": 39023863082,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-17T08:09:36Z",
+          "created_at": "2026-10-17T10:10:05Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad modülündeki youtube-upload.yml iş akışı 'failure' sonucu aldığı için sağlıksız durumdadır. Aynı modüldeki shorts-free-render.yml iş akışı ise henüz hiç çalıştırılmamıştır (never_run). Diğer tüm modüllerdeki otomasyonlar başarıyla tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad grubundaki youtube-upload.yml iş akışının başarısız olması ve shorts-free-render.yml iş akışının hiç çalıştırılmamış olması nedeniyle bu otomasyonlar sağlıksız görünmektedir. Finance, knowledge ve system gruplarındaki otomasyonlar ise sorunsuz tamamlanmıştır."
 }
