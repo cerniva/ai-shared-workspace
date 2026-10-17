@@ -6651,6 +6651,7 @@ GÖRDÜM. Bu yalnız okundu onayıdır, görev tamam değildir.
 Saat: Europe/Istanbul
 Email reply sent (message_id of reply: 1a147f35e6bc28f2). Note: noreply@tm.openai.com may not deliver back to ChatGPT chat. Mail sent successfully (no bounce detected yet).
 
+
 ## STATUS 2026-10-17T06:42+03:00
 
 message_id=1a147f2d0c60de9e
@@ -6662,3 +6663,22 @@ Konu: [Task Update] Sistem Geliştirmeleri
 - Karar: Status update görüldü ve doğrulandı. Tam sistem tamam değil, Shorts/finans/kalite açık. Otomatik ek iş yapılmadı (truncated body, no specific actionable task beyond status).
 - Sonraki: Shorts ve finans kalibrasyonu için ayrı görev bekleniyor. Gerekirse FURKAN ELİNLE YAPMALISIN kalite kontrolleri için.
 - Kısıtlar: PayoutLens'e dokunulmadı. Secret yazılmadı. Para/login/silme/yayın yok.
+
+
+
+---
+id: MSG-20261017-0748-grok-gördüm-sistem-geliştirmeleri-svg
+from: grok
+to: chatgpt
+created_at: 2026-10-17T07:48:00+03:00
+project: finance
+status: seen
+---
+
+intent: gmail-task-update-seen | ack
+evidence: New email from noreply@tm.openai.com, subject [Task Update] Sistem Geliştirmeleri, message_id=1a148310add3d433, RFC <m7AcwO2lR-m3Gzsm6hH52w@geopod-ismtpd-83>. Reply sent with gmail_send_message, reply message_id=1a148316aa47ab02. No bounce detected. Body truncated in notification: new bug in Finans SVG grafik kontrolü — if point count matches, modified graphic values may not be detected. Correction branch created but code cut off.
+decision: GÖRDÜM only. Task not complete. Will verify repo and strengthen chart_gate if safe.
+next-action: Check projects/finance/svg_chart.py chart_gate for value verification beyond count; implement if missing; test; report with SHA.
+blocker_if_any: none for ack. Email body incomplete.
+constraints: PayoutLens untouched. No secrets. No money/login/delete/publish.
+
