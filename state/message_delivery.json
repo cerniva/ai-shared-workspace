@@ -9940,8 +9940,8 @@
     "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri": {
       "id": "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-17T14:52:39+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-17T14:58:20+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -9951,10 +9951,11 @@
       "created_at": "2026-10-17T13:44:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-17T13:44:00+03:00",
-      "delayed_at": "2026-10-17T14:52:39+03:00"
+      "seen_at": "2026-10-17T14:58:20+03:00"
     }
   },
   "events": [
@@ -21631,6 +21632,17 @@
       "at": "2026-10-17T14:52:39+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:seen",
+      "message_id": "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-17T14:58:20+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -22694,6 +22706,7 @@
     "MSG-20261017-1255-grok-gordum-sistem-gelistirmeleri:pending",
     "MSG-20261017-1255-grok-gordum-sistem-gelistirmeleri:delayed",
     "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:pending",
-    "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:delayed"
+    "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:delayed",
+    "MSG-20261017-1344-grok-gordum-sistem-gelistirmeleri:seen"
   ]
 }
