@@ -47,10 +47,16 @@ def render_line_svg(series: dict[str, Any], out: Path) -> Path:
     lo, hi = min(values), max(values)
     span = (hi - lo) or 1.0
     n = len(values)
-    coords = [
-        (PAD + (W - 2 * PAD) * i / (n - 1), H - PAD - (H - 2 * PAD) * (v - lo) / span)
-        for i, v in enumerate(values)
-    ]
+    if n == 1:
+        # Defensive: single point (should be rejected by _check_series) centered, no / (n-1)
+        x = W / 2.0
+        y = H - PAD - (H - 2 * PAD) * (values[0] - lo) / span
+        coords = [(x, y)]
+    else:
+        coords = [
+            (PAD + (W - 2 * PAD) * i / (n - 1), H - PAD - (H - 2 * PAD) * (v - lo) / span)
+            for i, v in enumerate(values)
+        ]
     poly = " ".join(f"{x:.1f},{y:.1f}" for x, y in coords)
     labels = series["points"]
     svg = (
