@@ -1047,12 +1047,10 @@
     "RPT-20261017-0151-grok-sistem-gelistirmeleri-0139:delayed",
     "RPT-20261017-0253-grok-sistem-gelistirmeleri:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261017-0253-grok-sistem-gelistirmeleri:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-17T02:56:22+03:00",
+  "checked_at": "2026-10-17T03:07:07+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 159,
