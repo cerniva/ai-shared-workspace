@@ -1,11 +1,11 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-17 04:18 TRT
+Zaman: 2026-10-17 05:10 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate, CI-38602242863, CI-38656678945, HO-IMP-20261015-slow-team-worker, HO-IMP-20261016-slow-improvement-bot
 - Gecikmiş (>2 sa): HO-20261009-08, CI-38337554641, CI-38337738841, HO-IMP-20261013-slow-research-learner, CI-38372167749, HO-IMP-20261014-slow-auto-merge-gate, CI-38602242863, CI-38656678945, HO-IMP-20261015-slow-team-worker, HO-IMP-20261016-slow-improvement-bot
-- CI (main): 16 workflow; başarısız: archive-heal, worker-orchestration-tests
+- CI (main): 13 workflow; başarısız: archive-heal
 - Otomasyonlar (automation-runner):
   - finance: plan-learnings-check=success#38977236502; tetiklenen: plan-learnings-check.yml
   - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#38040278632
@@ -17,10 +17,10 @@ Zaman: 2026-10-17 04:18 TRT
   - system: model_unavailable
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 24; en yüksek gecikmiş: 10; aşamalanan promotion: 0
+- Rapor sayısı: 25; en yüksek gecikmiş: 10; aşamalanan promotion: 0
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-17T00:51:28+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-17T01:37:56+00:00: github_models=ok, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=ok, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: github_models, gemini
