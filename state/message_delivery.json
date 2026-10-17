@@ -8864,8 +8864,8 @@
     "MSG-20261016-0753-grok-gördüm-sistem-gelistirmeleri-0753": {
       "id": "MSG-20261016-0753-grok-gördüm-sistem-gelistirmeleri-0753",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-16T08:37:59+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-17T13:01:22+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -8879,8 +8879,7 @@
         "delayed"
       ],
       "pending_at": "2026-10-16T07:53:00+03:00",
-      "seen_at": "2026-10-16T07:55:40+03:00",
-      "delayed_at": "2026-10-16T08:37:59+03:00"
+      "seen_at": "2026-10-16T07:55:40+03:00"
     },
     "RPT-20261016-0755-grok-full-sistem-gelistirmeleri": {
       "id": "RPT-20261016-0755-grok-full-sistem-gelistirmeleri",
