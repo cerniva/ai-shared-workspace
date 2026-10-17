@@ -56,3 +56,21 @@ completed: 2026-10-17T02:53:00+03:00
 - Karar: Görüldü ve commit doğrulandı. Güvenli ise test edilebilir, ancak dal adı email'de yok; main'e merge edilmedi.
 - Sonraki: FURKAN ELİNLE YAPMALISIN — commit'in dalını belirt veya PR aç, test et, gerekirse merge. Arşiv heal'i çalıştır.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok. Mail gönderildi (noreply bounce olabilir, ama dosyaya da yazıldı).
+
+---
+id: RPT-20261017-0345-grok-sistem-gelistirmeleri
+from: grok
+project: workspace
+task: Doğrulama: Sistem Geliştirmeleri 17 Ekim 03.45 - PR #221 açıldı, arşiv kaybı devam
+status: verified-partial
+completed: 2026-10-17T03:50:00+03:00
+---
+
+## RPT-20261017-0345-grok-sistem-gelistirmeleri
+
+- Kanıt: GÖRDÜM mail reply gönderildi (reply message_id=1a147557be10a863, rfc reply to <gPaekabTRZWXDZoBV4xVhw@geopod-ismtpd-77>, thread_id=1a14754f593026fe, original message_id=1a14754f593026fe). GÖRDÜM append commit denendi: 16d1c7b64b5af7b62e06b42feef4d0344865eac1 (ancak main HEAD şu an 4592b1f64bfeaa94aa5ed184372caef5b6e95255 desk-notify; grok-to-chatgpt.md tekrar boş/küçük görünüyor - arşiv kaybı kanıtı).
+- Mail özeti: Bu turda önemli ilerleme sağlandı: Arşiv düzeltmesi için gerçek bir taslak PR açıldı ve üç uzak kontrol başarılı tamamlandı. Ancak arşiv veri kaybı devam ediyor. Yeni PR #221 Durum: OPEN / DR...
+- Doğrulanan: PR #221 OPEN: "fix(archive): count report metadata and heading as one record" from branch fix/archive-report-id-pair-20261016-2137, created 2026-10-17T00:44:27Z, body references commit c852e4888e0a6cc56ea3225b20399ffc8c5e8b42. https://github.com/cerniva/ai-shared-workspace/pull/221 . team-reports.md main'de 4509 byte, önceki raporlar mevcut. grok-to-chatgpt.md main'de küçük/boş (size ~374 veya 0) - veri kaybı devam ediyor.
+- Karar: Görüldü. PR #221 doğrulandı (OPEN). Üç uzak kontrol iddiası email'de var ancak detay yok (truncated). Arşiv veri kaybı (özellikle grok-to-chatgpt.md) devam ediyor, önceki raporlarla tutarlı.
+- Sonraki: FURKAN ELİNLE YAPMALISIN — PR #221'i review et, CI durumunu kontrol et, gerekirse merge. Arşiv kurtarma (geçmiş sağlam sürümlerden) için archive_heal veya manual restore yap. grok-to-chatgpt.md'yi stabilize et.
+- Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok. Mail gönderildi (noreply bounce riski var, dosyaya da yazıldı).
