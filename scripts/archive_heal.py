@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from scripts.archive_record_guard import assert_record_delimiters, missing_record_delimiters
+from scripts.archive_record_guard import RECORD_ID, assert_record_delimiters, missing_record_delimiters
 
 ARCHIVES = ["messages/grok-to-chatgpt.md", "messages/team-reports.md"]
 NOTES = ROOT / "config" / "archive_heal_notes.json"
@@ -334,6 +334,38 @@ def assert_history_ids_preserved(versions: list[str], result: str, path: str) ->
         raise SystemExit(f"{path}: historical record IDs missing ({len(missing)}): {sample}; no write")
 
 
+def delimited_record_ids(text: str) -> set[str]:
+    """Önünde `---` ayracı olan kayıt id'leri."""
+    lines = text.splitlines()
+    out = set()
+    for i, line in enumerate(lines):
+        m = RECORD_ID.match(line)
+        if m and i > 0 and lines[i - 1].strip() == "---":
+            out.add(m.group(1))
+    return out
+
+
+def restore_known_delimiters(result: str, versions: list[str]) -> str:
+    """rebuild() penceredeki eski bir sürümden başlarsa, sonradan düzeltilmiş `---` ayraçları
+    kaybolabiliyor (2026-10-17 13:47: b93549b grok-to-chatgpt.md'yi 34 satıra indirdi; heal,
+    1f0dbc8'de geri eklenen MSG-20261014-0125 ayracını kaybedip 39026188674/39026232613'te
+    'missing record delimiter' ile fail-closed kaldı). Geçmişte ayraçla görülen id'lere ayracı geri koy;
+    hiç ayraçla görülmemiş id'ler fail-closed kalır."""
+    missing = missing_record_delimiters(result)
+    if not missing:
+        return result
+    known: set[str] = set()
+    for v in versions:
+        if v.strip() and not has_bogus_head(v):
+            known |= delimited_record_ids(v)
+    lines = result.split("\n")
+    for ln in reversed(missing):
+        m = RECORD_ID.match(lines[ln - 1])
+        if m and m.group(1) in known:
+            lines.insert(ln - 1, "---")
+    return "\n".join(lines)
+
+
 def heal(path: str, since: str, write: bool) -> dict:
     file = ROOT / path
     head = file.read_text(encoding="utf-8") if file.exists() else ""
@@ -363,6 +395,7 @@ def heal(path: str, since: str, write: bool) -> dict:
     result = apply_notes(path, result)
     if damaged:
         result = drop_truncated_duplicate_records(result)
+        result = restore_known_delimiters(result, versions)
     assert_unique_record_ids(result, path)
     assert_record_delimiters(result, path)
     assert_history_ids_preserved(versions, result, path)
