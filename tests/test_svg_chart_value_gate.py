@@ -25,3 +25,27 @@ def test_tampered_y_value_is_rejected(tmp_path):
     out.write_text(txt.replace(m.group(1), " ".join(pts)))
     res = svg_chart.chart_gate(out, SERIES)
     assert any("y[1]" in r for r in res.get("reasons", [])), res
+
+
+def _tamper(out, idx, fn):
+    txt = out.read_text()
+    m = re.search(r'<polyline[^>]* points="([^"]+)"', txt)
+    pts = m.group(1).split()
+    x, y = pts[idx].split(",")
+    pts[idx] = fn(x, y)
+    out.write_text(txt.replace(m.group(1), " ".join(pts)))
+
+
+def test_tampered_x_value_is_rejected(tmp_path):
+    out = svg_chart.render_line_svg(SERIES, tmp_path / "c.svg")
+    _tamper(out, 1, lambda x, y: f"{float(x) + 40:.1f},{y}")
+    res = svg_chart.chart_gate(out, SERIES)
+    assert any("x[1]" in r for r in res.get("reasons", [])), res
+
+
+def test_nonfinite_point_is_rejected(tmp_path):
+    out = svg_chart.render_line_svg(SERIES, tmp_path / "c.svg")
+    _tamper(out, 2, lambda x, y: f"nan,{y}")
+    res = svg_chart.chart_gate(out, SERIES)
+    assert res["status"] == "FAIL"
+    assert any("not finite" in r for r in res.get("reasons", [])), res

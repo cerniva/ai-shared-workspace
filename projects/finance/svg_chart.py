@@ -117,7 +117,15 @@ def chart_gate(svg_path: Path, series: dict[str, Any]) -> dict[str, Any]:
                             continue
                         try:
                             x_str, y_str = pt.split(",")
-                            y_actual = float(y_str)
+                            x_actual, y_actual = float(x_str), float(y_str)
+                            if not (math.isfinite(x_actual) and math.isfinite(y_actual)):
+                                reasons.append(f"polyline point {i} not finite")
+                                continue
+                            expected_x = (
+                                W / 2.0 if len(pts) == 1 else PAD + (W - 2 * PAD) * i / (len(pts) - 1)
+                            )
+                            if abs(x_actual - expected_x) > 0.2:
+                                reasons.append(f"polyline x[{i}] {x_actual:.1f} != expected {expected_x:.1f}")
                             if i < len(expected_ys) and abs(y_actual - expected_ys[i]) > 0.2:
                                 reasons.append(f"polyline y[{i}] {y_actual:.1f} != expected {expected_ys[i]:.1f}")
                         except ValueError:
