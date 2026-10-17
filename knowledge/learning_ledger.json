@@ -21,6 +21,27 @@
       "title": "Native YouTube A/B tests do not cover Shorts"
     },
     {
+      "claim": "Federal Reserve Board press release enforcement20261016a (16 Oct 2026, read 2026-10-17) announces termination, effective October 13, 2026, of three enforcement actions: the Cease and Desist Order of September 1, 2023 against Gardner Bancshares, Inc. and Small Business Bank (Lenexa, Kansas), the Cease and Desist Order of November 13, 2024 against Small Business Bank, and the Prompt Corrective Action of June 29, 2026 against Small Business Bank.",
+      "decision": "REVIEW_ONLY: regulatory-awareness item about a single small Kansas bank; no market-moving content and no action for Finance reports or Shorts unless a reviewer finds a specific use.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-17T05:26:33+00:00",
+      "learning_id": "learn_084a973ea4587745",
+      "next_measurement": "Next finance research run: record whether this item was used in any report; if unused, treat similar single-bank enforcement terminations as low priority.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "supersedes": null,
+      "title": "Federal Reserve Board terminates enforcement actions with Gardner Bancshares, Inc. and Small Business Bank"
+    },
+    {
       "claim": "The YouTube Reporting API recommends advancing the createdAfter cursor only after reports have been successfully processed; a cursor advanced past a failed or unprocessed report can exclude it from later incremental listings, including backfilled reports.",
       "decision": "REPORT_CREATED_AFTER_ACK_GATE: Keep createdAfter unchanged until all selected reports in the paginated batch have been downloaded, validated, and durably imported (or explicitly deduplicated). On a partial failure, retain the prior checkpoint and replay idempotently by report ID. For reports with the same job and period, retain the newest createTime as the backfill replacement; never sum old and new versions. Advance only after durable success/read-back, and record the checkpoint with the processed report IDs. Do not infer actual channel ingestion without authorized API evidence.",
       "domain": "youtube-reporting-ingestion",
@@ -965,6 +986,27 @@
       "title": "YouTube upload privacyStatus default is public"
     },
     {
+      "claim": "Shopify developer changelog (feed item and page checkout-mcp-and-cart-mcp-now-support-ucp-buyer-consent, published 16 Oct 2026, read 2026-10-17) states Checkout MCP and Cart MCP support the UCP buyer consent extension dev.ucp.shopping.buyer_consent from UCP 2026-08-25: agents that negotiate it get a buyer.consent object (analytics, preferences, sale_or_sharing, marketing with email/sms segments) and can send buyer choices on cart/checkout create, update or complete; without sent consent Shopify applies the shop's country defaults (opt-out if country unknown), and a missing_consent_data warning blocks checkout until the contact detail is provided. Integrations that do not declare the extension or use an earlier UCP version are not affected.",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify builds an agent checkout on Checkout MCP or Cart MCP with UCP 2026-08-25; then declare dev.ucp.shopping.buyer_consent, show the shop's consent options and handle missing_consent_data. No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-17T05:26:33+00:00",
+      "learning_id": "learn_b04bb06a2671984f",
+      "next_measurement": "Search video_shopify code and connector configs for Checkout MCP/Cart MCP or UCP usage; record found/not-found before 2026-10-24.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Checkout MCP and Cart MCP now support UCP buyer consent"
+    },
+    {
       "claim": "YouTube Analytics playlist-context metrics such as playlistViews, playlistStarts, viewsPerPlaylistStart, playlistEstimatedMinutesWatched, and playlistAverageViewDuration measure playlist-context behavior and must not be substituted with ordinary video views/watch-time metrics.",
       "decision": "PLAYLIST_CONTEXT_GATE: treat playlist-context metrics as a separate measurement layer. Use playlist metrics only when supported and authorized; do not substitute ordinary views for playlistViews, do not mix playlist and non-playlist denominators without labeling scope, and do not infer playlist causality from correlation.",
       "domain": "youtube-analytics",
@@ -1580,5 +1622,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-12T21:03:32+00:00"
+  "updated_at": "2026-10-17T06:12:48+00:00"
 }
