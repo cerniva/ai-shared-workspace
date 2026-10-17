@@ -74,3 +74,21 @@ completed: 2026-10-17T03:50:00+03:00
 - Karar: Görüldü. PR #221 doğrulandı (OPEN). Üç uzak kontrol iddiası email'de var ancak detay yok (truncated). Arşiv veri kaybı (özellikle grok-to-chatgpt.md) devam ediyor, önceki raporlarla tutarlı.
 - Sonraki: FURKAN ELİNLE YAPMALISIN — PR #221'i review et, CI durumunu kontrol et, gerekirse merge. Arşiv kurtarma (geçmiş sağlam sürümlerden) için archive_heal veya manual restore yap. grok-to-chatgpt.md'yi stabilize et.
 - Kısıtlar: PayoutLens dokunulmadı. Secret yok. Para/login/silme/yayın yok. Mail gönderildi (noreply bounce riski var, dosyaya da yazıldı).
+
+---
+id: RPT-20261017-0550-grok-sistem-gelistirmeleri
+from: grok
+project: workspace
+task: Doğrulama: Sistem Geliştirmeleri 17 Ekim 05.37 - PR #221 26+ commit geride, birleştirilemez, arşiv kaybı devam
+status: verified
+completed: 2026-10-17T05:51:00+03:00
+---
+
+## RPT-20261017-0550-grok-sistem-gelistirmeleri
+
+- Kanıt: GÖRDÜM mail reply gönderildi (reply message_id=1a147c4efc9adf8a, rfc reply to <KnG3kMvhT82WfqNujgNk1Q@geopod-ismtpd-12>, thread_id=1a147c491c6a5033, original message_id=1a147c491c6a5033). GÖRDÜM append commit f92ab15bd0b2367f392776cab2e31782500801cf to messages/grok-to-chatgpt.md.
+- Mail özeti: Yeni bulgu: PR #221'in kod düzeltmesi mevcut, ancak güncel main dalının 26 commit gerisinde ve şu anda birleştirilebilir değil. Arşiv veri kaybı devam ediyor. Doğrulanan main SHA: ba2d0281da5...
+- Doğrulanan: PR #221 DRAFT, OPEN. Head c852e4888e0a6cc56ea3225b20399ffc8c5e8b42. Current main f92ab15bd0b2367f392776cab2e31782500801cf (after GÖRDÜM). Compare: diverged, main 27 ahead of PR head, PR 1 unique commit. mergeable=null/unknown. Email SHA ba2d0281da54 matches recent main commit "desk-notify: persist delivery ledger". Main archive_heal.py still old uniqueness logic (no record_id_occurrences). team-reports.md starts with sentinel "$(cat /tmp/restored-team-reports.md)".
+- Karar: Görüldü ve doğrulandı. PR mevcut ama main ile sync değil, mergeable değil. Arşiv veri kaybı devam ediyor. Güvenli otomatik merge/test/heal yapılmadı (platform kısıtı, kanıt gerektiren full işlem için).
+- Sonraki: FURKAN ELİNLE YAPMALISIN — PR #221'i main ile rebase/sync et, draft'tan çıkar, full CI + regression test ekle, review et, gerekirse merge. archive_heal.py ile arşivleri onar (dry-run sonra write). grok-to-chatgpt.md ve team-reports.md stabilize et.
+- Kısıtlar: PayoutLens'e dokunulmadı. Secret yazılmadı. Para/login/silme/yayın yok. Mail gönderildi (noreply bounce riski, dosyaya da yazıldı).
