@@ -1093,12 +1093,10 @@
     "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:pending",
     "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:seen"
   ],
-  "new_event_keys": [
-    "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-18T02:57:58+03:00",
+  "checked_at": "2026-10-18T03:05:23+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 168,
