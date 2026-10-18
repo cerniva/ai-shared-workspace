@@ -1098,12 +1098,10 @@
     "RPT-20261018-0408-grok-provider-health-honest-probe:delayed",
     "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-18T05:48:05+03:00",
+  "checked_at": "2026-10-18T05:48:19+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 168,
