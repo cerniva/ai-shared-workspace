@@ -10165,6 +10165,23 @@
       ],
       "pending_at": "2026-10-18T15:46:00+03:00",
       "delayed_at": "2026-10-18T16:18:18+03:00"
+    },
+    "RPT-20261018-2200-grok-sistem-gelistirmeleri": {
+      "id": "RPT-20261018-2200-grok-sistem-gelistirmeleri",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-18T22:08:52+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen-and-verified",
+      "in_reply_to": "email from noreply@tm.openai.com",
+      "created_at": "2026-10-18T22:00:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-18T22:00:00+03:00"
     }
   },
   "events": [
@@ -22094,6 +22111,17 @@
       "at": "2026-10-18T16:18:18+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261018-2200-grok-sistem-gelistirmeleri:pending",
+      "message_id": "RPT-20261018-2200-grok-sistem-gelistirmeleri",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-18T22:08:52+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23180,6 +23208,7 @@
     "RPT-20261018-1153-grok-sistem-gelistirmeleri:pending",
     "RPT-20261018-1153-grok-sistem-gelistirmeleri:delayed",
     "RPT-20261018-1546-grok-sistem-gelistirmeleri:pending",
-    "RPT-20261018-1546-grok-sistem-gelistirmeleri:delayed"
+    "RPT-20261018-1546-grok-sistem-gelistirmeleri:delayed",
+    "RPT-20261018-2200-grok-sistem-gelistirmeleri:pending"
   ]
 }
