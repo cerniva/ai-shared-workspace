@@ -583,6 +583,17 @@
       "notes": [
         "2026-10-18T05:47:02+00:00 team-worker: research-learner (team-research): 1. Inspect and correct request parameter formatting for the Claude provider client to fix the HTTP 400 error. 2. Replenish API quota for OpenAI/Gemini or configure secret API keys for fallback providers (Groq, DeepSeek, OpenRouter) in GitHub Repository Secrets. 3. Update GitHub Models response parser to handle text/plain responses gracefully before attempting JSON deserialization. | sonraki: Debug the Claude client request construction to identify the root cause of the HTTP 400 bad request, and add valid fallback provider API keys to the CI environment secrets."
       ]
+    },
+    {
+      "id": "HO-IMP-20261018-slow-codeql-code-scanning",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki CodeQL code scanning iş akışını hızlandırmak için pip ve apt adımlarına actions/cache entegre edilerek bağımlılıkların her koşuda tekrar indirilmesi önlenmeli, workflow tetikleyicilerine sadece ilgili kod değişikliklerinde çalışması için paths filtreleri eklenmeli ve bağımsız adımlar paralel job'lara bölünerek medyan 83 saniyelik darboğaz optimize edilmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261018 key=slow-codeql-code-scanning",
+      "status": "open",
+      "created_at": "2026-10-18T05:47:45+00:00",
+      "updated_at": "2026-10-18T05:47:45+00:00"
     }
   ]
 }
