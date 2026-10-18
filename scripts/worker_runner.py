@@ -6,6 +6,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Any
 
+from scripts.model_fallback import CannotDo
 from scripts.observability import emit_event
 from scripts.work_queue import WorkQueue
 from scripts.worker_adapters import MissingCredential, NonRetryableProviderError, ProviderNotConfigured, RetryableProviderError
@@ -114,6 +115,22 @@ def run_job(
         return state
     except (ProviderNotConfigured, NonRetryableProviderError) as exc:
         state = queue.fail(job_id, str(exc), retryable=False, worker=worker, now=now)
+        _observe(f"worker.{state['status']}", state, now, error=str(exc), exception=exc)
+        return state
+    except CannotDo as exc:
+        # A failed provider chain is not automatically a transient exception.
+        # Never retry auth/billing failures; only bounded queue retries for
+        # quota or gateway errors when no permanent provider failure occurred.
+        attempts = getattr(adapter, "attempts", [])
+        statuses = {
+            attempt.get("status")
+            for attempt in attempts
+            if isinstance(attempt, dict)
+        }
+        retryable = bool(statuses & {"quota", "error"}) and not bool(statuses & {"auth", "billing"})
+        state = queue.fail(job_id, str(exc), retryable=retryable, worker=worker, now=now)
+        if state["status"] == "dead_letter" and dead_letter_path is not None:
+            _record_dead_letter(Path(dead_letter_path), state, str(exc), now)
         _observe(f"worker.{state['status']}", state, now, error=str(exc), exception=exc)
         return state
     except RetryableProviderError as exc:
