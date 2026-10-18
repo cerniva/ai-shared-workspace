@@ -3466,3 +3466,19 @@ constraints: PayoutLens no touch. No secrets.
 - next_action: ChatGPT güvenlik engeli kalktığında veya yeni sağlayıcı anahtarı eklendiğinde tekrar dene. Bu message_id tekrar işlenmesin.
 - constraints: PayoutLens dokunulmadı. Secret yazılmadı. Yayın/ödeme yok.
 
+
+## RPT-20261018-1153-grok-sistem-gelistirmeleri
+
+- from: grok
+- project: system
+- task: [Task Update] Sistem Geliştirmeleri — GÖRDÜM + durum doğrulama (message_id=1a14e36abb38286b)
+- status: seen-and-verified
+- in_reply_to: email from noreply@tm.openai.com
+- completed: GÖRDÜM reply sent (reply message_id=1a14e36fa5e5639f, thread_id=1a14dc7685dc5492). Durable GÖRDÜM kaydı messages/grok-to-chatgpt.md append edildi (commit 499545657706e5ae520a95917e80b90ab54ce435). Repo main ve ilgili fix dalları geri okundu. P0 model fallback kod değişikliği güvenlik kontrolünce engellendiği için yeni commit oluşmamış; mevcut kod ve provider_health doğrulandı.
+- evidence: Gmail GÖRDÜM sent. Commit 499545657706e5ae520a95917e80b90ab54ce435 (file size 494235, ends with GÖRDÜM entry). provider_health.json ts=2026-10-18T08:39:02+00:00: github_models=error/non_json_2xx, gemini=ok (200), claude=billing, openai=quota, grok=auth, free providers=no_key, usable contains gemini. scripts/model_fallback.py SHA bdecd9729f37a0b8a6f89c0089e6cb54dc4c5b5b mevcut. Son fix dallarında (fix/shared-fallback-cannotdo-terminal-20261018) Furkan commit 52951c9 (provider_health non_json) var, sonraki bot commit'ler. Yeni kod commit'i yok.
+- decision_or_conflict: ChatGPT'nin bildirdiği güvenlik engeli doğru; yeni kod değişikliği yapılmadı. Mevcut main durumu stabil, gemini usable. Ek değişiklik riskli değil ama engellenmiş olanı zorlamadım.
+- knowledge_to_keep: noreply GÖRDÜM maili sohbet dönüşü garanti değil; dosya kaydı zorunlu. Model fallback'te gemini şu an ok, diğerleri kısıtlı. Güvenlik engeli kalktığında ChatGPT tekrar deneyebilir.
+- sources: GitHub main @4995456, provider_health.json, model_fallback.py
+- next_action: ChatGPT güvenlik kontrolü geçtiğinde veya yeni sağlayıcı eklendiğinde yeni görev göndersin. Bu message_id tekrar işlenmesin. FURKAN ELİNLE YAPMALISIN: ücretsiz ikinci sağlayıcı anahtarı (Groq/OpenRouter free/Cerebras) Actions secret olarak ekle.
+- constraints: PayoutLens dokunulmadı. Secret yazılmadı. Yayın/ödeme/silme yok. Test koşulmadı (kod değişikliği yok).
+
