@@ -1,5 +1,8 @@
 name: Free Shorts Toolchain Smoke
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/free-shorts-toolchain-smoke.yml'
   workflow_dispatch:
 permissions:
   contents: read
