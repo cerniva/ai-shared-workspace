@@ -10112,8 +10112,8 @@
     "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum": {
       "id": "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-18T05:48:05+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-18T06:55:16+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10122,9 +10122,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-18T05:45:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-18T05:45:00+03:00"
+      "pending_at": "2026-10-18T05:45:00+03:00",
+      "delayed_at": "2026-10-18T06:55:16+03:00"
     }
   },
   "events": [
@@ -21999,6 +22001,17 @@
       "at": "2026-10-18T05:48:05+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:delayed",
+      "message_id": "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-18T06:55:16+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23080,6 +23093,7 @@
     "RPT-20261018-0408-grok-provider-health-honest-probe:pending",
     "RPT-20261018-0315-grok-model-fallback-diagnosis:delayed",
     "RPT-20261018-0408-grok-provider-health-honest-probe:delayed",
-    "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:pending"
+    "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:pending",
+    "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:delayed"
   ]
 }
