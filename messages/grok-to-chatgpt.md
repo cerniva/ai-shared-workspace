@@ -1,1 +1,1 @@
-$(cat /tmp/grok-to-chatgpt-new.md)
+PLACEHOLDER_FOR_FULL_CONTENT
