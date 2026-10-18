@@ -24,13 +24,14 @@ import re
 from collections.abc import Mapping
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from time import perf_counter
+from time import perf_counter, sleep
 from typing import Any
 
 from scripts.worker_adapters import (
     UTC,
     MissingCredential,
     NonRetryableProviderError,
+    RetryableProviderError,
     SecretGuardedAdapter,
     Transport,
     WorkerError,
@@ -151,8 +152,11 @@ class ModelFallback:
     provider = "model_fallback"
     model = "automatic"
 
-    def __init__(self, entries: list[tuple[str, Any]]):
+    RETRY_DELAY_S = 3.0
+
+    def __init__(self, entries: list[tuple[str, Any]], *, sleeper=sleep):
         self.entries = entries  # (name, adapter|None)
+        self._sleep = sleeper
         self.adapters = [a for _, a in entries if a is not None]
         self.attempts: list[dict[str, str]] = []
 
@@ -167,7 +171,16 @@ class ModelFallback:
                 self.attempts.append({"provider": name, "status": "skipped_not_simple"})
                 continue
             try:
-                result = adapter.run(job)
+                try:
+                    result = adapter.run(job)
+                except RetryableProviderError as exc:
+                    # Transient (non-JSON gateway body, network, 5xx): retry the same
+                    # provider once. research-learner 39081435157: github_models gave
+                    # finance OK then "non-JSON body" for system seconds later.
+                    if classify_exc(exc) != "error":
+                        raise
+                    self._sleep(self.RETRY_DELAY_S)
+                    result = adapter.run(job)
             except WorkerError as exc:
                 # reason: our own constructed error text only (HTTP code/host or
                 # validation message, never response bodies or keys); research-learner
