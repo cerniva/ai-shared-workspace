@@ -1106,12 +1106,10 @@
     "RPT-20261018-2200-grok-sistem-gelistirmeleri:delayed",
     "RPT-20261019-0123-grok-video-shopify-status:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261019-0123-grok-video-shopify-status:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-19T01:25:26+03:00",
+  "checked_at": "2026-10-19T01:26:05+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 168,
@@ -1119,6 +1117,6 @@
     "delayed": 286
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 786,
+  "active_source_id_count": 787,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
