@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261018-slow-codeql-code-scanning",
+      "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki CodeQL code scanning iş akışını hızlandırmak için pip ve apt adımlarına actions/cache entegre edilerek bağımlılıkların her koşuda tekrar indirilmesi önlenmeli, workflow tetikleyicilerine sadece ilgili kod değişikliklerinde çalışması için paths filtreleri eklenmeli ve bağımsız adımlar paralel job'lara bölünerek medyan 83 saniyelik darboğaz optimize edilmelidir.",
+      "source": "improvement-bot",
+      "ts": "2026-10-18T05:48:48+00:00"
+    }
+  ]
+}
