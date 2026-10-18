@@ -555,6 +555,20 @@
       "claimed_at": "2026-10-17T10:02:46+00:00",
       "done_sha": "1f0dbc80314a4a00e9ac947d357405519bec1fc8",
       "done_at": "2026-10-17T10:02:46+00:00"
+    },
+    {
+      "id": "CI-39095256309",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 39095256309: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-39095256309",
+      "status": "open",
+      "created_at": "2026-10-18T03:56:19+00:00",
+      "updated_at": "2026-10-18T03:56:29+00:00",
+      "notes": [
+        "2026-10-18T03:56:29+00:00 team-worker: research-learner (team-research): Replenish quotas for Gemini/OpenAI API keys, fix Claude request parameter payload structure to resolve HTTP 400 errors, and configure at least one backup provider key in repo secrets. | sonraki: Audit Claude API request generation code in the codebase and refresh expired/exhausted provider API keys in environment secrets."
+      ]
     }
   ]
 }
