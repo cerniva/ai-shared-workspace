@@ -569,6 +569,20 @@
       "notes": [
         "2026-10-18T03:56:29+00:00 team-worker: research-learner (team-research): Replenish quotas for Gemini/OpenAI API keys, fix Claude request parameter payload structure to resolve HTTP 400 errors, and configure at least one backup provider key in repo secrets. | sonraki: Audit Claude API request generation code in the codebase and refresh expired/exhausted provider API keys in environment secrets."
       ]
+    },
+    {
+      "id": "CI-39101598018",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 39101598018: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-39101598018",
+      "status": "open",
+      "created_at": "2026-10-18T05:46:52+00:00",
+      "updated_at": "2026-10-18T05:47:02+00:00",
+      "notes": [
+        "2026-10-18T05:47:02+00:00 team-worker: research-learner (team-research): 1. Inspect and correct request parameter formatting for the Claude provider client to fix the HTTP 400 error. 2. Replenish API quota for OpenAI/Gemini or configure secret API keys for fallback providers (Groq, DeepSeek, OpenRouter) in GitHub Repository Secrets. 3. Update GitHub Models response parser to handle text/plain responses gracefully before attempting JSON deserialization. | sonraki: Debug the Claude client request construction to identify the root cause of the HTTP 400 bad request, and add valid fallback provider API keys to the CI environment secrets."
+      ]
     }
   ]
 }
