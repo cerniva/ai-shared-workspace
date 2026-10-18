@@ -169,13 +169,20 @@ class ModelFallback:
             try:
                 result = adapter.run(job)
             except WorkerError as exc:
-                self.attempts.append({"provider": name, "status": classify_exc(exc)})
+                # reason: our own constructed error text only (HTTP code/host or
+                # validation message, never response bodies or keys); research-learner
+                # logged github_models=error with no cause while provider_health was ok.
+                self.attempts.append({"provider": name, "status": classify_exc(exc),
+                                      "reason": f"{type(exc).__name__}: {str(exc)[:160]}"})
                 continue
             self.attempts.append({"provider": name, "status": "ok"})
             return result
         tried = ", ".join(f"{a['provider']}={a['status']}" for a in self.attempts)
+        reasons = "; ".join(f"{a['provider']}: {a['reason']}" for a in self.attempts
+                            if a.get("reason") and a["status"] == "error")
         raise CannotDo("YAPAMADIM: tum saglayicilar dustu; denenen: " + tried
-                       + "; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin)")
+                       + "; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin)"
+                       + (f"; hata_nedeni: {reasons}" if reasons else ""))
 
 
 def fallback_adapter(*, env: Mapping[str, str] | None = None, config_path: Path = CONFIG_PATH,

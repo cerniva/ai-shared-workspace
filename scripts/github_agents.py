@@ -148,7 +148,7 @@ def _summarize(adapter, objective: str) -> str | None:
     except WorkerError as exc:
         # Log why the model step failed (research-learner #24 on 2026-10-17 ended
         # model_unavailable for every domain with no trace while provider_health was ok).
-        print(f"github_agents: model_unavailable: {type(exc).__name__}: {str(exc)[:300]}", file=sys.stderr)
+        print(f"github_agents: model_unavailable: {type(exc).__name__}: {str(exc)[:1200]}", file=sys.stderr)
         return None
 
 
