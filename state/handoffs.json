@@ -593,7 +593,10 @@
       "evidence": "state/improvement_report.json day=20261018 key=slow-codeql-code-scanning",
       "status": "open",
       "created_at": "2026-10-18T05:47:45+00:00",
-      "updated_at": "2026-10-18T05:47:45+00:00"
+      "updated_at": "2026-10-18T05:49:12+00:00",
+      "notes": [
+        "2026-10-18T05:49:12+00:00 team-worker: research-learner (team-research): 1) Check `state/provider_health.json` and resolve provider credential/quota issues (e.g., refresh OpenAI/Gemini quotas or correct the request parameters sent to Claude/GitHub Models). 2) Re-assign the task to team-worker to apply the following changes in `.github/workflows/codeql.yml`: integrate `actions/cache` for pip (`~/.cache/pip`) and apt packages, add `paths` filters to triggers (`on.push.paths` / `on.pull_request.paths`), and refactor independent setup steps into parallel matrix or separate jobs. | sonraki: Inspect state/provider_health.json and provider request payload logs to fix the API provider integration error, then re-dispatch the optimization task for .github/workflows/codeql.yml."
+      ]
     }
   ]
 }
