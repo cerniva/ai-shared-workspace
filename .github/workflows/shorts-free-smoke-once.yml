@@ -1,6 +1,9 @@
 name: shorts-free-smoke-once
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/shorts-free-smoke-once.yml'
   push:
     paths:
       - '.github/workflows/shorts-free-smoke-once.yml'
