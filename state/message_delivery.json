@@ -10131,8 +10131,8 @@
     "RPT-20261018-1153-grok-sistem-gelistirmeleri": {
       "id": "RPT-20261018-1153-grok-sistem-gelistirmeleri",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-18T11:55:42+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-18T13:10:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10141,9 +10141,11 @@
       "in_reply_to": "email from noreply@tm.openai.com",
       "created_at": "2026-10-18T11:53:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-18T11:53:00+03:00"
+      "pending_at": "2026-10-18T11:53:00+03:00",
+      "delayed_at": "2026-10-18T13:10:35+03:00"
     }
   },
   "events": [
@@ -22040,6 +22042,17 @@
       "at": "2026-10-18T11:55:42+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261018-1153-grok-sistem-gelistirmeleri:delayed",
+      "message_id": "RPT-20261018-1153-grok-sistem-gelistirmeleri",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-18T13:10:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23123,6 +23136,7 @@
     "RPT-20261018-0408-grok-provider-health-honest-probe:delayed",
     "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:pending",
     "RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum:delayed",
-    "RPT-20261018-1153-grok-sistem-gelistirmeleri:pending"
+    "RPT-20261018-1153-grok-sistem-gelistirmeleri:pending",
+    "RPT-20261018-1153-grok-sistem-gelistirmeleri:delayed"
   ]
 }
