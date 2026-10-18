@@ -14,9 +14,9 @@
     "pending": 1,
     "seen": 168,
     "answered": 80,
-    "delayed": 279
+    "delayed": 280
   },
-  "event_count": 1075,
+  "event_count": 1077,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1092,21 +1092,24 @@
     "RPT-20261018-0105-grok-scheduled-worker-fallback-p0-fixed:delayed",
     "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:pending",
     "RPT-20261018-0254-grok-sistem-gelistirmeleri-ack:seen",
-    "RPT-20261018-0315-grok-model-fallback-diagnosis:pending"
+    "RPT-20261018-0315-grok-model-fallback-diagnosis:pending",
+    "RPT-20261018-0408-grok-provider-health-honest-probe:pending",
+    "RPT-20261018-0315-grok-model-fallback-diagnosis:delayed"
   ],
   "new_event_keys": [
-    "RPT-20261018-0315-grok-model-fallback-diagnosis:pending"
+    "RPT-20261018-0408-grok-provider-health-honest-probe:pending",
+    "RPT-20261018-0315-grok-model-fallback-diagnosis:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-18T03:13:04+03:00",
+  "checked_at": "2026-10-18T04:07:55+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 168,
     "answered": 80,
-    "delayed": 280
+    "delayed": 281
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 768,
+  "active_source_id_count": 769,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
