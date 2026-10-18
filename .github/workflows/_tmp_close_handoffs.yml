@@ -1,0 +1,73 @@
+name: tmp-close-handoffs
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tmp-close-handoffs
+  cancel-in-progress: false
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Close 4 handoffs and remove this workflow
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import subprocess
+          T = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+          main_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          p = Path("state/handoffs.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          EDITS = {
+            "CI-39095256309": {
+              "done_sha": "161cdc8aa314ad6d79f41e23231e4f33a230d49d",
+              "note": f"{T} grok: kapatıldı; archive-heal race on cb9f86a9 superseded by heal 161cdc8a (archive-heal bot 2026-10-18T03:55:41Z).",
+            },
+            "CI-39101598018": {
+              "done_sha": "c546b9cabd2439c6be9a13c9880f70a5e6a02b82",
+              "note": f"{T} grok: kapatıldı; fixed by c546b9ca (full grok-to-chatgpt.md restore); archive-heal 39101934643 success @c546b9ca.",
+            },
+            "CI-39101909754": {
+              "done_sha": "c546b9cabd2439c6be9a13c9880f70a5e6a02b82",
+              "note": f"{T} grok: kapatıldı; failure on c4b6321e fixed by c546b9ca; archive-heal 39101934643 success @c546b9ca.",
+            },
+            "HO-IMP-20261018-slow-codeql-code-scanning": {
+              "done_sha": main_sha,
+              "note": f"{T} grok: uygulanamaz, kapatıldı. codeql.yml zaten paths filtresi + matrix [python, javascript-typescript]; pip/apt yok. done_sha=main HEAD inceleme anı ({main_sha[:8]}). Prior HO-IMP-20261011 gibi.",
+            },
+          }
+          found = set()
+          for item in data["items"]:
+              i = item.get("id")
+              if i in EDITS:
+                  assert item.get("status") == "open", (i, item.get("status"))
+                  e = EDITS[i]
+                  item["status"] = "done"
+                  item["updated_at"] = T
+                  item.setdefault("notes", []).append(e["note"])
+                  item["claimed_at"] = T
+                  item["done_sha"] = e["done_sha"]
+                  item["done_at"] = T
+                  found.add(i)
+          assert found == set(EDITS), found
+          assert any(i["id"] == "HO-20261009-08" and i["status"] == "open" for i in data["items"])
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          json.load(open(p, encoding="utf-8"))
+          print("closed", sorted(found))
+          print("HO-IMP done_sha", main_sha)
+          print("remaining_open", [i["id"] for i in data["items"] if i.get("status") == "open"])
+          PY
+          rm -f .github/workflows/_tmp_close_handoffs.yml
+          git config user.name "grok-handoffs-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/handoffs.json
+          git add -u .github/workflows/_tmp_close_handoffs.yml
+          git commit -m "handoffs: close CI-39095256309 CI-39101598018 CI-39101909754 HO-IMP-20261018-slow-codeql"
+          git push origin HEAD:main
