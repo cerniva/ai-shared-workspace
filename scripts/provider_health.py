@@ -34,6 +34,9 @@ EXISTING = {
     "grok": ("XAI_MODEL", "grok-4.7"),
 }
 # HTTP probe: (url, headers, payload). Returns (status_code, body_text_for_classification_only).
+# A 2xx whose body is not JSON returns NON_JSON_2XX as body: models.github.ai was seen returning
+# HTTP 200 + 4-byte text/plain, which real jobs reject (RetryableProviderError) while the probe said ok.
+NON_JSON_2XX = "__non_json_2xx__"
 Http = Callable[[str, dict[str, str], dict[str, Any] | None, float], tuple[int, str]]
 
 
@@ -43,6 +46,11 @@ def _http(url: str, headers: dict[str, str], payload: dict[str, Any] | None, tim
                   method="POST" if data else "GET")
     try:
         with urlopen(req, timeout=timeout) as resp:
+            raw = resp.read(65536)
+            try:
+                json.loads(raw.decode("utf-8", "replace") or "x")
+            except ValueError:
+                return resp.status, NON_JSON_2XX
             return resp.status, ""
     except HTTPError as exc:
         try:
@@ -92,7 +100,10 @@ def check(*, env: Mapping[str, str] | None = None, http: Http = _http, config_pa
             try:
                 code, body = http(url, headers, payload, timeout)
                 row["http"] = code
-                row["status"] = classify(code, body if code >= 400 else "")
+                if 200 <= code < 300 and body == NON_JSON_2XX:
+                    row["status"], row["reason"] = "error", "non_json_2xx"
+                else:
+                    row["status"] = classify(code, body if code >= 400 else "")
             except (URLError, TimeoutError, OSError, ValueError):
                 row["status"] = "error"
             row["latency_ms"] = int((perf_counter() - tick) * 1000)

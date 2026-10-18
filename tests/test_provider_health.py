@@ -71,6 +71,17 @@ class ProviderHealthTests(unittest.TestCase):
                 ph.HEALTH_PATH = orig
             self.assertIn("kullanilabilir: cerebras", md.read_text())
 
+    def test_2xx_non_json_body_is_error_not_ok(self):
+        def http(url, headers, payload, timeout):
+            return (200, ph.NON_JSON_2XX) if "models.github.ai" in url else (200, "")
+        rep = ph.check(env={"GITHUB_TOKEN": SECRET, "CEREBRAS_API_KEY": SECRET}, http=http)
+        rows = {r["name"]: r for r in rep["providers"]}
+        self.assertEqual(rows["github_models"]["status"], "error")
+        self.assertEqual(rows["github_models"]["reason"], "non_json_2xx")
+        self.assertEqual(rows["cerebras"]["status"], "ok")
+        self.assertEqual(rep["usable"], ["cerebras"])
+        self.assertNotIn(SECRET, json.dumps(rep))
+
 
 class FallbackTests(unittest.TestCase):
     def _env(self, *names):
