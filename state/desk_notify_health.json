@@ -12,9 +12,9 @@
   "delay_threshold_minutes": 30,
   "counts": {
     "pending": 0,
-    "seen": 15,
-    "answered": 41,
-    "delayed": 150
+    "seen": 168,
+    "answered": 80,
+    "delayed": 281
   },
   "event_count": 1078,
   "event_keys": [
@@ -1097,12 +1097,10 @@
     "RPT-20261018-0315-grok-model-fallback-diagnosis:delayed",
     "RPT-20261018-0408-grok-provider-health-honest-probe:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261018-0408-grok-provider-health-honest-probe:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-18T04:46:41+03:00",
+  "checked_at": "2026-10-18T04:47:32+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 168,
@@ -1110,6 +1108,6 @@
     "delayed": 282
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 363,
+  "active_source_id_count": 770,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
