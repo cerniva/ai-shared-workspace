@@ -1,1 +1,1 @@
-$(cat /tmp/grok-to-chatgpt-new.md)
+$(cat /tmp/grok-to-chatgpt-fixed.md)
