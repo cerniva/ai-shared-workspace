@@ -143,6 +143,7 @@ def _default_transport(url: str, headers: dict[str, str], payload: dict[str, Any
     try:
         with urlopen(request, timeout=timeout) as response:
             body = response.read().decode("utf-8", errors="replace")
+            content_type = str((getattr(response, "headers", None) or {}).get("Content-Type") or "")[:60]
     except HTTPError as exc:
         raise _http_error_to_provider_error(url, exc) from exc
     except (URLError, TimeoutError) as exc:
@@ -152,7 +153,24 @@ def _default_transport(url: str, headers: dict[str, str], payload: dict[str, Any
     except ValueError as exc:
         # Empty/HTML body from a provider (e.g. gateway page) must fall through
         # to the next provider instead of crashing the whole runner.
-        raise RetryableProviderError("provider returned non-JSON body") from exc
+        raise RetryableProviderError(
+            f"provider returned non-JSON body ({_body_shape(body, content_type)})") from exc
+
+
+def _body_shape(body: str, content_type: str = "") -> str:
+    """Safe, content-free description of a non-JSON body (never the body itself)."""
+    head = body.lstrip()[:16].lower()
+    if not head:
+        kind = "empty"
+    elif head.startswith("<"):
+        kind = "html"
+    elif head.startswith("data:") or head.startswith("event:"):
+        kind = "sse"
+    elif head.startswith("{") or head.startswith("["):
+        kind = "truncated_or_multi_json"
+    else:
+        kind = "text"
+    return f"kind={kind} len={len(body)} content_type={content_type or 'none'}"
 
 
 def _prompt(job: dict[str, Any]) -> str:
