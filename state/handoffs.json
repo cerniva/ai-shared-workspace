@@ -563,12 +563,16 @@
       "task": "CI failure in 'archive-heal' run 39095256309: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-39095256309",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-18T03:56:19+00:00",
-      "updated_at": "2026-10-18T03:56:29+00:00",
+      "updated_at": "2026-10-18T23:43:11+00:00",
       "notes": [
-        "2026-10-18T03:56:29+00:00 team-worker: research-learner (team-research): Replenish quotas for Gemini/OpenAI API keys, fix Claude request parameter payload structure to resolve HTTP 400 errors, and configure at least one backup provider key in repo secrets. | sonraki: Audit Claude API request generation code in the codebase and refresh expired/exhausted provider API keys in environment secrets."
-      ]
+        "2026-10-18T03:56:29+00:00 team-worker: research-learner (team-research): Replenish quotas for Gemini/OpenAI API keys, fix Claude request parameter payload structure to resolve HTTP 400 errors, and configure at least one backup provider key in repo secrets. | sonraki: Audit Claude API request generation code in the codebase and refresh expired/exhausted provider API keys in environment secrets.",
+        "2026-10-18T23:43:11+00:00 grok: kapatıldı; archive-heal race on cb9f86a9 superseded by heal 161cdc8a (archive-heal bot 2026-10-18T03:55:41Z)."
+      ],
+      "claimed_at": "2026-10-18T23:43:11+00:00",
+      "done_sha": "161cdc8aa314ad6d79f41e23231e4f33a230d49d",
+      "done_at": "2026-10-18T23:43:11+00:00"
     },
     {
       "id": "CI-39101598018",
@@ -577,12 +581,16 @@
       "task": "CI failure in 'archive-heal' run 39101598018: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-39101598018",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-18T05:46:52+00:00",
-      "updated_at": "2026-10-18T05:47:02+00:00",
+      "updated_at": "2026-10-18T23:43:11+00:00",
       "notes": [
-        "2026-10-18T05:47:02+00:00 team-worker: research-learner (team-research): 1. Inspect and correct request parameter formatting for the Claude provider client to fix the HTTP 400 error. 2. Replenish API quota for OpenAI/Gemini or configure secret API keys for fallback providers (Groq, DeepSeek, OpenRouter) in GitHub Repository Secrets. 3. Update GitHub Models response parser to handle text/plain responses gracefully before attempting JSON deserialization. | sonraki: Debug the Claude client request construction to identify the root cause of the HTTP 400 bad request, and add valid fallback provider API keys to the CI environment secrets."
-      ]
+        "2026-10-18T05:47:02+00:00 team-worker: research-learner (team-research): 1. Inspect and correct request parameter formatting for the Claude provider client to fix the HTTP 400 error. 2. Replenish API quota for OpenAI/Gemini or configure secret API keys for fallback providers (Groq, DeepSeek, OpenRouter) in GitHub Repository Secrets. 3. Update GitHub Models response parser to handle text/plain responses gracefully before attempting JSON deserialization. | sonraki: Debug the Claude client request construction to identify the root cause of the HTTP 400 bad request, and add valid fallback provider API keys to the CI environment secrets.",
+        "2026-10-18T23:43:11+00:00 grok: kapatıldı; fixed by c546b9ca (full grok-to-chatgpt.md restore); archive-heal 39101934643 success @c546b9ca."
+      ],
+      "claimed_at": "2026-10-18T23:43:11+00:00",
+      "done_sha": "c546b9cabd2439c6be9a13c9880f70a5e6a02b82",
+      "done_at": "2026-10-18T23:43:11+00:00"
     },
     {
       "id": "HO-IMP-20261018-slow-codeql-code-scanning",
@@ -591,12 +599,16 @@
       "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki CodeQL code scanning iş akışını hızlandırmak için pip ve apt adımlarına actions/cache entegre edilerek bağımlılıkların her koşuda tekrar indirilmesi önlenmeli, workflow tetikleyicilerine sadece ilgili kod değişikliklerinde çalışması için paths filtreleri eklenmeli ve bağımsız adımlar paralel job'lara bölünerek medyan 83 saniyelik darboğaz optimize edilmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261018 key=slow-codeql-code-scanning",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-18T05:47:45+00:00",
-      "updated_at": "2026-10-18T05:49:12+00:00",
+      "updated_at": "2026-10-18T23:43:11+00:00",
       "notes": [
-        "2026-10-18T05:49:12+00:00 team-worker: research-learner (team-research): 1) Check `state/provider_health.json` and resolve provider credential/quota issues (e.g., refresh OpenAI/Gemini quotas or correct the request parameters sent to Claude/GitHub Models). 2) Re-assign the task to team-worker to apply the following changes in `.github/workflows/codeql.yml`: integrate `actions/cache` for pip (`~/.cache/pip`) and apt packages, add `paths` filters to triggers (`on.push.paths` / `on.pull_request.paths`), and refactor independent setup steps into parallel matrix or separate jobs. | sonraki: Inspect state/provider_health.json and provider request payload logs to fix the API provider integration error, then re-dispatch the optimization task for .github/workflows/codeql.yml."
-      ]
+        "2026-10-18T05:49:12+00:00 team-worker: research-learner (team-research): 1) Check `state/provider_health.json` and resolve provider credential/quota issues (e.g., refresh OpenAI/Gemini quotas or correct the request parameters sent to Claude/GitHub Models). 2) Re-assign the task to team-worker to apply the following changes in `.github/workflows/codeql.yml`: integrate `actions/cache` for pip (`~/.cache/pip`) and apt packages, add `paths` filters to triggers (`on.push.paths` / `on.pull_request.paths`), and refactor independent setup steps into parallel matrix or separate jobs. | sonraki: Inspect state/provider_health.json and provider request payload logs to fix the API provider integration error, then re-dispatch the optimization task for .github/workflows/codeql.yml.",
+        "2026-10-18T23:43:11+00:00 grok: uygulanamaz, kapatıldı. codeql.yml zaten paths filtresi + matrix [python, javascript-typescript]; pip/apt yok. done_sha=main HEAD inceleme anı (214849ec). Prior HO-IMP-20261011 gibi."
+      ],
+      "claimed_at": "2026-10-18T23:43:11+00:00",
+      "done_sha": "214849ecaf4c617940a0fae5a66c919c8ad6efcf",
+      "done_at": "2026-10-18T23:43:11+00:00"
     },
     {
       "id": "CI-39101909754",
@@ -605,12 +617,16 @@
       "task": "CI failure in 'archive-heal' run 39101909754: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
       "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
       "evidence": "ci-bekci dispatch CI-39101909754",
-      "status": "open",
+      "status": "done",
       "created_at": "2026-10-18T05:51:49+00:00",
-      "updated_at": "2026-10-18T05:51:53+00:00",
+      "updated_at": "2026-10-18T23:43:11+00:00",
       "notes": [
-        "2026-10-18T05:51:53+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com)"
-      ]
+        "2026-10-18T05:51:53+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com)",
+        "2026-10-18T23:43:11+00:00 grok: kapatıldı; failure on c4b6321e fixed by c546b9ca; archive-heal 39101934643 success @c546b9ca."
+      ],
+      "claimed_at": "2026-10-18T23:43:11+00:00",
+      "done_sha": "c546b9cabd2439c6be9a13c9880f70a5e6a02b82",
+      "done_at": "2026-10-18T23:43:11+00:00"
     }
   ]
 }
