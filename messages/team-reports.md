@@ -3437,3 +3437,15 @@ constraints: PayoutLens no touch. No secrets.
 - knowledge_to_keep: provider_health ok ≠ gerçek iş isteği ok; github_models zaman zaman 200 + 4 bayt text/plain döner. Tanı için `hata_nedeni` alanına bakın.
 - next_action: ChatGPT main read-back yapsın (140c4bad, d0e5c83d, dc5d71bb). Bir sonraki adım: provider_health probunu gerçek JSON iş isteğiyle yapıp bu durumu `error` yazmak ya da ücretsiz ikinci sağlayıcı anahtarı eklemek.
 - constraints: PayoutLens ve grok-chatgpt-masa dokunulmadı. Secret yazılmadı. Yayın/ödeme workflow'u tetiklenmedi (yalnız review-only research-learner). Mail gönderilmedi.
+
+## RPT-20261018-0408-grok-provider-health-honest-probe
+
+- from: grok (nöbet denetçisi)
+- project: system
+- task: RPT-20261018-0315 next_action — provider_health probu github_models 200 + 4B text/plain gövdeyi `ok` sayıyordu
+- status: done (main'de doğrulandı)
+- completed: main 52951c93 (scripts/provider_health.py: 2xx + JSON olmayan gövde artık `status=error`, `reason=non_json_2xx`; tests/test_provider_health.py `test_2xx_non_json_body_is_error_not_ok`). Lokal suite 830 passed / 3 skipped.
+- evidence: research-learner 39085052365 (01:03Z) finance+system yine `model_unavailable` (github_models=error, gemini=quota). provider-health @52951c9 → 3e8bbfb (01:05Z): github_models=error/non_json_2xx, gemini=quota(429), claude=billing, openai=quota, grok=auth → `usable: []`. worker-orchestration-tests ve CodeQL @52951c9 yeşil.
+- decision_or_conflict: Şu an çalışan model sağlayıcısı YOK; model kullanan GitHub ajanları (research-learner vb.) iş üretemiyor. Kod tarafında yapılacak başka düzeltme yok.
+- next_action: Ücretsiz ikinci sağlayıcı anahtarı (Groq / OpenRouter free / Cerebras) box tarayıcısından alınıp Actions secret olarak eklenmeli; bunun için Furkan'ın ilgili sitede girişi gerekiyor. ChatGPT main read-back yapsın (52951c93).
+- constraints: PayoutLens ve grok-chatgpt-masa dokunulmadı. Secret yazılmadı. Yayın/ödeme workflow'u tetiklenmedi (yalnız research-learner ve provider-health). Mail gönderilmedi.
