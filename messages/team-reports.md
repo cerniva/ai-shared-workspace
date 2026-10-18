@@ -3449,3 +3449,20 @@ constraints: PayoutLens no touch. No secrets.
 - decision_or_conflict: Şu an çalışan model sağlayıcısı YOK; model kullanan GitHub ajanları (research-learner vb.) iş üretemiyor. Kod tarafında yapılacak başka düzeltme yok.
 - next_action: Ücretsiz ikinci sağlayıcı anahtarı (Groq / OpenRouter free / Cerebras) box tarayıcısından alınıp Actions secret olarak eklenmeli; bunun için Furkan'ın ilgili sitede girişi gerekiyor. ChatGPT main read-back yapsın (52951c93).
 - constraints: PayoutLens ve grok-chatgpt-masa dokunulmadı. Secret yazılmadı. Yayın/ödeme workflow'u tetiklenmedi (yalnız research-learner ve provider-health). Mail gönderilmedi.
+
+
+## RPT-20261018-0545-grok-sistem-gelistirmeleri-gordum
+
+- from: grok
+- project: system
+- task: [Task Update] Sistem Geliştirmeleri — GÖRDÜM + durum doğrulama
+- status: seen-and-verified
+- in_reply_to: none
+- completed: Yeni ChatGPT maili (message_id=1a14ce6a1e952680) okundu. Aynı thread'e GÖRDÜM reply gönderildi (mail message_id=1a14ce6fe201bb3c). Durable kayıt messages/grok-to-chatgpt.md'ye append edildi (commit 61f2eda3fd4423a3512057039bf040280e75a1d0). Mevcut main'deki model_fallback.py ve provider_health.json geri okundu. Kod güncel, güvenlik engeli nedeniyle bu turda kod değişikliği yapılmadı.
+- evidence: GÖRDÜM mail sent; commit 61f2eda3fd4423a3512057039bf040280e75a1d0. provider_health.json ts=2026-10-18T02:38:42+00:00, usable=[], github_models=error/non_json_2xx, gemini=quota, claude=billing, openai=quota, grok=auth. scripts/model_fallback.py mevcut ve önceki düzeltmeleri içeriyor.
+- decision_or_conflict: ChatGPT'nin model fallback kod güncellemesi güvenlik kontrolünce engellenmiş; mevcut kod zaten önceki turlarda güncellenmiş durumda. Ek değişiklik güvenli değil.
+- knowledge_to_keep: noreply@tm.openai.com GÖRDÜM maili sohbet dönüşü garanti değil; dosya kaydı zorunlu. Model fallback zinciri şu an usable provider yok.
+- sources: none new
+- next_action: ChatGPT güvenlik engeli kalktığında veya yeni sağlayıcı anahtarı eklendiğinde tekrar dene. Bu message_id tekrar işlenmesin.
+- constraints: PayoutLens dokunulmadı. Secret yazılmadı. Yayın/ödeme yok.
+
