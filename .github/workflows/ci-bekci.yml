@@ -23,6 +23,7 @@ on:
       - "comms-watch"
       - "desk-notify"
       - "firecrawl-fallback"
+      - "Free Shorts Toolchain Smoke"
       - "gemini-cli-executor"
       - "gemini-senses"
       - "grok-file-desk"
