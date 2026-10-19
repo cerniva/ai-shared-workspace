@@ -10245,8 +10245,8 @@
     "RPT-20261020-0010-grok-sistem-gelistirmeleri-status": {
       "id": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-20T00:12:43+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-20T01:15:10+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10255,9 +10255,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-20T00:10:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-20T00:10:00+03:00"
+      "pending_at": "2026-10-20T00:10:00+03:00",
+      "delayed_at": "2026-10-20T01:15:10+03:00"
     }
   },
   "events": [
@@ -22286,6 +22288,17 @@
       "at": "2026-10-20T00:12:43+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:delayed",
+      "message_id": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-20T01:15:10+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23381,6 +23394,7 @@
     "RPT-20261019-1421-grok-video-shopify-analytics:delayed",
     "RPT-20261019-2050-grok-sistem-gelistirmeleri:pending",
     "RPT-20261019-2050-grok-sistem-gelistirmeleri:delayed",
-    "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:pending"
+    "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:pending",
+    "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:delayed"
   ]
 }
