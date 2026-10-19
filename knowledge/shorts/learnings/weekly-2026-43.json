@@ -1,0 +1,47 @@
+{
+  "channel_name": "Cerno",
+  "period": "20 Eyl – 17 Eki 2026 (Last 28 days)",
+  "views": 5600,
+  "watch_time_hours": 9.7,
+  "subscribers_change": 5,
+  "likes": 0,
+  "engaged_views": 0,
+  "stayed_to_watch_percent": 0,
+  "top_videos": [
+    {
+      "title": "Mbappé Hakkında Bunları Biliyor muydun? ⚽ #Shorts",
+      "views": 2610,
+      "likes": 0,
+      "stayed_to_watch_percent": 92.4,
+      "average_view_duration_seconds": 18
+    },
+    {
+      "title": "Why Is There a Tiny Hole in Airplane Windows? ✈️",
+      "views": 1219,
+      "likes": 0,
+      "stayed_to_watch_percent": 60.9,
+      "average_view_duration_seconds": 11
+    },
+    {
+      "title": "Ucak Koltugu Neden Sadece 3 cm Yatiyor?",
+      "views": 1124,
+      "likes": 0,
+      "stayed_to_watch_percent": 48.6,
+      "average_view_duration_seconds": 10
+    },
+    {
+      "title": "Earth Is Giving JUICE a Shortcut to Jupiter 🚀",
+      "views": 265,
+      "likes": 0,
+      "stayed_to_watch_percent": 48.8,
+      "average_view_duration_seconds": 10
+    },
+    {
+      "title": "14 Ekim 2026",
+      "views": 262,
+      "likes": 0,
+      "stayed_to_watch_percent": 121.7,
+      "average_view_duration_seconds": 15
+    }
+  ]
+}
