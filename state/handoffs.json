@@ -641,6 +641,20 @@
       "notes": [
         "2026-10-19T05:53:48+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com)"
       ]
+    },
+    {
+      "id": "CI-39269730285",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 39269730285: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-39269730285",
+      "status": "open",
+      "created_at": "2026-10-19T14:34:57+00:00",
+      "updated_at": "2026-10-19T14:35:12+00:00",
+      "notes": [
+        "2026-10-19T14:35:12+00:00 team-worker: research-learner (team-research): Configure valid API keys/credits for at least one secondary backup provider (e.g., DeepSeek, Groq, or OpenRouter) in workspace secrets, update OpenAI quota, check `state/provider_health.json`, and ensure retry logic handles transient HTTP 503 and bad body responses from upstream LLM endpoints. | sonraki: Inspect `state/provider_health.json` and repository secrets to update active provider keys, then re-run CI workflow 39269730285."
+      ]
     }
   ]
 }
