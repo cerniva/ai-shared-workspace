@@ -6,7 +6,12 @@ from unittest.mock import patch
 from scripts import shorts_research
 
 
-LEARNINGS_BLOCK = {'learning_ids': ['learn_af28044522e96790', 'learn_f6b1a61d4538f86b', 'learn_53ca8fb858703eb6', 'learn_ae8a18babc190373'], 'weekly_note': 'knowledge/shorts/learnings/weekly-2026-41.md', 'success_patterns': 'knowledge/shorts/learnings/success-patterns.md', 'applied': ['test fixture applies success-patterns hook rule', 'test fixture keeps <=30 s per weekly note']}
+# Always point fixtures at the newest weekly note so they do not go stale when
+# shorts-lessons-bot adds a new knowledge/shorts/learnings/weekly-*.md file.
+CURRENT_WEEKLY_NOTE = (
+    shorts_research.current_weekly_notes() or ["knowledge/shorts/learnings/weekly-2026-41.md"]
+)[0]
+LEARNINGS_BLOCK = {'learning_ids': ['learn_af28044522e96790', 'learn_f6b1a61d4538f86b', 'learn_53ca8fb858703eb6', 'learn_ae8a18babc190373'], 'weekly_note': CURRENT_WEEKLY_NOTE, 'success_patterns': 'knowledge/shorts/learnings/success-patterns.md', 'applied': ['test fixture applies success-patterns hook rule', 'test fixture keeps <=30 s per weekly note']}
 BASE_SCORES = {key: 7 for key in shorts_research.CRITERIA}
 
 

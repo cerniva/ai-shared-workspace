@@ -14,13 +14,26 @@ def packet():
     return copy.deepcopy(json.loads(MBAPPE.read_text(encoding="utf-8")))
 
 
+def pin_current_note(p):
+    """Treat the packet's own weekly note as current.
+
+    The real MBAPPE packet is a structural reference; the newest-two-notes window moves every
+    week when shorts-lessons-bot adds a note. Freshness itself is covered by
+    test_stale_weekly_note_fails, so structural tests must not break on a new weekly note.
+    """
+    return patch("scripts.shorts_research.current_weekly_notes",
+                 return_value=[p["learnings"]["weekly_note"]])
+
+
 @patch("scripts.shorts_research.is_duplicate", return_value=False)
 class LearningsGateTests(unittest.TestCase):
     def test_required_ids_mirror_render_rules(self, _d):
         self.assertEqual(set(shorts_research.REQUIRED_LEARNING_IDS), set(shorts_learnings.RULES))
 
     def test_mbappe_packet_passes_learnings_gate(self, _d):
-        self.assertEqual(shorts_research.learnings_blockers(packet()), [])
+        p = packet()
+        with pin_current_note(p):
+            self.assertEqual(shorts_research.learnings_blockers(p), [])
 
     def test_missing_learnings_block_fails(self, _d):
         p = packet(); del p["learnings"]
@@ -52,7 +65,9 @@ class LearningsGateTests(unittest.TestCase):
         self.assertNotIn("learnings_missing", shorts_research.gate_packet(p))
 
     def test_mbappe_packet_is_pipeline_shaped_but_honestly_blocked(self, _d):
-        blockers = shorts_research.gate_packet(packet())
+        p = packet()
+        with pin_current_note(p):
+            blockers = shorts_research.gate_packet(p)
         self.assertEqual(sorted(blockers), ["checklist_facts_verified", "checklist_rights_ok", "checklist_sources_reliable"])
         self.assertLessEqual(packet()["target_seconds"], shorts_learnings.MAX_CONCEPT_SECONDS)
 
