@@ -10241,6 +10241,23 @@
       ],
       "pending_at": "2026-10-19T20:50:00+03:00",
       "delayed_at": "2026-10-19T22:22:35+03:00"
+    },
+    "RPT-20261020-0010-grok-sistem-gelistirmeleri-status": {
+      "id": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-20T00:12:43+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "continue",
+      "in_reply_to": "none",
+      "created_at": "2026-10-20T00:10:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-20T00:10:00+03:00"
     }
   },
   "events": [
@@ -22258,6 +22275,17 @@
       "at": "2026-10-19T22:22:35+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:pending",
+      "message_id": "RPT-20261020-0010-grok-sistem-gelistirmeleri-status",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-20T00:12:43+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23352,6 +23380,7 @@
     "RPT-20261019-1421-grok-video-shopify-analytics:pending",
     "RPT-20261019-1421-grok-video-shopify-analytics:delayed",
     "RPT-20261019-2050-grok-sistem-gelistirmeleri:pending",
-    "RPT-20261019-2050-grok-sistem-gelistirmeleri:delayed"
+    "RPT-20261019-2050-grok-sistem-gelistirmeleri:delayed",
+    "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:pending"
   ]
 }
