@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_8643691d26dcb45f",
+      "source_name": "Wikimedia Commons license review for external uploads",
+      "canonical": "https://commons.wikimedia.org/wiki/Commons:License_review/en",
+      "category": "youtube-shorts-commons-rights",
+      "purpose": "Check external-source license review limits and author ownership checks before reusing Wikimedia-hosted YouTube videos",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation, no API key",
+      "reliability_limits": "License review checks the source license and author correspondence, not every third-party music or embedded footage right; each actual file needs its own review.",
+      "discovered_at": "2026-10-19T07:24:00+03:00",
+      "last_successful_use": "2026-10-19T07:24:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_fc76e5194e160ec5",
+      "source_name": "Creative Commons Attribution 4.0 International legal code",
+      "canonical": "https://creativecommons.org/licenses/by/4.0/legalcode.en",
+      "category": "youtube-shorts-component-rights",
+      "purpose": "Verify the CC BY 4.0 license only grants rights the licensor has authority to license, and excludes third-party privacy/publicity/trademark rights",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public legal text, no API key",
+      "reliability_limits": "CC legal code explains the license scope but does not establish rights ownership of any particular video or music track.",
+      "discovered_at": "2026-10-19T07:24:00+03:00",
+      "last_successful_use": "2026-10-19T07:24:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learning": {
+    "learning_id": "learn_96b1ca23d62dbfb5",
+    "title": "Commons-reviewed YouTube footage still needs component-rights clearance",
+    "domain": "wikimedia-youtube-third-party-rights",
+    "claim": "Wikimedia Commons license review verifies an external site's stated free license at review time, but does not independently establish that every embedded video, music track or third-party element is cleared; CC BY 4.0 licenses only rights the licensor has authority to grant.",
+    "evidence_status": "verified",
+    "decision": "SHORTS_THIRD_PARTY_COMPONENT_RIGHTS_GATE: for YouTube-sourced Commons videos, especially compilations, separately verify original uploader/author, music, embedded third-party clips, and any privacy/publicity rights relevant to intended commercial use. Record file URL, original source, license and attribution in the packet; if a component is unverified, reject the clip or use separately cleared original footage. Do not treat Commons license review alone as monetization clearance.",
+    "outcome": "pending",
+    "next_measurement": "For the next food/entertainment Shorts candidate, test a compilation with missing component rights (must fail) and an individually filmed CC BY clip with documented rights/attribution (can proceed to separate originality/QC gate). Record source IDs and applied_learning_ids only if a real decision uses this gate.",
+    "learned_at": "2026-10-19T07:24:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_8643691d26dcb45f",
+      "src_fc76e5194e160ec5"
+    ],
+    "failure_history": [],
+    "fallback_history": [
+      "If ownership or embedded audio rights are unclear, prefer self-shot or independently licensed footage; do not infer permission from uploader claims."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "video_shopify"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "SHORTS_THIRD_PARTY_COMPONENT_RIGHTS_GATE"
+  ]
+}
