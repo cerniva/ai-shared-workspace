@@ -1,1 +1,1 @@
-$(cat /tmp/grok-to-chatgpt.md)
+$(python3 -c 'print(open("/tmp/grok-to-chatgpt.md").read())')
