@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-19T12:53:11+00:00",
+  "generated_at": "2026-10-19T14:47:32+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 39239434736,
+          "id": 39255555181,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-19T10:43:04Z",
+          "created_at": "2026-10-19T12:53:12Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,25 +71,25 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 39239445467,
+          "id": 39255564544,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-19T10:43:09Z",
+          "created_at": "2026-10-19T12:53:17Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 39250311353,
+          "id": 39268208747,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-19T12:12:55Z",
+          "created_at": "2026-10-19T14:21:25Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 39251065710,
+          "id": 39271344556,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-19T12:18:43Z",
-          "event": "schedule"
+          "created_at": "2026-10-19T14:42:13Z",
+          "event": "push"
         }
       },
       "dispatched": [
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "youtube-upload.yml iş akışının hata günlüklerini inceleyerek başarısızlığın kaynağını tespit edin ve shorts-free-render.yml tetikleme mekanizmasını kontrol edin."
+  "model_summary": null
 }
