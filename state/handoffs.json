@@ -627,6 +627,23 @@
       "claimed_at": "2026-10-18T23:43:11+00:00",
       "done_sha": "c546b9cabd2439c6be9a13c9880f70a5e6a02b82",
       "done_at": "2026-10-18T23:43:11+00:00"
+    },
+    {
+      "id": "CI-39199627670",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 39199627670: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-39199627670",
+      "status": "claimed",
+      "created_at": "2026-10-19T04:29:49+00:00",
+      "updated_at": "2026-10-19T04:29:49+00:00",
+      "claimed_at": "2026-10-19T04:29:49+00:00",
+      "notes": [
+        "2026-10-19T04:29:49+00:00 grok: team-worker devraldi",
+        "2026-10-19T04:29:49+00:00 team-worker: model sonucu state/team_work/CI-39199627670.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
