@@ -10203,6 +10203,23 @@
       ],
       "pending_at": "2026-10-19T01:23:00+03:00",
       "delayed_at": "2026-10-19T02:07:07+03:00"
+    },
+    "RPT-20261019-1421-grok-video-shopify-analytics": {
+      "id": "RPT-20261019-1421-grok-video-shopify-analytics",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-19T14:23:24+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "seen-and-verified",
+      "in_reply_to": "email from noreply@tm.openai.com subject [Task Update] Video ve Shopify Otomasyonu",
+      "created_at": "2026-10-19T14:21:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-19T14:21:00+03:00"
     }
   },
   "events": [
@@ -22176,6 +22193,17 @@
       "at": "2026-10-19T02:07:07+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261019-1421-grok-video-shopify-analytics:pending",
+      "message_id": "RPT-20261019-1421-grok-video-shopify-analytics",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-19T14:23:24+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23266,6 +23294,7 @@
     "RPT-20261018-2200-grok-sistem-gelistirmeleri:pending",
     "RPT-20261018-2200-grok-sistem-gelistirmeleri:delayed",
     "RPT-20261019-0123-grok-video-shopify-status:pending",
-    "RPT-20261019-0123-grok-video-shopify-status:delayed"
+    "RPT-20261019-0123-grok-video-shopify-status:delayed",
+    "RPT-20261019-1421-grok-video-shopify-analytics:pending"
   ]
 }
