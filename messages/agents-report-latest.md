@@ -1,16 +1,16 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-10-19 09:15 TRT
+Zaman: 2026-10-19 10:32 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08, HO-IMP-20261019-slow-shorts-free-smoke-once
 - Gecikmiş (>2 sa): HO-20261009-08
-- CI (main): 14 workflow; başarısız: yok
+- CI (main): 12 workflow; başarısız: takipci-denetci
 - Otomasyonlar (automation-runner):
-  - finance: plan-learnings-check=success#39191113701; tetiklenen: plan-learnings-check.yml
-  - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#38212246628, shorts-render-tests=success#39185622154
+  - finance: plan-learnings-check=success#39206194941; tetiklenen: plan-learnings-check.yml
+  - video_shorts_shopify_gumroad: shorts-free-build=success#38009504919, shorts-free-render=never_run, youtube-upload=failure#38011519419, tinyfish-youtube-analytics=success#39210863552, shorts-render-tests=success#39185622154
   - knowledge: knowledge-promote=success#39009061465
-  - system: worker-orchestration-tests=success#39191118650, handoff-audit=success#39198517288, desk-notify=success#39199704130; tetiklenen: worker-orchestration-tests.yml
+  - system: worker-orchestration-tests=success#39200969034, handoff-audit=success#39208463811, desk-notify=success#39209109660; tetiklenen: worker-orchestration-tests.yml
 - Araştırma (research-learner, inceleme için intake/promotions/):
   - finance: model_unavailable
   - video_shopify: already_in_ledger
@@ -22,5 +22,5 @@ Zaman: 2026-10-19 09:15 TRT
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
 ## Model sağlayıcı sağlığı (state/provider_health.json)
-  - 2026-10-19T05:53:59+00:00: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
+  - 2026-10-19T06:54:41+00:00: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, claude=billing, openai=quota, grok=auth, local=no_key
   - kullanilabilir: YOK
