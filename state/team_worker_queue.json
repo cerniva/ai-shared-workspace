@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
+      "task": "[.github/workflows/shorts-free-smoke-once.yml] .github/workflows/shorts-free-smoke-once.yml iş akışındaki 66 saniyelik medyan çalışma süresini kısaltmak için; pip ve apt paket paketleme adımlarına 'actions/cache' entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, workflow tetikleyicilerine 'paths' filtresi eklenerek yalnızca ilgili dosya değişikliklerinde çalışması sağlanmalı ve birbiriyle bağımlılığı bulunmayan test adımları paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "source": "improvement-bot",
+      "ts": "2026-10-19T05:53:29+00:00"
+    }
+  ]
+}
