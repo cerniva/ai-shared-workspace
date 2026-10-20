@@ -43,7 +43,23 @@ def _time(value: str) -> float:
 
 def check_captions(path: Path, seconds: float) -> None:
     content = path.read_text(encoding="utf-8-sig")
-    cues = CUE_RE.findall(content)
+    # Validate whole SRT blocks, not just timestamp lines: an empty cue is unsafe.
+    normalized = content.replace("\r\n", "\n").replace("\r", "\n").strip()
+    blocks = re.split(r"\n[ \t]*\n+", normalized) if normalized else []
+    cues = []
+    for block in blocks:
+        lines = block.split("\n")
+        if lines and lines[0].strip().isdigit():
+            lines = lines[1:]
+        if len(lines) < 2:
+            raise ValueError("caption cue text missing; no inferred transcript")
+        match = CUE_RE.fullmatch(lines[0].strip())
+        if not match:
+            raise ValueError("captions must contain timed SRT cues; no inferred transcript")
+        text = "\n".join(lines[1:])
+        if not re.sub(r"<[^>]+>", "", text).strip():
+            raise ValueError("caption cue text missing; no inferred transcript")
+        cues.append(match.groups())
     if not cues:
         raise ValueError("captions must contain timed SRT cues; no inferred transcript")
     previous_end = 0.0
@@ -112,6 +128,19 @@ def _duration(payload: dict) -> float:
     return duration
 
 
+def _require_audio_coverage(streams: list[dict], seconds: float) -> None:
+    """Fail closed when the rendered original-audio stream is too short."""
+    audio = [stream for stream in streams if stream.get("codec_type") == "audio"]
+    if len(audio) != 1:
+        raise RuntimeError("rendered MP4 must have exactly one original audio stream")
+    try:
+        audio_duration = float(audio[0]["duration"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError("rendered MP4 audio duration unavailable") from exc
+    if not math.isfinite(audio_duration) or audio_duration < seconds - 0.30:
+        raise RuntimeError("rendered MP4 audio does not cover full clip")
+
+
 def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str) -> dict:
     source, captions, evidence_file, output = map(lambda x: Path(x).resolve(), (source, captions, evidence_file, output))
     if not all(path.is_file() for path in (source, captions, evidence_file)):
@@ -164,8 +193,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
     streams = info.get("streams", [])
     if not any(s.get("codec_type") == "video" and s.get("width") == 1080 and s.get("height") == 1920 for s in streams):
         raise RuntimeError("rendered MP4 is not portrait 1080x1920")
-    if not any(s.get("codec_type") == "audio" for s in streams):
-        raise RuntimeError("rendered MP4 lost original audio")
+    _require_audio_coverage(streams, seconds)
     return {"output": str(output), "output_sha256": file_sha256(output),
             "source_sha256": file_sha256(source), "duration": actual,
             "spoken_language": language, "caption_language": language,
