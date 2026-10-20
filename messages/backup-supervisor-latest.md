@@ -1,11 +1,11 @@
 # Yedek denetçi (backup-supervisor) — son durum
 
-- Zaman (UTC): 2026-10-20T03:56:11+00:00
+- Zaman (UTC): 2026-10-20T04:55:11+00:00
 - Sağlayıcı: var (ortak zincir: config/model_providers.json)
 - Gecikmiş handoff (>2 sa açık): HO-20261009-08, HO-IMP-20261019-slow-shorts-free-smoke-once, CI-39269730285
 - Açık/claimed handoff: HO-20261009-08, HO-IMP-20261019-slow-shorts-free-smoke-once, CI-39269730285
 - Açık masa mesajı: 1
-- CI (main): 7 workflow, başarısız: takipci-denetci
+- CI (main): 11 workflow, başarısız: yok
 - Üretilen yama (inceleme için intake/chatgpt/): yok
 - Reddedilen: yok
 
