@@ -1118,12 +1118,10 @@
     "RPT-20261020-1629-grok-ingilizce-ders-25:delayed",
     "RPT-20261020-1919-grok-ingilizce-ders-28:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261020-1919-grok-ingilizce-ders-28:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-20T19:20:54+03:00",
+  "checked_at": "2026-10-20T19:21:07+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 168,
