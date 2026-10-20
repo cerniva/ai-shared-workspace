@@ -655,6 +655,23 @@
       "notes": [
         "2026-10-19T14:35:12+00:00 team-worker: research-learner (team-research): Configure valid API keys/credits for at least one secondary backup provider (e.g., DeepSeek, Groq, or OpenRouter) in workspace secrets, update OpenAI quota, check `state/provider_health.json`, and ensure retry logic handles transient HTTP 503 and bad body responses from upstream LLM endpoints. | sonraki: Inspect `state/provider_health.json` and repository secrets to update active provider keys, then re-run CI workflow 39269730285."
       ]
+    },
+    {
+      "id": "CI-39364890322",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'archive-heal' run 39364890322: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-39364890322",
+      "status": "claimed",
+      "created_at": "2026-10-20T03:34:39+00:00",
+      "updated_at": "2026-10-20T03:34:39+00:00",
+      "claimed_at": "2026-10-20T03:34:39+00:00",
+      "notes": [
+        "2026-10-20T03:34:39+00:00 grok: team-worker devraldi",
+        "2026-10-20T03:34:39+00:00 team-worker: model sonucu state/team_work/CI-39364890322.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
