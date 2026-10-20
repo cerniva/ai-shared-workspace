@@ -10264,8 +10264,8 @@
     "RPT-20261020-1246-grok-sistem-gelistirmeleri": {
       "id": "RPT-20261020-1246-grok-sistem-gelistirmeleri",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-20T12:48:02+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-20T14:16:31+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10274,9 +10274,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-20T12:46:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-20T12:46:00+03:00"
+      "pending_at": "2026-10-20T12:46:00+03:00",
+      "delayed_at": "2026-10-20T14:16:31+03:00"
     }
   },
   "events": [
@@ -22327,6 +22329,17 @@
       "at": "2026-10-20T12:48:02+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261020-1246-grok-sistem-gelistirmeleri:delayed",
+      "message_id": "RPT-20261020-1246-grok-sistem-gelistirmeleri",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-20T14:16:31+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23424,6 +23437,7 @@
     "RPT-20261019-2050-grok-sistem-gelistirmeleri:delayed",
     "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:pending",
     "RPT-20261020-0010-grok-sistem-gelistirmeleri-status:delayed",
-    "RPT-20261020-1246-grok-sistem-gelistirmeleri:pending"
+    "RPT-20261020-1246-grok-sistem-gelistirmeleri:pending",
+    "RPT-20261020-1246-grok-sistem-gelistirmeleri:delayed"
   ]
 }
