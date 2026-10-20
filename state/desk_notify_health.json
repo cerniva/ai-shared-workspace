@@ -1121,13 +1121,10 @@
     "RPT-20261020-1919-grok-ingilizce-ders-28:delayed",
     "RPT-20261020-1933-grok-bilgi-kutuphanesi-kismi:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261020-1919-grok-ingilizce-ders-28:delayed",
-    "RPT-20261020-1933-grok-bilgi-kutuphanesi-kismi:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-20T20:21:41+03:00",
+  "checked_at": "2026-10-20T21:16:05+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 168,
