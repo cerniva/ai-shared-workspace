@@ -655,6 +655,17 @@
       "notes": [
         "2026-10-19T14:35:12+00:00 team-worker: research-learner (team-research): Configure valid API keys/credits for at least one secondary backup provider (e.g., DeepSeek, Groq, or OpenRouter) in workspace secrets, update OpenAI quota, check `state/provider_health.json`, and ensure retry logic handles transient HTTP 503 and bad body responses from upstream LLM endpoints. | sonraki: Inspect `state/provider_health.json` and repository secrets to update active provider keys, then re-run CI workflow 39269730285."
       ]
+    },
+    {
+      "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] 'tinyfish-youtube-analytics' medyan 99 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261020 key=slow-tinyfish-youtube-analytics",
+      "status": "open",
+      "created_at": "2026-10-20T05:52:10+00:00",
+      "updated_at": "2026-10-20T05:52:10+00:00"
     }
   ]
 }
