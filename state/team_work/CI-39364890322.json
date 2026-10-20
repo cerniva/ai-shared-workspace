@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-39364890322",
+  "source": "ci-bekci",
+  "run_id": "39364989642",
+  "task": "CI failure in 'archive-heal' run 39364890322: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+  "generated_at": "2026-10-20T03:34:39+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-39364890322",
+    "evidence": [
+      {
+        "path": ".github/workflows/archive-heal.yml",
+        "details": "CI run 39364890322 failed at job 'heal' step 'Commit healed archives only' with exit code 1."
+      }
+    ],
+    "factual_findings": [
+      "Workflow run 39364890322 for workflow '.github/workflows/archive-heal.yml' failed.",
+      "The failure occurred in job 'heal', step 'Commit healed archives only', exiting with code 1."
+    ],
+    "hypotheses": [
+      "The step 'Commit healed archives only' in '.github/workflows/archive-heal.yml' ran `git commit` when no staged changes were present, causing git to return exit status 1.",
+      "A permission error or missing Git user configuration occurred during the commit step in '.github/workflows/archive-heal.yml'."
+    ],
+    "recommendation": "Inspect '.github/workflows/archive-heal.yml' at the 'Commit healed archives only' step. Ensure staged changes are verified (e.g. via `git diff --staged --quiet`) prior to running `git commit`, or handle empty diffs gracefully.",
+    "confidence": 0.85,
+    "next_action": "Check '.github/workflows/archive-heal.yml' to review step conditions and script commands executed during 'Commit healed archives only'.",
+    "timing": {
+      "started_at": "2026-10-20T03:34:40.336663+00:00",
+      "duration_ms": 8248
+    },
+    "usage": {
+      "input_tokens": 137,
+      "output_tokens": 332,
+      "total_tokens": 1654
+    }
+  }
+}
