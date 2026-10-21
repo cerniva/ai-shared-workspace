@@ -1129,12 +1129,10 @@
     "RPT-20261021-1435-grok-video-shopify-core03:pending",
     "RPT-20261021-1435-grok-video-shopify-core03:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261021-1435-grok-video-shopify-core03:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T15:17:59+03:00",
+  "checked_at": "2026-10-21T16:28:34+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 169,
