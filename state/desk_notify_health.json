@@ -1127,14 +1127,10 @@
     "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
     "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed"
   ],
-  "new_event_keys": [
-    "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:pending",
-    "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
-    "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T05:16:02+03:00",
+  "checked_at": "2026-10-21T06:17:36+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 169,
