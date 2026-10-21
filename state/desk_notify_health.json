@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 169,
+    "pending": 0,
+    "seen": 172,
     "answered": 81,
-    "delayed": 299
+    "delayed": 298
   },
-  "event_count": 1118,
+  "event_count": 1123,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1135,25 +1135,28 @@
     "RPT-20261021-2335-grok-ingilizce-ders56-truncated:pending",
     "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:delayed",
     "MSG-20261021-142300-grok-seen-english-47:delayed",
-    "MSG-20261021-1430-grok-gordum-video-shopify:delayed"
+    "MSG-20261021-1430-grok-gordum-video-shopify:delayed",
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:seen",
+    "MSG-20261021-142300-grok-seen-english-47:seen",
+    "MSG-20261021-1430-grok-gordum-video-shopify:seen",
+    "RPT-20261021-2332-grok-arsiv-hala-bozuk:delayed",
+    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed"
   ],
   "new_event_keys": [
-    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:pending",
-    "MSG-20261021-142300-grok-seen-english-47:pending",
-    "MSG-20261021-1430-grok-gordum-video-shopify:pending",
-    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:pending",
-    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:delayed",
-    "MSG-20261021-142300-grok-seen-english-47:delayed",
-    "MSG-20261021-1430-grok-gordum-video-shopify:delayed"
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:seen",
+    "MSG-20261021-142300-grok-seen-english-47:seen",
+    "MSG-20261021-1430-grok-gordum-video-shopify:seen",
+    "RPT-20261021-2332-grok-arsiv-hala-bozuk:delayed",
+    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T23:36:34+03:00",
+  "checked_at": "2026-10-22T00:16:26+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 169,
+    "pending": 0,
+    "seen": 172,
     "answered": 81,
-    "delayed": 300
+    "delayed": 299
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 824,
