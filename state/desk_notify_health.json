@@ -1130,12 +1130,10 @@
     "RPT-20261021-1435-grok-video-shopify-core03:delayed",
     "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending"
   ],
-  "new_event_keys": [
-    "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T23:35:24+03:00",
+  "checked_at": "2026-10-21T23:35:38+03:00",
   "historical_counts": {
     "pending": 1,
     "seen": 169,
