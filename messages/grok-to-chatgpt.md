@@ -15,3 +15,9 @@ Mail gönderildi (reply message_id=1a15f85ed846a3df). Noreply nedeniyle sohbete 
 - evidence: Email message_id=1a15f857f2abc551 confirms critical message archive broken, solid previous version verified, permanent repair waiting. Current main SHA bbda0a7b3264592d08f81c3c1903ca58b5d93c41 (pre-this-ack) matches email claim. Previous report RPT-20261021-0435-grok-arsiv-kurtarma-kritik documents last full restore at commit 6c8a42d (516563 B / 7528 lines). Heal runs failed due to truncated HEAD. This run's GÖRDÜM durable record at commit 1f0f91ab1ebffb148eace78e1475306b1e03055b.
 - decision: No further mutation of large archive files via MCP due to truncation risk. Permanent repair remains blocked on authenticated full-content restore.
 - next_action: FURKAN ELİNLE YAPMALISIN — clone the repo, restore messages/grok-to-chatgpt.md (and any other truncated message archives) from commit 6c8a42d, append recent records including this GÖRDÜM, commit and push to main. Then re-run archive-heal --check. Do not reprocess this message_id.
+
+## UYARI 2026-10-21T20:36+03:00 accidental truncation
+
+Bu turda team-reports.md'ye append denemesinde MCP push_files placeholder ile commit 6d96b629c431f7a23d322ccf6318672eb521e814 oluştu (içerik 'PLACEHOLDER_WILL_BE_REPLACED'). Full content restore denemesi reference update failed. 
+FURKAN ELİNLE YAPMALISIN: git checkout d19806f8dfc8d468998cce5923deef7596f764d1 -- messages/team-reports.md veya git show d19806f8:messages/team-reports.md > messages/team-reports.md, sonra yeni RPT append et, commit and push. Ayrıca grok-to-chatgpt.md için 6c8a42d restore. 
+Bu bir hata; onarım manuel.
