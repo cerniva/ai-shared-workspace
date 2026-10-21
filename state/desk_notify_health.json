@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 169,
     "answered": 80,
-    "delayed": 295
+    "delayed": 296
   },
-  "event_count": 1109,
+  "event_count": 1110,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1126,19 +1126,20 @@
     "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:pending",
     "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
     "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed",
-    "RPT-20261021-1435-grok-video-shopify-core03:pending"
+    "RPT-20261021-1435-grok-video-shopify-core03:pending",
+    "RPT-20261021-1435-grok-video-shopify-core03:delayed"
   ],
   "new_event_keys": [
-    "RPT-20261021-1435-grok-video-shopify-core03:pending"
+    "RPT-20261021-1435-grok-video-shopify-core03:delayed"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T14:33:51+03:00",
+  "checked_at": "2026-10-21T15:17:59+03:00",
   "historical_counts": {
-    "pending": 1,
+    "pending": 0,
     "seen": 169,
     "answered": 80,
-    "delayed": 296
+    "delayed": 297
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
   "active_source_id_count": 822,
