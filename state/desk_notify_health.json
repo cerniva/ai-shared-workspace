@@ -1130,7 +1130,7 @@
   "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T07:18:40+03:00",
+  "checked_at": "2026-10-21T08:03:02+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 169,
@@ -1138,6 +1138,6 @@
     "delayed": 296
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 816,
+  "active_source_id_count": 817,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
