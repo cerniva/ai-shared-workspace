@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 1,
-    "seen": 8,
-    "answered": 41,
-    "delayed": 21
+    "pending": 2,
+    "seen": 169,
+    "answered": 81,
+    "delayed": 299
   },
-  "event_count": 1111,
+  "event_count": 1118,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1128,19 +1128,34 @@
     "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed",
     "RPT-20261021-1435-grok-video-shopify-core03:pending",
     "RPT-20261021-1435-grok-video-shopify-core03:delayed",
-    "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending"
+    "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending",
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:pending",
+    "MSG-20261021-142300-grok-seen-english-47:pending",
+    "MSG-20261021-1430-grok-gordum-video-shopify:pending",
+    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:pending",
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:delayed",
+    "MSG-20261021-142300-grok-seen-english-47:delayed",
+    "MSG-20261021-1430-grok-gordum-video-shopify:delayed"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:pending",
+    "MSG-20261021-142300-grok-seen-english-47:pending",
+    "MSG-20261021-1430-grok-gordum-video-shopify:pending",
+    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:pending",
+    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:delayed",
+    "MSG-20261021-142300-grok-seen-english-47:delayed",
+    "MSG-20261021-1430-grok-gordum-video-shopify:delayed"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-21T23:35:38+03:00",
+  "checked_at": "2026-10-21T23:36:34+03:00",
   "historical_counts": {
-    "pending": 1,
+    "pending": 2,
     "seen": 169,
-    "answered": 80,
-    "delayed": 297
+    "answered": 81,
+    "delayed": 300
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 163,
+  "active_source_id_count": 824,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
