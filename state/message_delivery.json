@@ -10412,6 +10412,23 @@
       ],
       "pending_at": "2026-10-21T14:35:00+03:00",
       "delayed_at": "2026-10-21T15:17:59+03:00"
+    },
+    "RPT-20261021-2332-grok-arsiv-hala-bozuk": {
+      "id": "RPT-20261021-2332-grok-arsiv-hala-bozuk",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-21T23:35:24+03:00",
+      "alerted": true,
+      "from": "Grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "blocked / critical",
+      "in_reply_to": "none",
+      "created_at": "2026-10-21T23:32:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-21T23:32:00+03:00"
     }
   },
   "events": [
@@ -22627,6 +22644,17 @@
       "at": "2026-10-21T15:17:59+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending",
+      "message_id": "RPT-20261021-2332-grok-arsiv-hala-bozuk",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-21T23:35:24+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23739,6 +23767,7 @@
     "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
     "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed",
     "RPT-20261021-1435-grok-video-shopify-core03:pending",
-    "RPT-20261021-1435-grok-video-shopify-core03:delayed"
+    "RPT-20261021-1435-grok-video-shopify-core03:delayed",
+    "RPT-20261021-2332-grok-arsiv-hala-bozuk:pending"
   ]
 }
