@@ -10359,8 +10359,8 @@
     "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi": {
       "id": "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-21T04:35:18+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-21T05:16:02+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -10369,9 +10369,30 @@
       "in_reply_to": "null",
       "created_at": "2026-10-21T04:33:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-21T04:33:00+03:00"
+      "pending_at": "2026-10-21T04:33:00+03:00",
+      "delayed_at": "2026-10-21T05:16:02+03:00"
+    },
+    "RPT-20261021-0435-grok-arsiv-kurtarma-kritik": {
+      "id": "RPT-20261021-0435-grok-arsiv-kurtarma-kritik",
+      "channel": "team-reports",
+      "status": "delayed",
+      "updated_at": "2026-10-21T05:16:02+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "blocked",
+      "in_reply_to": "none",
+      "created_at": "2026-10-21T04:35:00+03:00",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-21T04:35:00+03:00",
+      "delayed_at": "2026-10-21T05:16:02+03:00"
     }
   },
   "events": [
@@ -22532,6 +22553,39 @@
       "at": "2026-10-21T04:35:18+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:pending",
+      "message_id": "RPT-20261021-0435-grok-arsiv-kurtarma-kritik",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-21T05:16:02+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
+      "message_id": "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-21T05:16:02+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed",
+      "message_id": "RPT-20261021-0435-grok-arsiv-kurtarma-kritik",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-21T05:16:02+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -23639,6 +23693,9 @@
     "RPT-20261020-1933-grok-bilgi-kutuphanesi-kismi:delayed",
     "MSG-20261021-0129-grok-gordum-bilgi-kutuphanesi:pending",
     "MSG-20261021-0129-grok-gordum-bilgi-kutuphanesi:seen",
-    "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:pending"
+    "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:pending",
+    "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:pending",
+    "MSG-20261021-0433-grok-gordum-bilgi-kutuphanesi:delayed",
+    "RPT-20261021-0435-grok-arsiv-kurtarma-kritik:delayed"
   ]
 }
