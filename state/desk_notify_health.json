@@ -1142,16 +1142,10 @@
     "RPT-20261021-2332-grok-arsiv-hala-bozuk:delayed",
     "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261021-1120-grok-gordum-ingilizce-ders-44:seen",
-    "MSG-20261021-142300-grok-seen-english-47:seen",
-    "MSG-20261021-1430-grok-gordum-video-shopify:seen",
-    "RPT-20261021-2332-grok-arsiv-hala-bozuk:delayed",
-    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T00:16:26+03:00",
+  "checked_at": "2026-10-22T01:15:07+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 172,
