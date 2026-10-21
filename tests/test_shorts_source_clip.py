@@ -108,5 +108,27 @@ class SourceClipTests(unittest.TestCase):
         self.assertIsNone(_require_audio_coverage([{"codec_type": "audio", "duration": "32.0"}], 32))
 
 
+    def test_video_track_shorter_than_audio_blocks(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        with self.assertRaisesRegex(RuntimeError, "does not cover full clip"):
+            _require_video_coverage([{"codec_type": "video", "duration": "25.0"},
+                                     {"codec_type": "audio", "duration": "32.0"}], 32)
+
+    def test_video_track_missing_duration_blocks(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        with self.assertRaisesRegex(RuntimeError, "duration unavailable"):
+            _require_video_coverage([{"codec_type": "video"}], 32)
+
+    def test_video_track_full_duration_passes(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        self.assertIsNone(_require_video_coverage([{"codec_type": "video", "duration": "32.0"}], 32))
+
+    def test_video_track_multiple_streams_blocks(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        with self.assertRaisesRegex(RuntimeError, "exactly one video stream"):
+            _require_video_coverage([{"codec_type": "video", "duration": "32.0"},
+                                     {"codec_type": "video", "duration": "32.0"}], 32)
+
+
 if __name__ == "__main__":
     unittest.main()
