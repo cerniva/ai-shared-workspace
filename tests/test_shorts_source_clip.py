@@ -82,5 +82,31 @@ class SourceClipTests(unittest.TestCase):
             validate_rights(self.video, self.srt, self.evidence, "en")
 
 
+
+    def test_srt_timestamp_without_spoken_text_blocks(self):
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:03,000\n  \n")
+        with self.assertRaisesRegex(ValueError, "caption cue text missing"):
+            check_captions(self.srt, 32)
+
+    def test_srt_markup_only_blocks(self):
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:03,000\n<i></i>\n")
+        with self.assertRaisesRegex(ValueError, "caption cue text missing"):
+            check_captions(self.srt, 32)
+
+    def test_rendered_audio_coverage_blocks_short_track(self):
+        from scripts.shorts_source_clip import _require_audio_coverage
+        with self.assertRaisesRegex(RuntimeError, "does not cover full clip"):
+            _require_audio_coverage([{"codec_type": "audio", "duration": "25.0"}], 32)
+
+    def test_rendered_audio_coverage_blocks_missing_duration(self):
+        from scripts.shorts_source_clip import _require_audio_coverage
+        with self.assertRaisesRegex(RuntimeError, "duration unavailable"):
+            _require_audio_coverage([{"codec_type": "audio"}], 32)
+
+    def test_rendered_audio_coverage_accepts_full_track(self):
+        from scripts.shorts_source_clip import _require_audio_coverage
+        self.assertIsNone(_require_audio_coverage([{"codec_type": "audio", "duration": "32.0"}], 32))
+
+
 if __name__ == "__main__":
     unittest.main()
