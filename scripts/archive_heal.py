@@ -44,6 +44,7 @@ BODY_SENTINEL = re.compile(
     r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
     r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|"
     r"RESTORED_FROM_PREVIOUS_COMMIT_[A-Fa-f0-9]+|test content for size check|"
+    r"\[NOTE: Full historical content truncated in this (?:tool )?call for length;[^\r\n]*\]|"
     r"\[\.\.\. full previous content omitted for brevity.*|"
     r"\.\.\.\s*\[.*truncat.*\]\s*\.\.\.|\[\s*\.\.\.[^\[\]]*truncat[^\[\]]*\]\s*\.?|\[\s*full content\b[^\[\]]*\]\s*\.?|"
     r"\[\s*truncated\b[^\[\]]*\]\s*\.?)$",
@@ -61,7 +62,9 @@ def is_bogus_line(line: str) -> bool:
     """CI guard kuralı: `$(cat ` ile başlayan satır veya tek başına duran sentinel satırı
     (SEE_FILE, FULL_CONTENT_*, THE_FULL_CONTENT_*, THE_CONTENT_FROM_*, PLACEHOLDER*).
     Satır içinde bu kelimelerden bahseden gerçek kayıtlar sahte sayılmaz."""
-    return (line.startswith("$(cat ") or bool(BODY_SENTINEL.match(line.strip()))
+    return (line.startswith("$(cat ")
+            or bool(re.fullmatch(r"\$\(python3?\s+-c\s+.+\)", line.strip()))
+            or bool(BODY_SENTINEL.match(line.strip()))
             or bool(CONNECTOR_TRUNC.search(line)))
 
 
