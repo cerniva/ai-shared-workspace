@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T06:04:41+00:00",
+  "generated_at": "2026-10-21T06:05:43+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
@@ -8,7 +8,7 @@
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
-      "status": "already_in_ledger"
+      "status": "model_unavailable"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
