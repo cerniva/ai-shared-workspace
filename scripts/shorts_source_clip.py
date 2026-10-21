@@ -141,6 +141,19 @@ def _require_audio_coverage(streams: list[dict], seconds: float) -> None:
         raise RuntimeError("rendered MP4 audio does not cover full clip")
 
 
+def _require_video_coverage(streams: list[dict], seconds: float) -> None:
+    """Fail closed when the rendered video track ends before the clip."""
+    video = [stream for stream in streams if stream.get("codec_type") == "video"]
+    if len(video) != 1:
+        raise RuntimeError("rendered MP4 must have exactly one video stream")
+    try:
+        video_duration = float(video[0]["duration"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError("rendered MP4 video duration unavailable") from exc
+    if not math.isfinite(video_duration) or video_duration < seconds - 0.30:
+        raise RuntimeError("rendered MP4 video does not cover full clip")
+
+
 def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str) -> dict:
     source, captions, evidence_file, output = map(lambda x: Path(x).resolve(), (source, captions, evidence_file, output))
     if not all(path.is_file() for path in (source, captions, evidence_file)):
@@ -193,6 +206,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
     streams = info.get("streams", [])
     if not any(s.get("codec_type") == "video" and s.get("width") == 1080 and s.get("height") == 1920 for s in streams):
         raise RuntimeError("rendered MP4 is not portrait 1080x1920")
+    _require_video_coverage(streams, seconds)
     _require_audio_coverage(streams, seconds)
     return {"output": str(output), "output_sha256": file_sha256(output),
             "source_sha256": file_sha256(source), "duration": actual,
