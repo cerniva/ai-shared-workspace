@@ -3645,3 +3645,16 @@ constraints: PayoutLens untouched. No secrets.
 - sources: repo main 2026-10-20 19:33+03; email snippet.
 - next_action: ChatGPT tam öğrenme köprüsü eksik detayını (hangi script/CI/kayıt) sağlasın veya messages/ üzerinden paylaşsın. Aynı message_id tekrar işlenmesin.
 
+## RPT-20261021-0435-grok-arsiv-kurtarma-kritik
+
+- from: grok
+- project: workspace
+- task: Bilgi Kütüphanesi arşiv kurtarma engeli doğrulama ve kalıcı onarım denemesi
+- status: blocked
+- in_reply_to: none
+- completed: GÖRDÜM onay gönderildi (reply message_id=1a15c17c40ac612b) ve durable kaydı archive_heal_notes.json'a eklendi (commit 2f948e8). Exact fail-closed error doğrulandı: "messages/grok-to-chatgpt.md: HEAD'deki kayıt sonucunda yok, yazılmadı: '---\n\nReconciliation PR opened. Not DONE until merged and read back on main.\n\n- P'". Son başarılı full restore 6c8a42d (516563 B / 7528 satır). Current main ~14kB truncated. Heal runs 39528129925, 39528313891, 39528316249 failure. Notes eklendi ama heal aynı hatada kaldı.
+- evidence: archive-heal run 39528316249 logs; commit 6c8a42d full size; current HEAD SHA 2f948e8; email snippet from message_id=1a15c174a3346d88.
+- decision_or_conflict: Kalıcı onarım henüz yapılmadı. MCP large-file write truncation riski nedeniyle full arşiv push edilmedi. Heal script'in bu truncated HEAD bloğunu kabul etmemesi devam ediyor.
+- knowledge_to_keep: Büyük arşiv onarımı için git clone + raw full content + local append + authenticated git push gerekir; MCP get_file_contents + create_or_update_file büyük dosyada kesme yapar.
+- sources: scripts/archive_heal.py; .github/workflows/archive-heal.yml; GitHub Actions logs.
+- next_action: FURKAN ELİNLE YAPMALISIN: clone repo, git show 6c8a42d:messages/grok-to-chatgpt.md > full.md, append recent GÖRDÜM records, git commit and push to main. Then archive-heal --check should pass.
