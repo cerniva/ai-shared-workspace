@@ -10,6 +10,7 @@ class SentinelTests(unittest.TestCase):
     def test_embedded_sentinels_are_bogus(self):
         for line in [
             "SEE_FILE",
+            "CONTENT_FROM_FILE",
             "_WILL_FIX",
             "WILL_FIX",
             "$(cat /tmp/x.md)",
@@ -24,6 +25,7 @@ class SentinelTests(unittest.TestCase):
 
     def test_mentions_inside_real_records_are_kept(self):
         for line in [
+            "evidence: CONTENT_FROM_FILE replaced the archive",
             "evidence: live main still had FULL_CONTENT_WILL_BE_REPLACED, THE_CONTENT_FROM_TMP_FILE",
             "- completed: üç sahte satır (THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE) silindi",
             "## RPT-20261010-1451",
@@ -39,6 +41,12 @@ class SentinelTests(unittest.TestCase):
     def test_drop_bogus_keeps_real_lines(self):
         text = "## A\nreal FULL_CONTENT_WILL_BE_REPLACED mention\nFULL_CONTENT_WILL_BE_REPLACED\n\n## B\nok\n"
         self.assertEqual(ah.drop_bogus(text), "## A\nreal FULL_CONTENT_WILL_BE_REPLACED mention\n\n## B\nok\n")
+
+    def test_content_from_file_overwrite_rebuild(self):
+        complete = "# Grok → ChatGPT\n\n---\nid: MSG-1\n\nbody: preserved\n"
+        self.assertTrue(ah.has_bogus_head("CONTENT_FROM_FILE"))
+        self.assertEqual(ah.drop_bogus("CONTENT_FROM_FILE"), "")
+        self.assertEqual(ah.rebuild([complete, "CONTENT_FROM_FILE"]), complete)
 
     def test_current_archives_pass_check(self):
         root = Path(__file__).resolve().parents[1]
