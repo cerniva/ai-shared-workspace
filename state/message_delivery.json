@@ -10609,8 +10609,8 @@
     "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi": {
       "id": "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi",
       "channel": "grok-to-chatgpt",
-      "status": "delayed",
-      "updated_at": "2026-10-22T13:21:10+03:00",
+      "status": "seen",
+      "updated_at": "2026-10-22T14:18:35+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -10620,10 +10620,11 @@
       "created_at": "2026-10-22T12:24:00+03:00",
       "transitions_emitted": [
         "pending",
-        "delayed"
+        "delayed",
+        "seen"
       ],
       "pending_at": "2026-10-22T12:24:00+03:00",
-      "delayed_at": "2026-10-22T13:21:10+03:00"
+      "seen_at": "2026-10-22T14:18:35+03:00"
     }
   },
   "events": [
@@ -23103,6 +23104,17 @@
       "at": "2026-10-22T13:21:10+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:seen",
+      "message_id": "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi",
+      "transition": "seen",
+      "notify": "grok",
+      "reason": "report-read",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-22T14:18:35+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -24239,6 +24251,7 @@
     "MSG-20261022-1224-grok-gordum-ingilizce-ders69:seen",
     "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:pending",
     "RPT-20261022-1224-grok-ingilizce-ders69-truncated:delayed",
-    "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:delayed"
+    "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:delayed",
+    "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:seen"
   ]
 }
