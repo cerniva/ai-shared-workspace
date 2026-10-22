@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "CI-39755405014",
+      "task": "CI failure in 'archive-heal' run 39755405014: jobs heal[Heal archives from git history (fail-closed)]; first error: Traceback (most recent call last):",
+      "source": "ci-bekci",
+      "ts": "2026-10-22T09:28:14+00:00"
+    }
+  ]
+}
