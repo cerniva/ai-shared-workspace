@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 175,
     "answered": 81,
     "delayed": 300
   },
-  "event_count": 1135,
+  "event_count": 1136,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1152,19 +1152,22 @@
     "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:pending",
     "RPT-20261022-1224-grok-ingilizce-ders69-truncated:delayed",
     "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:delayed",
-    "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:seen"
+    "MSG-20261022-1224-grok-gordum-bilgi-kutuphanesi:seen",
+    "MSG-20261022-1530-grok-gördüm-ingilizce72:pending"
   ],
-  "new_event_keys": [],
+  "new_event_keys": [
+    "MSG-20261022-1530-grok-gördüm-ingilizce72:pending"
+  ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T15:19:24+03:00",
+  "checked_at": "2026-10-22T15:32:16+03:00",
   "historical_counts": {
-    "pending": 0,
+    "pending": 1,
     "seen": 175,
     "answered": 81,
     "delayed": 301
   },
   "counts_scope": "active message/report source IDs only; historical_counts preserves full ledger totals",
-  "active_source_id_count": 829,
+  "active_source_id_count": 830,
   "normalized_by": "scripts/desk_health_normalize.py"
 }
