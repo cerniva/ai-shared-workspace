@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 3,
-    "seen": 177,
+    "pending": 2,
+    "seen": 178,
     "answered": 81,
     "delayed": 302
   },
-  "event_count": 1146,
+  "event_count": 1147,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1163,19 +1163,18 @@
     "RPT-20261022-1853-grok-sistem-gelistirmeleri-status:delayed",
     "MSG-20261022-2223-grok-seen-video-shopify:pending",
     "MSG-20261022-2226-grok-video-shopify-report:pending",
-    "RPT-20261022-2225-grok-video-shopify-status:pending"
+    "RPT-20261022-2225-grok-video-shopify-status:pending",
+    "MSG-20261022-2223-grok-seen-video-shopify:seen"
   ],
   "new_event_keys": [
-    "MSG-20261022-2223-grok-seen-video-shopify:pending",
-    "MSG-20261022-2226-grok-video-shopify-report:pending",
-    "RPT-20261022-2225-grok-video-shopify-status:pending"
+    "MSG-20261022-2223-grok-seen-video-shopify:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T22:25:52+03:00",
+  "checked_at": "2026-10-22T22:26:59+03:00",
   "historical_counts": {
-    "pending": 3,
-    "seen": 177,
+    "pending": 2,
+    "seen": 178,
     "answered": 81,
     "delayed": 303
   },
