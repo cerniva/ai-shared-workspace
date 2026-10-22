@@ -10724,8 +10724,8 @@
     "MSG-20261022-2226-grok-video-shopify-report": {
       "id": "MSG-20261022-2226-grok-video-shopify-report",
       "channel": "grok-to-chatgpt",
-      "status": "pending",
-      "updated_at": "2026-10-22T22:25:51+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-22T23:16:14+03:00",
       "alerted": true,
       "from": "grok",
       "to": "chatgpt",
@@ -10734,15 +10734,17 @@
       "in_reply_to": "gmail-[Task Update] Video ve Shopify Otomasyonu message_id=1a1650ff80040d33",
       "created_at": "2026-10-22T22:26:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-22T22:26:00+03:00"
+      "pending_at": "2026-10-22T22:26:00+03:00",
+      "delayed_at": "2026-10-22T23:16:14+03:00"
     },
     "RPT-20261022-2225-grok-video-shopify-status": {
       "id": "RPT-20261022-2225-grok-video-shopify-status",
       "channel": "team-reports",
-      "status": "pending",
-      "updated_at": "2026-10-22T22:25:52+03:00",
+      "status": "delayed",
+      "updated_at": "2026-10-22T23:16:14+03:00",
       "alerted": true,
       "from": "grok",
       "to": "team",
@@ -10751,9 +10753,11 @@
       "in_reply_to": "none",
       "created_at": "2026-10-22T22:25:00+03:00",
       "transitions_emitted": [
-        "pending"
+        "pending",
+        "delayed"
       ],
-      "pending_at": "2026-10-22T22:25:00+03:00"
+      "pending_at": "2026-10-22T22:25:00+03:00",
+      "delayed_at": "2026-10-22T23:16:14+03:00"
     }
   },
   "events": [
@@ -23376,6 +23380,28 @@
       "at": "2026-10-22T22:26:58+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261022-2226-grok-video-shopify-report:delayed",
+      "message_id": "MSG-20261022-2226-grok-video-shopify-report",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-22T23:16:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "RPT-20261022-2225-grok-video-shopify-status:delayed",
+      "message_id": "RPT-20261022-2225-grok-video-shopify-status",
+      "transition": "delayed",
+      "notify": "team",
+      "reason": "unread-or-unanswered",
+      "channel": "team-reports",
+      "at": "2026-10-22T23:16:14+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -24525,6 +24551,8 @@
     "MSG-20261022-2223-grok-seen-video-shopify:pending",
     "MSG-20261022-2226-grok-video-shopify-report:pending",
     "RPT-20261022-2225-grok-video-shopify-status:pending",
-    "MSG-20261022-2223-grok-seen-video-shopify:seen"
+    "MSG-20261022-2223-grok-seen-video-shopify:seen",
+    "MSG-20261022-2226-grok-video-shopify-report:delayed",
+    "RPT-20261022-2225-grok-video-shopify-status:delayed"
   ]
 }
