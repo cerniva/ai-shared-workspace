@@ -68,8 +68,18 @@ def check_captions(path: Path, seconds: float) -> None:
         if start < previous_end - 0.01 or end <= start or end > seconds + 0.10:
             raise ValueError("caption cues overlap, are invalid, or run beyond clip")
         previous_end = end
-    if _time(cues[0][0]) > 3.0:
+    # Conservative timeline coverage only; spoken-word sync still requires independent QA.
+    max_uncovered_seconds = 3.0
+    if _time(cues[0][0]) > max_uncovered_seconds:
         raise ValueError("captions do not start in first three seconds")
+    previous_end = 0.0
+    for start_text, end_text in cues:
+        start, end = _time(start_text), _time(end_text)
+        if start - previous_end > max_uncovered_seconds:
+            raise ValueError("caption timeline has uncovered gap; transcript review required")
+        previous_end = end
+    if seconds - previous_end > max_uncovered_seconds:
+        raise ValueError("caption timeline has uncovered ending; transcript review required")
 
 
 def validate_rights(source: Path, captions: Path, record: Path, language: str) -> dict:
