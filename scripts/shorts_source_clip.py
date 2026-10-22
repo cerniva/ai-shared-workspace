@@ -160,8 +160,10 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         raise ValueError("source, captions and rights evidence must be existing local files")
     if source == output:
         raise ValueError("cannot overwrite source video")
-    if source.suffix.lower() not in {".mp4", ".mov", ".mkv", ".webm", ".m4v"}:
+    if source.suffix.lower() not in {".mp4", ".mov", ".mkv", ".webm", ".m4v", ".ogv"}:
         raise ValueError("source must be a local video file")
+    if output.exists():
+        raise ValueError("output already exists; refusing to overwrite")
     if captions.suffix.lower() != ".srt" or output.suffix.lower() != ".mp4":
         raise ValueError("captions must be SRT and output must be MP4")
     if not all(math.isfinite(x) for x in (start, seconds)) or start < 0 or not 30 <= seconds <= 40:
@@ -189,7 +191,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
                 "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
                 "format=yuv420p,subtitles=captions.srt")
-        command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+        command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-n",
                    "-ss", f"{start:.3f}", "-i", str(source), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "22",
