@@ -1168,13 +1168,10 @@
     "MSG-20261022-2226-grok-video-shopify-report:delayed",
     "RPT-20261022-2225-grok-video-shopify-status:delayed"
   ],
-  "new_event_keys": [
-    "MSG-20261022-2226-grok-video-shopify-report:delayed",
-    "RPT-20261022-2225-grok-video-shopify-status:delayed"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T23:16:14+03:00",
+  "checked_at": "2026-10-23T00:18:02+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 178,
