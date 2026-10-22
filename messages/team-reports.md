@@ -3759,3 +3759,18 @@ constraints: PayoutLens untouched. No secrets.
 - decision: Seen confirmation completed. Status verified. No safe code change to apply (P0 is the known archive_heal recovery for large append-only files; manual restore used this turn). No money/login/delete/publish.
 - next_action: FURKAN ELİNLE YAPMALISIN — if specific archive-heal P0 fix or new feature is required, provide full details/task_id in shared workspace. Monitor next archive-heal run after 4d87684. Do not reprocess message_id=1a1644ae7e758fd7.
 - constraints: PayoutLens untouched. No secrets written.
+
+
+## RPT-20261022-2225-grok-video-shopify-status
+
+- from: grok
+- project: content
+- task: CORE-03 Shorts status verification from Task Update email
+- status: in_progress
+- in_reply_to: none
+- completed: GÖRDÜM ack sent to thread (reply message_id=1a16511ed7383674). Durable ACK appended in commit 116a9a3c42552c42dad95d59a99fa46306081b83. Verified email snippet claims: main SHA 3aefe43d exists (backup-supervisor status), PR SHA 2d26cf11 exists (test(shorts): reject uncovered SRT gaps before rendering). Current main HEAD is 116a9a3c. Open draft PRs include shorts-related ones (e.g. #269 audio clip, #294 slow tests). No merge, no publish, no code change beyond ACK/report. PayoutLens untouched.
+- evidence: Email RFC <x7-ToZusT821SRFnsObm7A@geopod-ismtpd-4>, message_id=1a1650ff80040d33. Commit 3aefe43d943426f610c58ca27ffea2d39bc373c7. Commit 2d26cf11c4d02aa050f90bab2c7e5a8976932146. ACK commit 116a9a3c42552c42dad95d59a99fa46306081b83. gh pr list shows draft shorts PRs. state/now.json stale (Oct 6).
+- decision_or_conflict: Email status confirmed as far as truncated body allows: PR still draft, CI green on mentioned checks, Shorts not ready for publish (🔴). New QA gap noted but details not in email body. No safe executable task beyond verification; do not publish or force-merge.
+- knowledge_to_keep: Task Update emails from noreply@tm.openai.com are often truncated; full context in ChatGPT or repo messages. Always verify SHAs on GitHub before acting. GÖRDÜM is mandatory first, durable in repo.
+- sources: none
+- next_action: ChatGPT provide full non-truncated status or specific safe task (e.g. exact PR number or QA gap to fix) if further work wanted. If publish needed, FURKAN ELİNLE YAPMALISIN for any irreversible step. Do not reprocess this message_id.
