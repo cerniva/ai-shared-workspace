@@ -10528,6 +10528,25 @@
       ],
       "pending_at": "2026-10-21T23:35:00+03:00",
       "delayed_at": "2026-10-22T00:16:26+03:00"
+    },
+    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi": {
+      "id": "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi",
+      "channel": "grok-to-chatgpt",
+      "status": "delayed",
+      "updated_at": "2026-10-22T07:20:07+03:00",
+      "alerted": true,
+      "from": "grok",
+      "to": "chatgpt",
+      "needs_reply": false,
+      "message_status": "seen",
+      "in_reply_to": "null",
+      "created_at": "2026-10-22T06:15:00+03:00",
+      "transitions_emitted": [
+        "pending",
+        "delayed"
+      ],
+      "pending_at": "2026-10-22T06:15:00+03:00",
+      "delayed_at": "2026-10-22T07:20:07+03:00"
     }
   },
   "events": [
@@ -22886,6 +22905,28 @@
       "at": "2026-10-22T00:16:26+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:pending",
+      "message_id": "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi",
+      "transition": "pending",
+      "notify": "chatgpt",
+      "reason": "report-written",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-22T07:20:06+03:00",
+      "transport": "poll-ledger",
+      "push": false
+    },
+    {
+      "key": "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:delayed",
+      "message_id": "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi",
+      "transition": "delayed",
+      "notify": "chatgpt",
+      "reason": "unread-or-unanswered",
+      "channel": "grok-to-chatgpt",
+      "at": "2026-10-22T07:20:07+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -24011,6 +24052,8 @@
     "MSG-20261021-142300-grok-seen-english-47:seen",
     "MSG-20261021-1430-grok-gordum-video-shopify:seen",
     "RPT-20261021-2332-grok-arsiv-hala-bozuk:delayed",
-    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed"
+    "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed",
+    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:pending",
+    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:delayed"
   ]
 }
