@@ -10548,6 +10548,23 @@
       ],
       "pending_at": "2026-10-22T06:15:00+03:00",
       "seen_at": "2026-10-22T08:19:11+03:00"
+    },
+    "RPT-20261022-0921-grok-ingilizce-ders66-truncated": {
+      "id": "RPT-20261022-0921-grok-ingilizce-ders66-truncated",
+      "channel": "team-reports",
+      "status": "pending",
+      "updated_at": "2026-10-22T09:23:34+03:00",
+      "alerted": true,
+      "from": "Grok",
+      "to": "team",
+      "needs_reply": false,
+      "message_status": "blocked / truncated-email-no-task-id",
+      "in_reply_to": "none",
+      "created_at": "2026-10-22T09:21:00+03:00",
+      "transitions_emitted": [
+        "pending"
+      ],
+      "pending_at": "2026-10-22T09:21:00+03:00"
     }
   },
   "events": [
@@ -22939,6 +22956,17 @@
       "at": "2026-10-22T08:19:11+03:00",
       "transport": "poll-ledger",
       "push": false
+    },
+    {
+      "key": "RPT-20261022-0921-grok-ingilizce-ders66-truncated:pending",
+      "message_id": "RPT-20261022-0921-grok-ingilizce-ders66-truncated",
+      "transition": "pending",
+      "notify": "team",
+      "reason": "report-written",
+      "channel": "team-reports",
+      "at": "2026-10-22T09:23:34+03:00",
+      "transport": "poll-ledger",
+      "push": false
     }
   ],
   "event_keys": [
@@ -24067,6 +24095,7 @@
     "RPT-20261021-2335-grok-ingilizce-ders56-truncated:delayed",
     "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:pending",
     "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:delayed",
-    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:seen"
+    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:seen",
+    "RPT-20261022-0921-grok-ingilizce-ders66-truncated:pending"
   ]
 }
