@@ -11,12 +11,12 @@
   "schedule_is_best_effort": true,
   "delay_threshold_minutes": 30,
   "counts": {
-    "pending": 2,
-    "seen": 173,
+    "pending": 1,
+    "seen": 174,
     "answered": 81,
     "delayed": 299
   },
-  "event_count": 1130,
+  "event_count": 1131,
   "event_keys": [
     "MSG-20260926-141900-grok-payments-read:delayed",
     "MSG-20260926-165200-grok-core04:delayed",
@@ -1147,18 +1147,18 @@
     "RPT-20261022-0921-grok-ingilizce-ders66-truncated:pending",
     "RPT-20261022-0921-grok-ingilizce-ders66-truncated:delayed",
     "MSG-20261022-1224-grok-gordum-ingilizce-ders69:pending",
-    "RPT-20261022-1224-grok-ingilizce-ders69-truncated:pending"
+    "RPT-20261022-1224-grok-ingilizce-ders69-truncated:pending",
+    "MSG-20261022-1224-grok-gordum-ingilizce-ders69:seen"
   ],
   "new_event_keys": [
-    "MSG-20261022-1224-grok-gordum-ingilizce-ders69:pending",
-    "RPT-20261022-1224-grok-ingilizce-ders69-truncated:pending"
+    "MSG-20261022-1224-grok-gordum-ingilizce-ders69:seen"
   ],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T12:26:02+03:00",
+  "checked_at": "2026-10-22T12:26:18+03:00",
   "historical_counts": {
-    "pending": 2,
-    "seen": 173,
+    "pending": 1,
+    "seen": 174,
     "answered": 81,
     "delayed": 300
   },
