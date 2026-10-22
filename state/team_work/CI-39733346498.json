@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-39733346498",
+  "source": "ci-bekci",
+  "run_id": "39733433084",
+  "task": "CI failure in 'archive-heal' run 39733346498: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1.",
+  "generated_at": "2026-10-22T06:22:05+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-39733346498",
+    "evidence": [
+      {
+        "path": ".github/workflows/archive-heal.yml",
+        "description": "CI workflow 'archive-heal' run 39733346498 job 'heal[Commit healed archives only]' failed with exit code 1."
+      }
+    ],
+    "factual_findings": [
+      "Workflow run 39733346498 associated with '.github/workflows/archive-heal.yml' failed during job 'heal[Commit healed archives only]'.",
+      "The job reported 'Process completed with exit code 1'."
+    ],
+    "hypotheses": [
+      "The step in '.github/workflows/archive-heal.yml' executed a git commit command that failed because no changes were staged or detected.",
+      "A script invoked by job 'heal[Commit healed archives only]' in '.github/workflows/archive-heal.yml' encountered an unhandled error or missing dependency."
+    ],
+    "recommendation": "Inspect '.github/workflows/archive-heal.yml' to locate the exact command for 'Commit healed archives only' and review the detailed stdout/stderr logs from run 39733346498.",
+    "confidence": 0.7,
+    "next_action": "Read '.github/workflows/archive-heal.yml' to examine the job definition and step commands for 'heal[Commit healed archives only]'.",
+    "timing": {
+      "started_at": "2026-10-22T06:22:06.055992+00:00",
+      "duration_ms": 8955
+    },
+    "usage": {
+      "input_tokens": 137,
+      "output_tokens": 327,
+      "total_tokens": 1907
+    }
+  }
+}
