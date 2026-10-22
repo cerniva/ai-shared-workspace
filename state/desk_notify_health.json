@@ -1166,12 +1166,10 @@
     "RPT-20261022-2225-grok-video-shopify-status:pending",
     "MSG-20261022-2223-grok-seen-video-shopify:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261022-2223-grok-seen-video-shopify:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T22:26:59+03:00",
+  "checked_at": "2026-10-22T22:27:16+03:00",
   "historical_counts": {
     "pending": 2,
     "seen": 178,
