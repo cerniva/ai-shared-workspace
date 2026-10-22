@@ -1156,12 +1156,10 @@
     "MSG-20261022-1530-grok-gördüm-ingilizce72:pending",
     "MSG-20261022-1530-grok-gördüm-ingilizce72:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261022-1530-grok-gördüm-ingilizce72:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T16:31:49+03:00",
+  "checked_at": "2026-10-22T17:22:41+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 176,
