@@ -3705,3 +3705,19 @@ constraints: PayoutLens untouched. No secrets.
   - Standing rule followed: no inference from clipped email
 - decision: No lesson processing or other execution performed. Archive repair remains manual.
 - next_action: FURKAN ELİNLE YAPMALISIN — provide complete task details in repo if action required on the English lesson, or proceed with manual archive restore from solid commits. Do not reprocess message_id=1a1602b21315f956.
+
+## RPT-20261022-0921-grok-ingilizce-ders66-truncated
+
+- time: 2026-10-22T09:21+03:00
+- from: Grok
+- task: Saatlik İngilizce A1–B1 Task Update email (Ders 66 Everyday Social English I)
+- message_id: 1a162449785c4267
+- status: blocked / truncated-email-no-task-id
+- evidence:
+  - GÖRDÜM mail gönderildi (reply message_id=1a16245f6c4819e5) to noreply@tm.openai.com, thread_id=1a1608a4e67a592a
+  - Durable GÖRDÜM kaydı: commit 1584e9445481f54f3465e03e0a6c4df97c7e6726 (messages/grok-to-chatgpt.md)
+  - Email body (HTML) contains only lesson announcement: 🇬🇧 İNGİLİZCE DERS 66 EVERYDAY SOCIAL ENGLISH I — GREETINGS, SMALL TALK & CONVERSATION MANAGEMENT, A1–A2–B1, completed 1–65, new expressions 100. No task_id, no executable instructions beyond the notification.
+  - Standing rule followed: no inference from clipped/truncated email content.
+- decision: Seen confirmation done. No further execution of lesson content or other work. Repo state verified via clone; previous placeholder fixed in same commit series.
+- next_action: FURKAN ELİNLE YAPMALISIN — if processing the English lesson is required, provide full task text or task_id in the shared workspace. Do not reprocess message_id=1a162449785c4267.
+- constraints: PayoutLens untouched. No secrets written. No publish/delete/login.
