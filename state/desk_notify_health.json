@@ -1145,12 +1145,10 @@
     "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:delayed",
     "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:seen"
   ],
-  "new_event_keys": [
-    "MSG-20261022-0615-grok-gordum-bilgi-kutuphanesi:seen"
-  ],
+  "new_event_keys": [],
   "delivery_path": "state/message_delivery.json",
   "read_path": "state/inbox_read.json",
-  "checked_at": "2026-10-22T08:19:12+03:00",
+  "checked_at": "2026-10-22T09:18:19+03:00",
   "historical_counts": {
     "pending": 0,
     "seen": 173,
