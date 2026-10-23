@@ -9,6 +9,14 @@ on:
       - 'tests/test_shorts_learnings_applied.py'
       - 'knowledge/learning_ledger.json'
       - 'knowledge/source_catalog.json'
+      - 'tests/fixtures/shorts_real_smoke_ice_float.json'
+      - 'scripts/shorts_media.py'
+      - 'scripts/shorts_free_pipeline.py'
+      - 'scripts/shorts_render.py'
+      - 'scripts/shorts_research.py'
+      - 'scripts/shorts_preflight.py'
+      - 'tests/test_shorts_free_pipeline.py'
+      - 'tests/test_shorts_media.py'
   push:
     paths:
       - '.github/workflows/shorts-free-smoke-once.yml'
