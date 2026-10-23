@@ -181,22 +181,28 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         raise ValueError("start must be nonnegative and clip duration 30–40 seconds")
     if not re.fullmatch(r"[A-Za-z]{2}(?:-[A-Za-z]{2})?", language):
         raise ValueError("language must be a BCP-47 language tag, e.g. en or tr")
-    validate_rights(source, captions, evidence_file, language)
+    rights = validate_rights(source, captions, evidence_file, language)
     check_captions(captions, seconds)
     for binary in ("ffmpeg", "ffprobe"):
         if not shutil.which(binary):
             raise RuntimeError(f"missing required free binary: {binary}")
-    source_info = _probe(source)
-    if _duration(source_info) + 0.05 < start + seconds:
-        raise ValueError("requested clip extends beyond source duration")
-    streams = source_info.get("streams", [])
-    if not any(s.get("codec_type") == "video" and s.get("width", 0) and s.get("height", 0) for s in streams):
-        raise ValueError("source is missing real video")
-    if not any(s.get("codec_type") == "audio" for s in streams):
-        raise ValueError("source has no original audio to preserve")
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="licensed-short-", dir=str(output.parent)) as tmp:
         work = Path(tmp)
+        # Source paths can change between rights validation and FFmpeg opening them.
+        # Render only a private snapshot whose bytes match the licensed SHA-256.
+        snapshot = work / ("source" + source.suffix.lower())
+        shutil.copyfile(source, snapshot)
+        if file_sha256(snapshot) != rights["source_sha256"]:
+            raise ValueError("source changed during rights-checked snapshot; render blocked")
+        source_info = _probe(snapshot)
+        if _duration(source_info) + 0.05 < start + seconds:
+            raise ValueError("requested clip extends beyond source duration")
+        streams = source_info.get("streams", [])
+        if not any(s.get("codec_type") == "video" and s.get("width", 0) and s.get("height", 0) for s in streams):
+            raise ValueError("source is missing real video")
+        if not any(s.get("codec_type") == "audio" for s in streams):
+            raise ValueError("source has no original audio to preserve")
         candidate = work / "candidate.mp4"
         shutil.copyfile(captions, work / "captions.srt")
         # Pad rather than crop: preserves people and objects when center-crop would cut them off.
@@ -204,7 +210,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
                 "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
                 "format=yuv420p,subtitles=captions.srt")
         command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-n",
-                   "-ss", f"{start:.3f}", "-i", str(source), "-t", f"{seconds:.3f}",
+                   "-ss", f"{start:.3f}", "-i", str(snapshot), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "22",
                    "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(candidate)]
@@ -238,7 +244,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         except FileExistsError as exc:
             raise ValueError("output appeared during render; refusing to overwrite") from exc
         return {"output": str(output), "output_sha256": file_sha256(output),
-                "source_sha256": file_sha256(source), "duration": actual,
+                "source_sha256": file_sha256(snapshot), "duration": actual,
                 "spoken_language": language, "caption_language": language,
                 "audio_source": "original_source", "synthetic_narration": False,
                 "motion_qc": motion["motion_qc"], "audio_qc": audio["audio_qc"],
