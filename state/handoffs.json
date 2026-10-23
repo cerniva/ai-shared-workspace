@@ -776,9 +776,10 @@
       "evidence": "ci-bekci dispatch CI-39755405014",
       "status": "open",
       "created_at": "2026-10-22T09:28:46+00:00",
-      "updated_at": "2026-10-22T09:28:59+00:00",
+      "updated_at": "2026-10-23T12:37:00+03:00",
       "notes": [
-        "2026-10-22T09:28:59+00:00 team-worker: research-learner (team-research): Update repository secrets with valid API credentials or refill quota for at least one supported provider (e.g., OpenAI, Gemini, or GitHub Models). Ensure state/provider_health.json reflects the restored status, then re-trigger CI run 39755405014. | sonraki: Verify and update API key credentials in GitHub Secrets and re-run workflow archive-heal run 39755405014."
+        "2026-10-22T09:28:59+00:00 team-worker: research-learner (team-research): Update repository secrets with valid API credentials or refill quota for at least one supported provider (e.g., OpenAI, Gemini, or GitHub Models). Ensure state/provider_health.json reflects the restored status, then re-trigger CI run 39755405014. | sonraki: Verify and update API key credentials in GitHub Secrets and re-run workflow archive-heal run 39755405014.",
+        "2026-10-23T12:37+03:00 chatgpt: PR #309 head a069a17ec1263c5c7ebd45bd608142d8f6a0dc9c worker-orchestration-tests run 39922885521 completed SUCCESS; CodeQL run 39922885549 SUCCESS; independent PR reviews=0; draft=true, mergeable=false; branch behind main by 9 commits (main 209ccabc5db8807d17cf3affb13749109fbb7669). Disposable-race regression passes; live archive-heal success NOT verified. Root cause remains concurrent append/rebase and record-boundary preservation. Next: independent review + safely reconcile branch with latest main, rerun CI on final head, verify live archive-heal read-back; no merge or production dispatch. PayoutLens excluded."
       ]
     },
     {
