@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -229,7 +230,13 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         audio = inspect_audio(candidate)
         if audio.get("audio_qc") != "PASS_TECHNICAL_ONLY":
             raise RuntimeError("audio QC_BLOCKED; final MP4 not created")
-        candidate.replace(output)
+        # The earlier exists() check is not atomic: another process could create
+        # the destination while FFmpeg/QC is running. Both files are on the same
+        # filesystem, so link() atomically fails instead of clobbering it.
+        try:
+            os.link(candidate, output)
+        except FileExistsError as exc:
+            raise ValueError("output appeared during render; refusing to overwrite") from exc
         return {"output": str(output), "output_sha256": file_sha256(output),
                 "source_sha256": file_sha256(source), "duration": actual,
                 "spoken_language": language, "caption_language": language,
