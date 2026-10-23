@@ -19,6 +19,12 @@ import tempfile
 from pathlib import Path
 from urllib.parse import urlparse
 
+# Direct CLI invocation (python scripts/shorts_source_clip.py) sets sys.path[0]
+# to scripts/, so restore the repository root for scripts.* QC imports.
+if __package__ in (None, ""):
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 
 TIME_RE = re.compile(r"^(\d{2}):(\d{2}):(\d{2}),(\d{3})$")
 CUE_RE = re.compile(r"(?m)^(\d{2}:\d{2}:\d{2},\d{3})\s+-->\s+(\d{2}:\d{2}:\d{2},\d{3})")
@@ -203,8 +209,10 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         if _duration(source_info) + 0.05 < start + seconds:
             raise ValueError("requested clip extends beyond source duration")
         streams = source_info.get("streams", [])
-        if not any(s.get("codec_type") == "video" and s.get("width", 0) and s.get("height", 0) for s in streams):
-            raise ValueError("source is missing real video")
+        source_video_tracks = [s for s in streams if s.get("codec_type") == "video"]
+        if (len(source_video_tracks) != 1 or not source_video_tracks[0].get("width")
+                or not source_video_tracks[0].get("height")):
+            raise ValueError("source must have exactly one unambiguous video track")
         # The first audio track is not necessarily the spoken-language track.
         # Never silently choose one from multiple tracks: it may contain a
         # different language, commentary or music with separate rights.
