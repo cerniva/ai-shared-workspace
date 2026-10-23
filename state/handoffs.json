@@ -778,6 +778,17 @@
       "notes": [
         "2026-10-22T09:28:59+00:00 team-worker: research-learner (team-research): Update repository secrets with valid API credentials or refill quota for at least one supported provider (e.g., OpenAI, Gemini, or GitHub Models). Ensure state/provider_health.json reflects the restored status, then re-trigger CI run 39755405014. | sonraki: Verify and update API key credentials in GitHub Secrets and re-run workflow archive-heal run 39755405014."
       ]
+    },
+    {
+      "id": "HO-IMP-20261023-slow-archive-heal",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/archive-heal.yml] .github/workflows/archive-heal.yml workflow'undaki 68 saniyelik medyan süreyi düşürmek amacıyla, pip ve apt bağımlılık paketlerinin tekrarlı indirilmesini önlemek için 'actions/cache' adımı eklenmeli, ilgisiz kod değişikliklerinde workflow'un gereksiz çalışmasını önlemek için 'paths' filtresi tanımlanmalı ve birbiriyle bağımsız çalışan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi somut olarak kısaltılmalıdır.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261023 key=slow-archive-heal",
+      "status": "open",
+      "created_at": "2026-10-23T05:53:00+00:00",
+      "updated_at": "2026-10-23T05:53:00+00:00"
     }
   ]
 }
