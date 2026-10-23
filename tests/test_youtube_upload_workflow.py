@@ -46,5 +46,25 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn('repo_file(preflight, "preflight_path", ".json")', text)
 
 
+    def test_read_only_artifact_verification_dispatch_never_uploads(self):
+        """A real cross-run digest check must not require YouTube OAuth or upload."""
+        verifier = ROOT / ".github" / "workflows" / "verify-render-artifact-only.yml"
+        text = verifier.read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", text)
+        self.assertIn("render_run_id:", text)
+        self.assertIn("render_artifact_name:", text)
+        self.assertIn("contents: read", text)
+        self.assertIn("actions: read", text)
+        self.assertNotIn("contents: write", text)
+        self.assertNotIn("secrets.", text)
+        self.assertNotIn("scripts/youtube_upload.py", text)
+        self.assertNotIn("git push", text)
+        self.assertIn("scripts.verify_render_artifact", text)
+        self.assertIn("verified-render-artifact.json", text)
+        self.assertIn("learn_4decad368966e2e6", text)
+        self.assertIn("if-no-files-found: error", text)
+        self.assertIn("actions/upload-artifact@v4", text)
+
+
 if __name__ == "__main__":
     unittest.main()
