@@ -154,6 +154,21 @@ class DigestConsumerTests(unittest.TestCase):
         self.assertEqual(json.loads(stdout.getvalue()), decision)
         self.assertEqual((destination / "short.mp4").read_bytes(), b"video")
 
+        # The nonpublishing verifier must not claim YouTube upload consumption.
+        readonly_report = self.root / "readonly-verification.json"
+        readonly_destination = self.root / "readonly-render"
+        with patch("scripts.verify_render_artifact.fetch_metadata", return_value=artifact), \
+             patch("scripts.verify_render_artifact.subprocess.run", side_effect=fake_download), \
+             patch.dict(os.environ, {"GITHUB_REPOSITORY": "cerniva/ai-shared-workspace", "GITHUB_TOKEN": "test-token"}):
+            rc = main(["--run-id", "99", "--name", "shorts-free-render",
+                       "--destination", str(readonly_destination), "--report", str(readonly_report),
+                       "--consumer", "verify-render-artifact-only.yml:read_only"])
+        self.assertEqual(rc, 0)
+        readonly = json.loads(readonly_report.read_text(encoding="utf-8"))
+        self.assertEqual(readonly["consumer"], "verify-render-artifact-only.yml:read_only")
+        self.assertEqual(readonly["applied_learning_ids"], [LEARNING_ID])
+        self.assertEqual(readonly["artifact_digest"], self.digest)
+
     def test_main_mismatched_digest_never_writes_applied_learning_manifest(self):
         """Even with an active real learning, a bad digest cannot authorize consumption."""
         report = self.root / "verified-render-artifact.json"
