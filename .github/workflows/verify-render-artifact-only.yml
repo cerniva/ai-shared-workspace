@@ -48,6 +48,7 @@ jobs:
           RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
         run: |
           python3 -m scripts.verify_render_artifact \
+            --consumer "verify-render-artifact-only.yml:read_only" \
             --run-id "$RENDER_RUN_ID" \
             --name "$RENDER_ARTIFACT_NAME" \
             --destination "$RUNNER_TEMP/downloaded-render" \
