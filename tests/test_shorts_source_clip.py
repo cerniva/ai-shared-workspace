@@ -5,6 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.shorts_source_clip import check_captions, file_sha256, render, validate_rights
 
@@ -34,6 +35,25 @@ class SourceClipTests(unittest.TestCase):
             "caption_language": "en",
         }
         self.evidence.write_text(json.dumps(self.data))
+
+    def test_source_mutation_after_rights_check_blocks_render(self):
+        # Simulate a source file being swapped after the original SHA was approved.
+        # FFmpeg must never open the replacement bytes or publish an output.
+        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\nHello world\\n")
+        original_validate = validate_rights
+
+        def swap_after_validation(*args):
+            evidence = original_validate(*args)
+            self.video.write_bytes(b"unlicensed replacement after hash check")
+            return evidence
+
+        output = self.root / "should-not-exist.mp4"
+        with patch("scripts.shorts_source_clip.validate_rights", side_effect=swap_after_validation), \\
+             patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"):
+            with self.assertRaisesRegex(ValueError, "source changed during rights-checked snapshot"):
+                render(self.video, self.srt, self.evidence, output,
+                       start=0, seconds=30, language="en")
+        self.assertFalse(output.exists())
 
     def test_valid_rights_record(self):
         self.assertEqual(validate_rights(self.video, self.srt, self.evidence, "en")["spoken_language"], "en")
