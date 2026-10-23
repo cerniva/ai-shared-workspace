@@ -1,0 +1,74 @@
+name: Verify cross-run Shorts artifact (no upload)
+
+on:
+  workflow_dispatch:
+    inputs:
+      render_run_id:
+        description: "Existing Shorts render workflow run ID"
+        required: true
+        type: string
+      render_artifact_name:
+        description: "Artifact name from the render run"
+        required: true
+        default: shorts-free-render
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Validate requested artifact
+        env:
+          RENDER_RUN_ID: ${{ inputs.render_run_id }}
+          RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          run_id = os.environ["RENDER_RUN_ID"]
+          name = os.environ["RENDER_ARTIFACT_NAME"]
+          if not re.fullmatch(r"[1-9][0-9]{0,19}", run_id):
+              raise SystemExit("render_run_id must be a positive numeric GitHub Actions run ID")
+          if name.startswith(".") or not re.fullmatch(r"[A-Za-z0-9._-]{1,120}", name):
+              raise SystemExit("render_artifact_name must be a visible simple artifact name")
+          PY
+
+      - name: Verify digest, consume learning, and read back
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RENDER_RUN_ID: ${{ inputs.render_run_id }}
+          RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
+        run: |
+          python3 -m scripts.verify_render_artifact \
+            --run-id "$RENDER_RUN_ID" \
+            --name "$RENDER_ARTIFACT_NAME" \
+            --destination "$RUNNER_TEMP/downloaded-render" \
+            --report "$RUNNER_TEMP/verified-render-artifact.json"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"])
+          report = json.loads((root / "verified-render-artifact.json").read_text(encoding="utf-8"))
+          assert report["status"] == "PASS"
+          assert report["applied_learning_ids"] == ["learn_4decad368966e2e6"]
+          assert report["source_ids"] == ["src_569c596da7048714"]
+          assert (root / "downloaded-render" / "short.mp4").is_file()
+          assert (root / "downloaded-render" / "preflight.json").is_file()
+          assert (root / "downloaded-render" / "bundle" / "render.json").is_file()
+          PY
+
+      - name: Persist read-only verification evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-render-integrity-${{ github.run_id }}
+          path: ${{ runner.temp }}/verified-render-artifact.json
+          if-no-files-found: error
