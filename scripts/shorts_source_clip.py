@@ -225,11 +225,16 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         motion = inspect_motion(candidate)
         if motion.get("motion_qc") != "PASS_TECHNICAL_ONLY":
             raise RuntimeError("motion QC_BLOCKED; final MP4 not created")
+        from scripts.shorts_audio_qc import inspect as inspect_audio
+        audio = inspect_audio(candidate)
+        if audio.get("audio_qc") != "PASS_TECHNICAL_ONLY":
+            raise RuntimeError("audio QC_BLOCKED; final MP4 not created")
         candidate.replace(output)
         return {"output": str(output), "output_sha256": file_sha256(output),
                 "source_sha256": file_sha256(source), "duration": actual,
                 "spoken_language": language, "caption_language": language,
                 "audio_source": "original_source", "synthetic_narration": False,
+                "motion_qc": motion["motion_qc"], "audio_qc": audio["audio_qc"],
                 "publish_ready": False, "rights_review_pending": True,
                 "independent_media_review_pending": True, "credits_spent": 0}
 
