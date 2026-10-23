@@ -52,7 +52,7 @@ jobs:
             python3 scripts/archive_heal.py || exit 1
             python3 scripts/archive_heal.py --check || exit 1
             git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md
-            if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\\.md|messages/team-reports\\.md|knowledge/lessons\\.md)$'; then
+            if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\.md|messages/team-reports\.md|knowledge/lessons\.md)$'; then
               echo 'unexpected staged path'; exit 1
             fi
             git diff --cached --quiet && exit 0
