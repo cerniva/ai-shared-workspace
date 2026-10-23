@@ -786,9 +786,15 @@
       "task": "[.github/workflows/archive-heal.yml] .github/workflows/archive-heal.yml workflow'undaki 68 saniyelik medyan süreyi düşürmek amacıyla, pip ve apt bağımlılık paketlerinin tekrarlı indirilmesini önlemek için 'actions/cache' adımı eklenmeli, ilgisiz kod değişikliklerinde workflow'un gereksiz çalışmasını önlemek için 'paths' filtresi tanımlanmalı ve birbiriyle bağımsız çalışan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi somut olarak kısaltılmalıdır.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261023 key=slow-archive-heal",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-23T05:53:00+00:00",
-      "updated_at": "2026-10-23T05:53:00+00:00"
+      "updated_at": "2026-10-23T05:54:32+00:00",
+      "claimed_at": "2026-10-23T05:54:32+00:00",
+      "notes": [
+        "2026-10-23T05:54:32+00:00 auditor: team-worker devraldi",
+        "2026-10-23T05:54:32+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261023-slow-archive-heal.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
