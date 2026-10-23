@@ -1,4 +1,8 @@
 import hashlib
+import contextlib
+import json
+import os
+import subprocess
 import io
 from pathlib import Path
 import tempfile
@@ -6,7 +10,7 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, active_rule, verify_and_extract
+from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, active_rule, verify_and_extract, main
 
 
 def zipped(items):
@@ -92,6 +96,27 @@ class DigestConsumerTests(unittest.TestCase):
             catalog.return_value.find.return_value = {"evidence_tier": "unverified"}
             with self.assertRaisesRegex(ValueError, "official"):
                 active_rule()
+
+
+    def test_failed_download_never_logs_secret_or_applies_learning(self):
+        stderr = io.StringIO()
+        report = self.root / "report.json"
+        artifact = {
+            "id": 17, "digest": self.digest,
+            "archive_download_url": "https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/17/zip",
+        }
+        with patch("scripts.verify_render_artifact.active_rule", return_value={
+            "learning_id": LEARNING_ID, "source_ids": [SOURCE_ID],
+        }), patch("scripts.verify_render_artifact.fetch_metadata", return_value=artifact), \
+             patch("scripts.verify_render_artifact.subprocess.run", return_value=subprocess.CompletedProcess([], 22)), \
+             patch.dict(os.environ, {"GITHUB_REPOSITORY": "cerniva/ai-shared-workspace", "GITHUB_TOKEN": "test-secret-never-print"}), \
+             contextlib.redirect_stderr(stderr):
+            rc = main(["--run-id", "12", "--name", "shorts-free-render",
+                       "--destination", str(self.root / "downloaded"), "--report", str(report)])
+        self.assertEqual(rc, 3)
+        self.assertNotIn("test-secret-never-print", stderr.getvalue())
+        self.assertFalse(report.exists())
+        self.assertFalse((self.root / "downloaded").exists())
 
 
 if __name__ == "__main__":
