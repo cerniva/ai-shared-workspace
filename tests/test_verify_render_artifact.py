@@ -119,5 +119,67 @@ class DigestConsumerTests(unittest.TestCase):
         self.assertFalse((self.root / "downloaded").exists())
 
 
+    def test_main_success_persists_real_ledger_learning_decision(self):
+        """Exercise the real ledger/catalog, simulated download, manifest and read-back."""
+        report = self.root / "verified-render-artifact.json"
+        destination = self.root / "downloaded"
+        zip_bytes = self.zip_path.read_bytes()
+        artifact = {
+            "id": 23, "digest": self.digest,
+            "archive_download_url": "https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/23/zip",
+        }
+
+        def fake_download(argv, **kwargs):
+            Path(argv[argv.index("--output") + 1]).write_bytes(zip_bytes)
+            return subprocess.CompletedProcess(argv, 0)
+
+        stdout = io.StringIO()
+        with patch("scripts.verify_render_artifact.fetch_metadata", return_value=artifact), \
+             patch("scripts.verify_render_artifact.subprocess.run", side_effect=fake_download), \
+             patch.dict(os.environ, {"GITHUB_REPOSITORY": "cerniva/ai-shared-workspace", "GITHUB_TOKEN": "test-token"}), \
+             contextlib.redirect_stdout(stdout):
+            rc = main(["--run-id", "99", "--name", "shorts-free-render",
+                       "--destination", str(destination), "--report", str(report)])
+        self.assertEqual(rc, 0)
+        decision = json.loads(report.read_text(encoding="utf-8"))
+        self.assertEqual(decision["status"], "PASS")
+        self.assertEqual(decision["consumer"], "youtube-upload.yml:render_artifact")
+        self.assertEqual(decision["run_id"], 99)
+        self.assertEqual(decision["artifact_id"], 23)
+        self.assertEqual(decision["artifact_digest"], self.digest)
+        self.assertEqual(decision["decision_before"], "reject_unverified_cross_run_artifact")
+        self.assertEqual(decision["decision_after"], "accept_digest_verified_cross_run_artifact")
+        self.assertEqual(decision["applied_learning_ids"], [LEARNING_ID])
+        self.assertEqual(decision["source_ids"], [SOURCE_ID])
+        self.assertEqual(json.loads(stdout.getvalue()), decision)
+        self.assertEqual((destination / "short.mp4").read_bytes(), b"video")
+
+    def test_main_mismatched_digest_never_writes_applied_learning_manifest(self):
+        """Even with an active real learning, a bad digest cannot authorize consumption."""
+        report = self.root / "verified-render-artifact.json"
+        destination = self.root / "downloaded"
+        zip_bytes = self.zip_path.read_bytes()
+        artifact = {
+            "id": 24, "digest": "sha256:" + "0" * 64,
+            "archive_download_url": "https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/24/zip",
+        }
+
+        def fake_download(argv, **kwargs):
+            Path(argv[argv.index("--output") + 1]).write_bytes(zip_bytes)
+            return subprocess.CompletedProcess(argv, 0)
+
+        stderr = io.StringIO()
+        with patch("scripts.verify_render_artifact.fetch_metadata", return_value=artifact), \
+             patch("scripts.verify_render_artifact.subprocess.run", side_effect=fake_download), \
+             patch.dict(os.environ, {"GITHUB_REPOSITORY": "cerniva/ai-shared-workspace", "GITHUB_TOKEN": "test-token"}), \
+             contextlib.redirect_stderr(stderr):
+            rc = main(["--run-id", "100", "--name", "shorts-free-render",
+                       "--destination", str(destination), "--report", str(report)])
+        self.assertEqual(rc, 3)
+        self.assertIn("digest mismatch", stderr.getvalue())
+        self.assertFalse(report.exists())
+        self.assertFalse(destination.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
