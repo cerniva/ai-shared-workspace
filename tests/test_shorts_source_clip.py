@@ -55,6 +55,27 @@ class SourceClipTests(unittest.TestCase):
                        start=0, seconds=30, language="en")
         self.assertFalse(output.exists())
 
+    def test_caption_swap_during_snapshot_blocks_render(self):
+        # An attacker can replace the SRT between initial validation and copy.
+        # The renderer must validate the exact private SRT that FFmpeg reads.
+        import shutil
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nOriginal valid caption\n")
+        original_copy = shutil.copyfile
+
+        def swap_on_caption_copy(src, dst, *args, **kwargs):
+            if Path(src) == self.srt:
+                self.srt.write_text("1\n00:00:00,000 --> 00:00:20,000\nTampered\n\n"
+                                    "2\n00:00:19,000 --> 00:00:30,000\nOverlapping\n")
+            return original_copy(src, dst, *args, **kwargs)
+
+        output = self.root / "caption-swap-must-block.mp4"
+        with patch("scripts.shorts_source_clip.shutil.copyfile", side_effect=swap_on_caption_copy), \
+             patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"):
+            with self.assertRaisesRegex(ValueError, "caption cues overlap"):
+                render(self.video, self.srt, self.evidence, output,
+                       start=0, seconds=30, language="en")
+        self.assertFalse(output.exists())
+
     def test_valid_rights_record(self):
         self.assertEqual(validate_rights(self.video, self.srt, self.evidence, "en")["spoken_language"], "en")
 
