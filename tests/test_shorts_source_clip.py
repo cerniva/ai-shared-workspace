@@ -171,5 +171,25 @@ class SourceClipTests(unittest.TestCase):
                                      {"codec_type": "video", "duration": "32.0"}], 32)
 
 
+    def test_ambiguous_or_missing_source_audio_blocks_before_ffmpeg(self):
+        # Multi-track sources can put a different language or unlicensed music
+        # on 0:a:0; do not silently choose an arbitrary original audio track.
+        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\nHello world\\n")
+        for audio_count in (0, 2):
+            with self.subTest(audio_count=audio_count):
+                streams = [{"codec_type": "video", "width": 1920, "height": 1080}]
+                streams += [{"codec_type": "audio", "duration": "40.0"} for _ in range(audio_count)]
+                probe = {"format": {"duration": "40.0"}, "streams": streams}
+                output = self.root / f"no-audio-choice-{audio_count}.mp4"
+                with patch("scripts.shorts_source_clip._probe", return_value=probe), \\
+                     patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"), \\
+                     patch("scripts.shorts_source_clip.subprocess.run",
+                           side_effect=AssertionError("FFmpeg must not run")):
+                    with self.assertRaisesRegex(ValueError, "exactly one unambiguous"):
+                        render(self.video, self.srt, self.evidence, output,
+                               start=0, seconds=30, language="en")
+                self.assertFalse(output.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
