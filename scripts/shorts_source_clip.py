@@ -205,8 +205,12 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         streams = source_info.get("streams", [])
         if not any(s.get("codec_type") == "video" and s.get("width", 0) and s.get("height", 0) for s in streams):
             raise ValueError("source is missing real video")
-        if not any(s.get("codec_type") == "audio" for s in streams):
-            raise ValueError("source has no original audio to preserve")
+        # The first audio track is not necessarily the spoken-language track.
+        # Never silently choose one from multiple tracks: it may contain a
+        # different language, commentary or music with separate rights.
+        source_audio_tracks = [s for s in streams if s.get("codec_type") == "audio"]
+        if len(source_audio_tracks) != 1:
+            raise ValueError("source must have exactly one unambiguous original audio track")
         candidate = work / "candidate.mp4"
         # Pad rather than crop: preserves people and objects when center-crop would cut them off.
         filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
