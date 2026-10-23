@@ -182,7 +182,6 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
     if not re.fullmatch(r"[A-Za-z]{2}(?:-[A-Za-z]{2})?", language):
         raise ValueError("language must be a BCP-47 language tag, e.g. en or tr")
     rights = validate_rights(source, captions, evidence_file, language)
-    check_captions(captions, seconds)
     for binary in ("ffmpeg", "ffprobe"):
         if not shutil.which(binary):
             raise RuntimeError(f"missing required free binary: {binary}")
@@ -195,6 +194,11 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         shutil.copyfile(source, snapshot)
         if file_sha256(snapshot) != rights["source_sha256"]:
             raise ValueError("source changed during rights-checked snapshot; render blocked")
+        # Validate exactly the private SRT snapshot that FFmpeg will burn in.
+        # A swapped caption file must never bypass timeline validation.
+        captions_snapshot = work / "captions.srt"
+        shutil.copyfile(captions, captions_snapshot)
+        check_captions(captions_snapshot, seconds)
         source_info = _probe(snapshot)
         if _duration(source_info) + 0.05 < start + seconds:
             raise ValueError("requested clip extends beyond source duration")
@@ -204,7 +208,6 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         if not any(s.get("codec_type") == "audio" for s in streams):
             raise ValueError("source has no original audio to preserve")
         candidate = work / "candidate.mp4"
-        shutil.copyfile(captions, work / "captions.srt")
         # Pad rather than crop: preserves people and objects when center-crop would cut them off.
         filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
                 "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
