@@ -64,6 +64,13 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn("learn_4decad368966e2e6", text)
         self.assertIn("if-no-files-found: error", text)
         self.assertIn("actions/upload-artifact@v4", text)
+        # Smoke artifacts use short-ice-float.mp4, not a hard-coded short.mp4.
+        # Verify-only mode must accept exactly one real MP4 after digest check.
+        self.assertIn("default: shorts-free-smoke-once", text)
+        self.assertIn('videos = list((root / "downloaded-render").glob("*.mp4"))', text)
+        self.assertIn("assert len(videos) == 1", text)
+        self.assertIn("videos[0].stat().st_size > 0", text)
+        self.assertNotIn('"short.mp4").is_file()', text)
 
 
 if __name__ == "__main__":

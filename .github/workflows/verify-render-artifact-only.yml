@@ -10,7 +10,7 @@ on:
       render_artifact_name:
         description: "Artifact name from the render run"
         required: true
-        default: shorts-free-render
+        default: shorts-free-smoke-once
         type: string
 
 permissions:
@@ -61,7 +61,9 @@ jobs:
           assert report["status"] == "PASS"
           assert report["applied_learning_ids"] == ["learn_4decad368966e2e6"]
           assert report["source_ids"] == ["src_569c596da7048714"]
-          assert (root / "downloaded-render" / "short.mp4").is_file()
+          videos = list((root / "downloaded-render").glob("*.mp4"))
+          assert len(videos) == 1, "expected exactly one verified root MP4"
+          assert videos[0].is_file() and videos[0].stat().st_size > 0
           assert (root / "downloaded-render" / "preflight.json").is_file()
           assert (root / "downloaded-render" / "bundle" / "render.json").is_file()
           PY
