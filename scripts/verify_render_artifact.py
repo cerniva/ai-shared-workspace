@@ -101,6 +101,7 @@ def main(argv=None):
     parser.add_argument("--name", required=True)
     parser.add_argument("--destination", required=True, type=Path)
     parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument("--consumer", choices=["youtube-upload.yml:render_artifact", "verify-render-artifact-only.yml:read_only"], default="youtube-upload.yml:render_artifact")
     args = parser.parse_args(argv)
     try:
         evidence = active_rule()
@@ -120,7 +121,7 @@ def main(argv=None):
                 raise ValueError(f"bridge_failure: artifact download failed exit={result.returncode}")
             verify_and_extract(archive, digest, args.destination)
         report = {
-            "status": "PASS", "consumer": "youtube-upload.yml:render_artifact",
+            "status": "PASS", "consumer": args.consumer,
             "run_id": args.run_id, "artifact_id": artifact["id"], "artifact_digest": digest,
             "decision_before": "reject_unverified_cross_run_artifact",
             "decision_after": "accept_digest_verified_cross_run_artifact",
