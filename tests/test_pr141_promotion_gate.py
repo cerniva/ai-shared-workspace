@@ -73,7 +73,7 @@ class PR141PromotionGate(unittest.TestCase):
         # A successful promotion later adds these IDs to main. Re-running this
         # gate after import must remain idempotent, not reject persisted rows.
         for learning in learning_rows:
-            self.assertFalse(set(learning["source_ids"]) - (known_sources | staged_sources))
+            self.assertFalse(set(learning["source_ids"]) - (set(known_sources) | staged_sources))
 
 
 if __name__ == "__main__":
