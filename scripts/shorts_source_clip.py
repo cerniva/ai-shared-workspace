@@ -194,8 +194,9 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
     if not any(s.get("codec_type") == "audio" for s in streams):
         raise ValueError("source has no original audio to preserve")
     output.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="licensed-short-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="licensed-short-", dir=str(output.parent)) as tmp:
         work = Path(tmp)
+        candidate = work / "candidate.mp4"
         shutil.copyfile(captions, work / "captions.srt")
         # Pad rather than crop: preserves people and objects when center-crop would cut them off.
         filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
@@ -205,27 +206,32 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
                    "-ss", f"{start:.3f}", "-i", str(source), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "22",
-                   "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(output)]
+                   "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(candidate)]
         proc = subprocess.run(command, cwd=str(work), capture_output=True, text=True, timeout=300, check=False)
         if proc.returncode != 0:
             raise RuntimeError("FFmpeg render failed: " + proc.stderr[-600:])
-    if not output.is_file():
-        raise RuntimeError("render did not produce MP4")
-    info = _probe(output)
-    actual = _duration(info)
-    if abs(actual - seconds) > 0.3:
-        raise RuntimeError(f"clip duration differs from requested duration: {actual:.2f}s")
-    streams = info.get("streams", [])
-    if not any(s.get("codec_type") == "video" and s.get("width") == 1080 and s.get("height") == 1920 for s in streams):
-        raise RuntimeError("rendered MP4 is not portrait 1080x1920")
-    _require_video_coverage(streams, seconds)
-    _require_audio_coverage(streams, seconds)
-    return {"output": str(output), "output_sha256": file_sha256(output),
-            "source_sha256": file_sha256(source), "duration": actual,
-            "spoken_language": language, "caption_language": language,
-            "audio_source": "original_source", "synthetic_narration": False,
-            "publish_ready": False, "rights_review_pending": True,
-            "independent_media_review_pending": True, "credits_spent": 0}
+        if not candidate.is_file():
+            raise RuntimeError("render did not produce MP4")
+        info = _probe(candidate)
+        actual = _duration(info)
+        if abs(actual - seconds) > 0.3:
+            raise RuntimeError(f"clip duration differs from requested duration: {actual:.2f}s")
+        streams = info.get("streams", [])
+        if not any(s.get("codec_type") == "video" and s.get("width") == 1080 and s.get("height") == 1920 for s in streams):
+            raise RuntimeError("rendered MP4 is not portrait 1080x1920")
+        _require_video_coverage(streams, seconds)
+        _require_audio_coverage(streams, seconds)
+        from scripts.shorts_motion_qc import inspect as inspect_motion
+        motion = inspect_motion(candidate)
+        if motion.get("motion_qc") != "PASS_TECHNICAL_ONLY":
+            raise RuntimeError("motion QC_BLOCKED; final MP4 not created")
+        candidate.replace(output)
+        return {"output": str(output), "output_sha256": file_sha256(output),
+                "source_sha256": file_sha256(source), "duration": actual,
+                "spoken_language": language, "caption_language": language,
+                "audio_source": "original_source", "synthetic_narration": False,
+                "publish_ready": False, "rights_review_pending": True,
+                "independent_media_review_pending": True, "credits_spent": 0}
 
 
 def main() -> int:
