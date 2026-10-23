@@ -30,6 +30,7 @@ on:
       - "improvement-bot"
       - "knowledge-freshness"
       - "knowledge-promote"
+      - "knowledge-promotion-pr-gate"
       - "lesson-learner"
       - "meta-bridge-auto"
       - "meta-ingest"
