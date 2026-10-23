@@ -91,6 +91,24 @@ class AtomicShortsGateTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
         self.assertEqual(list(self.root.glob("licensed-short-*")), [])
 
+    def test_race_output_created_during_ffmpeg_is_not_overwritten(self):
+        # Simulate a second process creating the destination after the
+        # initial exists() check, but before candidate promotion.
+        def racing_ffmpeg(command, **kwargs):
+            self.output.write_bytes(b"concurrent final")
+            return self.fake_ffmpeg(command, **kwargs)
+
+        with patch("scripts.shorts_source_clip._probe", side_effect=self.fake_probe), \
+             patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"), \
+             patch("scripts.shorts_source_clip.subprocess.run", side_effect=racing_ffmpeg), \
+             patch("scripts.shorts_motion_qc.inspect", return_value={"motion_qc": "PASS_TECHNICAL_ONLY"}), \
+             patch("scripts.shorts_audio_qc.inspect", return_value={"audio_qc": "PASS_TECHNICAL_ONLY"}):
+            with self.assertRaisesRegex(ValueError, "refusing to overwrite"):
+                render(self.source, self.srt, self.rights, self.output,
+                       start=0, seconds=30, language="en")
+        self.assertEqual(self.output.read_bytes(), b"concurrent final")
+        self.assertEqual(list(self.root.glob("licensed-short-*")), [])
+
     def test_existing_output_is_not_overwritten(self):
         self.output.write_bytes(b"previous file")
         with self.assertRaisesRegex(ValueError, "refusing to overwrite"):
