@@ -110,12 +110,14 @@ def main(argv=None):
         digest = artifact.get("digest", "")
         with tempfile.TemporaryDirectory() as tmp:
             archive = Path(tmp) / "render.zip"
-            subprocess.run([
+            result = subprocess.run([
                 "curl", "--fail", "--silent", "--show-error", "--location", "--retry", "0",
                 "--header", f"Authorization: Bearer {token}",
                 "--header", "Accept: application/vnd.github+json",
                 "--output", str(archive), artifact["archive_download_url"],
-            ], check=True, timeout=180)
+            ], check=False, timeout=180)
+            if result.returncode != 0:
+                raise ValueError(f"bridge_failure: artifact download failed exit={result.returncode}")
             verify_and_extract(archive, digest, args.destination)
         report = {
             "status": "PASS", "consumer": "youtube-upload.yml:render_artifact",
@@ -130,6 +132,9 @@ def main(argv=None):
             raise ValueError("bridge_failure: report read-back mismatch")
         print(json.dumps(report, sort_keys=True))
         return 0
+    except subprocess.TimeoutExpired:
+        print("bridge_failure: artifact download timed out", file=sys.stderr)
+        return 3
     except Exception as exc:
         print(f"bridge_failure: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 3
