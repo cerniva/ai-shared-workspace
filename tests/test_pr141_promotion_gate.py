@@ -28,8 +28,8 @@ class PR141PromotionGate(unittest.TestCase):
     def test_schema_identity_references_and_gates(self) -> None:
         catalog = json.loads((ROOT / "knowledge/source_catalog.json").read_text(encoding="utf-8"))
         ledger = json.loads((ROOT / "knowledge/learning_ledger.json").read_text(encoding="utf-8"))
-        known_sources = {s["source_id"] for s in catalog["sources"]}
-        known_learnings = {l["learning_id"] for l in ledger["learnings"]}
+        known_sources = {s["source_id"]: s for s in catalog["sources"]}
+        known_learnings = {l["learning_id"]: l for l in ledger["learnings"]}
         staged_sources: set[str] = set()
         staged_learnings: set[str] = set()
         canonical_urls: set[str] = set()
@@ -49,6 +49,8 @@ class PR141PromotionGate(unittest.TestCase):
                     self.assertEqual(source["source_id"], sid)
                     self.assertNotIn(sid, staged_sources)
                     self.assertNotIn(canonical, canonical_urls)
+                    if sid in known_sources:
+                        self.assertEqual(canonicalize(known_sources[sid]["canonical"]), canonical)
                     staged_sources.add(sid)
                     canonical_urls.add(canonical)
                 for learning in learnings:
@@ -60,11 +62,16 @@ class PR141PromotionGate(unittest.TestCase):
                     self.assertTrue(learning.get("source_ids"))
                     for gate in gates:
                         self.assertIn(gate, learning.get("decision", ""))
+                    if lid in known_learnings:
+                        saved = known_learnings[lid]
+                        self.assertEqual(saved["domain"], learning["domain"])
+                        self.assertEqual(saved["claim"], learning["claim"])
+                        self.assertEqual(set(saved["source_ids"]), set(learning["source_ids"]))
                     staged_learnings.add(lid)
                     learning_rows.append(learning)
         self.assertEqual((len(staged_sources), len(staged_learnings)), (4, 3))
-        self.assertFalse(staged_sources & known_sources)
-        self.assertFalse(staged_learnings & known_learnings)
+        # A successful promotion later adds these IDs to main. Re-running this
+        # gate after import must remain idempotent, not reject persisted rows.
         for learning in learning_rows:
             self.assertFalse(set(learning["source_ids"]) - (known_sources | staged_sources))
 
