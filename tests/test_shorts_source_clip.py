@@ -192,7 +192,7 @@ class SourceClipTests(unittest.TestCase):
 
 
     def test_multiple_source_video_tracks_block_before_ffmpeg(self):
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\nHello world\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nHello world\n")
         streams = [
             {"codec_type": "video", "width": 1920, "height": 1080},
             {"codec_type": "video", "width": 640, "height": 360},
