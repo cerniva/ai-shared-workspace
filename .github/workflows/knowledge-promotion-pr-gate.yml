@@ -2,11 +2,6 @@ name: knowledge-promotion-pr-gate
 
 on:
   pull_request:
-    paths:
-      - 'knowledge/promotions/**'
-      - 'tests/test_pr141_promotion_gate.py'
-      - 'scripts/knowledge_promote.py'
-      - '.github/workflows/knowledge-promotion-pr-gate.yml'
   workflow_dispatch:
 
 permissions:
