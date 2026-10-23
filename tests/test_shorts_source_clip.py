@@ -191,5 +191,38 @@ class SourceClipTests(unittest.TestCase):
                 self.assertFalse(output.exists())
 
 
+    def test_multiple_source_video_tracks_block_before_ffmpeg(self):
+        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\nHello world\\n")
+        streams = [
+            {"codec_type": "video", "width": 1920, "height": 1080},
+            {"codec_type": "video", "width": 640, "height": 360},
+            {"codec_type": "audio", "duration": "40.0"},
+        ]
+        probe = {"format": {"duration": "40.0"}, "streams": streams}
+        output = self.root / "ambiguous-video.mp4"
+        with patch("scripts.shorts_source_clip._probe", return_value=probe), \
+             patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"), \
+             patch("scripts.shorts_source_clip.subprocess.run",
+                   side_effect=AssertionError("FFmpeg must not run")):
+            with self.assertRaisesRegex(ValueError, "exactly one unambiguous video track"):
+                render(self.video, self.srt, self.evidence, output,
+                       start=0, seconds=30, language="en")
+        self.assertFalse(output.exists())
+
+    def test_direct_cli_help_without_pythonpath(self):
+        import os
+        import subprocess
+        import sys
+        root = Path(__file__).resolve().parents[1]
+        env = os.environ.copy()
+        env.pop("PYTHONPATH", None)
+        result = subprocess.run(
+            [sys.executable, str(root / "scripts" / "shorts_source_clip.py"), "--help"],
+            cwd=root, env=env, capture_output=True, text=True, timeout=20,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("--duration", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()
