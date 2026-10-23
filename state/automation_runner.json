@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-23T14:49:18+00:00",
+  "generated_at": "2026-10-23T16:45:22+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 39956482013,
+          "id": 39972903662,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-23T12:51:16Z",
+          "created_at": "2026-10-23T14:49:19Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 39956491927,
+          "id": 39972913888,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-23T12:51:20Z",
+          "created_at": "2026-10-23T14:49:23Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 39968569917,
+          "id": 39985330729,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-23T14:18:56Z",
+          "created_at": "2026-10-23T16:15:55Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 39969291487,
+          "id": 39986270267,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-23T14:24:02Z",
+          "created_at": "2026-10-23T16:22:49Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": null
+  "model_summary": "video_shorts_shopify_gumroad projesine ait youtube-upload.yml iş akışının hata kayıtlarını inceleyin ve shorts-free-render.yml tetikleyici koşullarını doğrulayın."
 }
