@@ -26,6 +26,7 @@ class SourceClipTests(unittest.TestCase):
             "license_url": "https://example.org/permission",
             "license_name": "Written permission",
             "source_sha256": file_sha256(self.video),
+            "captions_sha256": file_sha256(self.srt),
             "reuse_permitted": True,
             "derivatives_permitted": True,
             "audio_reuse_permitted": True,
@@ -36,10 +37,15 @@ class SourceClipTests(unittest.TestCase):
         }
         self.evidence.write_text(json.dumps(self.data))
 
+    def refresh_caption_hash(self):
+        self.data["captions_sha256"] = file_sha256(self.srt)
+        self.evidence.write_text(json.dumps(self.data))
+
     def test_source_mutation_after_rights_check_blocks_render(self):
         # Simulate a source file being swapped after the original SHA was approved.
         # FFmpeg must never open the replacement bytes or publish an output.
         self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nHello world\n")
+        self.refresh_caption_hash()
         original_validate = validate_rights
 
         def swap_after_validation(*args):
@@ -60,6 +66,7 @@ class SourceClipTests(unittest.TestCase):
         # The renderer must validate the exact private SRT that FFmpeg reads.
         import shutil
         self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nOriginal valid caption\n")
+        self.refresh_caption_hash()
         original_copy = shutil.copyfile
 
         def swap_on_caption_copy(src, dst, *args, **kwargs):
@@ -71,7 +78,40 @@ class SourceClipTests(unittest.TestCase):
         output = self.root / "caption-swap-must-block.mp4"
         with patch("scripts.shorts_source_clip.shutil.copyfile", side_effect=swap_on_caption_copy), \
              patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"):
-            with self.assertRaisesRegex(ValueError, "caption cues overlap"):
+            with self.assertRaisesRegex(ValueError, "captions changed during rights-checked snapshot"):
+                render(self.video, self.srt, self.evidence, output,
+                       start=0, seconds=30, language="en")
+        self.assertFalse(output.exists())
+
+    def test_missing_caption_hash_blocks(self):
+        self.data.pop("captions_sha256")
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "captions_sha256"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_same_timing_changed_words_block(self):
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nChanged words\n\n"
+                            "2\n00:00:04,000 --> 00:00:10,000\nAnother sentence\n")
+        with self.assertRaisesRegex(ValueError, "captions hash"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_valid_timing_caption_swap_blocks_before_ffmpeg(self):
+        import shutil
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nOriginal approved words\n")
+        self.refresh_caption_hash()
+        original_copy = shutil.copyfile
+
+        def replace_words_on_copy(src, dst, *args, **kwargs):
+            if Path(src) == self.srt:
+                self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nDifferent unapproved words\n")
+            return original_copy(src, dst, *args, **kwargs)
+
+        output = self.root / "changed-words-must-block.mp4"
+        with patch("scripts.shorts_source_clip.shutil.copyfile", side_effect=replace_words_on_copy), \
+             patch("scripts.shorts_source_clip.shutil.which", return_value="/usr/bin/ffmpeg"), \
+             patch("scripts.shorts_source_clip.subprocess.run",
+                   side_effect=AssertionError("FFmpeg must not run")):
+            with self.assertRaisesRegex(ValueError, "captions changed during rights-checked snapshot"):
                 render(self.video, self.srt, self.evidence, output,
                        start=0, seconds=30, language="en")
         self.assertFalse(output.exists())
@@ -175,6 +215,7 @@ class SourceClipTests(unittest.TestCase):
         # Multi-track sources can put a different language or unlicensed music
         # on 0:a:0; do not silently choose an arbitrary original audio track.
         self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nHello world\n")
+        self.refresh_caption_hash()
         for audio_count in (0, 2):
             with self.subTest(audio_count=audio_count):
                 streams = [{"codec_type": "video", "width": 1920, "height": 1080}]
@@ -193,6 +234,7 @@ class SourceClipTests(unittest.TestCase):
 
     def test_multiple_source_video_tracks_block_before_ffmpeg(self):
         self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\nHello world\n")
+        self.refresh_caption_hash()
         streams = [
             {"codec_type": "video", "width": 1920, "height": 1080},
             {"codec_type": "video", "width": 640, "height": 360},
