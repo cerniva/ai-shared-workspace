@@ -1,0 +1,39 @@
+{
+  "handoff_id": "CI-40086311257",
+  "source": "ci-bekci",
+  "run_id": "40086380284",
+  "task": "CI failure in 'shorts-render-tests' run 40086311257: jobs test[Full Python suite]; first error: tests/test_shorts_learnings_applied.py::ShortsLearningsTests::test_cerno_30s_cap_and_broadcast_clips_block_without_search",
+  "generated_at": "2026-10-24T10:34:01+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40086311257",
+    "evidence": [
+      {
+        "path": "tests/test_shorts_learnings_applied.py",
+        "description": "Contains test_cerno_30s_cap_and_broadcast_clips_block_without_search, which failed during CI run 40086311257 in job test[Full Python suite]."
+      }
+    ],
+    "factual_findings": [
+      "Workflow 'shorts-render-tests' run 40086311257 failed in job 'test[Full Python suite]'.",
+      "The first reported failure occurred in test 'tests/test_shorts_learnings_applied.py::ShortsLearningsTests::test_cerno_30s_cap_and_broadcast_clips_block_without_search'.",
+      "The test suite in 'tests/test_shorts_learnings_applied.py' validates duration caps (30s Cerno cap) and broadcast clip blocking behaviors when search functionality is disabled."
+    ],
+    "hypotheses": [
+      "A recent update to rendering settings or learnings application logic caused clip durations to exceed the 30-second Cerno cap or improperly unblocked broadcast clips when search was disabled in 'tests/test_shorts_learnings_applied.py'.",
+      "Mocked metadata or configuration fixtures used in 'tests/test_shorts_learnings_applied.py' mismatch updated default flags for searchless broadcast clip handling."
+    ],
+    "recommendation": "Review assertion failures in 'tests/test_shorts_learnings_applied.py' and verify the duration capping and clip filtering logic governing Cerno 30s clips and searchless broadcast blocks.",
+    "confidence": 0.85,
+    "next_action": "Run 'pytest tests/test_shorts_learnings_applied.py -k test_cerno_30s_cap_and_broadcast_clips_block_without_search' locally to inspect the failure stack trace.",
+    "timing": {
+      "started_at": "2026-10-24T10:34:02.110898+00:00",
+      "duration_ms": 7706
+    },
+    "usage": {
+      "input_tokens": 171,
+      "output_tokens": 451,
+      "total_tokens": 1638
+    }
+  }
+}
