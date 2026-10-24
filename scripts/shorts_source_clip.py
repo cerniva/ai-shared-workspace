@@ -112,6 +112,11 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
         raise ValueError("rights evidence requires source_sha256")
     if file_sha256(source) != recorded_hash:
         raise ValueError("source video hash does not match rights evidence")
+    caption_hash = evidence.get("captions_sha256")
+    if not isinstance(caption_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", caption_hash):
+        raise ValueError("rights evidence requires captions_sha256")
+    if file_sha256(captions) != caption_hash:
+        raise ValueError("captions hash does not match rights evidence")
     normalized = language.lower().split("-", 1)[0]
     for key in ("spoken_language", "caption_language"):
         value = evidence.get(key)
@@ -204,6 +209,8 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         # A swapped caption file must never bypass timeline validation.
         captions_snapshot = work / "captions.srt"
         shutil.copyfile(captions, captions_snapshot)
+        if file_sha256(captions_snapshot) != rights["captions_sha256"]:
+            raise ValueError("captions changed during rights-checked snapshot; render blocked")
         check_captions(captions_snapshot, seconds)
         source_info = _probe(snapshot)
         if _duration(source_info) + 0.05 < start + seconds:
