@@ -137,8 +137,10 @@ class ReporterTests(Base):
 
     def test_staged_candidate_requires_live_intake_readback(self):
         rel = "intake/promotions/2026-10-24-research-learner-finance.json"
+        sid, lid = "src_test", "learn_test"
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
-            "domains": {"finance": {"status": "staged", "path": rel}}
+            "domains": {"finance": {"status": "staged", "path": rel,
+                                    "source_id": sid, "learning_id": lid}}
         }))
         gh = ga.GitHub("o/r", "t", FakeHTTP())
         report = ga.reporter(root=self.root, gh=gh,
@@ -148,11 +150,29 @@ class ReporterTests(Base):
 
         target = self.root / rel
         target.parent.mkdir(parents=True)
-        target.write_text('{"schema_version":1}')
+        valid = {"schema_version": 1, "sources": [{"source_id": sid}],
+                 "learnings": [{"learning_id": lid, "source_ids": [sid]}]}
+        target.write_text(json.dumps(valid))
         report = ga.reporter(root=self.root, gh=gh,
                              now=datetime(2026, 10, 24, 12, 1, tzinfo=timezone.utc))
         self.assertIn("finance: staged → " + rel, report)
         self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 1)
+
+        for bad in ('{broken json', json.dumps({**valid, "schema_version": 0}),
+                    json.dumps({**valid, "learnings": [{"learning_id": lid, "source_ids": ["wrong"]}]})):
+            target.write_text(bad)
+            report = ga.reporter(root=self.root, gh=gh,
+                                 now=datetime(2026, 10, 24, 12, 2, tzinfo=timezone.utc))
+            self.assertIn("finance: staged_missing", report)
+            self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
+
+        target.unlink()
+        outside = self.root / "outside.json"
+        outside.write_text(json.dumps(valid))
+        target.symlink_to(outside)
+        report = ga.reporter(root=self.root, gh=gh,
+                             now=datetime(2026, 10, 24, 12, 3, tzinfo=timezone.utc))
+        self.assertIn("finance: staged_missing", report)
 
 class SafetyTests(unittest.TestCase):
     def test_output_paths_restricted(self):
