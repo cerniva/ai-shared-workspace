@@ -44,6 +44,7 @@ class AltseasonLearningConsumerTests(unittest.TestCase):
         report = self._run()
         self.assertEqual(report["applied_learning_ids"], [panel.ALTSEASON_LEARNING_ID])
         self.assertEqual(report["decision_status"], "CALIBRATION_UNVERIFIED")
+        self.assertFalse(report["historical_backtest_verified"])
         self.assertEqual(report["scored"], 0)
         self.assertEqual(report["composite_score"], "N/A")
         self.assertTrue(all(row["score"] == "N/A" for row in report["indicators"].values()))
