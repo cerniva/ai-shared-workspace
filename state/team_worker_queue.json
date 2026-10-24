@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "CI-40086311263",
+      "task": "CI failure in 'shorts-free-smoke-once' run 40086311263: jobs smoke[Run free-first unit tests]; first error: test_cerno_30s_cap_and_broadcast_clips_block_without_search (tests.test_shorts_learnings_applied.ShortsLearningsTests.test_cerno_30s_cap_and_broadcast_clips_block_without_search)",
+      "source": "ci-bekci",
+      "ts": "2026-10-24T10:33:22+00:00"
+    }
+  ]
+}
