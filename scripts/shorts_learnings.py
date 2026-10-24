@@ -84,7 +84,7 @@ def apply(doc: dict[str, Any], packet: dict, manifest: dict) -> list[str]:
         ):
             raise LearningsError(f"bridge_failure: required learning missing source references: {lid}")
         lineage[lid] = sorted(set(refs))
-    missing = sorted(set(RULES) - lineage)
+    missing = sorted(set(RULES) - set(lineage))
     if missing:
         raise LearningsError("bridge_failure: required learnings missing: " + ", ".join(missing))
     manifest.setdefault("upload_policy", {})
