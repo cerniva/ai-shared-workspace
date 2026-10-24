@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "artifact_type": "actual_scheduled_finance_report_decision_record",
+  "report_date": "2026-10-24",
+  "local_cutoff": "2026-10-24 09:04 Europe/Istanbul (market quote observation)",
+  "scope": "finance; PayoutLens excluded",
+  "main_base_sha": "45313859aeb9ad7fce54152210c6c1b5922677c2",
+  "repo_catalog_counts": {
+    "sources": 89,
+    "learnings": 71,
+    "active_finance": 9,
+    "duplicate_source_ids": 0,
+    "duplicate_canonicals": 0,
+    "duplicate_learning_ids": 0,
+    "broken_source_refs": 0
+  },
+  "report_quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+    "reason": "Actual scheduled ChatGPT report is external to repository main finance producer. This branch report record documents human-readable decisions and ledger application in this run, but does NOT demonstrate that an automated production finance consumer loads these learnings, applies them, persists the real downstream report and passes positive/negative CI. PR #318 only stages altseason_panel consumer and is unmerged.",
+    "required": "Locate real scheduled finance report consumer, integrate active ledger checks, test missing/inactive/superseded negatives, produce actual CI/job/commit and read back main report output."
+  },
+  "market": {
+    "us_equities_close_date": "2026-10-23",
+    "sp500": 7623.68,
+    "sp500_change_pct": -0.52,
+    "nasdaq": 25955.34,
+    "nasdaq_change_pct": -0.21,
+    "dow": 52215.16,
+    "dow_change_pct": -1.23,
+    "russell2000": 2775.9,
+    "russell2000_change_pct": -0.3,
+    "treasury_asof": "2026-10-23",
+    "treasury_2y_pct": 4.69,
+    "treasury_10y_pct": 5,
+    "treasury_30y_pct": 5.33,
+    "brent_close_usd": 116.72,
+    "wti_close_usd": 103.27,
+    "tcmb_policy_pct": 36,
+    "btc_usd": 80597.31,
+    "eth_usd": 2372.99,
+    "btc_quote_asof_utc": "2026-10-24T06:04:00Z",
+    "btc_dominance_pct": 60.05,
+    "cmc_altseason_breadth": 51,
+    "blockchaincenter_breadth": 49,
+    "stablecoin_marketcap_usd_b": 300.54,
+    "stablecoin_7d_pct": -0.68,
+    "etf_btc_oct23_musd": -137.9,
+    "etf_eth_oct23_musd": 4.4,
+    "etf_oct23_status": "PROVISIONAL_MISSING_FUND_CELLS",
+    "altcoin_support_score": "N/A",
+    "backtest_2020_2025_verified": false
+  },
+  "top70_cmc_ranked_symbols": [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "XRP",
+    "USDC",
+    "SOL",
+    "TRX",
+    "ZEC",
+    "HYPE",
+    "DOGE",
+    "XMR",
+    "LINK",
+    "LEO",
+    "ADA",
+    "XLM",
+    "NEAR",
+    "BCH",
+    "USDe",
+    "DAI",
+    "LTC",
+    "UNI",
+    "CC",
+    "AVAX",
+    "SUI",
+    "USD1",
+    "GRAM",
+    "HBAR",
+    "USDG",
+    "PYUSD",
+    "TAO",
+    "SHIB",
+    "XAUt",
+    "CRO",
+    "ENA",
+    "RLUSD",
+    "OKB",
+    "M",
+    "AAVE",
+    "QNT",
+    "ONDO",
+    "PUMP",
+    "ASTER",
+    "PEPE",
+    "DOT",
+    "WLD",
+    "USDD",
+    "PAXG",
+    "MNT",
+    "WLFI",
+    "SKY",
+    "U",
+    "ICP",
+    "BGB",
+    "ETC",
+    "VVV",
+    "MORPHO",
+    "ARB",
+    "JST",
+    "GT",
+    "KCS",
+    "KAS",
+    "JUP",
+    "POL",
+    "ALGO",
+    "RENDER",
+    "ATOM",
+    "PI",
+    "AERO",
+    "FIL"
+  ],
+  "top70_coverage": "All 70 rank/name rows visually verified from CoinMarketCap 24 Oct snapshot. 70/70 full matching intraday price+OI+funding+unlock coverage NOT verified; do not infer.",
+  "rendered_charts": {
+    "renderer": "Wolfram Language",
+    "actual_image_rendered_in_chat": true,
+    "repo_image_artifact_readback": false,
+    "plots": [
+      "US Treasury 2Y/10Y/30Y 21-23 Oct 2026",
+      "Farside BTC/ETH ETF 21-23 Oct 2026; 23 Oct provisional"
+    ]
+  },
+  "decisions": [
+    {
+      "field": "fed_policy_reference",
+      "before": "September FOMC target could be misread as a new 24 Oct decision",
+      "after": "16 Sep 2026 25bp increase to 3.75-4.00% is explicitly historical; no new 24 Oct FOMC decision asserted",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "source_date": "2026-09-16",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "treasury_latest_observation",
+      "before": "Weekend 24 Oct could be mislabeled as a new US Treasury trading-day close",
+      "after": "Last official 23 Oct close: 2Y 4.69%, 10Y 5.00%, 30Y 5.33%; vs 22 Oct +4bp each; 24 Oct same-day yield N/A",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202610&type=daily_treasury_yield_curve",
+      "source_date": "2026-10-23",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "tcmb_weekend_fx",
+      "before": "TCMB today.xml could be mislabeled as a Saturday 24 Oct new bulletin",
+      "after": "No new Saturday TCMB FX bulletin asserted; direct XML fetch unsupported by browser; official 22 Oct policy release separately verified at 36%",
+      "source": "https://www.tcmb.gov.tr/wps/wcm/connect/EN/TCMB+EN/Main+Menu/Announcements/Press+Releases/2026/ANO2026-45",
+      "source_date": "2026-10-22",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "field": "altcoin_composite_support_score",
+      "before": "Market's CMC 51/100 could be mislabeled as calibrated altcoin bull support",
+      "after": "All ten calibrated indicator support scores N/A; CMC 51 is provider breadth index only; 2020-2025 walk-forward/backtest unverified",
+      "source": "https://www.blockchaincenter.net/altcoin-season-index/",
+      "source_date": "2026-10-24",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "company_specific_earnings_claims",
+      "before": "Unverified corporate filing/earnings claims could be presented as primary evidence",
+      "after": "No company-specific 8-K or earnings numeric claims accepted without SEC EDGAR check; broad market earnings coverage labeled Reuters/LSEG secondary",
+      "source": "https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data",
+      "source_date": "not-retrieved",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "field": "repeat_news_exclusions",
+      "before": "Dated single-bank Fed enforcement termination and 2025 household survey could be recycled as 24 Oct breaking news",
+      "after": "Both excluded as stale/low-priority REVIEW_ONLY; no new actionable implication asserted",
+      "source": "https://www.federalreserve.gov/newsevents.htm",
+      "source_date": "historical",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    },
+    {
+      "field": "etf_flow_2026_10_23",
+      "before": "Farside BTC -137.9m and ETH +4.4m could be treated as finalized complete rows",
+      "after": "Both PROVISIONAL due to '-' missing fund cells; BTC differs from another aggregator (-27.6m); not promoted to confirmed institutional rotation",
+      "source": "https://farside.co.uk/btc/",
+      "source_date": "2026-10-23",
+      "applied_learning_ids": [],
+      "unpromoted_candidate": "learn_0dc925db2409db3c; PR #273, not counted"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_084a973ea4587745",
+    "learn_27333cc91fdf7f58",
+    "learn_5f961fa5fb9f6388",
+    "learn_63b873bf5dbd8208",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_d44f97b112d55564",
+    "learn_f7b141c60755c294",
+    "learn_fba30853bde7b37e"
+  ],
+  "applied_ids_scope": "Only actual decisions listed above in this ChatGPT report; NOT evidence of main automated finance runner consumption.",
+  "new_learning_decision": "DEDUP: Oct 23 partial ETF rows already covered by staged PR #273 learn_0dc925db2409db3c; risk-off yield gate staged PR #306 learn_20e908ff5a5b1b13; neither counted as active applied learning.",
+  "plan_learnings_execution": {
+    "attempted_git_ls_remote": true,
+    "git_exit_code": 128,
+    "git_stderr": "Could not resolve host: github.com",
+    "script_executed": false,
+    "script_stdout": null,
+    "script_exit_code": null
+  },
+  "source_urls": [
+    "https://www.tcmb.gov.tr/wps/wcm/connect/EN/TCMB+EN/Main+Menu/Announcements/Press+Releases/2026/ANO2026-45",
+    "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+    "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202610&type=daily_treasury_yield_curve",
+    "https://www.reuters.com/business/wall-street-futures-dip-after-ai-rout-telecoms-slide-2026-10-23/",
+    "https://farside.co.uk/btc/",
+    "https://farside.co.uk/eth/",
+    "https://www.blockchaincenter.net/altcoin-season-index/",
+    "https://defillama.com/stablecoins",
+    "https://coinmarketcap.com/"
+  ]
+}
