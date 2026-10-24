@@ -257,11 +257,32 @@ def _staged_learning_titles(root: Path) -> set[str]:
             continue
         try:
             doc = json.loads(path.read_text(encoding="utf-8"))
-            if doc.get("schema_version") != 1:
+            if not isinstance(doc, dict) or doc.get("schema_version") != 1:
                 continue
-            for learning in doc.get("learnings") or []:
-                if isinstance(learning, dict) and learning.get("title"):
-                    titles.add(str(learning["title"]))
+            sources, learnings = doc.get("sources"), doc.get("learnings")
+            if not isinstance(sources, list) or not isinstance(learnings, list):
+                continue
+            valid_sources = set()
+            for source in sources:
+                if not isinstance(source, dict):
+                    continue
+                try:
+                    canonical = canonicalize(str(source.get("canonical") or ""))
+                    if source.get("source_id") == source_id(canonical):
+                        valid_sources.add(source["source_id"])
+                except (ValueError, RuntimeError, TypeError):
+                    continue
+            for learning in learnings:
+                if not isinstance(learning, dict):
+                    continue
+                refs = learning.get("source_ids")
+                if (not isinstance(refs, list) or not refs
+                        or not all(isinstance(ref, str) and ref in valid_sources for ref in refs)
+                        or learning.get("learning_id") != learning_id(
+                            str(learning.get("domain") or ""), str(learning.get("claim") or ""))):
+                    continue
+                if isinstance(learning.get("title"), str) and learning["title"]:
+                    titles.add(learning["title"])
         except (OSError, ValueError, AttributeError):
             continue
     return titles
