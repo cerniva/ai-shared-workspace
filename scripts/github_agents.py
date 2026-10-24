@@ -348,8 +348,25 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
         rel = v.get("path")
         safe_rel = (isinstance(rel, str) and Path(rel).parts[:2] == ("intake", "promotions")
                     and ".." not in Path(rel).parts and Path(rel).suffix == ".json")
-        staged_live[k] = (v.get("status") == "staged" and safe_rel
-                          and (root / rel).is_file())
+        # A file's presence alone does not prove a valid, identity-matched
+        # promotion. Reject corrupt JSON, mismatched IDs and symlink escapes.
+        valid = False
+        if v.get("status") == "staged" and safe_rel:
+            try:
+                target = (root / rel).resolve(strict=True)
+                boundary = (root / "intake" / "promotions").resolve()
+                if target.is_relative_to(boundary) and target.is_file():
+                    doc = json.loads(target.read_text(encoding="utf-8"))
+                    sources, learnings = doc.get("sources"), doc.get("learnings")
+                    sid, lid = v.get("source_id"), v.get("learning_id")
+                    valid = (doc.get("schema_version") == 1 and bool(sid) and bool(lid)
+                             and isinstance(sources, list) and isinstance(learnings, list)
+                             and any(isinstance(s, dict) and s.get("source_id") == sid for s in sources)
+                             and any(isinstance(l, dict) and l.get("learning_id") == lid
+                                     and sid in l.get("source_ids", []) for l in learnings))
+            except (OSError, ValueError, TypeError, AttributeError):
+                pass
+        staged_live[k] = valid
     learn_lines = [
         (f"  - {k}: staged → {v['path']}" if staged_live[k]
          else f"  - {k}: staged_missing (intake read-back failed or deduplicated)"
