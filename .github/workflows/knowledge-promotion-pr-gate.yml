@@ -1,0 +1,33 @@
+name: knowledge-promotion-pr-gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  promotion-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Check staged schema, IDs, canonical URLs, references and gates
+        run: python3 -m unittest discover -s tests -p 'test_pr141_promotion_gate.py' -v
+      - name: Dry-run additive import and prove idempotent read-back
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/knowledge_promote.py apply > /tmp/promotion-first.json
+          python3 scripts/knowledge_bridge.py validate
+          python3 scripts/learning_bridge.py validate
+          sha256sum knowledge/source_catalog.json knowledge/learning_ledger.json > /tmp/after-first.sha
+          python3 scripts/knowledge_promote.py apply > /tmp/promotion-second.json
+          sha256sum knowledge/source_catalog.json knowledge/learning_ledger.json > /tmp/after-second.sha
+          diff -u /tmp/after-first.sha /tmp/after-second.sha
+          python3 -m unittest discover -s tests -p 'test_pr141_promotion_gate.py' -v
+          echo 'Promotion gate: schema, references, additive import and second-pass read-back PASS'
