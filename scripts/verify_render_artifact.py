@@ -104,6 +104,8 @@ def main(argv=None):
     parser.add_argument("--consumer", choices=["youtube-upload.yml:render_artifact", "verify-render-artifact-only.yml:read_only"], default="youtube-upload.yml:render_artifact")
     args = parser.parse_args(argv)
     try:
+        if args.report.exists():
+            raise ValueError("bridge_failure: existing verification report must not be reused")
         evidence = active_rule()
         repo = os.environ["GITHUB_REPOSITORY"]
         token = os.environ["GITHUB_TOKEN"]
@@ -122,6 +124,7 @@ def main(argv=None):
             verify_and_extract(archive, digest, args.destination)
         report = {
             "status": "PASS", "consumer": args.consumer,
+            "verification_scope": "cross_run_artifact_integrity_only",
             "run_id": args.run_id, "artifact_id": artifact["id"], "artifact_digest": digest,
             "decision_before": "reject_unverified_cross_run_artifact",
             "decision_after": "accept_digest_verified_cross_run_artifact",
