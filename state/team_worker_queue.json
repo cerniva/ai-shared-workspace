@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261024-slow-worker-orchestration-tests",
+      "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml workflow'undaki 56 saniyelik darboğazı gidermek için Pip ve apt kurulum adımlarına 'actions/cache' entegre edilerek tekrarlayan paket indirmeleri engellenmeli, sadece ilgili kaynak kod değişikliklerinde tetiklenmesi için 'paths' filtreleri tanımlanmalı ve birbiriyle bağımsız olan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi somut şekilde kısaltılmalıdır.",
+      "source": "improvement-bot",
+      "ts": "2026-10-24T05:51:56+00:00"
+    }
+  ]
+}
