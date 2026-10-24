@@ -32,6 +32,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Validate archive-heal notes (fail-closed)
+        run: python3 -m json.tool config/archive_heal_notes.json > /dev/null
       - name: Heal archives from git history (fail-closed)
         run: python3 scripts/archive_heal.py
       - name: Guard (no SEE_FILE / $(cat lines)
@@ -39,20 +41,26 @@ jobs:
       - name: Commit healed archives only
         shell: bash
         run: |
-          git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md
-          if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\.md|messages/team-reports\.md|knowledge/lessons\.md)$'; then
-            echo 'unexpected staged path'; exit 1
-          fi
-          git diff --cached --quiet && exit 0
-          git diff --cached --stat
+          set -euo pipefail
           git config user.name "archive-heal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "archive-heal: append-only mesaj arşivleri geçmişten onarıldı"
           for attempt in 1 2 3; do
-            if git pull --rebase origin main && python3 scripts/archive_heal.py --check && git push origin HEAD:main; then
+            # Ephemeral Actions checkout: recompute repair on fresh main, never rebase archives.
+            if ! git fetch origin main; then sleep "$attempt"; continue; fi
+            git reset --hard origin/main
+            python3 -m json.tool config/archive_heal_notes.json > /dev/null || exit 1
+            python3 scripts/archive_heal.py || exit 1
+            python3 scripts/archive_heal.py --check || exit 1
+            git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md
+            if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\.md|messages/team-reports\.md|knowledge/lessons\.md)$'; then
+              echo 'unexpected staged path'; exit 1
+            fi
+            git diff --cached --quiet && exit 0
+            git diff --cached --stat
+            git commit -m "archive-heal: append-only mesaj arşivleri geçmişten onarıldı"
+            if git push origin HEAD:main; then
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
             sleep "$attempt"
           done
           echo "archive-heal push failed after 3 attempts" >&2
