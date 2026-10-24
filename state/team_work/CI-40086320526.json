@@ -1,0 +1,41 @@
+{
+  "handoff_id": "CI-40086320526",
+  "source": "ci-bekci",
+  "run_id": "40086365610",
+  "task": "CI failure in 'shorts-free-smoke-once' run 40086320526: jobs smoke[Run free-first unit tests]; first error: test_missing_required_learning_fails_before_media_fetch (tests.test_shorts_learnings_applied.ShortsLearningsTests.test_missing_required_learning_fails_before_media_fetch)",
+  "generated_at": "2026-10-24T10:33:31+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40086320526",
+    "evidence": [
+      {
+        "path": "tests/test_shorts_learnings_applied.py",
+        "run_id": "40086320526",
+        "job": "smoke[Run free-first unit tests]",
+        "test_method": "tests.test_shorts_learnings_applied.ShortsLearningsTests.test_missing_required_learning_fails_before_media_fetch",
+        "observation": "Test failed in CI run 40086320526 during job smoke[Run free-first unit tests]."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40086320526 for pipeline 'shorts-free-smoke-once' failed in job smoke[Run free-first unit tests].",
+      "The primary reported error occurs in test method 'test_missing_required_learning_fails_before_media_fetch' within 'tests/test_shorts_learnings_applied.py'."
+    ],
+    "hypotheses": [
+      "The validation check for missing required learnings was modified or skipped before the media fetch step, causing 'tests/test_shorts_learnings_applied.py' to fail.",
+      "A mock or dependency setup in 'tests/test_shorts_learnings_applied.py' allowed media fetch to be invoked prematurely when learnings were missing."
+    ],
+    "recommendation": "Review 'tests/test_shorts_learnings_applied.py' and the underlying learnings verification logic to ensure pre-fetch assertion fails before media fetching is triggered.",
+    "confidence": 0.85,
+    "next_action": "Inspect 'tests/test_shorts_learnings_applied.py' and run the test suite locally to reproduce the exact failure assertion.",
+    "timing": {
+      "started_at": "2026-10-24T10:33:31.435983+00:00",
+      "duration_ms": 6998
+    },
+    "usage": {
+      "input_tokens": 184,
+      "output_tokens": 414,
+      "total_tokens": 1579
+    }
+  }
+}
