@@ -191,6 +191,13 @@ def prepare_render_bundle(
     and applied to the render manifest (applied_learning_ids recorded).
     """
     packet = _load_packet(Path(packet_path))
+    # Sourced clips must retain their licensed original audio. This free-first
+    # renderer synthesizes narration, so it cannot safely process that mode.
+    # Fail before research/media calls rather than silently replacing audio.
+    if (packet.get("content_type") in ("sourced_clip", "licensed_source_clip")
+            or packet.get("preserve_original_audio") is True
+            or packet.get("source_video_url")):
+        raise ValueError("source_audio_gate: sourced clips require original audio; this renderer adds narration")
     blockers = gate_packet(packet)
     if blockers:
         raise ValueError("research gate blocked: " + ",".join(blockers))

@@ -69,8 +69,22 @@ RULES: dict[str, Callable[[dict, dict], None]] = {PRIVACY: _privacy, QUOTA: _quo
 
 def apply(doc: dict[str, Any], packet: dict, manifest: dict) -> list[str]:
     """Mutate manifest per learnings; return applied learning ids. Missing required id -> error."""
-    present = {row.get("learning_id") for row in doc["learnings"] if isinstance(row, dict)}
-    missing = sorted(set(RULES) - present)
+    # A matching ID alone is not evidence: require source lineage and reject
+    # duplicate required rows before any media acquisition or manifest claim.
+    lineage: dict[str, list[str]] = {}
+    for row in doc["learnings"]:
+        if not isinstance(row, dict) or row.get("learning_id") not in RULES:
+            continue
+        lid = row["learning_id"]
+        if lid in lineage:
+            raise LearningsError(f"bridge_failure: duplicate required learning: {lid}")
+        refs = row.get("source_ids")
+        if not isinstance(refs, list) or not refs or any(
+            not isinstance(ref, str) or not ref.startswith("src_") for ref in refs
+        ):
+            raise LearningsError(f"bridge_failure: required learning missing source references: {lid}")
+        lineage[lid] = sorted(set(refs))
+    missing = sorted(set(RULES) - set(lineage))
     if missing:
         raise LearningsError("bridge_failure: required learnings missing: " + ", ".join(missing))
     manifest.setdefault("upload_policy", {})
@@ -80,4 +94,5 @@ def apply(doc: dict[str, Any], packet: dict, manifest: dict) -> list[str]:
         rule(packet, manifest)
         applied.append(learning_id)
     manifest["applied_learning_ids"] = applied
+    manifest["applied_learning_source_ids"] = {lid: lineage[lid] for lid in applied}
     return applied

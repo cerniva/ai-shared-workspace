@@ -4,6 +4,19 @@ on:
   pull_request:
     paths:
       - '.github/workflows/shorts-free-smoke-once.yml'
+      - 'scripts/shorts_learnings.py'
+      - 'scripts/plan_learnings.py'
+      - 'tests/test_shorts_learnings_applied.py'
+      - 'knowledge/learning_ledger.json'
+      - 'knowledge/source_catalog.json'
+      - 'tests/fixtures/shorts_real_smoke_ice_float.json'
+      - 'scripts/shorts_media.py'
+      - 'scripts/shorts_free_pipeline.py'
+      - 'scripts/shorts_render.py'
+      - 'scripts/shorts_research.py'
+      - 'scripts/shorts_preflight.py'
+      - 'tests/test_shorts_free_pipeline.py'
+      - 'tests/test_shorts_media.py'
   push:
     paths:
       - '.github/workflows/shorts-free-smoke-once.yml'
@@ -16,6 +29,10 @@ on:
       - 'tests/test_shorts_free_pipeline.py'
       - 'tests/test_shorts_media.py'
       - 'scripts/shorts_learnings.py'
+      - 'scripts/plan_learnings.py'
+      - 'tests/test_shorts_learnings_applied.py'
+      - 'knowledge/learning_ledger.json'
+      - 'knowledge/source_catalog.json'
   workflow_dispatch:
 
 permissions:
@@ -35,7 +52,7 @@ jobs:
 
       - name: Run free-first unit tests
         run: |
-          python3 -m unittest -v tests.test_shorts_media tests.test_shorts_free_pipeline
+          python3 -m unittest -v tests.test_shorts_media tests.test_shorts_free_pipeline tests.test_shorts_learnings_applied
 
       - name: Build real free-first Short
         env:
@@ -50,6 +67,21 @@ jobs:
             artifacts/bundle \
             artifacts/short-ice-float.mp4 \
             --learnings artifacts/plan_learnings.json
+
+      - name: Assert rendered manifest consumed required learnings
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts import shorts_learnings as sl
+          manifest = json.loads(Path('artifacts/bundle/render.json').read_text(encoding='utf-8'))
+          applied = set(manifest.get('applied_learning_ids') or [])
+          required = {sl.PRIVACY, sl.QUOTA, sl.CERNO, sl.HO04_GATE}
+          missing = sorted(required - applied)
+          if missing:
+              raise SystemExit('bridge_failure: render.json missing applied_learning_ids: ' + ','.join(missing))
+          print('Rendered manifest applied_learning_ids verified:', ','.join(sorted(applied)))
+          PY
 
       - name: Run technical preflight
         run: |
