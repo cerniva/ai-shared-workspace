@@ -224,5 +224,6 @@ def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None 
         "scored": len(scored),
         "total": len(rows),
         "applied_learning_ids": [applied_id],
-        "decision_status": "CALIBRATION_UNVERIFIED" if len(scored) != len(rows) else "CALIBRATION_VALIDATED",
+        "decision_status": "CALIBRATION_UNVERIFIED" if len(scored) != len(rows) else "ALL_CONFIG_INDICATORS_SCORED",
+        "historical_backtest_verified": False,
     }
