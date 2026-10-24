@@ -182,7 +182,10 @@ class ReporterTests(Base):
 
     def test_staged_candidate_requires_live_intake_readback(self):
         rel = "intake/promotions/2026-10-24-research-learner-finance.json"
-        sid, lid = "src_test", "learn_test"
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        domain, claim = "finance-news", "Research staging must preserve provenance."
+        sid = ga.source_id(ga.canonicalize(canonical))
+        lid = ga.learning_id(domain, claim)
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
             "domains": {"finance": {"status": "staged", "path": rel,
                                     "source_id": sid, "learning_id": lid}}
@@ -195,16 +198,25 @@ class ReporterTests(Base):
 
         target = self.root / rel
         target.parent.mkdir(parents=True)
-        valid = {"schema_version": 1, "sources": [{"source_id": sid}],
-                 "learnings": [{"learning_id": lid, "source_ids": [sid]}]}
+        valid = {"schema_version": 1, "sources": [{"source_id": sid, "canonical": canonical}],
+                 "learnings": [{"learning_id": lid, "domain": domain, "claim": claim,
+                                "source_ids": [sid]}]}
         target.write_text(json.dumps(valid))
         report = ga.reporter(root=self.root, gh=gh,
                              now=datetime(2026, 10, 24, 12, 1, tzinfo=timezone.utc))
         self.assertIn("finance: staged → " + rel, report)
         self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 1)
 
-        for bad in ('{broken json', json.dumps({**valid, "schema_version": 0}),
-                    json.dumps({**valid, "learnings": [{"learning_id": lid, "source_ids": ["wrong"]}]})):
+        bad_docs = [
+            '{broken json',
+            json.dumps({**valid, "schema_version": 0}),
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0], "source_ids": ["wrong"]}]}),
+            json.dumps({**valid, "sources": [{**valid["sources"][0],
+                                             "canonical": "https://example.org/changed"}]}),
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0],
+                                               "claim": "tampered claim"}]}),
+        ]
+        for bad in bad_docs:
             target.write_text(bad)
             report = ga.reporter(root=self.root, gh=gh,
                                  now=datetime(2026, 10, 24, 12, 2, tzinfo=timezone.utc))
