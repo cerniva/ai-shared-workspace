@@ -246,6 +246,27 @@ def _known_learning_titles(root: Path) -> set[str]:
     return {str(l.get("title")) for l in ledger.get("learnings") or [] if isinstance(l, dict) and l.get("title")}
 
 
+def _staged_learning_titles(root: Path) -> set[str]:
+    """Deduplicate still-pending intake files without touching historical records."""
+    titles: set[str] = set()
+    folder = root / "intake" / "promotions"
+    if not folder.is_dir() or folder.is_symlink():
+        return titles
+    for path in folder.glob("*.json"):
+        if path.is_symlink() or not path.is_file():
+            continue
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+            if doc.get("schema_version") != 1:
+                continue
+            for learning in doc.get("learnings") or []:
+                if isinstance(learning, dict) and learning.get("title"):
+                    titles.add(str(learning["title"]))
+        except (OSError, ValueError, AttributeError):
+            continue
+    return titles
+
+
 def validate_promotion(root: Path, doc: dict[str, Any]) -> None:
     from scripts.knowledge_promote import _apply_batch
     with tempfile.TemporaryDirectory(prefix="research-learner-") as scratch:
@@ -281,8 +302,13 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             report["domains"][key] = entry
             continue
         known = _known_learning_titles(root)
-        if f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180] in known:
+        title = f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180]
+        if title in known:
             entry["status"] = "already_in_ledger"
+            report["domains"][key] = entry
+            continue
+        if title in _staged_learning_titles(root):
+            entry["status"] = "already_staged"
             report["domains"][key] = entry
             continue
         decision = _summarize(adapter, f"In one English sentence, what should the '{spec['plan']}' plan do about "
@@ -299,7 +325,25 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             entry["status"] = f"invalid:{type(exc).__name__}"
             report["domains"][key] = entry
             continue
-        write_json(root, rel, doc)
+        # Exclusive creation prevents an hourly rerun from overwriting a
+        # different, still-unreviewed candidate under the date-based filename.
+        target = safe_output_path(root, rel)
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.parent.resolve().is_relative_to(root.resolve()):
+                raise ValueError("staging directory escapes repository")
+            with target.open("x", encoding="utf-8") as out:
+                out.write(json.dumps(doc, ensure_ascii=False, indent=2) + "\n")
+            if json.loads(target.read_text(encoding="utf-8")) != doc:
+                raise ValueError("staging read-back mismatch")
+        except FileExistsError:
+            entry.update(status="staging_collision", path=rel)
+            report["domains"][key] = entry
+            continue
+        except (OSError, ValueError) as exc:
+            entry.update(status=f"staging_write_failed:{type(exc).__name__}", path=rel)
+            report["domains"][key] = entry
+            continue
         entry.update(status="staged", path=rel, learning_id=doc["learnings"][0]["learning_id"],
                      source_id=doc["sources"][0]["source_id"])
         report["domains"][key] = entry
