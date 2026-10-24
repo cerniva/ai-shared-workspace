@@ -817,6 +817,23 @@
       "notes": [
         "2026-10-24T10:33:49+00:00 team-worker: research-learner (team-research): 1. Restore at least one working LLM API key (or update quotas/auth) and update state/provider_health.json.\n2. Fix exception handling in provider wrappers for empty Gemini responses and non-JSON GitHub Models responses.\n3. Execute the specific test 'tests/test_shorts_learnings_applied.py' locally or in CI to debug and fix the capping/broadcast block logic failure. | sonraki: Verify and update API provider credentials in state/provider_health.json, then run pytest on tests/test_shorts_learnings_applied.py."
       ]
+    },
+    {
+      "id": "CI-40115771434",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'shorts-render-tests' run 40115771434: jobs test[?]; first error: tests/test_shorts_atomic_gate.py::AtomicShortsGateTests::test_audio_rejection_leaves_no_final_mp4",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-40115771434",
+      "status": "claimed",
+      "created_at": "2026-10-24T17:23:30+00:00",
+      "updated_at": "2026-10-24T17:23:30+00:00",
+      "claimed_at": "2026-10-24T17:23:30+00:00",
+      "notes": [
+        "2026-10-24T17:23:30+00:00 grok: team-worker devraldi",
+        "2026-10-24T17:23:30+00:00 team-worker: YAPAMADIM: model cevap vermedi (CannotDo: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, github_models=error, gemini=error, claude=error, grok=auth; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com; claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com) | team-research dispatched (team-research) | kuyruga alindi (state/team_worker_queue.json)"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
