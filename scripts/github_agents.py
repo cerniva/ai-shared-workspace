@@ -340,14 +340,29 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                         + (f"#{r['id']}" if r.get("id") else ""))
         auto_lines.append(f"  - {name}: {', '.join(runs) or 'veri yok'}"
                           + (f"; tetiklenen: {', '.join(entry['dispatched'])}" if entry.get("dispatched") else ""))
-    learn_lines = [f"  - {k}: {v.get('status')}" + (f" → {v['path']}" if v.get("path") else "")
-                   for k, v in (learner.get("domains") or {}).items()] or [f"  - {learner.get('skipped') or 'henüz çalışmadı'}"]
+    # A prior staged candidate may have been deduplicated and removed after review.
+    # State is historical; only a current, safely scoped file proves staging.
+    domains = learner.get("domains") or {}
+    staged_live = {}
+    for k, v in domains.items():
+        rel = v.get("path")
+        safe_rel = (isinstance(rel, str) and Path(rel).parts[:2] == ("intake", "promotions")
+                    and ".." not in Path(rel).parts and Path(rel).suffix == ".json")
+        staged_live[k] = (v.get("status") == "staged" and safe_rel
+                          and (root / rel).is_file())
+    learn_lines = [
+        (f"  - {k}: staged → {v['path']}" if staged_live[k]
+         else f"  - {k}: staged_missing (intake read-back failed or deduplicated)"
+         if v.get("status") == "staged"
+         else f"  - {k}: {v.get('status')}" + (f" → {v['path']}" if v.get("path") else ""))
+        for k, v in domains.items()
+    ] or [f"  - {learner.get('skipped') or 'henüz çalışmadı'}"]
     history_path = root / "state" / "agents_history.json"
     history = read_json(history_path, [])
     if not isinstance(history, list):
         history = []
     history.append({"at": current.isoformat(), "overdue": len(overdue), "open": len(open_ho),
-                    "staged": sum(1 for v in (learner.get("domains") or {}).values() if v.get("status") == "staged")})
+                    "staged": sum(staged_live.values())})
     cutoff = current - timedelta(hours=24)
     history = [h for h in history if datetime.fromisoformat(h["at"]) >= cutoff][-48:]
     write_json(root, "state/agents_history.json", history)
