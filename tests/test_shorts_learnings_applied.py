@@ -105,6 +105,32 @@ class ShortsLearningsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "broadcast"):
             self._run(doc(), packet)
 
+    def test_sourced_clips_cannot_silently_replace_original_audio(self):
+        # The free-first renderer always synthesizes narration. A licensed
+        # sourced clip requires its original audio, so fail before media fetch.
+        cases = (
+            {"content_type": "sourced_clip"},
+            {"content_type": "licensed_source_clip"},
+            {"preserve_original_audio": True},
+            {"source_video_url": "https://example.org/licensed-original.mp4"},
+        )
+        for override in cases:
+            packet = valid_packet()
+            packet.update(override)
+            pp, lp = self._files(doc(), packet)
+            with self.subTest(override=override), patch.object(pipeline, "search_free_media") as search:
+                with self.assertRaisesRegex(ValueError, "source_audio_gate"):
+                    pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
+                search.assert_not_called()
+        # This safety gate is independent of the optional learning loader.
+        packet = valid_packet()
+        packet["content_type"] = "sourced_clip"
+        pp, _ = self._files(doc(), packet)
+        with patch.object(pipeline, "search_free_media") as search:
+            with self.assertRaisesRegex(ValueError, "source_audio_gate"):
+                pipeline.prepare_render_bundle(pp, self.base / "w2", env={}, learnings_path=None)
+            search.assert_not_called()
+
     def test_cli_requires_learnings_and_reports_bridge_failure(self):
         pp, _ = self._files(doc())
         script = ROOT / "scripts" / "shorts_free_pipeline.py"
