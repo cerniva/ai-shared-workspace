@@ -30,6 +30,7 @@ class AtomicShortsGateTests(unittest.TestCase):
             "verified_by": "unit test",
             "verified_at": "2026-10-23",
             "source_sha256": file_sha256(self.source),
+            "captions_sha256": file_sha256(self.srt),
             "reuse_permitted": True,
             "derivatives_permitted": True,
             "audio_reuse_permitted": True,
