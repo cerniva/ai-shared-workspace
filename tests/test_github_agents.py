@@ -110,6 +110,30 @@ class ResearchLearnerTests(Base):
         again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
         self.assertTrue(all(v["status"] == "already_in_ledger" for v in again["domains"].values()), again)
 
+    def test_pending_intake_dedup_preserves_existing_bytes(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+        first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        saved = {v["path"]: (self.root / v["path"]).read_bytes()
+                 for v in first["domains"].values() if v["status"] == "staged"}
+        self.assertEqual(len(saved), 3)
+        again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        self.assertTrue(all(v["status"] == "already_staged"
+                            for v in again["domains"].values()), again)
+        self.assertEqual(saved, {p: (self.root / p).read_bytes() for p in saved})
+
+    def test_new_headline_same_day_never_overwrites_pending_candidate(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+        first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        saved = {v["path"]: (self.root / v["path"]).read_bytes()
+                 for v in first["domains"].values() if v["status"] == "staged"}
+        changed = lambda u: (ATOM.replace("New API", "Another API")
+                             if "github" in u or "shopify" in u
+                             else RSS.replace("FOMC statement", "FOMC update"))
+        again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=changed)
+        self.assertTrue(all(v["status"] == "staging_collision"
+                            for v in again["domains"].values()), again)
+        self.assertEqual(saved, {p: (self.root / p).read_bytes() for p in saved})
+
     def test_fetch_error_recorded(self):
         def boom(url):
             raise OSError("down")
