@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "verified_at": "2026-10-24T09:15:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Shopify developer changelog feed: Metaobject analytics queryable capability available in the Admin API",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page metaobject-analytics-queryable-capability-available-in-the-admin-api (published 20 Oct 2026, read 2026-10-24) states that starting with GraphQL Admin API 2027-01 apps can read MetaobjectCapabilities.analyticsQueryable (eligible, enabled) and set it via MetaobjectCapabilityCreateInput/UpdateInput.analyticsQueryable.enabled; MetaobjectCapabilityType gains ANALYTICS_QUERYABLE and MetaobjectUserErrorCode gains CAPABILITY_NOT_ELIGIBLE. A definition is eligible only if at least one field uses an analytics-compatible type. Earlier API versions do not see the field; no action is required.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify stores video data in metaobjects and wants it in Shopify analytics; then move to Admin API 2027-01, check eligible before enabling, and handle CAPABILITY_NOT_ELIGIBLE. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code for metaobject definitions and the Admin API version in use; record found/not-found before 2026-10-31.",
+      "learned_at": "2026-10-22T06:06:32+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Discover a merchant's retail stores with UCP location search and lookup",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page discover-a-merchant-s-retail-stores-with-ucp-location-search-and-lookup (published 22 Oct 2026, read 2026-10-24) states Shopify storefronts support UCP 2026-08-25 capabilities dev.ucp.common.location.search and dev.ucp.common.location.lookup: shops with at least one retail location advertise them at /.well-known/ucp, and the storefront MCP endpoint https://{storedomain}/api/ucp/mcp then exposes search_locations (query by name/city, distance with explicit center and max radius in meters, filters.items up to 10 variant IDs, 10 results default, up to 250 via pagination.limit) and lookup_locations (first 10 distinct IDs, batch_limit_applied beyond that). Item matches follow store availability rules and are not stock counts, pickup promises or reservations; hours, amenities, custom filters and serves return invalid_input; pickup checkout for a selected location is not supported.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify builds a buyer-facing agent on the storefront UCP MCP endpoint for a shop with retail locations; then declare both capabilities at 2026-08-25, call tools only when the shop profile lists them, send distance.center only from buyer-shared location, and confirm availability in cart/checkout. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code and connector configs for UCP / storefront MCP usage and whether the store has retail locations; record found/not-found before 2026-10-31.",
+      "learned_at": "2026-10-23T06:05:43+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
