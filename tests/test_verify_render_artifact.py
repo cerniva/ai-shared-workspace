@@ -200,12 +200,12 @@ class DigestConsumerTests(unittest.TestCase):
     def test_existing_report_reuse_fails_closed_before_any_consumer_action(self):
         """A stale PASS report must never be silently overwritten or reused."""
         report = self.root / "verified-render-artifact.json"
-        old = '{"status":"PASS","applied_learning_ids":["stale"]}\\n'
+        old = '{"status":"PASS","applied_learning_ids":["stale"]}\n'
         report.write_text(old, encoding="utf-8")
         destination = self.root / "downloaded"
         stderr = io.StringIO()
-        with patch("scripts.verify_render_artifact.active_rule") as learning, \\
-             patch("scripts.verify_render_artifact.fetch_metadata") as metadata, \\
+        with patch("scripts.verify_render_artifact.active_rule") as learning, \
+             patch("scripts.verify_render_artifact.fetch_metadata") as metadata, \
              contextlib.redirect_stderr(stderr):
             rc = main(["--run-id", "99", "--name", "shorts-free-render",
                        "--destination", str(destination), "--report", str(report)])
@@ -227,8 +227,8 @@ class DigestConsumerTests(unittest.TestCase):
                 stderr = io.StringIO()
                 report = self.root / "report.json"
                 destination = self.root / "downloaded"
-                with patch("scripts.verify_render_artifact.LearningLedger") as ledger, \\
-                     patch("scripts.verify_render_artifact.fetch_metadata") as metadata, \\
+                with patch("scripts.verify_render_artifact.LearningLedger") as ledger, \
+                     patch("scripts.verify_render_artifact.fetch_metadata") as metadata, \
                      contextlib.redirect_stderr(stderr):
                     ledger.return_value.for_plan.return_value = rows
                     rc = main(["--run-id", "99", "--name", "shorts-free-render",
