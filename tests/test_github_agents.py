@@ -121,6 +121,27 @@ class ResearchLearnerTests(Base):
                             for v in again["domains"].values()), again)
         self.assertEqual(saved, {p: (self.root / p).read_bytes() for p in saved})
 
+    def test_invalid_pending_identity_does_not_mask_new_research(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+        first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+        target = self.root / first["domains"]["finance"]["path"]
+        original = json.loads(target.read_text(encoding="utf-8"))
+        for fault in ("source_refs", "source_identity", "learning_identity"):
+            with self.subTest(fault=fault):
+                doc = json.loads(json.dumps(original))
+                if fault == "source_refs":
+                    doc["learnings"][0]["source_ids"] = ["src_nonexistent"]
+                elif fault == "source_identity":
+                    doc["sources"][0]["source_id"] = "src_wrong"
+                    doc["learnings"][0]["source_ids"] = ["src_wrong"]
+                else:
+                    doc["learnings"][0]["learning_id"] = "learn_wrong"
+                target.write_text(json.dumps(doc), encoding="utf-8")
+                second = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
+                self.assertEqual(second["domains"]["finance"]["status"], "staging_collision", second)
+                self.assertEqual(json.loads(target.read_text(encoding="utf-8")), doc)
+                self.assertEqual(second["domains"]["video_shopify"]["status"], "already_staged")
+
     def test_new_headline_same_day_never_overwrites_pending_candidate(self):
         fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
         first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
