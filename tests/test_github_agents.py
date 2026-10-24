@@ -135,6 +135,25 @@ class ReporterTests(Base):
         self.assertIn("başarısız: a", text)
 
 
+    def test_staged_candidate_requires_live_intake_readback(self):
+        rel = "intake/promotions/2026-10-24-research-learner-finance.json"
+        (self.root / "state" / "research_learner.json").write_text(json.dumps({
+            "domains": {"finance": {"status": "staged", "path": rel}}
+        }))
+        gh = ga.GitHub("o/r", "t", FakeHTTP())
+        report = ga.reporter(root=self.root, gh=gh,
+                             now=datetime(2026, 10, 24, 12, 0, tzinfo=timezone.utc))
+        self.assertIn("finance: staged_missing", report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
+
+        target = self.root / rel
+        target.parent.mkdir(parents=True)
+        target.write_text('{"schema_version":1}')
+        report = ga.reporter(root=self.root, gh=gh,
+                             now=datetime(2026, 10, 24, 12, 1, tzinfo=timezone.utc))
+        self.assertIn("finance: staged → " + rel, report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 1)
+
 class SafetyTests(unittest.TestCase):
     def test_output_paths_restricted(self):
         root = Path("/tmp/x")
