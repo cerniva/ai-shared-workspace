@@ -387,6 +387,38 @@ def _ci_line(gh: GitHub) -> str:
     return f"{len(latest)} workflow; başarısız: {', '.join(bad) or 'yok'}"
 
 
+def _valid_staged_identity(doc: Any, sid: Any, lid: Any) -> bool:
+    """Check canonical source and learning identities, not just stored labels."""
+    if (not isinstance(doc, dict) or doc.get("schema_version") != 1
+            or not isinstance(sid, str) or not isinstance(lid, str)
+            or not isinstance(doc.get("sources"), list)
+            or not isinstance(doc.get("learnings"), list)):
+        return False
+    valid_sources: set[str] = set()
+    for source in doc["sources"]:
+        if not isinstance(source, dict) or not isinstance(source.get("canonical"), str):
+            continue
+        try:
+            canonical = canonicalize(source["canonical"])
+            if source.get("source_id") == source_id(canonical):
+                valid_sources.add(source["source_id"])
+        except (ValueError, RuntimeError, TypeError):
+            continue
+    if sid not in valid_sources:
+        return False
+    for learning in doc["learnings"]:
+        if not isinstance(learning, dict):
+            continue
+        domain, claim, refs = learning.get("domain"), learning.get("claim"), learning.get("source_ids")
+        if (not isinstance(domain, str) or not isinstance(claim, str)
+                or not isinstance(refs, list) or not refs
+                or any(not isinstance(ref, str) or ref not in valid_sources for ref in refs)):
+            continue
+        if learning.get("learning_id") == lid == learning_id(domain, claim) and sid in refs:
+            return True
+    return False
+
+
 def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> str:
     current = (now or now_utc()).astimezone(UTC)
     runner = read_json(root / "state" / "automation_runner.json", {})
@@ -422,13 +454,7 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                 boundary = (root / "intake" / "promotions").resolve()
                 if target.is_relative_to(boundary) and target.is_file():
                     doc = json.loads(target.read_text(encoding="utf-8"))
-                    sources, learnings = doc.get("sources"), doc.get("learnings")
-                    sid, lid = v.get("source_id"), v.get("learning_id")
-                    valid = (doc.get("schema_version") == 1 and bool(sid) and bool(lid)
-                             and isinstance(sources, list) and isinstance(learnings, list)
-                             and any(isinstance(s, dict) and s.get("source_id") == sid for s in sources)
-                             and any(isinstance(l, dict) and l.get("learning_id") == lid
-                                     and sid in l.get("source_ids", []) for l in learnings))
+                    valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"))
             except (OSError, ValueError, TypeError, AttributeError):
                 pass
         staged_live[k] = valid
