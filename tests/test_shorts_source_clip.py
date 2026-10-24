@@ -251,6 +251,30 @@ class SourceClipTests(unittest.TestCase):
                        start=0, seconds=30, language="en")
         self.assertFalse(output.exists())
 
+    def test_portrait_filter_fills_frame_without_letterboxing(self):
+        from scripts.shorts_source_clip import _portrait_filter
+        vf = _portrait_filter(0.5, 0.5)
+        self.assertIn("force_original_aspect_ratio=increase", vf)
+        self.assertIn("crop=1080:1920:", vf)
+        self.assertNotIn("pad=", vf)
+        self.assertIn("subtitles=captions.srt", vf)
+
+    def test_portrait_crop_anchors_are_explicit(self):
+        from scripts.shorts_source_clip import _portrait_filter
+        vf = _portrait_filter(0.0, 1.0)
+        self.assertIn("(iw-1080)*0.000:(ih-1920)*1.000", vf)
+
+    def test_invalid_crop_coordinates_fail_closed_before_ffmpeg(self):
+        for value in (-0.01, 1.01, float("nan"), float("inf")):
+            with self.subTest(value=value):
+                output = self.root / "must-not-exist.mp4"
+                with patch("scripts.shorts_source_clip.subprocess.run",
+                           side_effect=AssertionError("FFmpeg must not run")):
+                    with self.assertRaisesRegex(ValueError, "crop_x and crop_y"):
+                        render(self.video, self.srt, self.evidence, output,
+                               start=0, seconds=30, language="en", crop_x=value)
+                self.assertFalse(output.exists())
+
     def test_direct_cli_help_without_pythonpath(self):
         import os
         import subprocess
