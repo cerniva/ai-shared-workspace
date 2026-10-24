@@ -174,7 +174,37 @@ def fit_train_bounds(history: list[float | None], as_of: int, params: dict[str, 
     return None if lo >= hi else (lo, hi)
 
 
-def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None) -> dict[str, Any]:
+ALTSEASON_LEARNING_ID = "learn_f7b141c60755c294"
+
+
+def _require_altseason_learning(ledger_path=None, catalog_path=None) -> str:
+    """Read the active finance policy and its sources before scoring.
+
+    Applying a conservative rule does not verify historical input data or
+    imply that any calibration/backtest has passed.
+    """
+    from scripts.knowledge_bridge import CatalogError, DEFAULT_CATALOG, SourceCatalog
+    from scripts.learning_bridge import DEFAULT_LEDGER, LearningLedger
+
+    catalog_path = catalog_path or DEFAULT_CATALOG
+    ledger = LearningLedger(ledger_path or DEFAULT_LEDGER, catalog_path)
+    row = next(
+        (item for item in ledger.for_plan("finance")
+         if item.get("learning_id") == ALTSEASON_LEARNING_ID),
+        None,
+    )
+    if not row or "No invented 0-100 values" not in row.get("decision", ""):
+        raise CatalogError("bridge_failure: active altseason finance policy missing or changed")
+    source_ids = row.get("source_ids") or []
+    catalog = SourceCatalog(catalog_path)
+    if not source_ids or any(catalog.find(source_id) is None for source_id in source_ids):
+        raise CatalogError("bridge_failure: altseason policy has missing source references")
+    return ALTSEASON_LEARNING_ID
+
+
+def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None,
+                    *, ledger_path=None, catalog_path=None) -> dict[str, Any]:
+    applied_id = _require_altseason_learning(ledger_path, catalog_path)
     cfg = cfg or load_calibration_config()
     rows = {}
     for ind in cfg["indicators"]:
@@ -188,4 +218,12 @@ def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None 
         rows[ind["name"]] = {"value": x, "direction": direction, "source_url": ind["source_url"], "score": s}
     scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
     composite = round(sum(scored) / len(scored), 1) if scored and len(scored) == len(rows) else "N/A"
-    return {"indicators": rows, "composite_score": composite, "scored": len(scored), "total": len(rows)}
+    return {
+        "indicators": rows,
+        "composite_score": composite,
+        "scored": len(scored),
+        "total": len(rows),
+        "applied_learning_ids": [applied_id],
+        "decision_status": "CALIBRATION_UNVERIFIED" if len(scored) != len(rows) else "ALL_CONFIG_INDICATORS_SCORED",
+        "historical_backtest_verified": False,
+    }
