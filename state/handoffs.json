@@ -799,7 +799,10 @@
       "evidence": "state/improvement_report.json day=20261024 key=slow-worker-orchestration-tests",
       "status": "open",
       "created_at": "2026-10-24T05:51:00+00:00",
-      "updated_at": "2026-10-24T05:51:00+00:00"
+      "updated_at": "2026-10-24T05:52:35+00:00",
+      "notes": [
+        "2026-10-24T05:52:35+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=error, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com)"
+      ]
     }
   ]
 }
