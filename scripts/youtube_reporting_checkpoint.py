@@ -61,7 +61,7 @@ def evaluate_batch(batch: dict[str, Any],
         raise ValueError("INVALID_BATCH")
     previous = batch.get("previous_checkpoint")
     previous_dt = _time(previous) if previous is not None else None
-    selected: dict[tuple[str, str, str], tuple[datetime, dict]] = {}
+    selected: dict[tuple[str, datetime, datetime], tuple[datetime, dict]] = {}
     seen_ids: dict[str, tuple[str, str | None]] = {}
     for report in batch["reports"]:
         if not isinstance(report, dict):
@@ -76,7 +76,10 @@ def evaluate_batch(batch: dict[str, Any],
             raise ValueError("INVALID_REPORT") from exc
         if not all(isinstance(v, str) and v for v in (rid, job, start, end)):
             raise ValueError("INVALID_REPORT")
-        if _time(start) >= _time(end):
+        # Compare periods as UTC instants, not raw timezone spellings.
+        # Equivalent RFC3339 offsets must not evade newest-backfill deduplication.
+        period_start, period_end = _time(start), _time(end)
+        if period_start >= period_end:
             raise ValueError("INVALID_PERIOD")
         fingerprint = json.dumps({k: report[k] for k in ("id", "jobId", "startTime", "endTime", "createTime")}, sort_keys=True)
         acknowledgement = report.get("import_status")
@@ -89,7 +92,7 @@ def evaluate_batch(batch: dict[str, Any],
                 raise ValueError("CONFLICTING_REPORT_ACK")
             continue
         seen_ids[rid] = (fingerprint, acknowledgement)
-        key = (job, start, end)
+        key = (job, period_start, period_end)
         old = selected.get(key)
         if old is None or created > old[0]:
             selected[key] = (created, report)
