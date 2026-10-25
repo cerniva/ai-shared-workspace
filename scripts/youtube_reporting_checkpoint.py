@@ -103,6 +103,18 @@ def evaluate_batch(batch: dict[str, Any],
         elif created == old[0] and rid != old[1]["id"]:
             raise ValueError("AMBIGUOUS_BACKFILL")
     winners = [pair[1] for pair in selected.values()]
+    winner_ids = {row["id"] for row in winners}
+    superseded_ids = sorted(set(seen_ids) - winner_ids)
+    # A newer backfill is not proof that the older report was durably
+    # deduplicated. Require an explicit, report-ID-level acknowledgement.
+    # The caller must independently verify the acknowledgement's persistence.
+    dedup_acks = batch.get("durably_deduplicated_report_ids", [])
+    if (not isinstance(dedup_acks, list)
+            or any(not isinstance(rid, str) or not rid for rid in dedup_acks)
+            or len(dedup_acks) != len(set(dedup_acks))
+            or not set(dedup_acks).issubset(superseded_ids)):
+        raise ValueError("INVALID_DEDUP_ACK")
+    unverified_superseded = sorted(set(superseded_ids) - set(dedup_acks))
     unacked = sorted(row["id"] for row in winners
                      if row.get("import_status") != "persisted_readback_verified")
     complete = batch.get("pagination_complete") is True
@@ -111,6 +123,8 @@ def evaluate_batch(batch: dict[str, Any],
         status = "HOLD_INCOMPLETE_PAGINATION"
     elif unacked or not index_verified:
         status = "HOLD_UNVERIFIED_IMPORT"
+    elif unverified_superseded:
+        status = "HOLD_UNVERIFIED_DEDUP"
     elif not winners:
         status = "NO_NEW_REPORTS"
     else:
@@ -127,6 +141,9 @@ def evaluate_batch(batch: dict[str, Any],
         "checkpoint_committed": False,
         "selected_report_ids": sorted(row["id"] for row in winners),
         "unverified_report_ids": unacked,
+        "superseded_report_ids": superseded_ids,
+        "durably_deduplicated_report_ids": sorted(dedup_acks),
+        "unverified_superseded_report_ids": unverified_superseded,
         "applied_learning_ids": [policy["learning_id"]],
         "source_ids": [policy["source_id"]],
         "production_channel_access": False,
