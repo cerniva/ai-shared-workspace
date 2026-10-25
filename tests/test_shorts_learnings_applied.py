@@ -120,6 +120,18 @@ class ShortsLearningsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "bridge_failure"):
                 self._run(bad)
 
+    def test_nonfinite_duration_fails_before_media_fetch(self):
+        # float('nan') evades both <=0 and >180 comparisons; infinite values
+        # likewise must not reach media download or a render manifest.
+        for value in ("NaN", "Infinity", "-Infinity"):
+            packet = valid_packet()
+            packet["target_seconds"] = value
+            pp, lp = self._files(doc(), packet)
+            with self.subTest(value=value), patch.object(pipeline, "search_free_media") as search:
+                with self.assertRaisesRegex(ValueError, "target_seconds must be finite"):
+                    pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
+                search.assert_not_called()
+
     def test_cerno_30s_cap_and_broadcast_clips_block_without_search(self):
         packet = valid_packet(); packet["target_seconds"] = 45
         with self.assertRaisesRegex(ValueError, "max 30s"):
