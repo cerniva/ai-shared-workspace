@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "source_name": "GitHub changelog feed",
+      "canonical": "https://github.blog/changelog/feed",
+      "category": "github-platform",
+      "purpose": "Keyless primary feed for system research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed and item page fetched and read in full on 2026-10-25 (newest item 2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode). Changelog items describe GitHub product changes only; they do not prove this workspace uses the feature.",
+      "discovered_at": "2026-10-25T06:03:22+00:00",
+      "provenance": "verified"
+    }
+  ],
+  "source_refreshes": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "verified_at": "2026-10-25T09:15:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog feed: Usage metrics API adds usage from tools like OpenCode",
+      "domain": "github-platform",
+      "claim": "GitHub changelog item 2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode (23 Oct 2026, read 2026-10-25) states the Copilot usage metrics API adds an additive totals_by_client array to enterprise, organization, enterprise-user and organization-user 1-day and 28-day reports (in 28-day reports inside each day_totals entry). Each entry has client (e.g. opencode, claude_code, codex, zed, copilot_cli, github_app, cloud_agent, code_review, vscode, jetbrains, else other), request_count (model calls, not prompts), session_count, token_usage and totals_by_model with model_selection_mode user_selected/auto/product_selected/other/unknown. Client is a best-effort grouping by integration ID, not a verified identity; access needs enterprise/org owner, billing manager or View Copilot Metrics role and the Copilot usage metrics policy enabled; the array is empty when there is no usage.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if the system plan ever reports Copilot usage for an org/enterprise; then read totals_by_client per day, do not compare request_count with prompt counts, and treat client as best-effort. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search system scripts for Copilot usage metrics API calls (totals_by_ide / copilot metrics endpoints); record found/not-found before 2026-11-01.",
+      "learned_at": "2026-10-25T06:03:22+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Unlink a customer's identity provider subject with the GraphQL Admin API",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page unlink-a-customers-identity-provider-subject-with-the-admin-graphql-api (published 23 Oct 2026, read 2026-10-25, HTTP 200) states that as of GraphQL Admin API 2027-01 the identityProviderSubjectDelete mutation unlinks a customer from a third-party identity provider, taking customerId and the subject id (from Customer.identityProviderSubjects). Unlinking signs the customer out of all existing sessions; the next sign-in through that identity provider links them again. It requires the write_customers access scope.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify manages customer accounts linked to a third-party identity provider; then use Admin API 2027-01 with write_customers, and expect forced sign-out plus re-link on next IdP sign-in (it is not a permanent block). No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code for customer identity provider / SSO handling and the Admin API version and scopes in use; record found/not-found before 2026-11-01.",
+      "learned_at": "2026-10-25T06:03:22+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
