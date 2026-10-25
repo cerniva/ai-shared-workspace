@@ -187,7 +187,10 @@ def _require_altseason_learning(ledger_path=None, catalog_path=None) -> str:
     from scripts.learning_bridge import DEFAULT_LEDGER, LearningLedger
 
     catalog_path = catalog_path or DEFAULT_CATALOG
+    catalog = SourceCatalog(catalog_path)
+    catalog.validate()  # Reject tampered canonical URLs even if the source ID still exists.
     ledger = LearningLedger(ledger_path or DEFAULT_LEDGER, catalog_path)
+    ledger.validate()  # Reject a modified claim paired with an old learning ID.
     row = next(
         (item for item in ledger.for_plan("finance")
          if item.get("learning_id") == ALTSEASON_LEARNING_ID),
@@ -196,7 +199,6 @@ def _require_altseason_learning(ledger_path=None, catalog_path=None) -> str:
     if not row or "No invented 0-100 values" not in row.get("decision", ""):
         raise CatalogError("bridge_failure: active altseason finance policy missing or changed")
     source_ids = row.get("source_ids") or []
-    catalog = SourceCatalog(catalog_path)
     if not source_ids or any(catalog.find(source_id) is None for source_id in source_ids):
         raise CatalogError("bridge_failure: altseason policy has missing source references")
     return ALTSEASON_LEARNING_ID
