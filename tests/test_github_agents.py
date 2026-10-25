@@ -110,6 +110,31 @@ class ResearchLearnerTests(Base):
         again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
         self.assertTrue(all(v["status"] == "already_in_ledger" for v in again["domains"].values()), again)
 
+    def test_missing_or_malformed_ledger_blocks_staging_without_model_call(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+
+        class NoModelCalls:
+            def run(self, job):
+                raise AssertionError("model must not run when canonical ledger is unavailable")
+
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        original = ledger_path.read_bytes()
+        for bad in (None, "{broken", "[]", '{"learnings":{}}',
+                    '{"learnings":[null]}'):
+            with self.subTest(bad=bad):
+                if bad is None:
+                    ledger_path.unlink(missing_ok=True)
+                else:
+                    ledger_path.write_text(bad, encoding="utf-8")
+                result = ga.research_learner(root=self.root, adapter=NoModelCalls(), fetch=fetch)
+                self.assertEqual(set(result["domains"]), set(ga.RESEARCH_SOURCES))
+                self.assertTrue(all(v["status"] == "ledger_unavailable"
+                                    for v in result["domains"].values()), result)
+                self.assertFalse((self.root / "intake").exists())
+                saved = json.loads((self.root / "state" / "research_learner.json").read_text())
+                self.assertEqual(saved["domains"], result["domains"])
+        ledger_path.write_bytes(original)
+
     def test_pending_intake_dedup_preserves_existing_bytes(self):
         fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
         first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
