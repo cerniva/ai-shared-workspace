@@ -450,6 +450,7 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
     }
     staged_live = {}
     staged_promoted = {}
+    staged_valid = {}
     for k, v in domains.items():
         rel = v.get("path")
         safe_rel = (isinstance(rel, str) and Path(rel).parts[:2] == ("intake", "promotions")
@@ -466,13 +467,14 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                     valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"))
             except (OSError, ValueError, TypeError, AttributeError):
                 pass
+        staged_valid[k] = valid
         staged_promoted[k] = valid and ledger_ready and v.get("learning_id") in canonical_learning_ids
         staged_live[k] = valid and ledger_ready and not staged_promoted[k]
     learn_lines = [
         (f"  - {k}: already_in_ledger (staged file retained; not new)" if staged_promoted[k]
          else f"  - {k}: staged → {v['path']}" if staged_live[k]
          else f"  - {k}: staged_unverified (canonical ledger unavailable)"
-         if v.get("status") == "staged" and valid and not ledger_ready
+         if v.get("status") == "staged" and staged_valid[k] and not ledger_ready
          else f"  - {k}: staged_missing (intake read-back failed or deduplicated)"
          if v.get("status") == "staged"
          else f"  - {k}: {v.get('status')}" + (f" → {v['path']}" if v.get("path") else ""))
