@@ -14,13 +14,16 @@ from tests.test_shorts_free_pipeline import asset, fake_download, valid_packet
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [sl.PRIVACY, sl.QUOTA, sl.CERNO, sl.HO04_GATE]
-SOURCE_IDS = {row["learning_id"]: row["source_ids"]
-              for row in plan_learnings("video_shopify")["learnings"]}
+ACTIVE_ROWS = {row["learning_id"]: row
+               for row in plan_learnings("video_shopify")["learnings"]}
+SOURCE_IDS = {lid: row["source_ids"] for lid, row in ACTIVE_ROWS.items()}
+DECISIONS = {lid: row["decision"] for lid, row in ACTIVE_ROWS.items()}
 
 
 def doc(ids=REQUIRED, tag="video_shopify", error=None):
     return {"tag": tag, "count": len(ids), "error": error,
-            "learnings": [{"learning_id": i, "title": i, "decision": "d",
+            "learnings": [{"learning_id": i, "title": i,
+                           "decision": DECISIONS.get(i, "d"),
                            "source_ids": SOURCE_IDS.get(i, [])} for i in ids]}
 
 
@@ -85,6 +88,29 @@ class ShortsLearningsTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "bridge_failure:"):
                     pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
                 search.assert_not_called()
+
+    def test_forged_source_or_decision_fails_before_media_fetch(self):
+        for kind in ("invented_source", "other_learning_source", "changed_decision"):
+            learnings = doc()
+            if kind == "invented_source":
+                learnings["learnings"][0]["source_ids"] = ["src_ffffffffffffffff"]
+            elif kind == "other_learning_source":
+                learnings["learnings"][0]["source_ids"] = list(SOURCE_IDS[sl.QUOTA])
+            else:
+                learnings["learnings"][0]["decision"] = "tampered decision"
+            pp, lp = self._files(learnings)
+            with self.subTest(kind=kind), patch.object(pipeline, "search_free_media") as search:
+                with self.assertRaisesRegex(ValueError, "bridge_failure: learning provenance/decision mismatch"):
+                    pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
+                search.assert_not_called()
+
+    def test_inactive_learning_cannot_be_claimed(self):
+        pp, lp = self._files(doc())
+        with patch.object(sl, "plan_learnings", return_value={"error": None, "learnings": []}), \\
+             patch.object(pipeline, "search_free_media") as search:
+            with self.assertRaisesRegex(ValueError, "bridge_failure: required learning not active"):
+                pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
+            search.assert_not_called()
 
     def test_missing_errored_or_wrong_tag_file_fails(self):
         pp, _ = self._files(doc())
