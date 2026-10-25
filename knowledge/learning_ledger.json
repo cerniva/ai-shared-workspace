@@ -1,6 +1,27 @@
 {
   "learnings": [
     {
+      "claim": "Shopify developer changelog page metaobject-analytics-queryable-capability-available-in-the-admin-api (published 20 Oct 2026, read 2026-10-24) states that starting with GraphQL Admin API 2027-01 apps can read MetaobjectCapabilities.analyticsQueryable (eligible, enabled) and set it via MetaobjectCapabilityCreateInput/UpdateInput.analyticsQueryable.enabled; MetaobjectCapabilityType gains ANALYTICS_QUERYABLE and MetaobjectUserErrorCode gains CAPABILITY_NOT_ELIGIBLE. A definition is eligible only if at least one field uses an analytics-compatible type. Earlier API versions do not see the field; no action is required.",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify stores video data in metaobjects and wants it in Shopify analytics; then move to Admin API 2027-01, check eligible before enabling, and handle CAPABILITY_NOT_ELIGIBLE. No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-22T06:06:32+00:00",
+      "learning_id": "learn_00dbd5a926762c1c",
+      "next_measurement": "Search video_shopify code for metaobject definitions and the Admin API version in use; record found/not-found before 2026-10-31.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Metaobject analytics queryable capability available in the Admin API"
+    },
+    {
       "claim": "YouTube native title and thumbnail A/B test is not a Shorts experiment; Shorts packaging iteration must not be labeled as that product.",
       "decision": "Use sequential owned-channel metrics for Shorts experiments and reserve native A/B conclusions for eligible long-form only.",
       "domain": "youtube-shorts-experimentation",
@@ -177,6 +198,27 @@
       ],
       "supersedes": null,
       "title": "Shorts description and comment URLs are not the clickable route"
+    },
+    {
+      "claim": "Shopify developer changelog page unlink-a-customers-identity-provider-subject-with-the-admin-graphql-api (published 23 Oct 2026, read 2026-10-25, HTTP 200) states that as of GraphQL Admin API 2027-01 the identityProviderSubjectDelete mutation unlinks a customer from a third-party identity provider, taking customerId and the subject id (from Customer.identityProviderSubjects). Unlinking signs the customer out of all existing sessions; the next sign-in through that identity provider links them again. It requires the write_customers access scope.",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify manages customer accounts linked to a third-party identity provider; then use Admin API 2027-01 with write_customers, and expect forced sign-out plus re-link on next IdP sign-in (it is not a permanent block). No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-25T06:03:22+00:00",
+      "learning_id": "learn_2d188dd0a6daf843",
+      "next_measurement": "Search video_shopify code for customer identity provider / SSO handling and the Admin API version and scopes in use; record found/not-found before 2026-11-01.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Unlink a customer's identity provider subject with the GraphQL Admin API"
     },
     {
       "claim": "The official GraphQL Admin API reference (fetched 2026-10-09) states that the GraphQL API can return 200 OK for cases that would be 4xx/5xx in REST, with errors[].extensions.code values such as THROTTLED, ACCESS_DENIED, SHOP_INACTIVE and INTERNAL_SERVER_ERROR, that a single query above the max cost (1000) fails with MAX_COST_EXCEEDED, and that responses carry extensions.cost.throttleStatus.",
@@ -1052,6 +1094,27 @@
       "title": "Separate GitHub App Contents and Workflows permissions"
     },
     {
+      "claim": "Shopify developer changelog page discover-a-merchant-s-retail-stores-with-ucp-location-search-and-lookup (published 22 Oct 2026, read 2026-10-24) states Shopify storefronts support UCP 2026-08-25 capabilities dev.ucp.common.location.search and dev.ucp.common.location.lookup: shops with at least one retail location advertise them at /.well-known/ucp, and the storefront MCP endpoint https://{storedomain}/api/ucp/mcp then exposes search_locations (query by name/city, distance with explicit center and max radius in meters, filters.items up to 10 variant IDs, 10 results default, up to 250 via pagination.limit) and lookup_locations (first 10 distinct IDs, batch_limit_applied beyond that). Item matches follow store availability rules and are not stock counts, pickup promises or reservations; hours, amenities, custom filters and serves return invalid_input; pickup checkout for a selected location is not supported.",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify builds a buyer-facing agent on the storefront UCP MCP endpoint for a shop with retail locations; then declare both capabilities at 2026-08-25, call tools only when the shop profile lists them, send distance.center only from buyer-shared location, and confirm availability in cart/checkout. No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-23T06:05:43+00:00",
+      "learning_id": "learn_b83baa78f71d4d12",
+      "next_measurement": "Search video_shopify code and connector configs for UCP / storefront MCP usage and whether the store has retail locations; record found/not-found before 2026-10-31.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Discover a merchant's retail stores with UCP location search and lookup"
+    },
+    {
       "claim": "YouTube Analytics reports.query now documents an additional requirement for https://www.googleapis.com/auth/youtube.readonly. The same page still lists yt-analytics.readonly for activity reports. Samples on that page still request only yt-analytics.readonly.",
       "decision": "YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE: before verified_connected, require a successful reports.query under the current documented authorization. Do not treat yt-analytics.readonly alone as sufficient while the reports.query banner requires youtube.readonly. If the token lacks youtube.readonly, classify blocked/auth_scope and do not blind-retry 401/403. Human learning_id learn_youtube_analytics_dual_scope_gate_20261003.",
       "domain": "youtube-analytics",
@@ -1599,6 +1662,27 @@
       "title": "Finance bond yield freshness must respect SIFMA market holidays"
     },
     {
+      "claim": "GitHub changelog item 2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode (23 Oct 2026, read 2026-10-25) states the Copilot usage metrics API adds an additive totals_by_client array to enterprise, organization, enterprise-user and organization-user 1-day and 28-day reports (in 28-day reports inside each day_totals entry). Each entry has client (e.g. opencode, claude_code, codex, zed, copilot_cli, github_app, cloud_agent, code_review, vscode, jetbrains, else other), request_count (model calls, not prompts), session_count, token_usage and totals_by_model with model_selection_mode user_selected/auto/product_selected/other/unknown. Client is a best-effort grouping by integration ID, not a verified identity; access needs enterprise/org owner, billing manager or View Copilot Metrics role and the Copilot usage metrics policy enabled; the array is empty when there is no usage.",
+      "decision": "REVIEW_ONLY: only relevant if the system plan ever reports Copilot usage for an org/enterprise; then read totals_by_client per day, do not compare request_count with prompt counts, and treat client as best-effort. No operational change without approval.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-25T06:03:22+00:00",
+      "learning_id": "learn_ff8b8309d6056431",
+      "next_measurement": "Search system scripts for Copilot usage metrics API calls (totals_by_ide / copilot metrics endpoints); record found/not-found before 2026-11-01.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub changelog feed: Usage metrics API adds usage from tools like OpenCode"
+    },
+    {
       "claim": "The official YouTube Analytics reports.query page banner says requests now require youtube.readonly, while the same page authorization-scope table and embedded JavaScript and Python samples still document yt-analytics.readonly. Documentation on that page is internally inconsistent, so the banner alone does not prove both scopes are always required.",
       "decision": "YOUTUBE_ANALYTICS_SCOPE_DOC_CONSISTENCY_GATE: narrow YOUTUBE_ANALYTICS_DUAL_SCOPE_GATE. Do not reauthorize solely because the reports.query banner exists. Keep runtime authorization unverified until an owned-channel reports.query response is observed. Classify a real 401/403 from returned error details and separate it from invalid_grant. Do not blind-retry. Human learning_id learn_youtube_scope_doc_consistency_20261003.",
       "domain": "youtube-analytics",
@@ -1622,5 +1706,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-17T06:12:48+00:00"
+  "updated_at": "2026-10-25T06:12:47+00:00"
 }
