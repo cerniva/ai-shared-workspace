@@ -30,6 +30,21 @@
       "discovered_at": "2026-10-25T09:00:00+03:00",
       "last_successful_use": "2026-10-25T09:00:00+03:00",
       "failure_note": null
+    },
+    {
+      "source_id": "src_8f171069994d3921",
+      "source_name": "CoinMarketCap official Global Metrics API reference",
+      "canonical": "https://coinmarketcap.com/api/documentation/pro-api-reference/global-metrics",
+      "category": "finance-crypto-market-data",
+      "purpose": "Verify documented total_volume_24h and derivatives_volume_24h fields; distinguish official API definitions from connected-plugin snapshot display strings before any liquidity ratio",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public API documentation; no API request or paid credits used",
+      "reliability_limits": "The official REST field definitions do not establish timestamp, unit normalization, or additive compatibility for the connected plugin's two separately rendered global dashboards; do not infer a reconciled denominator.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-25T10:30:00+03:00",
+      "last_successful_use": "2026-10-25T10:30:00+03:00",
+      "failure_note": null
     }
   ],
   "learnings": [
@@ -49,7 +64,8 @@
       "next_measurement": "At next liquid session compare time-stamped CMC market metrics and derivatives metrics with documented definitions and a second independent derivatives provider; only restore ratios after reconciliation.",
       "source_ids": [
         "src_a29d9b16c4006cb1",
-        "src_9888ad31b6cd2024"
+        "src_9888ad31b6cd2024",
+        "src_8f171069994d3921"
       ],
       "failure_history": [
         "25 Oct 2026: market total 54.72 B versus spot 109.4 B and derivatives 554.55 B; separate derivatives total 170.67 T; incompatible as one additive liquidity decomposition."
