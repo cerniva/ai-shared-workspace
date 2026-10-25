@@ -68,6 +68,30 @@ class AutomationRunnerTests(Base):
     def test_no_token_never_crashes(self):
         rep = ga.automation_runner(root=self.root, gh=ga.GitHub(None, None), adapter=None)
         self.assertFalse(rep["github_api"])
+        self.assertEqual(rep["overall_decision"], "PRODUCTION_NOT_VERIFIED")
+
+    def test_model_false_green_cannot_override_real_output_gate(self):
+        class OverconfidentAdapter:
+            def run(self, job):
+                return {"recommendation": "Dört plan da sağlıklı ve üretimde çalışıyor."}
+
+        rep = ga.automation_runner(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
+                                   adapter=OverconfidentAdapter(), dispatch=False)
+        self.assertEqual(rep["overall_decision"], "PRODUCTION_NOT_VERIFIED")
+        self.assertEqual(rep["model_observation_unverified"],
+                         "Dört plan da sağlıklı ve üretimde çalışıyor.")
+        self.assertIn("ÜRETİM DOĞRULANMADI", rep["model_summary"])
+        self.assertNotIn("sağlıklı", rep["model_summary"])
+        for plan, entry in rep["automations"].items():
+            with self.subTest(plan=plan):
+                self.assertFalse(entry["production_verified"])
+                self.assertEqual(entry["decision_before"], "workflow_status_observed")
+                self.assertEqual(entry["decision_after"], "PRODUCTION_NOT_VERIFIED")
+                self.assertEqual(entry["applied_learning_ids"], [])
+                self.assertTrue(entry["verification_reason"])
+        persisted = json.loads((self.root / "state" / "automation_runner.json").read_text())
+        self.assertEqual(persisted["overall_decision"], "PRODUCTION_NOT_VERIFIED")
+        self.assertEqual(persisted["automations"]["finance"]["applied_learning_ids"], [])
 
     def test_dispatch_targets_exist_and_are_not_publishers(self):
         for spec in ga.AUTOMATIONS.values():
