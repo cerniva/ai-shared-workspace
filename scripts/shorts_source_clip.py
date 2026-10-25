@@ -180,7 +180,8 @@ def _portrait_filter(crop_x: float, crop_y: float) -> str:
     """Fill 9:16 without letterboxing; crop coordinates require visual QA."""
     if not all(math.isfinite(value) and 0.0 <= value <= 1.0 for value in (crop_x, crop_y)):
         raise ValueError("crop_x and crop_y must be finite numbers between 0 and 1")
-    return ("scale=1080:1920:force_original_aspect_ratio=increase,"
+    return ("scale=iw*sar:ih,setsar=1,"
+            "scale=1080:1920:force_original_aspect_ratio=increase,"
             f"crop=1080:1920:(iw-1080)*{crop_x:.3f}:(ih-1920)*{crop_y:.3f},"
             "setsar=1,fps=30,format=yuv420p,subtitles=captions.srt")
 
