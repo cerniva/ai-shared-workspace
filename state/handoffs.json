@@ -841,7 +841,10 @@
       "evidence": "state/improvement_report.json day=20261025 key=slow-codeql-code-scanning",
       "status": "open",
       "created_at": "2026-10-25T05:50:23+00:00",
-      "updated_at": "2026-10-25T05:50:23+00:00"
+      "updated_at": "2026-10-25T06:32:07+00:00",
+      "notes": [
+        "2026-10-25T06:32:07+00:00 team-worker: research-learner (team-research): Address the LLM provider outage first by providing a valid API key or correcting request headers/payloads in 'state/provider_health.json' (specifically fixing the Claude HTTP 400 request or renewing Gemini/OpenAI quota). Subsequently, update '.github/workflows/codeql.yml' to incorporate path filters, dependency caching, and parallel job execution. | sonraki: Inspect state/provider_health.json and environment credentials to re-enable at least one functional LLM provider, then edit .github/workflows/codeql.yml with path filters and actions/cache."
+      ]
     }
   ]
 }
