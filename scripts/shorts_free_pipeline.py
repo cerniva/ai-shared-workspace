@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
@@ -207,6 +208,8 @@ def prepare_render_bundle(
         target_seconds = float(packet["target_seconds"])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("target_seconds must be a number") from exc
+    if not math.isfinite(target_seconds):
+        raise ValueError("target_seconds must be finite")
     if target_seconds <= 0 or target_seconds > 180:
         raise ValueError("target_seconds must be between 0 and 180 seconds")
     if learnings_doc is not None:
