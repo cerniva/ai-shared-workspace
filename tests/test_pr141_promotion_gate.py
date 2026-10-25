@@ -6,6 +6,7 @@ writes to the catalog, ledger, message archive, or main branch.
 from __future__ import annotations
 
 import json
+import os
 import unittest
 from pathlib import Path
 
@@ -74,6 +75,24 @@ class PR141PromotionGate(unittest.TestCase):
         # gate after import must remain idempotent, not reject persisted rows.
         for learning in learning_rows:
             self.assertFalse(set(learning["source_ids"]) - (set(known_sources) | staged_sources))
+
+
+    def test_imported_ids_exist_after_dry_run(self) -> None:
+        """The PR gate must prove all staged IDs were actually imported."""
+        if os.environ.get("PR141_REQUIRE_IMPORTED") != "1":
+            self.skipTest("post-import verification only")
+        expected_sources: set[str] = set()
+        expected_learnings: set[str] = set()
+        for name in NAMES:
+            doc = json.loads((ROOT / "knowledge/promotions" / name).read_text(encoding="utf-8"))
+            expected_sources.update(row["source_id"] for row in entries(doc, "source", "sources"))
+            expected_learnings.update(row["learning_id"] for row in entries(doc, "learning", "learnings"))
+        catalog = json.loads((ROOT / "knowledge/source_catalog.json").read_text(encoding="utf-8"))
+        ledger = json.loads((ROOT / "knowledge/learning_ledger.json").read_text(encoding="utf-8"))
+        actual_sources = {row["source_id"] for row in catalog["sources"]}
+        actual_learnings = {row["learning_id"] for row in ledger["learnings"]}
+        self.assertFalse(expected_sources - actual_sources, "staged sources missing after import")
+        self.assertFalse(expected_learnings - actual_learnings, "staged learnings missing after import")
 
 
 if __name__ == "__main__":
