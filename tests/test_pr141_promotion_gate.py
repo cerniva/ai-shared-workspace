@@ -81,18 +81,37 @@ class PR141PromotionGate(unittest.TestCase):
         """The PR gate must prove all staged IDs were actually imported."""
         if os.environ.get("PR141_REQUIRE_IMPORTED") != "1":
             self.skipTest("post-import verification only")
-        expected_sources: set[str] = set()
-        expected_learnings: set[str] = set()
+        expected_sources: dict[str, dict] = {}
+        expected_learnings: dict[str, dict] = {}
         for name in NAMES:
             doc = json.loads((ROOT / "knowledge/promotions" / name).read_text(encoding="utf-8"))
-            expected_sources.update(row["source_id"] for row in entries(doc, "source", "sources"))
-            expected_learnings.update(row["learning_id"] for row in entries(doc, "learning", "learnings"))
+            for row in entries(doc, "source", "sources"):
+                self.assertNotIn(row["source_id"], expected_sources, "duplicate staged source")
+                expected_sources[row["source_id"]] = row
+            for row in entries(doc, "learning", "learnings"):
+                self.assertNotIn(row["learning_id"], expected_learnings, "duplicate staged learning")
+                expected_learnings[row["learning_id"]] = row
         catalog = json.loads((ROOT / "knowledge/source_catalog.json").read_text(encoding="utf-8"))
         ledger = json.loads((ROOT / "knowledge/learning_ledger.json").read_text(encoding="utf-8"))
-        actual_sources = {row["source_id"] for row in catalog["sources"]}
-        actual_learnings = {row["learning_id"] for row in ledger["learnings"]}
-        self.assertFalse(expected_sources - actual_sources, "staged sources missing after import")
-        self.assertFalse(expected_learnings - actual_learnings, "staged learnings missing after import")
+        actual_sources = {row["source_id"]: row for row in catalog["sources"]}
+        actual_learnings = {row["learning_id"]: row for row in ledger["learnings"]}
+        self.assertFalse(expected_sources.keys() - actual_sources.keys(), "staged sources missing after import")
+        self.assertFalse(expected_learnings.keys() - actual_learnings.keys(), "staged learnings missing after import")
+        # An ID-only check can pass if a row with the correct ID has been
+        # persisted with incomplete or altered decision/source metadata.
+        for sid, staged in expected_sources.items():
+            saved = actual_sources[sid]
+            self.assertEqual(canonicalize(saved["canonical"]), canonicalize(staged["canonical"]))
+            for field in ("source_name", "category", "purpose", "provenance",
+                          "evidence_tier", "access_status"):
+                self.assertEqual(saved[field], staged[field], f"{sid}: {field}")
+        for lid, staged in expected_learnings.items():
+            saved = actual_learnings[lid]
+            for field in ("title", "domain", "claim", "decision", "evidence_status",
+                          "provenance", "status"):
+                self.assertEqual(saved[field], staged[field], f"{lid}: {field}")
+            self.assertEqual(set(saved["source_ids"]), set(staged["source_ids"]), lid)
+            self.assertEqual(set(saved["plan_tags"]), set(staged["plan_tags"]), lid)
 
 
 if __name__ == "__main__":
