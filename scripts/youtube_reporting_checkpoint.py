@@ -62,7 +62,7 @@ def evaluate_batch(batch: dict[str, Any],
     previous = batch.get("previous_checkpoint")
     previous_dt = _time(previous) if previous is not None else None
     selected: dict[tuple[str, str, str], tuple[datetime, dict]] = {}
-    seen_ids: dict[str, str] = {}
+    seen_ids: dict[str, tuple[str, str | None]] = {}
     for report in batch["reports"]:
         if not isinstance(report, dict):
             raise ValueError("INVALID_REPORT")
@@ -79,11 +79,16 @@ def evaluate_batch(batch: dict[str, Any],
         if _time(start) >= _time(end):
             raise ValueError("INVALID_PERIOD")
         fingerprint = json.dumps({k: report[k] for k in ("id", "jobId", "startTime", "endTime", "createTime")}, sort_keys=True)
+        acknowledgement = report.get("import_status")
         if rid in seen_ids:
-            if seen_ids[rid] != fingerprint:
+            prior_fingerprint, prior_acknowledgement = seen_ids[rid]
+            if prior_fingerprint != fingerprint:
                 raise ValueError("CONFLICTING_REPORT_ID")
+            # Same report ID must never have contradictory durable-import evidence.
+            if prior_acknowledgement != acknowledgement:
+                raise ValueError("CONFLICTING_REPORT_ACK")
             continue
-        seen_ids[rid] = fingerprint
+        seen_ids[rid] = (fingerprint, acknowledgement)
         key = (job, start, end)
         old = selected.get(key)
         if old is None or created > old[0]:
