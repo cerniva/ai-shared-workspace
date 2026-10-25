@@ -117,6 +117,24 @@ class AltseasonLearningConsumerTests(unittest.TestCase):
                                "direction": "lower_is_bullish"}), 75.0
         )
 
+    def test_unknown_direction_never_generates_bullish_score(self):
+        # Direct callers can pass a config without load_calibration_config().
+        # An unknown direction must not silently default to higher-is-bullish.
+        for invalid in ("sideways", "", None, 1, True):
+            with self.subTest(direction=repr(invalid)):
+                cfg = json.loads(json.dumps(self.cfg))
+                target = next(row for row in cfg["indicators"]
+                              if row["name"] == "btc_dominance")
+                target.update(direction=invalid, validated=True, lo=40.0, hi=60.0)
+                report = panel.altseason_panel(
+                    {"btc_dominance": 45.0}, cfg,
+                    ledger_path=self.ledger, catalog_path=self.catalog,
+                )
+                self.assertEqual(report["indicators"]["btc_dominance"]["score"], "N/A")
+                self.assertEqual(report["decision_status"], "CALIBRATION_UNVERIFIED")
+                self.assertEqual(report["applied_learning_ids"], [panel.ALTSEASON_LEARNING_ID])
+                json.dumps(report, allow_nan=False)
+
     def test_missing_learning_fails_closed(self):
         self._mutate_ledger(
             lambda rows: rows.__setitem__(
