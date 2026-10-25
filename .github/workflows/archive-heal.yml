@@ -34,6 +34,14 @@ jobs:
           python-version: '3.12'
       - name: Validate archive-heal notes (fail-closed)
         run: python3 -m json.tool config/archive_heal_notes.json > /dev/null
+      - name: Reject non-main workflow dispatch before archive writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF:-}" != "refs/heads/main" ]]; then
+            echo "archive-heal: refusing non-main ref ${GITHUB_REF:-unset}" >&2
+            exit 1
+          fi
       - name: Heal archives from git history (fail-closed)
         run: python3 scripts/archive_heal.py
       - name: Guard (no SEE_FILE / $(cat lines)

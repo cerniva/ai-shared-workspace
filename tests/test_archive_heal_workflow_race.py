@@ -5,6 +5,7 @@ archive_heal.py can repair every production history; those checks stay separate.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import tempfile
 import unittest
@@ -45,6 +46,35 @@ class ArchiveHealFreshMainTests(unittest.TestCase):
         self.assertNotIn('git pull --rebase', shell)
         self.assertNotIn('git push --force', shell)
         self.assertIn('git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md', shell)
+
+    def test_non_main_dispatch_fails_before_archive_write(self) -> None:
+        workflow = WORKFLOW.read_text(encoding='utf-8')
+        guard_name = '      - name: Reject non-main workflow dispatch before archive writes'
+        heal_name = '      - name: Heal archives from git history (fail-closed)'
+        self.assertLess(workflow.index(guard_name), workflow.index(heal_name))
+        lines = workflow.splitlines()
+        start = lines.index(guard_name)
+        run_line = lines.index('        run: |', start)
+        body = []
+        for line in lines[run_line + 1:]:
+            if line and not line.startswith('          '):
+                break
+            body.append(line[10:] if line.startswith('          ') else '')
+        shell = '\\n'.join(body) + '\\n'
+        run('bash', '-n', '-c', shell)
+        for ref, expected_exit in (
+            ('refs/heads/main', 0),
+            ('refs/heads/feature', 1),
+            ('refs/tags/v1', 1),
+            ('', 1),
+        ):
+            with self.subTest(ref=ref):
+                env = dict(os.environ, GITHUB_REF=ref)
+                proc = subprocess.run(['bash', '-c', shell], env=env,
+                                      capture_output=True, text=True, timeout=10)
+                self.assertEqual(proc.returncode, expected_exit, proc.stderr)
+                if expected_exit:
+                    self.assertIn('refusing non-main ref', proc.stderr)
 
     def test_stale_checkout_preserves_concurrent_archive_record(self) -> None:
         with tempfile.TemporaryDirectory() as d:
