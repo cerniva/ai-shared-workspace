@@ -60,7 +60,7 @@ class ArchiveHealFreshMainTests(unittest.TestCase):
             if line and not line.startswith('          '):
                 break
             body.append(line[10:] if line.startswith('          ') else '')
-        shell = '\\n'.join(body) + '\\n'
+        shell = '\n'.join(body) + '\n'
         run('bash', '-n', '-c', shell)
         for ref, expected_exit in (
             ('refs/heads/main', 0),
