@@ -103,8 +103,13 @@ def score(value: float, calibration: dict[str, Any] | None) -> float | str:
     """Linear map to 0-100 only for a validated calibration, else 'N/A'."""
     if not calibration or not calibration.get("validated"):
         return "N/A"
-    lo, hi = float(calibration["lo"]), float(calibration["hi"])
-    if hi <= lo:
+    # Non-finite observations/bounds must never become a fabricated 0-100 score.
+    try:
+        value = float(value)
+        lo, hi = float(calibration["lo"]), float(calibration["hi"])
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return "N/A"
+    if not all(math.isfinite(x) for x in (value, lo, hi)) or hi <= lo:
         return "N/A"
     frac = min(1.0, max(0.0, (value - lo) / (hi - lo)))
     if calibration.get("direction") == "lower_is_bullish":
@@ -213,13 +218,20 @@ def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None 
     cfg = cfg or load_calibration_config()
     rows = {}
     for ind in cfg["indicators"]:
-        x = values.get(ind["name"])
+        raw = values.get(ind["name"])
         direction = ind["direction"]
+        # Reject bool, malformed and non-finite data before scoring or JSON output.
+        try:
+            x = float(raw) if raw is not None and not isinstance(raw, bool) else None
+        except (TypeError, ValueError, OverflowError):
+            x = None
+        if x is not None and not math.isfinite(x):
+            x = None
         if x is None or direction == "nonmonotonic" or ind.get("lo") is None or ind.get("hi") is None:
             s: float | str = "N/A"
         else:
-            s = score(float(x), {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
-                                 "direction": "lower_is_bullish" if direction == "lower_is_bullish" else "higher"})
+            s = score(x, {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
+                          "direction": "lower_is_bullish" if direction == "lower_is_bullish" else "higher"})
         rows[ind["name"]] = {"value": x, "direction": direction, "source_url": ind["source_url"], "score": s}
     scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
     composite = round(sum(scored) / len(scored), 1) if scored and len(scored) == len(rows) else "N/A"
