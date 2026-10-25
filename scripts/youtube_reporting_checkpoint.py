@@ -17,6 +17,7 @@ from scripts.learning_bridge import LearningLedger, DEFAULT_LEDGER
 
 LEARNING_ID = "learn_0bdcee93377fd18d"
 SOURCE_ID = "src_be6523a27c85e346"
+SOURCE_URL = "https://developers.google.com/youtube/reporting/v1/reports"
 GATE = "REPORT_CREATED_AFTER_ACK_GATE"
 
 
@@ -43,8 +44,11 @@ def read_policy(ledger_path: str | Path = DEFAULT_LEDGER,
     if GATE not in row.get("decision", "") or SOURCE_ID not in row.get("source_ids", []):
         raise CatalogError("bridge_failure: checkpoint policy/source mismatch")
     source = SourceCatalog(catalog_path).find(SOURCE_ID)
-    if not source or source.get("evidence_tier") != "official":
-        raise CatalogError("bridge_failure: official checkpoint source missing")
+    if (not source or source.get("canonical") != SOURCE_URL
+            or source.get("evidence_tier") != "official"
+            or source.get("provenance") != "verified"
+            or source.get("access_status") != "verified-public"):
+        raise CatalogError("bridge_failure: official checkpoint source identity mismatch")
     return {"learning_id": LEARNING_ID, "source_id": SOURCE_ID}
 
 
