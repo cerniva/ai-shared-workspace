@@ -97,6 +97,26 @@ class AltseasonLearningConsumerTests(unittest.TestCase):
         with self.assertRaisesRegex(CatalogError, "bridge_failure"):
             self._run()
 
+    def test_modified_claim_with_old_learning_id_fails_closed(self):
+        def tamper(rows):
+            row = next(row for row in rows
+                       if row.get("learning_id") == panel.ALTSEASON_LEARNING_ID)
+            row["claim"] += " [modified without recalculating learning_id]"
+        self._mutate_ledger(tamper)
+        with self.assertRaisesRegex(CatalogError, "unstable learning_id"):
+            self._run()
+
+    def test_modified_canonical_url_with_old_source_id_fails_closed(self):
+        row = next(row for row in json.loads(self.ledger.read_text())["learnings"]
+                   if row.get("learning_id") == panel.ALTSEASON_LEARNING_ID)
+        target = row["source_ids"][0]
+        data = json.loads(self.catalog.read_text(encoding="utf-8"))
+        source = next(src for src in data["sources"] if src["source_id"] == target)
+        source["canonical"] = "https://example.org/altered-policy-source"
+        self.catalog.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(CatalogError, "unstable source_id"):
+            self._run()
+
     def test_missing_source_reference_fails_closed(self):
         row = next(row for row in json.loads(self.ledger.read_text())["learnings"]
                    if row.get("learning_id") == panel.ALTSEASON_LEARNING_ID)
