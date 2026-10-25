@@ -74,18 +74,40 @@ class CheckpointTests(unittest.TestCase):
         self.assertEqual(result["decision_status"], "NO_NEW_REPORTS")
         self.assertEqual(result["decision_after_proposed"], result["decision_before"])
 
-    def test_missing_active_learning_fails_closed(self):
+    def test_missing_inactive_and_superseded_learning_fail_closed(self):
+        for mode in ("missing", "inactive", "superseded"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                ledger = Path(folder) / "ledger.json"
+                catalog = Path(folder) / "catalog.json"
+                shutil.copy(DEFAULT_LEDGER, ledger)
+                shutil.copy(DEFAULT_CATALOG, catalog)
+                data = json.loads(ledger.read_text(encoding="utf-8"))
+                if mode == "missing":
+                    data["learnings"] = [
+                        row for row in data["learnings"]
+                        if row.get("learning_id") != gate.LEARNING_ID
+                    ]
+                else:
+                    for row in data["learnings"]:
+                        if row.get("learning_id") == gate.LEARNING_ID:
+                            row["status"] = mode
+                ledger.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(CatalogError, "bridge_failure"):
+                    gate.evaluate_batch(batch(), ledger, catalog)
+
+    def test_missing_official_source_fails_closed(self):
         with tempfile.TemporaryDirectory() as folder:
             ledger = Path(folder) / "ledger.json"
             catalog = Path(folder) / "catalog.json"
             shutil.copy(DEFAULT_LEDGER, ledger)
             shutil.copy(DEFAULT_CATALOG, catalog)
-            data = json.loads(ledger.read_text(encoding="utf-8"))
-            for item in data["learnings"]:
-                if item.get("learning_id") == gate.LEARNING_ID:
-                    item["status"] = "inactive"
-            ledger.write_text(json.dumps(data), encoding="utf-8")
-            with self.assertRaisesRegex(CatalogError, "bridge_failure"):
+            data = json.loads(catalog.read_text(encoding="utf-8"))
+            data["sources"] = [
+                row for row in data["sources"]
+                if row.get("source_id") != gate.SOURCE_ID
+            ]
+            catalog.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaises(CatalogError):
                 gate.evaluate_batch(batch(), ledger, catalog)
 
     def test_invalid_timestamps_fail_closed(self):
