@@ -106,7 +106,7 @@ class ShortsLearningsTests(unittest.TestCase):
 
     def test_inactive_learning_cannot_be_claimed(self):
         pp, lp = self._files(doc())
-        with patch.object(sl, "plan_learnings", return_value={"error": None, "learnings": []}), \\
+        with patch.object(sl, "plan_learnings", return_value={"error": None, "learnings": []}), \
              patch.object(pipeline, "search_free_media") as search:
             with self.assertRaisesRegex(ValueError, "bridge_failure: required learning not active"):
                 pipeline.prepare_render_bundle(pp, self.base / "w", env={}, learnings_path=lp)
