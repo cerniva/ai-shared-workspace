@@ -101,7 +101,8 @@ MIN_DAYS = 91
 
 def score(value: float, calibration: dict[str, Any] | None) -> float | str:
     """Linear map to 0-100 only for a validated calibration, else 'N/A'."""
-    if not calibration or not calibration.get("validated"):
+    # Only a literal JSON boolean true authorizes scoring; "false" is truthy in Python.
+    if not calibration or calibration.get("validated") is not True:
         return "N/A"
     # Non-finite observations/bounds must never become a fabricated 0-100 score.
     try:
