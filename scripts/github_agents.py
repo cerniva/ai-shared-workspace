@@ -237,13 +237,18 @@ def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, deci
     }
 
 
-def _known_learning_titles(root: Path) -> set[str]:
-    """Titles already in the canonical ledger, so the same feed headline is not re-staged every day."""
+def _known_learning_titles(root: Path) -> set[str] | None:
+    """Return None when canonical history is unreadable; never treat that as an empty ledger."""
     try:
         ledger = json.loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        return set()
-    return {str(l.get("title")) for l in ledger.get("learnings") or [] if isinstance(l, dict) and l.get("title")}
+        return None
+    if not isinstance(ledger, dict):
+        return None
+    rows = ledger.get("learnings")
+    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+        return None
+    return {row["title"] for row in rows if isinstance(row.get("title"), str) and row["title"]}
 
 
 def _staged_learning_titles(root: Path) -> set[str]:
@@ -323,6 +328,10 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             report["domains"][key] = entry
             continue
         known = _known_learning_titles(root)
+        if known is None:
+            entry["status"] = "ledger_unavailable"
+            report["domains"][key] = entry
+            continue
         title = f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180]
         if title in known:
             entry["status"] = "already_in_ledger"
