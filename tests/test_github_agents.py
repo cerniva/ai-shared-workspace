@@ -151,7 +151,8 @@ class ResearchLearnerTests(Base):
         first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
         target = self.root / first["domains"]["finance"]["path"]
         original = json.loads(target.read_text(encoding="utf-8"))
-        for fault in ("source_refs", "source_identity", "learning_identity"):
+        for fault in ("source_refs", "source_identity", "learning_identity",
+                      "extra_source", "extra_learning", "duplicate_source", "duplicate_learning"):
             with self.subTest(fault=fault):
                 doc = json.loads(json.dumps(original))
                 if fault == "source_refs":
@@ -159,8 +160,18 @@ class ResearchLearnerTests(Base):
                 elif fault == "source_identity":
                     doc["sources"][0]["source_id"] = "src_wrong"
                     doc["learnings"][0]["source_ids"] = ["src_wrong"]
-                else:
+                elif fault == "learning_identity":
                     doc["learnings"][0]["learning_id"] = "learn_wrong"
+                elif fault == "extra_source":
+                    doc["sources"].append({"source_id": "src_fake", "canonical": "https://example.org/bad"})
+                elif fault == "extra_learning":
+                    doc["learnings"].append({"learning_id": "learn_fake", "domain": "finance-news",
+                                              "claim": "invalid", "title": "Injected", "source_ids":
+                                              [doc["sources"][0]["source_id"]]})
+                elif fault == "duplicate_source":
+                    doc["sources"].append(dict(doc["sources"][0]))
+                elif fault == "duplicate_learning":
+                    doc["learnings"].append(dict(doc["learnings"][0]))
                 target.write_text(json.dumps(doc), encoding="utf-8")
                 second = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
                 self.assertEqual(second["domains"]["finance"]["status"], "staging_collision", second)
@@ -224,7 +235,7 @@ class ReporterTests(Base):
         target = self.root / rel
         target.parent.mkdir(parents=True)
         valid = {"schema_version": 1, "sources": [{"source_id": sid, "canonical": canonical}],
-                 "learnings": [{"learning_id": lid, "domain": domain, "claim": claim,
+                 "learnings": [{"learning_id": lid, "domain": domain, "claim": claim, "title": "Verified staged candidate",
                                 "source_ids": [sid]}]}
         target.write_text(json.dumps(valid))
         report = ga.reporter(root=self.root, gh=gh,
@@ -240,6 +251,15 @@ class ReporterTests(Base):
                                              "canonical": "https://example.org/changed"}]}),
             json.dumps({**valid, "learnings": [{**valid["learnings"][0],
                                                "claim": "tampered claim"}]}),
+            json.dumps({**valid, "sources": valid["sources"] +
+                        [{"source_id": "src_fake", "canonical": "https://example.org/bad"}]}),
+            json.dumps({**valid, "sources": valid["sources"] + valid["sources"]}),
+            json.dumps({**valid, "learnings": valid["learnings"] +
+                        [{"learning_id": "learn_fake", "domain": domain, "claim": "bad",
+                          "title": "Injected", "source_ids": [sid]}]}),
+            json.dumps({**valid, "learnings": valid["learnings"] + valid["learnings"]}),
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0],
+                                               "source_ids": [sid, sid]}]}),
         ]
         for bad in bad_docs:
             target.write_text(bad)
@@ -267,7 +287,7 @@ class ReporterTests(Base):
         doc = {"schema_version": 1,
                "sources": [{"source_id": sid, "canonical": canonical}],
                "learnings": [{"learning_id": lid, "domain": domain,
-                              "claim": claim, "source_ids": [sid]}]}
+                              "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}
         target.write_text(json.dumps(doc))
         original = target.read_bytes()
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
@@ -296,7 +316,7 @@ class ReporterTests(Base):
             "schema_version": 1,
             "sources": [{"source_id": sid, "canonical": canonical}],
             "learnings": [{"learning_id": lid, "domain": domain,
-                           "claim": claim, "source_ids": [sid]}]}))
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}))
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
             "domains": {"finance": {"status": "staged", "path": rel,
                                     "source_id": sid, "learning_id": lid}}}))
@@ -319,7 +339,7 @@ class ReporterTests(Base):
             "schema_version": 1,
             "sources": [{"source_id": sid, "canonical": canonical}],
             "learnings": [{"learning_id": lid, "domain": domain,
-                           "claim": claim, "source_ids": [sid]}]
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]
         }), encoding="utf-8")
         (self.root / "knowledge" / "learning_ledger.json").write_text(
             "{broken", encoding="utf-8")
