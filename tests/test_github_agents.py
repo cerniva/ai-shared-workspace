@@ -282,6 +282,42 @@ class ReporterTests(Base):
         self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
 
 
+    def test_unreadable_ledger_checks_each_domain_not_last_candidate(self):
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        domain, claim = "finance-news", "Valid staged learning with unavailable ledger."
+        sid = ga.source_id(ga.canonicalize(canonical))
+        lid = ga.learning_id(domain, claim)
+        rel = "intake/promotions/2026-10-25-research-learner-finance.json"
+        target = self.root / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps({
+            "schema_version": 1,
+            "sources": [{"source_id": sid, "canonical": canonical}],
+            "learnings": [{"learning_id": lid, "domain": domain,
+                           "claim": claim, "source_ids": [sid]}]
+        }), encoding="utf-8")
+        (self.root / "knowledge" / "learning_ledger.json").write_text(
+            "{broken", encoding="utf-8")
+        valid = {"status": "staged", "path": rel, "source_id": sid, "learning_id": lid}
+        missing = {"status": "staged",
+                   "path": "intake/promotions/nonexistent.json",
+                   "source_id": sid, "learning_id": lid}
+        for order in (("finance", "video_shopify"), ("video_shopify", "finance")):
+            with self.subTest(order=order):
+                entries = {"finance": valid, "video_shopify": missing}
+                (self.root / "state" / "research_learner.json").write_text(
+                    json.dumps({"domains": {name: entries[name] for name in order}}),
+                    encoding="utf-8")
+                report = ga.reporter(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
+                                     now=datetime(2026, 10, 25, 21, 0,
+                                                  tzinfo=timezone.utc))
+                self.assertIn("finance: staged_unverified (canonical ledger unavailable)", report)
+                self.assertIn("video_shopify: staged_missing", report)
+                self.assertNotIn("video_shopify: staged_unverified", report)
+                self.assertEqual(json.loads((self.root / "state" / "agents_history.json")
+                                            .read_text())[-1]["staged"], 0)
+
+
 class SafetyTests(unittest.TestCase):
     def test_output_paths_restricted(self):
         root = Path("/tmp/x")
