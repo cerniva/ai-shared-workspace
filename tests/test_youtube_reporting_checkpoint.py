@@ -137,6 +137,26 @@ class CheckpointTests(unittest.TestCase):
             with self.assertRaises(CatalogError):
                 gate.evaluate_batch(batch(), ledger, catalog)
 
+    def test_official_source_identity_tampering_fails_closed(self):
+        # A stable source ID alone must not authorize a swapped URL or
+        # a downgraded source. Mutate only temporary catalog copies.
+        for field, value in (
+            ("canonical", "https://example.com/not-youtube-reporting"),
+            ("evidence_tier", "secondary"),
+            ("provenance", "unverified"),
+            ("access_status", "unverified"),
+        ):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as folder:
+                catalog = Path(folder) / "catalog.json"
+                shutil.copy(DEFAULT_CATALOG, catalog)
+                data = json.loads(catalog.read_text(encoding="utf-8"))
+                row = next(item for item in data["sources"]
+                           if item["source_id"] == gate.SOURCE_ID)
+                row[field] = value
+                catalog.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(CatalogError, "bridge_failure"):
+                    gate.evaluate_batch(batch(), catalog_path=catalog)
+
     def test_invalid_timestamps_fail_closed(self):
         with self.assertRaises(ValueError):
             gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00")))
