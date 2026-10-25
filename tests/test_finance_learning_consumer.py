@@ -63,6 +63,38 @@ class AltseasonLearningConsumerTests(unittest.TestCase):
         self.assertEqual(report["decision_status"], "CALIBRATION_UNVERIFIED")
         self.assertEqual(report["applied_learning_ids"], [panel.ALTSEASON_LEARNING_ID])
 
+    def test_nonfinite_or_malformed_market_input_cannot_score(self):
+        cfg = json.loads(json.dumps(self.cfg))
+        target = next(row for row in cfg["indicators"] if row["name"] == "btc_dominance")
+        target.update(validated=True, lo=40.0, hi=60.0)
+        for invalid in (float("nan"), float("inf"), float("-inf"), "NaN", "Infinity", "not a number", True):
+            with self.subTest(invalid=repr(invalid)):
+                report = panel.altseason_panel(
+                    {"btc_dominance": invalid}, cfg,
+                    ledger_path=self.ledger, catalog_path=self.catalog,
+                )
+                row = report["indicators"]["btc_dominance"]
+                self.assertIsNone(row["value"])
+                self.assertEqual(row["score"], "N/A")
+                self.assertEqual(report["composite_score"], "N/A")
+                self.assertEqual(report["decision_status"], "CALIBRATION_UNVERIFIED")
+                self.assertEqual(report["applied_learning_ids"], [panel.ALTSEASON_LEARNING_ID])
+                json.dumps(report, allow_nan=False)
+
+    def test_nonfinite_or_malformed_calibration_bounds_cannot_score(self):
+        for lo, hi in ((float("nan"), 60.0), (40.0, float("inf")),
+                       (float("-inf"), 60.0), ("bad", 60.0)):
+            with self.subTest(lo=repr(lo), hi=repr(hi)):
+                cfg = json.loads(json.dumps(self.cfg))
+                target = next(row for row in cfg["indicators"] if row["name"] == "btc_dominance")
+                target.update(validated=True, lo=lo, hi=hi)
+                report = panel.altseason_panel(
+                    {"btc_dominance": 45.0}, cfg,
+                    ledger_path=self.ledger, catalog_path=self.catalog,
+                )
+                self.assertEqual(report["indicators"]["btc_dominance"]["score"], "N/A")
+                self.assertEqual(report["decision_status"], "CALIBRATION_UNVERIFIED")
+
     def test_missing_learning_fails_closed(self):
         self._mutate_ledger(
             lambda rows: rows.__setitem__(
