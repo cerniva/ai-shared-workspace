@@ -112,6 +112,22 @@ class CheckpointTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ACK"):
                     gate.evaluate_batch(batch(*rows))
 
+    def test_duplicate_report_id_with_changed_download_or_digest_rejected(self):
+        # Report identity includes the API download URL and durable payload
+        # provenance; the same ID must not reuse an ACK for changed bytes.
+        base = report("r1", "2026-10-21T12:00:00Z")
+        base["downloadUrl"] = "https://example.com/report-v1"
+        base["import_sha256"] = "a" * 64
+        for changed in (
+            dict(base, downloadUrl="https://example.com/report-v2"),
+            dict(base, import_sha256="b" * 64),
+        ):
+            with self.subTest(changed=changed):
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ID"):
+                    gate.evaluate_batch(batch(base, changed))
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ID"):
+                    gate.evaluate_batch(batch(changed, base))
+
     def test_conflicting_id_or_ambiguous_backfill_rejected(self):
         row = report("r1", "2026-10-21T12:00:00Z")
         changed = dict(row, createTime="2026-10-22T12:00:00Z")
