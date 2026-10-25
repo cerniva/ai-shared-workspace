@@ -231,6 +231,57 @@ class ReporterTests(Base):
                              now=datetime(2026, 10, 24, 12, 3, tzinfo=timezone.utc))
         self.assertIn("finance: staged_missing", report)
 
+    def test_already_promoted_intake_is_not_counted_as_new(self):
+        rel = "intake/promotions/2026-10-25-research-learner-finance.json"
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        domain, claim = "finance-news", "Previously promoted exact claim."
+        sid = ga.source_id(ga.canonicalize(canonical))
+        lid = ga.learning_id(domain, claim)
+        target = self.root / rel
+        target.parent.mkdir(parents=True)
+        doc = {"schema_version": 1,
+               "sources": [{"source_id": sid, "canonical": canonical}],
+               "learnings": [{"learning_id": lid, "domain": domain,
+                              "claim": claim, "source_ids": [sid]}]}
+        target.write_text(json.dumps(doc))
+        original = target.read_bytes()
+        (self.root / "state" / "research_learner.json").write_text(json.dumps({
+            "domains": {"finance": {"status": "staged", "path": rel,
+                                    "source_id": sid, "learning_id": lid}}}))
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        ledger = json.loads(ledger_path.read_text())
+        ledger["learnings"].append(doc["learnings"][0])
+        ledger_path.write_text(json.dumps(ledger))
+        report = ga.reporter(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
+                             now=datetime(2026, 10, 25, 21, 0, tzinfo=timezone.utc))
+        self.assertIn("finance: already_in_ledger (staged file retained; not new)", report)
+        self.assertNotIn("finance: staged →", report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
+        self.assertEqual(target.read_bytes(), original)
+
+    def test_unreadable_ledger_never_claims_fresh_staging(self):
+        rel = "intake/promotions/2026-10-25-research-learner-finance.json"
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        domain, claim = "finance-news", "Ledger unavailable."
+        sid = ga.source_id(ga.canonicalize(canonical))
+        lid = ga.learning_id(domain, claim)
+        target = self.root / rel
+        target.parent.mkdir(parents=True)
+        target.write_text(json.dumps({
+            "schema_version": 1,
+            "sources": [{"source_id": sid, "canonical": canonical}],
+            "learnings": [{"learning_id": lid, "domain": domain,
+                           "claim": claim, "source_ids": [sid]}]}))
+        (self.root / "state" / "research_learner.json").write_text(json.dumps({
+            "domains": {"finance": {"status": "staged", "path": rel,
+                                    "source_id": sid, "learning_id": lid}}}))
+        (self.root / "knowledge" / "learning_ledger.json").write_text("{broken")
+        report = ga.reporter(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
+                             now=datetime(2026, 10, 25, 21, 0, tzinfo=timezone.utc))
+        self.assertIn("finance: staged_unverified (canonical ledger unavailable)", report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
+
+
 class SafetyTests(unittest.TestCase):
     def test_output_paths_restricted(self):
         root = Path("/tmp/x")
