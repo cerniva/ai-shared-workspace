@@ -174,9 +174,29 @@ def automation_runner(*, root: Path = ROOT, gh: GitHub, adapter=None, dispatch: 
                     entry.setdefault("dispatch_errors", {})[wf] = type(exc).__name__
         if name == "finance":
             entry["note"] = "Finans runner workflow'u repoda yok; yalnızca plan-learnings-check gözlenir."
+        # A successful observation/dispatch is NOT a production consumer read-back.
+        # Keep this fail-closed until each plan has an independently verified
+        # decision/output artifact. No learning is claimed by this observer.
+        entry["decision_before"] = "workflow_status_observed"
+        entry["decision_after"] = "PRODUCTION_NOT_VERIFIED"
+        entry["production_verified"] = False
+        entry["applied_learning_ids"] = []
+        entry["verification_reason"] = {
+            "finance": "no production finance runner; loader-only workflow",
+            "video_shorts_shopify_gumroad": "dry-run; no new upload ID/status read-back",
+            "knowledge": "dry-run; promotion workflow is not a plan decision",
+            "system": "test/desk workflows do not prove production learning consumption",
+        }[name]
         report["automations"][name] = entry
-    report["model_summary"] = _summarize(adapter, "Summarize in Turkish, max 3 sentences, which automations look "
-                                         "unhealthy: " + json.dumps(report["automations"], ensure_ascii=False)[:6000])
+    observation = _summarize(adapter, "Summarize in Turkish, max 3 sentences, which automations look "
+                             "unhealthy: " + json.dumps(report["automations"], ensure_ascii=False)[:6000])
+    # Preserve the model's text as unverified evidence, not as the decision.
+    # In particular, a model saying 'all healthy' cannot override the gates.
+    report["model_observation_unverified"] = observation
+    report["overall_decision"] = "PRODUCTION_NOT_VERIFIED"
+    report["model_summary"] = ("ÜRETİM DOĞRULANMADI: workflow başarısı üretim çıktısı değildir; "
+                               "finans runner eksik, diğer planlarda gerçek tüketim/yayın "
+                               "read-back'i doğrulanmadı." if observation else None)
     write_json(root, "state/automation_runner.json", report)
     return report
 
