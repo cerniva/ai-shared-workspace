@@ -228,7 +228,8 @@ def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None 
             x = None
         if x is not None and not math.isfinite(x):
             x = None
-        if x is None or direction == "nonmonotonic" or ind.get("lo") is None or ind.get("hi") is None:
+        if (x is None or direction not in ("higher_is_bullish", "lower_is_bullish")
+                or ind.get("lo") is None or ind.get("hi") is None):
             s: float | str = "N/A"
         else:
             s = score(x, {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
