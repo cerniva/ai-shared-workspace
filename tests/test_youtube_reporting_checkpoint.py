@@ -61,6 +61,14 @@ class CheckpointTests(unittest.TestCase):
         result = gate.evaluate_batch(batch(row, dict(row)))
         self.assertEqual(result["selected_report_ids"], ["r1"])
 
+    def test_duplicate_report_id_with_conflicting_import_ack_fails_closed(self):
+        verified = report("r1", "2026-10-21T12:00:00Z")
+        unverified = dict(verified, import_status="failed")
+        for rows in ((verified, unverified), (unverified, verified)):
+            with self.subTest(first=rows[0]["import_status"]):
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ACK"):
+                    gate.evaluate_batch(batch(*rows))
+
     def test_conflicting_id_or_ambiguous_backfill_rejected(self):
         row = report("r1", "2026-10-21T12:00:00Z")
         changed = dict(row, createTime="2026-10-22T12:00:00Z")
