@@ -251,8 +251,53 @@ def _known_learning_titles(root: Path) -> set[str] | None:
     return {row["title"] for row in rows if isinstance(row.get("title"), str) and row["title"]}
 
 
+def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, list[str]]]] | None:
+    """Reject the entire staged document if any identity, reference or duplicate is invalid."""
+    if (not isinstance(doc, dict) or doc.get("schema_version") != 1
+            or not isinstance(doc.get("sources"), list) or not doc["sources"]
+            or not isinstance(doc.get("learnings"), list) or not doc["learnings"]):
+        return None
+    valid_sources: set[str] = set()
+    canonicals: set[str] = set()
+    for source in doc["sources"]:
+        if not isinstance(source, dict) or not isinstance(source.get("canonical"), str):
+            return None
+        try:
+            canonical = canonicalize(source["canonical"])
+            sid = source_id(canonical)
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if source.get("source_id") != sid or sid in valid_sources or canonical in canonicals:
+            return None
+        valid_sources.add(sid)
+        canonicals.add(canonical)
+    valid_learnings: list[tuple[str, str, list[str]]] = []
+    seen_learning_ids: set[str] = set()
+    for learning in doc["learnings"]:
+        if not isinstance(learning, dict):
+            return None
+        domain, claim, refs = learning.get("domain"), learning.get("claim"), learning.get("source_ids")
+        title, lid = learning.get("title"), learning.get("learning_id")
+        if (not isinstance(domain, str) or not domain
+                or not isinstance(claim, str) or not claim
+                or not isinstance(title, str) or not title
+                or not isinstance(refs, list) or not refs
+                or any(not isinstance(ref, str) or ref not in valid_sources for ref in refs)
+                or len(refs) != len(set(refs))):
+            return None
+        try:
+            expected_id = learning_id(domain, claim)
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if lid != expected_id or lid in seen_learning_ids:
+            return None
+        seen_learning_ids.add(lid)
+        valid_learnings.append((title, lid, refs))
+    return valid_sources, valid_learnings
+
+
 def _staged_learning_titles(root: Path) -> set[str]:
-    """Deduplicate still-pending intake files without touching historical records."""
+    """Deduplicate only fully valid, still-pending intake files; never trust partial documents."""
     titles: set[str] = set()
     folder = root / "intake" / "promotions"
     if not folder.is_dir() or folder.is_symlink():
@@ -262,36 +307,12 @@ def _staged_learning_titles(root: Path) -> set[str]:
             continue
         try:
             doc = json.loads(path.read_text(encoding="utf-8"))
-            if not isinstance(doc, dict) or doc.get("schema_version") != 1:
-                continue
-            sources, learnings = doc.get("sources"), doc.get("learnings")
-            if not isinstance(sources, list) or not isinstance(learnings, list):
-                continue
-            valid_sources = set()
-            for source in sources:
-                if not isinstance(source, dict):
-                    continue
-                try:
-                    canonical = canonicalize(str(source.get("canonical") or ""))
-                    if source.get("source_id") == source_id(canonical):
-                        valid_sources.add(source["source_id"])
-                except (ValueError, RuntimeError, TypeError):
-                    continue
-            for learning in learnings:
-                if not isinstance(learning, dict):
-                    continue
-                refs = learning.get("source_ids")
-                if (not isinstance(refs, list) or not refs
-                        or not all(isinstance(ref, str) and ref in valid_sources for ref in refs)
-                        or learning.get("learning_id") != learning_id(
-                            str(learning.get("domain") or ""), str(learning.get("claim") or ""))):
-                    continue
-                if isinstance(learning.get("title"), str) and learning["title"]:
-                    titles.add(learning["title"])
-        except (OSError, ValueError, AttributeError):
+            validated = _validated_staged_rows(doc)
+            if validated is not None:
+                titles.update(title for title, _, _ in validated[1])
+        except (OSError, ValueError, AttributeError, TypeError):
             continue
     return titles
-
 
 def validate_promotion(root: Path, doc: dict[str, Any]) -> None:
     from scripts.knowledge_promote import _apply_batch
@@ -397,36 +418,15 @@ def _ci_line(gh: GitHub) -> str:
 
 
 def _valid_staged_identity(doc: Any, sid: Any, lid: Any) -> bool:
-    """Check canonical source and learning identities, not just stored labels."""
-    if (not isinstance(doc, dict) or doc.get("schema_version") != 1
-            or not isinstance(sid, str) or not isinstance(lid, str)
-            or not isinstance(doc.get("sources"), list)
-            or not isinstance(doc.get("learnings"), list)):
+    """All staged rows must be valid before one expected source/learning pair is trusted."""
+    if not isinstance(sid, str) or not isinstance(lid, str):
         return False
-    valid_sources: set[str] = set()
-    for source in doc["sources"]:
-        if not isinstance(source, dict) or not isinstance(source.get("canonical"), str):
-            continue
-        try:
-            canonical = canonicalize(source["canonical"])
-            if source.get("source_id") == source_id(canonical):
-                valid_sources.add(source["source_id"])
-        except (ValueError, RuntimeError, TypeError):
-            continue
-    if sid not in valid_sources:
+    validated = _validated_staged_rows(doc)
+    if validated is None:
         return False
-    for learning in doc["learnings"]:
-        if not isinstance(learning, dict):
-            continue
-        domain, claim, refs = learning.get("domain"), learning.get("claim"), learning.get("source_ids")
-        if (not isinstance(domain, str) or not isinstance(claim, str)
-                or not isinstance(refs, list) or not refs
-                or any(not isinstance(ref, str) or ref not in valid_sources for ref in refs)):
-            continue
-        if learning.get("learning_id") == lid == learning_id(domain, claim) and sid in refs:
-            return True
-    return False
-
+    sources, learnings = validated
+    return sid in sources and any(candidate_id == lid and sid in refs
+                                  for _, candidate_id, refs in learnings)
 
 def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> str:
     current = (now or now_utc()).astimezone(UTC)
