@@ -1,6 +1,8 @@
 """Fail-closed tests for the offline Reporting API checkpoint decision."""
 import json
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -91,6 +93,21 @@ class CheckpointTests(unittest.TestCase):
             gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00")))
         with self.assertRaises(ValueError):
             gate.evaluate_batch(batch(report("r1", "bad timestamp")))
+
+    def test_cli_emits_applied_learning_ids_in_real_decision_json(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "batch.json"
+            path.write_text(json.dumps(batch(report("r1", "2026-10-21T12:00:00Z"))), encoding="utf-8")
+            proc = subprocess.run(
+                [sys.executable, "-m", "scripts.youtube_reporting_checkpoint", str(path)],
+                cwd=Path(__file__).resolve().parents[1],
+                capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            output = json.loads(proc.stdout)
+            self.assertEqual(output["applied_learning_ids"], [gate.LEARNING_ID])
+            self.assertEqual(output["decision_status"], "ADVANCE_READY")
+            self.assertFalse(output["checkpoint_committed"])
 
 
 if __name__ == "__main__":
