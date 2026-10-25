@@ -29,5 +29,5 @@ jobs:
           python3 scripts/knowledge_promote.py apply > /tmp/promotion-second.json
           sha256sum knowledge/source_catalog.json knowledge/learning_ledger.json > /tmp/after-second.sha
           diff -u /tmp/after-first.sha /tmp/after-second.sha
-          python3 -m unittest discover -s tests -p 'test_pr141_promotion_gate.py' -v
+          PR141_REQUIRE_IMPORTED=1 python3 -m unittest discover -s tests -p 'test_pr141_promotion_gate.py' -v
           echo 'Promotion gate: schema, references, additive import and second-pass read-back PASS'
