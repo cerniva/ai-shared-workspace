@@ -91,7 +91,11 @@ def evaluate_batch(batch: dict[str, Any],
         period_start, period_end = _time(start), _time(end)
         if period_start >= period_end:
             raise ValueError("INVALID_PERIOD")
-        fingerprint = json.dumps({k: report[k] for k in ("id", "jobId", "startTime", "endTime", "createTime")}, sort_keys=True)
+        # A report ID identifies one immutable import input. Include all supplied
+        # report metadata (e.g. downloadUrl or content digest), not only dates;
+        # otherwise a changed payload can silently reuse a verified ACK.
+        fingerprint = json.dumps({k: v for k, v in report.items() if k != "import_status"},
+                                 sort_keys=True, allow_nan=False)
         acknowledgement = report.get("import_status")
         if rid in seen_ids:
             prior_fingerprint, prior_acknowledgement = seen_ids[rid]
