@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261025-slow-codeql-code-scanning",
+      "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "source": "comms-watch",
+      "ts": "2026-10-25T06:31:42+00:00"
+    }
+  ]
+}
