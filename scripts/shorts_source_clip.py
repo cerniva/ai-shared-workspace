@@ -176,7 +176,17 @@ def _require_video_coverage(streams: list[dict], seconds: float) -> None:
         raise RuntimeError("rendered MP4 video does not cover full clip")
 
 
-def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str) -> dict:
+def _portrait_filter(crop_x: float, crop_y: float) -> str:
+    """Fill 9:16 without letterboxing; crop coordinates require visual QA."""
+    if not all(math.isfinite(value) and 0.0 <= value <= 1.0 for value in (crop_x, crop_y)):
+        raise ValueError("crop_x and crop_y must be finite numbers between 0 and 1")
+    return ("scale=iw*sar:ih,setsar=1,"
+            "scale=1080:1920:force_original_aspect_ratio=increase,"
+            f"crop=1080:1920:(iw-1080)*{crop_x:.3f}:(ih-1920)*{crop_y:.3f},"
+            "setsar=1,fps=30,format=yuv420p,subtitles=captions.srt")
+
+
+def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str, crop_x: float = 0.5, crop_y: float = 0.5) -> dict:
     source, captions, evidence_file, output = map(lambda x: Path(x).resolve(), (source, captions, evidence_file, output))
     if not all(path.is_file() for path in (source, captions, evidence_file)):
         raise ValueError("source, captions and rights evidence must be existing local files")
@@ -192,6 +202,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         raise ValueError("start must be nonnegative and clip duration 30–40 seconds")
     if not re.fullmatch(r"[A-Za-z]{2}(?:-[A-Za-z]{2})?", language):
         raise ValueError("language must be a BCP-47 language tag, e.g. en or tr")
+    filt = _portrait_filter(crop_x, crop_y)
     rights = validate_rights(source, captions, evidence_file, language)
     for binary in ("ffmpeg", "ffprobe"):
         if not shutil.which(binary):
@@ -227,10 +238,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         if len(source_audio_tracks) != 1:
             raise ValueError("source must have exactly one unambiguous original audio track")
         candidate = work / "candidate.mp4"
-        # Pad rather than crop: preserves people and objects when center-crop would cut them off.
-        filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
-                "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
-                "format=yuv420p,subtitles=captions.srt")
+        # Cover crop fills the portrait canvas; no automated claim that faces or actions remain visible.
         command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-n",
                    "-ss", f"{start:.3f}", "-i", str(snapshot), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
@@ -269,6 +277,8 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
                 "source_sha256": file_sha256(snapshot), "duration": actual,
                 "spoken_language": language, "caption_language": language,
                 "audio_source": "original_source", "synthetic_narration": False,
+                "framing_mode": "cover_crop", "crop_x": crop_x, "crop_y": crop_y,
+                "framing_review_pending": True,
                 "motion_qc": motion["motion_qc"], "audio_qc": audio["audio_qc"],
                 "publish_ready": False, "rights_review_pending": True,
                 "independent_media_review_pending": True, "credits_spent": 0}
@@ -281,10 +291,15 @@ def main() -> int:
     parser.add_argument("--start", type=float, required=True)
     parser.add_argument("--duration", type=float, required=True)
     parser.add_argument("--language", type=str, required=True)
+    parser.add_argument("--crop-x", type=float, default=0.5,
+                        help="Horizontal crop anchor 0=left, 0.5=center, 1=right")
+    parser.add_argument("--crop-y", type=float, default=0.5,
+                        help="Vertical crop anchor 0=top, 0.5=center, 1=bottom")
     args = parser.parse_args()
     try:
         report = render(args.source, args.captions, args.evidence, args.output,
-                        start=args.start, seconds=args.duration, language=args.language)
+                        start=args.start, seconds=args.duration, language=args.language,
+                        crop_x=args.crop_x, crop_y=args.crop_y)
     except (ValueError, RuntimeError, OSError, subprocess.TimeoutExpired) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False))
         return 2

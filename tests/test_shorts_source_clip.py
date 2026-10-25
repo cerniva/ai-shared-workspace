@@ -251,6 +251,56 @@ class SourceClipTests(unittest.TestCase):
                        start=0, seconds=30, language="en")
         self.assertFalse(output.exists())
 
+    def test_portrait_filter_fills_frame_without_letterboxing(self):
+        from scripts.shorts_source_clip import _portrait_filter
+        vf = _portrait_filter(0.5, 0.5)
+        self.assertIn("force_original_aspect_ratio=increase", vf)
+        self.assertIn("crop=1080:1920:", vf)
+        self.assertNotIn("pad=", vf)
+        self.assertIn("subtitles=captions.srt", vf)
+
+    def test_non_square_pixel_source_preserves_displayed_subject_shape(self):
+        # A 150x200 sample rectangle with SAR=4/3 is square on display.
+        # Render the real FFmpeg crop chain and ensure it stays square.
+        import shutil
+        import subprocess
+        from scripts.shorts_source_clip import _portrait_filter
+
+        if not shutil.which("ffmpeg"):
+            self.skipTest("FFmpeg unavailable")
+        filt = _portrait_filter(0.5, 0.5).replace(",subtitles=captions.srt", "")
+        source = ("color=c=black:s=1440x1080:r=1,"
+                  "drawbox=x=600:y=440:w=150:h=200:color=white:t=fill,"
+                  "setsar=4/3")
+        command = ["ffmpeg", "-hide_banner", "-loglevel", "error",
+                   "-f", "lavfi", "-i", source, "-vf", filt,
+                   "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", "-"]
+        result = subprocess.run(command, capture_output=True, timeout=45, check=True)
+        self.assertEqual(len(result.stdout), 1080 * 1920)
+        white = [i for i, value in enumerate(result.stdout) if value > 240]
+        self.assertTrue(white, "synthetic subject missing after crop")
+        left = min(i % 1080 for i in white)
+        right = max(i % 1080 for i in white)
+        top = min(i // 1080 for i in white)
+        bottom = max(i // 1080 for i in white)
+        self.assertLessEqual(abs((right - left) - (bottom - top)), 3)
+
+    def test_portrait_crop_anchors_are_explicit(self):
+        from scripts.shorts_source_clip import _portrait_filter
+        vf = _portrait_filter(0.0, 1.0)
+        self.assertIn("(iw-1080)*0.000:(ih-1920)*1.000", vf)
+
+    def test_invalid_crop_coordinates_fail_closed_before_ffmpeg(self):
+        for value in (-0.01, 1.01, float("nan"), float("inf")):
+            with self.subTest(value=value):
+                output = self.root / "must-not-exist.mp4"
+                with patch("scripts.shorts_source_clip.subprocess.run",
+                           side_effect=AssertionError("FFmpeg must not run")):
+                    with self.assertRaisesRegex(ValueError, "crop_x and crop_y"):
+                        render(self.video, self.srt, self.evidence, output,
+                               start=0, seconds=30, language="en", crop_x=value)
+                self.assertFalse(output.exists())
+
     def test_direct_cli_help_without_pythonpath(self):
         import os
         import subprocess
