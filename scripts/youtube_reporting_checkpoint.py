@@ -35,7 +35,13 @@ def _time(value: str) -> datetime:
 
 def read_policy(ledger_path: str | Path = DEFAULT_LEDGER,
                 catalog_path: str | Path = DEFAULT_CATALOG) -> dict[str, str]:
+    catalog = SourceCatalog(catalog_path)
     ledger = LearningLedger(ledger_path, catalog_path)
+    try:
+        catalog.validate()  # Reject canonical URL/source ID tampering, including unrelated rows.
+        ledger.validate()  # Reject changed claims with stale learning IDs and bad references.
+    except CatalogError as exc:
+        raise CatalogError(f"bridge_failure: invalid system knowledge integrity: {exc}") from exc
     matches = [row for row in ledger.for_plan("system")
                if row.get("learning_id") == LEARNING_ID]
     if len(matches) != 1 or matches[0].get("evidence_status") != "verified":
@@ -43,7 +49,7 @@ def read_policy(ledger_path: str | Path = DEFAULT_LEDGER,
     row = matches[0]
     if GATE not in row.get("decision", "") or SOURCE_ID not in row.get("source_ids", []):
         raise CatalogError("bridge_failure: checkpoint policy/source mismatch")
-    source = SourceCatalog(catalog_path).find(SOURCE_ID)
+    source = catalog.find(SOURCE_ID)
     if (not source or source.get("canonical") != SOURCE_URL
             or source.get("evidence_tier") != "official"
             or source.get("provenance") != "verified"
