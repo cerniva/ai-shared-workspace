@@ -146,6 +146,20 @@ class CheckpointTests(unittest.TestCase):
                 with self.assertRaisesRegex(CatalogError, "bridge_failure"):
                     gate.evaluate_batch(batch(), ledger, catalog)
 
+    def test_tampered_learning_claim_with_stale_id_fails_closed(self):
+        # A row with the expected ID must still pass the stable-ID integrity gate.
+        with tempfile.TemporaryDirectory() as folder:
+            ledger = Path(folder) / "ledger.json"
+            shutil.copy(DEFAULT_LEDGER, ledger)
+            data = json.loads(ledger.read_text(encoding="utf-8"))
+            row = next(item for item in data["learnings"]
+                       if item["learning_id"] == gate.LEARNING_ID)
+            row["claim"] += " altered without changing learning_id"
+            ledger.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(CatalogError, "bridge_failure: invalid system knowledge integrity"):
+                gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00Z")),
+                                    ledger_path=ledger)
+
     def test_missing_official_source_fails_closed(self):
         with tempfile.TemporaryDirectory() as folder:
             ledger = Path(folder) / "ledger.json"
