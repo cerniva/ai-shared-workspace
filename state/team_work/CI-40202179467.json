@@ -1,0 +1,42 @@
+{
+  "handoff_id": "CI-40202179467",
+  "source": "ci-bekci",
+  "run_id": "40202232513",
+  "task": "CI failure in 'shorts-free-smoke-once' run 40202179467: jobs smoke[Run free-first unit tests]; first error: test_learnings_applied_and_recorded (tests.test_shorts_learnings_applied.ShortsLearningsTests.test_learnings_applied_and_recorded)",
+  "generated_at": "2026-10-25T14:26:43+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40202179467",
+    "evidence": [
+      {
+        "path": "tests/test_shorts_learnings_applied.py",
+        "description": "Test file containing ShortsLearningsTests.test_learnings_applied_and_recorded, which failed during CI run 40202179467 in job smoke[Run free-first unit tests]."
+      },
+      {
+        "path": ".github/workflows/shorts-free-smoke-once.yml",
+        "description": "Workflow definition for the shorts-free-smoke-once pipeline executing free-first unit tests."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40202179467 for workflow 'shorts-free-smoke-once' failed in job 'smoke[Run free-first unit tests]'.",
+      "The first test error reported is test_learnings_applied_and_recorded in class ShortsLearningsTests located at tests/test_shorts_learnings_applied.py."
+    ],
+    "hypotheses": [
+      "The learning recording mechanism in tests/test_shorts_learnings_applied.py failed due to missing or modified expected learning attributes.",
+      "Order-dependent execution or missing test setup in free-first mode caused test_learnings_applied_and_recorded to encounter an unexpected state."
+    ],
+    "recommendation": "Inspect tests/test_shorts_learnings_applied.py and the associated learning recording logic to verify assertion expectations and recent schema or pipeline changes.",
+    "confidence": 0.85,
+    "next_action": "Execute pytest on tests/test_shorts_learnings_applied.py locally to reproduce the error and inspect full traceback details.",
+    "timing": {
+      "started_at": "2026-10-25T14:26:44.480188+00:00",
+      "duration_ms": 16164
+    },
+    "usage": {
+      "input_tokens": 174,
+      "output_tokens": 395,
+      "total_tokens": 3011
+    }
+  }
+}
