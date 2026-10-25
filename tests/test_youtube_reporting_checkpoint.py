@@ -52,8 +52,11 @@ class CheckpointTests(unittest.TestCase):
     def test_backfill_replaces_old_period_not_sum(self):
         old = report("old", "2026-10-20T11:00:00Z", status="unprocessed")
         new = report("new", "2026-10-21T12:00:00Z")
-        result = gate.evaluate_batch(batch(old, new))
+        b = batch(old, new)
+        b["durably_deduplicated_report_ids"] = ["old"]
+        result = gate.evaluate_batch(b)
         self.assertEqual(result["selected_report_ids"], ["new"])
+        self.assertEqual(result["durably_deduplicated_report_ids"], ["old"])
         self.assertEqual(result["decision_status"], "ADVANCE_READY")
 
     def test_equivalent_timezone_periods_use_one_newest_backfill(self):
@@ -61,11 +64,32 @@ class CheckpointTests(unittest.TestCase):
         new = report("new", "2026-10-21T12:00:00Z",
                      start="2026-10-19T20:00:00-04:00")
         new["endTime"] = "2026-10-20T20:00:00-04:00"
-        result = gate.evaluate_batch(batch(old, new))
+        b = batch(old, new)
+        b["durably_deduplicated_report_ids"] = ["old"]
+        result = gate.evaluate_batch(b)
         self.assertEqual(result["selected_report_ids"], ["new"])
         self.assertEqual(result["unverified_report_ids"], [])
         self.assertEqual(result["decision_status"], "ADVANCE_READY")
         self.assertEqual(result["applied_learning_ids"], [gate.LEARNING_ID])
+
+    def test_unacknowledged_backfill_dedup_holds_checkpoint(self):
+        old = report("old", "2026-10-20T11:00:00Z", status="unprocessed")
+        new = report("new", "2026-10-21T12:00:00Z")
+        result = gate.evaluate_batch(batch(old, new))
+        self.assertEqual(result["decision_status"], "HOLD_UNVERIFIED_DEDUP")
+        self.assertEqual(result["decision_after_proposed"], result["decision_before"])
+        self.assertEqual(result["unverified_superseded_report_ids"], ["old"])
+        self.assertEqual(result["applied_learning_ids"], [gate.LEARNING_ID])
+
+    def test_invalid_or_unrelated_backfill_ack_fails_closed(self):
+        old = report("old", "2026-10-20T11:00:00Z")
+        new = report("new", "2026-10-21T12:00:00Z")
+        for acknowledgements in ("old", ["unknown"], ["old", "old"], [None]):
+            with self.subTest(acknowledgements=acknowledgements):
+                b = batch(old, new)
+                b["durably_deduplicated_report_ids"] = acknowledgements
+                with self.assertRaisesRegex(ValueError, "INVALID_DEDUP_ACK"):
+                    gate.evaluate_batch(b)
 
     def test_equivalent_timezone_period_tie_fails_closed(self):
         first = report("r1", "2026-10-21T12:00:00Z")
