@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_a29d9b16c4006cb1",
+      "source_name": "CoinMarketCap connected global market metrics snapshot",
+      "canonical": "tool:coinmarketcap/get_global_metrics_latest",
+      "category": "finance-crypto-market-data",
+      "purpose": "Cross-check 24h crypto total, spot and derivatives volume fields and their units before calculating market liquidity or ratios",
+      "evidence_tier": "secondary",
+      "access_status": "verified-connected",
+      "cost_quota": "connected read-only public data",
+      "reliability_limits": "Mixed-frequency data; definitions and units may not be additive; no snapshot identifier beyond daily label and no synchronized derivatives endpoint timestamp.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-25T09:00:00+03:00",
+      "last_successful_use": "2026-10-25T09:00:00+03:00",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_9888ad31b6cd2024",
+      "source_name": "CoinMarketCap connected global derivatives metrics snapshot",
+      "canonical": "tool:coinmarketcap/get_global_crypto_derivatives_metrics",
+      "category": "finance-crypto-derivatives",
+      "purpose": "Independent within-provider volume, OI, funding and BTC liquidation cross-check",
+      "evidence_tier": "secondary",
+      "access_status": "verified-connected",
+      "cost_quota": "connected read-only public data",
+      "reliability_limits": "No explicit timestamp; blended funding unit/method unspecified; volume total may use a different scope; do not combine with market-wide spot figures without reconciliation.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-25T09:00:00+03:00",
+      "last_successful_use": "2026-10-25T09:00:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_bba75babea656079",
+      "title": "Do not compute crypto spot/derivatives ratios from unreconciled CMC global volume fields",
+      "domain": "finance-derivatives-data-quality",
+      "claim": "On 25 October 2026 the connected CoinMarketCap global metrics snapshot reported 24h total crypto volume 54.72 B, spot volume 109.4 B and derivatives volume 554.55 B, which cannot be additive parts of the reported total; its separate derivatives endpoint reported 170.67 T total 24h volume. The figures are not a reconciled common-denominator series.",
+      "evidence_status": "verified",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-25T09:00:00+03:00",
+      "decision": "FINANCE_CMC_VOLUME_DENOMINATOR_GATE: Preserve the two provider snapshots and their distinct units, report data conflict; do not sum total/spot/derivatives or calculate a spot-perpetual ratio from these fields until source definitions, units, timestamps and market scope reconcile. Keep funding/OI as raw contextual fields, not a calibrated bull score.",
+      "next_measurement": "At next liquid session compare time-stamped CMC market metrics and derivatives metrics with documented definitions and a second independent derivatives provider; only restore ratios after reconciliation.",
+      "source_ids": [
+        "src_a29d9b16c4006cb1",
+        "src_9888ad31b6cd2024"
+      ],
+      "failure_history": [
+        "25 Oct 2026: market total 54.72 B versus spot 109.4 B and derivatives 554.55 B; separate derivatives total 170.67 T; incompatible as one additive liquidity decomposition."
+      ],
+      "fallback_history": [
+        "Show independently labelled raw values with CONFLICT status; set cross-market ratio and calibrated derivatives support N/A."
+      ],
+      "supersedes": null
+    }
+  ]
+}
