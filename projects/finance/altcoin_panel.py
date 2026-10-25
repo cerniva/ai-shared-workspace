@@ -188,9 +188,12 @@ def _require_altseason_learning(ledger_path=None, catalog_path=None) -> str:
 
     catalog_path = catalog_path or DEFAULT_CATALOG
     catalog = SourceCatalog(catalog_path)
-    catalog.validate()  # Reject tampered canonical URLs even if the source ID still exists.
     ledger = LearningLedger(ledger_path or DEFAULT_LEDGER, catalog_path)
-    ledger.validate()  # Reject a modified claim paired with an old learning ID.
+    try:
+        catalog.validate()  # Reject tampered canonical URLs with unchanged source IDs.
+        ledger.validate()  # Reject modified claims paired with old learning IDs.
+    except CatalogError as exc:
+        raise CatalogError(f"bridge_failure: invalid finance knowledge integrity: {exc}") from exc
     row = next(
         (item for item in ledger.for_plan("finance")
          if item.get("learning_id") == ALTSEASON_LEARNING_ID),
