@@ -114,5 +114,39 @@ class PR141PromotionGate(unittest.TestCase):
             self.assertEqual(set(saved["plan_tags"]), set(staged["plan_tags"]), lid)
 
 
+    def test_import_preserves_existing_history(self) -> None:
+        """A promotion must never delete, duplicate, or rewrite older rows."""
+        if os.environ.get("PR141_REQUIRE_IMPORTED") != "1":
+            self.skipTest("post-import preservation verification only")
+        import subprocess
+
+        for path, field, id_field in (
+            ("knowledge/source_catalog.json", "sources", "source_id"),
+            ("knowledge/learning_ledger.json", "learnings", "learning_id"),
+        ):
+            with self.subTest(path=path):
+                # HEAD is the checked-out PR merge commit in CI, before the
+                # scratch import changes working-tree files. Do not use a
+                # hard-coded historical count; the main catalog can grow.
+                baseline_text = subprocess.check_output(
+                    ["git", "show", f"HEAD:{path}"],
+                    cwd=ROOT, text=True,
+                )
+                baseline = json.loads(baseline_text)
+                after = json.loads((ROOT / path).read_text(encoding="utf-8"))
+                self.assertEqual(after["schema_version"], baseline["schema_version"])
+                old_rows = baseline[field]
+                new_rows = after[field]
+                old_ids = [row[id_field] for row in old_rows]
+                new_ids = [row[id_field] for row in new_rows]
+                self.assertEqual(len(old_ids), len(set(old_ids)), "duplicate original IDs")
+                self.assertEqual(len(new_ids), len(set(new_ids)), "duplicate imported IDs")
+                saved = {row[id_field]: row for row in new_rows}
+                for row in old_rows:
+                    self.assertIn(row[id_field], saved, "historical record deleted")
+                    self.assertEqual(saved[row[id_field]], row,
+                                     f"historical record changed: {row[id_field]}")
+
+
 if __name__ == "__main__":
     unittest.main()
