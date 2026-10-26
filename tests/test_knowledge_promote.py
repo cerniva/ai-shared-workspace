@@ -140,5 +140,38 @@ class KnowledgePromoteTests(unittest.TestCase):
         self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
 
 
+    def test_ambiguous_json_and_noninteger_schema_fail_closed(self) -> None:
+        """Duplicate keys, NaN/Infinity and bool/float versions must not import."""
+        valid = json.dumps({"schema_version": 1, "source": SOURCE})
+        variants = [
+            valid.replace('"schema_version": 1', '"schema_version": 0, "schema_version": 1', 1),
+            valid.replace('"source_name": "Official docs"',
+                          '"source_name": "Tampered", "source_name": "Official docs"', 1),
+            valid.replace('"category": "test"', '"category": NaN', 1),
+            valid.replace('"category": "test"', '"category": Infinity', 1),
+            json.dumps({"schema_version": True, "source": SOURCE}),
+            json.dumps({"schema_version": 1.0, "source": SOURCE}),
+        ]
+        before = self.catalog.read_bytes()
+        for raw in variants:
+            with self.subTest(raw=raw[:100]):
+                (self.root / "knowledge" / "promotions" / "p.json").write_text(
+                    raw, encoding="utf-8")
+                with self.assertRaises(CatalogError):
+                    apply_promotions(self.root)
+                self.assertEqual(self.catalog.read_bytes(), before)
+                self.assertFalse(self.ledger.exists())
+
+    def test_ambiguous_canonical_snapshot_fails_before_writes(self) -> None:
+        """A corrupted existing catalog must not be silently treated as empty."""
+        bad = '{"schema_version":1,"sources":[],"sources":[]}'
+        self.catalog.write_text(bad, encoding="utf-8")
+        self.stage({"source": SOURCE})
+        with self.assertRaises(ValueError):
+            apply_promotions(self.root)
+        self.assertEqual(self.catalog.read_text(encoding="utf-8"), bad)
+        self.assertFalse(self.ledger.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
