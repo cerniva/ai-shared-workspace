@@ -74,6 +74,15 @@ class TelegramBotTests(unittest.TestCase):
                     offset_path=self.offset)
         self.assertEqual(http.calls[0][1]["offset"], 10)
 
+    def test_llm_without_configured_provider_has_safe_reply(self):
+        reply = tb.ask_llm("soru", "", env={}, adapter_factory=lambda env: None)
+        self.assertIn("yapılandırılmamış", reply)
+
+    def test_llm_uses_shared_fallback_result(self):
+        adapter = FakeAdapter("Yedek sağlayıcı yanıtı")
+        self.assertEqual(tb.ask_llm("soru", "", env={}, adapter_factory=lambda env: adapter),
+                         "Yedek sağlayıcı yanıtı")
+
     def test_llm_failure_is_safe(self):
         def boom(env):
             raise RuntimeError("down")
