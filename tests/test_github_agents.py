@@ -156,7 +156,8 @@ class ResearchLearnerTests(Base):
         target = self.root / first["domains"]["finance"]["path"]
         original = json.loads(target.read_text(encoding="utf-8"))
         for fault in ("source_refs", "source_identity", "learning_identity",
-                      "extra_source", "extra_learning", "duplicate_source", "duplicate_learning"):
+                      "extra_source", "extra_learning", "duplicate_source", "duplicate_learning",
+                      "schema_bool", "schema_float", "schema_string"):
             with self.subTest(fault=fault):
                 doc = json.loads(json.dumps(original))
                 if fault == "source_refs":
@@ -176,6 +177,12 @@ class ResearchLearnerTests(Base):
                     doc["sources"].append(dict(doc["sources"][0]))
                 elif fault == "duplicate_learning":
                     doc["learnings"].append(dict(doc["learnings"][0]))
+                elif fault == "schema_bool":
+                    doc["schema_version"] = True
+                elif fault == "schema_float":
+                    doc["schema_version"] = 1.0
+                elif fault == "schema_string":
+                    doc["schema_version"] = "1"
                 target.write_text(json.dumps(doc), encoding="utf-8")
                 second = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
                 self.assertEqual(second["domains"]["finance"]["status"], "staging_collision", second)
