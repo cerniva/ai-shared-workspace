@@ -52,7 +52,17 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertLess(receipt, artifact)
         self.assertLess(artifact, ledger)
         self.assertIn('payload.get("video_id")', text)
-        self.assertIn('sha256sum upload_result.json > SHA256SUMS', text)
+        self.assertIn('sha256sum remote_receipt.json > SHA256SUMS', text)
+        self.assertIn('--receipt-path "$RUNNER_TEMP/shorts-upload-receipt/remote_receipt.json"', text)
+        receipt_section = text.split("- name: Preserve remote upload receipt before ledger", 1)[1].split("- name:", 1)[0]
+        artifact_section = text.split("- name: Upload remote receipt before ledger", 1)[1].split("- name:", 1)[0]
+        self.assertIn("if: ${{ always() }}", receipt_section)
+        self.assertIn("if: ${{ always() }}", artifact_section)
+        self.assertIn("if-no-files-found: ignore", artifact_section)
+        self.assertIn("REMOTE_READBACK_BLOCKED", receipt_section)
+        upload_script = (ROOT / "scripts" / "youtube_upload.py").read_text(encoding="utf-8")
+        self.assertLess(upload_script.index("write_remote_receipt(receipt_path, receipt)"),
+                        upload_script.index('verified = youtube.videos().list'))
         self.assertIn("shorts-upload-receipt-${{ github.run_id }}", text)
         self.assertIn("if-no-files-found: error", text)
         self.assertIn("retention-days: 14", text)
