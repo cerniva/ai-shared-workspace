@@ -26,14 +26,18 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Median run is ~1 min; cap hung runs instead of letting them burn the 6 h default.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - name: Install ffmpeg, eSpeak NG and pytest
+        timeout-minutes: 8
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
           python3 -m pip install --disable-pip-version-check pytest
       - name: Renderer and workflow tests
+        timeout-minutes: 8
         run: >-
           python3 -m unittest
           tests.test_shorts_render
@@ -48,6 +52,8 @@ jobs:
           tests.test_shorts_mp4_qc
           -v
       - name: Full Python suite
+        timeout-minutes: 10
         run: python3 -m pytest -q
       - name: Compile Shorts modules
+        timeout-minutes: 2
         run: python3 -m py_compile scripts/shorts_render.py scripts/shorts_media.py scripts/shorts_research.py scripts/shorts_free_pipeline.py
