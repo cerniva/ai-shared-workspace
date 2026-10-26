@@ -9,8 +9,8 @@
   "source_author": "NASA Johnson",
   "source_license_page": "https://commons.wikimedia.org/wiki/File:STEMonstration-_Nutrition.webm",
   "source_license_claim": "Wikimedia Commons labels NASA-created video public domain in the United States. This does not independently clear embedded music, speech, people or logos.",
-  "source_sha256": null,
-  "source_downloaded": false,
+  "source_sha256": "40793f21f2d4377b9c958217bd7e8b43081bc4cf16fdac0a98c6bc28fcc9289d",
+  "source_downloaded": true,
   "source_audio_rights_verified": false,
   "source_third_party_music_verified": false,
   "caption_source": "https://commons.wikimedia.org/wiki/TimedText:STEMonstration-_Nutrition.webm.en.srt",
@@ -29,7 +29,7 @@
   "clip_duration_seconds": 33.8,
   "timed_caption_cues": 23,
   "maximum_caption_gap_seconds": 1.101,
-  "framing": "9:16 subject-preserving crop anchor not independently reviewed; PR #330 is separate and unmerged",
+  "framing": "FRAMING_QA_BLOCKED: sampled decoded frames at 00:43, 00:58, 01:06 and 01:14 show multi-panel composition and existing English information overlays. Center 9:16 crop retains 405/1280=31.64% width, truncates embedded text at 00:58 and 01:14; adding SRT could overlap. Needs independent subject-safe dynamic framing or a different source.",
   "ai_voiceover": false,
   "original_audio_required": true,
   "media_sha256": null,
@@ -44,12 +44,17 @@
     "youtube_upload": "NOT_ATTEMPTED"
   },
   "applied_learning_ids": {
-    "learn_ae8a18babc190373": "Selected 33.8-second existing timed source segment but refused to render without rights, original-audio and full-media QA.",
-    "learn_4decad368966e2e6": "Recorded SHA-256 only for existing SRT bytes; source/media SHA remain null instead of fabricated.",
+    "learn_ae8a18babc190373": "33.8-second candidate source was actually decoded and sampled, but fail-closed on embedded text crop and unresolved rights; no MP4 produced.",
+    "learn_4decad368966e2e6": "Actual original WebM SHA-256 verified by GitHub Actions artifact and local extraction; final MP4 SHA remains null.",
     "learn_af28044522e96790": "publish_ready=false and upload NOT_ATTEMPTED; privacy, target channel and OAuth not assumed.",
     "learn_e74d8dd625c30863": "No retention/engaged-view conclusion from sparse public views."
   },
   "cost_eur": 0,
   "updated_on": "2026-10-27",
-  "review_required": "A separate reviewer must inspect exact downloaded source bytes, audio/music/person/insignia rights, Commons TimedText license, actual spoken sync, full-length moving visuals and 9:16 composition before publish."
+  "review_required": "A separate reviewer must inspect exact downloaded source bytes, audio/music/person/insignia rights, Commons TimedText license, actual spoken sync, full-length moving visuals and 9:16 composition before publish.",
+  "source_media_bytes": 46822069,
+  "source_media_duration_seconds": 181.561,
+  "source_artifact": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40420896015/artifacts/12697513894",
+  "source_artifact_expires_at": "2026-10-28T23:37:03Z",
+  "source_technical_qc": "Local SHA matches Actions SHA; VP9 1280x720, Opus stereo, one video and one audio stream; selected 33.8s decoded without FFmpeg error, no >1.5s freeze/black detected; NOT independent rights, sync, framing or publication QA."
 }
