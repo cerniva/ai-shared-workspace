@@ -375,7 +375,9 @@ def _staged_learning_titles(root: Path) -> set[str]:
     """Deduplicate only fully valid, still-pending intake files; never trust partial documents."""
     titles: set[str] = set()
     folder = root / "intake" / "promotions"
-    if not folder.is_dir() or folder.is_symlink():
+    # A symlinked intake parent can escape the repository even when the
+    # promotions directory itself is a regular directory. Reject both.
+    if (root / "intake").is_symlink() or not folder.is_dir() or folder.is_symlink():
         return titles
     for path in folder.glob("*.json"):
         if path.is_symlink() or not path.is_file():
