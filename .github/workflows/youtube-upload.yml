@@ -234,12 +234,21 @@ jobs:
 
       # Upload result + ledger are durable review artifacts, not a direct main mutation.
       # A separate reviewed PR is required before updating the canonical ledger.
+      - name: Stage and hash upload evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest="$RUNNER_TEMP/shorts-upload-evidence"
+          mkdir -p "$dest"
+          cp knowledge/shorts/upload_ledger.json "$dest/upload_ledger.json"
+          cp "$RUNNER_TEMP/upload_result.json" "$dest/upload_result.json"
+          (cd "$dest" && sha256sum upload_ledger.json upload_result.json > SHA256SUMS)
+          python3 scripts/verify_shorts_upload_evidence.py "$dest"
+
       - name: Preserve upload result and ledger for review
         uses: actions/upload-artifact@v4
         with:
           name: shorts-upload-ledger-${{ github.run_id }}
-          path: |
-            knowledge/shorts/upload_ledger.json
-            ${{ runner.temp }}/upload_result.json
+          path: ${{ runner.temp }}/shorts-upload-evidence/
           if-no-files-found: error
           retention-days: 14
