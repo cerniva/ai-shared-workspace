@@ -262,6 +262,32 @@ class ReporterTests(Base):
         self.assertIn("tüm CI yeşil doğrulanmadı", line)
         self.assertIn("örnekte başarısız: yok", line)
 
+    def test_ci_newest_in_progress_cannot_be_masked_by_old_success(self):
+        class PagedHTTP:
+            def __call__(self, method, url, body):
+                return {"total_count": 3, "workflow_runs": [
+                    {"name": "worker", "status": "in_progress", "conclusion": None},
+                    {"name": "worker", "status": "completed", "conclusion": "success"},
+                    {"name": "codeql", "status": "completed", "conclusion": "success"},
+                ]}
+
+        line = ga._ci_line(ga.GitHub("o/r", "t", PagedHTTP()))
+        self.assertIn("tam tarama; CI tamamlanmadı", line)
+        self.assertIn("örnekte bekleyen: worker", line)
+        self.assertIn("örnekte başarısız: yok", line)
+
+    def test_ci_queued_latest_stays_partial_on_paginated_scan(self):
+        class PagedHTTP:
+            def __call__(self, method, url, body):
+                return {"total_count": 31, "workflow_runs": [
+                    {"name": "worker", "status": "queued", "conclusion": None},
+                    {"name": "worker", "status": "completed", "conclusion": "success"},
+                ]}
+
+        line = ga._ci_line(ga.GitHub("o/r", "t", PagedHTTP()))
+        self.assertIn("KISMİ", line)
+        self.assertIn("örnekte bekleyen: worker", line)
+
     def test_ci_complete_page_and_missing_total_count(self):
         class ResultHTTP:
             def __init__(self, payload):
