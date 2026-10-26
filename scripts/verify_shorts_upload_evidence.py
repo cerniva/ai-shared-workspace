@@ -18,7 +18,7 @@ def verify(folder: Path) -> None:
         raise ValueError("missing or extra evidence hash entries")
     found = set()
     for line in lines:
-        match = re.fullmatch(r"([0-9a-f]{64})  (upload_ledger\\.json|upload_result\\.json)", line)
+        match = re.fullmatch(r"([0-9a-f]{64})  (upload_ledger\.json|upload_result\.json)", line)
         if match is None:
             raise ValueError("invalid SHA256SUMS entry")
         digest, filename = match.groups()
