@@ -2,10 +2,6 @@ name: shorts-source-media-audit
 
 # Audit-only acquisition. Never renders, publishes, merges, or assumes rights clearance.
 on:
-  pull_request:
-    types: [synchronize]
-    paths:
-      - .github/workflows/shorts-source-media-audit.yml
   workflow_dispatch:
 
 permissions:
