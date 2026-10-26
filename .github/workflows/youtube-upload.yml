@@ -51,6 +51,12 @@ on:
         default: false
         type: boolean
 
+# Serialize upload attempts within this repository. This prevents simultaneous
+# videos.insert calls; it does NOT prove cross-run deduplication after completion.
+concurrency:
+  group: shorts-upload-${{ github.repository }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
   actions: read
