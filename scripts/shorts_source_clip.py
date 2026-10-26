@@ -98,7 +98,7 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
         raise ValueError("rights evidence must be an object")
     for key in ("source_url", "license_url", "license_name", "verified_by", "verified_at",
                 "caption_source_url", "caption_license_url", "caption_license_name",
-                "caption_verified_by", "caption_verified_at"):
+                "caption_verified_by", "caption_verified_at", "caption_attribution_text"):
         value = evidence.get(key)
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"rights evidence missing {key}")
@@ -286,7 +286,10 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
                 "framing_review_pending": True,
                 "motion_qc": motion["motion_qc"], "audio_qc": audio["audio_qc"],
                 "publish_ready": False, "rights_review_pending": True,
-                "independent_media_review_pending": True, "credits_spent": 0}
+                "independent_media_review_pending": True, "credits_spent": 0,
+                "caption_attribution_text": rights["caption_attribution_text"],
+                "caption_source_url": rights["caption_source_url"],
+                "caption_license_url": rights["caption_license_url"]}
 
 
 def main() -> int:
