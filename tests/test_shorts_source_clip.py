@@ -30,6 +30,7 @@ class SourceClipTests(unittest.TestCase):
             "caption_source_url": "https://example.org/test-transcript",
             "caption_license_url": "https://example.org/test-caption-license",
             "caption_license_name": "TEST FIXTURE PERMISSION",
+            "caption_attribution_text": "Fixture caption source; test-only attribution",
             "caption_verified_by": "Test fixture only",
             "caption_verified_at": "2026-10-20",
             "caption_reuse_permitted": True,
@@ -136,6 +137,12 @@ class SourceClipTests(unittest.TestCase):
         self.data.pop("caption_license_url")
         self.evidence.write_text(json.dumps(self.data))
         with self.assertRaisesRegex(ValueError, "caption_license_url"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_missing_caption_attribution_blocks(self):
+        self.data.pop("caption_attribution_text")
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "caption_attribution_text"):
             validate_rights(self.video, self.srt, self.evidence, "en")
 
     def test_unapproved_caption_derivatives_block(self):
