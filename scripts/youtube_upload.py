@@ -125,7 +125,23 @@ def require_explicit_declarations(meta: dict) -> None:
         raise ValueError("Metadata JSON must explicitly declare: " + ", ".join(missing) + " (no implicit defaults before upload).")
 
 
-def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False, contains_synthetic: bool = True) -> dict:
+def write_remote_receipt(path: Path, receipt: dict) -> None:
+    """Atomically preserve the videos.insert ID before attempting remote read-back."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + ".tmp")
+    try:
+        with temp.open("w", encoding="utf-8") as handle:
+            json.dump(receipt, handle, ensure_ascii=False, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp, path)
+    finally:
+        temp.unlink(missing_ok=True)
+
+
+def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False,
+           contains_synthetic: bool = True, receipt_path: Path | None = None) -> dict:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
@@ -157,6 +173,18 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
     video_id = response.get("id")
     if not video_id:
         raise RuntimeError("YouTube returned no video ID; upload cannot be verified.")
+    # A videos.insert may succeed even when the subsequent read-back fails.
+    # Persist the remote ID before that request; a failed verification must never
+    # be interpreted as a safe signal to retry uploading the same media.
+    receipt = {
+        "video_id": video_id,
+        "channel_id": CHANNEL_ID,
+        "requested_privacy_status": status["privacyStatus"],
+        "source_sha256": sha256_file(video),
+        "read_back_verified": False,
+    }
+    if receipt_path is not None:
+        write_remote_receipt(receipt_path, receipt)
     verified = youtube.videos().list(part="snippet,status", id=video_id).execute().get("items", [])
     if not verified:
         raise RuntimeError(f"Upload {video_id} completed but could not be verified.")
@@ -167,6 +195,10 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
     actual_status = item.get("status", {}).get("privacyStatus")
     if actual_status != expected_status:
         raise RuntimeError(f"Video {video_id} has visibility '{actual_status}', expected '{expected_status}'.")
+    if receipt_path is not None:
+        receipt["read_back_verified"] = True
+        receipt["actual_privacy_status"] = actual_status
+        write_remote_receipt(receipt_path, receipt)
     return {"video_id": video_id, "url": f"https://www.youtube.com/watch?v={video_id}", "privacy_status": actual_status}
 
 
@@ -176,6 +208,7 @@ def main() -> int:
     parser.add_argument("metadata", type=Path, help="JSON file containing title and description")
     parser.add_argument("--preflight", type=Path, required=True, help="Ready preflight JSON for this exact MP4")
     parser.add_argument("--publish", action="store_true", help="Publish publicly; default uploads privately")
+    parser.add_argument("--receipt-path", type=Path, help="Durable remote videos.insert receipt for read-back failures")
     args = parser.parse_args()
     if not args.video.is_file() or args.video.suffix.lower() != ".mp4":
         parser.error("video must be an existing .mp4 file")
@@ -189,7 +222,7 @@ def main() -> int:
         require_explicit_declarations(meta)
         made_for_kids = meta["selfDeclaredMadeForKids"]
         contains_synthetic = meta["containsSyntheticMedia"]
-        result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic)
+        result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic, args.receipt_path)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
