@@ -853,9 +853,15 @@
       "task": "[.github/workflows/shorts-render-tests.yml] GitHub Actions darboğazını gidermek için `.github/workflows/shorts-render-tests.yml` dosyasındaki test adımına belirleyici bir `timeout-minutes` (örneğin 10 dakika) sınırı ekleyip takılan süreçleri sonlandırın; ayrıca kararsız render adımları için `retry` konfigürasyonu uygulayarak ve son kırık koşudaki ilk log hatasını düzelterek %22'lik (5/23) başarısızlık oranını düşürebilir ve ortalama derleme sürelerini somut biçimde hızlandırabilirsiniz.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261026 key=fail-shorts-render-tests",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-26T11:15:47+00:00",
-      "updated_at": "2026-10-26T11:15:47+00:00"
+      "updated_at": "2026-10-26T11:17:20+00:00",
+      "claimed_at": "2026-10-26T11:17:20+00:00",
+      "notes": [
+        "2026-10-26T11:17:20+00:00 auditor: team-worker devraldi",
+        "2026-10-26T11:17:20+00:00 team-worker: YAPAMADIM: model cevap vermedi (CannotDo: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=error, openai=quota, grok=auth, local=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com; claude: NonRetryableProviderError: provider HTTP 400 host=api.anthropic.com) | team-research dispatched (team-research) | kuyruga alindi (state/team_worker_queue.json)"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261026-fail-shorts-render-tests",
+      "task": "[.github/workflows/shorts-render-tests.yml] GitHub Actions darboğazını gidermek için `.github/workflows/shorts-render-tests.yml` dosyasındaki test adımına belirleyici bir `timeout-minutes` (örneğin 10 dakika) sınırı ekleyip takılan süreçleri sonlandırın; ayrıca kararsız render adımları için `retry` konfigürasyonu uygulayarak ve son kırık koşudaki ilk log hatasını düzelterek %22'lik (5/23) başarısızlık oranını düşürebilir ve ortalama derleme sürelerini somut biçimde hızlandırabilirsiniz.",
+      "source": "improvement-bot",
+      "ts": "2026-10-26T11:17:20+00:00"
+    }
+  ]
+}
