@@ -552,6 +552,33 @@ class ReporterTests(Base):
 
 
 class StrictResearchJSONTests(unittest.TestCase):
+    def test_dedup_does_not_follow_symlinked_intake_parent(self):
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        sid = ga.source_id(ga.canonicalize(canonical))
+        domain, claim = "research-staging", "Dedup must stay inside the repository."
+        lid = ga.learning_id(domain, claim)
+        title = "Outside candidate must not suppress new research"
+        doc = {"schema_version": 1,
+               "sources": [{"source_id": sid, "canonical": canonical}],
+               "learnings": [{"learning_id": lid, "domain": domain, "claim": claim,
+                              "title": title, "source_ids": [sid]}]}
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / "repo"
+            inside = root / "intake" / "promotions"
+            inside.mkdir(parents=True)
+            (inside / "candidate.json").write_text(json.dumps(doc), encoding="utf-8")
+            self.assertEqual(ga._staged_learning_titles(root), {title})
+
+            (inside / "candidate.json").unlink()
+            inside.rmdir()
+            (root / "intake").rmdir()
+            external = Path(temp) / "external"
+            (external / "promotions").mkdir(parents=True)
+            (external / "promotions" / "candidate.json").write_text(
+                json.dumps(doc), encoding="utf-8")
+            (root / "intake").symlink_to(external, target_is_directory=True)
+            self.assertEqual(ga._staged_learning_titles(root), set())
+
     def test_canonical_ledger_schema_and_identities_fail_closed(self):
         canonical = json.loads((ROOT / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
         self.assertEqual(len(ga._canonical_learning_rows(canonical)), len(canonical["learnings"]))
