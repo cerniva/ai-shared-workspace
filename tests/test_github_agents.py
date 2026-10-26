@@ -121,7 +121,10 @@ class ResearchLearnerTests(Base):
         original = ledger_path.read_bytes()
         for bad in (None, "{broken", "[]", '{"learnings":{}}',
                     '{"learnings":[null]}', '{"learnings":[],"learnings":[]}',
-                    '{"learnings":[],"other":NaN}'):
+                    '{"learnings":[],"other":NaN}', '{"learnings":[]}',
+                    '{"schema_version":true,"learnings":[]}',
+                    '{"schema_version":1,"learnings":[{}]}',
+                    '{"schema_version":1,"learnings":[{"learning_id":"learn_x","title":"x","source_ids":[]}]}'):
             with self.subTest(bad=bad):
                 if bad is None:
                     ledger_path.unlink(missing_ok=True)
@@ -371,6 +374,20 @@ class ReporterTests(Base):
 
 
 class StrictResearchJSONTests(unittest.TestCase):
+    def test_canonical_ledger_schema_and_identities_fail_closed(self):
+        canonical = json.loads((ROOT / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(ga._canonical_learning_rows(canonical)), len(canonical["learnings"]))
+        row = dict(canonical["learnings"][0])
+        for bad in (
+            {"learnings": canonical["learnings"]},
+            {"schema_version": True, "learnings": canonical["learnings"]},
+            {"schema_version": 1, "learnings": [dict(row, title="")]},
+            {"schema_version": 1, "learnings": [dict(row, source_ids=[])]},
+            {"schema_version": 1, "learnings": [row, dict(row)]},
+        ):
+            with self.subTest(bad=str(bad)[:80]):
+                self.assertIsNone(ga._canonical_learning_rows(bad))
+
     def test_duplicate_keys_and_nonfinite_values_fail_closed(self):
         for raw in ('{"x":1,"x":2}', '{"nested":{"x":1,"x":2}}',
                     '{"x":NaN}', '{"x":Infinity}', '{"x":-Infinity}'):
