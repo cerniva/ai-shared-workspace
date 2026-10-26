@@ -12,7 +12,7 @@ LLM drafting goes ONLY through the existing failover helper
 automation-runner / research-learner / agents-reporter:
 GEMINI_API_KEY, DEEPSEEK_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY).
 No key / provider failure / invalid output -> no lesson, no PLACEHOLDER; a
-``YAPAMADIM:`` comment is posted on the merged PR and the process exits 0.
+``YAPAMADIM:`` comment is posted on the merged PR; the process exits 3 for an actual provider failure (no-key skips still exit 0).
 Output goes to branch ``bot/lessons-pr-<n>`` + a PR; never pushes to main.
 The PR body satisfies auto-merge-gate (config/auto_merge.json): handoff id
 ``HO-...`` and a ``CI:`` evidence line. Without a source HO id the body says
@@ -377,7 +377,14 @@ def main(argv=None, env: Mapping[str, str] | None = None) -> int:
     from scripts.backup_supervisor import supervisor_adapter
     gh = GH(values.get("GITHUB_REPOSITORY", ""), values.get("GITHUB_TOKEN", ""))
     if args.backlog and not args.pr:
-        print(json.dumps(run_backlog(gh=gh, env=values, adapter=supervisor_adapter(env=values)), ensure_ascii=False))
+        out = run_backlog(gh=gh, env=values, adapter=supervisor_adapter(env=values))
+        print(json.dumps(out, ensure_ascii=False))
+        # A successful Actions step must not mask a failed lesson attempt.
+        # An empty backlog or an unavailable provider remains a safe skip.
+        if out.get("status") == "backlog" and any(
+            row.get("status") == "yapamadim" for row in out.get("results", [])
+        ):
+            return 3
         return 0
     pr_no = parse_dispatch_payload({"pr_number": args.pr}) if args.pr else None
     if pr_no is None and args.dispatch_payload:
@@ -397,7 +404,7 @@ def main(argv=None, env: Mapping[str, str] | None = None) -> int:
             values = {**values, "DISPATCH_HANDOFF_ID": str(ho)}
     out = run(pr_no, gh=gh, env=values, adapter=supervisor_adapter(env=values))
     print(json.dumps(out, ensure_ascii=False))
-    return 0
+    return 3 if out.get("status") == "yapamadim" else 0
 
 
 if __name__ == "__main__":
