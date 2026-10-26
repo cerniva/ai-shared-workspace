@@ -211,6 +211,10 @@ def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) ->
     report: dict[str, Any] = {"files": [], "sources_created": [], "learnings_created": []}
     seen_sources: dict[str, str] = {}
     seen_learnings: dict[str, str] = {}
+    # Reject a symlinked *directory* too: checking individual files is not
+    # sufficient because glob() traverses the target and yields regular files.
+    if promotions_dir.is_symlink():
+        raise CatalogError("symlink promotions directory is not allowed")
     for path in sorted(promotions_dir.glob("*.json")):
         # Never import out-of-scope JSON through a symlink, even when its target
         # parses as a valid promotion. Keep the canonical ledgers unchanged.
