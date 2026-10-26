@@ -514,16 +514,26 @@ def _ci_line(gh: GitHub) -> str:
             f"örnekte bekleyen: {', '.join(pending) or 'yok'}")
 
 
-def _valid_staged_identity(doc: Any, sid: Any, lid: Any) -> bool:
-    """All staged rows must be valid before one expected source/learning pair is trusted."""
+def _valid_staged_identity(doc: Any, sid: Any, lid: Any, plan: str | None = None) -> bool:
+    """Verify the expected identity and, for reports, its active plan assignment."""
     if not isinstance(sid, str) or not isinstance(lid, str):
         return False
     validated = _validated_staged_rows(doc)
     if validated is None:
         return False
     sources, learnings = validated
-    return sid in sources and any(candidate_id == lid and sid in refs
-                                  for _, candidate_id, refs in learnings)
+    if sid not in sources or not any(candidate_id == lid and sid in refs
+                                     for _, candidate_id, refs in learnings):
+        return False
+    if plan is None:
+        return True
+    return any(
+        row.get("learning_id") == lid
+        and row.get("status", "active") == "active"
+        and isinstance(row.get("plan_tags"), list)
+        and plan in row["plan_tags"]
+        for row in doc["learnings"]
+    )
 
 def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> str:
     current = (now or now_utc()).astimezone(UTC)
@@ -573,7 +583,7 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                 boundary = (root / "intake" / "promotions").resolve()
                 if target.is_relative_to(boundary) and target.is_file():
                     doc = _strict_json_loads(target.read_text(encoding="utf-8"))
-                    valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"))
+                    valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"), k)
             except (OSError, ValueError, TypeError, AttributeError):
                 pass
         staged_valid[k] = valid
