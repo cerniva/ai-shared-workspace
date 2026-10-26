@@ -493,16 +493,27 @@ def _ci_line(gh: GitHub) -> str:
         return "CI kanıtı yok (0 workflow run); tüm CI yeşil doğrulanmadı"
     # GitHub returns newest runs first. Keep the newest status even when it
     # is queued/in progress: an older successful run must not mask it.
-    latest: dict[str, str] = {}
+    # Workflow names are display labels, not unique identities. Two distinct
+    # workflow files can share a name; do not hide a failing run behind a
+    # newer success from another workflow with the same display name.
+    latest: dict[tuple[str, int | str], tuple[str, str]] = {}
     for run in runs:
         if not isinstance(run, dict):
             return "okunamadı (geçersiz workflow run)"
         name = run.get("name") or "?"
-        if name not in latest:
-            latest[name] = (run.get("conclusion") or "?") if run.get("status") == "completed" else (run.get("status") or "?")
+        workflow_id = run.get("workflow_id")
+        if type(workflow_id) is int and workflow_id > 0:
+            key = ("id", workflow_id)
+            label = f"{name}#{workflow_id}"
+        else:
+            key = ("name", name)
+            label = name
+        if key not in latest:
+            state = (run.get("conclusion") or "?") if run.get("status") == "completed" else (run.get("status") or "?")
+            latest[key] = (label, state)
     pending_states = {"queued", "in_progress", "requested", "waiting", "pending"}
-    pending = sorted(n for n, state in latest.items() if state in pending_states)
-    bad = sorted(n for n, state in latest.items()
+    pending = sorted(label for label, state in latest.values() if state in pending_states)
+    bad = sorted(label for label, state in latest.values()
                  if state not in {"success", "skipped", "neutral"} | pending_states)
     total = data.get("total_count")
     total_known = type(total) is int and total >= len(runs)
