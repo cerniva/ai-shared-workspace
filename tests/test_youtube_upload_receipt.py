@@ -49,8 +49,28 @@ class YouTubeUploadReceiptTests(unittest.TestCase):
                                               False, False, False, receipt)
             saved = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(saved["video_id"], "remote-123")
+            self.assertEqual(saved["upload_state"], "REMOTE_ID_RECEIVED")
             self.assertEqual(saved["source_sha256"], youtube_upload.sha256_file(video))
             self.assertEqual(saved["requested_privacy_status"], "private")
+            self.assertIs(saved["read_back_verified"], False)
+            self.assertFalse(receipt.with_name(receipt.name + ".tmp").exists())
+
+    def test_network_failure_before_video_id_preserves_ambiguous_attempt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            video = Path(tmp) / "clip.mp4"
+            video.write_bytes(b"source-bytes")
+            receipt = Path(tmp) / "receipt.json"
+            youtube = self._mock_youtube()
+            youtube.videos().insert().next_chunk.side_effect = ConnectionError("lost response")
+            with patch.dict(sys.modules, self._fake_modules(youtube)):
+                with patch.object(youtube_upload, "credentials_from_env", return_value=object()):
+                    with self.assertRaisesRegex(ConnectionError, "lost response"):
+                        youtube_upload.upload(video, {"title": "Test", "description": "Test"},
+                                              False, False, False, receipt)
+            saved = json.loads(receipt.read_text(encoding="utf-8"))
+            self.assertIsNone(saved["video_id"])
+            self.assertEqual(saved["upload_state"], "RESULT_UNKNOWN")
+            self.assertEqual(saved["source_sha256"], youtube_upload.sha256_file(video))
             self.assertIs(saved["read_back_verified"], False)
             self.assertFalse(receipt.with_name(receipt.name + ".tmp").exists())
 
@@ -71,6 +91,7 @@ class YouTubeUploadReceiptTests(unittest.TestCase):
             saved = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(result["video_id"], "remote-123")
             self.assertIs(saved["read_back_verified"], True)
+            self.assertEqual(saved["upload_state"], "READBACK_VERIFIED")
             self.assertEqual(saved["actual_privacy_status"], "private")
 
 
