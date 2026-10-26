@@ -252,7 +252,7 @@ def main() -> int:
     parser.add_argument("metadata", type=Path, help="JSON file containing title and description")
     parser.add_argument("--preflight", type=Path, required=True, help="Ready preflight JSON for this exact MP4")
     parser.add_argument("--publish", action="store_true", help="Publish publicly; default uploads privately")
-    parser.add_argument("--receipt-path", type=Path, help="Durable remote videos.insert receipt for read-back failures")
+    parser.add_argument("--receipt-path", type=Path, required=True, help="Required durable remote videos.insert receipt; a missing receipt must block all CLI uploads")
     args = parser.parse_args()
     if not args.video.is_file() or args.video.suffix.lower() != ".mp4":
         parser.error("video must be an existing .mp4 file")
