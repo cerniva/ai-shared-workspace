@@ -489,22 +489,29 @@ def _ci_line(gh: GitHub) -> str:
     runs = data.get("workflow_runs")
     if not isinstance(runs, list):
         return "okunamadı (workflow_runs eksik)"
+    # GitHub returns newest runs first. Keep the newest status even when it
+    # is queued/in progress: an older successful run must not mask it.
     latest: dict[str, str] = {}
     for run in runs:
         if not isinstance(run, dict):
             return "okunamadı (geçersiz workflow run)"
-        if run.get("status") == "completed":
-            latest.setdefault(run.get("name") or "?", run.get("conclusion") or "?")
-    bad = sorted(n for n, conclusion in latest.items()
-                 if conclusion not in ("success", "skipped", "neutral"))
+        name = run.get("name") or "?"
+        if name not in latest:
+            latest[name] = (run.get("conclusion") or "?") if run.get("status") == "completed" else (run.get("status") or "?")
+    pending_states = {"queued", "in_progress", "requested", "waiting", "pending"}
+    pending = sorted(n for n, state in latest.items() if state in pending_states)
+    bad = sorted(n for n, state in latest.items()
+                 if state not in {"success", "skipped", "neutral"} | pending_states)
     total = data.get("total_count")
     total_known = type(total) is int and total >= len(runs)
     complete = total_known and total == len(runs)
     coverage = (f"ilk {len(runs)} / {total} koşu" if total_known
                 else f"ilk {len(runs)} koşu (toplam bilinmiyor)")
-    status = "tam tarama" if complete else "KISMİ örnek; tüm CI yeşil doğrulanmadı"
+    status = ("tam tarama; CI tamamlanmadı" if complete and pending
+              else "tam tarama" if complete else "KISMİ örnek; tüm CI yeşil doğrulanmadı")
     return (f"{status} ({coverage}); {len(latest)} workflow; "
-            f"örnekte başarısız: {', '.join(bad) or 'yok'}")
+            f"örnekte başarısız: {', '.join(bad) or 'yok'}; "
+            f"örnekte bekleyen: {', '.join(pending) or 'yok'}")
 
 
 def _valid_staged_identity(doc: Any, sid: Any, lid: Any) -> bool:
