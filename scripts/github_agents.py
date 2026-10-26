@@ -271,11 +271,17 @@ def _canonical_source_ids(root: Path) -> set[str] | None:
     for row in doc["sources"]:
         if (not isinstance(row, dict)
                 or not isinstance(row.get("source_id"), str) or not row["source_id"]
-                or not isinstance(row.get("canonical"), str) or not row["canonical"]
-                or row["source_id"] in ids or row["canonical"] in canonicals):
+                or not isinstance(row.get("canonical"), str) or not row["canonical"]):
+            return None
+        try:
+            canonical = canonicalize(row["canonical"])
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if (canonical != row["canonical"] or row["source_id"] != source_id(canonical)
+                or row["source_id"] in ids or canonical in canonicals):
             return None
         ids.add(row["source_id"])
-        canonicals.add(row["canonical"])
+        canonicals.add(canonical)
     return ids
 
 
@@ -290,6 +296,9 @@ def _canonical_learning_rows(doc: Any, source_ids: set[str] | None = None) -> li
     for row in rows:
         if (not isinstance(row, dict)
                 or not isinstance(row.get("learning_id"), str) or not row["learning_id"]
+                or not isinstance(row.get("domain"), str) or not row["domain"]
+                or not isinstance(row.get("claim"), str) or not row["claim"]
+                or row["learning_id"] != learning_id(row["domain"], row["claim"])
                 or not isinstance(row.get("title"), str) or not row["title"]
                 or not isinstance(row.get("source_ids"), list) or not row["source_ids"]
                 or any(not isinstance(ref, str) or not ref
