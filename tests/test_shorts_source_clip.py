@@ -27,6 +27,13 @@ class SourceClipTests(unittest.TestCase):
             "license_name": "Written permission",
             "source_sha256": file_sha256(self.video),
             "captions_sha256": file_sha256(self.srt),
+            "caption_source_url": "https://example.org/test-transcript",
+            "caption_license_url": "https://example.org/test-caption-license",
+            "caption_license_name": "TEST FIXTURE PERMISSION",
+            "caption_verified_by": "Test fixture only",
+            "caption_verified_at": "2026-10-20",
+            "caption_reuse_permitted": True,
+            "caption_derivatives_permitted": True,
             "reuse_permitted": True,
             "derivatives_permitted": True,
             "audio_reuse_permitted": True,
@@ -124,6 +131,28 @@ class SourceClipTests(unittest.TestCase):
         self.evidence.write_text(json.dumps(self.data))
         with self.assertRaisesRegex(ValueError, "audio_reuse_permitted"):
             validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_missing_caption_license_blocks_before_render(self):
+        self.data.pop("caption_license_url")
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "caption_license_url"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_unapproved_caption_derivatives_block(self):
+        self.data["caption_derivatives_permitted"] = False
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "caption_derivatives_permitted"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_caption_license_requires_https(self):
+        self.data["caption_license_url"] = "http://example.org/insecure"
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "caption_license_url must be an HTTPS URL"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_caption_license_provenance_present(self):
+        evidence = validate_rights(self.video, self.srt, self.evidence, "en")
+        self.assertEqual(evidence["caption_license_name"], "TEST FIXTURE PERMISSION")
 
     def test_hash_mismatch_blocks(self):
         self.data["source_sha256"] = "0" * 64
