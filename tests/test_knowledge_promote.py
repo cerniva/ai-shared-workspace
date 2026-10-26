@@ -162,6 +162,22 @@ class KnowledgePromoteTests(unittest.TestCase):
                 self.assertEqual(self.catalog.read_bytes(), before)
                 self.assertFalse(self.ledger.exists())
 
+    def test_symlinked_promotion_is_rejected_without_canonical_writes(self) -> None:
+        """A valid JSON target outside promotions/ must not be imported."""
+        outside = self.root / "outside-valid-promotion.json"
+        outside.write_text(json.dumps({
+            "schema_version": 1,
+            "source": SOURCE,
+            "learning": learning(self.sid),
+        }), encoding="utf-8")
+        (self.root / "knowledge" / "promotions" / "p.json").symlink_to(outside)
+        before = self.catalog.read_bytes()
+        with self.assertRaisesRegex(CatalogError, "symlink promotions"):
+            apply_promotions(self.root)
+        self.assertEqual(self.catalog.read_bytes(), before)
+        self.assertFalse(self.ledger.exists())
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+
     def test_ambiguous_canonical_snapshot_fails_before_writes(self) -> None:
         """A corrupted existing catalog must not be silently treated as empty."""
         bad = '{"schema_version":1,"sources":[],"sources":[]}'
