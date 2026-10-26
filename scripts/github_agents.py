@@ -257,18 +257,35 @@ def _strict_json_loads(raw: str) -> Any:
                       parse_constant=_reject_nonfinite_constant)
 
 
+def _canonical_learning_rows(doc: Any) -> list[dict[str, Any]] | None:
+    """Fail closed if the canonical ledger has lost its schema or learning identities."""
+    if not isinstance(doc, dict) or type(doc.get("schema_version")) is not int or doc["schema_version"] != 1:
+        return None
+    rows = doc.get("learnings")
+    if not isinstance(rows, list):
+        return None
+    seen: set[str] = set()
+    for row in rows:
+        if (not isinstance(row, dict)
+                or not isinstance(row.get("learning_id"), str) or not row["learning_id"]
+                or not isinstance(row.get("title"), str) or not row["title"]
+                or not isinstance(row.get("source_ids"), list) or not row["source_ids"]
+                or any(not isinstance(ref, str) or not ref for ref in row["source_ids"])
+                or len(row["source_ids"]) != len(set(row["source_ids"]))
+                or row["learning_id"] in seen):
+            return None
+        seen.add(row["learning_id"])
+    return rows
+
+
 def _known_learning_titles(root: Path) -> set[str] | None:
     """Return None when canonical history is unreadable; never treat that as an empty ledger."""
     try:
         ledger = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    if not isinstance(ledger, dict):
-        return None
-    rows = ledger.get("learnings")
-    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
-        return None
-    return {row["title"] for row in rows if isinstance(row.get("title"), str) and row["title"]}
+    rows = _canonical_learning_rows(ledger)
+    return None if rows is None else {row["title"] for row in rows}
 
 
 def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, list[str]]]] | None:
@@ -475,11 +492,9 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
         ledger_doc = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         ledger_doc = {}
-    ledger_rows = ledger_doc.get("learnings") if isinstance(ledger_doc, dict) else None
-    ledger_ready = isinstance(ledger_rows, list)
-    canonical_learning_ids = {
-        row.get("learning_id") for row in (ledger_rows or []) if isinstance(row, dict)
-    }
+    ledger_rows = _canonical_learning_rows(ledger_doc)
+    ledger_ready = ledger_rows is not None
+    canonical_learning_ids = {row["learning_id"] for row in (ledger_rows or [])}
     staged_live = {}
     staged_promoted = {}
     staged_valid = {}
