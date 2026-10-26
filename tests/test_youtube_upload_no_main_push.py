@@ -27,6 +27,15 @@ class YouTubeUploadLedgerSafetyTests(unittest.TestCase):
         self.assertIn("shorts-upload-evidence/", text)
         self.assertIn("if-no-files-found: error", text)
 
+    def test_upload_attempts_are_serialized_without_cancelling_receipts(self):
+        """Avoid overlapping inserts; cross-run replay remains separately blocked."""
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "concurrency:\n  group: shorts-upload-${{ github.repository }}\n  cancel-in-progress: false",
+            text,
+        )
+        self.assertNotIn("cancel-in-progress: true", text)
+
     def test_artifact_digest_mismatch_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder = Path(tmp)
