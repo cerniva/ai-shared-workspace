@@ -112,6 +112,23 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
         raise ValueError("rights evidence requires source_sha256")
     if file_sha256(source) != recorded_hash:
         raise ValueError("source video hash does not match rights evidence")
+    # Caption wording and timing are separately copyrighted assets. A valid
+    # source-video license does not grant subtitle reuse or adaptation rights.
+    for key in ("caption_license_name", "caption_license_url"):
+        value = evidence.get(key)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"rights evidence missing {key}")
+    caption_license = urlparse(evidence["caption_license_url"])
+    if caption_license.scheme != "https" or not caption_license.netloc:
+        raise ValueError("rights evidence caption_license_url must be an HTTPS URL")
+    for key in ("caption_reuse_permitted", "caption_derivatives_permitted"):
+        if evidence.get(key) is not True:
+            raise ValueError(f"rights evidence must explicitly affirm {key}")
+    caption_hash = evidence.get("caption_sha256")
+    if not isinstance(caption_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", caption_hash):
+        raise ValueError("rights evidence requires caption_sha256")
+    if file_sha256(captions) != caption_hash:
+        raise ValueError("caption hash does not match rights evidence")
     normalized = language.lower().split("-", 1)[0]
     for key in ("spoken_language", "caption_language"):
         value = evidence.get(key)
@@ -204,6 +221,8 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         # A swapped caption file must never bypass timeline validation.
         captions_snapshot = work / "captions.srt"
         shutil.copyfile(captions, captions_snapshot)
+        if file_sha256(captions_snapshot) != rights["caption_sha256"]:
+            raise ValueError("captions changed during rights-checked snapshot")
         check_captions(captions_snapshot, seconds)
         source_info = _probe(snapshot)
         if _duration(source_info) + 0.05 < start + seconds:
