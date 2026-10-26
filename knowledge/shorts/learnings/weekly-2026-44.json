@@ -1,0 +1,47 @@
+{
+  "channel_name": "Cerno",
+  "period": "27 Eyl – 24 Eki 2026 (Last 28 days)",
+  "views": 2258,
+  "watch_time_hours": 2.8,
+  "subscribers_change": 2,
+  "likes": 13,
+  "engaged_views": 634,
+  "stayed_to_watch_percent": 27.7,
+  "top_videos": [
+    {
+      "title": "Ucak Koltugu Neden Sadece 3 cm Yatiyor?",
+      "views": 1126,
+      "likes": 1,
+      "stayed_to_watch_percent": 49.9,
+      "average_view_duration_seconds": 22
+    },
+    {
+      "title": "Mbappé Hakkında Bunları Biliyor muydun? ⚽ #Shorts",
+      "views": 482,
+      "likes": 0,
+      "stayed_to_watch_percent": 21.4,
+      "average_view_duration_seconds": 20
+    },
+    {
+      "title": "Earth Is Giving JUICE a Shortcut to Jupiter 🚀",
+      "views": 265,
+      "likes": 1,
+      "stayed_to_watch_percent": 11.7,
+      "average_view_duration_seconds": 22
+    },
+    {
+      "title": "14 Ekim 2026",
+      "views": 262,
+      "likes": 0,
+      "stayed_to_watch_percent": 11.6,
+      "average_view_duration_seconds": 13
+    },
+    {
+      "title": "Shorts izlenmiyor sanıyorsun. Sorun algoritma değil",
+      "views": 87,
+      "likes": 0,
+      "stayed_to_watch_percent": 3.9,
+      "average_view_duration_seconds": 29
+    }
+  ]
+}
