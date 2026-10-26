@@ -208,6 +208,41 @@ class ResearchLearnerTests(Base):
 
 
 class ReporterTests(Base):
+    def test_ci_first_page_is_not_global_green(self):
+        class PagedHTTP:
+            def __call__(self, method, url, body):
+                return {"total_count": 2500, "workflow_runs": [
+                    {"name": "healthy", "status": "completed", "conclusion": "success"}
+                    for _ in range(30)]}
+
+        line = ga._ci_line(ga.GitHub("o/r", "t", PagedHTTP()))
+        self.assertIn("KISMİ", line)
+        self.assertIn("ilk 30 / 2500", line)
+        self.assertIn("tüm CI yeşil doğrulanmadı", line)
+        self.assertIn("örnekte başarısız: yok", line)
+
+    def test_ci_complete_page_and_missing_total_count(self):
+        class ResultHTTP:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def __call__(self, method, url, body):
+                return self.payload
+
+        rows = [{"name": "worker", "status": "completed", "conclusion": "failure"},
+                {"name": "codeql", "status": "completed", "conclusion": "success"}]
+        complete = ga._ci_line(ga.GitHub("o/r", "t", ResultHTTP({
+            "total_count": 2, "workflow_runs": rows})))
+        self.assertIn("tam tarama", complete)
+        self.assertIn("örnekte başarısız: worker", complete)
+        unknown = ga._ci_line(ga.GitHub("o/r", "t", ResultHTTP({
+            "workflow_runs": rows})))
+        self.assertIn("KISMİ", unknown)
+        self.assertIn("toplam bilinmiyor", unknown)
+        malformed = ga._ci_line(ga.GitHub("o/r", "t", ResultHTTP({
+            "total_count": 0, "workflow_runs": None})))
+        self.assertIn("workflow_runs eksik", malformed)
+
     def test_writes_both_turkish_files(self):
         text = ga.reporter(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
                            now=datetime(2026, 10, 10, 9, 0, tzinfo=timezone.utc))
