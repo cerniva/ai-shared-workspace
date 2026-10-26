@@ -210,6 +210,11 @@ def _default_fetch(url: str) -> str:
 _CLEAN = re.compile(r"\s+")
 
 
+def _title_key(value: str) -> str:
+    """Ignore harmless RSS headline casing/spacing changes when deduplicating."""
+    return _CLEAN.sub(" ", value).strip().casefold()
+
+
 def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, decision: str) -> dict[str, Any]:
     spec = RESEARCH_SOURCES[domain_key]
     canonical = canonicalize(spec["url"])
@@ -456,11 +461,11 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
         title = f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180]
         known_titles, known_fed_releases = known
         release_id = _fed_enforcement_release_id(item) if key == "finance" else None
-        if title in known_titles or (release_id is not None and release_id in known_fed_releases):
+        if _title_key(title) in {_title_key(t) for t in known_titles} or (release_id is not None and release_id in known_fed_releases):
             entry["status"] = "already_in_ledger"
             report["domains"][key] = entry
             continue
-        if title in _staged_learning_titles(root):
+        if _title_key(title) in {_title_key(t) for t in _staged_learning_titles(root)}:
             entry["status"] = "already_staged"
             report["domains"][key] = entry
             continue
