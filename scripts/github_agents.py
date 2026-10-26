@@ -257,7 +257,29 @@ def _strict_json_loads(raw: str) -> Any:
                       parse_constant=_reject_nonfinite_constant)
 
 
-def _canonical_learning_rows(doc: Any) -> list[dict[str, Any]] | None:
+def _canonical_source_ids(root: Path) -> set[str] | None:
+    """Require a readable, unique canonical source catalog before trusting ledger references."""
+    try:
+        doc = _strict_json_loads((root / "knowledge" / "source_catalog.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if (not isinstance(doc, dict) or type(doc.get("schema_version")) is not int
+            or doc["schema_version"] != 1 or not isinstance(doc.get("sources"), list)):
+        return None
+    ids: set[str] = set()
+    canonicals: set[str] = set()
+    for row in doc["sources"]:
+        if (not isinstance(row, dict)
+                or not isinstance(row.get("source_id"), str) or not row["source_id"]
+                or not isinstance(row.get("canonical"), str) or not row["canonical"]
+                or row["source_id"] in ids or row["canonical"] in canonicals):
+            return None
+        ids.add(row["source_id"])
+        canonicals.add(row["canonical"])
+    return ids
+
+
+def _canonical_learning_rows(doc: Any, source_ids: set[str] | None = None) -> list[dict[str, Any]] | None:
     """Fail closed if the canonical ledger has lost its schema or learning identities."""
     if not isinstance(doc, dict) or type(doc.get("schema_version")) is not int or doc["schema_version"] != 1:
         return None
@@ -270,7 +292,9 @@ def _canonical_learning_rows(doc: Any) -> list[dict[str, Any]] | None:
                 or not isinstance(row.get("learning_id"), str) or not row["learning_id"]
                 or not isinstance(row.get("title"), str) or not row["title"]
                 or not isinstance(row.get("source_ids"), list) or not row["source_ids"]
-                or any(not isinstance(ref, str) or not ref for ref in row["source_ids"])
+                or any(not isinstance(ref, str) or not ref
+                       or (source_ids is not None and ref not in source_ids)
+                       for ref in row["source_ids"])
                 or len(row["source_ids"]) != len(set(row["source_ids"]))
                 or row["learning_id"] in seen):
             return None
@@ -284,7 +308,10 @@ def _known_learning_titles(root: Path) -> set[str] | None:
         ledger = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    rows = _canonical_learning_rows(ledger)
+    source_ids = _canonical_source_ids(root)
+    if source_ids is None:
+        return None
+    rows = _canonical_learning_rows(ledger, source_ids)
     return None if rows is None else {row["title"] for row in rows}
 
 
@@ -508,7 +535,9 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
         ledger_doc = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         ledger_doc = {}
-    ledger_rows = _canonical_learning_rows(ledger_doc)
+    catalog_source_ids = _canonical_source_ids(root)
+    ledger_rows = (_canonical_learning_rows(ledger_doc, catalog_source_ids)
+                   if catalog_source_ids is not None else None)
     ledger_ready = ledger_rows is not None
     canonical_learning_ids = {row["learning_id"] for row in (ledger_rows or [])}
     staged_live = {}
