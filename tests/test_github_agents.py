@@ -110,6 +110,26 @@ class ResearchLearnerTests(Base):
         again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
         self.assertTrue(all(v["status"] == "already_in_ledger" for v in again["domains"].values()), again)
 
+    def test_case_and_spacing_only_headline_change_is_not_restaged(self):
+        # Same official feed headline with harmless case/spacing changes is
+        # not a new source or learning, whether pending or in the ledger.
+        original = lambda url: ATOM if "github" in url or "shopify" in url else RSS
+        first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=original)
+        self.assertEqual(first["domains"]["finance"]["status"], "staged")
+        changed_rss = RSS.replace("FOMC statement", "fomc   STATEMENT")
+        changed = lambda url: ATOM if "github" in url or "shopify" in url else changed_rss
+        pending = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=changed)
+        self.assertEqual(pending["domains"]["finance"]["status"], "already_staged")
+        target = self.root / first["domains"]["finance"]["path"]
+        doc = json.loads(target.read_text(encoding="utf-8"))
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+        ledger["learnings"].append(doc["learnings"][0])
+        ledger_path.write_text(json.dumps(ledger), encoding="utf-8")
+        target.unlink()
+        persisted = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=changed)
+        self.assertEqual(persisted["domains"]["finance"]["status"], "already_in_ledger")
+
     def test_fed_enforcement_article_id_prevents_restaging_renamed_headline(self):
         # Live 2026-10-26 intake repeated the 16 Oct press release already
         # verified in the ledger on 17 Oct under a differently worded title.
