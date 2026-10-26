@@ -15,7 +15,7 @@ jobs:
   source-media-audit:
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 269
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - name: Download exact Commons edition (rights QA only)
         shell: bash
@@ -28,6 +28,10 @@ jobs:
           echo "downloaded_bytes=$bytes"
           file audit/source.webm
           test "$bytes" -gt 1000000
+          if ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
           command -v ffprobe
           sha256sum audit/source.webm | tee audit/source.sha256
           ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height -of json audit/source.webm > audit/ffprobe.json
