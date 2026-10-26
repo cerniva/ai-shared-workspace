@@ -1,0 +1,54 @@
+name: shorts-source-media-audit
+
+# Audit-only acquisition. Never renders, publishes, merges, or assumes rights clearance.
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - .github/workflows/shorts-source-media-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-media-audit:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 269
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Download exact Commons edition (rights QA only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          url="https://upload.wikimedia.org/wikipedia/commons/2/25/STEMonstration-_Nutrition.webm"
+          curl --fail --location --silent --show-error --retry 1 --retry-delay 2 --connect-timeout 15 --max-time 240 --output audit/source.webm "$url"
+          bytes="$(wc -c < audit/source.webm)"
+          test "$bytes" -gt 40000000
+          command -v ffprobe
+          sha256sum audit/source.webm | tee audit/source.sha256
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height -of json audit/source.webm > audit/ffprobe.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("audit/ffprobe.json").read_text())
+          duration = float(data["format"]["duration"])
+          video = [s for s in data["streams"] if s["codec_type"] == "video"]
+          audio = [s for s in data["streams"] if s["codec_type"] == "audio"]
+          assert 180 < duration < 185, f"unexpected edition/duration: {duration}"
+          assert len(video) == 1 and video[0]["width"] == 1280 and video[0]["height"] == 720, video
+          assert len(audio) == 1, audio
+          print(f"technical_probe_only duration={duration:.3f}s video=1 audio=1")
+          print("RIGHTS_BLOCKED: source and embedded audio rights still require independent review")
+          print("TRANSCRIPT_BLOCKED: spoken-word alignment not checked")
+          print("FRAMING_QA_BLOCKED: 9:16 crop not checked")
+          print("publish_ready=false")
+          PY
+      - name: Save original media and technical evidence for independent review
+        uses: actions/upload-artifact@v4
+        with:
+          name: nasa-nutrition-original-rights-audit
+          path: audit/
+          if-no-files-found: error
+          retention-days: 2
