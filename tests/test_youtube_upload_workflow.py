@@ -43,5 +43,21 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn('repo_file(preflight, "preflight_path", ".json")', text)
 
 
+    def test_remote_receipt_is_durable_before_ledger(self):
+        """Persist video_id before a later ledger write can fail."""
+        text = WORKFLOW.read_text(encoding="utf-8")
+        receipt = text.index("- name: Preserve remote upload receipt before ledger")
+        artifact = text.index("- name: Upload remote receipt before ledger")
+        ledger = text.index("- name: Record upload in 48h lesson ledger")
+        self.assertLess(receipt, artifact)
+        self.assertLess(artifact, ledger)
+        self.assertIn('payload.get("video_id")', text)
+        self.assertIn('sha256sum upload_result.json > SHA256SUMS', text)
+        self.assertIn("shorts-upload-receipt-${{ github.run_id }}", text)
+        self.assertIn("if-no-files-found: error", text)
+        self.assertIn("retention-days: 14", text)
+        self.assertNotIn("git push origin HEAD:main", text)
+
+
 if __name__ == "__main__":
     unittest.main()
