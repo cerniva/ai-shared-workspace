@@ -166,6 +166,10 @@ def reserve_remote_receipt(path: Path, receipt: dict) -> None:
 
 def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False,
            contains_synthetic: bool = True, receipt_path: Path | None = None) -> dict:
+    # Library callers must not bypass the CLI's mandatory remote receipt.
+    # Block before credentials, YouTube API construction, or videos.insert.
+    if receipt_path is None:
+        raise ValueError("receipt_path is required for every YouTube upload attempt")
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
