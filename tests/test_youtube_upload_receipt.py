@@ -95,5 +95,42 @@ class YouTubeUploadReceiptTests(unittest.TestCase):
             self.assertEqual(saved["actual_privacy_status"], "private")
 
 
+    def test_existing_unknown_receipt_blocks_retry_without_second_chunk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            video = Path(tmp) / "clip.mp4"
+            video.write_bytes(b"realistic-test-fixture-not-uploaded")
+            receipt = Path(tmp) / "remote.json"
+            youtube = self._mock_youtube()
+            chunk = youtube.videos().insert().next_chunk
+            chunk.side_effect = ConnectionError("ambiguous response")
+            with patch.dict(sys.modules, self._fake_modules(youtube)):
+                with patch.object(youtube_upload, "credentials_from_env", return_value=object()):
+                    with self.assertRaisesRegex(ConnectionError, "ambiguous response"):
+                        youtube_upload.upload(video, {"title": "Test", "description": "Test"},
+                                              False, False, False, receipt)
+                    first = receipt.read_bytes()
+                    with self.assertRaisesRegex(RuntimeError, "Existing YouTube upload receipt"):
+                        youtube_upload.upload(video, {"title": "Test", "description": "Test"},
+                                              False, False, False, receipt)
+            self.assertEqual(chunk.call_count, 1)
+            self.assertEqual(receipt.read_bytes(), first)
+            self.assertEqual(json.loads(first)["upload_state"], "RESULT_UNKNOWN")
+
+    def test_corrupt_existing_receipt_blocks_upload_and_is_not_erased(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            video = Path(tmp) / "clip.mp4"
+            video.write_bytes(b"source")
+            receipt = Path(tmp) / "remote.json"
+            receipt.write_bytes(b"{partial receipt from interrupted run")
+            youtube = self._mock_youtube()
+            with patch.dict(sys.modules, self._fake_modules(youtube)):
+                with patch.object(youtube_upload, "credentials_from_env", return_value=object()):
+                    with self.assertRaisesRegex(RuntimeError, "Existing YouTube upload receipt"):
+                        youtube_upload.upload(video, {"title": "Test", "description": "Test"},
+                                              False, False, False, receipt)
+            youtube.videos().insert().next_chunk.assert_not_called()
+            self.assertEqual(receipt.read_bytes(), b"{partial receipt from interrupted run")
+
+
 if __name__ == "__main__":
     unittest.main()
