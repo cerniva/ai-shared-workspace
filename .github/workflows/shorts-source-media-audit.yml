@@ -26,7 +26,7 @@ jobs:
           python3 scripts/plan_learnings.py video_shopify --require --out audit/plan_learnings.json > audit/plan_learnings.stdout 2> audit/plan_learnings.stderr
           status=$?
           set -e
-          printf '%s\\n' "$status" > audit/plan_learnings.exit
+          echo "$status" > audit/plan_learnings.exit
           cat audit/plan_learnings.stdout
           cat audit/plan_learnings.stderr
           exit "$status"
