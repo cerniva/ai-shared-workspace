@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "CI-40340920555",
+      "task": "CI failure in 'shorts-render-tests' run 40340920555: jobs test[Full Python suite]; first error: tests/test_shorts_upload_daily_gate.py::DailyGateTests::test_first_attempt_allowed_when_current_run_visible",
+      "source": "ci-bekci",
+      "ts": "2026-10-26T15:19:03+00:00"
+    }
+  ]
+}
