@@ -239,15 +239,18 @@ jobs:
           import sys
           from pathlib import Path
           receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-          if not isinstance(receipt.get("video_id"), str) or not receipt["video_id"].strip():
-              raise SystemExit("missing remote video_id; receipt cannot be verified")
+          video_id = receipt.get("video_id")
+          if receipt.get("upload_state") == "RESULT_UNKNOWN" and video_id is None:
+              print("UPLOAD_RESULT_UNKNOWN: resumable request may have reached YouTube; do not retry blindly")
+          elif not isinstance(video_id, str) or not video_id.strip():
+              raise SystemExit("invalid remote video_id and upload_state; receipt cannot be verified")
           result_path = Path(sys.argv[2])
           if result_path.is_file() and result_path.stat().st_size:
               payload = json.loads(result_path.read_text(encoding="utf-8").splitlines()[-1])
-              if payload.get("video_id") != receipt["video_id"]:
+              if payload.get("video_id") != video_id:
                   raise SystemExit("remote receipt and upload result disagree")
           if receipt.get("read_back_verified") is not True:
-              print("REMOTE_READBACK_BLOCKED: videos.insert returned ID; never retry upload blindly")
+              print("REMOTE_READBACK_BLOCKED: upload outcome is unverified; never retry blindly")
           PY
           (cd "$dest" && sha256sum remote_receipt.json > SHA256SUMS)
           if [[ -s "$RUNNER_TEMP/upload_result.json" ]]; then
