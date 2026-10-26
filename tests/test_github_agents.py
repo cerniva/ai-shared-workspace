@@ -288,6 +288,22 @@ class ReporterTests(Base):
         self.assertIn("KISMİ", line)
         self.assertIn("örnekte bekleyen: worker", line)
 
+    def test_ci_empty_inventory_is_not_reported_as_green(self):
+        class EmptyHTTP:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def __call__(self, method, url, body):
+                return self.payload
+
+        for payload in ({"total_count": 0, "workflow_runs": []},
+                        {"workflow_runs": []}):
+            with self.subTest(payload=payload):
+                line = ga._ci_line(ga.GitHub("o/r", "t", EmptyHTTP(payload)))
+                self.assertIn("CI kanıtı yok", line)
+                self.assertIn("tüm CI yeşil doğrulanmadı", line)
+                self.assertNotIn("tam tarama", line)
+
     def test_ci_complete_page_and_missing_total_count(self):
         class ResultHTTP:
             def __init__(self, payload):
