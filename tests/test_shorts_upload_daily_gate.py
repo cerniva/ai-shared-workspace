@@ -19,7 +19,7 @@ class DailyGateTests(unittest.TestCase):
 
     def test_first_attempt_allowed_when_current_run_visible(self):
         value = self.check([run(10, "2026-10-26T14:16:00Z"),
-                            run(9, "2026-10-25T23:00:00Z")])
+                            run(9, "2026-10-25T20:00:00Z")])
         self.assertEqual(value["gate"], "PASS")
         self.assertEqual(value["day"], "2026-10-26")
 
