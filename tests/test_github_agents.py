@@ -139,6 +139,40 @@ class ResearchLearnerTests(Base):
                 self.assertEqual(saved["domains"], result["domains"])
         ledger_path.write_bytes(original)
 
+    def test_missing_catalog_or_orphan_source_reference_blocks_research(self):
+        fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
+
+        class NoModelCalls:
+            def run(self, job):
+                raise AssertionError("model must not run with unverified canonical sources")
+
+        catalog_path = self.root / "knowledge" / "source_catalog.json"
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        original_catalog, original_ledger = catalog_path.read_bytes(), ledger_path.read_bytes()
+        for fault in ("missing_catalog", "malformed_catalog", "duplicate_catalog_id",
+                      "orphan_learning_reference"):
+            with self.subTest(fault=fault):
+                catalog_path.write_bytes(original_catalog)
+                ledger_path.write_bytes(original_ledger)
+                if fault == "missing_catalog":
+                    catalog_path.unlink()
+                elif fault == "malformed_catalog":
+                    catalog_path.write_text('{"schema_version":true,"sources":[]}')
+                elif fault == "duplicate_catalog_id":
+                    doc = json.loads(original_catalog)
+                    doc["sources"].append(dict(doc["sources"][0]))
+                    catalog_path.write_text(json.dumps(doc))
+                else:
+                    doc = json.loads(original_ledger)
+                    doc["learnings"][0]["source_ids"] = ["src_nonexistent_orphan"]
+                    ledger_path.write_text(json.dumps(doc))
+                result = ga.research_learner(root=self.root, adapter=NoModelCalls(), fetch=fetch)
+                self.assertTrue(all(v["status"] == "ledger_unavailable"
+                                    for v in result["domains"].values()), result)
+                self.assertFalse((self.root / "intake").exists())
+        catalog_path.write_bytes(original_catalog)
+        ledger_path.write_bytes(original_ledger)
+
     def test_pending_intake_dedup_preserves_existing_bytes(self):
         fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
         first = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
@@ -355,6 +389,28 @@ class ReporterTests(Base):
         self.assertNotIn("finance: staged →", report)
         self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
         self.assertEqual(target.read_bytes(), original)
+
+    def test_reporter_requires_canonical_source_catalog_for_staged_claim(self):
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        domain, claim = "finance-news", "Catalog unavailable."
+        sid = ga.source_id(ga.canonicalize(canonical))
+        lid = ga.learning_id(domain, claim)
+        rel = "intake/promotions/2026-10-25-research-learner-finance.json"
+        target = self.root / rel
+        target.parent.mkdir(parents=True)
+        target.write_text(json.dumps({
+            "schema_version": 1,
+            "sources": [{"source_id": sid, "canonical": canonical}],
+            "learnings": [{"learning_id": lid, "domain": domain,
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}))
+        (self.root / "state" / "research_learner.json").write_text(json.dumps({
+            "domains": {"finance": {"status": "staged", "path": rel,
+                                    "source_id": sid, "learning_id": lid}}}))
+        (self.root / "knowledge" / "source_catalog.json").unlink()
+        report = ga.reporter(root=self.root, gh=ga.GitHub("o/r", "t", FakeHTTP()),
+                             now=datetime(2026, 10, 25, 21, 0, tzinfo=timezone.utc))
+        self.assertIn("finance: staged_unverified (canonical ledger unavailable)", report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
 
     def test_unreadable_ledger_never_claims_fresh_staging(self):
         rel = "intake/promotions/2026-10-25-research-learner-finance.json"
