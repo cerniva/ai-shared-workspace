@@ -3,6 +3,7 @@ import re
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts import lesson_learner as ll
 
@@ -311,6 +312,45 @@ class BacklogRunTests(Base):
             rc = ll.main(["--backlog"], env={})
         self.assertEqual(rc, 0)
         self.assertIn("no provider key", buf.getvalue())
+
+    def test_main_backlog_yapamadim_exits_nonzero_without_hiding_json(self):
+        import contextlib
+        import io
+        failed = {"status": "backlog", "picked": [350],
+                  "results": [{"source": 350, "status": "yapamadim",
+                               "reason": "sağlayıcı hatası: CannotDo"}]}
+        output = io.StringIO()
+        with patch("scripts.backup_supervisor.supervisor_adapter", return_value=object()), \
+             patch.object(ll, "run_backlog", return_value=failed), \
+             contextlib.redirect_stdout(output):
+            rc = ll.main(["--backlog"], env={})
+        self.assertEqual(rc, 3)
+        self.assertEqual(json.loads(output.getvalue()), failed)
+
+    def test_main_direct_yapamadim_exits_nonzero(self):
+        import contextlib
+        import io
+        failed = {"status": "yapamadim", "reason": "sağlayıcı hatası: CannotDo"}
+        output = io.StringIO()
+        with patch("scripts.backup_supervisor.supervisor_adapter", return_value=object()), \
+             patch.object(ll, "run", return_value=failed) as run, \
+             contextlib.redirect_stdout(output):
+            rc = ll.main(["--pr", "350"], env={})
+        self.assertEqual(rc, 3)
+        self.assertEqual(json.loads(output.getvalue()), failed)
+        self.assertEqual(run.call_args.args, (350,))
+
+    def test_main_backlog_clean_skip_exits_zero(self):
+        import contextlib
+        import io
+        clean = {"status": "backlog", "picked": [], "results": []}
+        output = io.StringIO()
+        with patch("scripts.backup_supervisor.supervisor_adapter", return_value=object()), \
+             patch.object(ll, "run_backlog", return_value=clean), \
+             contextlib.redirect_stdout(output):
+            rc = ll.main(["--backlog"], env={})
+        self.assertEqual(rc, 0)
+        self.assertEqual(json.loads(output.getvalue()), clean)
 
     def test_processes_max3_and_comments_done(self):
         gh = BacklogGH([cand(n, n) for n in (11, 12, 13, 14)])
