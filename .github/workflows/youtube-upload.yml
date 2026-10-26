@@ -222,6 +222,36 @@ jobs:
             python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" | tee "$RUNNER_TEMP/upload_result.json"
           fi
 
+      # Persist the remote receipt before any local ledger operation can fail.
+      # A successful videos.insert must not lose its video_id if ledger recording fails.
+      - name: Preserve remote upload receipt before ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest="$RUNNER_TEMP/shorts-upload-receipt"
+          mkdir -p "$dest"
+          cp "$RUNNER_TEMP/upload_result.json" "$dest/upload_result.json"
+          python3 - "$dest/upload_result.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          lines = Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()
+          if not lines:
+              raise SystemExit("missing remote upload result")
+          payload = json.loads(lines[-1])
+          if not isinstance(payload.get("video_id"), str) or not payload["video_id"].strip():
+              raise SystemExit("missing remote video_id; receipt cannot be verified")
+          PY
+          (cd "$dest" && sha256sum upload_result.json > SHA256SUMS)
+
+      - name: Upload remote receipt before ledger
+        uses: actions/upload-artifact@v4
+        with:
+          name: shorts-upload-receipt-${{ github.run_id }}
+          path: ${{ runner.temp }}/shorts-upload-receipt/
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Record upload in 48h lesson ledger (runner only)
         env:
           METADATA_PATH: ${{ inputs.metadata_path }}
