@@ -120,7 +120,8 @@ class ResearchLearnerTests(Base):
         ledger_path = self.root / "knowledge" / "learning_ledger.json"
         original = ledger_path.read_bytes()
         for bad in (None, "{broken", "[]", '{"learnings":{}}',
-                    '{"learnings":[null]}'):
+                    '{"learnings":[null]}', '{"learnings":[],"learnings":[]}',
+                    '{"learnings":[],"other":NaN}'):
             with self.subTest(bad=bad):
                 if bad is None:
                     ledger_path.unlink(missing_ok=True)
@@ -260,6 +261,12 @@ class ReporterTests(Base):
             json.dumps({**valid, "learnings": valid["learnings"] + valid["learnings"]}),
             json.dumps({**valid, "learnings": [{**valid["learnings"][0],
                                                "source_ids": [sid, sid]}]}),
+            json.dumps(valid).replace('"schema_version": 1',
+                                      '"schema_version": 0, "schema_version": 1', 1),
+            json.dumps(valid).replace('"source_id": "' + sid + '"',
+                                      '"source_id": "src_fake", "source_id": "' + sid + '"', 1),
+            json.dumps(valid).replace('"schema_version": 1',
+                                      '"schema_version": 1, "extra": NaN', 1),
         ]
         for bad in bad_docs:
             target.write_text(bad)
@@ -361,6 +368,16 @@ class ReporterTests(Base):
                 self.assertNotIn("video_shopify: staged_unverified", report)
                 self.assertEqual(json.loads((self.root / "state" / "agents_history.json")
                                             .read_text())[-1]["staged"], 0)
+
+
+class StrictResearchJSONTests(unittest.TestCase):
+    def test_duplicate_keys_and_nonfinite_values_fail_closed(self):
+        for raw in ('{"x":1,"x":2}', '{"nested":{"x":1,"x":2}}',
+                    '{"x":NaN}', '{"x":Infinity}', '{"x":-Infinity}'):
+            with self.subTest(raw=raw), self.assertRaises(ValueError):
+                ga._strict_json_loads(raw)
+        self.assertEqual(ga._strict_json_loads('{"ok":[{"x":1}]}'),
+                         {"ok": [{"x": 1}]})
 
 
 class SafetyTests(unittest.TestCase):
