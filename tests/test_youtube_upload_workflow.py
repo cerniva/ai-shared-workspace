@@ -51,7 +51,7 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         ledger = text.index("- name: Record upload in 48h lesson ledger")
         self.assertLess(receipt, artifact)
         self.assertLess(artifact, ledger)
-        self.assertIn('payload.get("video_id")', text)
+        self.assertIn('receipt.get("video_id")', text)
         self.assertIn('sha256sum remote_receipt.json > SHA256SUMS', text)
         self.assertIn('--receipt-path "$RUNNER_TEMP/shorts-upload-receipt/remote_receipt.json"', text)
         receipt_section = text.split("- name: Preserve remote upload receipt before ledger", 1)[1].split("- name:", 1)[0]
