@@ -212,6 +212,10 @@ def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) ->
     seen_sources: dict[str, str] = {}
     seen_learnings: dict[str, str] = {}
     for path in sorted(promotions_dir.glob("*.json")):
+        # Never import out-of-scope JSON through a symlink, even when its target
+        # parses as a valid promotion. Keep the canonical ledgers unchanged.
+        if path.is_symlink():
+            raise CatalogError(f"{path.name}: symlink promotions are not allowed")
         try:
             doc = _strict_json_loads(path.read_text(encoding="utf-8"))
         except ValueError as exc:
