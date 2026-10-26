@@ -3,7 +3,7 @@ import unittest
 import hashlib
 import tempfile
 from pathlib import Path
-from scripts.verify_shorts_upload_evidence import verify, main
+from scripts.verify_shorts_upload_evidence import verify
 
 WORKFLOW = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "youtube-upload.yml"
 
@@ -34,7 +34,7 @@ class YouTubeUploadLedgerSafetyTests(unittest.TestCase):
             for name, contents in files.items():
                 (folder / name).write_bytes(contents)
             (folder / "SHA256SUMS").write_text("".join(
-                hashlib.sha256(value).hexdigest() + "  " + name + "\\n"
+                hashlib.sha256(value).hexdigest() + "  " + name + "\n"
                 for name, value in files.items()
             ), encoding="utf-8")
             verify(folder)
