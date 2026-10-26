@@ -162,6 +162,19 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
     body = {"snippet": {"title": metadata["title"], "description": metadata["description"]}, "status": status}
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
     request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
+    # Before the first resumable request, record an attempt. A network timeout
+    # may hide a successful remote insert even when no video_id is returned.
+    # An absent ID must NEVER be interpreted as permission to retry blindly.
+    receipt = {
+        "video_id": None,
+        "upload_state": "IN_FLIGHT_UNKNOWN",
+        "channel_id": CHANNEL_ID,
+        "requested_privacy_status": status["privacyStatus"],
+        "source_sha256": sha256_file(video),
+        "read_back_verified": False,
+    }
+    if receipt_path is not None:
+        write_remote_receipt(receipt_path, receipt)
     response = None
     try:
         while response is None:
@@ -169,20 +182,26 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
             if progress is not None:
                 print(f"Upload progress: {progress.progress() * 100:.0f}%", file=sys.stderr)
     except HttpError as exc:
-        raise RuntimeError(f"YouTube upload failed (HTTP {exc.resp.status}). Check OAuth scope and API project status.") from exc
-    video_id = response.get("id")
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise RuntimeError(f"YouTube upload failed (HTTP {exc.resp.status}). Check OAuth scope and API project status; never retry an ambiguous attempt blindly.") from exc
+    except Exception:
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise
+    video_id = response.get("id") if isinstance(response, dict) else None
     if not video_id:
-        raise RuntimeError("YouTube returned no video ID; upload cannot be verified.")
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise RuntimeError("YouTube returned no video ID; upload outcome is unknown, do not retry blindly.")
     # A videos.insert may succeed even when the subsequent read-back fails.
     # Persist the remote ID before that request; a failed verification must never
     # be interpreted as a safe signal to retry uploading the same media.
-    receipt = {
-        "video_id": video_id,
-        "channel_id": CHANNEL_ID,
-        "requested_privacy_status": status["privacyStatus"],
-        "source_sha256": sha256_file(video),
-        "read_back_verified": False,
-    }
+    receipt["video_id"] = video_id
+    receipt["upload_state"] = "REMOTE_ID_RECEIVED"
     if receipt_path is not None:
         write_remote_receipt(receipt_path, receipt)
     verified = youtube.videos().list(part="snippet,status", id=video_id).execute().get("items", [])
@@ -197,6 +216,7 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
         raise RuntimeError(f"Video {video_id} has visibility '{actual_status}', expected '{expected_status}'.")
     if receipt_path is not None:
         receipt["read_back_verified"] = True
+        receipt["upload_state"] = "READBACK_VERIFIED"
         receipt["actual_privacy_status"] = actual_status
         write_remote_receipt(receipt_path, receipt)
     return {"video_id": video_id, "url": f"https://www.youtube.com/watch?v={video_id}", "privacy_status": actual_status}
