@@ -429,6 +429,19 @@ class ReporterTests(Base):
                              now=datetime(2026, 10, 24, 12, 3, tzinfo=timezone.utc))
         self.assertIn("finance: staged_missing", report)
 
+        # The staging directory itself may be a symlink. Resolving both the
+        # target and the boundary would otherwise accept an out-of-scope file.
+        target.unlink()
+        target.parent.rmdir()
+        external_dir = self.root / "outside-promotions"
+        external_dir.mkdir()
+        (external_dir / target.name).write_text(json.dumps(valid))
+        target.parent.symlink_to(external_dir, target_is_directory=True)
+        report = ga.reporter(root=self.root, gh=gh,
+                             now=datetime(2026, 10, 24, 12, 4, tzinfo=timezone.utc))
+        self.assertIn("finance: staged_missing", report)
+        self.assertEqual(json.loads((self.root / "state" / "agents_history.json").read_text())[-1]["staged"], 0)
+
     def test_already_promoted_intake_is_not_counted_as_new(self):
         rel = "intake/promotions/2026-10-25-research-learner-finance.json"
         canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
