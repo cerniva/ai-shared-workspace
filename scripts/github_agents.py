@@ -341,7 +341,8 @@ def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, lis
             sid = source_id(canonical)
         except (ValueError, RuntimeError, TypeError):
             return None
-        if source.get("source_id") != sid or sid in valid_sources or canonical in canonicals:
+        if (canonical != source["canonical"] or source.get("source_id") != sid
+                or sid in valid_sources or canonical in canonicals):
             return None
         valid_sources.add(sid)
         canonicals.add(canonical)
