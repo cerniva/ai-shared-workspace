@@ -140,6 +140,30 @@ def write_remote_receipt(path: Path, receipt: dict) -> None:
         temp.unlink(missing_ok=True)
 
 
+
+def reserve_remote_receipt(path: Path, receipt: dict) -> None:
+    """Fail closed on an existing receipt; never overwrite a previous attempt.
+
+    O_EXCL makes same-filesystem concurrent attempts mutually exclusive. If the
+    process dies during reservation, keep the partial file as an UNKNOWN result:
+    deleting it and retrying could duplicate a completed remote upload.
+    Cross-run GitHub Actions artifacts still require separate reconciliation.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError as exc:
+        raise RuntimeError(
+            "Existing YouTube upload receipt: reconcile the previous remote "
+            "outcome before any new attempt; do not retry blindly."
+        ) from exc
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(receipt, handle, ensure_ascii=False, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
 def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False,
            contains_synthetic: bool = True, receipt_path: Path | None = None) -> dict:
     from googleapiclient.discovery import build
@@ -174,7 +198,7 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
         "read_back_verified": False,
     }
     if receipt_path is not None:
-        write_remote_receipt(receipt_path, receipt)
+        reserve_remote_receipt(receipt_path, receipt)
     response = None
     try:
         while response is None:
