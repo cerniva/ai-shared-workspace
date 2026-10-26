@@ -237,10 +237,30 @@ def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, deci
     }
 
 
+def _reject_duplicate_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Fail closed on repeated JSON keys at any nesting depth."""
+    obj: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in obj:
+            raise ValueError(f"duplicate JSON key: {key}")
+        obj[key] = value
+    return obj
+
+
+def _reject_nonfinite_constant(value: str) -> None:
+    raise ValueError(f"non-finite JSON constant: {value}")
+
+
+def _strict_json_loads(raw: str) -> Any:
+    """No last-key-wins or NaN/Infinity in research identity evidence."""
+    return json.loads(raw, object_pairs_hook=_reject_duplicate_pairs,
+                      parse_constant=_reject_nonfinite_constant)
+
+
 def _known_learning_titles(root: Path) -> set[str] | None:
     """Return None when canonical history is unreadable; never treat that as an empty ledger."""
     try:
-        ledger = json.loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+        ledger = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
     if not isinstance(ledger, dict):
@@ -306,7 +326,7 @@ def _staged_learning_titles(root: Path) -> set[str]:
         if path.is_symlink() or not path.is_file():
             continue
         try:
-            doc = json.loads(path.read_text(encoding="utf-8"))
+            doc = _strict_json_loads(path.read_text(encoding="utf-8"))
             validated = _validated_staged_rows(doc)
             if validated is not None:
                 titles.update(title for title, _, _ in validated[1])
@@ -451,7 +471,10 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
     domains = learner.get("domains") or {}
     # A candidate can still be present after its learning was promoted.
     # Do not count an already-canonical learning as a fresh staged discovery.
-    ledger_doc = read_json(root / "knowledge" / "learning_ledger.json", {})
+    try:
+        ledger_doc = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        ledger_doc = {}
     ledger_rows = ledger_doc.get("learnings") if isinstance(ledger_doc, dict) else None
     ledger_ready = isinstance(ledger_rows, list)
     canonical_learning_ids = {
@@ -472,7 +495,7 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                 target = (root / rel).resolve(strict=True)
                 boundary = (root / "intake" / "promotions").resolve()
                 if target.is_relative_to(boundary) and target.is_file():
-                    doc = json.loads(target.read_text(encoding="utf-8"))
+                    doc = _strict_json_loads(target.read_text(encoding="utf-8"))
                     valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"))
             except (OSError, ValueError, TypeError, AttributeError):
                 pass
