@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-40273499225",
+  "source": "ci-bekci",
+  "run_id": "40273591839",
+  "task": "CI failure in 'shorts-render-tests' run 40273499225: jobs test[Full Python suite]; first error: tests/test_youtube_upload_no_main_push.py::YouTubeUploadLedgerSafetyTests::test_remote_upload_id_and_ledger_survive_as_review_artifact",
+  "generated_at": "2026-10-26T05:19:53+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40273499225",
+    "evidence": [
+      {
+        "path": "tests/test_youtube_upload_no_main_push.py",
+        "observation": "Target test file containing YouTubeUploadLedgerSafetyTests::test_remote_upload_id_and_ledger_survive_as_review_artifact which reported the first failure in CI run 40273499225."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40273499225 in workflow 'shorts-render-tests' failed during the 'test[Full Python suite]' job.",
+      "The first error encountered in the job was tests/test_youtube_upload_no_main_push.py::YouTubeUploadLedgerSafetyTests::test_remote_upload_id_and_ledger_survive_as_review_artifact."
+    ],
+    "hypotheses": [
+      "The test test_remote_upload_id_and_ledger_survive_as_review_artifact in tests/test_youtube_upload_no_main_push.py failed because expected ledger metadata or review artifacts were not preserved or created in the temporary execution directory.",
+      "A mock expectation or environment variable assertion inside tests/test_youtube_upload_no_main_push.py diverged from the current YouTube upload safety implementation."
+    ],
+    "recommendation": "Fetch the detailed stack trace for run 40273499225 and inspect tests/test_youtube_upload_no_main_push.py to verify ledger artifact persistence logic.",
+    "confidence": 0.85,
+    "next_action": "Read tests/test_youtube_upload_no_main_push.py and retrieve the specific failure trace from CI run 40273499225 logs.",
+    "timing": {
+      "started_at": "2026-10-26T05:19:57.929969+00:00",
+      "duration_ms": 8666
+    },
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 422,
+      "total_tokens": 2068
+    }
+  }
+}
