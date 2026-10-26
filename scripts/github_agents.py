@@ -446,12 +446,27 @@ def _ci_line(gh: GitHub) -> str:
         data = gh._call("GET", "/actions/runs?branch=main&per_page=30")
     except Exception as exc:
         return f"okunamadı ({type(exc).__name__})"
+    # The REST endpoint is paginated. A successful first-page request cannot
+    # prove that older runs or additional workflows are healthy.
+    runs = data.get("workflow_runs")
+    if not isinstance(runs, list):
+        return "okunamadı (workflow_runs eksik)"
     latest: dict[str, str] = {}
-    for r in data.get("workflow_runs") or []:
-        if r.get("status") == "completed":
-            latest.setdefault(r.get("name") or "?", r.get("conclusion") or "?")
-    bad = sorted(n for n, c in latest.items() if c not in ("success", "skipped", "neutral"))
-    return f"{len(latest)} workflow; başarısız: {', '.join(bad) or 'yok'}"
+    for run in runs:
+        if not isinstance(run, dict):
+            return "okunamadı (geçersiz workflow run)"
+        if run.get("status") == "completed":
+            latest.setdefault(run.get("name") or "?", run.get("conclusion") or "?")
+    bad = sorted(n for n, conclusion in latest.items()
+                 if conclusion not in ("success", "skipped", "neutral"))
+    total = data.get("total_count")
+    total_known = type(total) is int and total >= len(runs)
+    complete = total_known and total == len(runs)
+    coverage = (f"ilk {len(runs)} / {total} koşu" if total_known
+                else f"ilk {len(runs)} koşu (toplam bilinmiyor)")
+    status = "tam tarama" if complete else "KISMİ örnek; tüm CI yeşil doğrulanmadı"
+    return (f"{status} ({coverage}); {len(latest)} workflow; "
+            f"örnekte başarısız: {', '.join(bad) or 'yok'}")
 
 
 def _valid_staged_identity(doc: Any, sid: Any, lid: Any) -> bool:
