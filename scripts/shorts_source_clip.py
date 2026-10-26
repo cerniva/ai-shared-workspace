@@ -96,15 +96,20 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
         raise ValueError("rights evidence JSON is missing or invalid") from exc
     if not isinstance(evidence, dict):
         raise ValueError("rights evidence must be an object")
-    for key in ("source_url", "license_url", "license_name", "verified_by", "verified_at"):
+    for key in ("source_url", "license_url", "license_name", "verified_by", "verified_at",
+                "caption_source_url", "caption_license_url", "caption_license_name",
+                "caption_verified_by", "caption_verified_at"):
         value = evidence.get(key)
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"rights evidence missing {key}")
-    for key in ("source_url", "license_url"):
+    for key in ("source_url", "license_url", "caption_source_url", "caption_license_url"):
         parsed = urlparse(evidence[key])
         if parsed.scheme != "https" or not parsed.netloc:
             raise ValueError(f"rights evidence {key} must be an HTTPS URL")
-    for key in ("reuse_permitted", "derivatives_permitted", "audio_reuse_permitted"):
+    # Subtitle text may be independently copyrighted even when source footage is public domain.
+    # This intake record is not legal proof; an independent rights reviewer remains required.
+    for key in ("reuse_permitted", "derivatives_permitted", "audio_reuse_permitted",
+                "caption_reuse_permitted", "caption_derivatives_permitted"):
         if evidence.get(key) is not True:
             raise ValueError(f"rights evidence must explicitly affirm {key}")
     recorded_hash = evidence.get("source_sha256")
