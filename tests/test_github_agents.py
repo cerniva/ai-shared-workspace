@@ -126,8 +126,8 @@ class ResearchLearnerTests(Base):
             root=self.root, adapter=FakeAdapter(),
             fetch=lambda url: feed if "federalreserve" in url else ATOM)
         self.assertEqual(result["domains"]["finance"]["status"], "already_in_ledger")
-        self.assertFalse((self.root / "intake" / "promotions" /
-                          "2026-10-26-research-learner-finance.json").exists())
+        self.assertFalse(list((self.root / "intake" / "promotions").glob(
+            "*-research-learner-finance.json")))
 
         # A genuinely different official release ID must still be stageable.
         unseen = feed.replace("enforcement20261016a", "enforcement20261017b").replace(
