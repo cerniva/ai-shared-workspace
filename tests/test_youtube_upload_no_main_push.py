@@ -1,6 +1,9 @@
 """YouTube upload workflow must not mutate main or discard upload evidence."""
 import unittest
+import hashlib
+import tempfile
 from pathlib import Path
+from scripts.verify_shorts_upload_evidence import verify, main
 
 WORKFLOW = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "youtube-upload.yml"
 
@@ -20,8 +23,24 @@ class YouTubeUploadLedgerSafetyTests(unittest.TestCase):
         self.assertIn("scripts/shorts_lesson_48h.py record", text)
         self.assertIn("actions/upload-artifact@v4", text)
         self.assertIn("knowledge/shorts/upload_ledger.json", text)
-        self.assertIn("${{ runner.temp }}/upload_result.json", text)
+        self.assertIn("verify_shorts_upload_evidence.py", text)
+        self.assertIn("shorts-upload-evidence/", text)
         self.assertIn("if-no-files-found: error", text)
+
+    def test_artifact_digest_mismatch_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            files = {"upload_ledger.json": b"ledger", "upload_result.json": b"remote-id"}
+            for name, contents in files.items():
+                (folder / name).write_bytes(contents)
+            (folder / "SHA256SUMS").write_text("".join(
+                hashlib.sha256(value).hexdigest() + "  " + name + "\\n"
+                for name, value in files.items()
+            ), encoding="utf-8")
+            verify(folder)
+            (folder / "upload_result.json").write_bytes(b"tampered")
+            with self.assertRaisesRegex(ValueError, "digest mismatch"):
+                verify(folder)
 
 
 if __name__ == "__main__":
