@@ -480,11 +480,31 @@ class StrictResearchJSONTests(unittest.TestCase):
             {"learnings": canonical["learnings"]},
             {"schema_version": True, "learnings": canonical["learnings"]},
             {"schema_version": 1, "learnings": [dict(row, title="")]},
+            {"schema_version": 1, "learnings": [dict(row, domain="tampered-domain")]},
+            {"schema_version": 1, "learnings": [dict(row, claim="tampered claim")]},
             {"schema_version": 1, "learnings": [dict(row, source_ids=[])]},
             {"schema_version": 1, "learnings": [row, dict(row)]},
         ):
             with self.subTest(bad=str(bad)[:80]):
                 self.assertIsNone(ga._canonical_learning_rows(bad))
+
+    def test_canonical_source_identity_and_normalized_url_fail_closed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "knowledge").mkdir()
+            catalog = json.loads((ROOT / "knowledge" / "source_catalog.json").read_text(encoding="utf-8"))
+            target = root / "knowledge" / "source_catalog.json"
+            target.write_text(json.dumps(catalog), encoding="utf-8")
+            self.assertEqual(len(ga._canonical_source_ids(root)), len(catalog["sources"]))
+            row = catalog["sources"][0]
+            for bad in (
+                dict(row, source_id="src_forged"),
+                dict(row, canonical=row["canonical"].replace("https://", "HTTPS://", 1)),
+            ):
+                with self.subTest(bad=bad):
+                    modified = {**catalog, "sources": [bad, *catalog["sources"][1:]]}
+                    target.write_text(json.dumps(modified), encoding="utf-8")
+                    self.assertIsNone(ga._canonical_source_ids(root))
 
     def test_duplicate_keys_and_nonfinite_values_fail_closed(self):
         for raw in ('{"x":1,"x":2}', '{"nested":{"x":1,"x":2}}',
