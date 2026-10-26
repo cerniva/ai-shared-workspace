@@ -44,6 +44,7 @@ on:
       - "shorts-free-render"
       - "shorts-free-smoke-once"
       - "shorts-render-tests"
+      - "shorts-source-rights-tests"
       - "telegram-bot"
       - "tinyfish-event-bridge"
       - "tinyfish-senses"
