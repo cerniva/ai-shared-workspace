@@ -290,7 +290,8 @@ def _known_learning_titles(root: Path) -> set[str] | None:
 
 def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, list[str]]]] | None:
     """Reject the entire staged document if any identity, reference or duplicate is invalid."""
-    if (not isinstance(doc, dict) or doc.get("schema_version") != 1
+    if (not isinstance(doc, dict) or type(doc.get("schema_version")) is not int
+            or doc["schema_version"] != 1
             or not isinstance(doc.get("sources"), list) or not doc["sources"]
             or not isinstance(doc.get("learnings"), list) or not doc["learnings"]):
         return None
