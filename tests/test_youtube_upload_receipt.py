@@ -1,4 +1,5 @@
 """Remote videos.insert receipt survives a failed read-back (no network/credentials)."""
+import io
 import json
 import sys
 import tempfile
@@ -130,6 +131,17 @@ class YouTubeUploadReceiptTests(unittest.TestCase):
                                               False, False, False, receipt)
             youtube.videos().insert().next_chunk.assert_not_called()
             self.assertEqual(receipt.read_bytes(), b"{partial receipt from interrupted run")
+
+
+    def test_cli_fails_closed_without_durable_receipt_path(self):
+        """Missing receipt must be rejected before reading media or invoking YouTube."""
+        argv = ["youtube_upload.py", "nonexistent.mp4", "meta.json",
+                "--preflight", "preflight.json"]
+        with patch.object(sys, "argv", argv), patch("sys.stderr", new_callable=io.StringIO) as err:
+            with self.assertRaises(SystemExit) as caught:
+                youtube_upload.main()
+        self.assertEqual(caught.exception.code, 2)
+        self.assertIn("--receipt-path", err.getvalue())
 
 
 if __name__ == "__main__":
