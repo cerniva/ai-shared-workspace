@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-40273504752",
+  "source": "ci-bekci",
+  "run_id": "40273608409",
+  "task": "CI failure in 'shorts-render-tests' run 40273504752: jobs test[Full Python suite]; first error: tests/test_youtube_upload_no_main_push.py::YouTubeUploadLedgerSafetyTests::test_artifact_digest_mismatch_fails_closed",
+  "generated_at": "2026-10-26T05:20:10+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40273504752",
+    "evidence": [
+      {
+        "path": "tests/test_youtube_upload_no_main_push.py",
+        "note": "Test suite containing YouTubeUploadLedgerSafetyTests.test_artifact_digest_mismatch_fails_closed."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40273504752 failed in job 'test[Full Python suite]'.",
+      "The initial test failure reported in the run is tests/test_youtube_upload_no_main_push.py::YouTubeUploadLedgerSafetyTests::test_artifact_digest_mismatch_fails_closed."
+    ],
+    "hypotheses": [
+      "The digest generation logic or expected checksum in tests/test_youtube_upload_no_main_push.py was altered, causing an unexpected failure mode or assertion mismatch.",
+      "The ledger safety validation in the upload handler failed to raise the expected fail-closed exception when a simulated artifact digest mismatch occurred."
+    ],
+    "recommendation": "Examine tests/test_youtube_upload_no_main_push.py and the underlying YouTube upload ledger module to verify whether the fail-closed assertion or digest matching logic requires alignment.",
+    "confidence": 0.85,
+    "next_action": "Inspect the failure traceback in CI run 40273504752 for tests/test_youtube_upload_no_main_push.py to pinpoint the exact assertion or exception mismatch.",
+    "timing": {
+      "started_at": "2026-10-26T05:20:15.023332+00:00",
+      "duration_ms": 8675
+    },
+    "usage": {
+      "input_tokens": 165,
+      "output_tokens": 343,
+      "total_tokens": 1492
+    }
+  }
+}
