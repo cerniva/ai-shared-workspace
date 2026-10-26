@@ -217,39 +217,51 @@ jobs:
             fi
           done
           if [[ "$PUBLISH_PUBLICLY" == "true" ]]; then
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --publish | tee "$RUNNER_TEMP/upload_result.json"
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --receipt-path "$RUNNER_TEMP/shorts-upload-receipt/remote_receipt.json" --publish | tee "$RUNNER_TEMP/upload_result.json"
           else
-            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" | tee "$RUNNER_TEMP/upload_result.json"
+            python scripts/youtube_upload.py "$VIDEO_PATH" "$METADATA_PATH" --preflight "$PREFLIGHT_PATH" --receipt-path "$RUNNER_TEMP/shorts-upload-receipt/remote_receipt.json" | tee "$RUNNER_TEMP/upload_result.json"
           fi
 
-      # Persist the remote receipt before any local ledger operation can fail.
-      # A successful videos.insert must not lose its video_id if ledger recording fails.
+      # Preserve videos.insert ID even when the upload step fails during read-back.
+      # A failed read-back after insert is NOT permission to upload a duplicate.
       - name: Preserve remote upload receipt before ledger
+        if: ${{ always() }}
         shell: bash
         run: |
           set -euo pipefail
           dest="$RUNNER_TEMP/shorts-upload-receipt"
-          mkdir -p "$dest"
-          cp "$RUNNER_TEMP/upload_result.json" "$dest/upload_result.json"
-          python3 - "$dest/upload_result.json" <<'PY'
+          if [[ ! -f "$dest/remote_receipt.json" ]]; then
+            echo "No remote videos.insert ID was recorded; do not infer upload success."
+            exit 0
+          fi
+          python3 - "$dest/remote_receipt.json" "$RUNNER_TEMP/upload_result.json" <<'PY'
           import json
           import sys
           from pathlib import Path
-          lines = Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()
-          if not lines:
-              raise SystemExit("missing remote upload result")
-          payload = json.loads(lines[-1])
-          if not isinstance(payload.get("video_id"), str) or not payload["video_id"].strip():
+          receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if not isinstance(receipt.get("video_id"), str) or not receipt["video_id"].strip():
               raise SystemExit("missing remote video_id; receipt cannot be verified")
+          result_path = Path(sys.argv[2])
+          if result_path.is_file() and result_path.stat().st_size:
+              payload = json.loads(result_path.read_text(encoding="utf-8").splitlines()[-1])
+              if payload.get("video_id") != receipt["video_id"]:
+                  raise SystemExit("remote receipt and upload result disagree")
+          if receipt.get("read_back_verified") is not True:
+              print("REMOTE_READBACK_BLOCKED: videos.insert returned ID; never retry upload blindly")
           PY
-          (cd "$dest" && sha256sum upload_result.json > SHA256SUMS)
+          (cd "$dest" && sha256sum remote_receipt.json > SHA256SUMS)
+          if [[ -s "$RUNNER_TEMP/upload_result.json" ]]; then
+            cp "$RUNNER_TEMP/upload_result.json" "$dest/upload_result.json"
+            (cd "$dest" && sha256sum upload_result.json >> SHA256SUMS)
+          fi
 
       - name: Upload remote receipt before ledger
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: shorts-upload-receipt-${{ github.run_id }}
           path: ${{ runner.temp }}/shorts-upload-receipt/
-          if-no-files-found: error
+          if-no-files-found: ignore
           retention-days: 14
 
       - name: Record upload in 48h lesson ledger (runner only)
