@@ -33,6 +33,7 @@ from collections.abc import Mapping
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 if __package__ in (None, ""):
@@ -311,8 +312,13 @@ def _canonical_learning_rows(doc: Any, source_ids: set[str] | None = None) -> li
     return rows
 
 
-def _known_learning_titles(root: Path) -> set[str] | None:
-    """Return None when canonical history is unreadable; never treat that as an empty ledger."""
+def _known_learning_titles(root: Path) -> tuple[set[str], set[str]] | None:
+    """Return validated titles and previously reviewed Fed enforcement release IDs.
+
+    RSS headlines and reviewed ledger titles may be phrased differently. A
+    stable, official press-release ID in the canonical claim prevents the
+    same news item being restaged with a fresh timestamp-based learning ID.
+    """
     try:
         ledger = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -321,7 +327,24 @@ def _known_learning_titles(root: Path) -> set[str] | None:
     if source_ids is None:
         return None
     rows = _canonical_learning_rows(ledger, source_ids)
-    return None if rows is None else {row["title"] for row in rows}
+    if rows is None:
+        return None
+    release_ids = {release_id for row in rows if row["domain"] == "finance-news"
+                   for release_id in re.findall(r"\benforcement\d{8}[a-z]\b", row["claim"])}
+    return {row["title"] for row in rows}, release_ids
+
+
+def _fed_enforcement_release_id(item: dict[str, str]) -> str | None:
+    """Only trust the identifier from an exact HTTPS Federal Reserve release URL."""
+    link = item.get("link")
+    if not isinstance(link, str):
+        return None
+    parts = urlsplit(link)
+    if (parts.scheme != "https" or parts.netloc.lower() not in
+            {"www.federalreserve.gov", "federalreserve.gov"} or parts.query or parts.fragment):
+        return None
+    match = re.fullmatch(r"/newsevents/pressreleases/(enforcement\d{8}[a-z])\.htm", parts.path)
+    return match.group(1) if match else None
 
 
 def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, list[str]]]] | None:
@@ -431,7 +454,9 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             report["domains"][key] = entry
             continue
         title = f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180]
-        if title in known:
+        known_titles, known_fed_releases = known
+        release_id = _fed_enforcement_release_id(item) if key == "finance" else None
+        if title in known_titles or (release_id is not None and release_id in known_fed_releases):
             entry["status"] = "already_in_ledger"
             report["domains"][key] = entry
             continue
