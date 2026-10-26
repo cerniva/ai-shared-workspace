@@ -31,6 +31,14 @@ class AtomicShortsGateTests(unittest.TestCase):
             "verified_at": "2026-10-23",
             "source_sha256": file_sha256(self.source),
             "captions_sha256": file_sha256(self.srt),
+            "caption_source_url": "https://example.org/fixture-caption",
+            "caption_license_url": "https://example.org/fixture-caption-license",
+            "caption_license_name": "TEST FIXTURE ONLY",
+            "caption_attribution_text": "Synthetic fixture caption credit",
+            "caption_verified_by": "unit test",
+            "caption_verified_at": "2026-10-23",
+            "caption_reuse_permitted": True,
+            "caption_derivatives_permitted": True,
             "reuse_permitted": True,
             "derivatives_permitted": True,
             "audio_reuse_permitted": True,
@@ -77,6 +85,7 @@ class AtomicShortsGateTests(unittest.TestCase):
         self.assertTrue(self.output.is_file())
         self.assertEqual(report["output_sha256"], file_sha256(self.output))
         self.assertFalse(report["publish_ready"])
+        self.assertEqual(report["caption_attribution_text"], "Synthetic fixture caption credit")
         self.assertTrue(report["independent_media_review_pending"])
         self.assertEqual(list(self.root.glob("licensed-short-*")), [])
 
