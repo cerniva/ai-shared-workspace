@@ -592,8 +592,15 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
         valid = False
         if v.get("status") == "staged" and safe_rel:
             try:
+                staging = root / "intake" / "promotions"
+                # Do not trust a resolved symlink as the staging boundary:
+                # otherwise a linked directory makes outside files look in-scope.
+                if (root / "intake").is_symlink() or staging.is_symlink():
+                    raise ValueError("symlink staging directory")
+                boundary = staging.resolve()
+                if not boundary.is_relative_to(root.resolve()):
+                    raise ValueError("staging directory escapes repository")
                 target = (root / rel).resolve(strict=True)
-                boundary = (root / "intake" / "promotions").resolve()
                 if target.is_relative_to(boundary) and target.is_file():
                     doc = _strict_json_loads(target.read_text(encoding="utf-8"))
                     valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"), k)
