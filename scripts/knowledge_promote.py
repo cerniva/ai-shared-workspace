@@ -90,10 +90,27 @@ def _gates(doc: dict[str, Any], name: str = "promotion") -> list[str]:
 PROMOTION_SCHEMA_VERSION = 1
 
 
+def _strict_json_loads(raw: str) -> Any:
+    """Reject ambiguous JSON identity evidence before any promotion write."""
+    def reject_duplicate_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        obj: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in obj:
+                raise ValueError(f"duplicate JSON key: {key}")
+            obj[key] = value
+        return obj
+
+    def reject_nonfinite(value: str) -> None:
+        raise ValueError(f"non-finite JSON constant: {value}")
+
+    return json.loads(raw, object_pairs_hook=reject_duplicate_pairs,
+                      parse_constant=reject_nonfinite)
+
+
 def _ids(path: Path, key: str, id_field: str) -> set[str]:
     if not path.exists():
         return set()
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = _strict_json_loads(path.read_text(encoding="utf-8"))
     return {row[id_field] for row in data.get(key, []) if isinstance(row, dict) and id_field in row}
 
 
@@ -196,12 +213,12 @@ def _apply_batch(promotions_dir: Path, catalog_path: Path, ledger_path: Path) ->
     seen_learnings: dict[str, str] = {}
     for path in sorted(promotions_dir.glob("*.json")):
         try:
-            doc = json.loads(path.read_text(encoding="utf-8"))
+            doc = _strict_json_loads(path.read_text(encoding="utf-8"))
         except ValueError as exc:
             raise CatalogError(f"{path.name}: malformed JSON: {exc}") from exc
         if not isinstance(doc, dict):
             raise CatalogError(f"{path.name}: promotion must be a JSON object")
-        if "schema_version" in doc and doc["schema_version"] != PROMOTION_SCHEMA_VERSION:
+        if "schema_version" in doc and (type(doc["schema_version"]) is not int or doc["schema_version"] != PROMOTION_SCHEMA_VERSION):
             raise CatalogError(f"{path.name}: schema_version {doc['schema_version']!r} != {PROMOTION_SCHEMA_VERSION}")
         sources = _items(doc, "source", "sources", path.name)
         learnings = _items(doc, "learning", "learnings", path.name)
