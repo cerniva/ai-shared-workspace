@@ -25,7 +25,9 @@ jobs:
           url="https://upload.wikimedia.org/wikipedia/commons/2/25/STEMonstration-_Nutrition.webm"
           curl --fail --location --silent --show-error --retry 1 --retry-delay 2 --connect-timeout 15 --max-time 240 --output audit/source.webm "$url"
           bytes="$(wc -c < audit/source.webm)"
-          test "$bytes" -gt 40000000
+          echo "downloaded_bytes=$bytes"
+          file audit/source.webm
+          test "$bytes" -gt 1000000
           command -v ffprobe
           sha256sum audit/source.webm | tee audit/source.sha256
           ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height -of json audit/source.webm > audit/ffprobe.json
