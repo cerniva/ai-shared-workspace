@@ -110,6 +110,43 @@ class ResearchLearnerTests(Base):
         again = ga.research_learner(root=self.root, adapter=FakeAdapter(), fetch=fetch)
         self.assertTrue(all(v["status"] == "already_in_ledger" for v in again["domains"].values()), again)
 
+    def test_fed_enforcement_article_id_prevents_restaging_renamed_headline(self):
+        # Live 2026-10-26 intake repeated the 16 Oct press release already
+        # verified in the ledger on 17 Oct under a differently worded title.
+        # Dedup by the exact official release ID, not the generated claim ID.
+        article = "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261016a.htm"
+        headline = "Federal Reserve Board announces termination of enforcement actions with Gardner Bancshares, Inc. and Small Business Bank"
+        feed = RSS.replace("FOMC statement", headline).replace(
+            "https://www.federalreserve.gov/x.htm", article)
+        known = json.loads((self.root / "knowledge" / "learning_ledger.json").read_text())
+        prior = next(row for row in known["learnings"]
+                     if row["learning_id"] == "learn_084a973ea4587745")
+        self.assertNotEqual(prior["title"], "Federal Reserve Board press releases RSS: " + headline)
+        result = ga.research_learner(
+            root=self.root, adapter=FakeAdapter(),
+            fetch=lambda url: feed if "federalreserve" in url else ATOM)
+        self.assertEqual(result["domains"]["finance"]["status"], "already_in_ledger")
+        self.assertFalse((self.root / "intake" / "promotions" /
+                          "2026-10-26-research-learner-finance.json").exists())
+
+        # A genuinely different official release ID must still be stageable.
+        unseen = feed.replace("enforcement20261016a", "enforcement20261017b").replace(
+            headline, "Federal Reserve Board announces an unrelated new enforcement action")
+        second = ga.research_learner(
+            root=self.root, adapter=FakeAdapter(),
+            fetch=lambda url: unseen if "federalreserve" in url else ATOM)
+        self.assertEqual(second["domains"]["finance"]["status"], "staged")
+
+    def test_fed_release_id_rejects_untrusted_or_noncanonical_links(self):
+        good = "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261016a.htm"
+        self.assertEqual(ga._fed_enforcement_release_id({"link": good}), "enforcement20261016a")
+        for link in (good.replace("https:", "http:"), good + "?utm_source=feed",
+                     good + "#fragment", good.replace("www.federalreserve.gov", "evil.example"),
+                     good.replace(".htm", ".pdf"), "https://www.federalreserve.gov.evil.example" +
+                     "/newsevents/pressreleases/enforcement20261016a.htm"):
+            with self.subTest(link=link):
+                self.assertIsNone(ga._fed_enforcement_release_id({"link": link}))
+
     def test_missing_or_malformed_ledger_blocks_staging_without_model_call(self):
         fetch = lambda u: ATOM if "github" in u or "shopify" in u else RSS
 
