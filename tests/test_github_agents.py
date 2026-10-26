@@ -506,6 +506,21 @@ class StrictResearchJSONTests(unittest.TestCase):
                     target.write_text(json.dumps(modified), encoding="utf-8")
                     self.assertIsNone(ga._canonical_source_ids(root))
 
+    def test_staged_source_url_must_be_canonical_before_readback(self):
+        canonical = "https://www.federalreserve.gov/feeds/press_all.xml"
+        sid = ga.source_id(ga.canonicalize(canonical))
+        domain, claim = "research-canonical-gate", "Reject noncanonical staged source URLs."
+        lid = ga.learning_id(domain, claim)
+        doc = {
+            "schema_version": 1,
+            "sources": [{"source_id": sid, "canonical": canonical}],
+            "learnings": [{"learning_id": lid, "domain": domain, "claim": claim,
+                           "title": "Staged URL normalization gate", "source_ids": [sid]}],
+        }
+        self.assertIsNotNone(ga._validated_staged_rows(doc))
+        doc["sources"][0]["canonical"] = canonical.replace("https://", "HTTPS://", 1)
+        self.assertIsNone(ga._validated_staged_rows(doc))
+
     def test_duplicate_keys_and_nonfinite_values_fail_closed(self):
         for raw in ('{"x":1,"x":2}', '{"nested":{"x":1,"x":2}}',
                     '{"x":NaN}', '{"x":Infinity}', '{"x":-Infinity}'):
