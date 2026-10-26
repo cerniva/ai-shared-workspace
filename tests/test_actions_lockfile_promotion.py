@@ -65,6 +65,18 @@ class ActionsLockfilePromotionTests(unittest.TestCase):
             self.assertIn(SOURCE_ID, after_sources)
             self.assertIn(LEARNING_ID, after_learnings)
             self.assertIn(PROMO.name, report["files"])
+            # Replaying the same staged promotion must not create a new
+            # source/learning, rewrite the ledgers, or discard history.
+            catalog_path = root / "knowledge/source_catalog.json"
+            ledger_path = root / "knowledge/learning_ledger.json"
+            catalog_bytes = catalog_path.read_bytes()
+            ledger_bytes = ledger_path.read_bytes()
+            again = apply_promotions(root)
+            self.assertEqual(again["sources_created"], [])
+            self.assertEqual(again["learnings_created"], [])
+            self.assertEqual(again["changed_files"], [])
+            self.assertEqual(catalog_path.read_bytes(), catalog_bytes)
+            self.assertEqual(ledger_path.read_bytes(), ledger_bytes)
 
 
 if __name__ == "__main__":
