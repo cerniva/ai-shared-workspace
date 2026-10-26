@@ -1,136 +1,136 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-25T05:50:23+00:00",
-  "week": "2026W43",
+  "generated_at": "2026-10-26T11:15:47+00:00",
+  "week": "2026W44",
   "window_days": 7,
   "inputs": {
     "workflow_runs": 1000,
     "bot_prs": 24,
-    "health_snapshots": 180
+    "health_snapshots": 157
   },
   "bottlenecks": {
     "slowest_workflows": [
       {
-        "workflow": "CodeQL code scanning",
-        "path": ".github/workflows/codeql.yml",
-        "runs": 32,
+        "workflow": "tinyfish-youtube-analytics",
+        "path": ".github/workflows/tinyfish-youtube-analytics.yml",
+        "runs": 1,
         "failures": 0,
-        "median_s": 69.5,
-        "max_s": 100.0,
+        "median_s": 93.0,
+        "max_s": 93.0,
         "failure_rate": 0.0
       },
       {
-        "workflow": "shorts-free-smoke-once",
-        "path": ".github/workflows/shorts-free-smoke-once.yml",
-        "runs": 6,
+        "workflow": "CodeQL code scanning",
+        "path": ".github/workflows/codeql.yml",
+        "runs": 58,
         "failures": 0,
-        "median_s": 66.0,
-        "max_s": 72.0,
+        "median_s": 65.0,
+        "max_s": 91.0,
         "failure_rate": 0.0
       },
       {
         "workflow": "shorts-render-tests",
         "path": ".github/workflows/shorts-render-tests.yml",
-        "runs": 8,
-        "failures": 1,
-        "median_s": 63.5,
-        "max_s": 92.0,
-        "failure_rate": 0.125
+        "runs": 23,
+        "failures": 5,
+        "median_s": 60.0,
+        "max_s": 2772.0,
+        "failure_rate": 0.217
       }
     ],
     "most_failing_workflow": {
-      "workflow": "takipci-denetci",
-      "path": ".github/workflows/takipci-denetci.yml",
-      "runs": 45,
-      "failures": 6,
-      "median_s": 12.0,
-      "max_s": 2749.0,
-      "failure_rate": 0.133
+      "workflow": "shorts-render-tests",
+      "path": ".github/workflows/shorts-render-tests.yml",
+      "runs": 23,
+      "failures": 5,
+      "median_s": 60.0,
+      "max_s": 2772.0,
+      "failure_rate": 0.217
     },
     "longest_open_handoff": {
       "id": "HO-20261009-08",
       "to": "auditor",
       "status": "open",
-      "age_h": 368.8,
+      "age_h": 398.3,
       "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     },
     "most_down_provider": {
       "provider": "cerebras",
-      "down_h": 167.8,
-      "no_key_h": 167.8,
+      "down_h": 162.5,
+      "no_key_h": 162.5,
       "billing_h": 0.0,
       "quota_h": 0.0
     },
     "providers_down": [
       {
         "provider": "cerebras",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "claude",
-        "down_h": 167.8,
+        "down_h": 162.5,
         "no_key_h": 0.0,
-        "billing_h": 167.8,
+        "billing_h": 162.5,
         "quota_h": 0.0
       },
       {
         "provider": "deepseek",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "groq",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "local",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "mistral",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "openai",
-        "down_h": 167.8,
+        "down_h": 162.5,
         "no_key_h": 0.0,
         "billing_h": 0.0,
-        "quota_h": 167.8
+        "quota_h": 162.5
       },
       {
         "provider": "openrouter_free",
-        "down_h": 167.8,
-        "no_key_h": 167.8,
+        "down_h": 162.5,
+        "no_key_h": 162.5,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "gemini",
-        "down_h": 31.1,
+        "down_h": 23.3,
         "no_key_h": 0.0,
         "billing_h": 0.0,
-        "quota_h": 31.1
+        "quota_h": 23.3
       }
     ],
     "longest_waiting_bot_pr": {
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 344.5
+      "wait_h": 373.9
     },
     "yapamadim_count": 24
   },
@@ -261,113 +261,120 @@
       "id": "HO-20261009-08",
       "to": "auditor",
       "status": "open",
-      "age_h": 368.8,
+      "age_h": 398.3,
       "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
       "to": "auditor",
       "status": "open",
-      "age_h": 144.0,
+      "age_h": 173.4,
       "task": "[.github/workflows/shorts-free-smoke-once.yml] .github/workflows/shorts-free-smoke-once.yml iş akışındaki 66 saniyelik medyan çalışma süresini kısaltmak için; p"
     },
     {
       "id": "CI-39269730285",
       "to": "grok",
       "status": "open",
-      "age_h": 135.3,
+      "age_h": 164.7,
       "task": "CI failure in 'archive-heal' run 39269730285: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
       "to": "auditor",
       "status": "open",
-      "age_h": 120.0,
+      "age_h": 149.4,
       "task": "[.github/workflows/tinyfish-youtube-analytics.yml] 'tinyfish-youtube-analytics' medyan 99 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari "
     },
     {
       "id": "CI-39382139527",
       "to": "grok",
       "status": "open",
-      "age_h": 119.1,
+      "age_h": 148.5,
       "task": "CI failure in 'archive-heal' run 39382139527: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261021-slow-auto-merge-gate",
       "to": "auditor",
       "status": "open",
-      "age_h": 96.0,
+      "age_h": 125.4,
       "task": "[.github/workflows/auto-merge-gate.yml] 'auto-merge-gate' medyan 58 sn (44 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atl"
     },
     {
       "id": "CI-39568642118",
       "to": "grok",
       "status": "open",
-      "age_h": 93.4,
+      "age_h": 122.9,
       "task": "CI failure in 'archive-heal' run 39568642118: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39592612716",
       "to": "grok",
       "status": "open",
-      "age_h": 90.3,
+      "age_h": 119.7,
       "task": "CI failure in 'archive-heal' run 39592612716: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39617972568",
       "to": "grok",
       "status": "open",
-      "age_h": 87.2,
+      "age_h": 116.6,
       "task": "CI failure in 'archive-heal' run 39617972568: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261022-slow-shorts-render-tests",
       "to": "auditor",
       "status": "open",
-      "age_h": 72.0,
+      "age_h": 101.4,
       "task": "[.github/workflows/shorts-render-tests.yml] 'shorts-render-tests' medyan 57 sn (3 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresi"
     },
     {
       "id": "CI-39733548992",
       "to": "grok",
       "status": "open",
-      "age_h": 71.4,
+      "age_h": 100.8,
       "task": "CI failure in 'archive-heal' run 39733548992: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39755405014",
       "to": "grok",
       "status": "open",
-      "age_h": 68.4,
+      "age_h": 97.8,
       "task": "CI failure in 'archive-heal' run 39755405014: jobs heal[Heal archives from git history (fail-closed)]; first error: Traceback (most recent call last):"
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
       "to": "auditor",
       "status": "open",
-      "age_h": 48.0,
+      "age_h": 77.4,
       "task": "[.github/workflows/archive-heal.yml] .github/workflows/archive-heal.yml workflow'undaki 68 saniyelik medyan süreyi düşürmek amacıyla, pip ve apt bağımlılık pake"
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
       "to": "auditor",
       "status": "open",
-      "age_h": 24.0,
+      "age_h": 53.4,
       "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml workflow'undaki 56 saniyelik darboğazı gidermek için Pip ve "
     },
     {
       "id": "CI-40086311263",
       "to": "grok",
       "status": "open",
-      "age_h": 19.3,
+      "age_h": 48.7,
       "task": "CI failure in 'shorts-free-smoke-once' run 40086311263: jobs smoke[Run free-first unit tests]; first error: test_cerno_30s_cap_and_broadcast_clips_block_without"
     },
     {
       "id": "CI-40115771434",
       "to": "grok",
       "status": "open",
-      "age_h": 12.4,
+      "age_h": 41.9,
       "task": "CI failure in 'shorts-render-tests' run 40115771434: jobs test[?]; first error: tests/test_shorts_atomic_gate.py::AtomicShortsGateTests::test_audio_rejection_le"
+    },
+    {
+      "id": "HO-IMP-20261025-slow-codeql-code-scanning",
+      "to": "auditor",
+      "status": "open",
+      "age_h": 29.4,
+      "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, b"
     }
   ],
   "bot_prs": [
@@ -375,249 +382,249 @@
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 344.5
+      "wait_h": 373.9
     },
     {
       "number": 185,
       "branch": "bot/lessons-pr-183",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/185",
-      "wait_h": 294.3
+      "wait_h": 323.8
     },
     {
       "number": 263,
       "branch": "bot/lessons-pr-260",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/263",
-      "wait_h": 142.7
+      "wait_h": 172.1
     },
     {
       "number": 265,
       "branch": "bot/CI-39218921179-39219028905",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/265",
-      "wait_h": 141.9
+      "wait_h": 171.3
     },
     {
       "number": 267,
       "branch": "bot/CI-39269730285-39269909672",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/267",
-      "wait_h": 135.3
+      "wait_h": 164.7
     },
     {
       "number": 271,
       "branch": "bot/CI-39364890322-39364989642",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/271",
-      "wait_h": 122.3
+      "wait_h": 151.7
     },
     {
       "number": 272,
       "branch": "bot/HO-IMP-20261020-slow-tinyfish-youtube-analytics-39377254275",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/272",
-      "wait_h": 119.9
+      "wait_h": 149.4
     },
     {
       "number": 275,
       "branch": "bot/CI-39382139527-39382253704",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/275",
-      "wait_h": 119.1
+      "wait_h": 148.5
     },
     {
       "number": 277,
       "branch": "bot/CI-39456475383-39456639571",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/277",
-      "wait_h": 109.5
+      "wait_h": 138.9
     },
     {
       "number": 279,
       "branch": "bot/CI-39458487246-39458632717",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/279",
-      "wait_h": 109.2
+      "wait_h": 138.7
     },
     {
       "number": 284,
       "branch": "bot/HO-IMP-20261021-slow-auto-merge-gate-39552039106",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/284",
-      "wait_h": 95.9
+      "wait_h": 125.4
     },
     {
       "number": 286,
       "branch": "bot/CI-39568642118-39568760132",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/286",
-      "wait_h": 93.4
+      "wait_h": 122.9
     },
     {
       "number": 288,
       "branch": "bot/CI-39591667571-39591813281",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/288",
-      "wait_h": 90.4
+      "wait_h": 119.8
     },
     {
       "number": 290,
       "branch": "bot/CI-39592612716-39592712349",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/290",
-      "wait_h": 90.3
+      "wait_h": 119.7
     },
     {
       "number": 292,
       "branch": "bot/CI-39617972568-39618168443",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/292",
-      "wait_h": 87.2
+      "wait_h": 116.6
     },
     {
       "number": 294,
       "branch": "bot/HO-IMP-20261022-slow-shorts-render-tests-39730491018",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/294",
-      "wait_h": 72.0
-    },
-    {
-      "number": 296,
-      "branch": "bot/CI-39733346498-39733433084",
-      "url": "https://github.com/cerniva/ai-shared-workspace/pull/296",
-      "wait_h": 71.5
+      "wait_h": 101.4
     },
     {
       "number": 298,
       "branch": "bot/CI-39733548992-39733655968",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/298",
-      "wait_h": 71.4
+      "wait_h": 100.9
+    },
+    {
+      "number": 296,
+      "branch": "bot/CI-39733346498-39733433084",
+      "url": "https://github.com/cerniva/ai-shared-workspace/pull/296",
+      "wait_h": 100.9
     },
     {
       "number": 302,
       "branch": "bot/CI-39755405014-39755603005",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/302",
-      "wait_h": 68.4
+      "wait_h": 97.8
     },
     {
       "number": 300,
       "branch": "bot/CI-39755284076-39755400923",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/300",
-      "wait_h": 68.4
+      "wait_h": 97.8
     },
     {
       "number": 305,
       "branch": "bot/HO-IMP-20261023-slow-archive-heal-39908301440",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/305",
-      "wait_h": 47.9
+      "wait_h": 77.3
     },
     {
       "number": 311,
       "branch": "bot/CI-39925351995-39925547310",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/311",
-      "wait_h": 45.3
+      "wait_h": 74.7
     },
     {
       "number": 313,
       "branch": "bot/CI-39961063903-39961195602",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/313",
-      "wait_h": 40.4
+      "wait_h": 69.8
     },
     {
       "number": 316,
       "branch": "bot/CI-39995132216-39995320554",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/316",
-      "wait_h": 36.4
+      "wait_h": 65.8
     }
   ],
   "suggestions": [
     {
+      "key": "slow-tinyfish-youtube-analytics",
+      "kind": "speedup",
+      "target": ".github/workflows/tinyfish-youtube-analytics.yml",
+      "text": "'tinyfish-youtube-analytics' medyan 93 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
-    },
-    {
-      "key": "slow-shorts-free-smoke-once",
-      "kind": "speedup",
-      "target": ".github/workflows/shorts-free-smoke-once.yml",
-      "text": "'shorts-free-smoke-once' medyan 66 sn (6 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 65 sn (58 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-shorts-render-tests",
       "kind": "speedup",
       "target": ".github/workflows/shorts-render-tests.yml",
-      "text": "'shorts-render-tests' medyan 64 sn (8 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'shorts-render-tests' medyan 60 sn (23 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
-      "key": "fail-takipci-denetci",
+      "key": "fail-shorts-render-tests",
       "kind": "reliability",
-      "target": ".github/workflows/takipci-denetci.yml",
-      "text": "'takipci-denetci' basarisizlik orani %13 (6/45). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+      "target": ".github/workflows/shorts-render-tests.yml",
+      "text": "'shorts-render-tests' basarisizlik orani %22 (5/23). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
     },
     {
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 167.8 saat dustu (no_key 167.8, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 162.5 saat dustu (no_key 162.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
       "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-08 (auditor, open) 368.8 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 398.3 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 344.5 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 373.9 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "ranked_speedups": [
     {
+      "key": "slow-tinyfish-youtube-analytics",
+      "kind": "speedup",
+      "target": ".github/workflows/tinyfish-youtube-analytics.yml",
+      "text": "'tinyfish-youtube-analytics' medyan 93 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+    },
+    {
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
-    },
-    {
-      "key": "slow-shorts-free-smoke-once",
-      "kind": "speedup",
-      "target": ".github/workflows/shorts-free-smoke-once.yml",
-      "text": "'shorts-free-smoke-once' medyan 66 sn (6 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 65 sn (58 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-shorts-render-tests",
       "kind": "speedup",
       "target": ".github/workflows/shorts-render-tests.yml",
-      "text": "'shorts-render-tests' medyan 64 sn (8 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'shorts-render-tests' medyan 60 sn (23 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
-      "key": "fail-takipci-denetci",
+      "key": "fail-shorts-render-tests",
       "kind": "reliability",
-      "target": ".github/workflows/takipci-denetci.yml",
-      "text": "'takipci-denetci' basarisizlik orani %13 (6/45). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
+      "target": ".github/workflows/shorts-render-tests.yml",
+      "text": "'shorts-render-tests' basarisizlik orani %22 (5/23). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle."
     },
     {
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 167.8 saat dustu (no_key 167.8, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 162.5 saat dustu (no_key 162.5, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
       "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-08 (auditor, open) 368.8 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 398.3 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 344.5 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 373.9 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "speedup": {
-    "key": "slow-codeql-code-scanning",
-    "kind": "speedup",
-    "target": ".github/workflows/codeql.yml",
-    "text": "'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
-    "enriched_by": null,
-    "model_error": "YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=quota, deepseek=no_key, openai=no_key, local=no_key, github_models=error, claude=no_key, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin);"
+    "key": "fail-shorts-render-tests",
+    "kind": "reliability",
+    "target": ".github/workflows/shorts-render-tests.yml",
+    "text": "'shorts-render-tests' basarisizlik orani %22 (5/23). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+    "enriched_by": "gemini",
+    "model_text": "GitHub Actions darboğazını gidermek için `.github/workflows/shorts-render-tests.yml` dosyasındaki test adımına belirleyici bir `timeout-minutes` (örneğin 10 dakika) sınırı ekleyip takılan süreçleri sonlandırın; ayrıca kararsız render adımları için `retry` konfigürasyonu uygulayarak ve son kırık koşudaki ilk log hatasını düzelterek %22'lik (5/23) başarısızlık oranını düşürebilir ve ortalama derleme sürelerini somut biçimde hızlandırabilirsiniz."
   },
   "dispatch": {
     "status": "pending",
-    "handoff_id": "HO-IMP-20261025-slow-codeql-code-scanning",
+    "handoff_id": "HO-IMP-20261026-fail-shorts-render-tests",
     "payload": {
-      "handoff_id": "HO-IMP-20261025-slow-codeql-code-scanning",
-      "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "handoff_id": "HO-IMP-20261026-fail-shorts-render-tests",
+      "task": "[.github/workflows/shorts-render-tests.yml] GitHub Actions darboğazını gidermek için `.github/workflows/shorts-render-tests.yml` dosyasındaki test adımına belirleyici bir `timeout-minutes` (örneğin 10 dakika) sınırı ekleyip takılan süreçleri sonlandırın; ayrıca kararsız render adımları için `retry` konfigürasyonu uygulayarak ve son kırık koşudaki ilk log hatasını düzelterek %22'lik (5/23) başarısızlık oranını düşürebilir ve ortalama derleme sürelerini somut biçimde hızlandırabilirsiniz.",
       "source": "improvement-bot"
     }
   },
