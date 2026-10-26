@@ -342,7 +342,7 @@ class ReporterTests(Base):
         target.parent.mkdir(parents=True)
         valid = {"schema_version": 1, "sources": [{"source_id": sid, "canonical": canonical}],
                  "learnings": [{"learning_id": lid, "domain": domain, "claim": claim, "title": "Verified staged candidate",
-                                "source_ids": [sid]}]}
+                                "source_ids": [sid], "plan_tags": ["finance"]}]}
         target.write_text(json.dumps(valid))
         report = ga.reporter(root=self.root, gh=gh,
                              now=datetime(2026, 10, 24, 12, 1, tzinfo=timezone.utc))
@@ -351,6 +351,16 @@ class ReporterTests(Base):
 
         bad_docs = [
             '{broken json',
+            # A valid ID alone cannot count as a staged learning for the wrong
+            # plan, an inactive learning, or a row without an explicit plan tag.
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0],
+                                               "plan_tags": ["system"]}]}),
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0],
+                                               "status": "inactive"}]}),
+            json.dumps({**valid, "learnings": [{**valid["learnings"][0],
+                                               "plan_tags": []}]}),
+            json.dumps({**valid, "learnings": [{k: v for k, v in valid["learnings"][0].items()
+                                               if k != "plan_tags"}]}),
             json.dumps({**valid, "schema_version": 0}),
             json.dumps({**valid, "learnings": [{**valid["learnings"][0], "source_ids": ["wrong"]}]}),
             json.dumps({**valid, "sources": [{**valid["sources"][0],
@@ -362,7 +372,7 @@ class ReporterTests(Base):
             json.dumps({**valid, "sources": valid["sources"] + valid["sources"]}),
             json.dumps({**valid, "learnings": valid["learnings"] +
                         [{"learning_id": "learn_fake", "domain": domain, "claim": "bad",
-                          "title": "Injected", "source_ids": [sid]}]}),
+                          "title": "Injected", "source_ids": [sid], "plan_tags": ["finance"]}]}),
             json.dumps({**valid, "learnings": valid["learnings"] + valid["learnings"]}),
             json.dumps({**valid, "learnings": [{**valid["learnings"][0],
                                                "source_ids": [sid, sid]}]}),
@@ -399,7 +409,7 @@ class ReporterTests(Base):
         doc = {"schema_version": 1,
                "sources": [{"source_id": sid, "canonical": canonical}],
                "learnings": [{"learning_id": lid, "domain": domain,
-                              "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}
+                              "claim": claim, "title": "Verified staged candidate", "source_ids": [sid], "plan_tags": ["finance"]}]}
         target.write_text(json.dumps(doc))
         original = target.read_bytes()
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
@@ -428,7 +438,7 @@ class ReporterTests(Base):
             "schema_version": 1,
             "sources": [{"source_id": sid, "canonical": canonical}],
             "learnings": [{"learning_id": lid, "domain": domain,
-                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}))
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid], "plan_tags": ["finance"]}]}))
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
             "domains": {"finance": {"status": "staged", "path": rel,
                                     "source_id": sid, "learning_id": lid}}}))
@@ -450,7 +460,7 @@ class ReporterTests(Base):
             "schema_version": 1,
             "sources": [{"source_id": sid, "canonical": canonical}],
             "learnings": [{"learning_id": lid, "domain": domain,
-                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]}))
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid], "plan_tags": ["finance"]}]}))
         (self.root / "state" / "research_learner.json").write_text(json.dumps({
             "domains": {"finance": {"status": "staged", "path": rel,
                                     "source_id": sid, "learning_id": lid}}}))
@@ -473,7 +483,7 @@ class ReporterTests(Base):
             "schema_version": 1,
             "sources": [{"source_id": sid, "canonical": canonical}],
             "learnings": [{"learning_id": lid, "domain": domain,
-                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid]}]
+                           "claim": claim, "title": "Verified staged candidate", "source_ids": [sid], "plan_tags": ["finance"]}]
         }), encoding="utf-8")
         (self.root / "knowledge" / "learning_ledger.json").write_text(
             "{broken", encoding="utf-8")
