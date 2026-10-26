@@ -133,6 +133,15 @@ class YouTubeUploadReceiptTests(unittest.TestCase):
             self.assertEqual(receipt.read_bytes(), b"{partial receipt from interrupted run")
 
 
+    def test_direct_upload_without_receipt_blocks_before_network_or_oauth(self):
+        """The library entrypoint cannot bypass the mandatory receipt path."""
+        with patch.object(youtube_upload, "credentials_from_env") as credentials:
+            with self.assertRaisesRegex(ValueError, "receipt_path is required"):
+                youtube_upload.upload(Path("missing.mp4"),
+                                      {"title": "Test", "description": "Test"},
+                                      False, False, False)
+        credentials.assert_not_called()
+
     def test_cli_fails_closed_without_durable_receipt_path(self):
         """Missing receipt must be rejected before reading media or invoking YouTube."""
         argv = ["youtube_upload.py", "nonexistent.mp4", "meta.json",
