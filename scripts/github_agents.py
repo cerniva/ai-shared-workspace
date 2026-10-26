@@ -489,6 +489,8 @@ def _ci_line(gh: GitHub) -> str:
     runs = data.get("workflow_runs")
     if not isinstance(runs, list):
         return "okunamadı (workflow_runs eksik)"
+    if not runs:
+        return "CI kanıtı yok (0 workflow run); tüm CI yeşil doğrulanmadı"
     # GitHub returns newest runs first. Keep the newest status even when it
     # is queued/in progress: an older successful run must not mask it.
     latest: dict[str, str] = {}
