@@ -262,6 +262,21 @@ class ReporterTests(Base):
         self.assertIn("tüm CI yeşil doğrulanmadı", line)
         self.assertIn("örnekte başarısız: yok", line)
 
+    def test_ci_distinct_workflows_with_same_display_name_are_not_collapsed(self):
+        class SameNameHTTP:
+            def __call__(self, method, url, body):
+                return {"total_count": 3, "workflow_runs": [
+                    {"workflow_id": 101, "name": "CI", "status": "completed", "conclusion": "success"},
+                    {"workflow_id": 202, "name": "CI", "status": "completed", "conclusion": "failure"},
+                    {"workflow_id": 101, "name": "CI", "status": "completed", "conclusion": "failure"},
+                ]}
+
+        line = ga._ci_line(ga.GitHub("o/r", "t", SameNameHTTP()))
+        self.assertIn("2 workflow", line)
+        self.assertIn("örnekte başarısız: CI#202", line)
+        self.assertNotIn("örnekte başarısız: yok", line)
+        self.assertNotIn("CI#101", line)
+
     def test_ci_newest_in_progress_cannot_be_masked_by_old_success(self):
         class PagedHTTP:
             def __call__(self, method, url, body):
