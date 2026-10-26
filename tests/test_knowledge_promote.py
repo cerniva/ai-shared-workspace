@@ -162,6 +162,25 @@ class KnowledgePromoteTests(unittest.TestCase):
                 self.assertEqual(self.catalog.read_bytes(), before)
                 self.assertFalse(self.ledger.exists())
 
+    def test_symlinked_promotions_directory_is_rejected_without_writes(self) -> None:
+        """Do not follow an out-of-scope directory containing valid JSON files."""
+        folder = self.root / "knowledge" / "promotions"
+        folder.rmdir()
+        outside = self.root / "outside-promotions"
+        outside.mkdir()
+        (outside / "p.json").write_text(json.dumps({
+            "schema_version": 1,
+            "source": SOURCE,
+            "learning": learning(self.sid),
+        }), encoding="utf-8")
+        folder.symlink_to(outside, target_is_directory=True)
+        before = self.catalog.read_bytes()
+        with self.assertRaisesRegex(CatalogError, "symlink promotions directory"):
+            apply_promotions(self.root)
+        self.assertEqual(self.catalog.read_bytes(), before)
+        self.assertFalse(self.ledger.exists())
+        self.assertIsNone(SourceCatalog(self.catalog).find(self.sid))
+
     def test_symlinked_promotion_is_rejected_without_canonical_writes(self) -> None:
         """A valid JSON target outside promotions/ must not be imported."""
         outside = self.root / "outside-valid-promotion.json"
