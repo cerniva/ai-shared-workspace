@@ -67,7 +67,12 @@ jobs:
             git diff --cached --stat
             git commit -m "archive-heal: append-only mesaj arşivleri geçmişten onarıldı"
             if git push origin HEAD:main; then
-              exit 0
+              # A successful push is not enough: read the remote ref back.
+              # If a concurrent writer advanced main, retry from fresh main.
+              if git fetch origin main && [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]]; then
+                exit 0
+              fi
+              echo "archive-heal: remote read-back mismatch; retry from fresh main" >&2
             fi
             sleep "$attempt"
           done

@@ -45,6 +45,8 @@ class ArchiveHealFreshMainTests(unittest.TestCase):
         self.assertIn('python3 -m json.tool config/archive_heal_notes.json', shell)
         self.assertNotIn('git pull --rebase', shell)
         self.assertNotIn('git push --force', shell)
+        self.assertIn('git fetch origin main && [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]]', shell)
+        self.assertIn('archive-heal: remote read-back mismatch', shell)
         self.assertIn('git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md', shell)
 
     def test_non_main_dispatch_fails_before_archive_write(self) -> None:
