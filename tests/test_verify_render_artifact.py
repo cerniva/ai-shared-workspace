@@ -11,7 +11,7 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, SOURCE_URL, active_rule, verify_and_extract, main
+from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, SOURCE_URL, active_rule, fetch_metadata, verify_and_extract, main
 from scripts.knowledge_bridge import DEFAULT_CATALOG
 from scripts.learning_bridge import DEFAULT_LEDGER
 
@@ -130,6 +130,47 @@ class DigestConsumerTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "bridge_failure: invalid system learning/source integrity"):
                     active_rule(ledger=ledger_path, catalog=catalog_path)
 
+
+    def test_artifact_metadata_single_page_complete(self):
+        artifact = {
+            "id": 17, "name": "shorts-free-render", "expired": False,
+            "archive_download_url": "https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/17/zip",
+        }
+        payload = {"total_count": 1, "artifacts": [artifact]}
+        with patch("scripts.verify_render_artifact.urlopen",
+                   return_value=io.BytesIO(json.dumps(payload).encode("utf-8"))):
+            result = fetch_metadata("cerniva/ai-shared-workspace", 42, "shorts-free-render", "test-token")
+        self.assertEqual(result, artifact)
+
+    def test_artifact_metadata_partial_page_fails_closed(self):
+        # A first-page match is not proof of uniqueness across later pages.
+        artifact = {
+            "id": 17, "name": "shorts-free-render", "expired": False,
+            "archive_download_url": "https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/17/zip",
+        }
+        for payload in (
+            {"total_count": 101, "artifacts": [artifact]},
+            {"artifacts": [artifact]},
+            {"total_count": 1, "artifacts": []},
+        ):
+            with self.subTest(payload=payload), patch(
+                "scripts.verify_render_artifact.urlopen",
+                return_value=io.BytesIO(json.dumps(payload).encode("utf-8")),
+            ):
+                with self.assertRaisesRegex(ValueError, "incomplete artifact metadata pagination"):
+                    fetch_metadata("cerniva/ai-shared-workspace", 42, "shorts-free-render", "test-token")
+
+    def test_artifact_metadata_duplicate_name_fails_closed(self):
+        artifacts = [
+            {"id": i, "name": "shorts-free-render", "expired": False,
+             "archive_download_url": f"https://api.github.com/repos/cerniva/ai-shared-workspace/actions/artifacts/{i}/zip"}
+            for i in (17, 18)
+        ]
+        payload = {"total_count": 2, "artifacts": artifacts}
+        with patch("scripts.verify_render_artifact.urlopen",
+                   return_value=io.BytesIO(json.dumps(payload).encode("utf-8"))):
+            with self.assertRaisesRegex(ValueError, "expected one non-expired artifact"):
+                fetch_metadata("cerniva/ai-shared-workspace", 42, "shorts-free-render", "test-token")
 
     def test_failed_download_never_logs_secret_or_applies_learning(self):
         stderr = io.StringIO()
