@@ -214,7 +214,31 @@ def _caption_margin_ass_units(width: int, height: int) -> int:
     return max(18, round(target_bottom_margin_px * 288.0 / 1920.0))
 
 
-def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str) -> dict:
+
+def _video_filter(width: int, height: int, composition: str = "pad") -> str:
+    """Build a non-cropping 9:16 filter; neither mode grants framing approval.
+
+    'blur' fills letterbox space with a blurred copy of the source while
+    preserving the entire original image in the foreground. Both modes still
+    require shot-by-shot review of source overlays and caption placement.
+    """
+    if composition not in {"pad", "blur"}:
+        raise ValueError("composition must be pad or blur")
+    caption_margin = _caption_margin_ass_units(width, height)
+    caption_style = f"subtitles=captions.srt:force_style='Alignment=2,MarginV={caption_margin}'"
+    if composition == "pad":
+        return ("scale=1080:1920:force_original_aspect_ratio=decrease,"
+                "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
+                f"format=yuv420p,{caption_style}")
+    return ("split=2[fg][bg];"
+            "[bg]scale=1080:1920:force_original_aspect_ratio=increase,"
+            "crop=1080:1920,boxblur=30:2[blurred];"
+            "[fg]scale=1080:1920:force_original_aspect_ratio=decrease[foreground];"
+            "[blurred][foreground]overlay=(W-w)/2:(H-h)/2,"
+            f"setsar=1,fps=30,format=yuv420p,{caption_style}")
+
+
+def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str, composition: str = "pad") -> dict:
     source, captions, evidence_file, output = map(lambda x: Path(x).resolve(), (source, captions, evidence_file, output))
     if not all(path.is_file() for path in (source, captions, evidence_file)):
         raise ValueError("source, captions and rights evidence must be existing local files")
@@ -230,6 +254,8 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         raise ValueError("start must be nonnegative and clip duration 30–40 seconds")
     if not re.fullmatch(r"[A-Za-z]{2}(?:-[A-Za-z]{2})?", language):
         raise ValueError("language must be a BCP-47 language tag, e.g. en or tr")
+    if composition not in {"pad", "blur"}:
+        raise ValueError("composition must be pad or blur")
     rights = validate_rights(source, captions, evidence_file, language)
     for binary in ("ffmpeg", "ffprobe"):
         if not shutil.which(binary):
@@ -265,14 +291,11 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
         if len(source_audio_tracks) != 1:
             raise ValueError("source must have exactly one unambiguous original audio track")
         candidate = work / "candidate.mp4"
-        # Pad rather than crop: preserves people and objects when center-crop would cut them off.
-        caption_margin = _caption_margin_ass_units(
-            int(source_video_tracks[0]["width"]), int(source_video_tracks[0]["height"])
+        # Both modes preserve the full source foreground; neither is scene QA.
+        filt = _video_filter(
+            int(source_video_tracks[0]["width"]),
+            int(source_video_tracks[0]["height"]), composition
         )
-        filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
-                "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
-                "format=yuv420p,subtitles=captions.srt:"
-                f"force_style='Alignment=2,MarginV={caption_margin}'")
         command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-n",
                    "-ss", f"{start:.3f}", "-i", str(snapshot), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
@@ -312,6 +335,7 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
                 "spoken_language": language, "caption_language": language,
                 "audio_source": "original_source", "synthetic_narration": False,
                 "motion_qc": motion["motion_qc"], "audio_qc": audio["audio_qc"],
+                "composition": composition, "framing_review_pending": True,
                 "publish_ready": False, "rights_review_pending": True,
                 "independent_media_review_pending": True, "credits_spent": 0}
 
@@ -323,10 +347,13 @@ def main() -> int:
     parser.add_argument("--start", type=float, required=True)
     parser.add_argument("--duration", type=float, required=True)
     parser.add_argument("--language", type=str, required=True)
+    parser.add_argument("--composition", choices=("pad", "blur"), default="pad",
+                        help="Non-cropping 9:16 background; always requires framing QA")
     args = parser.parse_args()
     try:
         report = render(args.source, args.captions, args.evidence, args.output,
-                        start=args.start, seconds=args.duration, language=args.language)
+                        start=args.start, seconds=args.duration, language=args.language,
+                        composition=args.composition)
     except (ValueError, RuntimeError, OSError, subprocess.TimeoutExpired) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False))
         return 2
