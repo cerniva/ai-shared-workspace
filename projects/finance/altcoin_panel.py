@@ -188,9 +188,12 @@ def _require_altseason_learning(cfg: dict[str, Any]) -> str:
     report = plan_learnings("finance")
     if report.get("error"):
         raise ValueError("bridge_failure: finance learning load failed: " + str(report["error"]))
-    row = next((item for item in report.get("learnings", [])
-                if item.get("learning_id") == FINANCE_ALTSEASON_LEARNING_ID), None)
-    if not row or not row.get("source_ids"):
+    matches = [item for item in report.get("learnings", [])
+               if item.get("learning_id") == FINANCE_ALTSEASON_LEARNING_ID]
+    if len(matches) != 1:
+        raise ValueError("bridge_failure: altseason learning missing or duplicate")
+    row = matches[0]
+    if not row.get("source_ids"):
         raise ValueError("bridge_failure: active, source-linked altseason learning missing")
     try:
         known_sources = {item["source_id"] for item in SourceCatalog().list()}
