@@ -21,12 +21,13 @@
     "domain": "github-actions-dependency-integrity",
     "claim": "GitHub announced on 14 October 2026 that Actions workflow dependency lockfiles are in public preview on Free, Team and Enterprise Cloud plans; a reviewed actions.lock can bind onboarded workflows to recorded action, transitive action and reusable workflow commit SHAs even when tags or branches move. Locking does not establish that a dependency is trustworthy.",
     "evidence_status": "verified",
-    "decision": "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE: REVIEW_ONLY. The current main tree has no .github/workflows/actions.lock. Inventory the actions/reusable-workflow dependencies, assess GitHub Actions lockfile preview eligibility, and use a non-mutating freshness check before any small pilot. Do not treat an untested preview as deployed protection or replace existing CI checks; require human review of pinned code and preserve working append-only workflows.",
+    "decision": "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE: REVIEW_ONLY. The current main tree has no .github/workflows/actions.lock. Inventory the actions/reusable-workflow dependencies, assess GitHub Actions lockfile preview eligibility, and use a non-mutating freshness check before any small pilot. Do not treat an untested preview as deployed protection or replace existing CI checks; require human review of pinned code and preserve working append-only workflows. Generate the lockfile with gh actions-lock (never hand-edit it); for reusable workflows, review the defining repository's lockfile because the caller's lockfile does not cover their internal transitive dependencies.",
     "outcome": "pending",
     "next_measurement": "Check a disposable PR/branch for lockfile preview support and a non-mutating lockfile freshness check; record exact head SHA, CI result, any permission/preview gate, and whether a real system report applies this learning. No production rollout without tested compatibility.",
     "learned_at": "2026-10-27T01:25:00+03:00",
     "provenance": "verified",
     "source_ids": [
+      "src_76811b880217b4a5",
       "src_f5fa4d6131d7db33"
     ],
     "plan_tags": [
@@ -41,5 +42,22 @@
   },
   "gates": [
     "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE"
+  ],
+  "sources": [
+    {
+      "source_id": "src_76811b880217b4a5",
+      "source_name": "GitHub Docs: workflow dependency lockfiles",
+      "canonical": "https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles",
+      "category": "system-actions-supply-chain",
+      "purpose": "Clarify gh actions-lock generation, repository identity pinning, and reusable-workflow transitive dependency scope",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free official documentation; no API key",
+      "reliability_limits": "Public preview and subject to change. The caller repository's lockfile does not lock transitive dependencies inside a reusable workflow defined in another repository; that workflow is governed by its defining repository's lockfile. No rollout or enablement verified.",
+      "discovered_at": "2026-10-27T03:25:53+03:00",
+      "last_successful_use": "2026-10-27T03:25:53+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
   ]
 }
