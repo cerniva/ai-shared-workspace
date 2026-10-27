@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-40480454452",
+  "source": "ci-bekci",
+  "run_id": "40480634925",
+  "task": "CI failure in 'shorts-render-tests' run 40480454452: jobs test[Full Python suite]; first error: tests/test_verify_render_artifact.py::DigestConsumerTests::test_active_learning_requires_official_source",
+  "generated_at": "2026-10-27T10:00:58+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40480454452",
+    "evidence": [
+      {
+        "path": "tests/test_verify_render_artifact.py",
+        "note": "CI run 40480454452 in workflow 'shorts-render-tests' failed at test DigestConsumerTests::test_active_learning_requires_official_source"
+      }
+    ],
+    "factual_findings": [
+      "Workflow 'shorts-render-tests' run 40480454452 failed on job 'test[Full Python suite]'.",
+      "First error encountered: 'tests/test_verify_render_artifact.py::DigestConsumerTests::test_active_learning_requires_official_source'."
+    ],
+    "hypotheses": [
+      "The digest consumer validation logic in 'tests/test_verify_render_artifact.py' failed because active learning requires official source provenance metadata that was missing or mismatched in the test setup.",
+      "A recent update to artifact verification rules enforced official source provenance, breaking test assertions for non-official source payloads."
+    ],
+    "recommendation": "Review 'tests/test_verify_render_artifact.py' and the associated artifact verification implementation to ensure active learning source metadata assertions match required official source specifications.",
+    "confidence": 0.85,
+    "next_action": "Inspect 'tests/test_verify_render_artifact.py' to analyze the active learning source validation assertions and test fixtures.",
+    "timing": {
+      "started_at": "2026-10-27T10:01:02.922790+00:00",
+      "duration_ms": 12281
+    },
+    "usage": {
+      "input_tokens": 157,
+      "output_tokens": 329,
+      "total_tokens": 2211
+    }
+  }
+}
