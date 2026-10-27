@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROMO = ROOT / "knowledge/promotions/2026-10-27-github-actions-lockfile-review.json"
 SOURCE_ID = "src_f5fa4d6131d7db33"
 SECONDARY_SOURCE_ID = "src_76811b880217b4a5"
+HOWTO_SOURCE_ID = "src_0b2addff54a24a9f"
 LEARNING_ID = "learn_a381f47f8f318363"
 GATE = "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE"
 
@@ -26,13 +27,19 @@ class ActionsLockfilePromotionTests(unittest.TestCase):
         self.assertEqual(doc["gates"], [GATE])
         source = normalize_record(doc["source"])
         secondary_source = normalize_record(doc["sources"][0])
-        learning = normalize_learning(doc["learning"], {SOURCE_ID, SECONDARY_SOURCE_ID})
+        howto_source = normalize_record(doc["sources"][1])
+        learning = normalize_learning(doc["learning"], {SOURCE_ID, SECONDARY_SOURCE_ID, HOWTO_SOURCE_ID})
         self.assertEqual(source["source_id"], SOURCE_ID)
         self.assertEqual(secondary_source["source_id"], SECONDARY_SOURCE_ID)
+        self.assertEqual(howto_source["source_id"], HOWTO_SOURCE_ID)
         self.assertEqual(learning["learning_id"], LEARNING_ID)
-        self.assertEqual(learning["source_ids"], sorted([SOURCE_ID, SECONDARY_SOURCE_ID]))
+        self.assertEqual(learning["source_ids"], sorted([SOURCE_ID, SECONDARY_SOURCE_ID, HOWTO_SOURCE_ID]))
         self.assertIn("never hand-edit", learning["decision"])
         self.assertIn("internal transitive dependencies", learning["decision"])
+        self.assertIn("allowlists", learning["decision"])
+        self.assertIn("rewrite workflow uses refs", learning["decision"])
+        self.assertIn("Enterprise Cloud", learning["decision"])
+        self.assertIn("Free/Team", learning["decision"])
         self.assertEqual(learning["plan_tags"], ["system"])
         self.assertIn(GATE, learning["decision"])
         self.assertIn("REVIEW_ONLY", learning["decision"])
@@ -41,14 +48,18 @@ class ActionsLockfilePromotionTests(unittest.TestCase):
         ledger = json.loads((ROOT / "knowledge/learning_ledger.json").read_text())
         same_urls = [row for row in catalog["sources"] if row["canonical"] == source["canonical"]]
         secondary_urls = [row for row in catalog["sources"] if row["canonical"] == secondary_source["canonical"]]
+        howto_urls = [row for row in catalog["sources"] if row["canonical"] == howto_source["canonical"]]
         same_ids = [row for row in ledger["learnings"] if row["learning_id"] == LEARNING_ID]
         self.assertLessEqual(len(same_urls), 1)
         self.assertLessEqual(len(secondary_urls), 1)
+        self.assertLessEqual(len(howto_urls), 1)
         self.assertLessEqual(len(same_ids), 1)
         if same_urls:
             self.assertEqual(same_urls[0]["source_id"], SOURCE_ID)
         if secondary_urls:
             self.assertEqual(secondary_urls[0]["source_id"], SECONDARY_SOURCE_ID)
+        if howto_urls:
+            self.assertEqual(howto_urls[0]["source_id"], HOWTO_SOURCE_ID)
         if same_ids:
             self.assertEqual(same_ids[0]["claim"], learning["claim"])
 
@@ -73,6 +84,7 @@ class ActionsLockfilePromotionTests(unittest.TestCase):
             self.assertTrue(before_learnings <= after_learnings)
             self.assertIn(SOURCE_ID, after_sources)
             self.assertIn(SECONDARY_SOURCE_ID, after_sources)
+            self.assertIn(HOWTO_SOURCE_ID, after_sources)
             self.assertIn(LEARNING_ID, after_learnings)
             self.assertIn(PROMO.name, report["files"])
             # Replaying the same staged promotion must not create a new
