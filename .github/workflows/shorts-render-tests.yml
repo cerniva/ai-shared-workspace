@@ -28,11 +28,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Install ffmpeg, eSpeak NG and pytest
+      - name: Install only missing free test dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg espeak-ng
-          python3 -m pip install --disable-pip-version-check pytest
+          # Hosted runners often have FFmpeg already; downloading its full apt
+          # dependency tree previously exceeded the 8-minute install step.
+          missing=()
+          command -v ffmpeg >/dev/null 2>&1 || missing+=(ffmpeg)
+          command -v espeak-ng >/dev/null 2>&1 || missing+=(espeak-ng)
+          if (( ${#missing[@]} )); then
+            sudo apt-get update
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing[@]}"
+          fi
+          python3 -m pip show pytest >/dev/null 2>&1 || python3 -m pip install --disable-pip-version-check pytest
+          ffmpeg -version | head -n 1
+          espeak-ng --version
+          python3 -m pytest --version
       - name: Renderer and workflow tests
         run: >-
           python3 -m unittest
