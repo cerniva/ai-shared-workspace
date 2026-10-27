@@ -77,6 +77,20 @@ class PR141PromotionGate(unittest.TestCase):
             self.assertFalse(set(learning["source_ids"]) - (set(known_sources) | staged_sources))
 
 
+    def test_gate_names_are_unique_across_promotions(self) -> None:
+        """Distinct staged promotions must not silently reuse a gate identity."""
+        seen: dict[str, str] = {}
+        for name in NAMES:
+            doc = json.loads((ROOT / "knowledge/promotions" / name).read_text(encoding="utf-8"))
+            gates = doc.get("gates")
+            self.assertIsInstance(gates, list, f"{name}: gates must be a list")
+            for gate in gates:
+                self.assertIsInstance(gate, str, f"{name}: gate must be a string")
+                self.assertTrue(gate.strip(), f"{name}: blank gate")
+                self.assertNotIn(gate, seen, f"{name}: gate {gate!r} duplicates {seen.get(gate)}")
+                seen[gate] = name
+        self.assertEqual(len(seen), 3)
+
     def test_imported_ids_exist_after_dry_run(self) -> None:
         """The PR gate must prove all staged IDs were actually imported."""
         if os.environ.get("PR141_REQUIRE_IMPORTED") != "1":
