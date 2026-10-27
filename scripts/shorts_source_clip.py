@@ -198,6 +198,22 @@ def _require_video_coverage(streams: list[dict], seconds: float) -> None:
         raise RuntimeError("rendered MP4 video does not cover full clip")
 
 
+
+def _caption_margin_ass_units(width: int, height: int) -> int:
+    """Place SRT captions inside the visible image, not in letterbox padding.
+
+    FFmpeg converts SRT to ASS with PlayResY=288; force_style MarginV uses
+    ASS script units, NOT output pixels. A raw 700px value would put captions
+    off-screen. This is a framing default, not a substitute for scene QA.
+    """
+    if width <= 0 or height <= 0:
+        raise ValueError("source dimensions must be positive")
+    visible_height = min(1920.0, 1080.0 * height / width)
+    bottom_padding_px = (1920.0 - visible_height) / 2.0
+    target_bottom_margin_px = bottom_padding_px + 90.0
+    return max(18, round(target_bottom_margin_px * 288.0 / 1920.0))
+
+
 def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, start: float, seconds: float, language: str) -> dict:
     source, captions, evidence_file, output = map(lambda x: Path(x).resolve(), (source, captions, evidence_file, output))
     if not all(path.is_file() for path in (source, captions, evidence_file)):
@@ -250,9 +266,13 @@ def render(source: Path, captions: Path, evidence_file: Path, output: Path, *, s
             raise ValueError("source must have exactly one unambiguous original audio track")
         candidate = work / "candidate.mp4"
         # Pad rather than crop: preserves people and objects when center-crop would cut them off.
+        caption_margin = _caption_margin_ass_units(
+            int(source_video_tracks[0]["width"]), int(source_video_tracks[0]["height"])
+        )
         filt = ("scale=1080:1920:force_original_aspect_ratio=decrease,"
                 "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
-                "format=yuv420p,subtitles=captions.srt")
+                "format=yuv420p,subtitles=captions.srt:"
+                f"force_style='Alignment=2,MarginV={caption_margin}'")
         command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-n",
                    "-ss", f"{start:.3f}", "-i", str(snapshot), "-t", f"{seconds:.3f}",
                    "-map", "0:v:0", "-map", "0:a:0", "-vf", filt,
