@@ -154,6 +154,22 @@ class SourceClipTests(unittest.TestCase):
                             "2\n00:00:02,000 --> 00:00:30,000\nReadable\n")
         self.assertIsNone(check_captions(self.srt, 30))
 
+    def test_landscape_caption_margin_uses_ass_units_inside_image(self):
+        from scripts.shorts_source_clip import _caption_margin_ass_units
+        # A 16:9 source is 608px high when padded to 1080x1920.
+        # ASS PlayResY=288: 112 script units = about 747 output pixels.
+        self.assertEqual(_caption_margin_ass_units(1920, 1080), 112)
+        self.assertLess(_caption_margin_ass_units(1920, 1080), 288)
+
+    def test_portrait_caption_margin_stays_in_bottom_safe_area(self):
+        from scripts.shorts_source_clip import _caption_margin_ass_units
+        self.assertEqual(_caption_margin_ass_units(1080, 1920), 18)
+
+    def test_caption_margin_rejects_invalid_source_dimensions(self):
+        from scripts.shorts_source_clip import _caption_margin_ass_units
+        with self.assertRaisesRegex(ValueError, "dimensions"):
+            _caption_margin_ass_units(0, 1080)
+
     def test_short_duration_blocks_before_ffmpeg(self):
         with self.assertRaisesRegex(ValueError, "30–40"):
             render(self.video, self.srt, self.evidence, self.root / "out.mp4",
