@@ -183,6 +183,7 @@ def _require_altseason_learning(cfg: dict[str, Any]) -> str:
     This is called by the *decision producer*, not by a detached loader job.
     """
     from scripts.plan_learnings import plan_learnings
+    from scripts.knowledge_bridge import CatalogError, SourceCatalog
 
     report = plan_learnings("finance")
     if report.get("error"):
@@ -191,6 +192,12 @@ def _require_altseason_learning(cfg: dict[str, Any]) -> str:
                 if item.get("learning_id") == FINANCE_ALTSEASON_LEARNING_ID), None)
     if not row or not row.get("source_ids"):
         raise ValueError("bridge_failure: active, source-linked altseason learning missing")
+    try:
+        known_sources = {item["source_id"] for item in SourceCatalog().list()}
+    except (CatalogError, OSError, ValueError, KeyError) as exc:
+        raise ValueError("bridge_failure: finance source catalog unavailable") from exc
+    if not set(row["source_ids"]).issubset(known_sources):
+        raise ValueError("bridge_failure: altseason learning references unknown source_ids")
     decision = row.get("decision", "")
     if not all(token in decision for token in ("No invented 0-100 values", "p20", "p80", "730")):
         raise ValueError("bridge_failure: altseason learning policy changed; review gate")
