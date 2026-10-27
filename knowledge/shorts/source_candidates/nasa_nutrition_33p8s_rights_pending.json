@@ -41,10 +41,11 @@
     "framing": "FRAMING_QA_BLOCKED",
     "decoded_media": "QC_BLOCKED",
     "independent_review": "PENDING",
-    "youtube_upload": "NOT_ATTEMPTED"
+    "youtube_upload": "NOT_ATTEMPTED",
+    "caption_readability": "TRANSCRIPT_BLOCKED"
   },
   "applied_learning_ids": {
-    "learn_ae8a18babc190373": "33.8-second candidate source was actually decoded and sampled, but fail-closed on embedded text crop and unresolved rights; no MP4 produced.",
+    "learn_ae8a18babc190373": "Actual SRT 23 cues screened; 11 exceed 20 CPS; PR #269 renderer now rejects unreadably fast cues before FFmpeg; original wording preserved pending human rights/sync review.",
     "learn_4decad368966e2e6": "Actual original WebM SHA-256 verified by GitHub Actions artifact and local extraction; final MP4 SHA remains null.",
     "learn_af28044522e96790": "publish_ready=false and upload NOT_ATTEMPTED; privacy, target channel and OAuth not assumed.",
     "learn_e74d8dd625c30863": "No retention/engaged-view conclusion from sparse public views."
@@ -56,5 +57,28 @@
   "source_media_duration_seconds": 181.561,
   "source_artifact": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40420896015/artifacts/12697513894",
   "source_artifact_expires_at": "2026-10-28T23:37:03Z",
-  "source_technical_qc": "Local SHA matches Actions SHA; VP9 1280x720, Opus stereo, one video and one audio stream; selected 33.8s decoded without FFmpeg error, no >1.5s freeze/black detected; NOT independent rights, sync, framing or publication QA."
+  "source_technical_qc": "Local SHA matches Actions SHA; VP9 1280x720, Opus stereo, one video and one audio stream; selected 33.8s decoded without FFmpeg error, no >1.5s freeze/black detected; NOT independent rights, sync, framing or publication QA.",
+  "caption_readability": {
+    "status": "TRANSCRIPT_BLOCKED",
+    "heuristic": "visible characters / cue seconds; threshold >20 CPS; not a proof of spoken-word sync",
+    "threshold_cps": 20,
+    "cues_checked": 23,
+    "over_limit_count": 11,
+    "over_limit_cue_ids": [
+      1,
+      2,
+      3,
+      6,
+      7,
+      11,
+      12,
+      15,
+      18,
+      19,
+      22
+    ],
+    "worst_cue_id": 15,
+    "worst_cps": 29.96,
+    "action": "No automatic rewording or retiming. Licensed caption derivative rights and human speech synchronization review required."
+  }
 }
