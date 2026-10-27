@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-27T07:51:18+00:00",
+  "generated_at": "2026-10-27T14:30:42+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 40432793299,
+          "id": 40489850063,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T01:28:43Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-10-27T10:36:55Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 40432800184,
+          "id": 40469648634,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T01:28:48Z",
+          "created_at": "2026-10-27T07:51:24Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 40463438096,
+          "id": 40513131319,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T06:49:55Z",
+          "created_at": "2026-10-27T13:34:00Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 40458441176,
+          "id": 40497535693,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T05:59:27Z",
+          "created_at": "2026-10-27T11:37:27Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml çalışma günlükleri incelenmeli ve shorts-free-render.yml otomasyonunun durumu kontrol edilmelidir."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız (failure) sonuçlandığı için sağlıklı görünmemektedir. Ayrıca aynı projede yer alan shorts-free-render.yml iş akışı henüz hiç çalıştırılmamıştır (never_run). Diğer tüm finans, bilgi ve sistem otomasyonları başarıyla tamamlanmıştır."
 }
