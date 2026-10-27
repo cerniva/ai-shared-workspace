@@ -52,6 +52,16 @@ class FinanceAppliedLearningTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown source_ids"):
             ap.altseason_panel(self.values, self.cfg)
 
+    @patch("scripts.plan_learnings.plan_learnings")
+    def test_duplicate_active_learning_blocks_decision(self, mock_loader):
+        row = {"learning_id": ap.FINANCE_ALTSEASON_LEARNING_ID,
+               "source_ids": ["src_6c5b905f2e76e38d"],
+               "decision": "No invented 0-100 values p20 p80 730"}
+        mock_loader.return_value = {"tag": "finance", "error": None,
+                                    "learnings": [row, copy.deepcopy(row)]}
+        with self.assertRaisesRegex(ValueError, "bridge_failure: .*duplicate"):
+            ap.altseason_panel(self.values, self.cfg)
+
     def test_calibration_drift_blocks_decision(self):
         cfg = copy.deepcopy(self.cfg)
         cfg["calibration"]["min_coverage"] = 0.5
