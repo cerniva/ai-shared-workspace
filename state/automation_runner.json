@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-27T01:28:42+00:00",
+  "generated_at": "2026-10-27T07:51:18+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 40400644867,
+          "id": 40432793299,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-26T21:00:30Z",
+          "created_at": "2026-10-27T01:28:43Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 40400658145,
+          "id": 40432800184,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-26T21:00:35Z",
+          "created_at": "2026-10-27T01:28:48Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 40428821613,
+          "id": 40463438096,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T00:49:29Z",
+          "created_at": "2026-10-27T06:49:55Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 40429860864,
+          "id": 40458441176,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-27T00:59:39Z",
+          "created_at": "2026-10-27T05:59:27Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad kategorisindeki youtube-upload.yml iş akışı başarısızlıkla sonuçlanmıştır. Ayrıca aynı kategorideki shorts-free-render.yml iş akışı henüz hiç çalıştırılmamıştır. Diğer kategorilerdeki tüm otomasyonlar ise sorunsuz şekilde tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml çalışma günlükleri incelenmeli ve shorts-free-render.yml otomasyonunun durumu kontrol edilmelidir."
 }
