@@ -17,25 +17,37 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 import zipfile
 
-from scripts.knowledge_bridge import SourceCatalog, DEFAULT_CATALOG
+from scripts.knowledge_bridge import CatalogError, SourceCatalog, DEFAULT_CATALOG
 from scripts.learning_bridge import LearningLedger, DEFAULT_LEDGER
 
 LEARNING_ID = "learn_4decad368966e2e6"
 SOURCE_ID = "src_569c596da7048714"
+SOURCE_URL = "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime"
 MAX_UNCOMPRESSED = 2 * 1024**3
 
 
 def active_rule(ledger=DEFAULT_LEDGER, catalog=DEFAULT_CATALOG):
-    rows = LearningLedger(ledger, catalog).for_plan("system")
+    """Verify both durable ledgers and the exact official source before applying a rule."""
+    source_catalog = SourceCatalog(catalog)
+    learning_ledger = LearningLedger(ledger, catalog)
+    try:
+        source_catalog.validate()
+        learning_ledger.validate()
+    except CatalogError as exc:
+        raise ValueError(f"bridge_failure: invalid system learning/source integrity: {exc}") from exc
+    rows = learning_ledger.for_plan("system")
     matches = [row for row in rows if row.get("learning_id") == LEARNING_ID
                and row.get("status", "active") == "active"]
     if len(matches) != 1 or SOURCE_ID not in matches[0].get("source_ids", []):
         raise ValueError("bridge_failure: active system digest learning missing or superseded")
     if "digest mismatch" not in matches[0].get("decision", ""):
         raise ValueError("bridge_failure: digest learning decision changed")
-    source = SourceCatalog(catalog).find(SOURCE_ID)
-    if not source or source.get("evidence_tier") != "official":
-        raise ValueError("bridge_failure: official artifact digest source missing")
+    source = source_catalog.find(SOURCE_ID)
+    if (not source or source.get("canonical") != SOURCE_URL
+            or source.get("evidence_tier") != "official"
+            or source.get("provenance") != "verified"
+            or source.get("access_status") != "verified-public"):
+        raise ValueError("bridge_failure: official artifact digest source identity mismatch")
     return {"learning_id": LEARNING_ID, "source_ids": [SOURCE_ID]}
 
 
