@@ -1,0 +1,60 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "audit_time_istanbul": "2026-10-27T04:20:00+03:00",
+  "status": "TRANSCRIPT_BLOCKED",
+  "publish_ready": false,
+  "purpose": "Independent technical VAD diagnostic of exact source audio. NOT a transcript word-alignment or rights approval.",
+  "source": {
+    "page": "https://commons.wikimedia.org/wiki/File:STEMonstration-_Nutrition.webm",
+    "source_artifact_id": 12697513894,
+    "artifact_run_id": 40420896015,
+    "zip_sha256": "e28bfd5fbb8e9c2e0bfca9b342eb4e09f1fc31c31f4f6cccbb7fee25e92b0f67",
+    "source_sha256": "40793f21f2d4377b9c958217bd7e8b43081bc4cf16fdac0a98c6bc28fcc9289d",
+    "start_seconds": 42.342,
+    "duration_seconds": 33.8,
+    "audio_stream": "original Opus; FFmpeg decoded to 16kHz mono PCM for diagnostic only"
+  },
+  "captions": {
+    "sha256": "fb2a232a67a084026f5356685b9822fc678ec4d34325f008cf0d890f81dca21a",
+    "language": "en",
+    "cues": 23,
+    "timed_coverage_fraction": 0.9680284191829485,
+    "largest_caption_gap_seconds": 1.101,
+    "gap_start_relative_seconds": 18.485,
+    "gap_end_relative_seconds": 19.586,
+    "gap_rms_dbfs": -20.02
+  },
+  "vad": {
+    "library": "webrtcvad 2.0.14",
+    "sample_rate_hz": 16000,
+    "frame_ms": 30,
+    "mode_speech_like_fractions": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 0.999
+    },
+    "mode2_within_captions": 1,
+    "mode2_outside_captions": 1,
+    "decision": "VAD cannot discriminate speech from non-speech in this excerpt: almost every frame is flagged even in the 1.101s caption gap. Do not infer spoken-word sync, lack of music, or third-party rights from VAD or audio level."
+  },
+  "gates": {
+    "source_integrity": "PASS_SHA_ONLY",
+    "spoken_word_sync": "TRANSCRIPT_BLOCKED",
+    "source_audio_rights": "RIGHTS_BLOCKED",
+    "caption_license": "RIGHTS_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "final_mp4": "QC_BLOCKED",
+    "independent_review": "PENDING",
+    "youtube_upload": "NOT_ATTEMPTED"
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Recomputed original ZIP and source SHA before extracting audio; mismatches would block analysis.",
+    "learn_ae8a18babc190373": "Technical VAD cannot substitute independent spoken-word/caption QA; keep TRANSCRIPT_BLOCKED.",
+    "learn_af28044522e96790": "No publish/upload because rights, QA and channel/OAuth gates remain unmet."
+  },
+  "next_action": "Independent bilingual/English-speaking reviewer listens to original 42.342–76.142s while inspecting exact 23-cue SRT, checks music and rights, and reviews full-frame portrait treatment. No production render until rights independently cleared.",
+  "forbidden_actions_performed": false,
+  "payoutlens_accessed": false
+}

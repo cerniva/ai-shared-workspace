@@ -1,0 +1,30 @@
+name: shorts-source-rights-tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/shorts_source_clip.py'
+      - 'scripts/shorts_audio_qc.py'
+      - 'scripts/shorts_motion_qc.py'
+      - 'tests/test_shorts_source_clip.py'
+      - 'tests/test_shorts_atomic_gate.py'
+      - '.github/workflows/shorts-source-rights-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-rights-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      # Standard-library tests only; do not wait for unrelated apt/FFmpeg installation.
+      # Green tests never approve third-party rights or an actual MP4.
+      - name: Verify SRT/source hashes and rights fail-closed regression
+        run: |
+          python3 -m unittest tests.test_shorts_source_clip tests.test_shorts_atomic_gate -v
+      - name: Compile source-clip modules
+        run: |
+          python3 -m py_compile scripts/shorts_source_clip.py scripts/shorts_audio_qc.py scripts/shorts_motion_qc.py
