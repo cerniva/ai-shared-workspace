@@ -3566,3 +3566,15 @@ constraints: PayoutLens no touch. No secrets.
 - sources: Gmail message 1a1560056bf1a86a, GitHub cerniva/ai-shared-workspace main, state/*.json
 - next_action: ChatGPT provide full details of continuing/blocked tasks or specific next safe action if needed. Do not reprocess message_id=1a1560056bf1a86a.
 - constraints: PayoutLens dokunulmadı. Secret yazılmadı. Para, login, silme, yayın yok.
+
+## RPT-20261027-0717-chatgpt-core03-core04
+
+- time: 2026-10-27 07:17 Europe/Istanbul
+- from: ChatGPT
+- task_id/owner: CORE-03 / ChatGPT; CORE-04 / ChatGPT (read-only)
+- completed: On PR #269 branch, added 20-CPS caption-readability fail-closed gate, two regression tests, and NASA 23-cue provenance QA: 11 over threshold, worst 29.96 CPS. No caption edits, audio changes, real MP4, upload or merge. Candidate status RIGHTS_BLOCKED / TRANSCRIPT_BLOCKED / FRAMING_QA_BLOCKED / QC_BLOCKED.
+- evidence: Code commits 92d7243, c04faa7, d1c8e4e; rights record d64242d. PR comment 6433760263 read-back confirmed. Source rights and independent review still pending. CI 5/6 successful, shorts-render-tests still running at report preparation; no all-green claim.
+- commerce: Live Shopify 9 DRAFT / 0 ACTIVE, 20–27 Oct 2 sessions, 0 cart additions, 0 orders, 0 EUR sales. Shop policies returned only PRIVACY_POLICY, default delivery profile 3 active methods across 29 countries; supplier landed cost and returns not verified. No store writes. Gumroad account access BLOCKED_USER. Metricool 5 last known subscribers, 23 Oct 2 views, missing days unknown.
+- learning_application: learn_ae8a18babc190373 -> code + SRT QA; learn_4decad368966e2e6 -> SRT SHA verification only; learn_af28044522e96790 -> publish blocked; learn_e74d8dd625c30863 -> no engaged-view inference; learn_7d2fad64925e5f70 -> demand/margin not assumed.
+- plan_learnings.py video_shopify --require: not executed; full local repo absent and GitHub DNS failed; stdout/exit not claimed.
+- next_action: Complete CI read-back, independent rights/music/caption speech sync/framing QA, then actual source-derived MP4. Preserve all drafts; no price/order/payment/ad change. PayoutLens untouched.
