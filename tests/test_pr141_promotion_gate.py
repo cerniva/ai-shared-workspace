@@ -18,6 +18,7 @@ NAMES = (
     "2026-10-10-0827-rest-ruleset-archive-gate.json",
     "2026-10-10-1127-github-rest-pagination-completeness.json",
     "2026-10-10-2127-required-check-event-gate.json",
+    "2026-10-27-github-pr-merge-ref-freshness.json",
 )
 
 
@@ -70,7 +71,7 @@ class PR141PromotionGate(unittest.TestCase):
                         self.assertEqual(set(saved["source_ids"]), set(learning["source_ids"]))
                     staged_learnings.add(lid)
                     learning_rows.append(learning)
-        self.assertEqual((len(staged_sources), len(staged_learnings)), (4, 3))
+        self.assertEqual((len(staged_sources), len(staged_learnings)), (5, 4))
         # A successful promotion later adds these IDs to main. Re-running this
         # gate after import must remain idempotent, not reject persisted rows.
         for learning in learning_rows:
@@ -89,7 +90,7 @@ class PR141PromotionGate(unittest.TestCase):
                 self.assertTrue(gate.strip(), f"{name}: blank gate")
                 self.assertNotIn(gate, seen, f"{name}: gate {gate!r} duplicates {seen.get(gate)}")
                 seen[gate] = name
-        self.assertEqual(len(seen), 3)
+        self.assertEqual(len(seen), 4)
 
     def test_imported_ids_exist_after_dry_run(self) -> None:
         """The PR gate must prove all staged IDs were actually imported."""
