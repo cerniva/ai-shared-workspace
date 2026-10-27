@@ -54,6 +54,7 @@ def check_captions(path: Path, seconds: float) -> None:
     normalized = content.replace("\r\n", "\n").replace("\r", "\n").strip()
     blocks = re.split(r"\n[ \t]*\n+", normalized) if normalized else []
     cues = []
+    readability = []
     for block in blocks:
         lines = block.split("\n")
         if lines and lines[0].strip().isdigit():
@@ -67,6 +68,7 @@ def check_captions(path: Path, seconds: float) -> None:
         if not re.sub(r"<[^>]+>", "", text).strip():
             raise ValueError("caption cue text missing; no inferred transcript")
         cues.append(match.groups())
+        readability.append((match.groups(), text))
     if not cues:
         raise ValueError("captions must contain timed SRT cues; no inferred transcript")
     previous_end = 0.0
@@ -87,6 +89,14 @@ def check_captions(path: Path, seconds: float) -> None:
         previous_end = end
     if seconds - previous_end > max_uncovered_seconds:
         raise ValueError("caption timeline has uncovered ending; transcript review required")
+    # Reading speed is a conservative screen, not a spoken-word sync verdict.
+    # Never silently rewrite or stretch sourced captions; require a human review.
+    for (start_text, end_text), caption_text in readability:
+        visible = re.sub(r"<[^>]+>", "", caption_text)
+        char_count = len(" ".join(visible.split()))
+        cue_seconds = _time(end_text) - _time(start_text)
+        if char_count / cue_seconds > 20.0:
+            raise ValueError("caption reading speed exceeds 20 characters/second; human review required")
 
 
 def validate_rights(source: Path, captions: Path, record: Path, language: str) -> dict:
