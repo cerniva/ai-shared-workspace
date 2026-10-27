@@ -170,6 +170,30 @@ class SourceClipTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dimensions"):
             _caption_margin_ass_units(0, 1080)
 
+    def test_blur_composition_preserves_foreground_and_fills_background(self):
+        from scripts.shorts_source_clip import _video_filter
+        filt = _video_filter(1280, 720, "blur")
+        self.assertIn("split=2[fg][bg]", filt)
+        self.assertIn("force_original_aspect_ratio=increase,crop=1080:1920", filt)
+        self.assertIn("force_original_aspect_ratio=decrease[foreground]", filt)
+        self.assertIn("[blurred][foreground]overlay=", filt)
+        self.assertIn("MarginV=112", filt)
+        self.assertNotIn("pad=1080", filt)
+
+    def test_pad_composition_keeps_existing_behavior(self):
+        from scripts.shorts_source_clip import _video_filter
+        self.assertIn("pad=1080:1920", _video_filter(1280, 720))
+        self.assertNotIn("split=2", _video_filter(1280, 720))
+
+    def test_unknown_composition_fails_before_ffmpeg(self):
+        from scripts.shorts_source_clip import _video_filter
+        with self.assertRaisesRegex(ValueError, "composition must be pad or blur"):
+            _video_filter(1280, 720, "crop")
+        with self.assertRaisesRegex(ValueError, "composition must be pad or blur"):
+            render(self.video, self.srt, self.evidence, self.root / "out.mp4",
+                   start=0, seconds=30, language="en", composition="crop")
+        self.assertFalse((self.root / "out.mp4").exists())
+
     def test_short_duration_blocks_before_ffmpeg(self):
         with self.assertRaisesRegex(ValueError, "30–40"):
             render(self.video, self.srt, self.evidence, self.root / "out.mp4",
