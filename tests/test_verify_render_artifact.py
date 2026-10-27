@@ -2,6 +2,7 @@ import hashlib
 import contextlib
 import json
 import os
+import shutil
 import subprocess
 import io
 from pathlib import Path
@@ -10,7 +11,9 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, active_rule, verify_and_extract, main
+from scripts.verify_render_artifact import LEARNING_ID, SOURCE_ID, SOURCE_URL, active_rule, verify_and_extract, main
+from scripts.knowledge_bridge import DEFAULT_CATALOG
+from scripts.learning_bridge import DEFAULT_LEDGER
 
 
 def zipped(items):
@@ -88,14 +91,44 @@ class DigestConsumerTests(unittest.TestCase):
             "learning_id": LEARNING_ID, "source_ids": [SOURCE_ID],
             "decision": "digest mismatch must fail",
         }
+        source = {
+            "canonical": SOURCE_URL, "evidence_tier": "official",
+            "provenance": "verified", "access_status": "verified-public",
+        }
         with patch("scripts.verify_render_artifact.LearningLedger") as ledger, \
              patch("scripts.verify_render_artifact.SourceCatalog") as catalog:
             ledger.return_value.for_plan.return_value = [row]
-            catalog.return_value.find.return_value = {"evidence_tier": "official"}
+            catalog.return_value.find.return_value = source
             self.assertEqual(active_rule()["learning_id"], LEARNING_ID)
-            catalog.return_value.find.return_value = {"evidence_tier": "unverified"}
-            with self.assertRaisesRegex(ValueError, "official"):
-                active_rule()
+            for key, invalid in (
+                ("canonical", "https://example.com/forged-digest-doc"),
+                ("evidence_tier", "secondary"),
+                ("provenance", "unverified"),
+                ("access_status", "unverified"),
+            ):
+                with self.subTest(key=key):
+                    catalog.return_value.find.return_value = dict(source, **{key: invalid})
+                    with self.assertRaisesRegex(ValueError, "official artifact digest source identity"):
+                        active_rule()
+
+    def test_durable_catalog_or_ledger_tampering_fails_closed(self):
+        for kind in ("source", "learning"):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as folder:
+                catalog_path = Path(folder) / "catalog.json"
+                ledger_path = Path(folder) / "ledger.json"
+                shutil.copyfile(DEFAULT_CATALOG, catalog_path)
+                shutil.copyfile(DEFAULT_LEDGER, ledger_path)
+                target = catalog_path if kind == "source" else ledger_path
+                data = json.loads(target.read_text(encoding="utf-8"))
+                if kind == "source":
+                    row = next(x for x in data["sources"] if x["source_id"] == SOURCE_ID)
+                    row["canonical"] = "https://example.com/forged-digest-doc"
+                else:
+                    row = next(x for x in data["learnings"] if x["learning_id"] == LEARNING_ID)
+                    row["claim"] += " altered without updating stable learning ID"
+                target.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "bridge_failure: invalid system learning/source integrity"):
+                    active_rule(ledger=ledger_path, catalog=catalog_path)
 
 
     def test_failed_download_never_logs_secret_or_applies_learning(self):
