@@ -8,6 +8,9 @@ on:
       - 'scripts/shorts_motion_qc.py'
       - 'tests/test_shorts_source_clip.py'
       - 'tests/test_shorts_atomic_gate.py'
+      - 'tests/test_shorts_candidate_provenance.py'
+      - 'knowledge/shorts/source_candidates/*.srt'
+      - 'knowledge/shorts/source_candidates/*_rights_pending.json'
       - '.github/workflows/shorts-source-rights-tests.yml'
   workflow_dispatch:
 
@@ -24,7 +27,7 @@ jobs:
       # Green tests never approve third-party rights or an actual MP4.
       - name: Verify SRT/source hashes and rights fail-closed regression
         run: |
-          python3 -m unittest tests.test_shorts_source_clip tests.test_shorts_atomic_gate -v
+          python3 -m unittest tests.test_shorts_source_clip tests.test_shorts_atomic_gate tests.test_shorts_candidate_provenance -v
       - name: Compile source-clip modules
         run: |
           python3 -m py_compile scripts/shorts_source_clip.py scripts/shorts_audio_qc.py scripts/shorts_motion_qc.py
