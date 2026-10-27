@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "source_name": "Shopify developer changelog feed",
+      "canonical": "https://shopify.dev/changelog/feed.xml",
+      "category": "commerce-platform",
+      "purpose": "Keyless primary feed for video_shopify research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-10-27T10:54:04+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_ca143a136de614e4",
+      "title": "Shopify developer changelog feed: Search brands that don't sell on Shopify in the Catalog API (beta)",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog feed fetched 2026-10-27 lists as newest item: \"Search brands that don't sell on Shopify in the Catalog API (beta)\" (Tue, 27 Oct 2026 10:00:00 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The 'video_shopify' plan should review the functionality for searching brands that do not sell on Shopify within the Catalog API (beta) to evaluate potential catalog expansion opportunities, while refraining from taking any immediate operational or implementation actions.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-10-27T10:54:04+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
