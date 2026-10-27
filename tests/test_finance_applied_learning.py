@@ -37,9 +37,19 @@ class FinanceAppliedLearningTests(unittest.TestCase):
         mock_loader.return_value = {"tag": "finance", "error": None, "learnings": [row]}
         with self.assertRaisesRegex(ValueError, "source-linked"):
             ap.altseason_panel(self.values, self.cfg)
-        row["source_ids"] = ["src_test"]
+        row["source_ids"] = ["src_6c5b905f2e76e38d"]
         row["decision"] = "different rule"
         with self.assertRaisesRegex(ValueError, "policy changed"):
+            ap.altseason_panel(self.values, self.cfg)
+
+    @patch("scripts.plan_learnings.plan_learnings")
+    def test_forged_source_id_blocks_actual_decision(self, mock_loader):
+        mock_loader.return_value = {"tag": "finance", "error": None, "learnings": [{
+            "learning_id": ap.FINANCE_ALTSEASON_LEARNING_ID,
+            "source_ids": ["src_nonexistent"],
+            "decision": "No invented 0-100 values p20 p80 730",
+        }]}
+        with self.assertRaisesRegex(ValueError, "unknown source_ids"):
             ap.altseason_panel(self.values, self.cfg)
 
     def test_calibration_drift_blocks_decision(self):
