@@ -98,5 +98,62 @@ class ShopifyExternalCatalogPromotionTests(unittest.TestCase):
         self.assertIn("no changes", decision)
 
 
+class ShopifyExternalOfferRightsPromotionTests(unittest.TestCase):
+    """The separate official extension doc adds display and data-use rules."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.doc = json.loads(
+            (ROOT / "knowledge/promotions/2026-10-28-shopify-external-offer-display-rights.json")
+            .read_text(encoding="utf-8")
+        )
+        cls.beta = json.loads(PROMOTION.read_text(encoding="utf-8"))
+        cls.catalog = json.loads((ROOT / "knowledge/source_catalog.json").read_text(encoding="utf-8"))
+        cls.ledger = json.loads((ROOT / "knowledge/learning_ledger.json").read_text(encoding="utf-8"))
+
+    def test_schema_identity_and_runtime_validation(self) -> None:
+        src, learn = self.doc["source"], self.doc["learning"]
+        self.assertEqual(self.doc["schema_version"], 1)
+        self.assertEqual(self.doc["gates"], ["SHOPIFY_EXTERNAL_OFFER_DISPLAY_RIGHTS_GATE"])
+        self.assertEqual(src["source_id"], source_id(canonicalize(src["canonical"])))
+        self.assertEqual(learn["learning_id"], learning_id(learn["domain"], learn["claim"]))
+        self.assertEqual(learn["source_ids"], [src["source_id"]])
+        self.assertEqual(learn["plan_tags"], ["video_shopify"])
+        self.assertEqual(learn["status"], "active")
+        self.assertEqual(learn["evidence_status"], "verified")
+        self.assertEqual(normalize_record(src)["source_id"], src["source_id"])
+        self.assertEqual(
+            normalize_learning(learn, {src["source_id"]})["learning_id"],
+            learn["learning_id"],
+        )
+
+    def test_additive_no_duplicate_with_main_or_beta(self) -> None:
+        src, learn = self.doc["source"], self.doc["learning"]
+        beta_src, beta_learn = self.beta["source"], self.beta["learning"]
+        self.assertNotEqual(src["source_id"], beta_src["source_id"])
+        self.assertNotEqual(canonicalize(src["canonical"]), canonicalize(beta_src["canonical"]))
+        self.assertNotEqual(learn["learning_id"], beta_learn["learning_id"])
+        self.assertTrue(set(self.doc["gates"]).isdisjoint(self.beta["gates"]))
+        self.assertNotIn(src["source_id"], {s["source_id"] for s in self.catalog["sources"]})
+        self.assertNotIn(
+            canonicalize(src["canonical"]),
+            {canonicalize(s["canonical"]) for s in self.catalog["sources"]},
+        )
+        self.assertNotIn(learn["learning_id"], {l["learning_id"] for l in self.ledger["learnings"]})
+
+    def test_rights_price_and_access_gates_are_explicit(self) -> None:
+        claim = self.doc["learning"]["claim"]
+        decision = self.doc["learning"]["decision"]
+        for phrase in (
+            "seller.name", "variants[].url", "may not be rehosted",
+            "train/evaluate machine-learning models", "current shopper session",
+            "availability.available=true", "2026-08-25", "enabled client",
+        ):
+            self.assertIn(phrase, claim)
+        self.assertIn("REVIEW_ONLY", decision)
+        self.assertIn("applied_learning_ids", self.doc["learning"]["next_measurement"])
+        self.assertIn("No live store or content publication", decision)
+
+
 if __name__ == "__main__":
     unittest.main()
