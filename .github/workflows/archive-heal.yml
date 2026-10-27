@@ -63,7 +63,15 @@ jobs:
             if git diff --cached --name-only | grep -vE '^(messages/grok-to-chatgpt\.md|messages/team-reports\.md|knowledge/lessons\.md)$'; then
               echo 'unexpected staged path'; exit 1
             fi
-            git diff --cached --quiet && exit 0
+            # A no-op on a stale snapshot is not proof that remote main is healthy.
+            if git diff --cached --quiet; then
+              if git fetch origin main && [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]]; then
+                exit 0
+              fi
+              echo "archive-heal: no-op remote changed; retry from fresh main" >&2
+              sleep "$attempt"
+              continue
+            fi
             git diff --cached --stat
             git commit -m "archive-heal: append-only mesaj arşivleri geçmişten onarıldı"
             if git push origin HEAD:main; then

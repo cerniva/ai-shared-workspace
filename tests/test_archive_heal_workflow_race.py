@@ -47,6 +47,7 @@ class ArchiveHealFreshMainTests(unittest.TestCase):
         self.assertNotIn('git push --force', shell)
         self.assertIn('git fetch origin main && [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]]', shell)
         self.assertIn('archive-heal: remote read-back mismatch', shell)
+        self.assertIn('archive-heal: no-op remote changed; retry from fresh main', shell)
         self.assertIn('git add -- messages/grok-to-chatgpt.md messages/team-reports.md knowledge/lessons.md', shell)
 
     def test_non_main_dispatch_fails_before_archive_write(self) -> None:
@@ -121,6 +122,60 @@ class ArchiveHealFreshMainTests(unittest.TestCase):
             sha_before = run('git', 'rev-parse', 'HEAD', cwd=healer)
             run('bash', '-c', workflow_shell(), cwd=healer)
             self.assertEqual(sha_before, run('git', 'rev-parse', 'HEAD', cwd=healer))
+
+    def test_noop_remote_advance_rechecks_and_repairs(self) -> None:
+        """A writer can corrupt main after --check but before the no-op exit."""
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            origin, producer, healer, writer = (
+                root / name for name in ('origin.git', 'producer', 'healer', 'writer')
+            )
+            run('git', 'init', '--bare', str(origin))
+            run('git', 'clone', str(origin), str(producer))
+            run('git', 'checkout', '-b', 'main', cwd=producer)
+            for folder in ('messages', 'scripts', 'config', 'knowledge'):
+                (producer / folder).mkdir()
+            (producer / 'messages/grok-to-chatgpt.md').write_text(
+                '---\nid: healthy\nstatus: seen\n', encoding='utf-8'
+            )
+            (producer / 'messages/team-reports.md').write_text('## healthy\n', encoding='utf-8')
+            (producer / 'knowledge/lessons.md').write_text('# lessons\n', encoding='utf-8')
+            (producer / 'config/archive_heal_notes.json').write_text('{}\n', encoding='utf-8')
+            (producer / 'scripts/archive_heal.py').write_text(
+                'from pathlib import Path\n'
+                'import subprocess, sys\n'
+                'p=Path("messages/grok-to-chatgpt.md")\n'
+                f'marker=Path({str(root / "injected")!r})\n'
+                f'writer=Path({str(writer)!r})\n'
+                's=p.read_text()\n'
+                'if "--check" in sys.argv:\n'
+                '    if "PLACEHOLDER" in s: sys.exit(1)\n'
+                '    if not marker.exists():\n'
+                '        marker.write_text("yes")\n'
+                '        with (writer / "messages/grok-to-chatgpt.md").open("a") as f:\n'
+                '            f.write("PLACEHOLDER\\n")\n'
+                '        subprocess.run(["git","add","messages/grok-to-chatgpt.md"],cwd=writer,check=True,stdout=subprocess.DEVNULL)\n'
+                '        subprocess.run(["git","commit","-m","inject-bad-archive"],cwd=writer,check=True,stdout=subprocess.DEVNULL)\n'
+                '        subprocess.run(["git","push","origin","main"],cwd=writer,check=True,stdout=subprocess.DEVNULL)\n'
+                '    sys.exit(0)\n'
+                'p.write_text(s.replace("PLACEHOLDER","REPAIRED"))\n',
+                encoding='utf-8',
+            )
+            run('git', 'add', '.', cwd=producer)
+            run('git', '-c', 'user.name=test', '-c', 'user.email=test@example.org',
+                'commit', '-m', 'base', cwd=producer)
+            run('git', 'push', '-u', 'origin', 'main', cwd=producer)
+            run('git', 'clone', '-b', 'main', str(origin), str(healer))
+            run('git', 'clone', '-b', 'main', str(origin), str(writer))
+            run('git', 'config', 'user.name', 'test', cwd=writer)
+            run('git', 'config', 'user.email', 'test@example.org', cwd=writer)
+            run('bash', '-c', workflow_shell(), cwd=healer)
+            remote = run('git', '--git-dir', str(origin), 'show',
+                         'main:messages/grok-to-chatgpt.md')
+            self.assertIn('id: healthy', remote)
+            self.assertIn('REPAIRED', remote)
+            self.assertNotIn('PLACEHOLDER', remote)
+            self.assertTrue((root / 'injected').exists())
 
 
 if __name__ == '__main__':
