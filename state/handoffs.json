@@ -880,6 +880,23 @@
       ],
       "done_sha": "8a51f2bb558cc6fd99197455de445cbd2cf4c425",
       "done_at": "2026-10-26T17:20:00+00:00"
+    },
+    {
+      "id": "CI-40449518705",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'shorts-render-tests' run 40449518705: jobs test[Full Python suite]; first error: tests/test_shorts_source_clip.py::SourceClipTests::test_overfast_srt_blocks_before_render",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-40449518705",
+      "status": "claimed",
+      "created_at": "2026-10-27T04:52:33+00:00",
+      "updated_at": "2026-10-27T04:52:33+00:00",
+      "claimed_at": "2026-10-27T04:52:33+00:00",
+      "notes": [
+        "2026-10-27T04:52:33+00:00 grok: team-worker devraldi",
+        "2026-10-27T04:52:33+00:00 team-worker: model sonucu state/team_work/CI-40449518705.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }

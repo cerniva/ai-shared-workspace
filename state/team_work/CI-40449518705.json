@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-40449518705",
+  "source": "ci-bekci",
+  "run_id": "40449615655",
+  "task": "CI failure in 'shorts-render-tests' run 40449518705: jobs test[Full Python suite]; first error: tests/test_shorts_source_clip.py::SourceClipTests::test_overfast_srt_blocks_before_render",
+  "generated_at": "2026-10-27T04:52:33+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40449518705",
+    "evidence": [
+      {
+        "path": "tests/test_shorts_source_clip.py",
+        "description": "CI failure reported in run 40449518705 for job 'test[Full Python suite]' at test_overfast_srt_blocks_before_render."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40449518705 failed in workflow 'shorts-render-tests' during job 'test[Full Python suite]'.",
+      "The first failing test in the job execution is tests/test_shorts_source_clip.py::SourceClipTests::test_overfast_srt_blocks_before_render."
+    ],
+    "hypotheses": [
+      "SRT block duration or playback rate calculation in tests/test_shorts_source_clip.py (or its imported source module) triggers an unexpected assertion failure or exception when validating overfast subtitle blocks prior to rendering.",
+      "Recent changes to subtitle speed validation logic or test fixture timings altered the expected error/validation threshold for fast SRT blocks."
+    ],
+    "recommendation": "Inspect tests/test_shorts_source_clip.py and the associated SRT validation code to reproduce test_overfast_srt_blocks_before_render locally, verify assertion logic, and fix any timing threshold or validation mismatches.",
+    "confidence": 0.85,
+    "next_action": "Run `pytest tests/test_shorts_source_clip.py -k test_overfast_srt_blocks_before_render` locally to inspect the trace and verify the fix.",
+    "timing": {
+      "started_at": "2026-10-27T04:52:38.454983+00:00",
+      "duration_ms": 18211
+    },
+    "usage": {
+      "input_tokens": 158,
+      "output_tokens": 369,
+      "total_tokens": 1691
+    }
+  }
+}
