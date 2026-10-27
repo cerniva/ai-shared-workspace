@@ -8,8 +8,8 @@ import json
 import unittest
 from pathlib import Path
 
-from scripts.knowledge_bridge import canonicalize, source_id
-from scripts.learning_bridge import learning_id
+from scripts.knowledge_bridge import CatalogError, canonicalize, normalize_record, source_id
+from scripts.learning_bridge import learning_id, normalize_learning
 
 ROOT = Path(__file__).resolve().parents[1]
 PROMOTION = ROOT / "knowledge/promotions/2026-10-28-shopify-external-catalog-beta-gate.json"
@@ -48,6 +48,44 @@ class ShopifyExternalCatalogPromotionTests(unittest.TestCase):
                 self.assertEqual(old["domain"], learn["domain"])
                 self.assertEqual(old["claim"], learn["claim"])
                 self.assertEqual(set(old["source_ids"]), set(learn["source_ids"]))
+
+    def test_runtime_validators_reject_corrupt_promotion(self) -> None:
+        src, learn = self.doc["source"], self.doc["learning"]
+        self.assertEqual(normalize_record(src)["source_id"], src["source_id"])
+        self.assertEqual(
+            normalize_learning(learn, {src["source_id"]})["learning_id"],
+            learn["learning_id"],
+        )
+        with self.assertRaises(CatalogError):
+            normalize_record({**src, "canonical": "https://user:pass@shopify.dev/unsafe"})
+        with self.assertRaises(CatalogError):
+            normalize_learning({**learn, "source_ids": ["src_missing"]}, {src["source_id"]})
+        with self.assertRaises(CatalogError):
+            normalize_learning({**learn, "plan_tags": ["unknown_plan"]}, {src["source_id"]})
+
+    def test_no_duplicate_staged_source_learning_or_gate(self) -> None:
+        src, learn = self.doc["source"], self.doc["learning"]
+        canonical = canonicalize(src["canonical"])
+        for path in (ROOT / "knowledge/promotions").glob("*.json"):
+            if path == PROMOTION:
+                continue
+            other = json.loads(path.read_text(encoding="utf-8"))
+            rows = list(other.get("sources") or [])
+            if isinstance(other.get("source"), dict):
+                rows.append(other["source"])
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                self.assertNotEqual(row.get("source_id"), src["source_id"], str(path))
+                if row.get("canonical"):
+                    self.assertNotEqual(canonicalize(row["canonical"]), canonical, str(path))
+            learnings = list(other.get("learnings") or [])
+            if isinstance(other.get("learning"), dict):
+                learnings.append(other["learning"])
+            for row in learnings:
+                if isinstance(row, dict):
+                    self.assertNotEqual(row.get("learning_id"), learn["learning_id"], str(path))
+            self.assertNotIn(GATE, other.get("gates") or [], str(path))
 
     def test_fail_closed_external_product_rules(self) -> None:
         claim = self.doc["learning"]["claim"]
