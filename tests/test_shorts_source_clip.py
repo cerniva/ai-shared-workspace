@@ -143,15 +143,15 @@ class SourceClipTests(unittest.TestCase):
 
     def test_overfast_srt_blocks_before_render(self):
         # A timed transcript is not necessarily readable on a phone.
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:01,000\\n"
-                            "This sentence is far too long to read in one second\\n\\n"
-                            "2\\n00:00:01,000 --> 00:00:30,000\\nEnd\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:01,000\n"
+                            "This sentence is far too long to read in one second\n\n"
+                            "2\n00:00:01,000 --> 00:00:30,000\nEnd\n")
         with self.assertRaisesRegex(ValueError, "reading speed exceeds 20"):
             check_captions(self.srt, 30)
 
     def test_readable_srt_passes_speed_gate(self):
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:02,000\\nHello world\\n\\n"
-                            "2\\n00:00:02,000 --> 00:00:30,000\\nReadable\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nHello world\n\n"
+                            "2\n00:00:02,000 --> 00:00:30,000\nReadable\n")
         self.assertIsNone(check_captions(self.srt, 30))
 
     def test_short_duration_blocks_before_ffmpeg(self):
