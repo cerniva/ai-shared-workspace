@@ -97,7 +97,15 @@ def fetch_metadata(repo: str, run_id: int, name: str, token: str):
     req = Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
     with urlopen(req, timeout=30) as response:
         data = json.load(response)
-    matches = [a for a in data.get("artifacts", []) if a.get("name") == name and not a.get("expired")]
+    # This endpoint is paginated (max 100 per page). A matching artifact on
+    # page one does not prove uniqueness when later pages are omitted.
+    # Fail closed rather than silently accepting an incomplete inventory.
+    artifacts = data.get("artifacts")
+    total = data.get("total_count")
+    if (not isinstance(artifacts, list) or not isinstance(total, int)
+            or total != len(artifacts)):
+        raise ValueError("bridge_failure: incomplete artifact metadata pagination")
+    matches = [a for a in artifacts if a.get("name") == name and not a.get("expired")]
     if len(matches) != 1:
         raise ValueError("bridge_failure: expected one non-expired artifact for requested run")
     artifact = matches[0]
