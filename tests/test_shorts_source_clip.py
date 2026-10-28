@@ -161,6 +161,18 @@ class SourceClipTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "42 visible characters"):
             check_captions(self.srt, 30)
 
+    def test_excessive_short_caption_lines_block_before_render(self):
+        # Twenty tiny lines pass CPS and per-line length, but cover the frame.
+        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\n".replace("\\n", "\n") +
+                            "\n".join(["OK"] * 20) + "\n")
+        with self.assertRaisesRegex(ValueError, "exceeds two visible lines"):
+            check_captions(self.srt, 30)
+
+    def test_two_visible_caption_lines_pass_boundary(self):
+        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\n".replace("\\n", "\n") +
+                            "Hello\nworld\n")
+        self.assertIsNone(check_captions(self.srt, 30))
+
     def test_42_character_line_passes_boundary(self):
         self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\n" +
                             "A" * 42 + "\n")
