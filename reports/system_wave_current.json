@@ -159,7 +159,7 @@
       "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (CI run 40727800259 only); python3 -m unittest discover -s tests -p test_*.py (CI run 40727815899 only)",
       "test_exit": "CI 0 for loader and tests; production consumer/race NOT_RUN",
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "main sha 71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a; branch audit pending write read-back; production archive and consumer NOT_VERIFIED",
+      "read_back": "Branch state/handoffs.json commit 0f6a852bd6b4aeb56f9ed71ad4d79535b1bda65e blob 75e7a0aa60c4ca8409b6eda98e54e65263f88069; 55/55 records; production NOT_VERIFIED",
       "next_step": "P0 PR #309 current-main race CI/read-back; #308 consumer fail-closed tests and applied_learning_ids; #370 early FFmpeg skip",
       "retested_this_turn": true
     },
@@ -386,10 +386,15 @@
     }
   ],
   "handoff_write": {
+    "path": "state/handoffs.json",
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit": "baaceb252cbc35215c2a598e301ca0242c8d9eaa",
-    "read_back_blob": "d23f67da4dd900ed259b30bbd9eb465abc924d33",
-    "unique_records": 55
+    "commit_sha": "0f6a852bd6b4aeb56f9ed71ad4d79535b1bda65e",
+    "content_sha": "75e7a0aa60c4ca8409b6eda98e54e65263f88069",
+    "readback_sha": "75e7a0aa60c4ca8409b6eda98e54e65263f88069",
+    "record_id": "CI-39269730285",
+    "record_count": 55,
+    "unique_count": 55,
+    "main_modified": false
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
@@ -457,6 +462,12 @@
       "Reuse PR #370 for no-handoff early exit before FFmpeg; no duplicate PR"
     ],
     "grok_ack": "NOT_SENT",
-    "payoutlens_touched": false
+    "payoutlens_touched": false,
+    "handoff_readback": {
+      "commit": "0f6a852bd6b4aeb56f9ed71ad4d79535b1bda65e",
+      "blob": "75e7a0aa60c4ca8409b6eda98e54e65263f88069",
+      "count": 55,
+      "unique": 55
+    }
   }
 }
