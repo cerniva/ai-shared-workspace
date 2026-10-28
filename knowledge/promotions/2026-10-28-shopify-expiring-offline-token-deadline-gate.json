@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_2bf95ae357249057",
+      "source_name": "Shopify developer changelog: expiring offline access token enforcement, 27 Oct 2026",
+      "canonical": "https://shopify.dev/changelog/posts/migrate-to-expiring-offline-access-tokens-before-january-2027",
+      "category": "video-shopify-public-app-auth",
+      "purpose": "Check public-app offline-token migration deadline and phased enforcement before changing Shopify integrations",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public documentation; no account token, payment or API quota required",
+      "reliability_limits": "Applies to public apps using non-expiring offline Admin API tokens, not custom or merchant-created apps; no evidence this workspace runs an affected public app",
+      "discovered_at": "2026-10-28T14:31:00+00:00",
+      "last_successful_use": "2026-10-28T14:31:00+00:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_42fcb436456bd9a0",
+      "source_name": "Shopify migration guide: expiring offline tokens and token exchange cautions",
+      "canonical": "https://shopify.dev/docs/apps/build/authentication-authorization/migrate-to-expiring-offline-access-tokens",
+      "category": "video-shopify-public-app-auth",
+      "purpose": "Cross-check safe migration, token invalidation, refresh and 401/403 classification",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public documentation; no credentials used",
+      "reliability_limits": "Some enforcement wording conflicts with the newer 27 Oct 2026 dated changelog; do not use the guide alone to infer Jan 1 HTTP 403 timing",
+      "discovered_at": "2026-10-28T14:31:00+00:00",
+      "last_successful_use": "2026-10-28T14:31:00+00:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_45023a81c7681335",
+      "title": "Shopify public-app offline token deadline: Jan 1 distribution gate, Apr 1 API 403",
+      "domain": "commerce-platform-auth",
+      "claim": "Shopify's 27 Oct 2026 official changelog says existing public apps using non-expiring offline tokens for GraphQL Admin API must migrate by 1 Jan 2027: noncompliant apps are delisted and blocked from new installs on 1 Jan, merchant warnings begin 15 Jan, and affected requests return HTTP 403 from 1 Apr 2027. Custom and merchant-created apps are excluded. The official migration guide still contains earlier wording implying 403 after 1 Jan; retain this documentation discrepancy and use the newer dated changelog for enforcement timing. Migrating a token invalidates the old token, so no automatic migration without app applicability, storage/refresh validation and explicit authorized change.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_PUBLIC_APP_OFFLINE_TOKEN_MIGRATION_GATE: REVIEW_ONLY. First prove that video_shopify actually owns a public app using non-expiring offline tokens for the GraphQL Admin API. If not, mark N/A. If yes, plan migration by 2027-01-01, test refresh/storage and existing installations in a safe environment, classify 401/403 from actual error details, and require authorized rollout. Do not automatically rotate, migrate, revoke, expose, or request secrets. Preserve discrepancy between Oct 27 changelog and older migration guide.",
+      "outcome": "pending",
+      "next_measurement": "Read-only inspect whether a public Shopify app and expiringOfflineAccessTokens flag or equivalent token exchange are present. Record applicable/not-applicable with evidence and add this learning_id to a real video_shopify decision manifest only if the gate was actually evaluated.",
+      "learned_at": "2026-10-28T14:31:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_2bf95ae357249057",
+        "src_42fcb436456bd9a0",
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [
+        "The current migration guide includes older 2027-01-01 API rejection wording; newer dated 2026-10-27 changelog stages 403 enforcement on 2027-04-01."
+      ],
+      "fallback_history": [
+        "No public app evidence: keep N/A, continue existing authorized store analytics and draft-first workflows without new credentials or paid tools."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_PUBLIC_APP_OFFLINE_TOKEN_MIGRATION_GATE"
+  ],
+  "evidence": {
+    "official_urls": [
+      "https://shopify.dev/changelog/posts/migrate-to-expiring-offline-access-tokens-before-january-2027",
+      "https://shopify.dev/docs/apps/build/authentication-authorization/migrate-to-expiring-offline-access-tokens"
+    ],
+    "published_at": "2026-10-27",
+    "checked_at": "2026-10-28T14:31:00+00:00",
+    "main_baseline": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
+    "note": "Only staged in a safe branch; no canonical ledger update, app token rotation, OAuth attempt, or production consumption."
+  }
+}
