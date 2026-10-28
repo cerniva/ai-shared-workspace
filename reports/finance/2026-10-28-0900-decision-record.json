@@ -154,8 +154,8 @@
   ],
   "top70_coverage": "CMC 28 Oct ranked first 14 and subsequent displayed order through 70; quote timestamp absent; no synchronized 70/70 funding, OI, unlocks and liquidations",
   "new_learning_candidate": {
-    "learning_id": "learn_6aa10cd4439c9a90",
-    "source_id": "src_e95827a3019e9825",
+    "learning_id": "learn_d7b9f316f4986063",
+    "source_id": "src_7ccf6537c78580a9",
     "promotion_path": "knowledge/promotions/2026-10-28-finance-rbnz-hold-vote-split-gate.json",
     "status": "staged_only_not_main_active",
     "applied_learning_ids": []
