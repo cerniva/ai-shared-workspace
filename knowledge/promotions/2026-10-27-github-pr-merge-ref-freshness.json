@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_c55c127baae6d0e8",
+    "source_name": "GitHub REST Git database guide: checking pull request mergeability",
+    "canonical": "https://docs.github.com/en/rest/guides/using-the-rest-api-to-interact-with-your-git-database",
+    "category": "system-github-pr-merge-ref-freshness",
+    "purpose": "Prevent stale refs/pull/N/merge candidates from being mistaken for current main integration proof",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official docs; no API credits or secrets",
+    "reliability_limits": "GitHub warns merge refs can go stale; PR GET starts an asynchronous update and immediate ref read may still be stale. A mergeability flag or head-only check is not current integration CI proof.",
+    "discovered_at": "2026-10-27T21:29:19+03:00",
+    "last_successful_use": "2026-10-27T21:29:19+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_175c67179539e7e6",
+    "title": "PR test merge refs need current-main parent SHA verification",
+    "domain": "github-pull-request-merge-ref-freshness",
+    "claim": "GitHub pull request test merge refs can become stale without warning. Reading refs/pull/N/merge alone does not prove integration with the current main; explicitly fetch the PR to request a test merge candidate, then compare its first parent SHA with current main and require fresh checks on the candidate before treating it as current integration evidence.",
+    "evidence_status": "verified",
+    "decision": "PR_MERGE_REF_CURRENT_BASE_GATE: Before reporting a promotion PR as tested against current main, read main SHA, request PR mergeability via GET /pulls/N, then inspect refs/pull/N/merge commit parents. If first parent differs from current main or there is no fresh relevant CI evidence for the actual candidate, report PARTIAL and do not merge or label integration green. Do not force-update refs or bypass policy.",
+    "outcome": "pending",
+    "next_measurement": "Grok: on PR #141, main=0a0a068093d4a606f86e94e29df8a86a0c6f1e6d, stale merge ref abd76bcff6943692c80d20b6506a444baa5e7216 has parent a40277c0120cfa34c46ee03e670e7a9485228214; request fresh mergeability and prove current-main parent and new candidate CI, or mark blocked with exact SHA/run.",
+    "learned_at": "2026-10-27T21:29:19+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_c55c127baae6d0e8"
+    ],
+    "failure_history": [
+      "2026-10-27 21:29 TRT: PR #141 refs/pull/141/merge=abd76bcff6943692c80d20b6506a444baa5e7216, first parent a40277c0120cfa34c46ee03e670e7a9485228214 while main=0a0a068093d4a606f86e94e29df8a86a0c6f1e6d; candidate check-runs total_count=0. PR head 3834c5eed3307f3ddafbd130cbe189c55073b19c had older successful checks; not fresh integration proof."
+    ],
+    "fallback_history": [
+      "Read-only official GitHub REST PR, refs and commit parents; keep PR open, preserve archives and use existing handoff until a safe current-main test is available."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "PR_MERGE_REF_CURRENT_BASE_GATE"
+  ]
+}
