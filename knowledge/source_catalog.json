@@ -603,6 +603,21 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api",
+      "category": "system-github-inventory-completeness",
+      "cost_quota": "free official documentation; no authenticated API usage or paid credit required",
+      "discovered_at": "2026-10-10T11:23:30+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T11:23:30+03:00",
+      "provenance": "verified",
+      "purpose": "Verify completeness of GitHub REST list-based scans used for repository workflow/PR/issue inventory and plan decision evidence",
+      "reliability_limits": "Documentation explains general pagination; individual endpoints have their own pagination support and page-size defaults. A GitHub connector returning first page only cannot prove complete inventory.",
+      "source_id": "src_74c1f2ed10aefae7",
+      "source_name": "GitHub REST API pagination documentation"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://help.shopify.com/en/manual/products/bundles",
       "category": "shopify-bundles",
       "cost_quota": "free public documentation; no Admin API call",
@@ -750,6 +765,21 @@
       "reliability_limits": "SEC requires a descriptive User-Agent; feed is headlines only.",
       "source_id": "src_8940dd773777ae62",
       "source_name": "SEC press releases RSS"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules",
+      "category": "system-github-archive-integrity",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "purpose": "Official confirmation that push rulesets also apply to REST API blob/tree/create-or-update-file endpoints, relevant to archive overwrite protection",
+      "reliability_limits": "Docs describe generic GitHub behavior; no live ruleset activation, bypass, or repository-specific API test has been performed.",
+      "source_id": "src_8e5eea73bf9fd755",
+      "source_name": "GitHub rulesets troubleshooting: REST API writes also enforced"
     },
     {
       "access_status": "verified-public",
@@ -1053,6 +1083,36 @@
     },
     {
       "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/rest/guides/using-the-rest-api-to-interact-with-your-git-database",
+      "category": "system-github-pr-merge-ref-freshness",
+      "cost_quota": "free public official docs; no API credits or secrets",
+      "discovered_at": "2026-10-27T21:29:19+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-27T21:29:19+03:00",
+      "provenance": "verified",
+      "purpose": "Prevent stale refs/pull/N/merge candidates from being mistaken for current main integration proof",
+      "reliability_limits": "GitHub warns merge refs can go stale; PR GET starts an asynchronous update and immediate ref read may still be stale. A mergeability flag or head-only check is not current integration CI proof.",
+      "source_id": "src_c55c127baae6d0e8",
+      "source_name": "GitHub REST Git database guide: checking pull request mergeability"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks",
+      "category": "system-github-required-checks",
+      "cost_quota": "free public official documentation; no API key or paid credit",
+      "discovered_at": "2026-10-10T21:23:25+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T21:23:25+03:00",
+      "provenance": "verified",
+      "purpose": "Distinguish valid PR required-check evidence from manual workflow_dispatch runs and prevent skipped path-filter checks from blocking promotion PRs",
+      "reliability_limits": "Documents GitHub required-check behavior; does not itself prove that a repository's current branch protection requires a particular check. Confirm local auto-merge-gate configuration and the actual latest PR check runs.",
+      "source_id": "src_c99620eb8f764049",
+      "source_name": "GitHub troubleshooting required status checks"
+    },
+    {
+      "access_status": "verified-public",
       "canonical": "https://blog.youtube/rss",
       "category": "youtube-creator-official",
       "cost_quota": "free public, keyless; no API credit used",
@@ -1350,7 +1410,22 @@
       "reliability_limits": "Vendor documentation; demo/public plan rate limits apply; aggregated prices, not exchange prints.",
       "source_id": "src_fa1219f719140dd5",
       "source_name": "CoinGecko API: simple/price reference"
+    },
+    {
+      "access_status": "verified-public",
+      "canonical": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets",
+      "category": "system-github-archive-integrity",
+      "cost_quota": "free public docs; no API credits or secret",
+      "discovered_at": "2026-10-10T08:27:32+03:00",
+      "evidence_tier": "official",
+      "failure_note": null,
+      "last_successful_use": "2026-10-10T08:27:32+03:00",
+      "provenance": "verified",
+      "purpose": "Document path restriction, required PR/checks and eligible plan/bypass requirements for protecting append-only message archives",
+      "reliability_limits": "Rulesets are plan/repository visibility dependent; this page does not verify that cerniva/ai-shared-workspace has an active ruleset or admin permission.",
+      "source_id": "src_ffe9c68f7ae91a8c",
+      "source_name": "GitHub repository rulesets: available rules and path restrictions"
     }
   ],
-  "updated_at": "2026-10-28T09:46:45+00:00"
+  "updated_at": "2026-10-28T23:32:09+00:00"
 }

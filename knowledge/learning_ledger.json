@@ -111,6 +111,32 @@
       "title": "HO-06 Gumroad draft-first ürün kapısı"
     },
     {
+      "claim": "GitHub pull request test merge refs can become stale without warning. Reading refs/pull/N/merge alone does not prove integration with the current main; explicitly fetch the PR to request a test merge candidate, then compare its first parent SHA with current main and require fresh checks on the candidate before treating it as current integration evidence.",
+      "decision": "PR_MERGE_REF_CURRENT_BASE_GATE: Before reporting a promotion PR as tested against current main, read main SHA, request PR mergeability via GET /pulls/N, then inspect refs/pull/N/merge commit parents. If first parent differs from current main or there is no fresh relevant CI evidence for the actual candidate, report PARTIAL and do not merge or label integration green. Do not force-update refs or bypass policy.",
+      "domain": "github-pull-request-merge-ref-freshness",
+      "evidence_status": "verified",
+      "failure_history": [
+        "2026-10-27 21:29 TRT: PR #141 refs/pull/141/merge=abd76bcff6943692c80d20b6506a444baa5e7216, first parent a40277c0120cfa34c46ee03e670e7a9485228214 while main=0a0a068093d4a606f86e94e29df8a86a0c6f1e6d; candidate check-runs total_count=0. PR head 3834c5eed3307f3ddafbd130cbe189c55073b19c had older successful checks; not fresh integration proof."
+      ],
+      "fallback_history": [
+        "Read-only official GitHub REST PR, refs and commit parents; keep PR open, preserve archives and use existing handoff until a safe current-main test is available."
+      ],
+      "learned_at": "2026-10-27T21:29:19+03:00",
+      "learning_id": "learn_175c67179539e7e6",
+      "next_measurement": "Grok: on PR #141, main=0a0a068093d4a606f86e94e29df8a86a0c6f1e6d, stale merge ref abd76bcff6943692c80d20b6506a444baa5e7216 has parent a40277c0120cfa34c46ee03e670e7a9485228214; request fresh mergeability and prove current-main parent and new candidate CI, or mark blocked with exact SHA/run.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c55c127baae6d0e8"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "PR test merge refs need current-main parent SHA verification"
+    },
+    {
       "claim": "When a YouTube Analytics report uses the video dimension or a video filter, subscribersGained and subscribersLost include only subscribe and unsubscribe actions from that video watch page, not channel page or home guide actions.",
       "decision": "SUBSCRIBER_CONVERSION_GATE: after analytics maturity, record subscribersGained, subscribersLost, net subscribers, engagedViews, and net subscribers per 1000 engaged views when the denominator is positive. Label the result watch-page-attributed. Do not score a Short on raw views alone and do not treat a video-filtered net as total channel subscriber change or Shorts-feed attribution.",
       "domain": "youtube-subscriber-conversion",
@@ -131,6 +157,32 @@
       ],
       "supersedes": null,
       "title": "Video-filtered subscriber metrics are watch-page only"
+    },
+    {
+      "claim": "GitHub REST API list endpoints can return only the first page (often 30 records; most endpoints cap per_page at 100); a successful HTTP 200 is not proof of an exhaustive inventory, and the Link rel=next header identifies additional pages.",
+      "decision": "GITHUB_REST_PAGINATION_COMPLETENESS_GATE: for list-based PR/issue/workflow/commit inventories, follow Link rel=next until exhausted or explicitly mark result PARTIAL with last cursor, pages scanned, and observed count; never assert all-green or full inventory from a connector known to return only page one. This does not apply to direct complete JSON source_catalog/learning_ledger file reads. Use fail-closed consumer test with >100 synthetic records and verify all IDs and no silent truncation.",
+      "domain": "github-rest-pagination-integrity",
+      "evidence_status": "verified",
+      "failure_history": [
+        "Prior automation run 2026-10-10 10:27 discovered pagination risk but could not persist promotion; no verified complete repository inventory is claimed."
+      ],
+      "fallback_history": [
+        "If the connector does not expose Link headers or a next-page cursor, label result PARTIAL/bridge_failure and avoid full-inventory claims; use a pagination-capable API client only with verified access."
+      ],
+      "learned_at": "2026-10-10T11:23:30+03:00",
+      "learning_id": "learn_1f26fa5202f29769",
+      "next_measurement": "Grok: implement a negative test showing first-page-only scans fail completeness; positive test follows rel=next across at least 2 pages; record commit SHA, test run ID, total count and applied_learning_ids in system consumer report. No changes to PayoutLens.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_74c1f2ed10aefae7"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "GitHub REST inventory completeness requires following next-page links"
     },
     {
       "claim": "YouTube highlights intro, top-moment, spike and dip labels only when they are detected, and the video should be at least 60 seconds long and have at least 100 views. Audience retention data typically takes 1-2 days. A 25-30 second Short should not be expected to receive those highlighted labels even when video-level retention exists.",
@@ -242,6 +294,34 @@
       ],
       "supersedes": null,
       "title": "Shopify GraphQL errors arrive with HTTP 200"
+    },
+    {
+      "claim": "GitHub push rulesets can restrict file paths and also apply to REST API create blob, create tree, and create or update file contents endpoints; private/internal push rulesets require an eligible plan and can block legitimate append writers without a tested bypass.",
+      "decision": "ARCHIVE_REST_PUSH_RULESET_GATE: Verify repository visibility, plan, ruleset availability and writer permissions before proposing enforcement. Evaluate mode is NON-BLOCKING telemetry and must never be treated as a successful rejection test. If an eligible push ruleset can be activated safely with explicit approval, validate blocking only on disposable synthetic paths and confirm legitimate append writers remain operational; do not attempt a destructive overwrite of live archives. Until enforcement is proven, use append-only prewrite validation, expected blob SHA, prefix/length checks, and postwrite read-back; CI alone does not prevent direct API overwrite.",
+      "domain": "github-archive-push-ruleset",
+      "evidence_status": "verified",
+      "failure_history": [
+        "2026-10-10 prior archive truncations to SEE_FILE / placeholder were reported and repaired; repo-level API enforcement remains unverified.",
+        "2026-10-11 correction: previous Evaluate-mode decision incorrectly implied a prohibited overwrite could be blocked in Evaluate; official GitHub ruleset docs confirm it is non-enforcing."
+      ],
+      "fallback_history": [
+        "Do not enable a blocking ruleset without proving the legitimate append-only writer is not interrupted; keep existing archive-heal and CI guards as partial protection."
+      ],
+      "learned_at": "2026-10-10T08:27:32+03:00",
+      "learning_id": "learn_417069914bb5db27",
+      "next_measurement": "Grok: inspect current repo rulesets/visibility and archive writer permissions read-only; record API result/limits. Add fail-closed synthetic negative test for truncation and positive append test, plus exact commit SHA/CI run. Treat Evaluate as observational only; if push ruleset unsupported, keep code-level writer gate and mark API overwrite prevention unverified.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_8e5eea73bf9fd755",
+        "src_ffe9c68f7ae91a8c"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "REST API writes obey GitHub push rulesets; preserve append-only archive writer"
     },
     {
       "claim": "Per-workflow concurrency groups prevent duplicate runs of one workflow but do not serialize different workflows that push to the same branch.",
@@ -565,6 +645,32 @@
       ],
       "supersedes": null,
       "title": "Analytics API learning waits for the 48-72 hour processing window"
+    },
+    {
+      "claim": "GitHub Actions jobs triggered by workflow_dispatch do not satisfy required pull-request status checks; required checks skipped by pull_request path filters can remain pending and block merging.",
+      "decision": "PR_REQUIRED_CHECK_EVENT_GATE: if a required test check must appear on a promotion-only PR, run it on an eligible pull_request event and ensure promotion paths are not excluded (or provide an always-running lightweight required job). workflow_dispatch is diagnostic only and must not be claimed to satisfy a required PR status check. Verify actual latest-head check and job names before any merge; do not bypass required checks.",
+      "domain": "github-required-check-events",
+      "evidence_status": "verified",
+      "failure_history": [
+        "2026-10-10 PR #141 promotion-only changes did not trigger worker-orchestration-tests pull_request.paths; manual workflow_dispatch was previously suggested but is not a valid substitute for required PR check."
+      ],
+      "fallback_history": [
+        "Until the trigger is fixed, keep PR unmerged and mark required-check evidence missing. Do not fabricate success or turn off the gate."
+      ],
+      "learned_at": "2026-10-10T21:23:25+03:00",
+      "learning_id": "learn_67340fd77c09f582",
+      "next_measurement": "For existing PR #141, update the approved PR test trigger to cover knowledge/promotions/** or use a safe always-running required job; capture latest head SHA, pull_request-triggered test run ID, test job success, and promotion read-back before merging. Keep Evaluate-mode archive safety correction separate; PayoutLens excluded.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c99620eb8f764049"
+      ],
+      "status": "active",
+      "supersedes": null,
+      "title": "Manual workflow_dispatch cannot satisfy required PR status checks"
     },
     {
       "claim": "The Federal Reserve Board RSS page (fetched 2026-10-09) lists official feeds for all speeches and testimony, per-governor speeches, and data feeds for Foreign Exchange Rates (H.10) and Selected Interest Rates (H.15).",
@@ -1748,5 +1854,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-28T06:10:49+00:00"
+  "updated_at": "2026-10-28T23:32:09+00:00"
 }
