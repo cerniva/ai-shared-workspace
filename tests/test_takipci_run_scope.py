@@ -1,0 +1,75 @@
+"""Regression: historical CI citations must not mask or fail current-head gates."""
+import unittest
+
+from scripts import takipci_denetci as td
+
+REPO = "cerniva/ai-shared-workspace"
+HEAD = "current-head-sha"
+
+
+def cited_run(run_id, conclusion, sha=HEAD, repo=REPO, status="completed"):
+    return {
+        "id": run_id,
+        "ref_repo": None,
+        "run": {
+            "id": run_id,
+            "status": status,
+            "conclusion": conclusion,
+            "head_sha": sha,
+            "repository": {"full_name": repo},
+        },
+    }
+
+
+class AuditorRunScopeTests(unittest.TestCase):
+    def test_historical_main_failure_is_warning_not_current_pr_failure(self):
+        reasons, warnings = td.check_run_refs(
+            [cited_run(40682689517, "failure", "old-main-sha")], REPO, HEAD
+        )
+        self.assertEqual(reasons, [])
+        self.assertTrue(any("40682689517" in w and "historical" in w for w in warnings))
+
+    def test_current_head_failed_run_still_blocks(self):
+        reasons, warnings = td.check_run_refs(
+            [cited_run(40687999121, "failure")], REPO, HEAD
+        )
+        self.assertTrue(any("40687999121" in r for r in reasons))
+        self.assertEqual(warnings, [])
+
+    def test_current_head_pending_run_still_blocks(self):
+        reasons, _ = td.check_run_refs(
+            [cited_run(40687999121, None, status="in_progress")], REPO, HEAD
+        )
+        self.assertTrue(reasons)
+
+    def test_missing_run_head_stays_fail_closed(self):
+        reasons, _ = td.check_run_refs(
+            [cited_run(40687999121, "failure", sha=None)], REPO, HEAD
+        )
+        self.assertTrue(reasons)
+
+    def test_foreign_repository_still_blocks(self):
+        reasons, _ = td.check_run_refs(
+            [cited_run(40687999121, "failure", "old-main-sha", "other/repo")],
+            REPO, HEAD
+        )
+        self.assertTrue(reasons)
+
+    def test_missing_run_still_blocks(self):
+        reasons, _ = td.check_run_refs(
+            [{"id": 40687999121, "ref_repo": None, "run": None, "error": "HTTP 404"}],
+            REPO, HEAD
+        )
+        self.assertTrue(reasons)
+
+    def test_current_head_check_failure_still_blocks(self):
+        checks = [{"name": "test", "status": "completed", "conclusion": "failure"}]
+        self.assertTrue(td.check_head_checks(checks))
+
+    def test_dispatch_pending_gate_unchanged(self):
+        checks = [{"name": "test", "status": "in_progress", "conclusion": None}]
+        self.assertTrue(td.check_ci_pending(checks, False, True))
+
+
+if __name__ == "__main__":
+    unittest.main()
