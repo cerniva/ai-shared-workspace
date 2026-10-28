@@ -405,14 +405,14 @@
   "handoff_write": {
     "path": "state/handoffs.json",
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit_sha": "f4de948aa44fcf1ebddc052a3dc338c7ff8fd0f4",
-    "content_sha": "e541b042d703a4731b674c3c47eb08a0d2c3505c",
-    "readback_sha": "e541b042d703a4731b674c3c47eb08a0d2c3505c",
+    "commit_sha": "24494b2a79b3fef7ee5332f09f51731241af5a49",
+    "content_sha": "adcb2c909a0d0c32ac68717b1335ea01f51d7ef6",
+    "readback_sha": "adcb2c909a0d0c32ac68717b1335ea01f51d7ef6",
     "record_id": "CI-39269730285",
     "record_count": 55,
     "unique_count": 55,
     "main_modified": false,
-    "readback_status": "PENDING_VERIFY"
+    "readback_status": "PASS_SAFE_BRANCH_ONLY"
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
