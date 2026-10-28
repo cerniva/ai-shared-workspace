@@ -101,10 +101,16 @@ MIN_DAYS = 91
 
 def score(value: float, calibration: dict[str, Any] | None) -> float | str:
     """Linear map to 0-100 only for a validated calibration, else 'N/A'."""
-    if not calibration or not calibration.get("validated"):
+    # Only a literal JSON boolean true authorizes scoring; "false" is truthy in Python.
+    if not calibration or calibration.get("validated") is not True:
         return "N/A"
-    lo, hi = float(calibration["lo"]), float(calibration["hi"])
-    if hi <= lo:
+    # Non-finite observations/bounds must never become a fabricated 0-100 score.
+    try:
+        value = float(value)
+        lo, hi = float(calibration["lo"]), float(calibration["hi"])
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return "N/A"
+    if not all(math.isfinite(x) for x in (value, lo, hi)) or hi <= lo:
         return "N/A"
     frac = min(1.0, max(0.0, (value - lo) / (hi - lo)))
     if calibration.get("direction") == "lower_is_bullish":
@@ -174,18 +180,69 @@ def fit_train_bounds(history: list[float | None], as_of: int, params: dict[str, 
     return None if lo >= hi else (lo, hi)
 
 
-def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None) -> dict[str, Any]:
+ALTSEASON_LEARNING_ID = "learn_f7b141c60755c294"
+
+
+def _require_altseason_learning(ledger_path=None, catalog_path=None) -> str:
+    """Read the active finance policy and its sources before scoring.
+
+    Applying a conservative rule does not verify historical input data or
+    imply that any calibration/backtest has passed.
+    """
+    from scripts.knowledge_bridge import CatalogError, DEFAULT_CATALOG, SourceCatalog
+    from scripts.learning_bridge import DEFAULT_LEDGER, LearningLedger
+
+    catalog_path = catalog_path or DEFAULT_CATALOG
+    catalog = SourceCatalog(catalog_path)
+    ledger = LearningLedger(ledger_path or DEFAULT_LEDGER, catalog_path)
+    try:
+        catalog.validate()  # Reject tampered canonical URLs with unchanged source IDs.
+        ledger.validate()  # Reject modified claims paired with old learning IDs.
+    except CatalogError as exc:
+        raise CatalogError(f"bridge_failure: invalid finance knowledge integrity: {exc}") from exc
+    row = next(
+        (item for item in ledger.for_plan("finance")
+         if item.get("learning_id") == ALTSEASON_LEARNING_ID),
+        None,
+    )
+    if not row or "No invented 0-100 values" not in row.get("decision", ""):
+        raise CatalogError("bridge_failure: active altseason finance policy missing or changed")
+    source_ids = row.get("source_ids") or []
+    if not source_ids or any(catalog.find(source_id) is None for source_id in source_ids):
+        raise CatalogError("bridge_failure: altseason policy has missing source references")
+    return ALTSEASON_LEARNING_ID
+
+
+def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None,
+                    *, ledger_path=None, catalog_path=None) -> dict[str, Any]:
+    applied_id = _require_altseason_learning(ledger_path, catalog_path)
     cfg = cfg or load_calibration_config()
     rows = {}
     for ind in cfg["indicators"]:
-        x = values.get(ind["name"])
+        raw = values.get(ind["name"])
         direction = ind["direction"]
-        if x is None or direction == "nonmonotonic" or ind.get("lo") is None or ind.get("hi") is None:
+        # Reject bool, malformed and non-finite data before scoring or JSON output.
+        try:
+            x = float(raw) if raw is not None and not isinstance(raw, bool) else None
+        except (TypeError, ValueError, OverflowError):
+            x = None
+        if x is not None and not math.isfinite(x):
+            x = None
+        if (x is None or direction not in ("higher_is_bullish", "lower_is_bullish")
+                or ind.get("lo") is None or ind.get("hi") is None):
             s: float | str = "N/A"
         else:
-            s = score(float(x), {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
-                                 "direction": "lower_is_bullish" if direction == "lower_is_bullish" else "higher"})
+            s = score(x, {"lo": ind["lo"], "hi": ind["hi"], "validated": ind.get("validated", False),
+                          "direction": "lower_is_bullish" if direction == "lower_is_bullish" else "higher"})
         rows[ind["name"]] = {"value": x, "direction": direction, "source_url": ind["source_url"], "score": s}
     scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
     composite = round(sum(scored) / len(scored), 1) if scored and len(scored) == len(rows) else "N/A"
-    return {"indicators": rows, "composite_score": composite, "scored": len(scored), "total": len(rows)}
+    return {
+        "indicators": rows,
+        "composite_score": composite,
+        "scored": len(scored),
+        "total": len(rows),
+        "applied_learning_ids": [applied_id],
+        "decision_status": "CALIBRATION_UNVERIFIED" if len(scored) != len(rows) else "ALL_CONFIG_INDICATORS_SCORED",
+        "historical_backtest_verified": False,
+    }
