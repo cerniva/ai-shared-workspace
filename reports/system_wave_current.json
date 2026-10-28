@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T17:37:00+03:00",
+  "generated_at": "2026-10-28T18:40:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "CI_SUCCESS_MAY_IMPLY_WORK_OR_LOADER_SUCCESS_MAY_IMPLY_CONSUMPTION",
+  "decision_before": "CI_SUCCESS_MAY_IMPLY_TASK_EXECUTION_AND_LOADER_SUCCESS_MAY_IMPLY_REAL_CONSUMPTION",
   "decision_after": "WORKER_NO_TASK_EXECUTED_AND_BRIDGE_FAILURE_OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_ONLY_NOT_REAL_CONSUMER",
@@ -36,7 +36,7 @@
       }
     ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "NOT_RUN on current production consumers",
+    "negative_tests": "NOT_RUN_CURRENT_PRODUCTION",
     "applied_learning_ids": []
   },
   "archive": {
@@ -48,14 +48,14 @@
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
-    "combined_race_test": "NOT_RUN",
+    "combined_race_test": "NOT_RUN_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED"
   },
   "worker": {
-    "run_id": 40707560140,
-    "job_id": 122883692791,
+    "run_id": 40708817120,
+    "job_id": 122888335857,
     "conclusion": "success",
-    "stdout": "skip_no_handoff_id",
+    "stdout": "{\"team_worker\":\"skip_no_handoff_id\",\"reason\":\"repository_dispatch client_payload.handoff_id missing\",\"source\":\"chatgpt\",\"branch\":\"chatgpt/system-audit-20261026-1337-handoff\",\"message_id\":\"\"}",
     "task_executed": false,
     "second_run_id": 40707457738,
     "second_job_id": 122883298041,
@@ -64,11 +64,18 @@
     "unittest": "793 OK, 3 skipped",
     "integrity_tests": 15,
     "main_fix_pr": 370,
-    "pr_status": "OPEN_DRAFT"
+    "pr_status": "OPEN_DRAFT",
+    "ffmpeg_install_before_skip": true,
+    "additional_ci": {
+      "run_id": 40714807823,
+      "job_id": 122909478621,
+      "conclusion": "success",
+      "scope": "ci-bekci watch; NOT production archive repair"
+    }
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "automation listing 2026-10-28",
+    "verified_via": "automation listing 2026-10-28 18:40 TRT",
     "finance_runner": "NOT_FOUND",
     "video_shopify": "dry-run",
     "knowledge": "dry-run",
@@ -83,7 +90,7 @@
   "shorts": {
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
     "mp4_size": 598439,
-    "mp4_qc": "NOT_RUN",
+    "mp4_qc": "NOT_RUN_BINARY_QC_THIS_TURN",
     "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
     "upload_ledger_count": 0,
     "remote_upload": "NOT_VERIFIED"
@@ -108,7 +115,7 @@
       "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "OAuth remains unverified, no new upload ID",
       "next_step": "Use fresh authorized provider connection if available; user OAuth/2FA/secret only when genuinely required",
-      "retested_this_turn": true
+      "retested_this_turn": false
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
@@ -128,12 +135,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "PR #309 behind=88 ahead=52, main archive-heal.yml blob f8c074dd; no combined race CI",
-      "test_command": "current combined-head race CI NOT_RUN; local git ls-remote exit 128 DNS",
-      "test_exit": "NOT_RUN",
+      "evidence": "main archive-heal.yml blob f8c074dd; draft PR #309 diverged 88 behind / 52 ahead; worker 40708817120 job 122888335857 skip_no_handoff_id after ffmpeg; learning loader 40679379006 job 122785865701 count=4 exit 0, no consumer read-back",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (HISTORICAL CI ONLY); current-main archive race CI NOT_RUN",
+      "test_exit": "historical CI 0; current production NOT_RUN",
       "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
-      "read_back": "safe-branch handoff blob c1680d81473ce9bc5342e66cb84af780d16ab716",
-      "next_step": "Reconcile PR #309 with fresh main and test race CI; verify production archive read-back",
+      "read_back": "existing handoff branch blob d23f67da4dd900ed259b30bbd9eb465abc924d33; production archive NOT_VERIFIED",
+      "next_step": "P0 PR #309 reconcile fresh main, race CI + production read-back; issue #308 real consumer tests and applied_learning_ids manifest read-back",
       "retested_this_turn": true
     },
     {
@@ -342,7 +349,7 @@
       "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "issue #308 open; applied_learning_ids real consumer NOT_VERIFIED",
       "next_step": "Use PR #314/#334 and issue #308, prove real consumer output",
-      "retested_this_turn": true
+      "retested_this_turn": false
     },
     {
       "id": "SHORTS-FINAL-MP4-UPLOAD-GATE",
@@ -355,19 +362,20 @@
       "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "metadata and empty upload ledger verified",
       "next_step": "Verify MP4 audio/video/rights and preflight, then connected upload channel remote video ID read-back; no unauthorized upload",
-      "retested_this_turn": true
+      "retested_this_turn": false
     }
   ],
   "handoff_write": {
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit": "c5f0d9ee7fde46beae18e8f907fd5fa61df879d7",
-    "blob": "c1680d81473ce9bc5342e66cb84af780d16ab716",
-    "readback": true,
-    "records": 55
+    "commit": "baaceb252cbc35215c2a598e301ca0242c8d9eaa",
+    "read_back_blob": "d23f67da4dd900ed259b30bbd9eb465abc924d33",
+    "unique_records": 55
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
     "exit": 128,
-    "reason": "Could not resolve host: github.com"
+    "error": "Could not resolve host: github.com",
+    "local_plan_learnings": "NOT_RUN",
+    "alternative": "GitHub connector read and historical CI log verification"
   }
 }
