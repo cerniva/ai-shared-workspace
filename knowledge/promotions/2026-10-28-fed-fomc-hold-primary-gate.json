@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_a0c3e1be77e8b5a2",
+      "source_name": "Federal Reserve FOMC statement — October 28, 2026",
+      "canonical": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "category": "finance-news-primary",
+      "purpose": "Current dated official FOMC target-range decision and dissent verification",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public official source",
+      "reliability_limits": "This statement establishes the target range and vote on October 28, not the effective federal funds rate or a prediction of future policy; verify later FOMC releases before treating it as current.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-28T21:22:22+03:00",
+      "last_successful_use": "2026-10-28T21:22:22+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_acfe0f34f57aa6cb",
+      "title": "October 28 FOMC holds 3.75%-4.00% by 10-2; distinguish dated target from effective rate",
+      "domain": "finance-fomc-primary-current-rate",
+      "claim": "On 28 October 2026, the Federal Open Market Committee voted 10-2 to hold the federal funds target range at 3.75%-4.00%; Lisa D. Cook and Beth M. Hammack preferred a 25-basis-point increase. This supersedes the September 16 release as the latest dated FOMC policy decision, but does not itself establish the effective federal funds rate.",
+      "evidence_status": "verified",
+      "decision": "FED_FOMC_20261028_CURRENT_PRIMARY_GATE: In the next Finance decision/report, cite the October 28 official statement for the latest target range (3.75%-4.00%) and the 10-2 vote; distinguish the two dissenters' preference for a 25bp hike from the actual hold. Do not present the September 16 decision as the latest; verify newer statements at execution time. For effective-rate analysis require separately dated H.15 or equivalent primary observations. Record this learning ID in the actual Finance decision/report applied_learning_ids only when the gate changes or validates that real output.",
+      "outcome": "pending",
+      "next_measurement": "Find the actual Finance report/decision artifact produced after October 28 and verify the dated target range, vote, explicit latest-release check and applied_learning_ids; add a negative test rejecting stale September-only headline and missing source.",
+      "learned_at": "2026-10-28T21:22:22+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_a0c3e1be77e8b5a2"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If the official latest FOMC release is unreachable, mark current decision freshness unverified and do not infer a hold or hike from forecasts.",
+        "Preserve the September 16 historical learning and its source; do not delete or rewrite historical records."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "FED_FOMC_20261028_CURRENT_PRIMARY_GATE"
+  ]
+}
