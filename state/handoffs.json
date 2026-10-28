@@ -888,9 +888,15 @@
       "task": "[.github/workflows/research-learner.yml] .github/workflows/research-learner.yml iş akışındaki 85 saniyelik darboğazı gidermek için; Pip ve APT paket kurulum adımlarına `actions/cache` eklenerek tekrarlayan paket indirmeleri engellenmeli, workflow tetikleyicisine `paths` filtresi eklenerek ilgisiz dosya değişikliklerinde adımların çalışması önlenmeli ve birbiriyle bağımsız test adımları ayrı job'lara bölünerek paralel yürütülmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261027 key=slow-research-learner",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-27T10:41:29+00:00",
-      "updated_at": "2026-10-27T10:41:29+00:00"
+      "updated_at": "2026-10-27T11:10:39+00:00",
+      "claimed_at": "2026-10-27T11:10:39+00:00",
+      "notes": [
+        "2026-10-27T11:10:39+00:00 auditor: team-worker devraldi",
+        "2026-10-27T11:10:39+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261027-slow-research-learner.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
