@@ -59,14 +59,32 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      # team-work is also used by comms-watch for notification-only events.
+      # Those have no handoff_id and must not install FFmpeg or run the worker.
+      - name: Preflight handoff workload
+        id: workload
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HANDOFF_ID: ${{ github.event.client_payload.handoff_id }}
+        run: |
+          if [[ "$EVENT_NAME" == "repository_dispatch" && -z "$HANDOFF_ID" ]]; then
+            echo "run_worker=false" >> "$GITHUB_OUTPUT"
+            echo "team-worker: notification-only dispatch (no handoff_id), skip FFmpeg and worker"
+          else
+            echo "run_worker=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-python@v7
+        if: ${{ steps.workload.outputs.run_worker == 'true' }}
         with:
           python-version: '3.12'
       - name: Install ffmpeg (full test suite includes MP4 QC tests)
+        if: ${{ steps.workload.outputs.run_worker == 'true' }}
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
       - name: Run team-worker
+        if: ${{ steps.workload.outputs.run_worker == 'true' }}
         shell: bash
         run: |
           args=()
