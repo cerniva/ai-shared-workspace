@@ -1,0 +1,37 @@
+{
+  "handoff_id": "HO-IMP-20261028-provider-cerebras",
+  "source": "improvement-bot",
+  "run_id": "40679970076",
+  "task": "[config/model_providers.json] GitHub Actions CI/CD hatlarındaki darboğazı gidermek amacıyla, `config/model_providers.json` dosyasında `cerebras` sağlayıcısı, son 7 günde kaydedilen 163.3 saatlik 'no_key' kaynaklı başarısız istem gecikmelerini önlemek için geçerli bir API anahtarı tanımlanıp doğrulanana kadar model çağrı zincirinden geçici olarak tamamen çıkarılmalı veya fallback sıralamasında en sona çekilmelidir.",
+  "generated_at": "2026-10-28T11:27:00+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261028-provider-cerebras",
+    "evidence": [
+      {
+        "path": "config/model_providers.json",
+        "note": "Model sağlayıcı konfigürasyonlarının ve fallback öncelik sıralamalarının tanımlandığı ayar dosyası."
+      }
+    ],
+    "factual_findings": [
+      "Son 7 gün içerisinde `config/model_providers.json` dosyasında tanımlı `cerebras` sağlayıcısında API anahtarı eksikliği ('no_key') sebebiyle toplam 163.3 saatlik başarısız istem gecikmesi tespit edilmiştir.",
+      "Geçerli bir API anahtarı doğrulanamadığı için `cerebras` sağlayıcısı GitHub Actions CI/CD hatlarında darboğaza yol açmaktadır."
+    ],
+    "hypotheses": [
+      "`config/model_providers.json` dosyasındaki model çağrı zincirinden `cerebras` tamamen çıkarılırsa veya fallback sıralamasında en sona alınırsa, eksik anahtar kaynaklı gecikmeler ve CI/CD darboğazı derhal önlenecektir."
+    ],
+    "recommendation": "Geçerli ve doğrulanmış bir API anahtarı tanımlanana kadar `config/model_providers.json` içerisinde `cerebras` sağlayıcısını pasife çekin veya fallback sıralamasının sonuna taşıyın.",
+    "confidence": 0.95,
+    "next_action": "`config/model_providers.json` dosyasında `cerebras` sağlayıcısının fallback sıralamasını ve aktiflik durumunu güncelleyin.",
+    "timing": {
+      "started_at": "2026-10-28T11:27:21.977234+00:00",
+      "duration_ms": 11947
+    },
+    "usage": {
+      "input_tokens": 211,
+      "output_tokens": 351,
+      "total_tokens": 2180
+    }
+  }
+}
