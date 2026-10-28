@@ -138,7 +138,8 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
         review = evidence.get(key)
         if not isinstance(review, dict):
             raise ValueError(f"rights evidence missing {key}")
-        if review.get("status") not in {"none_detected", "cleared"}:
+        status = review.get("status")
+        if not isinstance(status, str) or status not in {"none_detected", "cleared"}:
             raise ValueError(f"{key} requires explicit none_detected or cleared status")
         reviewer = review.get("reviewer")
         if not isinstance(reviewer, str) or not reviewer.strip():
