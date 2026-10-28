@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T16:38:00+03:00",
+  "generated_at": "2026-10-28T17:37:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+  "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "CI_SUCCESS_OR_LOADER_SUCCESS_MIGHT_IMPLY_PRODUCTION",
-  "decision_after": "OBSERVATION_ONLY_P0_OPEN_BRIDGE_FAILURE",
+  "decision_before": "CI_SUCCESS_MAY_IMPLY_WORK_OR_LOADER_SUCCESS_MAY_IMPLY_CONSUMPTION",
+  "decision_after": "WORKER_NO_TASK_EXECUTED_AND_BRIDGE_FAILURE_OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_ONLY_NOT_REAL_CONSUMER",
   "learning_bridge": {
@@ -19,31 +19,56 @@
       "job_id": 122785865701,
       "stdout": "plan_learnings tag=system count=4 error=None",
       "exit": 0,
-      "artifacts": []
+      "scope": "HISTORICAL_CI_NOT_LOCAL_EXECUTION"
     },
+    "learnings": [
+      {
+        "id": "learn_0bdcee93377fd18d",
+        "source_id": "src_be6523a27c85e346",
+        "consumer": "YouTube Reporting API",
+        "production_effect": "NOT_VERIFIED"
+      },
+      {
+        "id": "learn_4decad368966e2e6",
+        "source_id": "src_569c596da7048714",
+        "consumer": "GitHub Actions artifact consumer",
+        "production_effect": "NOT_VERIFIED"
+      }
+    ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "NOT_RUN on current production consumers"
+    "negative_tests": "NOT_RUN on current production consumers",
+    "applied_learning_ids": []
   },
   "archive": {
     "pr": 309,
-    "status": "OPEN",
-    "behind": 87,
+    "status": "OPEN_DRAFT",
+    "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
+    "behind": 88,
     "ahead": 52,
+    "workflow_path": ".github/workflows/archive-heal.yml",
+    "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+    "risky_command": "git pull --rebase origin main",
+    "combined_race_test": "NOT_RUN",
     "production_readback": "NOT_VERIFIED"
   },
   "worker": {
-    "run_id": 40697185052,
-    "job_id": 122847194774,
+    "run_id": 40707560140,
+    "job_id": 122883692791,
     "conclusion": "success",
     "stdout": "skip_no_handoff_id",
     "task_executed": false,
-    "test_run_id": 40697193460,
-    "test_job_id": 122847008447,
-    "unittest": "800 OK, 3 skipped",
-    "integrity_tests": 15
+    "second_run_id": 40707457738,
+    "second_job_id": 122883298041,
+    "test_run_id": 40707613505,
+    "test_job_id": 122883856741,
+    "unittest": "793 OK, 3 skipped",
+    "integrity_tests": 15,
+    "main_fix_pr": 370,
+    "pr_status": "OPEN_DRAFT"
   },
   "automations": {
     "four_enabled": true,
+    "verified_via": "automation listing 2026-10-28",
     "finance_runner": "NOT_FOUND",
     "video_shopify": "dry-run",
     "knowledge": "dry-run",
@@ -59,6 +84,7 @@
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
     "mp4_size": 598439,
     "mp4_qc": "NOT_RUN",
+    "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
     "upload_ledger_count": 0,
     "remote_upload": "NOT_VERIFIED"
   },
@@ -79,7 +105,7 @@
       "evidence": "state/now.json direct OAuth invalid_grant, old Metricool fallback verified 2026-09-30 only; current ledger uploads=[]",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "OAuth remains unverified, no new upload ID",
       "next_step": "Use fresh authorized provider connection if available; user OAuth/2FA/secret only when genuinely required",
       "retested_this_turn": true
@@ -92,7 +118,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261019 key=slow-shorts-free-smoke-once",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -102,12 +128,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main archive-heal.yml blob f8c074dd still git pull --rebase origin main; PR #309 head 8039adb, 87 behind/52 ahead; current main SHA 5411744708497bd88f6b99b7fec62008d48ddf71",
-      "test_command": "PR branch historical tests only; current combined-head race CI NOT_RUN; local git ls-remote exit 128 DNS",
-      "test_exit": "NOT_RUN (local git 128)",
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
-      "read_back": "Main workflow read; safe branch handoff read-back blob 1e90bff8bba161a39512ad6549eac09771b41e80",
-      "next_step": "Reconcile draft PR #309 with fresh main; run race CI and production archive read-back",
+      "evidence": "PR #309 behind=88 ahead=52, main archive-heal.yml blob f8c074dd; no combined race CI",
+      "test_command": "current combined-head race CI NOT_RUN; local git ls-remote exit 128 DNS",
+      "test_exit": "NOT_RUN",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
+      "read_back": "safe-branch handoff blob c1680d81473ce9bc5342e66cb84af780d16ab716",
+      "next_step": "Reconcile PR #309 with fresh main and test race CI; verify production archive read-back",
       "retested_this_turn": true
     },
     {
@@ -118,7 +144,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261020 key=slow-tinyfish-youtube-analytics",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -131,7 +157,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39382139527",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -144,7 +170,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261021 key=slow-auto-merge-gate",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -157,7 +183,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39568642118",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -170,7 +196,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39592612716",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -183,7 +209,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39617972568",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -196,7 +222,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261022 key=slow-shorts-render-tests",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -209,7 +235,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39733548992",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -222,7 +248,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-39755405014",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -235,7 +261,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261023 key=slow-archive-heal",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -248,7 +274,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261024 key=slow-worker-orchestration-tests",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -261,7 +287,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-40086311263",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -274,7 +300,7 @@
       "evidence": "main state/handoffs.json status=open; original=ci-bekci dispatch CI-40115771434",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -287,7 +313,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261025 key=slow-codeql-code-scanning",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -300,7 +326,7 @@
       "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261027 key=slow-research-learner",
       "test_command": "NOT_RUN this turn",
       "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
       "read_back": "Main handoff record re-read; no task-specific production verification",
       "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
       "retested_this_turn": false
@@ -310,12 +336,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Ledger 77, catalog 90, active system 4; IDs learn_0bdcee93377fd18d and learn_4decad368966e2e6 source-linked; loader run 40679379006 job 122785865701 count=4 error=None; no production consumer manifest",
-      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (GitHub CI)",
-      "test_exit": 0,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
-      "read_back": "CI stdout confirmed, artifacts=[]; consumer applied_learning_ids NOT_VERIFIED",
-      "next_step": "Reuse #308, verify real Reporting API partial-batch and cross-run digest mismatch with negative tests and manifest read-back",
+      "evidence": "system ledger 77, sources 90, active system 4; loader CI 40679379006 job 122785865701 exit 0; real consumer manifest missing",
+      "test_command": "positive/negative real consumer tests NOT_RUN; historical loader CI only",
+      "test_exit": "NOT_RUN",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
+      "read_back": "issue #308 open; applied_learning_ids real consumer NOT_VERIFIED",
+      "next_step": "Use PR #314/#334 and issue #308, prove real consumer output",
       "retested_this_turn": true
     },
     {
@@ -323,13 +349,25 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Repo shorts/shorts_bugun.mp4 blob 14f34ef7110b6052a79d434bd80d7d087e6a4f0b size 598439 bytes; upload ledger aa357952c4ee713ddc224d8426cf8bc9c538d13e uploads=[]",
-      "test_command": "MP4 binary decode/QC NOT_RUN this turn; remote upload NOT_RUN",
-      "test_exit": null,
-      "main_sha": "5411744708497bd88f6b99b7fec62008d48ddf71",
-      "read_back": "Repo file metadata exists; upload ledger read-back empty; no video_id",
+      "evidence": "shorts/shorts_bugun.mp4 blob 14f34ef7, 598439 bytes; knowledge/shorts/upload_ledger.json uploads=[]",
+      "test_command": "binary QC NOT_RUN; upload NOT_RUN",
+      "test_exit": "NOT_RUN",
+      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
+      "read_back": "metadata and empty upload ledger verified",
       "next_step": "Verify MP4 audio/video/rights and preflight, then connected upload channel remote video ID read-back; no unauthorized upload",
       "retested_this_turn": true
     }
-  ]
+  ],
+  "handoff_write": {
+    "branch": "chatgpt/system-audit-20261026-1337-handoff",
+    "commit": "c5f0d9ee7fde46beae18e8f907fd5fa61df879d7",
+    "blob": "c1680d81473ce9bc5342e66cb84af780d16ab716",
+    "readback": true,
+    "records": 55
+  },
+  "local_git": {
+    "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+    "exit": 128,
+    "reason": "Could not resolve host: github.com"
+  }
 }
