@@ -118,6 +118,12 @@ class SourceClipTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "recognizable_people_review"):
             validate_rights(self.video, self.srt, self.evidence, "en")
 
+    def test_malformed_component_status_blocks_cleanly(self):
+        self.data["third_party_audio_review"]["status"] = ["none_detected"]
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "third_party_audio_review"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
     def test_cleared_component_without_permission_url_blocks(self):
         self.data["third_party_audio_review"]["status"] = "cleared"
         self.evidence.write_text(json.dumps(self.data))
