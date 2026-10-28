@@ -156,19 +156,19 @@ class SourceClipTests(unittest.TestCase):
 
     def test_overlong_srt_line_blocks_even_when_cps_is_low(self):
         # A 43-character line displayed for 30 seconds passes CPS, not phone readability.
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\n" +
-                            "A" * 43 + "\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\n" +
+                            "A" * 43 + "\n")
         with self.assertRaisesRegex(ValueError, "42 visible characters"):
             check_captions(self.srt, 30)
 
     def test_42_character_line_passes_boundary(self):
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\n" +
-                            "A" * 42 + "\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\n" +
+                            "A" * 42 + "\n")
         self.assertIsNone(check_captions(self.srt, 30))
 
     def test_caption_markup_does_not_count_as_visible_characters(self):
-        self.srt.write_text("1\\n00:00:00,000 --> 00:00:30,000\\n<i>" +
-                            "A" * 42 + "</i>\\n")
+        self.srt.write_text("1\n00:00:00,000 --> 00:00:30,000\n<i>" +
+                            "A" * 42 + "</i>\n")
         self.assertIsNone(check_captions(self.srt, 30))
 
     def test_landscape_caption_margin_uses_ass_units_inside_image(self):
