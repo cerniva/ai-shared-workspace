@@ -97,6 +97,13 @@ def check_captions(path: Path, seconds: float) -> None:
         cue_seconds = _time(end_text) - _time(start_text)
         if char_count / cue_seconds > 20.0:
             raise ValueError("caption reading speed exceeds 20 characters/second; human review required")
+        # The CPS check alone misses a long single display line shown for many seconds.
+        # Measure each rendered SRT line after removing markup; never silently reflow
+        # sourced subtitles, because edits can invalidate timing and rights review.
+        for raw_line in caption_text.splitlines():
+            visible_line = " ".join(re.sub(r"<[^>]+>", "", raw_line).split())
+            if len(visible_line) > 42:
+                raise ValueError("caption line exceeds 42 visible characters; human review required")
 
 
 def validate_rights(source: Path, captions: Path, record: Path, language: str) -> dict:
