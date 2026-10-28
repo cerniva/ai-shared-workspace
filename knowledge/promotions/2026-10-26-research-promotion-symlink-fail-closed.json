@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_e66b1645818199a8",
+    "source_name": "Python pathlib: symbolic link inspection",
+    "canonical": "https://docs.python.org/3/library/pathlib.html",
+    "category": "system-knowledge-promotion-path-integrity",
+    "purpose": "Official pathlib Path.is_symlink documentation for rejecting symlinked promotion inputs before reading their targets",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public documentation; no API credit",
+    "reliability_limits": "Documentation establishes symlink detection; repo-specific importer safety and absence of canonical writes require tests on exact branch HEAD.",
+    "discovered_at": "2026-10-26T12:33:29+03:00",
+    "last_successful_use": "2026-10-26T12:33:29+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_ece06830ca2b16ad",
+    "title": "Reject symlinked promotion JSON before import",
+    "domain": "python-pathlib-promotion-symlink-ingestion",
+    "claim": "Python pathlib Path.is_symlink identifies symbolic links. A staged knowledge promotion importer that reads *.json entries without checking for symlinks can follow an entry outside the promotions directory. Reject symlinked promotion entries before parsing to keep out-of-scope JSON from entering the canonical catalog and learning ledger.",
+    "evidence_status": "mixed",
+    "decision": "PROMOTION_SYMLINK_FAIL_CLOSED_GATE: Reject every symlinked *.json entry in knowledge/promotions before parsing, even if its target contains valid promotion JSON. Verify no canonical source/learning changes and require branch CI/read-back before merge.",
+    "outcome": "pending",
+    "next_measurement": "Run tests.test_knowledge_promote and complete PR #326 CI at the new HEAD; inspect main read-back, keep promotion staged until reviewed and safely integrated.",
+    "learned_at": "2026-10-26T12:33:29+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_e66b1645818199a8"
+    ],
+    "failure_history": [
+      "Before this fix scripts/knowledge_promote.py::_apply_batch parsed all *.json paths without rejecting symbolic links, allowing out-of-scope targets to be considered for import."
+    ],
+    "fallback_history": [
+      "If CI or merge is blocked, leave this promotion staged on existing draft PR #326, retain canonical history, and reuse bridge_failure issue #308 with SHA and tests."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "PROMOTION_SYMLINK_FAIL_CLOSED_GATE"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c9c50a504fb81ab2",
+      "source_name": "Python json JSON decoder and object_pairs_hook documentation",
+      "canonical": "https://docs.python.org/3/library/json.html",
+      "category": "system-research-intake-integrity",
+      "purpose": "Verify Python's default repeated-key and non-finite JSON behavior and the supported strict decoder hooks",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public official documentation; no key or quota",
+      "reliability_limits": "Describes Python parser behavior; code safety and runtime deployment must be separately verified by PR-head tests and main read-back.",
+      "discovered_at": "2026-10-26T03:27:00+03:00",
+      "last_successful_use": "2026-10-26T03:27:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_3f0df6c6568140cd",
+      "title": "Research staging must reject duplicate JSON keys and non-finite constants",
+      "domain": "research-intake-integrity",
+      "claim": "Python json.loads accepts repeated object member names by default and keeps the last value; it also accepts NaN and Infinity. Research intake and ledger evidence must reject duplicate keys at any nesting depth and non-finite constants before trusting source or learning identity.",
+      "evidence_status": "verified",
+      "decision": "RESEARCH_STRICT_JSON_IDENTITY_GATE: Decode staged promotions and canonical learning ledger with object_pairs_hook duplicate-key rejection and parse_constant non-finite rejection. Reject ambiguous nested keys before source/learning identity checks; mark the candidate unverified or missing instead of counting it as new, and preserve existing bytes. Require negative tests for nested duplicates and NaN/Infinity, positive valid JSON control, latest PR CI, and main read-back before claiming production integration.",
+      "outcome": "pending",
+      "next_measurement": "On existing PR #326 verify tests/test_github_agents.py strict decoder and integration negatives on the latest SHA, then confirm main integration and actual research_learner/report outputs. Do not count pending promotion as canonical learning.",
+      "learned_at": "2026-10-26T03:27:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c9c50a504fb81ab2"
+      ],
+      "failure_history": [
+        "2026-10-26: draft PR #326 staged reporter used plain json.loads; repeated JSON keys and NaN could pass structural validation as a seemingly valid staged candidate."
+      ],
+      "fallback_history": [
+        "If strict parser or CI is unavailable, do not promote or count the candidate; preserve existing files and send a SHA-bound handoff through existing bridge_failure #308."
+      ],
+      "supersedes": null,
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active"
+    }
+  ],
+  "gates": [
+    "RESEARCH_STRICT_JSON_IDENTITY_GATE"
+  ]
+}
