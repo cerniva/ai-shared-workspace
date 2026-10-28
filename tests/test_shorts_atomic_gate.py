@@ -38,6 +38,16 @@ class AtomicShortsGateTests(unittest.TestCase):
             "reuse_permitted": True,
             "derivatives_permitted": True,
             "audio_reuse_permitted": True,
+            "third_party_audio_review": {
+                "status": "none_detected",
+                "reviewer": "Independent test reviewer",
+                "evidence_url": "https://example.org/audio-review",
+            },
+            "recognizable_people_review": {
+                "status": "none_detected",
+                "reviewer": "Independent test reviewer",
+                "evidence_url": "https://example.org/people-review",
+            },
             "spoken_language": "en",
             "caption_language": "en",
         }), encoding="utf-8")
