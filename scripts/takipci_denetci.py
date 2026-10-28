@@ -170,11 +170,20 @@ def check_run_refs(runs: list[dict], repo: str, head_sha: str) -> tuple[list[str
         if run_repo.lower() != repo.lower():
             reasons.append(f"run {rid} belongs to another repo ({run_repo})")
             continue
+        # A PR body may cite a historical main/other-PR CI failure as evidence.
+        # It must not fail the current PR's auditor check. Keep the warning,
+        # but only gate the referenced run if it belongs to this exact head.
+        # Missing head_sha is not trusted and remains fail-closed below.
+        run_head = run.get("head_sha")
+        if head_sha and run_head and run_head != head_sha:
+            warnings.append(
+                f"run {rid} head_sha {run_head[:7]} != PR head {head_sha[:7]}"
+                " (historical/non-head CI; not a current-head gate)"
+            )
+            continue
         concl = run.get("conclusion")
         if run.get("status") != "completed" or concl != "success":
             reasons.append(f"run {rid} conclusion is {concl or run.get('status')} (not success)")
-        if head_sha and run.get("head_sha") and run["head_sha"] != head_sha:
-            warnings.append(f"run {rid} head_sha {run['head_sha'][:7]} != PR head {head_sha[:7]}")
     return reasons, warnings
 
 
