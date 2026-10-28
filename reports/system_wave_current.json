@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T21:39:15+03:00",
+  "generated_at": "2026-10-28T22:40:33.047+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
+  "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "RECENT_CI_SUCCESS_MAY_IMPLY_TASK_EXECUTION_OR_CONSUMER_PASS",
-  "decision_after": "CI_40744953784_SKIP_NO_HANDOFF; CI_40744958269_TEST_ONLY; LEARNING_LOADER_ONLY; P0_OPEN; BRIDGE_FAILURE_OPEN",
+  "decision_before": "PREVIOUS_21_39_CI_SUCCESS_AND_LOADER_ONLY_PRODUCTION_UNVERIFIED",
+  "decision_after": "MAIN_BF35F592; WORKER_40755274468_NO_PENDING_HANDOFF; TEST_40754347932_799_OK_15_OK; ARCHIVE_PR309_93_BEHIND_52_AHEAD; BRIDGE_FAILURE_OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_ONLY_NOT_REAL_CONSUMER",
   "learning_bridge": {
@@ -37,7 +37,7 @@
       }
     ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "METADATA_ONLY; REPORTING_API_PARTIAL_BATCH_AND_DIGEST_PRODUCTION_NOT_RUN",
+    "negative_tests": "METADATA_ONLY; PRODUCTION_DIGEST_AND_REPORTING_BATCH_NOT_VERIFIED",
     "applied_learning_ids": [],
     "active_system_ids": [
       "learn_0bdcee93377fd18d",
@@ -58,14 +58,15 @@
       }
     ],
     "metadata_tests": {
-      "scope": "IN_PROCESS_JS_AUDIT_ONLY_NOT_PRODUCTION",
-      "positive": "4/4 active system learning source IDs valid",
-      "negative": [
-        "missing rejected",
-        "inactive rejected",
-        "superseded rejected",
-        "invalid source rejected"
-      ],
+      "scope": "IN_PROCESS_JS_METADATA_AUDIT_ONLY_NOT_REAL_CONSUMER",
+      "cases": {
+        "positive": true,
+        "missing": true,
+        "inactive": true,
+        "superseded": true,
+        "bad_source": true
+      },
+      "active_count": 4,
       "exit": "NO_SHELL_EXIT",
       "ci_run_id": null,
       "ci_job_id": null
@@ -77,26 +78,26 @@
     "pr": 309,
     "status": "OPEN_DRAFT",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 89,
+    "behind": 93,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a"
+    "base_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309"
   },
   "worker": {
-    "run_id": 40744953784,
-    "job_id": 123018975983,
+    "run_id": 40755274468,
+    "job_id": 123052407602,
     "conclusion": "success",
-    "stdout": "{\"team_worker\": \"skip_no_handoff_id\", \"reason\": \"repository_dispatch client_payload.handoff_id missing\", \"source\": \"chatgpt\", \"branch\": \"chatgpt/kb-fomc-20261028-primary-gate\", \"message_id\": \"\"}",
+    "stdout": "{\"team_worker\": \"no_pending_handoff\"}",
     "task_executed": false,
     "second_run_id": 40727150086,
     "second_job_id": 122953372227,
-    "test_run_id": 40744958269,
-    "test_job_id": 123016171506,
-    "unittest": "794 OK (3 skipped)",
+    "test_run_id": 40754347932,
+    "test_job_id": 123049141794,
+    "unittest": "799 OK (3 skipped)",
     "integrity_tests": 15,
     "main_fix_pr": 370,
     "pr_status": "OPEN_DRAFT",
@@ -111,10 +112,10 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "live automations.list 2026-10-28 21:39 TRT",
-    "finance_runner": "NOT_FOUND",
-    "video_shopify": "dry-run",
-    "knowledge": "dry-run",
+    "verified_via": "live automations.list 2026-10-28 22:xx TRT",
+    "finance_runner": "NOT_VERIFIED",
+    "video_shopify": "GITHUB_PRODUCTION_NOT_VERIFIED",
+    "knowledge": "GITHUB_PRODUCTION_NOT_VERIFIED",
     "system": "dispatch+observe"
   },
   "finance": {
@@ -171,11 +172,11 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "P0 archive-heal main workflow blob f8c074dd uses git pull --rebase origin main; PR #309 head 8039adb diverged behind 89/ahead 52",
-      "test_command": "GitHub compare main...8039adb (read-only)",
-      "test_exit": "COMPARE_OK; COMBINED_CI_NOT_RUN",
-      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "main workflow blob f8c074dd; PR #309 draft; production NOT_VERIFIED",
+      "evidence": "main archive-heal.yml blob f8c074dd still rebase; PR #309 head 8039adb, 93 behind/52 ahead; workflow branch uses fetch+recompute; current combined race not run",
+      "test_command": "GitHub compare main...8039adb (read-only); prior PR production race test code inspected",
+      "test_exit": "COMPARE_OK; CURRENT_COMBINED_CI_NOT_RUN",
+      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+      "read_back": "main workflow blob f8c074dd, PR draft, no production archive read-back",
       "next_step": "Reconcile existing draft PR #309 against fresh main; run race CI and production read-back; do not merge without authorization",
       "retested_this_turn": true
     },
@@ -379,11 +380,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Ledger 77/source catalog 90; active system learnings 4; CI #40727800259 job 122955680196 count=4 exit=0 only loader; draft PR #314/#334 have test-only gates",
-      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (historical CI)",
-      "test_exit": 0,
-      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "Main ledger blob 84c52855 and catalog 2a2d1341; real consumer manifest NOT_VERIFIED; applied_learning_ids=[] audit only",
+      "evidence": "77 ledger rows, 90 sources, 4 active system metadata-valid; official sources verified in catalog; real consumer applied_learning_ids absent",
+      "test_command": "in-process JS metadata positive/missing/inactive/superseded/bad-source checks",
+      "test_exit": "5/5 metadata checks; NO_SHELL_EXIT; consumer tests NOT_RUN",
+      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+      "read_back": "issue #308 open; main ledger blob 84c52855, catalog blob 2a2d1341; production manifest NOT_VERIFIED",
       "next_step": "Use issue #308 and PR #314/#334; verify real consumer positive/negative tests + manifest read-back",
       "retested_this_turn": true
     },
@@ -392,11 +393,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main knowledge/shorts/upload_ledger.json blob aa357952, uploads=[]; previous MP4 blob only",
-      "test_command": "BINARY_MP4_QC_NOT_RUN",
-      "test_exit": null,
-      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "upload ledger [] on main; remote video ID NOT_VERIFIED",
+      "evidence": "main upload_ledger.json blob aa357952, uploads=[]",
+      "test_command": "GitHub fetch_file upload_ledger.json (read-only)",
+      "test_exit": "READ_OK; MP4_BINARY_QC_NOT_RUN",
+      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+      "read_back": "0 upload entries, no current remote video ID",
       "next_step": "Validate MP4 bytes/rights and actual remote upload read-back via authorized channel",
       "retested_this_turn": true
     }
@@ -565,5 +566,34 @@
       334,
       370
     ]
+  },
+  "audit_20261028_2237": {
+    "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+    "main_head_verified_at": "2026-10-28T22:40:33.047+03:00",
+    "worker_run": 40755274468,
+    "worker_job": 123052407602,
+    "worker_result": "no_pending_handoff",
+    "worker_work_executed": false,
+    "tests_run": 40754347932,
+    "tests_job": 123049141794,
+    "tests_result": "799 tests OK (3 skipped), 15 integrity tests OK, CI success",
+    "archive_pr": 309,
+    "archive_behind": 93,
+    "archive_ahead": 52,
+    "issue_308": "OPEN",
+    "metadata_tests": {
+      "positive": true,
+      "missing": true,
+      "inactive": true,
+      "superseded": true,
+      "bad_source": true
+    },
+    "applied_learning_ids": [],
+    "real_consumer_readback": "NOT_VERIFIED",
+    "shorts_uploads": 0,
+    "altcoin": "N/A",
+    "svg": "NOT_VERIFIED",
+    "git_local": "exit 128 DNS github.com",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION"
   }
 }
