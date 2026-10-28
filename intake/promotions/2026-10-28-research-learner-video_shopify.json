@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_14818279e16364ff",
+      "source_name": "Shopify developer changelog feed",
+      "canonical": "https://shopify.dev/changelog/feed.xml",
+      "category": "commerce-platform",
+      "purpose": "Keyless primary feed for video_shopify research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-10-28T11:34:47+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_a8d30490954b7596",
+      "title": "Shopify developer changelog feed: Store and app install details in the Dev Dashboard",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog feed fetched 2026-10-28 lists as newest item: \"Store and app install details in the Dev Dashboard\" (Tue, 27 Oct 2026 23:30:00 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The 'video_shopify' plan should review the 'Store and app install details in the Dev Dashboard' update to evaluate its potential impact on store integration monitoring without taking any immediate implementation action.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-10-28T11:34:47+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
