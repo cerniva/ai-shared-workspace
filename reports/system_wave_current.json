@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T20:37:21+03:00",
+  "generated_at": "2026-10-28T21:39:15+03:00",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "CI_SUCCESS_MAY_IMPLY_TASK_EXECUTION_AND_LOADER_SUCCESS_MAY_IMPLY_CONSUMPTION",
-  "decision_after": "WORKER_SKIP_NO_TASK; LEARNING_METADATA_ONLY; P0_OPEN; BRIDGE_FAILURE_OPEN",
+  "decision_before": "RECENT_CI_SUCCESS_MAY_IMPLY_TASK_EXECUTION_OR_CONSUMER_PASS",
+  "decision_after": "CI_40744953784_SKIP_NO_HANDOFF; CI_40744958269_TEST_ONLY; LEARNING_LOADER_ONLY; P0_OPEN; BRIDGE_FAILURE_OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_ONLY_NOT_REAL_CONSUMER",
   "learning_bridge": {
@@ -37,7 +37,7 @@
       }
     ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "METADATA_ONLY_CHECKED; REPORTING_API_PARTIAL_BATCH_AND_DIGEST_PRODUCTION_NOT_RUN",
+    "negative_tests": "METADATA_ONLY; REPORTING_API_PARTIAL_BATCH_AND_DIGEST_PRODUCTION_NOT_RUN",
     "applied_learning_ids": [],
     "active_system_ids": [
       "learn_0bdcee93377fd18d",
@@ -69,7 +69,9 @@
       "exit": "NO_SHELL_EXIT",
       "ci_run_id": null,
       "ci_job_id": null
-    }
+    },
+    "source_catalog_blob": "2a2d1341809794e05ca980fee42a223a6831afe7",
+    "learning_ledger_blob": "84c52855ce672be4f499b261fda7a2c8c35cde79"
   },
   "archive": {
     "pr": 309,
@@ -85,16 +87,16 @@
     "base_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a"
   },
   "worker": {
-    "run_id": 40735895122,
-    "job_id": 122984406358,
+    "run_id": 40744953784,
+    "job_id": 123018975983,
     "conclusion": "success",
-    "stdout": "{\"team_worker\":\"skip_no_handoff_id\",\"reason\":\"repository_dispatch client_payload.handoff_id missing\",\"source\":\"chatgpt\",\"branch\":\"chatgpt/kb-shopify-offline-token-gate-20261028\",\"message_id\":\"\"}",
+    "stdout": "{\"team_worker\": \"skip_no_handoff_id\", \"reason\": \"repository_dispatch client_payload.handoff_id missing\", \"source\": \"chatgpt\", \"branch\": \"chatgpt/kb-fomc-20261028-primary-gate\", \"message_id\": \"\"}",
     "task_executed": false,
     "second_run_id": 40727150086,
     "second_job_id": 122953372227,
-    "test_run_id": 40735861579,
-    "test_job_id": 122984102487,
-    "unittest": "797 OK (3 skipped)",
+    "test_run_id": 40744958269,
+    "test_job_id": 123016171506,
+    "unittest": "794 OK (3 skipped)",
     "integrity_tests": 15,
     "main_fix_pr": 370,
     "pr_status": "OPEN_DRAFT",
@@ -109,7 +111,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "live automations.list 2026-10-28 20:37 TRT",
+    "verified_via": "live automations.list 2026-10-28 21:39 TRT",
     "finance_runner": "NOT_FOUND",
     "video_shopify": "dry-run",
     "knowledge": "dry-run",
@@ -169,12 +171,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "P0 archive-heal main workflow still rebase; draft PR #309 behind 89/ahead 52; no combined CI/read-back",
-      "test_command": "GitHub compare main...PR309 read-only",
-      "test_exit": "COMPARE_OK; PRODUCTION_TEST_NOT_RUN",
+      "evidence": "P0 archive-heal main workflow blob f8c074dd uses git pull --rebase origin main; PR #309 head 8039adb diverged behind 89/ahead 52",
+      "test_command": "GitHub compare main...8039adb (read-only)",
+      "test_exit": "COMPARE_OK; COMBINED_CI_NOT_RUN",
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "main workflow blob f8c074dd; PR head 8039adb; production NOT_VERIFIED",
-      "next_step": "P0 PR #309 current-main race CI/read-back; #308 consumer fail-closed tests and applied_learning_ids; #370 early FFmpeg skip",
+      "read_back": "main workflow blob f8c074dd; PR #309 draft; production NOT_VERIFIED",
+      "next_step": "Reconcile existing draft PR #309 against fresh main; run race CI and production read-back; do not merge without authorization",
       "retested_this_turn": true
     },
     {
@@ -299,26 +301,26 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261023 key=slow-archive-heal",
-      "test_command": "NOT_RUN this turn",
-      "test_exit": null,
-      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
-      "read_back": "Main handoff record re-read; no task-specific production verification",
-      "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
-      "retested_this_turn": false
+      "evidence": "P0 archive-heal main workflow blob f8c074dd uses git pull --rebase origin main; PR #309 head 8039adb diverged behind 89/ahead 52",
+      "test_command": "GitHub compare main...8039adb (read-only)",
+      "test_exit": "COMPARE_OK; COMBINED_CI_NOT_RUN",
+      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
+      "read_back": "main workflow blob f8c074dd; PR #309 draft; production NOT_VERIFIED",
+      "next_step": "Reconcile existing draft PR #309 against fresh main; run race CI and production read-back; do not merge without authorization",
+      "retested_this_turn": true
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main state/handoffs.json status=open; original=state/improvement_report.json day=20261024 key=slow-worker-orchestration-tests",
-      "test_command": "NOT_RUN this turn",
-      "test_exit": null,
-      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
-      "read_back": "Main handoff record re-read; no task-specific production verification",
-      "next_step": "Review existing PR/CI and validate on isolated branch; do not duplicate",
-      "retested_this_turn": false
+      "evidence": "CI #40744953784 job 123018975983 skip_no_handoff_id after FFmpeg; CI #40744958269 job 123016171506 794 tests OK (3 skipped), 15 integrity OK",
+      "test_command": "python3 -m unittest discover -s tests -p 'test_*.py'; python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v",
+      "test_exit": 0,
+      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
+      "read_back": "CI job logs checked; PR #370 remains draft, no task executed",
+      "next_step": "Reuse PR #370 for early skip, test on combined main, verify task-specific execution",
+      "retested_this_turn": true
     },
     {
       "id": "CI-40086311263",
@@ -377,12 +379,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "ledger 77/catalog 90, 4 active system, both required source IDs valid; CI 40727800259/job 122955680196 loader-only; metadata JS positive/negative only",
-      "test_command": "CI python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
-      "test_exit": "CI exit 0; consumer negative tests NOT_RUN",
+      "evidence": "Ledger 77/source catalog 90; active system learnings 4; CI #40727800259 job 122955680196 count=4 exit=0 only loader; draft PR #314/#334 have test-only gates",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (historical CI)",
+      "test_exit": 0,
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "GitHub source/ledger SHA verified; real consumer applied_learning_ids NOT_VERIFIED",
-      "next_step": "Use PR #314/#334 and issue #308, prove real consumer output",
+      "read_back": "Main ledger blob 84c52855 and catalog 2a2d1341; real consumer manifest NOT_VERIFIED; applied_learning_ids=[] audit only",
+      "next_step": "Use issue #308 and PR #314/#334; verify real consumer positive/negative tests + manifest read-back",
       "retested_this_turn": true
     },
     {
@@ -390,12 +392,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "knowledge/shorts/upload_ledger.json sha aa357952c4ee713ddc224d8426cf8bc9c538d13e uploads=[]; MP4 binary fetch unsupported",
-      "test_command": "GitHub metadata read-only; binary QC NOT_RUN",
-      "test_exit": "BINARY_QC_NOT_RUN",
+      "evidence": "main knowledge/shorts/upload_ledger.json blob aa357952, uploads=[]; previous MP4 blob only",
+      "test_command": "BINARY_MP4_QC_NOT_RUN",
+      "test_exit": null,
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "upload ledger empty; remote YouTube video_id NOT_VERIFIED",
-      "next_step": "Verify MP4 audio/video/rights and preflight, then connected upload channel remote video ID read-back; no unauthorized upload",
+      "read_back": "upload ledger [] on main; remote video ID NOT_VERIFIED",
+      "next_step": "Validate MP4 bytes/rights and actual remote upload read-back via authorized channel",
       "retested_this_turn": true
     }
   ],
@@ -491,5 +493,77 @@
       "all_retested": false
     },
     "payoutlens_touched": false
+  },
+  "audit_20261028_2139": {
+    "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
+    "read_only_checks": [
+      "PROTOCOL.md",
+      "tasks/active.json",
+      "tasks/agent_capacity.json",
+      "state/handoffs.json",
+      "messages/grok-to-chatgpt.md",
+      "messages/team-reports.md",
+      "messages/fallback/FB-20261009-213204-grok-fallback-open.json",
+      "knowledge/learning_ledger.json",
+      "knowledge/source_catalog.json",
+      "scripts/plan_learnings.py",
+      "state/automation_runner.json",
+      "knowledge/shorts/upload_ledger.json",
+      ".github/workflows/archive-heal.yml"
+    ],
+    "capacity": {
+      "source": "tasks/agent_capacity.json",
+      "updated_at": "2026-09-26T02:43:26+03:00",
+      "max_active_per_agent": 5,
+      "fresh_assignment_verified": false
+    },
+    "newest_worker": {
+      "run_id": 40744953784,
+      "job_id": 123018975983,
+      "exit": 0,
+      "result": "skip_no_handoff_id",
+      "actual_task_executed": false,
+      "ffmpeg_installed_before_skip": true
+    },
+    "newest_worker_tests": {
+      "run_id": 40744958269,
+      "job_id": 123016171506,
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py' ; python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v",
+      "result": "794 tests OK (3 skipped); 15 integrity tests OK",
+      "exit": 0,
+      "scope": "CI_TEST_ONLY"
+    },
+    "learning_loader": {
+      "run_id": 40727800259,
+      "job_id": 122955680196,
+      "stdout": "plan_learnings tag=system count=4 error=None",
+      "exit": 0,
+      "production_consumer": "NOT_VERIFIED"
+    },
+    "grok_ack": "NOT_SENT",
+    "main_write": false,
+    "merge": false,
+    "publish": false,
+    "payment": false,
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git refs/heads/main",
+      "exit": 128,
+      "reason": "Could not resolve host: github.com"
+    },
+    "unverified": [
+      "Reporting API partial batch production",
+      "digest mismatch production",
+      "applied_learning_ids production readback",
+      "archive-heal production",
+      "Shorts MP4 binary QC and upload",
+      "finance production SVG"
+    ],
+    "issue_reused": 308,
+    "prs_reused": [
+      309,
+      314,
+      334,
+      370
+    ]
   }
 }
