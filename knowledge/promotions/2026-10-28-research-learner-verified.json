@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_c47bbcd15b32d194", "verified_at": "2026-10-28T09:10:00+03:00"},
+    {"source_id": "src_14818279e16364ff", "verified_at": "2026-10-28T09:10:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog feed: GitHub Copilot assisted permissions generally available",
+      "domain": "github-platform",
+      "claim": "GitHub changelog item 2026-10-26-github-copilot-assisted-permissions-generally-available (26 Oct 2026, read 2026-10-28, HTTP 200) states assisted permissions are GA in Copilot CLI (/permissions then assisted), the Copilot app (mode picker, Tool permissions, Assisted) and VS Code (permissions picker, Assisted permissions). When Copilot requests to run a command, access a file system path or open a URL, an LLM evaluates the request; clearly safe requests proceed automatically, others need approval. Enterprise admins can block Allow All while keeping Assisted, disable Assisted separately, and set the default mode for new sessions; if the default is unavailable or prohibited, sessions start with manual approval.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if the system plan runs Copilot CLI/app or VS Code agents unattended; Assisted mode still requires human approval for non-safe requests, so it is not a substitute for Allow All in headless automation. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search system scripts and workflows for Copilot CLI invocations and permission mode flags; record found/not-found before 2026-11-04.",
+      "learned_at": "2026-10-28T06:10:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Search brands that don't sell on Shopify in the Catalog API (beta)",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page search-brands-that-don-t-sell-on-shopify-in-the-catalog-api-beta (27 Oct 2026, read 2026-10-28, HTTP 200) states the beta Catalog API search_catalog method accepts a new sources parameter: omit or [\"shopify\"] for Shopify merchant products only, [\"shopify\",\"external\"] for both, [\"external\"] for brands not on Shopify. get_product returns an external product by ID; lookup_catalog support comes later. External products always return eligible.native_checkout false, cannot be bought via Shopify checkout, earn no Promoted Placements commission, and carry description, image, price and a link to the brand's own product page. During the beta external data comes from brand websites and only returns for shoppers in the United States. Existing calls need no change.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: video_shopify needs no change; if it ever uses Catalog API search, keep sources omitted (Shopify-only) unless external links are handled, since external items have no Shopify checkout and are US-shopper only. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code for Catalog API search_catalog / Global Catalog MCP usage; record found/not-found before 2026-11-04.",
+      "learned_at": "2026-10-28T06:10:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
