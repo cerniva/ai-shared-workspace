@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T00:37:00+03:00",
+  "generated_at": "2026-10-29T01:38:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+  "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "Recent GitHub Actions SUCCESS might imply task execution; plan_learnings loader success might imply real bridge",
-  "decision_after": "worker run 40773106696/123115281543 skipped_no_handoff_id after FFmpeg; no work executed; learning bridge consumer not verified; P0 remains OPEN",
+  "decision_before": "GitHub Actions success and automation-runner model_summary 'all healthy' may imply real production readiness; loader success may imply real learning application",
+  "decision_after": "2026-10-29 01:38: CI plan loader PASS only; runner has finance no production runner, video/knowledge dry-run and stale upload failure, so model_summary 'completely healthy' is NOT supported; archive P0 and bridge_failure remain OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_ONLY_NO_REAL_CONSUMER",
   "learning_bridge": {
@@ -15,12 +15,13 @@
     "issue": 308,
     "loader": {
       "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
-      "run_id": 40727800259,
-      "job_id": 122955680196,
-      "head_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
+      "run_id": 40781002975,
+      "job_id": 123142377957,
+      "head_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
       "stdout": "plan_learnings tag=system count=4 error=None",
       "exit": 0,
-      "scope": "REAL_CI_LOADER_ONLY_NOT_CONSUMER"
+      "scope": "REAL_GITHUB_CI_LOADER_ONLY_NOT_CONSUMER",
+      "artifact_readback": "NOT_VERIFIED"
     },
     "learnings": [
       {
@@ -76,16 +77,16 @@
   },
   "archive": {
     "pr": 309,
-    "status": "OPEN_DRAFT",
+    "status": "OPEN_DRAFT_CURRENT_MAIN_COMBINED_RACE_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 93,
+    "behind": 94,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309"
+    "base_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3"
   },
   "worker": {
     "run_id": 40756568393,
@@ -95,9 +96,9 @@
     "task_executed": false,
     "second_run_id": 40756467273,
     "second_job_id": 123056592396,
-    "test_run_id": 40754347932,
-    "test_job_id": 123049141794,
-    "unittest": "799 OK (3 skipped)",
+    "test_run_id": 40781011463,
+    "test_job_id": 123142405803,
+    "unittest": "792 OK (3 skipped)",
     "integrity_tests": 15,
     "main_fix_pr": 370,
     "pr_status": "OPEN_DRAFT",
@@ -112,11 +113,11 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "live automations.list 2026-10-28 23:32 TRT",
-    "finance_runner": "NOT_VERIFIED",
-    "video_shopify": "GITHUB_PRODUCTION_NOT_VERIFIED",
-    "knowledge": "GITHUB_PRODUCTION_NOT_VERIFIED",
-    "system": "dispatch+observe"
+    "verified_via": "automations.list 2026-10-29 01:38 TRT",
+    "finance_runner": "NOT_PRESENT_GITHUB; ONLY_LOADER_CI",
+    "video_shopify": "DRY_RUN",
+    "knowledge": "DRY_RUN",
+    "system": "DISPATCH_TESTS_AND_OBSERVE_NOT_PRODUCTION"
   },
   "finance": {
     "altcoin_calibrated": 0,
@@ -172,11 +173,11 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "P0 main archive-heal workflow blob f8c074dd still uses git pull --rebase origin main; PR #309 93 behind/52 ahead",
-      "test_command": "GitHub compare main...8039adb (read-only)",
-      "test_exit": "COMPARE_OK; COMBINED_CI_NOT_RUN",
-      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
-      "read_back": "main workflow blob verified; production archive NOT_VERIFIED",
+      "evidence": "archive-heal main blob f8c074dd uses git pull --rebase; PR #309 head 8039adb, 94 behind/52 ahead; 2026-10-27 PR test green but current-main race and production read-back absent",
+      "test_command": "GitHub compare main...8039adb; check-runs PR #309",
+      "test_exit": "COMPARE_OK; PR_CI_GREEN; CURRENT_MAIN_RACE_NOT_RUN",
+      "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+      "read_back": "Main SHA 49be5bb1d76a2b972c03b0569d4db4df76570da3 checked; production outcome NOT_VERIFIED",
       "next_step": "Reconcile existing PR #309 with fresh main, run race CI and archive read-back; no merge",
       "retested_this_turn": true
     },
@@ -380,11 +381,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "77 ledger, 90 catalog; 4 active system; loader CI #40727800259 job 122955680196 count=4 exit0; real consumers NOT_VERIFIED",
-      "test_command": "5 in-memory metadata fixtures; loader CI command (prior run)",
-      "test_exit": "METADATA_5_OF_5_NO_SHELL; LOADER_EXIT_0; CONSUMER_NOT_RUN",
-      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
-      "read_back": "issue #308 open; applied_learning_ids production NOT_VERIFIED",
+      "evidence": "plan-learnings CI 40781002975/job 123142377957 system count=4 exit0; PR #314/#334 checks green but no real consumer read-back",
+      "test_command": "GitHub CI plan loader; PR head check-runs",
+      "test_exit": "LOADER_EXIT_0; REAL_CONSUMER_NOT_RUN",
+      "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+      "read_back": "Main SHA 49be5bb1d76a2b972c03b0569d4db4df76570da3 checked; production outcome NOT_VERIFIED",
       "next_step": "Use PR #314/#334, real authorized consumer negative tests and persisted manifest read-back",
       "retested_this_turn": true
     },
@@ -393,11 +394,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Repo MP4 blob 14f34ef 598439 bytes; upload ledger aa357952 uploads=[]",
-      "test_command": "GitHub contents metadata and upload ledger read-only",
-      "test_exit": "READ_OK; MP4_BINARY_QC_NOT_RUN",
-      "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
-      "read_back": "MP4 file exists, no verified new upload/video_id",
+      "evidence": "main upload ledger uploads=[]; Shorts MP4 QC not run this turn; youtube-upload last recorded failure",
+      "test_command": "GitHub fetch upload ledger and automation_runner.json",
+      "test_exit": "READ_ONLY_OK; BINARY_QC_NOT_RUN",
+      "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+      "read_back": "Main SHA 49be5bb1d76a2b972c03b0569d4db4df76570da3 checked; production outcome NOT_VERIFIED",
       "next_step": "Validate rights/MP4 QC, then authorized remote upload and video_id read-back",
       "retested_this_turn": true
     }
@@ -422,118 +423,120 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "checked_at": "2026-10-29T00:37:00+03:00",
-    "main_sha": "bf35f5921c18750ff6c04dfb4423a74c23ee4309",
+    "checked_at": "2026-10-29T01:38:00+03:00",
+    "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
     "priority": "P0>P1>P2",
+    "branch": "chatgpt/system-audit-20261026-1337-handoff",
     "archive_pr": {
       "number": 309,
       "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-      "behind": 93,
+      "behind": 94,
       "ahead": 52,
       "main_workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
-      "combined_ci": "NOT_RUN",
+      "combined_ci": "NOT_RUN_ON_CURRENT_MAIN",
       "production_readback": "NOT_VERIFIED"
     },
     "ci": [
       {
-        "run_id": 40773106696,
-        "job_id": 123115281543,
-        "conclusion": "success",
-        "stdout": "skip_no_handoff_id; source=chatgpt; branch=chatgpt/kb-shopify-offline-token-gate-20261028",
-        "task_executed": false,
-        "ffmpeg_installed_before_skip": true
-      },
-      {
-        "run_id": 40773061850,
-        "job_id": 123115075210,
-        "conclusion": "success",
-        "stdout": "skip_no_handoff_id",
-        "task_executed": false
-      },
-      {
-        "run_id": 40771030780,
-        "job_id": 123107956150,
-        "conclusion": "success",
-        "stdout": "ci_bekci closed_on_green issues=[]",
-        "task_executed": false
-      },
-      {
-        "run_id": 40727800259,
-        "job_id": 122955680196,
+        "run_id": 40781002975,
+        "job_id": 123142377957,
         "conclusion": "success",
         "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
         "stdout": "plan_learnings tag=system count=4 error=None",
         "exit": 0,
         "scope": "LOADER_ONLY"
+      },
+      {
+        "run_id": 40781011463,
+        "job_id": 123142405803,
+        "conclusion": "success",
+        "stdout": "Ran 792 tests in 10.414s; OK (skipped=3); Ran 15 tests in 1.571s",
+        "exit": 0,
+        "scope": "UNIT_AND_INTEGRITY_NOT_PRODUCTION"
+      },
+      {
+        "run_id": 40780985776,
+        "job_id": 123142316326,
+        "conclusion": "success",
+        "commit_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+        "output": "state/automation_runner.json",
+        "output_blob": "e5486ca1972abba9e257a17153c4dcbed5b400ce",
+        "decision_before": "model_summary claims finance/knowledge/system fully healthy",
+        "decision_after": "REJECT_UNVERIFIED_HEALTH: finance no runner; video and knowledge dry-run; system dispatch tests only",
+        "applied_learning_ids": [],
+        "scope": "OBSERVATION_ONLY"
+      },
+      {
+        "run_id": 40781081802,
+        "job_id": 123142633055,
+        "conclusion": "success",
+        "stdout": "ci_bekci closed_on_green issues=[]",
+        "scope": "NO_ISSUE_CLOSED"
       }
     ],
     "learning_sources": [
       {
         "learning_id": "learn_0bdcee93377fd18d",
         "source_id": "src_be6523a27c85e346",
-        "source_url": "https://developers.google.com/youtube/reporting/v1/reports",
+        "url": "https://developers.google.com/youtube/reporting/v1/reports",
         "active_implicit_default": true
       },
       {
         "learning_id": "learn_4decad368966e2e6",
         "source_id": "src_569c596da7048714",
-        "source_url": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
+        "url": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
         "active": true
       }
     ],
-    "metadata_checks": "5/5 in-memory fixture checks; NOT shell tests or production consumer",
-    "ledger_blob": "84c52855ce672be4f499b261fda7a2c8c35cde79",
-    "catalog_blob": "2a2d1341809794e05ca980fee42a223a6831afe7",
-    "decision_before": "CI_SUCCESS_AND_LOADER_VALID",
-    "decision_after": "NO_TASK_EXECUTED; NO_REAL_CONSUMER_EVIDENCE",
-    "applied_learning_ids": [],
-    "bridge_failure": "OPEN issue #308",
-    "production_manifest_readback": "NOT_VERIFIED",
-    "reporting_partial_batch_test": "NOT_RUN_IN_PRODUCTION",
-    "artifact_digest_mismatch_test": "NOT_RUN_IN_PRODUCTION",
-    "automation_state": "Four main ChatGPT automations enabled; GitHub finance runner missing; video and knowledge dry-run",
+    "learning_bridge": {
+      "issue": 308,
+      "status": "OPEN",
+      "actual_consumer_manifest": "NOT_VERIFIED",
+      "partial_batch_negative": "NOT_VERIFIED",
+      "digest_mismatch_negative": "NOT_VERIFIED",
+      "applied_learning_ids": [],
+      "draft_prs": [
+        {
+          "number": 314,
+          "head": "dcc844cc04c5de13b52f489d898f7935f62984fb",
+          "ci": "10 checks (9 success, CodeRabbit skipped); no production artifact"
+        },
+        {
+          "number": 334,
+          "head": "b1ff4aeb004b90cef7654b2be5c887b022a6ed17",
+          "ci": "6/6 success; offline proposed checkpoint only"
+        }
+      ]
+    },
     "shorts": {
-      "repo_mp4": {
-        "path": "shorts/shorts_bugun.mp4",
-        "blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
-        "bytes": 598439,
-        "binary_qc": "NOT_RUN"
-      },
-      "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
-      "uploads": 0,
-      "remote_readback": "NOT_VERIFIED"
+      "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
+      "upload_ledger_count": 0,
+      "mp4_binary_qc": "NOT_RUN",
+      "remote_upload": "NOT_VERIFIED"
     },
     "finance": {
       "altcoin_validated": 0,
-      "altcoin_total": 10,
+      "total": 10,
       "score": "N/A",
-      "svg_production": "NOT_VERIFIED"
+      "production_svg": "NOT_VERIFIED"
     },
-    "capacity": {
-      "max_per_agent": 5,
-      "snapshot_at": "2026-09-26T02:43:26+03:00",
-      "live_assignments": "NOT_VERIFIED",
-      "new_assignments": 0
-    },
-    "task_counts": {
-      "selected": 20,
-      "continuing": 19,
-      "blocked_user": 1,
-      "newly_completed": 0,
-      "new_wave_started": false,
-      "all_retested": false
+    "grok": {
+      "latest_repo_report": "2026-10-22; no fresh verified work ACK",
+      "fallback_acked_by": null
     },
     "local_git": {
-      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git refs/heads/main",
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
       "exit": 128,
-      "error": "Could not resolve host: github.com"
+      "error": "Could not resolve host: github.com",
+      "plan_learnings_local": "NOT_RUN"
     },
-    "grok_ack": "NOT_SENT",
-    "main_write": false,
-    "merge": false,
-    "publish": false,
-    "payment": false,
-    "payoutlens_touched": false
+    "tasks": {
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "all_retested": false
+    },
+    "next": "Existing PR #309 fresh-main race CI+production archive read-back; issue #308 real consumer negative tests and persisted manifest read-back; no duplicate issue"
   },
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
@@ -770,5 +773,121 @@
     "payment": false,
     "payoutlens_touched": false,
     "scope": "AUDIT_ONLY_SAFE_BRANCH"
+  },
+  "audit_20261029_0138": {
+    "checked_at": "2026-10-29T01:38:00+03:00",
+    "main_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+    "priority": "P0>P1>P2",
+    "branch": "chatgpt/system-audit-20261026-1337-handoff",
+    "archive_pr": {
+      "number": 309,
+      "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
+      "behind": 94,
+      "ahead": 52,
+      "main_workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "combined_ci": "NOT_RUN_ON_CURRENT_MAIN",
+      "production_readback": "NOT_VERIFIED"
+    },
+    "ci": [
+      {
+        "run_id": 40781002975,
+        "job_id": 123142377957,
+        "conclusion": "success",
+        "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+        "stdout": "plan_learnings tag=system count=4 error=None",
+        "exit": 0,
+        "scope": "LOADER_ONLY"
+      },
+      {
+        "run_id": 40781011463,
+        "job_id": 123142405803,
+        "conclusion": "success",
+        "stdout": "Ran 792 tests in 10.414s; OK (skipped=3); Ran 15 tests in 1.571s",
+        "exit": 0,
+        "scope": "UNIT_AND_INTEGRITY_NOT_PRODUCTION"
+      },
+      {
+        "run_id": 40780985776,
+        "job_id": 123142316326,
+        "conclusion": "success",
+        "commit_sha": "49be5bb1d76a2b972c03b0569d4db4df76570da3",
+        "output": "state/automation_runner.json",
+        "output_blob": "e5486ca1972abba9e257a17153c4dcbed5b400ce",
+        "decision_before": "model_summary claims finance/knowledge/system fully healthy",
+        "decision_after": "REJECT_UNVERIFIED_HEALTH: finance no runner; video and knowledge dry-run; system dispatch tests only",
+        "applied_learning_ids": [],
+        "scope": "OBSERVATION_ONLY"
+      },
+      {
+        "run_id": 40781081802,
+        "job_id": 123142633055,
+        "conclusion": "success",
+        "stdout": "ci_bekci closed_on_green issues=[]",
+        "scope": "NO_ISSUE_CLOSED"
+      }
+    ],
+    "learning_sources": [
+      {
+        "learning_id": "learn_0bdcee93377fd18d",
+        "source_id": "src_be6523a27c85e346",
+        "url": "https://developers.google.com/youtube/reporting/v1/reports",
+        "active_implicit_default": true
+      },
+      {
+        "learning_id": "learn_4decad368966e2e6",
+        "source_id": "src_569c596da7048714",
+        "url": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
+        "active": true
+      }
+    ],
+    "learning_bridge": {
+      "issue": 308,
+      "status": "OPEN",
+      "actual_consumer_manifest": "NOT_VERIFIED",
+      "partial_batch_negative": "NOT_VERIFIED",
+      "digest_mismatch_negative": "NOT_VERIFIED",
+      "applied_learning_ids": [],
+      "draft_prs": [
+        {
+          "number": 314,
+          "head": "dcc844cc04c5de13b52f489d898f7935f62984fb",
+          "ci": "10 checks (9 success, CodeRabbit skipped); no production artifact"
+        },
+        {
+          "number": 334,
+          "head": "b1ff4aeb004b90cef7654b2be5c887b022a6ed17",
+          "ci": "6/6 success; offline proposed checkpoint only"
+        }
+      ]
+    },
+    "shorts": {
+      "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
+      "upload_ledger_count": 0,
+      "mp4_binary_qc": "NOT_RUN",
+      "remote_upload": "NOT_VERIFIED"
+    },
+    "finance": {
+      "altcoin_validated": 0,
+      "total": 10,
+      "score": "N/A",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "grok": {
+      "latest_repo_report": "2026-10-22; no fresh verified work ACK",
+      "fallback_acked_by": null
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "error": "Could not resolve host: github.com",
+      "plan_learnings_local": "NOT_RUN"
+    },
+    "tasks": {
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "all_retested": false
+    },
+    "next": "Existing PR #309 fresh-main race CI+production archive read-back; issue #308 real consumer negative tests and persisted manifest read-back; no duplicate issue"
   }
 }
