@@ -2,7 +2,7 @@
   "schema_version": 1,
   "sources": [
     {
-      "source_id": "src_e95827a3019e9825",
+      "source_id": "src_7ccf6537c78580a9",
       "source_name": "Reserve Bank of New Zealand — OCR held at 2.75%, 28 October 2026",
       "canonical": "https://www.rbnz.govt.nz/news-and-events/news/2026/10/ocr-held-at-2-75-percent",
       "category": "finance-central-banks",
@@ -18,7 +18,7 @@
   ],
   "learnings": [
     {
-      "learning_id": "learn_6aa10cd4439c9a90",
+      "learning_id": "learn_d7b9f316f4986063",
       "title": "Central-bank hold is not automatically dovish: verify vote split and conditional guidance",
       "domain": "finance-macro-central-bank",
       "claim": "On 28 October 2026 RBNZ held OCR at 2.75% by a 4–3 vote; three members favoured a 25bp increase. The MPC said further tightening likely but conditional on the outlook; September CPI was 3.7%, December-quarter inflation forecast 4.4%.",
@@ -31,7 +31,7 @@
       ],
       "learned_at": "2026-10-28T08:55:00+03:00",
       "source_ids": [
-        "src_e95827a3019e9825"
+        "src_7ccf6537c78580a9"
       ],
       "next_measurement": "On the next split MPC vote, compare official vote and conditional guidance to intraday FX and next-session closing observations before classifying policy surprise.",
       "failure_history": [],
