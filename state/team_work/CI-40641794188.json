@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-40641794188",
+  "source": "ci-bekci",
+  "run_id": "40641904207",
+  "task": "CI failure in 'worker-orchestration-tests' run 40641794188: jobs test[Unit and integration tests/Knowledge integrity and race tests]; first error: test_real_repo_promotions_apply_and_are_idempotent (tests.test_knowledge_integrity.IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent)",
+  "generated_at": "2026-10-28T06:07:25+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40641794188",
+    "evidence": [
+      {
+        "path": "tests/test_knowledge_integrity.py",
+        "detail": "Test 'test_real_repo_promotions_apply_and_are_idempotent' within class 'IntegrityTests' failed in job 'test[Unit and integration tests/Knowledge integrity and race tests]' for CI run 40641794188."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40641794188 recorded its first failure in 'tests/test_knowledge_integrity.py' under 'IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent'.",
+      "The failing test in 'tests/test_knowledge_integrity.py' validates that real repo knowledge promotions apply correctly and produce identical results when re-executed (idempotency)."
+    ],
+    "hypotheses": [
+      "State leak or uncleaned filesystem/database artifacts from prior test cases in 'tests/test_knowledge_integrity.py' caused the second promotion pass to fail idempotency checks.",
+      "Concurrent execution in 'Knowledge integrity and race tests' introduced race conditions while modifying repo promotion target paths."
+    ],
+    "recommendation": "Re-run 'tests/test_knowledge_integrity.py' with test isolation and debug logging enabled to check whether promotion targets leave residual state across runs.",
+    "confidence": 0.85,
+    "next_action": "Inspect 'tests/test_knowledge_integrity.py' for promotion cleanup steps and fixture scoping around 'test_real_repo_promotions_apply_and_are_idempotent'.",
+    "timing": {
+      "started_at": "2026-10-28T06:07:29.292831+00:00",
+      "duration_ms": 9907
+    },
+    "usage": {
+      "input_tokens": 188,
+      "output_tokens": 381,
+      "total_tokens": 1863
+    }
+  }
+}
