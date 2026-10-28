@@ -36,6 +36,16 @@ class SourceClipTests(unittest.TestCase):
             "audio_reuse_permitted": True,
             "verified_at": "2026-10-20",
             "verified_by": "Test fixture only",
+            "third_party_audio_review": {
+                "status": "none_detected",
+                "reviewer": "Independent test reviewer",
+                "evidence_url": "https://example.org/audio-review",
+            },
+            "recognizable_people_review": {
+                "status": "none_detected",
+                "reviewer": "Independent test reviewer",
+                "evidence_url": "https://example.org/people-review",
+            },
             "spoken_language": "en",
             "caption_language": "en",
         }
@@ -95,6 +105,45 @@ class SourceClipTests(unittest.TestCase):
         self.evidence.write_text(json.dumps(self.data))
         with self.assertRaisesRegex(ValueError, "audio_reuse_permitted"):
             validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_missing_component_rights_review_blocks(self):
+        del self.data["third_party_audio_review"]
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "third_party_audio_review"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_unresolved_people_review_blocks(self):
+        self.data["recognizable_people_review"]["status"] = "pending"
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "recognizable_people_review"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_cleared_component_without_permission_url_blocks(self):
+        self.data["third_party_audio_review"]["status"] = "cleared"
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "permission_url"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_same_reviewer_as_initial_verifier_blocks(self):
+        self.data["third_party_audio_review"]["reviewer"] = "Test fixture only"
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "must differ"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_component_review_evidence_must_be_https(self):
+        self.data["recognizable_people_review"]["evidence_url"] = "http://example.org/people"
+        self.evidence.write_text(json.dumps(self.data))
+        with self.assertRaisesRegex(ValueError, "must be HTTPS"):
+            validate_rights(self.video, self.srt, self.evidence, "en")
+
+    def test_cleared_component_with_permission_url_passes_intake_only(self):
+        self.data["third_party_audio_review"]["status"] = "cleared"
+        self.data["third_party_audio_review"]["permission_url"] = "https://example.org/audio-permission"
+        self.evidence.write_text(json.dumps(self.data))
+        self.assertEqual(
+            validate_rights(self.video, self.srt, self.evidence, "en")["third_party_audio_review"]["status"],
+            "cleared",
+        )
 
     def test_hash_mismatch_blocks(self):
         self.data["source_sha256"] = "0" * 64
