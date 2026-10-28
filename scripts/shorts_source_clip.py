@@ -130,6 +130,34 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
     for key in ("reuse_permitted", "derivatives_permitted", "audio_reuse_permitted"):
         if evidence.get(key) is not True:
             raise ValueError(f"rights evidence must explicitly affirm {key}")
+    # Component-level review is distinct from the blanket source/audio license.
+    # Metadata is an intake gate, not proof that a human review was truthful:
+    # independent rights approval remains required before publication.
+    for component in ("third_party_audio", "recognizable_people"):
+        key = component + "_review"
+        review = evidence.get(key)
+        if not isinstance(review, dict):
+            raise ValueError(f"rights evidence missing {key}")
+        if review.get("status") not in {"none_detected", "cleared"}:
+            raise ValueError(f"{key} requires explicit none_detected or cleared status")
+        reviewer = review.get("reviewer")
+        if not isinstance(reviewer, str) or not reviewer.strip():
+            raise ValueError(f"{key} requires a named reviewer")
+        if reviewer.strip().casefold() == evidence["verified_by"].strip().casefold():
+            raise ValueError(f"{key} reviewer must differ from initial verifier")
+        review_url = review.get("evidence_url")
+        if not isinstance(review_url, str) or not review_url.strip():
+            raise ValueError(f"{key} requires evidence_url")
+        parsed = urlparse(review_url)
+        if parsed.scheme != "https" or not parsed.netloc:
+            raise ValueError(f"{key} evidence_url must be HTTPS")
+        if review["status"] == "cleared":
+            permission_url = review.get("permission_url")
+            if not isinstance(permission_url, str) or not permission_url.strip():
+                raise ValueError(f"{key} cleared status requires permission_url")
+            parsed = urlparse(permission_url)
+            if parsed.scheme != "https" or not parsed.netloc:
+                raise ValueError(f"{key} permission_url must be HTTPS")
     recorded_hash = evidence.get("source_sha256")
     if not isinstance(recorded_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", recorded_hash):
         raise ValueError("rights evidence requires source_sha256")
