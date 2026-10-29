@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T13:37:00Z",
+  "generated_at": "2026-10-29T14:35:30Z",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "LATEST_AUDITOR_FAILURE_MIGHT_BE_REGRESSION_AND_WORKER_SUCCESS_MIGHT_IMPLY_NEW_TASK",
-  "decision_after": "AUDITOR_EXPECTED_FAIL_CI_PENDING_TRUE_PR382; WORKER_SKIP_EXISTING_PR382_NO_NEW_EXECUTION; P0_AND_BRIDGE_OPEN",
+  "decision_before": "CDC_RESEARCH_ARTIFACT_UPLOAD_AND_AUTO_MERGE_GATE_SUCCESS_COULD_BE_MISREAD_AS_SOURCE_APPROVAL_OR_MERGE",
+  "decision_after": "CDC_ORIGINAL_MP4_TECHNICAL_PROBE_PASS_BUT_CAPTIONS_AND_RIGHTS_FAIL_CLOSED; AUTO_MERGE_GATE_PR_REJECTED; P0_ARCHIVE_AND_REAL_LEARNING_BRIDGE_OPEN",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "audit-only: first-page GitHub inventory is partial and CI required-check/worker outcomes are not production task completion; not Reporting API or digest consumers",
+  "applied_learning_ids_scope": "audit-only: GitHub Actions first-page inventory partial; successful auto-merge job does not mean merged; source-audit artifact not proof of licensed/captioned publish-ready video. NOT Reporting API or cross-workflow artifact consumer",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -167,24 +167,26 @@
         "production_readback": "NOT_VERIFIED"
       }
     ],
-    "main_sha": "8b2de2af76bb676b3184360443d0fb05ec7fc289",
+    "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
     "ledger_count": 83,
     "source_count": 95,
-    "active_system_count": 9
+    "active_system_count": 9,
+    "ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+    "catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f"
   },
   "archive": {
     "pr": 309,
     "status": "OPEN_DRAFT_FRESH_MAIN_RACE_AND_PRODUCTION_READBACK_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 138,
+    "behind": 140,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "bd28ccadaa613a001817976556778382d77494e7",
-    "main_sha": "8b2de2af76bb676b3184360443d0fb05ec7fc289",
+    "base_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+    "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
     "combined_race_ci": "NOT_VERIFIED"
   },
   "worker": {
@@ -217,7 +219,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.list 2026-10-29 15:32 Europe/Istanbul",
+    "verified_via": "Automations.peek 2026-10-29 17:35 Europe/Istanbul",
     "finance_runner": "GITHUB_PRODUCTION_RUNNER_NOT_PRESENT; LOADER_ONLY",
     "video_shopify": "GITHUB_DRY_RUN",
     "knowledge": "GITHUB_DRY_RUN",
@@ -262,6 +264,28 @@
       "tests": 65,
       "exit": 0,
       "scope": "PR269_HEAD_ONLY_NOT_MEDIA_QC"
+    },
+    "new_cdc_source_audit": {
+      "run_id": 40891735544,
+      "job_id": 123510066443,
+      "head_sha": "e9828ec33b988e2ca7b378c722f0d56d20f4ac6b",
+      "step": "Download exact CDC archive MP4 and transcript (research only)",
+      "exit": 1,
+      "original_media_sha256": "c3f07149b76009162bf650e926b41ac5827121ffc59df56950e0add70811d0a2",
+      "ffprobe_duration_seconds": 112.713,
+      "video_streams": 1,
+      "audio_streams": 1,
+      "transcript": "CDC_HTML_UNAVAILABLE",
+      "fallback": "NO_VERIFIED_ENGLISH_TIMED_CAPTIONS",
+      "rights": "UNVERIFIED",
+      "framing": "UNVERIFIED",
+      "publish_ready": false,
+      "artifact_id": 12904213026,
+      "artifact_name": "cdc-tiny-turtles-audit-only",
+      "artifact_sha256": "dd701ff7316d2e2a0916db4ad5efdad9d536ec9081d7b04a8581006e598e71b8",
+      "artifact_metadata_readback": "PASS",
+      "artifact_content_readback": "NOT_DONE",
+      "scope": "RESEARCH_ONLY_NOT shorts/shorts_bugun.mp4 QC"
     }
   },
   "wave": {
@@ -271,7 +295,7 @@
     "newly_completed": 0,
     "new_wave_started": false,
     "all_retested": false,
-    "reviewed_this_turn": 4
+    "reviewed_this_turn": 3
   },
   "tasks": [
     {
@@ -314,7 +338,7 @@
       "read_back": "main workflow read-back only; production repair NOT_VERIFIED",
       "next_step": "PR309 refresh against current main, run race CI and archive read-back",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
@@ -356,7 +380,7 @@
       "read_back": "PR269 merge=false, head 2d0546e7; workflow success is not merge authorization",
       "next_step": "Review repeated gate triggers; do not confuse CI success with merge",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "CI-39568642118",
@@ -433,14 +457,14 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main archive-heal workflow blob f8c074dd still rebase; draft PR #309 head 8039adb 121 behind/52 ahead; current combined race CI not verified.",
-      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037",
-      "test_exit": "COMPARE_OK; COMBINED_RACE_NOT_RUN",
-      "main_sha": "2d3f9b57dd3a3372368fd3426f2f680d6690594b",
-      "read_back": "Current main and branch code verified; production gate NOT_VERIFIED",
-      "next_step": "Reuse PR #309; fresh-main race CI and archive read-back; no merge",
+      "evidence": "P0 PR309 draft behind=140 ahead=52; main workflow still rebase; current-main combined CI missing",
+      "test_command": "GitHub compare main...PR309; combined race test NOT_RUN",
+      "test_exit": "COMPARE_OK; COMBINED_CI_NOT_RUN",
+      "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+      "read_back": "main archive workflow blob f8c074dd and PR309 compare read back; production archive NOT_VERIFIED",
+      "next_step": "Reconcile existing PR309 with fresh main and run race CI + archive production read-back",
       "retested_this_turn": false,
-      "reviewed_this_turn": false
+      "reviewed_this_turn": true
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
@@ -531,12 +555,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main 83 learnings, 95 sources, 9 active system; loader 40866164727/job123421370829 count9 exit0 artifacts=[]; PR314/334 draft",
-      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (GitHub CI only)",
+      "evidence": "main ledger 83/source 95/system 9; issue308 OPEN; PR314/334 draft; loader CI 40877877894 count9 exit0; consumer not proven",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (CI only); real consumer tests NOT_RUN",
       "test_exit": 0,
       "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-      "read_back": "loader stdout only; production applied_learning_ids and partial-batch/digest negative tests NOT_VERIFIED",
-      "next_step": "Prove real consumer negative tests and applied_learning_ids output",
+      "read_back": "ledger/catalog source IDs read back; loader CI only; real consumer read-back NOT_VERIFIED",
+      "next_step": "Issue308: prove real Reporting API partial batch and cross-run bad digest fail-closed, applied_learning_ids manifest read-back",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -545,12 +569,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main knowledge/shorts/upload_ledger.json blob aa357952... uploads=[]; shorts/shorts_bugun.mp4 blob 14f34ef...; full media/rights QC and YouTube video_id NOT_VERIFIED",
-      "test_command": "Full ffprobe/decode/captions/rights QC NOT_RUN this turn",
-      "test_exit": null,
+      "evidence": "main upload ledger 0; new CDC source audit 40891735544/job123510066443 exit1: 112.713s original media probed, timed captions unavailable, rights unverified",
+      "test_command": "CDC GitHub Actions run 40891735544; main shorts full QC NOT_RUN",
+      "test_exit": 1,
       "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-      "read_back": "upload ledger 0, MP4 exists; no upload",
-      "next_step": "Run full media/rights QC before any upload",
+      "read_back": "main upload ledger uploads=[]; CDC audit artifact metadata read-back only; full Shorts QC NOT_VERIFIED",
+      "next_step": "Preserve fail-closed caption/rights gate; full media QC and upload proof before publication",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     }
@@ -571,10 +595,10 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "at": "2026-10-29T16:37:00+03:00",
+    "at": "2026-10-29T17:35:30+03:00",
     "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-    "summary": "P0_ARCHIVE_OPEN_BRIDGE_FAILURE_OPEN_GATE_CI_SUCCESS_NOT_MERGE",
-    "audit_key": "audit_20261029_1637",
+    "summary": "CDC_RESEARCH_CAPTION_GATE_BLOCKED; AUTO_MERGE_FAIL_CLOSED; P0_AND_BRIDGE_OPEN",
+    "audit_key": "audit_20261029_1735",
     "branch_state_not_main": true
   },
   "audit_20261028_2139": {
@@ -2515,5 +2539,145 @@
       "combined_archive_ci": null
     },
     "next": "Reconcile existing draft PR309 with current main; targeted race tests/CI and production read-back; issue308 actual Reporting API/artifact consumers with positive/negative tests and durable applied_learning_ids read-back; do not merge without authorization."
+  },
+  "audit_20261029_1735": {
+    "at": "2026-10-29T17:35:30+03:00",
+    "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+    "scope": "AUDIT_ONLY_NO_PRODUCTION_MUTATION",
+    "capacity": {
+      "path": "tasks/agent_capacity.json",
+      "snapshot_updated": "2026-09-26T02:43:26+03:00",
+      "max_active_per_agent": 5,
+      "stale": true,
+      "external_agents_assigned": 0
+    },
+    "wave": {
+      "selected": 20,
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "reviewed_this_turn": 3,
+      "all_retested": false,
+      "new_wave_started": false
+    },
+    "p0": {
+      "pr": 309,
+      "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
+      "behind": 140,
+      "ahead": 52,
+      "main_workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "root_cause": "stale archive repair rebase on concurrent append-only main",
+      "combined_main_race_test": "NOT_RUN",
+      "production_readback": "NOT_VERIFIED",
+      "status": "OPEN"
+    },
+    "learning_bridge": {
+      "issue": 308,
+      "status": "bridge_failure_OPEN",
+      "main_ledger_sha": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+      "source_catalog_sha": "72fb179f83f4af170e196484ae368a6463c0883f",
+      "ledger_count": 83,
+      "source_count": 95,
+      "active_system_count": 9,
+      "targets": [
+        {
+          "id": "learn_0bdcee93377fd18d",
+          "source_id": "src_be6523a27c85e346",
+          "active": true,
+          "consumer": "Reporting API",
+          "production_effect": "NOT_VERIFIED"
+        },
+        {
+          "id": "learn_4decad368966e2e6",
+          "source_id": "src_569c596da7048714",
+          "active": true,
+          "consumer": "cross-run artifact digest",
+          "production_effect": "NOT_VERIFIED"
+        }
+      ],
+      "loader": {
+        "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+        "run_id": 40877877894,
+        "job_id": 123461311187,
+        "stdout": "plan_learnings tag=system count=9 error=None",
+        "exit": 0,
+        "artifact_count": 0
+      },
+      "consumer_positive_negative_tests": "NOT_RUN_THIS_TURN",
+      "production_applied_learning_ids": [],
+      "consumer_readback": "NOT_VERIFIED"
+    },
+    "ci": {
+      "inventory": "FIRST_20_RUNS_PARTIAL",
+      "new_auto_merge": {
+        "run": 40893067498,
+        "job": 123514737701,
+        "conclusion": "success",
+        "decision": "merge=false; required takipci-denetci check missing (fail-closed)",
+        "merge_performed": false
+      },
+      "new_worker": {
+        "run": 40884886646,
+        "job": 123485817712,
+        "conclusion": "success",
+        "stdout": "skip_no_handoff_id",
+        "task_executed": false
+      },
+      "new_cdc_source_audit": {
+        "run": 40891735544,
+        "job": 123510066443,
+        "conclusion": "failure",
+        "exit": 1,
+        "media_sha256": "c3f07149b76009162bf650e926b41ac5827121ffc59df56950e0add70811d0a2",
+        "duration_seconds": 112.713,
+        "caption_gate": "NO_VERIFIED_ENGLISH_TIMED_CAPTIONS",
+        "artifact_id": 12904213026,
+        "artifact_metadata_readback": true,
+        "artifact_content_readback": false
+      }
+    },
+    "plans": {
+      "enabled": 4,
+      "total": 4,
+      "source": "Automations.peek",
+      "finance": "enabled; no GitHub production runner",
+      "video_shopify": "enabled; dry-run",
+      "knowledge": "enabled; dry-run",
+      "system": "enabled; dispatch+observe"
+    },
+    "shorts": {
+      "main_mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
+      "main_mp4_full_qc": "NOT_RUN",
+      "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
+      "upload_count": 0,
+      "youtube_upload": "NOT_VERIFIED",
+      "cdc_source_probe": "TECHNICAL_ONLY_RIGHTS_AND_CAPTIONS_BLOCKED"
+    },
+    "finance": {
+      "altcoin_calibration_path": "config/altcoin_panel_calibration.json",
+      "calibration_blob": "6bbeacf9482245304a056dbfe7507d08cb181aa9",
+      "validated": "0/10",
+      "score": "N/A",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "audit_decision": {
+      "before": "CDC_RESEARCH_ARTIFACT_UPLOAD_AND_AUTO_MERGE_GATE_SUCCESS_COULD_BE_MISREAD_AS_SOURCE_APPROVAL_OR_MERGE",
+      "after": "CDC_ORIGINAL_MP4_TECHNICAL_PROBE_PASS_BUT_CAPTIONS_AND_RIGHTS_FAIL_CLOSED; AUTO_MERGE_GATE_PR_REJECTED; P0_ARCHIVE_AND_REAL_LEARNING_BRIDGE_OPEN",
+      "applied_learning_ids": [
+        "learn_1f26fa5202f29769",
+        "learn_67340fd77c09f582"
+      ],
+      "source_ids": [
+        "src_74c1f2ed10aefae7",
+        "src_c99620eb8f764049"
+      ],
+      "scope": "AUDIT_ONLY_NOT_PRODUCTION_CONSUMER"
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git refs/heads/main",
+      "exit": 128,
+      "error": "Could not resolve host: github.com"
+    },
+    "next": "P0 PR309 reconcile with fresh main, race CI/read-back; issue308 real consumer positive/negative tests and durable applied_learning_ids; CDC caption/rights fail-closed, no publish; no merge/ACK/payment."
   }
 }
