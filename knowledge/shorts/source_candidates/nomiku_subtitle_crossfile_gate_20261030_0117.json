@@ -1,0 +1,78 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "checked_at_local": "2026-10-30T01:17:00+03:00",
+  "record_type": "CROSS_SOURCE_SUBTITLE_CONSISTENCY_CHECK_NOT_INDEPENDENT_MEDIA_QA",
+  "existing_pr": 269,
+  "source_media_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+  "findings": [
+    {
+      "id": "SRT-CROSSFILE-01",
+      "status": "VERIFIED_PUBLIC_PAGE_COMPARISON",
+      "description": "The Wikimedia TimedText pages for Nomiku with VO and Nomiku without VO display the same 11 English cues, including the final cue 00:01:20–00:01:24.",
+      "vo_video_duration_s": 84.488,
+      "non_vo_video_duration_approx_s": 79,
+      "implication": "The no-VO file's subtitle last cue extends beyond its ~79-second media duration. This proves that the TimedText cannot be assumed to be precisely aligned across both file variants; it does NOT prove that the VO version's captions are wrong. Require actual VO speech-to-cue audit before burning captions.",
+      "evidence_urls": [
+        "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+        "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku.webm.en.srt",
+        "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+        "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku.webm"
+      ]
+    },
+    {
+      "id": "LICENSE-SPLIT-02",
+      "status": "VERIFIED_FILE_LICENSE_WITH_UNRESOLVED_COMPONENT_RIGHTS",
+      "description": "VO media file is declared own work by Pkwong89 under CC BY 4.0, which permits remix with attribution. The separate TimedText page is a text contribution; the general Wikimedia Commons text license is CC BY-SA, and specific subtitle authorship, license obligations and voice/music component ownership remain to be independently reviewed.",
+      "evidence_urls": [
+        "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+        "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+        "https://creativecommons.org/licenses/by/4.0/",
+        "https://creativecommons.org/licenses/by-sa/4.0/"
+      ]
+    },
+    {
+      "id": "EDIT-CONTINUITY-03",
+      "status": "PENDING_REAL_MEDIA_QA",
+      "description": "Existing 0–28s + 65–71.4s (34.4s) draft jumps over 37 seconds of original explanation; audio energy at 71.4s and cue boundaries do not establish narrative continuity or word-level sync. Do not render or mark ready until independent content and mobile framing review.",
+      "evidence_url": "https://github.com/cerniva/ai-shared-workspace/blob/19d56dcb64ac882b42cea86a190b771e1ce44724/knowledge/shorts/source_candidates/nomiku_independent_technical_preflight_20261030_0017.json"
+    }
+  ],
+  "gates": {
+    "source_file_license": "CC_BY_4_0_VERIFIED",
+    "original_audio_third_party": "RIGHTS_BLOCKED",
+    "subtitle_specific_license": "RIGHTS_BLOCKED",
+    "subtitle_alignment": "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "food_safety": "FACT_CHECK_BLOCKED",
+    "independent_rights_and_media_review": "PENDING",
+    "final_mp4": null,
+    "final_mp4_sha256": null,
+    "youtube_upload": false,
+    "publish_ready": false
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Keep previously verified media SHA; no new bytes acquired, so no new digest PASS claimed.",
+    "learn_7ffa70a4b15fd05a": "Retain separate third-party audio/music and YouTube originality gates despite CC BY media license.",
+    "learn_ae8a18babc190373": "No publish from a storyboard or public subtitle page; require real moving 9:16 MP4 QC.",
+    "learn_e74d8dd625c30863": "Metricool raw views and subscribers not used as retention evidence.",
+    "learn_961e3256bcf30279": "Shopify net margin blocked without freight, fees, refunds and unit cost proof.",
+    "learn_0f6a35b37d68a20a": "Gumroad account metrics unknown; draft-first only.",
+    "learn_af28044522e96790": "No YouTube upload; OAuth/channel/privacy fields unverified."
+  },
+  "execution": {
+    "plan_learnings_executed": false,
+    "reason": "Full local repo not available; git ls-remote failed with DNS resolution error, exit 128; no substitute command run.",
+    "local_ffmpeg_render_executed": false,
+    "ci_for_new_commit": "PENDING",
+    "independent_review": "NONE",
+    "publication": "NONE"
+  },
+  "commerce_snapshot": {
+    "shopify": "9 DRAFT / 0 ACTIVE, 0 orders, 2 sessions in last 7 days (2026-10-23); 0 cart and checkout sessions; prices/costs not changed",
+    "youtube_metricool": "5 subscribers 2026-10-23 through 2026-10-29; 2 views on Oct 23, 2 on Oct 25; other view rows missing, not zero",
+    "gumroad": "private account unavailable; draft/sales cannot be asserted"
+  },
+  "next": "Independent reviewer to confirm original voice/music and subtitle author/license, listen to all 34.4s with word-level English cue mapping, review abrupt 28s edit and portrait composition; only then allow controlled FFmpeg test and separate publication gate.",
+  "payoutlens": "OUT_OF_SCOPE_UNTOUCHED"
+}
