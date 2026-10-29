@@ -111,6 +111,27 @@
       "title": "HO-06 Gumroad draft-first ürün kapısı"
     },
     {
+      "claim": "Shopify developer changelog page store-and-app-install-details-in-the-dev-dashboard (27 Oct 2026, read 2026-10-29, HTTP 200) states the Dev Dashboard now shows, per store, the organization's apps installed on it, organization users with collaborator access, and earnings (total app earnings, total theme earnings, recurring revenue share). Per app, install details show gross lifetime earnings from that store, an activity feed of installation and billing events, and the current subscription with quick access to logs. Access is via Stores in the Dev Dashboard, or the app Overview, Installs card install count, then a store; available details depend on permissions and store access.",
+      "decision": "REVIEW_ONLY: dashboard-only UI feature with no API change; video_shopify needs no code change. Useful for manual checks of app installs and billing events. No operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-29T06:15:00+00:00",
+      "learning_id": "learn_172181d143644c4f",
+      "next_measurement": "Confirm whether video_shopify uses a custom app in the Dev Dashboard; record yes/no before 2026-11-05.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: Store and app install details in the Dev Dashboard"
+    },
+    {
       "claim": "GitHub pull request test merge refs can become stale without warning. Reading refs/pull/N/merge alone does not prove integration with the current main; explicitly fetch the PR to request a test merge candidate, then compare its first parent SHA with current main and require fresh checks on the candidate before treating it as current integration evidence.",
       "decision": "PR_MERGE_REF_CURRENT_BASE_GATE: Before reporting a promotion PR as tested against current main, read main SHA, request PR mergeability via GET /pulls/N, then inspect refs/pull/N/merge commit parents. If first parent differs from current main or there is no fresh relevant CI evidence for the actual candidate, report PARTIAL and do not merge or label integration green. Do not force-update refs or bypass policy.",
       "domain": "github-pull-request-merge-ref-freshness",
@@ -840,6 +861,27 @@
       ],
       "supersedes": null,
       "title": "Local and remote write locks are separate"
+    },
+    {
+      "claim": "GitHub changelog item 2026-10-27-github-copilot-supports-server-to-server-authentication (27 Oct 2026, read 2026-10-29, HTTP 200) states Copilot supports server-to-server authentication for GitHub Apps installed on organizations, in public preview. Services and agents built with the Copilot SDK can call on behalf of an organization without a signed-in user's credentials: give a GitHub App the read-only Copilot Requests organization permission, install it on the org, and pass a short-lived installation access token to the Copilot SDK. Usage is attributed and billed to the owning organization and its model policies, budgets and spending controls apply; owners see app usage via the app_client_id field in AI usage CSV reports and can stop access by suspending or uninstalling the app.",
+      "decision": "REVIEW_ONLY: possible future option for headless system automations that call Copilot via the SDK, but it needs an organization-installed GitHub App and org billing; cerniva is a personal account, so no change now and no operational change without approval.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-10-29T06:15:00+00:00",
+      "learning_id": "learn_7f1907a741cde7bc",
+      "next_measurement": "Search system scripts and workflows for Copilot SDK usage or user-token Copilot calls; record found/not-found before 2026-11-05.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub changelog feed: GitHub Copilot supports server-to-server authentication"
     },
     {
       "claim": "Shopify developer changelog (feed.xml item and page global-catalog-rest-api-stops-serving-traffic-on-november-2-2026, published 9 Oct 2026, verified 2026-10-10) states the Global Catalog REST API, deprecated in April 2026, stops serving traffic on November 2, 2026, and apps still calling it must migrate to Global Catalog MCP, which implements the Universal Commerce Protocol (UCP).",
@@ -1854,5 +1896,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-28T23:32:09+00:00"
+  "updated_at": "2026-10-29T06:11:15+00:00"
 }
