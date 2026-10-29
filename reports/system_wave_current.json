@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T03:40:25+03:00",
+  "generated_at": "2026-10-29T04:37:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "2026-10-29 02:37 TRT: actual main catalog 81 learnings/95 sources, 8 active system lessons; loader CI count=8 but real Reporting API and cross-run artifact consumers still NOT_VERIFIED; archive P0 PR #309 diverged 119 behind/52 ahead; team-worker skip_no_handoff_id; production NOT_GREEN",
-  "decision_after": "2026-10-29 03:40 TRT: main a2920fc3c2d5e62e673dc39471d9b1284fba17a2; archive PR #309 120 behind/52 ahead P0_OPEN; team-worker CI success but no handoff; system loader count=8 only; consumer bridge_failure #308 remains OPEN; no production PASS",
+  "decision_before": "2026-10-29 03:40 TRT: P0 archive-heal OPEN; loader system count=8 but real consumer NOT_VERIFIED; team-worker CI success did not execute handoff; 20-slot wave 19 continuing/1 BLOCKED_USER.",
+  "decision_after": "2026-10-29 04:37 TRT: main unchanged; PR #309 still diverged 120 behind/52 ahead; new main team-worker 40800272671 SUCCESS but skip_no_handoff_id; PR-branch tests 40800257384 pass (806+15), no production consumer/MP4 upload/SVG read-back; P0 and bridge_failure #308 remain OPEN.",
   "applied_learning_ids": [],
-  "applied_learning_ids_scope": "AUDIT_ONLY_NO_REAL_CONSUMER",
+  "applied_learning_ids_scope": "AUDIT_ONLY_NO_REAL_CONSUMER; NO_APPLIED_LEARNING_CLAIM",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -38,7 +38,7 @@
       }
     ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "METADATA_ONLY; PRODUCTION_DIGEST_AND_REPORTING_BATCH_NOT_VERIFIED",
+    "negative_tests": "METADATA_ONLY; REPORTING_API_PARTIAL_BATCH_AND_BAD_DIGEST_PRODUCTION_NOT_VERIFIED",
     "applied_learning_ids": [],
     "active_system_ids": [
       "learn_0bdcee93377fd18d",
@@ -93,15 +93,15 @@
     "base_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2"
   },
   "worker": {
-    "run_id": 40794503432,
-    "job_id": 123187548075,
+    "run_id": 40800272671,
+    "job_id": 123206514439,
     "conclusion": "success",
     "stdout": "team_worker=skip_no_handoff_id; repository_dispatch client_payload.handoff_id missing",
     "task_executed": false,
     "second_run_id": 40756467273,
     "second_job_id": 123056592396,
-    "test_run_id": 40794476289,
-    "test_job_id": 123187463886,
+    "test_run_id": 40800257384,
+    "test_job_id": 123206379172,
     "unittest": "806 OK (5 skipped)",
     "integrity_tests": 15,
     "main_fix_pr": 370,
@@ -113,7 +113,11 @@
       "conclusion": "success",
       "scope": "ci-bekci watch; NOT production archive repair"
     },
-    "tests_exit": 0
+    "tests_exit": 0,
+    "test_branch": "chatgpt/finance-altseason-applied-learning-20261027",
+    "test_stdout": "Ran 806 tests OK (skipped=5); knowledge integrity/race Ran 15 tests OK",
+    "test_exit": 0,
+    "test_scope": "BRANCH_UNIT_INTEGRATION_ONLY_NOT_PRODUCTION"
   },
   "automations": {
     "four_enabled": true,
@@ -177,12 +181,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main archive-heal.yml blob f8c074dd still git pull --rebase origin main; PR #309 head 8039adb diverged 119 behind/52 ahead",
-      "test_command": "GitHub compare main...8039adb; latest workflow read-back",
+      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2 archive-heal workflow blob f8c074dd still rebase; PR #309 head 8039adb behind=120/ahead=52; combined race+production read-back NOT_VERIFIED",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037",
       "test_exit": "COMPARE_OK; COMBINED_RACE_NOT_RUN",
-      "main_sha": "704bdfc1722615e68971069a34d7e81503071093",
-      "read_back": "main workflow f8c074dd confirmed; production archive repair NOT_VERIFIED",
-      "next_step": "Refresh existing PR #309 on fresh main; run race CI and production archive read-back; no merge",
+      "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
+      "read_back": "main workflow confirmed; production archive repair NOT_VERIFIED",
+      "next_step": "Reconcile existing draft PR #309 on fresh main, run combined race CI + production read-back; no unauthorized merge",
       "retested_this_turn": true
     },
     {
@@ -294,12 +298,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2; PR #309 120 behind/52 ahead, main archive-heal.yml still rebase; combined-head CI absent",
-      "test_command": "NOT_RUN_CURRENT_MAIN_COMBINED_RACE",
-      "test_exit": null,
+      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2 archive-heal workflow blob f8c074dd still rebase; PR #309 head 8039adb behind=120/ahead=52; combined race+production read-back NOT_VERIFIED",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037",
+      "test_exit": "COMPARE_OK; COMBINED_RACE_NOT_RUN",
       "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
-      "read_back": "P0_OPEN; production archive repair NOT_VERIFIED",
-      "next_step": "Reuse PR #309, fresh-main safe reconciliation and combined race CI; production read-back before PASS",
+      "read_back": "main workflow confirmed; production archive repair NOT_VERIFIED",
+      "next_step": "Reconcile existing draft PR #309 on fresh main, run combined race CI + production read-back; no unauthorized merge",
       "retested_this_turn": true
     },
     {
@@ -313,7 +317,7 @@
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
       "read_back": "main workflow blob f8c074dd; PR #309 draft; production NOT_VERIFIED",
       "next_step": "Reconcile existing draft PR #309 against fresh main; run race CI and production read-back; do not merge without authorization",
-      "retested_this_turn": true
+      "retested_this_turn": false
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
@@ -326,7 +330,7 @@
       "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
       "read_back": "CI job logs checked; PR #370 remains draft, no task executed",
       "next_step": "Reuse PR #370 for early skip, test on combined main, verify task-specific execution",
-      "retested_this_turn": true
+      "retested_this_turn": false
     },
     {
       "id": "CI-40086311263",
@@ -385,12 +389,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2; ledger 81/catalog 95; 8 active system; loader CI 40788045529 job 123166070660 count8 exit0; real consumer absent",
-      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (historical CI)",
+      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2; ledger 81/source catalog 95, 8 active system; loader run 40788045529/job 123166070660 count=8 exit0; no real consumer",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (GitHub CI 40788045529; NOT local)",
       "test_exit": 0,
       "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
-      "read_back": "loader stdout verified, production applied_learning_ids manifest NOT_VERIFIED; issue #308 OPEN",
-      "next_step": "PR #314/#334 consumer negative tests: incomplete Reporting batch and bad digest, persisted output read-back",
+      "read_back": "metadata source IDs linked; production applied_learning_ids, Reporting checkpoint and digest consumer NOT_VERIFIED",
+      "next_step": "Reuse issue #308, PR #314/#334; run positive/negative real consumer tests + manifest read-back",
       "retested_this_turn": true
     },
     {
@@ -398,21 +402,21 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main upload ledger uploads=[]; GitHub fetch binary MP4 unsupported, no current binary QC or remote upload proof",
-      "test_command": "NOT_RUN_BINARY_QC_THIS_TURN",
+      "evidence": "main a2920fc3c2d5e62e673dc39471d9b1284fba17a2; upload ledger uploads=[]; new MP4 binary QC/video_id NOT_VERIFIED",
+      "test_command": "NOT_RUN_BINARY_MP4_QC_THIS_TURN",
       "test_exit": null,
       "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
-      "read_back": "No verified YouTube video ID; MP4 QC NOT_VERIFIED",
-      "next_step": "Rights and actual MP4 binary QA; connected upload and video ID read-back only when authorized",
+      "read_back": "Upload ledger empty; no remote YouTube video ID",
+      "next_step": "Verify rights, MP4 binary QC and connected upload read-back before publish claim",
       "retested_this_turn": true
     }
   ],
   "handoff_write": {
     "path": "state/handoffs.json",
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit_sha": "8b845d5339d77c905b3d85bb56b4ded86337234a",
-    "content_sha": "bb5c1e387ffb2c780861f30cd05acdbe30758a42",
-    "readback_sha": "bb5c1e387ffb2c780861f30cd05acdbe30758a42",
+    "commit_sha": "94811b4aea01a029ba4de9ba5fac26973b3765fc",
+    "content_sha": "ecd63a13ea2c9e95dcf8165bf008540e1d81b0a3",
+    "readback_sha": "ecd63a13ea2c9e95dcf8165bf008540e1d81b0a3",
     "record_id": "CI-39269730285",
     "record_count": 55,
     "unique_count": 55,
@@ -427,72 +431,73 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "checked_at": "2026-10-29T03:40:25+03:00",
+    "checked_at": "2026-10-29T04:37:00+03:00",
     "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
     "priority": "P0>P1>P2",
     "archive_pr": {
       "number": 309,
+      "head": "8039adb266c4da0a3e8f353e49a6e549d489b375",
       "behind": 120,
       "ahead": 52,
-      "combined_ci": "NOT_VERIFIED",
-      "production_readback": "NOT_VERIFIED"
+      "combined_ci": "NOT_VERIFIED"
     },
     "learning_bridge": {
-      "issue": 308,
-      "status": "OPEN",
+      "status": "OPEN issue #308",
       "loader_run": 40788045529,
       "loader_job": 123166070660,
-      "loader_stdout": "plan_learnings tag=system count=8 error=None",
-      "loader_exit": 0,
-      "actual_consumer_manifest": "NOT_VERIFIED",
-      "partial_batch_negative": "NOT_VERIFIED",
-      "digest_mismatch_negative": "NOT_VERIFIED",
+      "stdout": "plan_learnings tag=system count=8 error=None",
+      "exit": 0,
+      "consumer_manifest": "NOT_VERIFIED",
       "applied_learning_ids": []
     },
     "worker": {
-      "run_id": 40794503432,
-      "job_id": 123187548075,
-      "decision_before": "SUCCESS_MEANS_WORK",
-      "decision_after": "SKIP_NO_HANDOFF_NO_TASK",
-      "test_run": 40794476289,
-      "test_job": 123187463886,
-      "unit": "806 OK (5 skipped)",
-      "integrity": 15
+      "run": 40800272671,
+      "job": 123206514439,
+      "stdout": "skip_no_handoff_id",
+      "executed": false
+    },
+    "tests": {
+      "run": 40800257384,
+      "job": 123206379172,
+      "branch": "chatgpt/finance-altseason-applied-learning-20261027",
+      "unittest": 806,
+      "skipped": 5,
+      "integrity": 15,
+      "exit": 0
     },
     "automations": {
-      "four_enabled": true,
-      "finance": "NO_PRODUCTION_RUNNER",
-      "video": "DRY_RUN",
-      "knowledge": "DRY_RUN",
-      "system": "TEST_OBSERVE"
+      "system": "enabled",
+      "finance": "enabled",
+      "video_shopify": "enabled",
+      "knowledge": "enabled",
+      "github_finance_production": "NOT_VERIFIED",
+      "video_knowledge_mode": "dry-run"
     },
     "shorts": {
-      "upload_ledger_count": 0,
-      "mp4_binary_qc": "NOT_VERIFIED",
-      "youtube_video_id": "NOT_VERIFIED"
+      "upload_ledger": "uploads=[]",
+      "mp4_binary_qc": "NOT_RUN",
+      "remote_video_id": "NOT_VERIFIED"
     },
     "finance": {
-      "altcoin_validated": 0,
-      "total": 10,
-      "score": "N/A",
-      "svg_production": "NOT_VERIFIED"
+      "altcoin_calibrated": "0/10",
+      "altcoin_score": "N/A",
+      "production_svg": "NOT_VERIFIED"
     },
     "grok": {
-      "fresh_verified_ack": false,
-      "fallback_acked_by": null
+      "new_ack": false
     },
     "local_git": {
       "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
       "exit": 128,
-      "error": "Could not resolve host: github.com"
+      "reason": "Could not resolve host: github.com"
     },
     "wave": {
-      "newly_completed": 0,
+      "new_done": 0,
       "continuing": 19,
       "blocked_user": 1,
       "all_retested": false
     },
-    "next": "Reuse PR #309 and Issue #308; no duplicate handoff/issue"
+    "next": "PR #309 fresh-main race CI/read-back; issue #308 real consumer tests and persisted applied_learning_ids"
   },
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
@@ -950,5 +955,54 @@
     "bridge_failure": "OPEN issue #308",
     "handoff_commit": "8b845d5339d77c905b3d85bb56b4ded86337234a",
     "handoff_blob": "bb5c1e387ffb2c780861f30cd05acdbe30758a42"
+  },
+  "audit_20261029_0437": {
+    "main_sha": "a2920fc3c2d5e62e673dc39471d9b1284fba17a2",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "learning_catalog": {
+      "learnings": 81,
+      "sources": 95,
+      "active_system": 8,
+      "ledger_blob": "a704f6b720410171fe1e160cda2b6f0aa0c866d2",
+      "source_blob": "c8b5e9497b70bb6bbe3e83796110bd68d7ce9c7d",
+      "required_ids": [
+        "learn_0bdcee93377fd18d",
+        "learn_4decad368966e2e6"
+      ],
+      "source_ids": [
+        "src_be6523a27c85e346",
+        "src_569c596da7048714"
+      ]
+    },
+    "ci": {
+      "loader": {
+        "run_id": 40788045529,
+        "job_id": 123166070660,
+        "stdout": "plan_learnings tag=system count=8 error=None",
+        "exit": 0,
+        "artifact_readback": "NOT_VERIFIED"
+      },
+      "worker": {
+        "run_id": 40800272671,
+        "job_id": 123206514439,
+        "stdout": "skip_no_handoff_id",
+        "task_executed": false
+      },
+      "tests": {
+        "run_id": 40800257384,
+        "job_id": 123206379172,
+        "branch": "chatgpt/finance-altseason-applied-learning-20261027",
+        "unittest": 806,
+        "skipped": 5,
+        "integrity": 15,
+        "exit": 0
+      }
+    },
+    "decision_before": "CI_SUCCESS_AND_LOADER_COUNT_MAY_BE_MISREAD_AS_PRODUCTION_PASS",
+    "decision_after": "NO_PRODUCTION_CONSUMER_OR_UPLOAD_PROOF; P0_OPEN; BRIDGE_FAILURE_OPEN",
+    "applied_learning_ids": [],
+    "bridge_failure": "OPEN issue #308",
+    "handoff_commit": "94811b4aea01a029ba4de9ba5fac26973b3765fc",
+    "handoff_blob": "ecd63a13ea2c9e95dcf8165bf008540e1d81b0a3"
   }
 }
