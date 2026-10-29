@@ -8,16 +8,16 @@
   "source_type": "own-work on Wikimedia Commons",
   "source_duration_seconds_page": 84.488,
   "source_dimensions_page": "1920x1080",
-  "source_media_sha256": null,
-  "source_media_sha_status": "PENDING_RUNNER_BYTES",
+  "source_media_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+  "source_media_sha_status": "PASS_ACTUAL_RUNNER_BYTES_AND_ARTIFACT_READBACK",
   "license": "CC BY 4.0",
   "license_page": "https://creativecommons.org/licenses/by/4.0/",
   "license_assertion": "Commons file description: copyright holder published the work under CC BY 4.0; share/remix permitted with attribution, link and change indication; file-level statement is not independently verified component-level voice/music/likeness clearance",
   "transcript_page": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
   "transcript_language": "en",
-  "transcript_status": "SOURCE_PAGE_TIMED_TEXT_FOUND; actual bytes/SHA and spoken sync pending",
-  "audio_status": "ORIGINAL_AUDIO_PRESENT_ON_SOURCE_PAGE; track, third-party music/voice and permissions not independently verified",
-  "framing_status": "UNREVIEWED; 9:16 crop and moving scene sample pending",
+  "transcript_status": "SOURCE_ENGLISH_SRT_ACQUIRED_DRAFT_ONLY; 11 cues from original Commons TimedText; speech alignment and readable portrait subtitle timing not independently verified",
+  "audio_status": "SINGLE_ORIGINAL_VORBIS_AUDIO_TRACK_VERIFIED; music/voice ownership and exact spoken sync not independently cleared",
+  "framing_status": "PRELIMINARY_PASS_WITH_RESERVATIONS: 14 center-crop 9:16 frame samples at 2-78s show food, tank, meat and searing; motion across scenes plausible, but some hands and product marks cut, full 30-40s portrait QA pending",
   "clip_selection": "NOT_SELECTED; must choose a 30–40s passage after actual media/SRT checks",
   "rendered_mp4": null,
   "rendered_media_sha256": null,
@@ -28,19 +28,80 @@
   "audit_workflow": ".github/workflows/shorts-nomiku-source-audit.yml",
   "audit_commit": "08c46a9f24a2cf27c70420b1532c5eb2b5fe8c28",
   "applied_learning_ids": {
-    "learn_4decad368966e2e6": "Do not substitute page-listed SHA-1 or artifact ZIP digest for media SHA-256; wait for exact downloaded source bytes",
-    "learn_ae8a18babc190373": "English original timed subtitles found; do not generate final subtitles or publish until speech sync and legibility verified",
-    "learn_53ca8fb858703eb6": "Reject CDC text-heavy wide infographic; screen this cooking-footage candidate for real scene movement and portrait-safe framing",
-    "learn_991df8ed39245aef": "Commerce remains draft-only; no pricing or margin claims from this media discovery"
+    "learn_4decad368966e2e6": "Runner sha256sum on actual 21,547,217-byte source WebM matches local artifact bytes; do not substitute Commons SHA-1 or ZIP digest.",
+    "learn_ae8a18babc190373": "Use actual 11-cue source English SRT (SHA bound); provisional cue range 5-8 only; still block until speech-sync, timing and portrait readability verified.",
+    "learn_53ca8fb858703eb6": "Rejected text-heavy CDC candidate; 14 9:16 center-crop frames show this alternative has kitchen movement, meat and searing; still no full-length QC.",
+    "learn_991df8ed39245aef": "Actual Shopify costs checked separately; no realized margin inferred from product price or this source."
   },
   "gates": {
     "rights": "RIGHTS_BLOCKED",
-    "transcript": "TRANSCRIPT_BLOCKED",
+    "transcript": "TRANSCRIPT_SYNC_QA_BLOCKED",
     "framing": "FRAMING_QA_BLOCKED",
+    "factual_food_safety": "FACT_CHECK_BLOCKED",
     "independent_review": "PENDING",
     "publish": "NOT_ATTEMPTED"
   },
   "no_ai_voiceover": true,
   "original_audio_required": true,
-  "free_tools_only": true
+  "free_tools_only": true,
+  "source_media_size_bytes": 21547217,
+  "source_technical_probe": {
+    "duration_seconds": 84.488,
+    "video_streams": 1,
+    "audio_streams": 1,
+    "video_codec": "vp8",
+    "audio_codec": "vorbis",
+    "width": 1920,
+    "height": 1080,
+    "run_id": 40900500860
+  },
+  "transcript_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+  "provisional_clip": {
+    "start_seconds": 29.26,
+    "end_seconds": 65.23,
+    "duration_seconds": 35.97,
+    "cues": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "status": "RESEARCH_SELECTION_ONLY_NOT_RENDER_APPROVAL",
+    "note": "Start/end near observed audio silences; actual speech timing not yet reviewed; claims about pathogen control and lower-temperature fish safety require factual checking."
+  },
+  "visual_screening": {
+    "sampled_seconds": [
+      2,
+      8,
+      12,
+      18,
+      24,
+      30,
+      36,
+      42,
+      48,
+      54,
+      60,
+      66,
+      72,
+      78
+    ],
+    "observations": "Centered 9:16 preview shows real kitchen/food preparation and several shot changes; text-heavy CDC failure does not apply. Still crop and movement require full-duration inspection.",
+    "status": "PRELIMINARY_CANDIDATE_ONLY",
+    "independently_reviewed": false
+  },
+  "learning_gate": {
+    "runner": "GitHub Actions #40900500860",
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "exit_code": 0
+  },
+  "audit_run": {
+    "run_id": 40900500860,
+    "conclusion": "failure",
+    "reason": "INTENTIONAL_FAIL_CLOSED; source/SRT acquired but rights, sync, framing and independent QA unverified",
+    "artifact_id": 12909206804,
+    "artifact_name": "nomiku-sous-vide-audit-only"
+  },
+  "status": "SOURCE_ACQUIRED_RIGHTS_AND_QA_BLOCKED"
 }
