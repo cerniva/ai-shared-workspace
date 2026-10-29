@@ -1,0 +1,60 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "candidate": "The trouble with tiny turtles",
+  "source_page": "https://stacks.cdc.gov/view/cdc/53796",
+  "source_media_url": "https://stacks.cdc.gov/view/cdc/53796/cdc_53796_DS3.mp4",
+  "source_author": "Centers for Disease Control and Prevention (U.S.)",
+  "published_at": "2017-12-19",
+  "source_media_sha256": "c3f07149b76009162bf650e926b41ac5827121ffc59df56950e0add70811d0a2",
+  "source_media_sha_evidence": "GitHub Actions run 40881980553, sha256sum on downloaded original.mp4; separate from artifact ZIP digest",
+  "source_media_artifact": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40882327504",
+  "source_technical_probe": {
+    "status": "PASS_TECHNICAL_ONLY",
+    "duration_seconds": 112.713,
+    "video_streams": 1,
+    "audio_streams": 1,
+    "run_id": 40882327504
+  },
+  "transcript_source": "https://www.cdc.gov/cdctv/diseaseandconditions/outbreaks/tiny-turtles-transcript.html",
+  "transcript_status": "TRANSCRIPT_BLOCKED: official linked transcript URL unavailable in runner; no verified timed SRT",
+  "rights_policy": "https://stacks.cdc.gov/Content%20and%20Copyright",
+  "rights_status": "RIGHTS_BLOCKED: general US government/public-domain status is not component-level music, voice, person or commercial reuse clearance",
+  "framing_status": "FRAMING_QA_BLOCKED: 9:16 subject-safe crop not reviewed",
+  "clip_selection": "NOT_SELECTED: no 30-40s timecode until transcript and rights independently checked",
+  "original_audio_required": true,
+  "ai_voiceover": false,
+  "publish_ready": false,
+  "rendered_mp4": null,
+  "rendered_media_sha256": null,
+  "independent_review": "PENDING",
+  "youtube_upload": "NOT_ATTEMPTED",
+  "learning_gate": {
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "runner": "GitHub Actions #40882327504",
+    "stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "exit_code": 0
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Actual original.mp4 SHA recorded from runner, not substituted by ZIP artifact digest; artifact not consumed for production.",
+    "learn_ae8a18babc190373": "No clip, render or publish while English timed captions, original-audio rights and 9:16 framing are unverified.",
+    "learn_991df8ed39245aef": "Commerce decisions remain draft-only; no realized margin inferred from price or compare-at price.",
+    "learn_0f6a35b37d68a20a": "Gumroad remains draft-first and private account data not fabricated."
+  },
+  "technical_runs": [
+    {
+      "run_id": 40881980553,
+      "conclusion": "failure",
+      "cause": "ffprobe missing (exit 127), media SHA obtained"
+    },
+    {
+      "run_id": 40882327504,
+      "conclusion": "failure",
+      "cause": "transcript unavailable (exit 1), source duration/audio/video technically validated"
+    }
+  ],
+  "no_main_write": true,
+  "no_merge": true,
+  "no_paid_credits": true,
+  "no_publish": true
+}
