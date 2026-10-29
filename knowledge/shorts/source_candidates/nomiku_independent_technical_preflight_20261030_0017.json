@@ -1,0 +1,104 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "record_type": "INDEPENDENT_TECHNICAL_PREFLIGHT_NOT_FINAL_QA",
+  "checked_at_local": "2026-10-30T00:19:41+03:00",
+  "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "artifact_run_id": 40900500860,
+    "artifact_id": 12909206804,
+    "github_artifact_digest_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+    "local_artifact_zip_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+    "source_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "source_sha1": "4e911cbce1e94cfac38ec4420d546eecf689fc11",
+    "source_sha1_matches_wikimedia": true,
+    "english_srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "duration_seconds": 84.488,
+    "streams": [
+      "vp8 video 1920x1080",
+      "vorbis audio"
+    ],
+    "file_license": "CC BY 4.0; third-party components not independently cleared"
+  },
+  "edit_plan": {
+    "segments": [
+      [
+        0,
+        28
+      ],
+      [
+        65,
+        71.4
+      ]
+    ],
+    "total_seconds": 34.4,
+    "remapped_srt_cues": [
+      [
+        0,
+        8
+      ],
+      [
+        10,
+        15
+      ],
+      [
+        16,
+        24
+      ],
+      [
+        25,
+        28
+      ],
+      [
+        28,
+        34
+      ]
+    ],
+    "speech_sync_verified": false,
+    "mobile_caption_reflow_verified": false
+  },
+  "boundary_audio_rms": {
+    "rms_71_1": 0.00306,
+    "rms_71_3": 0.0009,
+    "rms_71_5": 0.00066,
+    "rms_72_1": 0.02994,
+    "interpretation": "Audio energy falls before new cue around 72.1 s, but not proof of spoken-word boundary or QA"
+  },
+  "applied_learning_ids": [
+    "learn_4decad368966e2e6",
+    "learn_ae8a18babc190373",
+    "learn_7ffa70a4b15fd05a",
+    "learn_e74d8dd625c30863",
+    "learn_961e3256bcf30279",
+    "learn_0f6a35b37d68a20a",
+    "learn_af28044522e96790"
+  ],
+  "gates": {
+    "source_integrity": "PASS",
+    "original_audio_rights": "RIGHTS_BLOCKED",
+    "subtitle_license": "RIGHTS_BLOCKED",
+    "speech_sync": "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "fact_check": "FACT_CHECK_BLOCKED",
+    "independent_review": "PENDING",
+    "publish_ready": false
+  },
+  "artifacts": {
+    "final_mp4": null,
+    "final_mp4_sha256": null,
+    "youtube_video_id": null
+  },
+  "learning_command_this_run": {
+    "executed": false,
+    "reason": "Full runnable local repo unavailable",
+    "prior_actions_run_id": 40900500860,
+    "prior_stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "prior_exit": 0
+  },
+  "test_this_run": {
+    "local_python_preflight": "PASS",
+    "github_CI_for_this_commit": "NOT_YET_VERIFIED"
+  },
+  "next": "Independent third-party voice/music rights and subtitle attribution, speech sync and 9:16 composition approval; only then actual FFmpeg render and full media QC",
+  "payoutlens": "OUT_OF_SCOPE"
+}
