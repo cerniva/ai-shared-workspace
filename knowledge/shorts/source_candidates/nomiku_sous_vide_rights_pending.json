@@ -18,7 +18,7 @@
   "transcript_status": "SOURCE_ENGLISH_SRT_ACQUIRED_DRAFT_ONLY; 11 cues from original Commons TimedText; speech alignment and readable portrait subtitle timing not independently verified",
   "audio_status": "SINGLE_ORIGINAL_VORBIS_AUDIO_TRACK_VERIFIED; music/voice ownership and exact spoken sync not independently cleared",
   "framing_status": "PRELIMINARY_PASS_WITH_RESERVATIONS: 14 center-crop 9:16 frame samples at 2-78s show food, tank, meat and searing; motion across scenes plausible, but some hands and product marks cut, full 30-40s portrait QA pending",
-  "clip_selection": "NOT_SELECTED; must choose a 30–40s passage after actual media/SRT checks",
+  "clip_selection": "NOT_SELECTED; prior 29.26–65.23s candidate rejected after fact check; 0–28s plus 65–72s montage is research-only",
   "rendered_mp4": null,
   "rendered_media_sha256": null,
   "independent_rights_qa": "PENDING",
@@ -29,15 +29,15 @@
   "audit_commit": "08c46a9f24a2cf27c70420b1532c5eb2b5fe8c28",
   "applied_learning_ids": {
     "learn_4decad368966e2e6": "Runner sha256sum on actual 21,547,217-byte source WebM matches local artifact bytes; do not substitute Commons SHA-1 or ZIP digest.",
-    "learn_ae8a18babc190373": "SRT acquired and SHA-bound; provisional cues 5–8 have 127/172/140/98 characters, cue 5 21.2 chars/s. Block caption approval pending verified voice-aligned shorter cues.",
-    "learn_53ca8fb858703eb6": "Rejected text-heavy CDC candidate; 14 9:16 center-crop frames show this alternative has kitchen movement, meat and searing; still no full-length QC.",
+    "learn_ae8a18babc190373": "New 35s two-part candidate uses source cues 1-4,9; cues 3/4 exceed 20 CPS and actual speech timing is unverified; no fabricated subtitle timing.",
+    "learn_53ca8fb858703eb6": "New center-crop 9:16 screening of 12 frames across 0-28s and 65-72s; scene motion sampled, no final full-length QC.",
     "learn_991df8ed39245aef": "Actual Shopify costs checked separately; no realized margin inferred from product price or this source."
   },
   "gates": {
     "rights": "RIGHTS_BLOCKED",
     "transcript": "TRANSCRIPT_SYNC_QA_BLOCKED",
     "framing": "FRAMING_QA_BLOCKED",
-    "factual_food_safety": "FACT_CHECK_BLOCKED",
+    "factual_food_safety": "FACT_CHECK_BLOCKED; unsafe cues 5-7 excluded from research montage; independent review pending",
     "independent_review": "PENDING",
     "publish": "NOT_ATTEMPTED"
   },
@@ -66,8 +66,8 @@
       7,
       8
     ],
-    "status": "RESEARCH_SELECTION_ONLY_NOT_RENDER_APPROVAL",
-    "note": "Start/end near observed audio silences; actual speech timing not yet reviewed; claims about pathogen control and lower-temperature fish safety require factual checking.",
+    "status": "REJECTED_AFTER_SOURCE_SRT_FACT_CHECK",
+    "note": "Original source cues 5, 6 and 7 contain food safety overgeneralizations; do not use 29.26–65.23s for publishing.",
     "subtitle_legibility": {
       "source_cues": [
         {
@@ -132,5 +132,82 @@
     "artifact_id": 12909206804,
     "artifact_name": "nomiku-sous-vide-audit-only"
   },
-  "status": "SOURCE_ACQUIRED_RIGHTS_AND_QA_BLOCKED"
+  "status": "SOURCE_ACQUIRED_RIGHTS_AND_QA_BLOCKED",
+  "factual_review": {
+    "reviewed_at": "2026-10-29T19:17:00+03:00",
+    "reviewer": "ChatGPT (editorial screening; not independent clearance)",
+    "evidence": "Original English SRT SHA-256 527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9 read from GitHub Actions artifact 12909206804; original WebM SHA-256 624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d revalidated.",
+    "findings": [
+      {
+        "cue": 5,
+        "source_seconds": "29-35",
+        "issue": "Vacuum sealing alone does not prevent bacterial growth; reduced-oxygen packaging requires time/temperature controls and may create C. botulinum risk.",
+        "decision": "EXCLUDE"
+      },
+      {
+        "cue": 6,
+        "source_seconds": "37-48",
+        "issue": "The claim that most temperatures above 55 C are above where bacteria can grow is overgeneralized and not a validated universal safety threshold.",
+        "decision": "EXCLUDE"
+      },
+      {
+        "cue": 7,
+        "source_seconds": "49-57",
+        "issue": "Low-temperature fish is not generally proven safe by good sourcing alone; parasites, pathogens and time/temperature controls matter.",
+        "decision": "EXCLUDE"
+      }
+    ],
+    "official_sources": [
+      {
+        "url": "https://www.fda.gov/media/184685/download",
+        "name": "FDA Food Code 2022, reduced oxygen packaging/sous vide annex",
+        "finding": "Reduced-oxygen sous vide requires validated time/temperature and cooling controls"
+      },
+      {
+        "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+        "name": "FoodSafety.gov safe minimum internal temperatures",
+        "finding": "Consumer fish guidance is 63 C/145 F, with species and process caveats"
+      },
+      {
+        "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-fresh-and-frozen-seafood-safely",
+        "name": "FDA seafood safety",
+        "finding": "Raw or undercooked fish risk not resolved by source reputation alone"
+      }
+    ],
+    "decision": "REJECT_29_26_TO_65_23_PROVISIONAL_CLIP; retain FACT_CHECK_BLOCKED until independent reviewer assesses new cut and precise original spoken audio."
+  },
+  "proposed_alternate_montage": {
+    "status": "RESEARCH_ONLY_NOT_RENDER_APPROVAL",
+    "segments": [
+      {
+        "start_seconds": 0,
+        "end_seconds": 28,
+        "original_cues": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "start_seconds": 65,
+        "end_seconds": 72,
+        "original_cues": [
+          9
+        ]
+      }
+    ],
+    "total_duration_seconds": 35,
+    "requires": "Two noncontiguous cuts and re-mapped English SRT, with actual spoken-word sync; current single-clip renderer must not be misrepresented as supporting montage.",
+    "subtitle_cps_screen": {
+      "cue_1": 16.25,
+      "cue_2": 19.8,
+      "cue_3": 20.12,
+      "cue_4": 20.33,
+      "cue_9": 18
+    },
+    "visual_qa": "12 source 9:16 center-crop samples; screening only, not full duration or independent QA",
+    "audio_qa": "FFmpeg volumedetect on 0-28s and 65-72s succeeded; rights and spoken-word sync unverified",
+    "attribution": "Pkwong89, CC BY 4.0; source and license links plus modification notice required, no endorsement implied."
+  }
 }
