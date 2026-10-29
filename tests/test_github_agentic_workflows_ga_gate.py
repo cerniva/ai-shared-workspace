@@ -14,8 +14,8 @@ from scripts.learning_bridge import LearningLedger
 
 ROOT = Path(__file__).resolve().parents[1]
 PROMO = "2026-10-29-github-agentic-workflows-ga-trust-gate.json"
-SOURCE_IDS = {"src_4dba21c9e50a763f", "src_a84e3c76f0b91d25"}
-LEARNING_ID = "learn_2e94d16ab730c85f"
+SOURCE_IDS = {"src_d48e37e09df5a7b1", "src_b038a7dbc576fb32"}
+LEARNING_ID = "learn_f5279aa89d1750c3"
 GATE = "AGENTIC_WORKFLOWS_TRUST_BUDGET_GATE"
 
 
