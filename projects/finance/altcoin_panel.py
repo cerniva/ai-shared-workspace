@@ -201,6 +201,8 @@ def _require_altseason_learning(cfg: dict[str, Any]) -> tuple[str, list[str]]:
         known_sources = {item["source_id"] for item in catalog.list()}
     except (CatalogError, OSError, ValueError, KeyError) as exc:
         raise ValueError("bridge_failure: finance source catalog unavailable") from exc
+    if len(set(row["source_ids"])) != len(row["source_ids"]):
+        raise ValueError("bridge_failure: altseason learning has duplicate source_ids")
     if not set(row["source_ids"]).issubset(known_sources):
         raise ValueError("bridge_failure: altseason learning references unknown source_ids")
     decision = row.get("decision", "")
