@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T17:37:00Z",
+  "generated_at": "2026-10-29T18:35:00Z",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "Latest auto-merge-gate CI conclusion=success; PR merge decision not yet read back. GitHub Actions list is first page only.",
-  "decision_after": "PR375 merge=false: draft, head branch not allowlisted, takipci-denetci failure. Inventory PARTIAL; no all-green claim.",
+  "decision_before": "New auto-merge-gate CI #40931556282 conclusion=success; merge verdict not yet read. PR386 auditor CI failure cause unknown.",
+  "decision_after": "PR269 merge=false (draft, nonallowlisted branch, missing handoff/CI evidence, workflow denylist, required checks absent). PR386 takipci-denetci exit1 (missing handoff ID, prior failed run, ci_pending=true, SHA mismatch). No merge; no all-green.",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "REAL AUDIT DECISION ONLY (partial GitHub list and required PR check); NOT Reporting API or cross-workflow artifact production consumer",
+  "applied_learning_ids_scope": "REAL AUDIT DECISION ONLY: first-page inventory PARTIAL and required PR check; NOT production Reporting API/artifact consumer",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -41,7 +41,7 @@
       }
     ],
     "real_consumer_manifest": "NOT_VERIFIED",
-    "negative_tests": "DRAFT_BRANCH_ONLY PR314+PR334; production partial-batch and digest mismatch not verified",
+    "negative_tests": "PR314/PR334 DRAFT BRANCH TESTS ONLY; current-main production consumer positive/negative tests and artifact read-back NOT_VERIFIED",
     "applied_learning_ids": [],
     "active_system_ids": [
       "learn_0bdcee93377fd18d",
@@ -219,7 +219,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.list 2026-10-29 20:36 TRT",
+    "verified_via": "Automations.list 2026-10-29 21:35 TRT",
     "finance_runner": "GITHUB_PRODUCTION_NOT_VERIFIED",
     "video_shopify": "GITHUB_PRODUCTION_NOT_VERIFIED",
     "knowledge": "GITHUB_PRODUCTION_NOT_VERIFIED",
@@ -236,7 +236,7 @@
   "shorts": {
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
     "mp4_size": 598439,
-    "mp4_qc": "PREVIOUS_BOX_STRUCTURE_ONLY; full ffprobe/frame/audio/subtitle/license QC NOT_RUN_THIS_TURN",
+    "mp4_qc": "FULL_QC_NOT_RUN_THIS_TURN",
     "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
     "upload_ledger_count": 0,
     "remote_upload": "NOT_VERIFIED",
@@ -301,6 +301,24 @@
       ],
       "root_cause_evidence": "nomiku_sous_vide_rights_pending.json: missing captions must explicitly block transcript clearance; publish_ready was null rather than false",
       "decision": "FAIL_CLOSED; no upload"
+    },
+    "latest_auto_merge_gate": {
+      "run_id": 40931556282,
+      "job_id": 123651004336,
+      "head_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "command": "python3 scripts/auto_merge_gate.py",
+      "exit": 0,
+      "decision": "269.merge=false",
+      "reasons": [
+        "draft",
+        "head_not_allowlisted",
+        "missing_handoff_id",
+        "missing_test_evidence",
+        "denylisted_workflow_files",
+        "takipci-denetci_missing",
+        "required_test_missing"
+      ],
+      "readback": "GitHub job log; no merge"
     }
   },
   "wave": {
@@ -310,7 +328,7 @@
     "newly_completed": 0,
     "new_wave_started": false,
     "all_retested": false,
-    "reviewed_this_turn": 4
+    "reviewed_this_turn": 5
   },
   "tasks": [
     {
@@ -346,12 +364,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main archive-heal workflow blob f8c074dd retains git pull --rebase origin main; draft PR309 head8039adb behind143/ahead52 at main 04dc6c087dd737add868eea463ab044333c2f009",
-      "test_command": "CURRENT_MAIN_COMBINED_RACE_NOT_RUN",
+      "evidence": "Main archive-heal.yml blob f8c074dd still git pull --rebase origin main; PR309 draft head8039adb, compare main04dc6c0... ahead52/behind143. PR branch fresh-main recompute exists but current-main race CI absent.",
+      "test_command": "GitHub compare_commits main...PR309; current-main combined race CI NOT_RUN",
       "test_exit": null,
       "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "Main workflow and PR metadata/compare re-read; production archive read-back NOT_VERIFIED",
-      "next_step": "Reconcile existing PR309 on current main, run isolated combined race CI and production archive read-back; no merge",
+      "read_back": "Main workflow blob f8c074dd and PR309 branch workflow blob9ee49710 re-read; production archive read-back NOT_VERIFIED",
+      "next_step": "Reuse PR309; reconcile on current main and run combined race test before any merge",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -388,12 +406,12 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "CI40922984237 job123620908218 success but PR375 merge=false: draft, non-allowlisted branch, takipci-denetci failure",
-      "test_command": "GitHub Actions auto-merge-gate Evaluate and merge",
+      "evidence": "CI40931556282/job123651004336 exit0, JSON 269.merge=false (draft, denylisted workflows, missing handoff/test evidence, missing required checks).",
+      "test_command": "python3 scripts/auto_merge_gate.py (GitHub Actions)",
       "test_exit": 0,
       "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "GitHub job log decision merge=false; not a successful merge",
-      "next_step": "Keep required checks fail-closed, no merge",
+      "read_back": "CI job log contains 269.merge=false, no merge",
+      "next_step": "Reuse existing PR; ensure required checks, no forced merge; dedup/fanout tests before optimizing workflow",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -500,14 +518,14 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "CI #40744953784 job 123018975983 skip_no_handoff_id after FFmpeg; CI #40744958269 job 123016171506 794 tests OK (3 skipped), 15 integrity OK",
-      "test_command": "python3 -m unittest discover -s tests -p 'test_*.py'; python3 -m unittest tests.test_knowledge_integrity tests.test_knowledge_race -v",
+      "evidence": "Team-worker CI40923926732/job123624356463 success, output team_worker:skip_no_handoff_id; no task executed.",
+      "test_command": "team-worker workflow Run team-worker (GitHub Actions)",
       "test_exit": 0,
-      "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
-      "read_back": "CI job logs checked; PR #370 remains draft, no task executed",
-      "next_step": "Reuse PR #370 for early skip, test on combined main, verify task-specific execution",
+      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "read_back": "GitHub job log skip_no_handoff_id",
+      "next_step": "Only dispatch with valid existing handoff ID; no fake task execution",
       "retested_this_turn": false,
-      "reviewed_this_turn": false
+      "reviewed_this_turn": true
     },
     {
       "id": "CI-40086311263",
@@ -570,12 +588,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main learning ledger blob6654ffabba and catalog blob72fb179f83; active system 9; targeted learn_0bdcee93377fd18d and learn_4decad368966e2e6 source-linked. Draft tests PR314/334 only.",
-      "test_command": "python3 scripts/plan_learnings.py system --require (local NOT_RUN DNS; historical CI40877877894 exit0 loader only)",
+      "evidence": "Main ledger blob6654ffabba 83, source catalog blob72fb179f 95, nine system-tagged records (some omit status, default active). Reporting API/digest production consumer still unverified; issue308 open.",
+      "test_command": "python3 scripts/plan_learnings.py system --require (LOCAL_NOT_RUN: git DNS exit128); historical CI40877877894 exit0 loader only",
       "test_exit": null,
       "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "Production Reporting API checkpoint, digest consumer, applied_learning_ids manifest NOT_VERIFIED",
-      "next_step": "Reuse issue308; verify real consumers, positive/negative tests and read-back; keep bridge_failure OPEN",
+      "read_back": "Main source IDs src_be6523a27c85e346 and src_569c596da7048714 exist; no real applied_learning_ids manifest",
+      "next_step": "Reuse issue308, PR314/334; positive/negative consumer tests + artifact read-back, bridge_failure OPEN",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -584,12 +602,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main upload ledger blob aa357952c4ee713ddc224d8426cf8bc9c538d13e uploads=[]; previous PR269 metadata 65 tests only",
-      "test_command": "FFprobe/decode/audio/subtitle/license QC NOT_RUN_THIS_TURN",
+      "evidence": "Main knowledge/shorts/upload_ledger.json blob aa357952c4 uploads=[]; PR269 auto-merge denied CI40931556282. Main MP4 full QC not run.",
+      "test_command": "MP4 ffprobe/frame/audio/subtitle/license QC NOT_RUN_THIS_TURN",
       "test_exit": null,
       "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "Main upload ledger 0; remote video ID NOT_VERIFIED",
-      "next_step": "Full MP4 QC and authorized remote upload/read-back only after all gates pass",
+      "read_back": "Main upload ledger uploads=[]; no YouTube video ID",
+      "next_step": "Run full QC, verify rights/captions and authorized upload channel before any publish",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     }
@@ -610,10 +628,10 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "at": "2026-10-29T16:37:33Z",
-    "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
-    "summary": "NOMIKU_PROVENANCE_METADATA_FIXED_CI65_PASS; P0_AND_BRIDGE_STILL_OPEN",
-    "audit_key": "audit_20261029_1938",
+    "at": "2026-10-29T18:35:00Z",
+    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+    "summary": "PR269_AUTO_MERGE_DENIED_AND_PR386_AUDITOR_FAIL_CLOSED;P0_BRIDGE_PRODUCTION_OPEN",
+    "audit_key": "audit_20261029_2135",
     "branch_state_not_main": true
   },
   "audit_20261028_2139": {
@@ -3030,5 +3048,88 @@
       "error": "Could not resolve host: github.com"
     },
     "limitations": "No local repo, no new CI run or production read-back, no main write/merge/publish/payment/ACK; PayoutLens excluded"
+  },
+  "audit_20261029_2135": {
+    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+    "runner": "GitHub Actions CI logs + ChatGPT audit (read-only)",
+    "report_path": "reports/system_wave_current.json",
+    "before": "New auto-merge-gate CI #40931556282 conclusion=success; merge verdict not yet read. PR386 auditor CI failure cause unknown.",
+    "after": "PR269 merge=false (draft, nonallowlisted branch, missing handoff/CI evidence, workflow denylist, required checks absent). PR386 takipci-denetci exit1 (missing handoff ID, prior failed run, ci_pending=true, SHA mismatch). No merge; no all-green.",
+    "applied_learning_ids": [
+      "learn_1f26fa5202f29769",
+      "learn_67340fd77c09f582"
+    ],
+    "sources": [
+      {
+        "learning_id": "learn_1f26fa5202f29769",
+        "source_id": "src_74c1f2ed10aefae7"
+      },
+      {
+        "learning_id": "learn_67340fd77c09f582",
+        "source_id": "src_c99620eb8f764049"
+      }
+    ],
+    "ci": [
+      {
+        "run_id": 40931556282,
+        "job_id": 123651004336,
+        "command": "python3 scripts/auto_merge_gate.py",
+        "exit": 0,
+        "decision": "269.merge=false",
+        "readback": "job log"
+      },
+      {
+        "run_id": 40925920316,
+        "job_id": 123631257233,
+        "command": "python3 scripts/takipci_denetci.py --pr 386 --publish --dispatch --ci-pending true",
+        "exit": 1,
+        "decision": "fail_closed",
+        "readback": "job log"
+      },
+      {
+        "run_id": 40923926732,
+        "job_id": 123624356463,
+        "command": "team-worker workflow",
+        "exit": 0,
+        "decision": "skip_no_handoff_id",
+        "readback": "job log"
+      }
+    ],
+    "p0": {
+      "pr": 309,
+      "ahead": 52,
+      "behind": 143,
+      "combined_race_ci": "NOT_VERIFIED",
+      "production_readback": "NOT_VERIFIED"
+    },
+    "learning": {
+      "ledger_count": 83,
+      "source_count": 95,
+      "system_plan_count": 9,
+      "required_ids": [
+        "learn_0bdcee93377fd18d",
+        "learn_4decad368966e2e6"
+      ],
+      "production_applied_learning_ids": [],
+      "bridge_failure": "OPEN",
+      "issue": 308
+    },
+    "automations_enabled": 4,
+    "shorts_uploads": 0,
+    "altcoin": "0/10 N/A",
+    "svg": "NOT_VERIFIED",
+    "tasks": {
+      "selected": 20,
+      "reviewed": 5,
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git refs/heads/main",
+      "exit": 128,
+      "error": "Could not resolve host: github.com"
+    },
+    "limitations": "No local plan_learnings execution; no production consumer, MP4 full QC, upload, SVG or archive read-back. No main write/merge/publish/payment/Grok ACK. PayoutLens excluded."
   }
 }
