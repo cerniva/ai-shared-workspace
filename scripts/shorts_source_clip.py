@@ -193,7 +193,7 @@ def validate_rights(source: Path, captions: Path, record: Path, language: str) -
 
 def _probe(path: Path) -> dict:
     result = subprocess.run(
-        ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,width,height,duration:format=duration", "-of", "json", str(path)],
+        ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,width,height,duration,start_time:format=duration", "-of", "json", str(path)],
         capture_output=True, text=True, timeout=30, check=False,
     )
     if result.returncode != 0:
@@ -225,6 +225,14 @@ def _require_audio_coverage(streams: list[dict], seconds: float) -> None:
         raise RuntimeError("rendered MP4 audio duration unavailable") from exc
     if not math.isfinite(audio_duration) or audio_duration < seconds - 0.30:
         raise RuntimeError("rendered MP4 audio does not cover full clip")
+    try:
+        start_time = float(audio[0]["start_time"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError("rendered MP4 audio start time unavailable") from exc
+    # Duration alone cannot prove coverage: a 32s track starting 3s late
+    # leaves the beginning of a 32s Short without original audio.
+    if not math.isfinite(start_time) or abs(start_time) > 0.30 or start_time + audio_duration < seconds - 0.30:
+        raise RuntimeError("rendered MP4 audio does not cover full clip")
 
 
 def _require_video_coverage(streams: list[dict], seconds: float) -> None:
@@ -237,6 +245,12 @@ def _require_video_coverage(streams: list[dict], seconds: float) -> None:
     except (KeyError, TypeError, ValueError) as exc:
         raise RuntimeError("rendered MP4 video duration unavailable") from exc
     if not math.isfinite(video_duration) or video_duration < seconds - 0.30:
+        raise RuntimeError("rendered MP4 video does not cover full clip")
+    try:
+        start_time = float(video[0]["start_time"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError("rendered MP4 video start time unavailable") from exc
+    if not math.isfinite(start_time) or abs(start_time) > 0.30 or start_time + video_duration < seconds - 0.30:
         raise RuntimeError("rendered MP4 video does not cover full clip")
 
 
