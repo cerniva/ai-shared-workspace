@@ -1,0 +1,105 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "date_local": "2026-10-29T21:20:30+03:00",
+  "record_type": "RESEARCH_ONLY_BOUNDARY_REFINEMENT_NOT_RENDER",
+  "parent_record": "knowledge/shorts/source_candidates/nomiku_35s_edit_preflight_20261029_2017.json",
+  "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "timed_text_url": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+    "source_sha256_prior_verified": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "srt_sha256_prior_verified": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "source_sha_new_this_turn": false
+  },
+  "finding": "Original 35s plan ended source segment at 72s exactly where source SRT cue 10 begins. This is not proof of leaked speech, but leaves no timing safety margin for decoded audio/subtitle alignment. Prefer 0-28s + 65-71s = 34s with 1s separation before next cue and 1s separation before unsupported cue 5.",
+  "edit_plan": {
+    "segments": [
+      {
+        "source_start_s": 0,
+        "source_end_s": 28,
+        "output_start_s": 0,
+        "output_end_s": 28,
+        "cues": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "source_start_s": 65,
+        "source_end_s": 71,
+        "output_start_s": 28,
+        "output_end_s": 34,
+        "cues": [
+          9
+        ]
+      }
+    ],
+    "duration_s": 34,
+    "excluded_unsupported_cues": [
+      5,
+      6,
+      7
+    ],
+    "other_excluded_cues": [
+      8,
+      10,
+      11
+    ],
+    "source_cue_5_start_s": 29,
+    "source_cue_10_start_s": 72,
+    "subtitle_retiming": "source cue 9 65-71 -> output 28-34; all other selected cues unchanged; draft timing only, not speech-aligned QC",
+    "original_audio_only": true,
+    "tts": false,
+    "output_mp4": null,
+    "output_sha256": null
+  },
+  "local_static_validation": {
+    "status": "PASS_STATIC_TIMELINE_ONLY",
+    "tests_passed": 8,
+    "exit_code": 0,
+    "stdout": "{\"status\": \"TIMELINE_STATIC_PASS_ONLY\", \"tests_passed\": 8, \"duration_s\": 34}",
+    "limits": "Local timeline assertions; not ffmpeg output, actual audio listening, full video QC or independent review."
+  },
+  "rights": {
+    "file_page_license": "CC BY 4.0 with credit/license URL/changes",
+    "timed_text_page": "CC BY-SA footer; authorship and applicable exact text license unresolved",
+    "third_party_audio_music_people_marks": "UNVERIFIED",
+    "independent_review": "PENDING",
+    "gate": "RIGHTS_BLOCKED"
+  },
+  "gates": {
+    "transcript_sync": "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "factual": "FACT_CHECK_BLOCKED",
+    "two_interval_renderer": "NOT_IMPLEMENTED_OR_TESTED_ON_MAIN",
+    "pr_review": "NONE",
+    "publish_ready": false,
+    "youtube_upload": "NOT_ATTEMPTED"
+  },
+  "applied_learning_ids": [
+    {
+      "id": "learn_4decad368966e2e6",
+      "application": "No source hash or artifact digest from prior run promoted as newly checked; retain provenance label."
+    },
+    {
+      "id": "learn_7ffa70a4b15fd05a",
+      "application": "Commercial file license alone does not clear audio/voice/brand or originality; block release."
+    },
+    {
+      "id": "learn_ae8a18babc190373",
+      "application": "Select 34s moving-food-footage storyboard for further review, not final MP4."
+    },
+    {
+      "id": "learn_af28044522e96790",
+      "application": "No upload attempted; privacy and channel gate remain untested."
+    },
+    {
+      "id": "learn_e74d8dd625c30863",
+      "application": "Metricool raw views do not supply stayed-to-watch/AVD; do not infer hook performance."
+    }
+  ],
+  "next": "Independently verify audio/music/voice and SRT rights; audit spoken boundaries and factual claims; implement/test two-interval FFmpeg on PR branch only, then render real 34s MP4 and run full-length QC; no merge/upload until gates pass.",
+  "payoutlens_touched": false
+}
