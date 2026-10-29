@@ -15,7 +15,7 @@
   "license_assertion": "Commons file description: copyright holder published the work under CC BY 4.0; share/remix permitted with attribution, link and change indication; file-level statement is not independently verified component-level voice/music/likeness clearance",
   "transcript_page": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
   "transcript_language": "en",
-  "transcript_status": "SOURCE_ENGLISH_SRT_ACQUIRED_DRAFT_ONLY; 11 cues from original Commons TimedText; speech alignment and readable portrait subtitle timing not independently verified",
+  "transcript_status": "TRANSCRIPT_BLOCKED_SOURCE_ENGLISH_SRT_ACQUIRED_DRAFT_ONLY; source TimedText SRT exists but no caption_path bound to candidate bytes; spoken-word sync, portrait timing and independent QA unverified",
   "audio_status": "SINGLE_ORIGINAL_VORBIS_AUDIO_TRACK_VERIFIED; music/voice ownership and exact spoken sync not independently cleared",
   "framing_status": "PRELIMINARY_PASS_WITH_RESERVATIONS: 14 center-crop 9:16 frame samples at 2-78s show food, tank, meat and searing; motion across scenes plausible, but some hands and product marks cut, full 30-40s portrait QA pending",
   "clip_selection": "NOT_SELECTED; prior 29.26–65.23s candidate rejected after fact check; 0–28s plus 65–72s montage is research-only",
@@ -209,5 +209,6 @@
     "visual_qa": "12 source 9:16 center-crop samples; screening only, not full duration or independent QA",
     "audio_qa": "FFmpeg volumedetect on 0-28s and 65-72s succeeded; rights and spoken-word sync unverified",
     "attribution": "Pkwong89, CC BY 4.0; source and license links plus modification notice required, no endorsement implied."
-  }
+  },
+  "real_mp4_exists": false
 }
