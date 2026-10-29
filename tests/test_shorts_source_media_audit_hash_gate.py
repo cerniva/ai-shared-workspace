@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/shorts-source-media-audit.yml"
+RIGHTS_CI = ROOT / ".github/workflows/shorts-source-rights-tests.yml"
 
 
 class SourceMediaAuditHashGateTests(unittest.TestCase):
@@ -20,6 +21,12 @@ class SourceMediaAuditHashGateTests(unittest.TestCase):
         self.assertIn('["source_sha256"]', workflow)
         self.assertIn("sha256sum --check audit/source.expected.sha256", workflow)
         self.assertIn("SOURCE_HASH_MISMATCH", workflow)
+
+    def test_rights_ci_runs_source_hash_regression_when_related_files_change(self):
+        ci = RIGHTS_CI.read_text(encoding="utf-8")
+        self.assertIn("tests.test_shorts_source_media_audit_hash_gate", ci)
+        self.assertIn("'tests/test_shorts_source_media_audit_hash_gate.py'", ci)
+        self.assertIn("'.github/workflows/shorts-source-media-audit.yml'", ci)
 
     @unittest.skipUnless(shutil.which("sha256sum"), "sha256sum not installed")
     def test_expected_sha_check_rejects_tampered_source(self):
