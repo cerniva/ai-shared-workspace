@@ -61,8 +61,8 @@ class AtomicShortsGateTests(unittest.TestCase):
                 {"codec_type": "audio"},
             ]}
         return {"format": {"duration": "30"}, "streams": [
-            {"codec_type": "video", "width": 1080, "height": 1920, "duration": "30"},
-            {"codec_type": "audio", "duration": "30"},
+            {"codec_type": "video", "width": 1080, "height": 1920, "duration": "30", "start_time": "0"},
+            {"codec_type": "audio", "duration": "30", "start_time": "0"},
         ]}
 
     @staticmethod
