@@ -1,6 +1,23 @@
 name: shorts-source-rights-tests
 
 on:
+  # The PR currently has merge conflicts; a branch-scoped push can run safety
+  # regressions without requiring a PR merge ref or touching main.
+  push:
+    branches:
+      - fix/shorts-original-audio-clip-20261020
+    paths:
+      - 'scripts/shorts_source_clip.py'
+      - 'scripts/shorts_audio_qc.py'
+      - 'scripts/shorts_motion_qc.py'
+      - 'tests/test_shorts_source_clip.py'
+      - 'tests/test_shorts_atomic_gate.py'
+      - 'tests/test_shorts_candidate_provenance.py'
+      - 'tests/test_shorts_source_media_audit_hash_gate.py'
+      - 'knowledge/shorts/source_candidates/*.srt'
+      - 'knowledge/shorts/source_candidates/*_rights_pending.json'
+      - '.github/workflows/shorts-source-media-audit.yml'
+      - '.github/workflows/shorts-source-rights-tests.yml'
   pull_request:
     paths:
       - 'scripts/shorts_source_clip.py'
