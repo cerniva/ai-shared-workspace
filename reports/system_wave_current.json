@@ -215,7 +215,38 @@
     "test_stdout": "Ran 807 tests OK (skipped=5); Ran 15 tests OK",
     "test_exit": 0,
     "test_scope": "SEPARATE_BRANCH_UNIT_INTEGRATION_ONLY_NOT_PRODUCTION",
-    "test_branch_sha": "8c32cd65747f9fed9e133e343fc79de6c76c972e"
+    "test_branch_sha": "8c32cd65747f9fed9e133e343fc79de6c76c972e",
+    "latest_verified_workers": [
+      {
+        "run_id": 40922631635,
+        "job_id": 123619666907,
+        "head_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+        "output": "ci_handoff_registered -> pr_opened -> done status=pr",
+        "handoff_id": "CI-40922469080",
+        "pr": 385,
+        "pr_head": "14a9d7ee2fbd6d0e25df2357851df3459ddd075c",
+        "pr_state": "open",
+        "draft": false,
+        "merged": false,
+        "production_done": false,
+        "readback": "GitHub Actions job log + PR metadata"
+      },
+      {
+        "run_id": 40922528962,
+        "job_id": 123619306910,
+        "head_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+        "output": "ci_handoff_registered -> pr_opened -> done status=pr",
+        "handoff_id": "CI-40922447912",
+        "pr": 386,
+        "pr_head": "a50a9fda29c2b40a4045398dbf5dc6c417f33451",
+        "pr_state": "open",
+        "draft": false,
+        "merged": false,
+        "production_done": false,
+        "readback": "GitHub Actions job log + PR metadata"
+      }
+    ],
+    "production_task_done": "NO: PRs opened only, no merge/production verification"
   },
   "automations": {
     "four_enabled": true,
@@ -518,12 +549,12 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Team-worker CI40923926732/job123624356463 success, output team_worker:skip_no_handoff_id; no task executed.",
-      "test_command": "team-worker workflow Run team-worker (GitHub Actions)",
+      "evidence": "CI40922631635/job123619666907 opened PR385 handoff CI-40922469080; CI40922528962/job123619306910 opened PR386 handoff CI-40922447912; both runs exit0, PRs open/non-draft/mergeable but NOT merged. Separate CI40923926732/job123624356463 skip_no_handoff_id; no execution in that separate run.",
+      "test_command": "GitHub Actions team-worker Run team-worker (2 PR-producing runs + 1 skip run)",
       "test_exit": 0,
       "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "GitHub job log skip_no_handoff_id",
-      "next_step": "Only dispatch with valid existing handoff ID; no fake task execution",
+      "read_back": "Both job logs + PR385 head14a9d7ee and PR386 heada50a9fda, open; no production merge",
+      "next_step": "Review PR385/386 test and required checks, reuse existing handoffs, do not auto-merge",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -630,7 +661,7 @@
   "current_turn": {
     "at": "2026-10-29T18:35:00Z",
     "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-    "summary": "PR269_AUTO_MERGE_DENIED_AND_PR386_AUDITOR_FAIL_CLOSED;P0_BRIDGE_PRODUCTION_OPEN",
+    "summary": "PR269_MERGE_FALSE_PR386_AUDITOR_FAIL_AND_WORKER_PR385_PR386_OPENED_NOT_MERGED;P0_BRIDGE_OPEN",
     "audit_key": "audit_20261029_2135",
     "branch_state_not_main": true
   },
@@ -3130,6 +3161,36 @@
       "exit": 128,
       "error": "Could not resolve host: github.com"
     },
-    "limitations": "No local plan_learnings execution; no production consumer, MP4 full QC, upload, SVG or archive read-back. No main write/merge/publish/payment/Grok ACK. PayoutLens excluded."
+    "limitations": "No local plan_learnings execution; no production consumer, MP4 full QC, upload, SVG or archive read-back. No main write/merge/publish/payment/Grok ACK. PayoutLens excluded.",
+    "worker_followup": [
+      {
+        "run_id": 40922631635,
+        "job_id": 123619666907,
+        "head_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+        "output": "ci_handoff_registered -> pr_opened -> done status=pr",
+        "handoff_id": "CI-40922469080",
+        "pr": 385,
+        "pr_head": "14a9d7ee2fbd6d0e25df2357851df3459ddd075c",
+        "pr_state": "open",
+        "draft": false,
+        "merged": false,
+        "production_done": false,
+        "readback": "GitHub Actions job log + PR metadata"
+      },
+      {
+        "run_id": 40922528962,
+        "job_id": 123619306910,
+        "head_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+        "output": "ci_handoff_registered -> pr_opened -> done status=pr",
+        "handoff_id": "CI-40922447912",
+        "pr": 386,
+        "pr_head": "a50a9fda29c2b40a4045398dbf5dc6c417f33451",
+        "pr_state": "open",
+        "draft": false,
+        "merged": false,
+        "production_done": false,
+        "readback": "GitHub Actions job log + PR metadata"
+      }
+    ]
   }
 }
