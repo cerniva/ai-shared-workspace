@@ -29,7 +29,7 @@ class SourceMediaAuditHashGateTests(unittest.TestCase):
             expected = root / "source.expected.sha256"
             source.write_bytes(b"original source bytes")
             digest = hashlib.sha256(source.read_bytes()).hexdigest()
-            expected.write_text(f"{digest}  source.webm\\n", encoding="ascii")
+            expected.write_text(f"{digest}  source.webm\n", encoding="ascii")
             good = subprocess.run(
                 ["sha256sum", "--check", expected.name],
                 cwd=root, capture_output=True, text=True, check=False,
