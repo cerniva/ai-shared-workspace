@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T16:37:33Z",
+  "generated_at": "2026-10-29T17:37:00Z",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
+  "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "PR269_NOMIKU_METADATA_FAILS_PROVENANCE_TESTS; PUBLISH_READY_FALSE",
-  "decision_after": "PR269_NOMIKU_FAIL_CLOSED_METADATA_FIXED_AND_65_TESTS_PASS; PUBLISH_READY_STILL_FALSE; NO_MERGE",
+  "decision_before": "Latest auto-merge-gate CI conclusion=success; PR merge decision not yet read back. GitHub Actions list is first page only.",
+  "decision_after": "PR375 merge=false: draft, head branch not allowlisted, takipci-denetci failure. Inventory PARTIAL; no all-green claim.",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "SYSTEM_AUDIT_DECISION_ONLY_NOT_REPORTING_OR_ARTIFACT_CONSUMER",
+  "applied_learning_ids_scope": "REAL AUDIT DECISION ONLY (partial GitHub list and required PR check); NOT Reporting API or cross-workflow artifact production consumer",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -178,15 +178,15 @@
     "pr": 309,
     "status": "OPEN_DRAFT_FRESH_MAIN_RACE_AND_PRODUCTION_READBACK_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 140,
+    "behind": 143,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-    "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+    "base_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
     "combined_race_ci": "NOT_VERIFIED"
   },
   "worker": {
@@ -219,10 +219,10 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.list 2026-10-29 18:39 Europe/Istanbul",
-    "finance_runner": "GITHUB_PRODUCTION_RUNNER_NOT_PRESENT; LOADER_ONLY",
-    "video_shopify": "GITHUB_DRY_RUN",
-    "knowledge": "GITHUB_DRY_RUN",
+    "verified_via": "Automations.list 2026-10-29 20:36 TRT",
+    "finance_runner": "GITHUB_PRODUCTION_NOT_VERIFIED",
+    "video_shopify": "GITHUB_PRODUCTION_NOT_VERIFIED",
+    "knowledge": "GITHUB_PRODUCTION_NOT_VERIFIED",
     "system": "DISPATCH_AND_OBSERVE_NOT_PRODUCTION",
     "chatgpt_enabled_count": 4
   },
@@ -231,12 +231,12 @@
     "total": 10,
     "score": "N/A",
     "production_svg": "NOT_VERIFIED",
-    "current_turn_recheck": "config/altcoin_panel_calibration.json validated=false all 10"
+    "current_turn_recheck": "config/altcoin_panel_calibration.json blob 6bbeacf9482245304a056dbfe7507d08cb181aa9, all 10 validated=false"
   },
   "shorts": {
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
     "mp4_size": 598439,
-    "mp4_qc": "MP4_BOX_STRUCTURE_PASS_ONLY; full ffprobe/decode/audio/subtitle/license QC NOT_RUN",
+    "mp4_qc": "PREVIOUS_BOX_STRUCTURE_ONLY; full ffprobe/frame/audio/subtitle/license QC NOT_RUN_THIS_TURN",
     "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
     "upload_ledger_count": 0,
     "remote_upload": "NOT_VERIFIED",
@@ -346,12 +346,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main archive-heal.yml blob f8c074dd uses git pull --rebase origin main; draft PR309 head 8039adb behind141/ahead52; fresh combined race CI/production readback absent",
+      "evidence": "Main archive-heal workflow blob f8c074dd retains git pull --rebase origin main; draft PR309 head8039adb behind143/ahead52 at main 04dc6c087dd737add868eea463ab044333c2f009",
       "test_command": "CURRENT_MAIN_COMBINED_RACE_NOT_RUN",
       "test_exit": null,
-      "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
-      "read_back": "main workflow blob f8c074dd; current combined CI and production read-back NOT_VERIFIED",
-      "next_step": "Rebase/reconcile existing PR309 in safe branch; run combined fresh-main race CI, verify archive read-back; no merge",
+      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "read_back": "Main workflow and PR metadata/compare re-read; production archive read-back NOT_VERIFIED",
+      "next_step": "Reconcile existing PR309 on current main, run isolated combined race CI and production archive read-back; no merge",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -388,14 +388,14 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "auto-merge-gate CI 40849632435/job 123365581450 success but JSON PR269.merge=false due missing required checks, denylisted workflow edits and draft",
-      "test_command": "GitHub Actions auto-merge-gate job log readback",
+      "evidence": "CI40922984237 job123620908218 success but PR375 merge=false: draft, non-allowlisted branch, takipci-denetci failure",
+      "test_command": "GitHub Actions auto-merge-gate Evaluate and merge",
       "test_exit": 0,
-      "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-      "read_back": "PR269 merge=false, head 2d0546e7; workflow success is not merge authorization",
-      "next_step": "Review repeated gate triggers; do not confuse CI success with merge",
+      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "read_back": "GitHub job log decision merge=false; not a successful merge",
+      "next_step": "Keep required checks fail-closed, no merge",
       "retested_this_turn": false,
-      "reviewed_this_turn": false
+      "reviewed_this_turn": true
     },
     {
       "id": "CI-39568642118",
@@ -493,7 +493,7 @@
       "read_back": "Main GitHub source read-back only; production not verified",
       "next_step": "Run fresh-main PR309 combined race CI and archive production read-back",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
@@ -570,12 +570,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main learning ledger 83/catalog95/system9; target learning IDs active/source-linked; production Reporting API partial-batch and artifact digest consumer readback NOT_VERIFIED; loader-only historical CI not sufficient",
-      "test_command": "REAL_CONSUMER_POSITIVE_NEGATIVE_NOT_RUN",
+      "evidence": "Main learning ledger blob6654ffabba and catalog blob72fb179f83; active system 9; targeted learn_0bdcee93377fd18d and learn_4decad368966e2e6 source-linked. Draft tests PR314/334 only.",
+      "test_command": "python3 scripts/plan_learnings.py system --require (local NOT_RUN DNS; historical CI40877877894 exit0 loader only)",
       "test_exit": null,
-      "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
-      "read_back": "ledger sha 6654ffab, catalog sha 72fb179f; real consumer NOT_VERIFIED",
-      "next_step": "Reuse issue #308; run actual consumer positive/negative tests and verify persisted applied_learning_ids, checkpoint/digest decision and artifact readback",
+      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "read_back": "Production Reporting API checkpoint, digest consumer, applied_learning_ids manifest NOT_VERIFIED",
+      "next_step": "Reuse issue308; verify real consumers, positive/negative tests and read-back; keep bridge_failure OPEN",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -584,12 +584,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "PR269 Nomiku metadata fix commit 38c10f5 blob 42f84a2 readback; CI40913392301 job123587076028 65 tests PASS exit0; publish_ready=false; no final QC or upload (ledger0)",
-      "test_command": "python3 -m unittest (GitHub Actions source-rights-safety)",
-      "test_exit": 0,
-      "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
-      "read_back": "knowledge/shorts/source_candidates/nomiku_sous_vide_rights_pending.json blob 42f84a2b5f81a11c45a2c5b48217fd20b3b7b3dd",
-      "next_step": "Keep publication blocked; independent audio/rights, spoken sync, portrait and factual QA, full MP4 ffprobe/visual/audio checks and upload read-back required",
+      "evidence": "Main upload ledger blob aa357952c4ee713ddc224d8426cf8bc9c538d13e uploads=[]; previous PR269 metadata 65 tests only",
+      "test_command": "FFprobe/decode/audio/subtitle/license QC NOT_RUN_THIS_TURN",
+      "test_exit": null,
+      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+      "read_back": "Main upload ledger 0; remote video ID NOT_VERIFIED",
+      "next_step": "Full MP4 QC and authorized remote upload/read-back only after all gates pass",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     }
@@ -2941,5 +2941,94 @@
       "error": "Could not resolve host: github.com"
     },
     "limits": "No main write, merge, publish, payment, Grok ACK or PayoutLens access"
+  },
+  "audit_20261029_2037": {
+    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+    "runner": "GitHub Actions + ChatGPT scheduled audit (read-only inspection)",
+    "report_path": "reports/system_wave_current.json",
+    "before": "CI success with PR decision unknown; workflow inventory first page",
+    "after": "PR375 merge=false, required check failure; inventory PARTIAL; production gates NOT_VERIFIED",
+    "applied_learning_ids": [
+      "learn_1f26fa5202f29769",
+      "learn_67340fd77c09f582"
+    ],
+    "sources": [
+      {
+        "id": "src_74c1f2ed10aefae7",
+        "learning_id": "learn_1f26fa5202f29769"
+      },
+      {
+        "id": "src_c99620eb8f764049",
+        "learning_id": "learn_67340fd77c09f582"
+      }
+    ],
+    "ci": {
+      "run_id": 40922984237,
+      "job_id": 123620908218,
+      "conclusion": "success",
+      "decision": "375.merge=false",
+      "test_command": "auto-merge-gate / Evaluate and merge",
+      "exit": 0,
+      "readback": "GitHub job log",
+      "main_run_id": 40922889369,
+      "main_job_id": 123620575366
+    },
+    "p0": {
+      "pr": 309,
+      "behind_main": 143,
+      "ahead_main": 52,
+      "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "combined_race_ci": "NOT_VERIFIED",
+      "production_readback": "NOT_VERIFIED"
+    },
+    "learning": {
+      "ledger_count": 83,
+      "catalog_count": 95,
+      "active_system": 9,
+      "required_ids": [
+        "learn_0bdcee93377fd18d",
+        "learn_4decad368966e2e6"
+      ],
+      "production_applied_learning_ids": [],
+      "bridge_failure": "OPEN",
+      "issue": 308,
+      "loader_test_command": "python3 scripts/plan_learnings.py system --require",
+      "local_exit": "NOT_RUN_DNS",
+      "historical_ci_run": 40877877894,
+      "historical_ci_job": 123461311187,
+      "historical_exit": 0,
+      "consumer_readback": "NOT_VERIFIED"
+    },
+    "workers": [
+      {
+        "run_id": 40922631635,
+        "job_id": 123619666907,
+        "status": "in_progress",
+        "task_executed": "NOT_VERIFIED"
+      },
+      {
+        "run_id": 40922528962,
+        "job_id": 123619306910,
+        "status": "in_progress",
+        "task_executed": "NOT_VERIFIED"
+      }
+    ],
+    "automations_enabled": 4,
+    "shorts_upload_ledger_count": 0,
+    "finance_altcoin": "0/10 N/A",
+    "svg_production": "NOT_VERIFIED",
+    "tasks": {
+      "selected": 20,
+      "reviewed": 4,
+      "completed": 0,
+      "continuing": 19,
+      "blocked_user": 1
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "error": "Could not resolve host: github.com"
+    },
+    "limitations": "No local repo, no new CI run or production read-back, no main write/merge/publish/payment/ACK; PayoutLens excluded"
   }
 }
