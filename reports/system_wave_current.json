@@ -1,30 +1,30 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T11:01:38.719Z",
+  "generated_at": "2026-10-29T11:34:38Z",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "RECENT_WORKFLOW_SUCCESS_OR_BRANCH_TESTS_MIGHT_BE_REPORTED_AS_PRODUCTION_BRIDGE_PASS",
-  "decision_after": "RECENT_CI_WATCH_SUCCESS_ONLY; REPORTING_AND_DIGEST_CONSUMER_NEGATIVE_TESTS_EXIST_ON_DRAFT_PRS_BUT_NO_AUTHORIZED_PRODUCTION_READBACK; BRIDGE_FAILURE_OPEN",
+  "decision_before": "LATEST_CI_SUCCESS_MIGHT_IMPLY_END_TO_END_PRODUCTION_PASS",
+  "decision_after": "LOADER_SUCCESS_ONLY; REQUIRED_AUDITOR_FAIL; TEAM_WORKER_SKIPPED; P0_AND_BRIDGE_OPEN",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "real audit report decision only: first-page CI inventory partial and required PR checks not equivalent to production; not a Reporting API or digest consumer",
+  "applied_learning_ids_scope": "only audit inventory completeness and PR required-check decision, NOT Reporting API or artifact production consumer",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
     "loader": {
       "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
-      "run_id": 40827713681,
-      "job_id": 123294473303,
-      "head_sha": "5a5b4a2169c8a6e5d1911d1d86428d046e463691",
+      "run_id": 40866164727,
+      "job_id": 123421370829,
+      "head_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
       "stdout": "plan_learnings tag=system count=9 error=None",
       "exit": 0,
       "scope": "REAL_GITHUB_CI_LOADER_ONLY_NOT_CONSUMER",
-      "artifact_readback": "CI stdout verified, but workflow artifact read-back NOT_VERIFIED"
+      "artifact_readback": "NOT_AVAILABLE; stdout verified"
     },
     "learnings": [
       {
@@ -81,7 +81,7 @@
       "ci_run_id": null,
       "ci_job_id": null
     },
-    "source_catalog_blob": "8d9bfdd16820a9b7ab9a0f21b045b2ad98efa183",
+    "source_catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f",
     "learning_ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
     "candidate_pr_339": {
       "pr": 339,
@@ -172,7 +172,7 @@
     "pr": 309,
     "status": "OPEN_DRAFT_CURRENT_MAIN_COMBINED_RACE_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 136,
+    "behind": 137,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
@@ -184,8 +184,8 @@
     "combined_race_ci": "NOT_VERIFIED"
   },
   "worker": {
-    "run_id": 40843725504,
-    "job_id": 123346276821,
+    "run_id": 40865101441,
+    "job_id": 123417872645,
     "conclusion": "success",
     "stdout": "team_worker=skip_no_handoff_id",
     "task_executed": false,
@@ -213,7 +213,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.list 2026-10-29 12:32 Europe/Istanbul",
+    "verified_via": "Automations.list 2026-10-29 14:34 Europe/Istanbul",
     "finance_runner": "GITHUB_PRODUCTION_RUNNER_NOT_PRESENT; LOADER_ONLY",
     "video_shopify": "GITHUB_DRY_RUN",
     "knowledge": "GITHUB_DRY_RUN",
@@ -267,7 +267,7 @@
     "newly_completed": 0,
     "new_wave_started": false,
     "all_retested": false,
-    "reviewed_this_turn": 5
+    "reviewed_this_turn": 4
   },
   "tasks": [
     {
@@ -303,12 +303,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal blob f8c074dd uses git pull --rebase; draft PR309 HEAD 8039adb behind136 ahead52; PR HEAD historical CI only",
-      "test_command": "Current-main combined archive race test NOT_RUN",
+      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal blob f8c074dd uses git pull --rebase; draft PR309 HEAD 8039adb behind136 ahead52; PR HEAD historical CI only | 2026-10-29 14:34: PR309 behind=137 ahead=52; main archive-heal still pull --rebase; combined CI missing",
+      "test_command": "NOT_RUN this turn",
       "test_exit": null,
       "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
-      "read_back": "main workflow fetched; production archive NOT_VERIFIED",
-      "next_step": "Reuse PR309, reconcile current main, run race CI and production archive read-back; no merge",
+      "read_back": "Main GitHub source read-back only; production not verified",
+      "next_step": "Run fresh-main PR309 combined race CI and archive production read-back",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -443,12 +443,12 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal remains unsafe; PR309 behind136/ahead52",
-      "test_command": "PR309 current-main combined race test NOT_RUN",
+      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal remains unsafe; PR309 behind136/ahead52 | 2026-10-29 14:34: PR309 behind=137 ahead=52; main archive-heal still pull --rebase; combined CI missing",
+      "test_command": "NOT_RUN this turn",
       "test_exit": null,
       "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
-      "read_back": "main workflow blob verified; production NOT_VERIFIED",
-      "next_step": "Reuse PR309; safe current-main integration tests before any merge",
+      "read_back": "Main GitHub source read-back only; production not verified",
+      "next_step": "Run fresh-main PR309 combined race CI and archive production read-back",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -527,12 +527,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 83 learnings/95 sources/9 system; loader CI 40827713681/job123294473303 exit0; PR334 checkpoint CI 40226678801/job121269415725 811 OK; PR314 digest CI 40488408242/job122135893764 810 OK; branch-only",
-      "test_command": "PR334/PR314: python3 -m unittest discover -s tests -p 'test_*.py'",
+      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 83 learnings/95 sources/9 system; loader CI 40827713681/job123294473303 exit0; PR334 checkpoint CI 40226678801/job121269415725 811 OK; PR314 digest CI 40488408242/job122135893764 810 OK; branch-only | 2026-10-29 14:34: loader CI 40866164727 job 123421370829 count=9 exit0 but no consumer artifact; issue remains open",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
       "test_exit": 0,
       "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
-      "read_back": "PR test source blobs verified; production applied_learning_ids and authorized consumer readback NOT_VERIFIED",
-      "next_step": "Reuse Issue308 and draft PR314/334; reconcile current main, real authorized consumer negative tests and manifest read-back",
+      "read_back": "GitHub CI stdout read; no production consumer artifact",
+      "next_step": "Keep issue #308 open until consumer negative tests and production manifest read-back",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -541,12 +541,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 upload ledger aa357952 uploads=[]; MP4 structural prior-only; PR314 digest branch CI pass, no production upload",
-      "test_command": "PR314 branch unittest suite (historical CI); FFprobe/full MP4 QC NOT_RUN",
-      "test_exit": 0,
+      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 upload ledger aa357952 uploads=[]; MP4 structural prior-only; PR314 digest branch CI pass, no production upload | 2026-10-29 14:34: upload ledger 0; full MP4 QC and YouTube video ID absent",
+      "test_command": "NOT_RUN this turn",
+      "test_exit": null,
       "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
-      "read_back": "upload ledger [] verified; MP4/audio/subtitle QC and YouTube video ID NOT_VERIFIED",
-      "next_step": "Verify rights+FFprobe+audio/caption QC and authenticated upload read-back before release",
+      "read_back": "Main GitHub source read-back only; production not verified",
+      "next_step": "FFprobe/decode/audio/subtitle/license QC then authorized YouTube upload and video ID",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     }
@@ -568,15 +568,11 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "timestamp": "2026-10-29T11:01:38.719Z",
+    "at": "2026-10-29T14:34:38+03:00",
     "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
-    "scope": "AUDIT_ONLY_SAFE_BRANCH",
-    "newly_completed": 0,
-    "continuing": 19,
-    "blocked_user": 1,
-    "production_gate": "OPEN",
-    "readback": "PENDING_WRITE_READBACK",
-    "tests": "PR314 810 OK skipped3; PR334 811 OK skipped3; current main combined race NOT_RUN; local git DNS exit128"
+    "summary": "LOADER_SUCCESS_ONLY; REQUIRED_AUDITOR_FAIL; TEAM_WORKER_SKIPPED; P0_AND_BRIDGE_OPEN",
+    "bridge_failure": "OPEN",
+    "audit_key": "audit_20261029_1434"
   },
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
@@ -2074,5 +2070,167 @@
       "all_retested": false
     },
     "result": "PARTIAL; production gates open; no main writes, merge, publish, payment, or Grok ACK"
+  },
+  "audit_20261029_1434": {
+    "at": "2026-10-29T14:34:38+03:00",
+    "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
+    "scope": "audit_only_not_production",
+    "payoutlens_touched": false,
+    "capacity": {
+      "max_active_per_agent": 5,
+      "capacity_file": "tasks/agent_capacity.json",
+      "capacity_file_updated_at": "2026-09-26T02:43:26+03:00",
+      "caution": "stale self-reported capacity; no external agent task assigned"
+    },
+    "open_work": {
+      "selected_existing": 20,
+      "new_wave_started": false,
+      "rechecked_this_turn": 4,
+      "all_20_retested": false,
+      "continuing": 19,
+      "blocked_user": 1,
+      "newly_completed": 0
+    },
+    "repo_inventory": {
+      "workflow_runs_endpoint": "/actions/runs?per_page=20",
+      "reported_total": 26654,
+      "observed_first_page": 20,
+      "completeness": "PARTIAL_FIRST_PAGE",
+      "applied_learning_ids": [
+        "learn_1f26fa5202f29769"
+      ],
+      "source_ids": [
+        "src_74c1f2ed10aefae7"
+      ],
+      "source_url": "https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api"
+    },
+    "learning_catalog": {
+      "ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+      "catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f",
+      "learnings": 83,
+      "sources": 95,
+      "active_system": 9,
+      "targets": [
+        {
+          "id": "learn_0bdcee93377fd18d",
+          "source_id": "src_be6523a27c85e346",
+          "source_url": "https://developers.google.com/youtube/reporting/v1/reports",
+          "metadata": "active/default; source verified-public",
+          "production_checkpoint_readback": "NOT_VERIFIED"
+        },
+        {
+          "id": "learn_4decad368966e2e6",
+          "source_id": "src_569c596da7048714",
+          "source_url": "https://github.blog/changelog/2025-03-18-github-actions-now-supports-a-digest-for-validating-your-artifacts-at-runtime",
+          "metadata": "active; source verified-public",
+          "production_digest_readback": "NOT_VERIFIED"
+        }
+      ],
+      "metadata_test": "IN_PROCESS_JS_ONLY_NOT_REAL_CONSUMER"
+    },
+    "loader": {
+      "runner": ".github/workflows/plan-learnings-check.yml",
+      "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+      "run_id": 40866164727,
+      "job_id": 123421370829,
+      "head_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
+      "stdout": "plan_learnings tag=system count=9 error=None",
+      "exit": 0,
+      "artifact_count": 0,
+      "artifact_readback": "NOT_AVAILABLE; stdout verified",
+      "consumer": "LOADER_ONLY"
+    },
+    "p0_archive": {
+      "pr": 309,
+      "branch": "fix/archive-heal-fresh-main-race-20261022-1037",
+      "ahead_main": 52,
+      "behind_main": 137,
+      "main_workflow": ".github/workflows/archive-heal.yml",
+      "risky_command": "git pull --rebase origin main",
+      "combined_race_ci": "NOT_VERIFIED",
+      "production_archive_readback": "NOT_VERIFIED",
+      "decision": "P0_OPEN"
+    },
+    "p1_auditor": {
+      "pr": 376,
+      "head_sha": "aee2fff68640952c4a9aa6c77fd7a977ea5730b7",
+      "runner": ".github/workflows/takipci-denetci.yml",
+      "run_id": 40865058097,
+      "job_id": 123417600210,
+      "exit": 1,
+      "stdout_evidence": [
+        "run 40788057454 conclusion is failure (not success)",
+        "run 40794476498 conclusion is failure (not success)"
+      ],
+      "decision_before": "PR_TESTS_SUCCESS_MIGHT_BE_TREATED_AS_REQUIRED_CHECK_PASS",
+      "decision_after": "CURRENT_REQUIRED_AUDITOR_CHECK_FAIL; NO_MERGE",
+      "applied_learning_ids": [
+        "learn_67340fd77c09f582"
+      ],
+      "source_ids": [
+        "src_c99620eb8f764049"
+      ],
+      "source_url": "https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks",
+      "candidate_test_run": 40865058222,
+      "candidate_test_job": 123417600704,
+      "candidate_test_exit": 0,
+      "scope": "PR_HEAD_TESTS_ONLY; required main auditor failure persists"
+    },
+    "team_worker": {
+      "run_id": 40865101441,
+      "job_id": 123417872645,
+      "conclusion": "success",
+      "stdout": "{\"team_worker\":\"skip_no_handoff_id\",\"reason\":\"repository_dispatch client_payload.handoff_id missing\"}",
+      "task_executed": false
+    },
+    "automations": {
+      "enabled_titles": [
+        "Sistem Geliştirmeleri",
+        "Finans",
+        "Video ve Shopify Otomasyonu",
+        "Bilgi Kütüphanesi"
+      ],
+      "enabled_count": 4,
+      "verified_via": "Automations.list"
+    },
+    "shorts": {
+      "mp4_blob_previous": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
+      "mp4_full_qc_this_turn": "NOT_RUN",
+      "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
+      "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
+      "uploads": 0,
+      "youtube_id": "NOT_VERIFIED"
+    },
+    "finance": {
+      "calibration_blob": "6bbeacf9482245304a056dbfe7507d08cb181aa9",
+      "altcoin_validated": 0,
+      "altcoin_total": 10,
+      "score": "N/A",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "grok": {
+      "latest_message_reviewed": "messages/grok-to-chatgpt.md last 2026-10-22",
+      "new_verified_action": "NONE",
+      "ack_written": false
+    },
+    "decision_before": "LATEST_CI_SUCCESS_MIGHT_IMPLY_END_TO_END_PRODUCTION_PASS",
+    "decision_after": "LOADER_SUCCESS_ONLY; REQUIRED_AUDITOR_FAIL; TEAM_WORKER_SKIPPED; P0_AND_BRIDGE_OPEN",
+    "applied_learning_ids": [
+      "learn_1f26fa5202f29769",
+      "learn_67340fd77c09f582"
+    ],
+    "applied_learning_scope": "only audit inventory completeness and PR required-check decision, NOT Reporting API or artifact production consumer",
+    "bridge_failure": "OPEN issue #308",
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "stderr": "Could not resolve host: github.com",
+      "alternative": "GitHub connector reads and CI log readback"
+    },
+    "yapamadim": {
+      "reason": "No production consumer/read-back or current-main combined P0 race CI; local git DNS failed",
+      "attempted": "GitHub main files, tasks/capacity, messages/fallback, PRs, CI jobs/logs, loader stdout, upload ledger, source metadata",
+      "required": "Authorized real Reporting API batch+checkpoint readback, cross-run artifact digest fail-closed runtime, PR #309 current-main race CI, MP4 full QC, verified upload/video ID, SVG output readback"
+    }
   }
 }
