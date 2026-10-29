@@ -318,7 +318,7 @@ class SourceClipTests(unittest.TestCase):
 
     def test_rendered_audio_coverage_accepts_full_track(self):
         from scripts.shorts_source_clip import _require_audio_coverage
-        self.assertIsNone(_require_audio_coverage([{"codec_type": "audio", "duration": "32.0"}], 32))
+        self.assertIsNone(_require_audio_coverage([{"codec_type": "audio", "duration": "32.0", "start_time": "0.0"}], 32))
 
 
     def test_video_track_shorter_than_audio_blocks(self):
@@ -334,7 +334,27 @@ class SourceClipTests(unittest.TestCase):
 
     def test_video_track_full_duration_passes(self):
         from scripts.shorts_source_clip import _require_video_coverage
-        self.assertIsNone(_require_video_coverage([{"codec_type": "video", "duration": "32.0"}], 32))
+        self.assertIsNone(_require_video_coverage([{"codec_type": "video", "duration": "32.0", "start_time": "0.0"}], 32))
+
+    def test_delayed_audio_start_blocks_even_with_full_duration(self):
+        from scripts.shorts_source_clip import _require_audio_coverage
+        with self.assertRaisesRegex(RuntimeError, "does not cover full clip"):
+            _require_audio_coverage([{"codec_type": "audio", "duration": "32.0", "start_time": "2.0"}], 32)
+
+    def test_missing_audio_start_time_blocks(self):
+        from scripts.shorts_source_clip import _require_audio_coverage
+        with self.assertRaisesRegex(RuntimeError, "audio start time unavailable"):
+            _require_audio_coverage([{"codec_type": "audio", "duration": "32.0"}], 32)
+
+    def test_delayed_video_start_blocks_even_with_full_duration(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        with self.assertRaisesRegex(RuntimeError, "does not cover full clip"):
+            _require_video_coverage([{"codec_type": "video", "duration": "32.0", "start_time": "2.0"}], 32)
+
+    def test_missing_video_start_time_blocks(self):
+        from scripts.shorts_source_clip import _require_video_coverage
+        with self.assertRaisesRegex(RuntimeError, "video start time unavailable"):
+            _require_video_coverage([{"codec_type": "video", "duration": "32.0"}], 32)
 
     def test_video_track_multiple_streams_blocks(self):
         from scripts.shorts_source_clip import _require_video_coverage
