@@ -291,7 +291,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "state/automation_runner.json main blob 6e8e92d098a6e4658fb87d9ffe15a50141c67d1f (2026-10-29T19:37:48Z); no new ChatGPT enable-state read this turn",
+    "verified_via": "Automations.peek 2026-10-29 23:38 TRT: four named automations enabled; GitHub state/automation_runner.json main blob 6e8e92d098a6e4658fb87d9ffe15a50141c67d1f for production modes",
     "finance_runner": "GITHUB_PRODUCTION_ABSENT; dispatch+observe loader only",
     "video_shopify": "DRY_RUN; shorts-free-render never_run; youtube-upload failed",
     "knowledge": "DRY_RUN; knowledge-promote success not plan output",
@@ -306,7 +306,29 @@
       "read_back": "PASS main",
       "model_summary_overclaim": "'Diğer tüm otomasyonlar ... sağlıklı' is unsupported by modes; audit corrected to NOT_VERIFIED"
     },
-    "production_all_four": "NOT_VERIFIED"
+    "production_all_four": "NOT_VERIFIED",
+    "enabled_details": [
+      {
+        "name": "Sistem Geliştirmeleri",
+        "enabled": true,
+        "last_run_utc": "2026-10-29T19:43:03.751973+00:00"
+      },
+      {
+        "name": "Finans",
+        "enabled": true,
+        "last_run_utc": "2026-10-29T06:09:19.301420+00:00"
+      },
+      {
+        "name": "Video ve Shopify Otomasyonu",
+        "enabled": true,
+        "last_run_utc": "2026-10-29T20:31:21.096895+00:00"
+      },
+      {
+        "name": "Bilgi Kütüphanesi",
+        "enabled": true,
+        "last_run_utc": "2026-10-29T20:28:01.081234+00:00"
+      }
+    ]
   },
   "finance": {
     "altcoin_calibrated": 0,
@@ -3419,6 +3441,8 @@
     "ci_new_test": "NOT_RUN",
     "actual_consumer_positive_negative": "NOT_VERIFIED",
     "grok_ack": "NOT_SENT",
-    "payoutlens_touched": false
+    "payoutlens_touched": false,
+    "main_sha_final_check": "bbba43794cb4269f5ae0d6427024961693f1262f",
+    "main_unchanged": true
   }
 }
