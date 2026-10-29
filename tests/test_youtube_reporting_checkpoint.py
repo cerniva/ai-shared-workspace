@@ -1,0 +1,237 @@
+"""Fail-closed tests for the offline Reporting API checkpoint decision."""
+import json
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts.knowledge_bridge import CatalogError, DEFAULT_CATALOG
+from scripts.learning_bridge import DEFAULT_LEDGER
+from scripts import youtube_reporting_checkpoint as gate
+
+
+def report(rid, created, start="2026-10-20T00:00:00Z",
+           status="persisted_readback_verified"):
+    return {"id": rid, "jobId": "job1", "startTime": start,
+            "endTime": "2026-10-21T00:00:00Z",
+            "createTime": created, "import_status": status}
+
+
+def batch(*reports, complete=True, readback=True):
+    return {"previous_checkpoint": "2026-10-20T10:00:00Z",
+            "reports": list(reports), "pagination_complete": complete,
+            "batch_index_readback_verified": readback}
+
+
+class CheckpointTests(unittest.TestCase):
+    def test_actual_decision_contains_applied_learning_and_proposed_cursor(self):
+        result = gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00Z")))
+        self.assertEqual(result["decision_status"], "ADVANCE_READY")
+        self.assertEqual(result["decision_before"]["createdAfter"], "2026-10-20T10:00:00Z")
+        self.assertEqual(result["decision_after_proposed"]["createdAfter"], "2026-10-21T12:00:00Z")
+        self.assertEqual(result["applied_learning_ids"], [gate.LEARNING_ID])
+        self.assertEqual(result["source_ids"], [gate.SOURCE_ID])
+        self.assertFalse(result["checkpoint_committed"])
+        self.assertFalse(result["production_channel_access"])
+
+    def test_partial_page_holds_cursor(self):
+        result = gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00Z"), complete=False))
+        self.assertEqual(result["decision_status"], "HOLD_INCOMPLETE_PAGINATION")
+        self.assertEqual(result["decision_after_proposed"], result["decision_before"])
+
+    def test_unverified_import_or_batch_readback_holds(self):
+        for b in (batch(report("r1", "2026-10-21T12:00:00Z", status="failed")),
+                  batch(report("r1", "2026-10-21T12:00:00Z"), readback=False)):
+            with self.subTest(b=b):
+                result = gate.evaluate_batch(b)
+                self.assertEqual(result["decision_status"], "HOLD_UNVERIFIED_IMPORT")
+                self.assertEqual(result["decision_after_proposed"], result["decision_before"])
+
+    def test_backfill_replaces_old_period_not_sum(self):
+        old = report("old", "2026-10-20T11:00:00Z", status="unprocessed")
+        new = report("new", "2026-10-21T12:00:00Z")
+        b = batch(old, new)
+        b["durably_deduplicated_report_ids"] = ["old"]
+        result = gate.evaluate_batch(b)
+        self.assertEqual(result["selected_report_ids"], ["new"])
+        self.assertEqual(result["durably_deduplicated_report_ids"], ["old"])
+        self.assertEqual(result["decision_status"], "ADVANCE_READY")
+
+    def test_equivalent_timezone_periods_use_one_newest_backfill(self):
+        old = report("old", "2026-10-20T11:00:00Z", status="unprocessed")
+        new = report("new", "2026-10-21T12:00:00Z",
+                     start="2026-10-19T20:00:00-04:00")
+        new["endTime"] = "2026-10-20T20:00:00-04:00"
+        b = batch(old, new)
+        b["durably_deduplicated_report_ids"] = ["old"]
+        result = gate.evaluate_batch(b)
+        self.assertEqual(result["selected_report_ids"], ["new"])
+        self.assertEqual(result["unverified_report_ids"], [])
+        self.assertEqual(result["decision_status"], "ADVANCE_READY")
+        self.assertEqual(result["applied_learning_ids"], [gate.LEARNING_ID])
+
+    def test_unacknowledged_backfill_dedup_holds_checkpoint(self):
+        old = report("old", "2026-10-20T11:00:00Z", status="unprocessed")
+        new = report("new", "2026-10-21T12:00:00Z")
+        result = gate.evaluate_batch(batch(old, new))
+        self.assertEqual(result["decision_status"], "HOLD_UNVERIFIED_DEDUP")
+        self.assertEqual(result["decision_after_proposed"], result["decision_before"])
+        self.assertEqual(result["unverified_superseded_report_ids"], ["old"])
+        self.assertEqual(result["applied_learning_ids"], [gate.LEARNING_ID])
+
+    def test_invalid_or_unrelated_backfill_ack_fails_closed(self):
+        old = report("old", "2026-10-20T11:00:00Z")
+        new = report("new", "2026-10-21T12:00:00Z")
+        for acknowledgements in ("old", ["unknown"], ["old", "old"], [None]):
+            with self.subTest(acknowledgements=acknowledgements):
+                b = batch(old, new)
+                b["durably_deduplicated_report_ids"] = acknowledgements
+                with self.assertRaisesRegex(ValueError, "INVALID_DEDUP_ACK"):
+                    gate.evaluate_batch(b)
+
+    def test_equivalent_timezone_period_tie_fails_closed(self):
+        first = report("r1", "2026-10-21T12:00:00Z")
+        second = report("r2", "2026-10-21T12:00:00Z",
+                        start="2026-10-19T20:00:00-04:00")
+        second["endTime"] = "2026-10-20T20:00:00-04:00"
+        with self.assertRaisesRegex(ValueError, "AMBIGUOUS_BACKFILL"):
+            gate.evaluate_batch(batch(first, second))
+
+    def test_duplicate_report_id_is_idempotent(self):
+        row = report("r1", "2026-10-21T12:00:00Z")
+        result = gate.evaluate_batch(batch(row, dict(row)))
+        self.assertEqual(result["selected_report_ids"], ["r1"])
+
+    def test_duplicate_report_id_with_conflicting_import_ack_fails_closed(self):
+        verified = report("r1", "2026-10-21T12:00:00Z")
+        unverified = dict(verified, import_status="failed")
+        for rows in ((verified, unverified), (unverified, verified)):
+            with self.subTest(first=rows[0]["import_status"]):
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ACK"):
+                    gate.evaluate_batch(batch(*rows))
+
+    def test_duplicate_report_id_with_changed_download_or_digest_rejected(self):
+        # Report identity includes the API download URL and durable payload
+        # provenance; the same ID must not reuse an ACK for changed bytes.
+        base = report("r1", "2026-10-21T12:00:00Z")
+        base["downloadUrl"] = "https://example.com/report-v1"
+        base["import_sha256"] = "a" * 64
+        for changed in (
+            dict(base, downloadUrl="https://example.com/report-v2"),
+            dict(base, import_sha256="b" * 64),
+        ):
+            with self.subTest(changed=changed):
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ID"):
+                    gate.evaluate_batch(batch(base, changed))
+                with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ID"):
+                    gate.evaluate_batch(batch(changed, base))
+
+    def test_conflicting_id_or_ambiguous_backfill_rejected(self):
+        row = report("r1", "2026-10-21T12:00:00Z")
+        changed = dict(row, createTime="2026-10-22T12:00:00Z")
+        with self.assertRaisesRegex(ValueError, "CONFLICTING_REPORT_ID"):
+            gate.evaluate_batch(batch(row, changed))
+        with self.assertRaisesRegex(ValueError, "AMBIGUOUS_BACKFILL"):
+            gate.evaluate_batch(batch(row, dict(row, id="r2")))
+
+    def test_no_new_reports_never_moves_checkpoint(self):
+        result = gate.evaluate_batch(batch())
+        self.assertEqual(result["decision_status"], "NO_NEW_REPORTS")
+        self.assertEqual(result["decision_after_proposed"], result["decision_before"])
+
+    def test_missing_inactive_and_superseded_learning_fail_closed(self):
+        for mode in ("missing", "inactive", "superseded"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                ledger = Path(folder) / "ledger.json"
+                catalog = Path(folder) / "catalog.json"
+                shutil.copy(DEFAULT_LEDGER, ledger)
+                shutil.copy(DEFAULT_CATALOG, catalog)
+                data = json.loads(ledger.read_text(encoding="utf-8"))
+                if mode == "missing":
+                    data["learnings"] = [
+                        row for row in data["learnings"]
+                        if row.get("learning_id") != gate.LEARNING_ID
+                    ]
+                else:
+                    for row in data["learnings"]:
+                        if row.get("learning_id") == gate.LEARNING_ID:
+                            row["status"] = mode
+                ledger.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(CatalogError, "bridge_failure"):
+                    gate.evaluate_batch(batch(), ledger, catalog)
+
+    def test_tampered_learning_claim_with_stale_id_fails_closed(self):
+        # A row with the expected ID must still pass the stable-ID integrity gate.
+        with tempfile.TemporaryDirectory() as folder:
+            ledger = Path(folder) / "ledger.json"
+            shutil.copy(DEFAULT_LEDGER, ledger)
+            data = json.loads(ledger.read_text(encoding="utf-8"))
+            row = next(item for item in data["learnings"]
+                       if item["learning_id"] == gate.LEARNING_ID)
+            row["claim"] += " altered without changing learning_id"
+            ledger.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(CatalogError, "bridge_failure: invalid system knowledge integrity"):
+                gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00Z")),
+                                    ledger_path=ledger)
+
+    def test_missing_official_source_fails_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ledger = Path(folder) / "ledger.json"
+            catalog = Path(folder) / "catalog.json"
+            shutil.copy(DEFAULT_LEDGER, ledger)
+            shutil.copy(DEFAULT_CATALOG, catalog)
+            data = json.loads(catalog.read_text(encoding="utf-8"))
+            data["sources"] = [
+                row for row in data["sources"]
+                if row.get("source_id") != gate.SOURCE_ID
+            ]
+            catalog.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaises(CatalogError):
+                gate.evaluate_batch(batch(), ledger, catalog)
+
+    def test_official_source_identity_tampering_fails_closed(self):
+        # A stable source ID alone must not authorize a swapped URL or
+        # a downgraded source. Mutate only temporary catalog copies.
+        for field, value in (
+            ("canonical", "https://example.com/not-youtube-reporting"),
+            ("evidence_tier", "secondary"),
+            ("provenance", "unverified"),
+            ("access_status", "unverified"),
+        ):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as folder:
+                catalog = Path(folder) / "catalog.json"
+                shutil.copy(DEFAULT_CATALOG, catalog)
+                data = json.loads(catalog.read_text(encoding="utf-8"))
+                row = next(item for item in data["sources"]
+                           if item["source_id"] == gate.SOURCE_ID)
+                row[field] = value
+                catalog.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(CatalogError, "bridge_failure"):
+                    gate.evaluate_batch(batch(), catalog_path=catalog)
+
+    def test_invalid_timestamps_fail_closed(self):
+        with self.assertRaises(ValueError):
+            gate.evaluate_batch(batch(report("r1", "2026-10-21T12:00:00")))
+        with self.assertRaises(ValueError):
+            gate.evaluate_batch(batch(report("r1", "bad timestamp")))
+
+    def test_cli_emits_applied_learning_ids_in_real_decision_json(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "batch.json"
+            path.write_text(json.dumps(batch(report("r1", "2026-10-21T12:00:00Z"))), encoding="utf-8")
+            proc = subprocess.run(
+                [sys.executable, "-m", "scripts.youtube_reporting_checkpoint", str(path)],
+                cwd=Path(__file__).resolve().parents[1],
+                capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            output = json.loads(proc.stdout)
+            self.assertEqual(output["applied_learning_ids"], [gate.LEARNING_ID])
+            self.assertEqual(output["decision_status"], "ADVANCE_READY")
+            self.assertFalse(output["checkpoint_committed"])
+
+
+if __name__ == "__main__":
+    unittest.main()

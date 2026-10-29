@@ -1,0 +1,172 @@
+"""Offline, fail-closed YouTube Reporting createdAfter decision consumer.
+
+This module never calls YouTube, writes a checkpoint, or claims channel access.
+A caller must independently verify durable imports and apply the proposed cursor.
+PayoutLens is out of scope.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+from scripts.knowledge_bridge import CatalogError, SourceCatalog, DEFAULT_CATALOG
+from scripts.learning_bridge import LearningLedger, DEFAULT_LEDGER
+
+LEARNING_ID = "learn_0bdcee93377fd18d"
+SOURCE_ID = "src_be6523a27c85e346"
+SOURCE_URL = "https://developers.google.com/youtube/reporting/v1/reports"
+GATE = "REPORT_CREATED_AFTER_ACK_GATE"
+
+
+def _time(value: str) -> datetime:
+    if not isinstance(value, str) or not value:
+        raise ValueError("INVALID_CREATE_TIME")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("INVALID_CREATE_TIME") from exc
+    if parsed.tzinfo is None:
+        raise ValueError("INVALID_CREATE_TIME: timezone required")
+    return parsed.astimezone(timezone.utc)
+
+
+def read_policy(ledger_path: str | Path = DEFAULT_LEDGER,
+                catalog_path: str | Path = DEFAULT_CATALOG) -> dict[str, str]:
+    catalog = SourceCatalog(catalog_path)
+    ledger = LearningLedger(ledger_path, catalog_path)
+    try:
+        catalog.validate()  # Reject canonical URL/source ID tampering, including unrelated rows.
+        ledger.validate()  # Reject changed claims with stale learning IDs and bad references.
+    except CatalogError as exc:
+        raise CatalogError(f"bridge_failure: invalid system knowledge integrity: {exc}") from exc
+    matches = [row for row in ledger.for_plan("system")
+               if row.get("learning_id") == LEARNING_ID]
+    if len(matches) != 1 or matches[0].get("evidence_status") != "verified":
+        raise CatalogError("bridge_failure: active system checkpoint learning missing")
+    row = matches[0]
+    if GATE not in row.get("decision", "") or SOURCE_ID not in row.get("source_ids", []):
+        raise CatalogError("bridge_failure: checkpoint policy/source mismatch")
+    source = catalog.find(SOURCE_ID)
+    if (not source or source.get("canonical") != SOURCE_URL
+            or source.get("evidence_tier") != "official"
+            or source.get("provenance") != "verified"
+            or source.get("access_status") != "verified-public"):
+        raise CatalogError("bridge_failure: official checkpoint source identity mismatch")
+    return {"learning_id": LEARNING_ID, "source_id": SOURCE_ID}
+
+
+def evaluate_batch(batch: dict[str, Any],
+                   ledger_path: str | Path = DEFAULT_LEDGER,
+                   catalog_path: str | Path = DEFAULT_CATALOG) -> dict[str, Any]:
+    """Return a proposed checkpoint, never a committed checkpoint.
+
+    The caller must provide a *complete* paginated report list and independent
+    durable read-back acknowledgements. This is not an ingestion implementation.
+    """
+    policy = read_policy(ledger_path, catalog_path)
+    if not isinstance(batch, dict) or not isinstance(batch.get("reports"), list):
+        raise ValueError("INVALID_BATCH")
+    previous = batch.get("previous_checkpoint")
+    previous_dt = _time(previous) if previous is not None else None
+    selected: dict[tuple[str, datetime, datetime], tuple[datetime, dict]] = {}
+    seen_ids: dict[str, tuple[str, str | None]] = {}
+    for report in batch["reports"]:
+        if not isinstance(report, dict):
+            raise ValueError("INVALID_REPORT")
+        try:
+            rid = report["id"]
+            job = report["jobId"]
+            start = report["startTime"]
+            end = report["endTime"]
+            created = _time(report["createTime"])
+        except (KeyError, TypeError) as exc:
+            raise ValueError("INVALID_REPORT") from exc
+        if not all(isinstance(v, str) and v for v in (rid, job, start, end)):
+            raise ValueError("INVALID_REPORT")
+        # Compare periods as UTC instants, not raw timezone spellings.
+        # Equivalent RFC3339 offsets must not evade newest-backfill deduplication.
+        period_start, period_end = _time(start), _time(end)
+        if period_start >= period_end:
+            raise ValueError("INVALID_PERIOD")
+        # A report ID identifies one immutable import input. Include all supplied
+        # report metadata (e.g. downloadUrl or content digest), not only dates;
+        # otherwise a changed payload can silently reuse a verified ACK.
+        fingerprint = json.dumps({k: v for k, v in report.items() if k != "import_status"},
+                                 sort_keys=True, allow_nan=False)
+        acknowledgement = report.get("import_status")
+        if rid in seen_ids:
+            prior_fingerprint, prior_acknowledgement = seen_ids[rid]
+            if prior_fingerprint != fingerprint:
+                raise ValueError("CONFLICTING_REPORT_ID")
+            # Same report ID must never have contradictory durable-import evidence.
+            if prior_acknowledgement != acknowledgement:
+                raise ValueError("CONFLICTING_REPORT_ACK")
+            continue
+        seen_ids[rid] = (fingerprint, acknowledgement)
+        key = (job, period_start, period_end)
+        old = selected.get(key)
+        if old is None or created > old[0]:
+            selected[key] = (created, report)
+        elif created == old[0] and rid != old[1]["id"]:
+            raise ValueError("AMBIGUOUS_BACKFILL")
+    winners = [pair[1] for pair in selected.values()]
+    winner_ids = {row["id"] for row in winners}
+    superseded_ids = sorted(set(seen_ids) - winner_ids)
+    # A newer backfill is not proof that the older report was durably
+    # deduplicated. Require an explicit, report-ID-level acknowledgement.
+    # The caller must independently verify the acknowledgement's persistence.
+    dedup_acks = batch.get("durably_deduplicated_report_ids", [])
+    if (not isinstance(dedup_acks, list)
+            or any(not isinstance(rid, str) or not rid for rid in dedup_acks)
+            or len(dedup_acks) != len(set(dedup_acks))
+            or not set(dedup_acks).issubset(superseded_ids)):
+        raise ValueError("INVALID_DEDUP_ACK")
+    unverified_superseded = sorted(set(superseded_ids) - set(dedup_acks))
+    unacked = sorted(row["id"] for row in winners
+                     if row.get("import_status") != "persisted_readback_verified")
+    complete = batch.get("pagination_complete") is True
+    index_verified = batch.get("batch_index_readback_verified") is True
+    if not complete:
+        status = "HOLD_INCOMPLETE_PAGINATION"
+    elif unacked or not index_verified:
+        status = "HOLD_UNVERIFIED_IMPORT"
+    elif unverified_superseded:
+        status = "HOLD_UNVERIFIED_DEDUP"
+    elif not winners:
+        status = "NO_NEW_REPORTS"
+    else:
+        status = "ADVANCE_READY"
+    candidate = max((stamp for stamp, _ in selected.values()), default=None)
+    if status == "ADVANCE_READY" and previous_dt and candidate <= previous_dt:
+        status = "NO_NEW_REPORTS"
+    proposed = (candidate.isoformat().replace("+00:00", "Z")
+                if status == "ADVANCE_READY" else previous)
+    return {
+        "decision_status": status,
+        "decision_before": {"createdAfter": previous},
+        "decision_after_proposed": {"createdAfter": proposed},
+        "checkpoint_committed": False,
+        "selected_report_ids": sorted(row["id"] for row in winners),
+        "unverified_report_ids": unacked,
+        "superseded_report_ids": superseded_ids,
+        "durably_deduplicated_report_ids": sorted(dedup_acks),
+        "unverified_superseded_report_ids": unverified_superseded,
+        "applied_learning_ids": [policy["learning_id"]],
+        "source_ids": [policy["source_id"]],
+        "production_channel_access": False,
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Propose, never commit, a Reporting API checkpoint.")
+    parser.add_argument("batch_json", type=Path)
+    args = parser.parse_args()
+    result = evaluate_batch(json.loads(args.batch_json.read_text(encoding="utf-8")))
+    print(json.dumps(result, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
