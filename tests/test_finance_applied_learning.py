@@ -68,6 +68,16 @@ class FinanceAppliedLearningTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bridge_failure: .*duplicate"):
             ap.altseason_panel(self.values, self.cfg)
 
+    @patch("scripts.plan_learnings.plan_learnings")
+    def test_duplicate_learning_source_references_block_decision(self, mock_loader):
+        mock_loader.return_value = {"tag": "finance", "error": None, "learnings": [{
+            "learning_id": ap.FINANCE_ALTSEASON_LEARNING_ID,
+            "source_ids": ["src_6c5b905f2e76e38d", "src_6c5b905f2e76e38d"],
+            "decision": "No invented 0-100 values p20 p80 730",
+        }]}
+        with self.assertRaisesRegex(ValueError, "duplicate source_ids"):
+            ap.altseason_panel(self.values, self.cfg)
+
     @patch("scripts.knowledge_bridge.SourceCatalog.validate", side_effect=CatalogError("unstable canonical source_id"))
     def test_invalid_catalog_blocks_decision(self, _invalid_catalog):
         with self.assertRaisesRegex(ValueError, "bridge_failure: finance source catalog unavailable"):
