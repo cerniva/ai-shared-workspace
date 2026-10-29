@@ -11,6 +11,7 @@ on:
       - 'scripts/shorts_audio_qc.py'
       - 'scripts/shorts_motion_qc.py'
       - 'tests/test_shorts_source_clip.py'
+      - 'tests/test_shorts_audio_qc.py'
       - 'tests/test_shorts_atomic_gate.py'
       - 'tests/test_shorts_candidate_provenance.py'
       - 'tests/test_shorts_source_media_audit_hash_gate.py'
@@ -24,6 +25,7 @@ on:
       - 'scripts/shorts_audio_qc.py'
       - 'scripts/shorts_motion_qc.py'
       - 'tests/test_shorts_source_clip.py'
+      - 'tests/test_shorts_audio_qc.py'
       - 'tests/test_shorts_atomic_gate.py'
       - 'tests/test_shorts_candidate_provenance.py'
       - 'tests/test_shorts_source_media_audit_hash_gate.py'
@@ -46,7 +48,7 @@ jobs:
       # Green tests never approve third-party rights or an actual MP4.
       - name: Verify SRT/source hashes and rights fail-closed regression
         run: |
-          python3 -m unittest tests.test_shorts_source_clip tests.test_shorts_atomic_gate tests.test_shorts_candidate_provenance tests.test_shorts_source_media_audit_hash_gate -v
+          python3 -m unittest tests.test_shorts_source_clip tests.test_shorts_audio_qc tests.test_shorts_atomic_gate tests.test_shorts_candidate_provenance tests.test_shorts_source_media_audit_hash_gate -v
       - name: Compile source-clip modules
         run: |
           python3 -m py_compile scripts/shorts_source_clip.py scripts/shorts_audio_qc.py scripts/shorts_motion_qc.py
