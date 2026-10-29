@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T04:37:18Z",
+  "generated_at": "2026-10-29T05:33:14Z",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "CI_SUCCESS_MAY_BE_MISREAD_AS_PRODUCTION_HEALTH",
-  "decision_after": "CI_SUCCESS_ONLY; PRODUCTION_NOT_VERIFIED",
+  "decision_before": "GITHUB_CI_SUCCESS_OR_PR_CHECKS_MAY_BE_MISREAD_AS_PRODUCTION_SUCCESS",
+  "decision_after": "PRODUCTION_NOT_VERIFIED; PR_364_AUDITOR_FAILURE_CURRENT_HEAD_GATE_OPEN",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "AUDIT_NO_REAL_PRODUCTION_CONSUMER_APPLICATION",
   "learning_bridge": {
@@ -204,12 +204,12 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main 5d4b14603c8820e0806e6087100834e67f3f1540; PR #309 draft 123 behind/52 ahead; main archive-heal.yml blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f still rebase; latest worker CI #40818317996 job #123264658648 skip_no_handoff_id",
-      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037; targeted combined race NOT_RUN",
+      "evidence": "main 5d4b14603c8820e0806e6087100834e67f3f1540; archive-heal.yml still git pull --rebase origin main; PR #309 draft diverged 123 behind/52 ahead",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037; current-main combined race NOT_RUN",
       "test_exit": null,
       "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-      "read_back": "main workflow and PR metadata read; production archive repair NOT_VERIFIED",
-      "next_step": "Reuse PR #309; fresh-main combined race CI and production archive read-back, no merge",
+      "read_back": "main workflow and PR metadata verified; production archive read-back NOT_VERIFIED",
+      "next_step": "Reuse PR #309, validate fresh-main combined race CI and production read-back; no merge",
       "retested_this_turn": true,
       "reviewed_this_turn": true
     },
@@ -414,13 +414,13 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "81 ledger/95 sources; 8 active system; target IDs source-linked; PR #339 draft CI #40806825843 passed branch tests; no production manifest",
-      "test_command": "Metadata 5/5 in-process JS (no shell exit); loader CI #40788045529 exit 0; consumer partial batch/digest NOT_RUN",
-      "test_exit": null,
+      "evidence": "main 5d4b14603c8820e0806e6087100834e67f3f1540; 81 learnings, 95 sources, 8 active system; loader CI 40788045529 exit 0 only",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json (prior CI); real consumer negative tests NOT_RUN",
+      "test_exit": 0,
       "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-      "read_back": "Issue #308 open; state/automation_runner.json production applied_learning_ids NOT_VERIFIED",
-      "next_step": "Reuse issue #308 and PRs #314/#334/#339; real consumer negative tests and persisted read-back",
-      "retested_this_turn": false,
+      "read_back": "loader stdout verified; actual Reporting API and artifact consumer applied_learning_ids NOT_VERIFIED",
+      "next_step": "Reuse issue #308 and PRs #314/#334/#339; require real consumer output and negative tests",
+      "retested_this_turn": true,
       "reviewed_this_turn": true
     },
     {
@@ -428,13 +428,13 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "knowledge/shorts/upload_ledger.json uploads=[]; MP4 binary QC not run",
-      "test_command": "NOT_RUN MP4 binary QC; NOT_RUN upload",
+      "evidence": "main upload_ledger.json uploads=[]; MP4 binary fetch not supported",
+      "test_command": "MP4 binary QC NOT_RUN; YouTube upload NOT_RUN",
       "test_exit": null,
       "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-      "read_back": "upload ledger []",
-      "next_step": "Run MP4 preflight/QC with actual bytes; authorized upload only after OAuth/user approval",
-      "retested_this_turn": false,
+      "read_back": "upload ledger read-back 0; remote upload NOT_VERIFIED",
+      "next_step": "Authorized binary QC and upload status/video ID read-back; do not publish without authorization",
+      "retested_this_turn": true,
       "reviewed_this_turn": true
     }
   ],
@@ -458,11 +458,14 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "time": "2026-10-29T03:39:34.337Z",
+    "timestamp": "2026-10-29T05:33:14Z",
     "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-    "summary": "P0 archive and bridge remain open; fresh worker/test CI reviewed; safe branch handoff readback passed; no production PASS",
-    "applied_learning_ids": [],
-    "payoutlens_touched": false
+    "scope": "AUDIT_ONLY",
+    "newly_completed": 0,
+    "continuing": 19,
+    "blocked_user": 1,
+    "production_gate": "OPEN",
+    "readback": "PENDING"
   },
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
@@ -1235,5 +1238,145 @@
       "branch": "chatgpt/system-audit-20261026-1337-handoff"
     },
     "next": "Reuse PR #309 for fresh-main archive race test; issue #308 for actual Reporting API and digest consumer tests, fail-closed manifest and read-back. No merge/publish/payment."
+  },
+  "audit_20261029_0833": {
+    "timestamp": "2026-10-29T05:33:14Z",
+    "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
+    "scope": "AUDIT_ONLY_NO_PRODUCTION_CHANGE",
+    "payoutlens_touched": false,
+    "capacity": {
+      "max_persistent_tasks": 5,
+      "max_active_per_agent": 5,
+      "agent_active_snapshot": {
+        "chatgpt": 0,
+        "grok": 0,
+        "gemini-api": 0
+      },
+      "note": "Capacity ledger stale 2026-09-26; no external agent execution claimed",
+      "wave_selected": 20,
+      "continuing": 19,
+      "blocked_user": 1,
+      "newly_completed": 0
+    },
+    "four_automations": {
+      "enabled": 4,
+      "source": "Automations.list 2026-10-29 08:33 TRT",
+      "finance": "ENABLED; GITHUB_PRODUCTION_RUNNER_NOT_VERIFIED",
+      "video_shopify": "ENABLED; GITHUB_DRY_RUN",
+      "knowledge": "ENABLED; GITHUB_DRY_RUN",
+      "system": "ENABLED; DISPATCH_OBSERVE_ONLY"
+    },
+    "archive": {
+      "priority": "P0",
+      "status": "OPEN",
+      "pr": 309,
+      "draft": true,
+      "behind_main": 123,
+      "ahead_main": 52,
+      "main_workflow": ".github/workflows/archive-heal.yml",
+      "main_workflow_command": "git pull --rebase origin main",
+      "combined_current_main_race_ci": "NOT_VERIFIED",
+      "production_readback": "NOT_VERIFIED",
+      "root_cause": "Concurrent archive writers plus rebase against moving main; old PR not tested on current main",
+      "next": "Reuse PR #309; fresh-main targeted race tests + CI + archive read-back; no merge"
+    },
+    "learning_bridge": {
+      "status": "bridge_failure_OPEN",
+      "issue": 308,
+      "ledger_count": 81,
+      "catalog_count": 95,
+      "active_system_count": 8,
+      "required_learnings": [
+        {
+          "id": "learn_0bdcee93377fd18d",
+          "source_id": "src_be6523a27c85e346",
+          "consumer": "YouTube Reporting API",
+          "partial_batch_checkpoint_test": "NOT_VERIFIED"
+        },
+        {
+          "id": "learn_4decad368966e2e6",
+          "source_id": "src_569c596da7048714",
+          "consumer": "cross-workflow artifact consumer",
+          "mismatched_digest_test": "NOT_VERIFIED"
+        }
+      ],
+      "loader_ci": {
+        "run_id": 40788045529,
+        "job_id": 123166070660,
+        "stdout": "plan_learnings tag=system count=8 error=None",
+        "exit": 0,
+        "scope": "LOADER_ONLY; historical CI"
+      },
+      "real_consumer_applied_learning_ids": [],
+      "decision_before": "LOADER_SUCCESS_MAY_BE_MISREAD_AS_APPLIED",
+      "decision_after": "NO_REAL_CONSUMER_READBACK_BRIDGE_FAILURE",
+      "negative_tests": {
+        "missing": "METADATA_ONLY",
+        "inactive": "METADATA_ONLY",
+        "superseded": "METADATA_ONLY",
+        "bad_digest": "NOT_VERIFIED",
+        "reporting_partial_batch": "NOT_VERIFIED"
+      },
+      "readback": "NOT_VERIFIED"
+    },
+    "worker": {
+      "run_id": 40823489486,
+      "job_id": 123281158387,
+      "conclusion": "success",
+      "stdout": "team_worker=skip_no_handoff_id; repository_dispatch client_payload.handoff_id missing",
+      "task_executed": false,
+      "log_readback": "VERIFIED"
+    },
+    "new_ci_failure": {
+      "priority": "P1",
+      "pr": 364,
+      "pr_head_sha": "515afd3322beb8afeaf1fd12b66c56f2a29deac3",
+      "run_id": 40823456766,
+      "job_id": 123281038879,
+      "conclusion": "failure",
+      "test_exit": 1,
+      "verdict": "fail",
+      "reasons": [
+        "PR body evidence lines mentioning FAILURE interpreted as verdicts",
+        "historical run 40818297607 failure at SHA 771e7a3 (not current head)",
+        "historical run 40812774932 cancelled at SHA 8c32cd6 (not current head)"
+      ],
+      "current_head": "515afd3",
+      "root_cause": "Auditor appears to treat historical/foreign-head evidence as current-head failures; must not weaken genuine current-head gates",
+      "existing_pr_for_correction": 376,
+      "readback": "JOB_LOG_VERIFIED",
+      "next": "Reuse PR #376, validate trusted-main bootstrap and negative current-head tests; no forced merge"
+    },
+    "shorts": {
+      "ledger": "knowledge/shorts/upload_ledger.json",
+      "upload_count": 0,
+      "mp4_binary_qc": "NOT_VERIFIED",
+      "new_remote_video_id": "NOT_VERIFIED"
+    },
+    "finance": {
+      "altcoin_calibrated": 0,
+      "altcoin_total": 10,
+      "altcoin_status": "N/A",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "grok": {
+      "new_verified_application": "NONE",
+      "fallback": "messages/fallback/FB-20261009-213204-grok-fallback-open.json",
+      "acked_by": null,
+      "ack_action": "NONE"
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "error": "Could not resolve host: github.com",
+      "alternative": "GitHub connector file/CI/log/read-back"
+    },
+    "task_status": {
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "all_retested": false
+    },
+    "next": "P0 PR #309 current-main race; P1 Issue #308 real consumer; PR #364/#376 auditor evidence gate"
   }
 }
