@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T03:39:34.337Z",
+  "generated_at": "2026-10-29T04:37:18Z",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
@@ -204,13 +204,13 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main archive-heal.yml still git pull --rebase origin main; PR #309 draft head 8039adb 123 behind/52 ahead",
-      "test_command": "NOT_RUN current-main combined race; separate branch CI #40812774920 807 unittest +15 integrity",
+      "evidence": "main 5d4b14603c8820e0806e6087100834e67f3f1540; PR #309 draft 123 behind/52 ahead; main archive-heal.yml blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f still rebase; latest worker CI #40818317996 job #123264658648 skip_no_handoff_id",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037; targeted combined race NOT_RUN",
       "test_exit": null,
       "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-      "read_back": "Main workflow inspected; production archive repair NOT_VERIFIED",
-      "next_step": "Reconcile existing PR #309 on fresh main, targeted race CI + production read-back; no merge",
-      "retested_this_turn": false,
+      "read_back": "main workflow and PR metadata read; production archive repair NOT_VERIFIED",
+      "next_step": "Reuse PR #309; fresh-main combined race CI and production archive read-back, no merge",
+      "retested_this_turn": true,
       "reviewed_this_turn": true
     },
     {
@@ -328,20 +328,20 @@
       "main_sha": "2d3f9b57dd3a3372368fd3426f2f680d6690594b",
       "read_back": "Current main and branch code verified; production gate NOT_VERIFIED",
       "next_step": "Reuse PR #309; fresh-main race CI and archive read-back; no merge",
-      "retested_this_turn": true
+      "retested_this_turn": false
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main archive-heal.yml still git pull --rebase origin main; PR #309 draft head 8039adb 123 behind/52 ahead",
-      "test_command": "NOT_RUN current-main combined race; separate branch CI #40812774920 807 unittest +15 integrity",
+      "evidence": "main 5d4b14603c8820e0806e6087100834e67f3f1540; PR #309 draft 123 behind/52 ahead; main archive-heal.yml blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f still rebase; latest worker CI #40818317996 job #123264658648 skip_no_handoff_id",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037; targeted combined race NOT_RUN",
       "test_exit": null,
       "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
-      "read_back": "Main workflow inspected; production archive repair NOT_VERIFIED",
-      "next_step": "Reconcile existing PR #309 on fresh main, targeted race CI + production read-back; no merge",
-      "retested_this_turn": false,
+      "read_back": "main workflow and PR metadata read; production archive repair NOT_VERIFIED",
+      "next_step": "Reuse PR #309; fresh-main combined race CI and production archive read-back, no merge",
+      "retested_this_turn": true,
       "reviewed_this_turn": true
     },
     {
@@ -441,14 +441,14 @@
   "handoff_write": {
     "path": "state/handoffs.json",
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit_sha": "b8b7381b6088504126790c959154e5c0772441ff",
-    "content_sha": "363d5c906ee90b943a371155a2bdf53a333e794d",
-    "readback_sha": "363d5c906ee90b943a371155a2bdf53a333e794d",
-    "record_id": "CI-39269730285",
-    "record_count": 55,
-    "unique_count": 55,
+    "commit_sha": "533e5d9b22f9d1f21b7faf2a0621219103a1d262",
+    "content_sha": "3858ee5fe9c4d2d985d00d4895173eb2e7092bc9",
+    "readback_sha": "3858ee5fe9c4d2d985d00d4895173eb2e7092bc9",
+    "count": 55,
+    "unique": 55,
+    "readback_status": "PASS_SAFE_BRANCH_ONLY",
     "main_modified": false,
-    "readback_status": "PASS_SAFE_BRANCH_ONLY"
+    "record_id": "CI-39269730285"
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
@@ -1122,5 +1122,118 @@
       "all_retested": false
     },
     "payoutlens_touched": false
+  },
+  "audit_20261029_0737": {
+    "timestamp": "2026-10-29T04:37:18Z",
+    "main_sha": "5d4b14603c8820e0806e6087100834e67f3f1540",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "payoutlens_touched": false,
+    "automation_status": {
+      "chatgpt_enabled_4_of_4": true,
+      "finance": "ENABLED_GITHUB_PRODUCTION_RUNNER_NOT_VERIFIED",
+      "video_shopify": "ENABLED_GITHUB_DRY_RUN_NO_UPLOAD",
+      "knowledge": "ENABLED_GITHUB_DRY_RUN",
+      "system": "ENABLED_DISPATCH_OBSERVE_ONLY",
+      "source": "Automations peek; main state/automation_runner.json blob e5486ca1972abba9e257a17153c4dcbed5b400ce"
+    },
+    "capacity": {
+      "main_tasks_max_persistent": 5,
+      "per_agent_max_active": 5,
+      "agent_capacity_last_updated": "2026-09-26T02:43:26+03:00",
+      "external_agent_authorization": "NOT_VERIFIED_NO_ASSIGNMENT"
+    },
+    "archive": {
+      "status": "P0_OPEN",
+      "pr": 309,
+      "pr_head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
+      "behind_main": 123,
+      "ahead_main": 52,
+      "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "unsafe_main_rebase": true,
+      "current_main_race_ci": "NOT_RUN",
+      "production_archive_readback": "NOT_VERIFIED"
+    },
+    "latest_worker": {
+      "run_id": 40818317996,
+      "job_id": 123264658648,
+      "conclusion": "success",
+      "actual_stdout": "{\"team_worker\": \"skip_no_handoff_id\", \"reason\": \"repository_dispatch client_payload.handoff_id missing\", \"source\": \"chatgpt\", \"branch\": \"chatgpt/finance-altseason-applied-learning-20261027\", \"message_id\": \"\"}",
+      "task_executed": false,
+      "run_url": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40818317996"
+    },
+    "learning_bridge": {
+      "status": "bridge_failure_OPEN",
+      "issue": 308,
+      "active_system_learning_count": 8,
+      "source_count": 95,
+      "ledger_count": 81,
+      "checkpoint_learning": "learn_0bdcee93377fd18d",
+      "checkpoint_source": "src_be6523a27c85e346",
+      "digest_learning": "learn_4decad368966e2e6",
+      "digest_source": "src_569c596da7048714",
+      "loader_ci_run_id": 40788045529,
+      "loader_ci_job_id": 123166070660,
+      "loader_stdout": "plan_learnings tag=system count=8 error=None",
+      "loader_exit": 0,
+      "real_consumer_output": "NOT_VERIFIED",
+      "applied_learning_ids": [],
+      "decision_before": "WORKFLOW_SUCCESS_IMPLIES_HEALTH_UNVERIFIED",
+      "decision_after": "PRODUCTION_NOT_VERIFIED",
+      "reporting_api_partial_batch_negative": "NOT_RUN",
+      "artifact_digest_mismatch_negative": "NOT_RUN",
+      "missing_inactive_superseded_real_consumer_negative": "NOT_RUN",
+      "artifact_readback": "NOT_VERIFIED",
+      "pr_system_consumer": 339,
+      "pr_reporting": 314,
+      "pr_artifact": 334
+    },
+    "shorts": {
+      "upload_ledger": "knowledge/shorts/upload_ledger.json",
+      "verified_uploads": 0,
+      "mp4_binary_qc_this_turn": "NOT_RUN",
+      "youtube_video_id": "NONE_VERIFIED"
+    },
+    "finance": {
+      "altcoin_indicators": 10,
+      "validated": 0,
+      "altcoin_status": "N/A",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "grok": {
+      "recent_report_verified_new_action": false,
+      "fallback_ack": "UNSET_NO_DURABLE_ACK",
+      "fallback_path": "messages/fallback/FB-20261009-213204-grok-fallback-open.json"
+    },
+    "local_git": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "error": "Could not resolve host: github.com",
+      "alternative": "GitHub connector read/CI job log"
+    },
+    "wave": {
+      "selected": 20,
+      "newly_completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "all_retested": false,
+      "new_wave_started": false
+    },
+    "tests": {
+      "archive_race": "NOT_RUN",
+      "reporting_partial": "NOT_RUN",
+      "artifact_digest": "NOT_RUN",
+      "script_local": "NOT_RUN_DNS_BLOCK",
+      "previous_loader_ci": "EXIT_0_LOADER_ONLY",
+      "worker_ci": "SUCCESS_SKIP_NO_HANDOFF"
+    },
+    "handoff_write": {
+      "commit_sha": "533e5d9b22f9d1f21b7faf2a0621219103a1d262",
+      "content_sha": "3858ee5fe9c4d2d985d00d4895173eb2e7092bc9",
+      "readback_sha": "3858ee5fe9c4d2d985d00d4895173eb2e7092bc9",
+      "count": 55,
+      "unique": 55,
+      "branch": "chatgpt/system-audit-20261026-1337-handoff"
+    },
+    "next": "Reuse PR #309 for fresh-main archive race test; issue #308 for actual Reporting API and digest consumer tests, fail-closed manifest and read-back. No merge/publish/payment."
   }
 }
