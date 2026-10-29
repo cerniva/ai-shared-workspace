@@ -50,7 +50,7 @@ jobs:
             echo "SOURCE_HASH_EXPECTATION_INVALID" >&2
             exit 1
           fi
-          printf '%s  %s\\n' "$expected_sha256" audit/source.webm > audit/source.expected.sha256
+          printf '%s  %s\n' "$expected_sha256" audit/source.webm > audit/source.expected.sha256
           if ! sha256sum --check audit/source.expected.sha256; then
             echo "SOURCE_HASH_MISMATCH: downloaded bytes differ from pinned candidate" >&2
             exit 1
