@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_c47bbcd15b32d194", "verified_at": "2026-10-29T09:15:00+03:00"},
+    {"source_id": "src_14818279e16364ff", "verified_at": "2026-10-29T09:15:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog feed: GitHub Copilot supports server-to-server authentication",
+      "domain": "github-platform",
+      "claim": "GitHub changelog item 2026-10-27-github-copilot-supports-server-to-server-authentication (27 Oct 2026, read 2026-10-29, HTTP 200) states Copilot supports server-to-server authentication for GitHub Apps installed on organizations, in public preview. Services and agents built with the Copilot SDK can call on behalf of an organization without a signed-in user's credentials: give a GitHub App the read-only Copilot Requests organization permission, install it on the org, and pass a short-lived installation access token to the Copilot SDK. Usage is attributed and billed to the owning organization and its model policies, budgets and spending controls apply; owners see app usage via the app_client_id field in AI usage CSV reports and can stop access by suspending or uninstalling the app.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: possible future option for headless system automations that call Copilot via the SDK, but it needs an organization-installed GitHub App and org billing; cerniva is a personal account, so no change now and no operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Search system scripts and workflows for Copilot SDK usage or user-token Copilot calls; record found/not-found before 2026-11-05.",
+      "learned_at": "2026-10-29T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Store and app install details in the Dev Dashboard",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page store-and-app-install-details-in-the-dev-dashboard (27 Oct 2026, read 2026-10-29, HTTP 200) states the Dev Dashboard now shows, per store, the organization's apps installed on it, organization users with collaborator access, and earnings (total app earnings, total theme earnings, recurring revenue share). Per app, install details show gross lifetime earnings from that store, an activity feed of installation and billing events, and the current subscription with quick access to logs. Access is via Stores in the Dev Dashboard, or the app Overview, Installs card install count, then a store; available details depend on permissions and store access.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: dashboard-only UI feature with no API change; video_shopify needs no code change. Useful for manual checks of app installs and billing events. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether video_shopify uses a custom app in the Dev Dashboard; record yes/no before 2026-11-05.",
+      "learned_at": "2026-10-29T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
