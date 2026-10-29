@@ -789,11 +789,11 @@
   ],
   "handoff_write": {
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit": "738f22b803a83a9dbe6a2227e5d70c003459f9f9",
-    "blob": "75036d9e687aee2ae051e44d17316ea5dd09813e",
+    "commit": "598be854b262ae66341ca9bab4a5f67d5a707aee",
+    "blob": "348587e76b836320a6e71a02a0e693d08fb4be0d",
     "read_back": "PASS",
     "count": 56,
-    "scope": "safe branch only; reconciled one newly present main handoff"
+    "scope": "existing CI-39269730285 P0 handoff updated on safe branch; no new handoff"
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
@@ -3447,8 +3447,10 @@
     "actual_consumer_positive_negative": "NOT_VERIFIED",
     "grok_ack": "NOT_SENT",
     "payoutlens_touched": false,
-    "main_sha_final_check": "PENDING",
-    "main_unchanged": null
+    "main_sha_final_check": "PASS f737368303ebc8c5d4d70a1f6bd4bd8d65866365",
+    "main_unchanged": true,
+    "report_read_back": "PASS blob 7b6facb4d9a2b126c71bfd4f3e82e331f22f093b (previous report write)",
+    "handoff_read_back": "PASS blob 348587e76b836320a6e71a02a0e693d08fb4be0d"
   },
   "audit_20261030_0041": {
     "at": "2026-10-29T21:40:57Z",
@@ -3672,6 +3674,14 @@
       "error": "Could not resolve host github.com",
       "alternative": "GitHub connector read/write"
     },
-    "next_step": "Reconcile existing PR309 against current main on safe branch, run current-base race CI, then real consumer positive/negative tests for existing issue308. No merge, publish, ACK or new issue."
+    "next_step": "Reconcile existing PR309 against current main on safe branch, run current-base race CI, then real consumer positive/negative tests for existing issue308. No merge, publish, ACK or new issue.",
+    "persistence": {
+      "report_initial_commit": "b2d2f07b6339fb1c15ad17ceeb5462711981842f",
+      "report_initial_blob": "7b6facb4d9a2b126c71bfd4f3e82e331f22f093b",
+      "handoff_commit": "598be854b262ae66341ca9bab4a5f67d5a707aee",
+      "handoff_blob": "348587e76b836320a6e71a02a0e693d08fb4be0d",
+      "readback": "PASS both",
+      "main_final_sha": "f737368303ebc8c5d4d70a1f6bd4bd8d65866365"
+    }
   }
 }
