@@ -103,5 +103,28 @@
     "learning_gate_stdout": "plan_learnings tag=video_shopify count=20 error=None",
     "learning_gate_exit": "0 (GitHub Actions step completed successfully; exit file stored in logs artifact 12882758545)",
     "note": "This is a source-integrity recheck, not independent license, audio, caption, person or media approval."
+  },
+  "official_nasa_policy_review": {
+    "checked_on": "2026-10-29",
+    "evidence_type": "general_official_policy_only_not_clip_specific_clearance",
+    "sources": [
+      {
+        "url": "https://sti.nasa.gov/disclaimers/",
+        "finding": "NASA audiovisual material can contain separately copyrighted music or footage; identifiable people or narration may have commercial publicity restrictions; NASA credit and no implied endorsement."
+      },
+      {
+        "url": "https://www.nasa.gov/nasa-brand-center/advertising-guidelines/",
+        "finding": "NASA promotional/advertising use of astronauts, employees, names, likenesses, and agency identifiers is restricted. An informational video is not automatically an advertisement; actual use and presentation require review."
+      }
+    ],
+    "decision": "RIGHTS_BLOCKED",
+    "component_findings": {
+      "original_speech": "Not independently cleared for the intended monetized derivative; check specific clip and usage.",
+      "third_party_music": "No clip-specific music credit or license identified; do not infer none detected.",
+      "recognizable_people": "Visible people previously detected; do not mark none_detected or assume commercial permissions.",
+      "identifiers": "Check full clip and planned title/description for NASA marks and endorsement implication.",
+      "caption_text": "Commons TimedText license applicability and any CC BY-SA attribution/share-alike obligations require separate review."
+    },
+    "production_consequence": "Do not render or publish candidate until independent clip-specific rights clearance, spoken sync and framing QC. Source SHA PASS is technical only."
   }
 }
