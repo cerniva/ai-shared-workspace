@@ -56,5 +56,14 @@
   "no_main_write": true,
   "no_merge": true,
   "no_paid_credits": true,
-  "no_publish": true
+  "no_publish": true,
+  "status": "RIGHTS_BLOCKED",
+  "real_mp4_exists": false,
+  "gates": {
+    "source_rights": "RIGHTS_BLOCKED",
+    "transcript": "TRANSCRIPT_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "independent_review": "PENDING",
+    "publish": "NOT_ATTEMPTED"
+  }
 }
