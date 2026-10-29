@@ -902,6 +902,17 @@
       "status": "open",
       "created_at": "2026-10-28T11:25:42+00:00",
       "updated_at": "2026-10-28T11:25:42+00:00"
+    },
+    {
+      "id": "HO-IMP-20261029-slow-improvement-bot",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml dosyasındaki 49 saniyelik derleme darboğazını gidermek için pip ve apt adımlarına 'actions/cache' eklenerek tekrarlayan paket indirmeleri önlenmeli, workflow tetiklenmesini ve adım çalıştırmasını daraltmak adına 'paths' filtresi tanımlanmalı ve birbiriyle bağımsız çalışan test adımları ayrı paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261029 key=slow-improvement-bot",
+      "status": "open",
+      "created_at": "2026-10-29T11:36:09+00:00",
+      "updated_at": "2026-10-29T11:36:09+00:00"
     }
   ]
 }
