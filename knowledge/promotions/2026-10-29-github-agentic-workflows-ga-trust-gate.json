@@ -2,7 +2,7 @@
   "schema_version": 1,
   "sources": [
     {
-      "source_id": "src_4dba21c9e50a763f",
+      "source_id": "src_d48e37e09df5a7b1",
       "source_name": "GitHub Agentic Workflows GA changelog, 28 October 2026",
       "canonical": "https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available",
       "category": "system-agentic-workflow-security",
@@ -15,7 +15,7 @@
       "provenance": "verified"
     },
     {
-      "source_id": "src_a84e3c76f0b91d25",
+      "source_id": "src_b038a7dbc576fb32",
       "source_name": "GitHub Agentic Workflows official quickstart and privileged PR event guidance",
       "canonical": "https://github.github.com/gh-aw/setup/quick-start/",
       "category": "system-agentic-workflow-security",
@@ -30,7 +30,7 @@
   ],
   "learnings": [
     {
-      "learning_id": "learn_2e94d16ab730c85f",
+      "learning_id": "learn_f5279aa89d1750c3",
       "title": "GitHub Agentic Workflows GA: sandboxed read-only defaults do not remove PR trust-boundary and AI billing gates",
       "domain": "github-agentic-workflows-security",
       "claim": "GitHub's 28 Oct 2026 GA announcement says Agentic Workflows compiles Markdown automation into GitHub Actions, with read-only agent permissions by default, sandbox/firewall, safe outputs and threat-detection review. The official quickstart requires an AI account/engine and repository permissions, warns that pull_request_target runs in a privileged base-repository context and must not check out untrusted PR-head code with secrets/write permissions, and notes the default Copilot CLI engine needs a Copilot license. Availability on GitHub Free is not free inference or proof of safe deployment.",
@@ -41,8 +41,8 @@
       "learned_at": "2026-10-29T20:31:00+03:00",
       "provenance": "verified",
       "source_ids": [
-        "src_4dba21c9e50a763f",
-        "src_a84e3c76f0b91d25"
+        "src_d48e37e09df5a7b1",
+        "src_b038a7dbc576fb32"
       ],
       "plan_tags": [
         "system"
