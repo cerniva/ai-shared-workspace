@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_ce4199d007fe571c",
+    "source_name": "GitHub Actions REST API: workflow run listing and exact head_sha filter",
+    "canonical": "https://docs.github.com/en/rest/actions/workflow-runs",
+    "category": "system-github-actions-ci-run-scope",
+    "purpose": "Validate CI run identity against the audited commit and avoid treating historical foreign-head workflow runs as current PR failures or success",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official documentation; no paid API or credentials required for this verification",
+    "reliability_limits": "head_sha limits results to the specified commit but does not prove a PR merge candidate has the current main as parent, nor that every required check passed. List endpoints are paginated (per_page up to 100) and filtered searches may cap at 1,000 results; use direct run/check evidence and explicit completeness limits.",
+    "discovered_at": "2026-10-29T09:25:00+03:00",
+    "last_successful_use": "2026-10-29T09:25:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_89af6b848831ef3a",
+    "title": "CI verdicts must scope GitHub Actions workflow runs to the exact audited head SHA",
+    "domain": "github-actions-exact-head-workflow-run-scope",
+    "claim": "GitHub Actions REST list-workflow-runs endpoints support filtering by head_sha and event; a run from a different commit cannot establish a current PR-head or current-main integration verdict. The API returns paginated results and can cap a filtered search at 1,000 records, so a partial first page is not a complete audit.",
+    "evidence_status": "verified",
+    "decision": "ACTIONS_EXACT_HEAD_RUN_SCOPE_GATE: For CI status conclusions, first read current main and PR head SHA, then filter runs by exact head_sha (and event/workflow where appropriate), verify returned run.head_sha and conclusion, and independently inspect required check runs. Foreign-head failed/skipped/pending runs remain historical warnings, never current-head blockers or proof of success. A genuine current-head failure or pending required check remains blocking. Do not equate head-only success with current-main merge-candidate CI, and report PARTIAL when pagination/coverage is incomplete.",
+    "outcome": "pending",
+    "next_measurement": "Grok: reuse PR #376 and its tests/test_takipci_run_scope.py negative/positive regressions; prove old-head failure/skipped/in_progress ignored, current-head failure/pending still blocks; inspect trusted-main auditor checkout SHA and run exact current-main candidate CI. Record commit/run/SHA, then main read-back. Do not bypass security checks.",
+    "learned_at": "2026-10-29T09:25:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_ce4199d007fe571c"
+    ],
+    "failure_history": [
+      "2026-10-29: Existing PR #376 tests pass but trusted-main auditor still runs older code and may incorrectly interpret historical run references as current PR verdicts; this source documents a read-only exact-head evidence alternative, not a bypass."
+    ],
+    "fallback_history": [
+      "Use read-only GitHub Actions REST head_sha-filtered run inventory plus direct check-runs and current merge-parent SHA verification; if CI on the exact merge candidate is missing, keep PARTIAL and the existing bridge_failure open."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "ACTIONS_EXACT_HEAD_RUN_SCOPE_GATE"
+  ]
+}
