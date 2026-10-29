@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_af8e72e013cbe8cf",
+      "canonical": "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion",
+      "source_name": "GitHub Copilot Fusion official changelog, 28 October 2026",
+      "category": "system-model-routing",
+      "purpose": "Document Single/Cascade/Critique routing and Copilot Fusion billing/availability",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public changelog; using Copilot Fusion may consume paid model credits",
+      "reliability_limits": "Product-specific orchestration patterns; no proof of connector access, zero cost, or improved performance in this repository",
+      "discovered_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_c5b400f37c5fa56b",
+      "canonical": "https://docs.github.com/en/copilot/concepts/models/copilot-fusion",
+      "source_name": "GitHub Copilot Fusion official conceptual documentation",
+      "category": "system-model-routing",
+      "purpose": "Confirm orchestration patterns, model policies, cache boundaries and billing limits",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public documentation; model invocations may be billed",
+      "reliability_limits": "Documentation does not establish Copilot subscription, approved org policy or operational integration",
+      "discovered_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_6cdf73871e5749dd",
+      "canonical": "https://shopify.dev/changelog/posts/start-sidekick-conversations-from-your-app",
+      "source_name": "Shopify Sidekick Launch API changelog, 28 October 2026",
+      "category": "video-shopify-app-bridge",
+      "purpose": "Confirm launch feature availability in embedded Shopify admin apps",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public developer changelog; app/store permissions required to use feature",
+      "reliability_limits": "Not a standalone merchant storefront feature and no connected app installation verified",
+      "discovered_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_f4cfc2ae73bd073f",
+      "canonical": "https://shopify.dev/docs/api/app-home/latest/apis/user-interface-and-interactions/sidekick-api",
+      "source_name": "Shopify Sidekick API official App Bridge reference",
+      "category": "video-shopify-app-bridge",
+      "purpose": "Confirm isEnabled, launch, merchant action, rate limit and fail-closed restrictions",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public API reference; access requires supported embedded web admin app",
+      "reliability_limits": "API unavailable in mobile Shopify app; prompts screened, per-app/merchant rate limited; no auto-retry for uncertain send errors",
+      "discovered_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_153d31716c7324ae",
+      "title": "Copilot Fusion orchestration is a paid policy-scoped Single/Cascade/Critique pattern, not an automatically free bridge",
+      "domain": "github-model-routing",
+      "claim": "GitHub's October 28, 2026 Copilot Fusion release and official docs describe three model execution patterns: Single for one-model tasks, Cascade for a cheaper draft followed by acceptance or escalation, and Critique for independently reviewed drafts. Copilot Fusion selects among policy-permitted models, can add model calls, and bills model use; it is not evidence of a connected model service or free inference in this repository.",
+      "evidence_status": "verified",
+      "decision": "COPILOT_FUSION_COST_AND_POLICY_GATE: REVIEW_ONLY. Treat Single/Cascade/Critique as optional routing design references; retain existing free read-only API and CI workflows. Do not enable Copilot Fusion, spend credits, or claim its model routing is active without verified entitlement, policy, budget and a measured test. Preserve current required checks and access controls.",
+      "outcome": "pending",
+      "next_measurement": "Read-only inventory of system routing code for actual Single/Cascade/Critique logic and billing controls; if absent, mark conceptual only. Require real test and system report applied_learning_ids before claiming applied.",
+      "learned_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_af8e72e013cbe8cf",
+        "src_c5b400f37c5fa56b"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "Continue free existing GitHub Actions and read-only API checks rather than activating billable Copilot model calls."
+      ],
+      "supersedes": null
+    },
+    {
+      "learning_id": "learn_3108df4902c2b19e",
+      "title": "Shopify Sidekick Launch requires merchant action, availability check and fail-closed no-retry semantics",
+      "domain": "shopify-sidekick-launch",
+      "claim": "Shopify's October 28, 2026 Sidekick Launch API release and App Bridge reference permit embedded web admin apps to call shopify.sidekick.launch with a merchant-visible prompt only after checking isEnabled. Shopify forbids timer/page-load launches, screens prompts and rate limits requests; post-screening errors may occur after sending, so automatic retries can duplicate messages. The API is unavailable in Shopify mobile admin and does not automatically execute store changes.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_SIDEKICK_MERCHANT_ACTION_GATE: REVIEW_ONLY. Do not integrate unless an owned embedded web-admin app and merchant permission are verified. If adopted, check isEnabled, require a direct merchant click, keep prompts within supported bounds, handle screening rejection fail-closed and do not blindly retry ambiguous sends or perform store mutations. No implementation without a reviewed test and video_shopify manifest applied_learning_ids.",
+      "outcome": "pending",
+      "next_measurement": "Search video_shopify code for App Bridge embedded app and Sidekick API usage. If no owned embedded app, mark not applicable; otherwise test availability and error paths on a safe non-production app.",
+      "learned_at": "2026-10-29T13:31:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_6cdf73871e5749dd",
+        "src_f4cfc2ae73bd073f"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "Keep existing Shopify draft-first and read-only analytics; no Sidekick or merchant data access claim."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "COPILOT_FUSION_COST_AND_POLICY_GATE",
+    "SHOPIFY_SIDEKICK_MERCHANT_ACTION_GATE"
+  ],
+  "evidence": {
+    "official_urls": [
+      "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion",
+      "https://docs.github.com/en/copilot/concepts/models/copilot-fusion",
+      "https://shopify.dev/changelog/posts/start-sidekick-conversations-from-your-app",
+      "https://shopify.dev/docs/api/app-home/latest/apis/user-interface-and-interactions/sidekick-api"
+    ],
+    "checked_at": "2026-10-29T13:31:00+00:00",
+    "feed_intake": [
+      "intake/promotions/2026-10-29-research-learner-system.json",
+      "intake/promotions/2026-10-29-research-learner-video_shopify.json"
+    ],
+    "note": "Official deep-page verification of two previously unverified feed headlines; no live plan consumer claimed. Distinct from Oct 27 Copilot organization auth and Shopify Dev Dashboard gates."
+  }
+}
