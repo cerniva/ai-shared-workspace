@@ -1,0 +1,42 @@
+{
+  "handoff_id": "HO-IMP-20261029-slow-improvement-bot",
+  "source": "improvement-bot",
+  "run_id": "40866744454",
+  "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml dosyasındaki 49 saniyelik derleme darboğazını gidermek için pip ve apt adımlarına 'actions/cache' eklenerek tekrarlayan paket indirmeleri önlenmeli, workflow tetiklenmesini ve adım çalıştırmasını daraltmak adına 'paths' filtresi tanımlanmalı ve birbiriyle bağımsız çalışan test adımları ayrı paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+  "generated_at": "2026-10-29T11:37:20+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261029-slow-improvement-bot",
+    "evidence": [
+      {
+        "path": ".github/workflows/improvement-bot.yml",
+        "type": "workflow_configuration",
+        "detail": "Identified continuous integration workflow requiring optimization for package caching (pip and apt), execution path filtering, and parallel job execution."
+      }
+    ],
+    "factual_findings": [
+      "The build in `.github/workflows/improvement-bot.yml` experiences a 49-second execution bottleneck due to redundant dependency downloads and sequential step execution.",
+      "Package downloads in pip and apt steps are re-fetched on every trigger because `actions/cache` is missing.",
+      "Triggers in `.github/workflows/improvement-bot.yml` run on broad events without `paths` filter conditions, causing unnecessary workflow runs on unrelated file modifications.",
+      "Independent test steps run sequentially inside a single job rather than running concurrently across parallel jobs."
+    ],
+    "hypotheses": [
+      "Adding `actions/cache` for pip dependencies and apt package caches in `.github/workflows/improvement-bot.yml` will drastically reduce workflow duration on repeated runs.",
+      "Restricting trigger scope with `paths` filters in `.github/workflows/improvement-bot.yml` will prevent unneeded job executions for non-code updates.",
+      "Splitting independent test steps into dedicated parallel jobs in `.github/workflows/improvement-bot.yml` will shorten overall end-to-end execution time."
+    ],
+    "recommendation": "Refactor `.github/workflows/improvement-bot.yml` by introducing `actions/cache` step configurations for pip and apt, configuring `on.<push|pull_request>.paths` trigger filters, and restructuring independent test steps into concurrent workflow jobs.",
+    "confidence": 0.95,
+    "next_action": "Apply the updates to `.github/workflows/improvement-bot.yml` including pip/apt caching, path filtering, and parallel job splitting, followed by testing the workflow execution.",
+    "timing": {
+      "started_at": "2026-10-29T11:37:34.467818+00:00",
+      "duration_ms": 7454
+    },
+    "usage": {
+      "input_tokens": 211,
+      "output_tokens": 437,
+      "total_tokens": 1497
+    }
+  }
+}
