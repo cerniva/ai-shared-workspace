@@ -913,6 +913,23 @@
       "status": "open",
       "created_at": "2026-10-29T11:36:09+00:00",
       "updated_at": "2026-10-29T11:36:09+00:00"
+    },
+    {
+      "id": "CI-40922447912",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'knowledge-promotion-pr-gate' run 40922447912: jobs promotion-integrity[Dry-run additive import and prove idempotent read-back]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-40922447912",
+      "status": "claimed",
+      "created_at": "2026-10-29T17:35:03+00:00",
+      "updated_at": "2026-10-29T17:35:03+00:00",
+      "claimed_at": "2026-10-29T17:35:03+00:00",
+      "notes": [
+        "2026-10-29T17:35:03+00:00 grok: team-worker devraldi",
+        "2026-10-29T17:35:03+00:00 team-worker: model sonucu state/team_work/CI-40922447912.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
