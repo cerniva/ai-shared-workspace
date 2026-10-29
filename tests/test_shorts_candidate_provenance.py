@@ -24,6 +24,17 @@ class CandidateProvenanceTests(unittest.TestCase):
     def test_caption_hash_bound_to_actual_candidate_bytes(self):
         for record_path, record in self._pending_records():
             with self.subTest(record=record_path.name):
+                # A research-only candidate may have no transcript yet.
+                # Never invent an SRT or waive the publication gate.
+                if not record.get("caption_path"):
+                    self.assertTrue(
+                        str(record.get("transcript_status", "")).startswith("TRANSCRIPT_BLOCKED"),
+                        "missing captions must explicitly block transcript clearance",
+                    )
+                    self.assertIs(record.get("publish_ready"), False)
+                    self.assertIsNone(record.get("rendered_mp4"))
+                    self.assertRegex(record["source_media_sha256"], r"^[0-9a-f]{64}$")
+                    continue
                 relative = Path(record["caption_path"])
                 self.assertFalse(relative.is_absolute())
                 self.assertNotIn("..", relative.parts)
