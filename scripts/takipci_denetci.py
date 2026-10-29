@@ -196,7 +196,11 @@ def check_evidence_words(body: str | None) -> list[str]:
     for i, line in enumerate(lines):
         if not EVIDENCE_LINE_RE.match(line):
             continue
-        for chunk in lines[i:i + 2]:
+        for offset, chunk in enumerate(lines[i:i + 2]):
+            # A following Test:/CI: starts a separate evidence record. Check it
+            # on its own iteration, never attribute its result to this line.
+            if offset and EVIDENCE_LINE_RE.match(chunk):
+                break
             m = FAIL_WORD_RE.search(chunk)
             if m:
                 out.append(f"evidence line {i + 1} mentions '{m.group(1)}': {line.strip()[:80]}")
