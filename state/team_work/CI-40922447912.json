@@ -1,0 +1,42 @@
+{
+  "handoff_id": "CI-40922447912",
+  "source": "ci-bekci",
+  "run_id": "40922528962",
+  "task": "CI failure in 'knowledge-promotion-pr-gate' run 40922447912: jobs promotion-integrity[Dry-run additive import and prove idempotent read-back]; first error: Process completed with exit code 1.",
+  "generated_at": "2026-10-29T17:35:03+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40922447912",
+    "evidence": [
+      {
+        "path": ".github/workflows/knowledge-promotion-pr-gate.yml",
+        "note": "Workflow definition containing job promotion-integrity step 'Dry-run additive import and prove idempotent read-back'."
+      },
+      {
+        "path": "scripts/knowledge/promotion_integrity_check.py",
+        "note": "Script responsible for validating additive import and performing idempotent read-back checks."
+      }
+    ],
+    "factual_findings": [
+      "Workflow run 40922447912 for job `promotion-integrity[Dry-run additive import and prove idempotent read-back]` in `.github/workflows/knowledge-promotion-pr-gate.yml` terminated with exit code 1.",
+      "The failing step in `.github/workflows/knowledge-promotion-pr-gate.yml` executes dry-run additive imports and validates read-back idempotency via `scripts/knowledge/promotion_integrity_check.py`."
+    ],
+    "hypotheses": [
+      "The newly proposed knowledge additions contain schema or field validation errors causing `scripts/knowledge/promotion_integrity_check.py` to exit with code 1 during dry-run import.",
+      "The read-back assertion in `scripts/knowledge/promotion_integrity_check.py` failed because the imported state was not identical upon second read-back."
+    ],
+    "recommendation": "Examine the CI log output for run 40922447912 corresponding to `.github/workflows/knowledge-promotion-pr-gate.yml` and execute `scripts/knowledge/promotion_integrity_check.py --dry-run` locally on the branch to reproduce the assertion error.",
+    "confidence": 0.85,
+    "next_action": "Retrieve full stdout/stderr step logs for run 40922447912 in `.github/workflows/knowledge-promotion-pr-gate.yml` to isolate the specific line failure in `scripts/knowledge/promotion_integrity_check.py`.",
+    "timing": {
+      "started_at": "2026-10-29T17:35:07.449423+00:00",
+      "duration_ms": 11458
+    },
+    "usage": {
+      "input_tokens": 150,
+      "output_tokens": 466,
+      "total_tokens": 2295
+    }
+  }
+}
