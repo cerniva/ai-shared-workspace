@@ -29,6 +29,11 @@ class FinanceAltseasonArtifactTests(unittest.TestCase):
             self.assertTrue(output.is_file())
             decision = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(decision["applied_learning_ids"], [FINANCE_ALTSEASON_LEARNING_ID])
+            from scripts.plan_learnings import plan_learnings
+            active = {row["learning_id"]: row for row in plan_learnings("finance")["learnings"]}
+            self.assertEqual(decision["applied_learning_source_ids"], {
+                FINANCE_ALTSEASON_LEARNING_ID:
+                    sorted(set(active[FINANCE_ALTSEASON_LEARNING_ID]["source_ids"]))})
             self.assertEqual(decision["composite_score"], "N/A")
             self.assertEqual(decision["scored"], 0)
             self.assertTrue(all(x["score"] == "N/A" for x in decision["indicators"].values()))
