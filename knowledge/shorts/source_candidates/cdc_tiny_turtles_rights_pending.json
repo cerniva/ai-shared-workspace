@@ -17,11 +17,11 @@
     "run_id": 40882327504
   },
   "transcript_source": "https://www.cdc.gov/cdctv/diseaseandconditions/outbreaks/tiny-turtles-transcript.html",
-  "transcript_status": "TRANSCRIPT_BLOCKED: official linked transcript URL unavailable in runner; no verified timed SRT",
+  "transcript_status": "TRANSCRIPT_BLOCKED: CDC HTML transcript HTTP 404; official CDC-linked YouTube captions attempt failed anti-bot sign-in; no verified timed English SRT",
   "rights_policy": "https://stacks.cdc.gov/Content%20and%20Copyright",
   "rights_status": "RIGHTS_BLOCKED: general US government/public-domain status is not component-level music, voice, person or commercial reuse clearance",
-  "framing_status": "FRAMING_QA_BLOCKED: 9:16 subject-safe crop not reviewed",
-  "clip_selection": "NOT_SELECTED: no 30-40s timecode until transcript and rights independently checked",
+  "framing_status": "FRAMING_QA_BLOCKED: 1920x1080 text-heavy frames; center crop loses wide captions; pad layout legibility unreviewed",
+  "clip_selection": "NOT_SELECTED: official transcript/captions blocked, audio rights unverified and 11-frame preliminary screening shows predominantly widescreen infographic text unsuitable for subject-safe moving-footage 9:16 crop",
   "original_audio_required": true,
   "ai_voiceover": false,
   "publish_ready": false,
@@ -37,9 +37,10 @@
   },
   "applied_learning_ids": {
     "learn_4decad368966e2e6": "Actual original.mp4 SHA recorded from runner, not substituted by ZIP artifact digest; artifact not consumed for production.",
-    "learn_ae8a18babc190373": "No clip, render or publish while English timed captions, original-audio rights and 9:16 framing are unverified.",
+    "learn_ae8a18babc190373": "No clip or render: original English timed transcript unavailable; center crop loses on-screen text and independent framing QA missing.",
     "learn_991df8ed39245aef": "Commerce decisions remain draft-only; no realized margin inferred from price or compare-at price.",
-    "learn_0f6a35b37d68a20a": "Gumroad remains draft-first and private account data not fabricated."
+    "learn_0f6a35b37d68a20a": "Gumroad remains draft-first and private account data not fabricated.",
+    "learn_53ca8fb858703eb6": "Actual 11-frame sample rejected a predominantly infographic/slideshow source for moving-footage 30-40s Shorts; seek a rights-cleared moving-footage alternative, no broadcast clips."
   },
   "technical_runs": [
     {
@@ -51,6 +52,13 @@
       "run_id": 40882327504,
       "conclusion": "failure",
       "cause": "transcript unavailable (exit 1), source duration/audio/video technically validated"
+    },
+    {
+      "run_id": 40891735544,
+      "conclusion": "failure",
+      "cause": "CDC HTML transcript HTTP 404; free official-linked YouTube VTT blocked by anti-bot sign-in; no VTT or Short",
+      "artifact_id": 12904213026,
+      "source_media_sha256_confirmed": true
     }
   ],
   "no_main_write": true,
@@ -65,5 +73,59 @@
     "framing": "FRAMING_QA_BLOCKED",
     "independent_review": "PENDING",
     "publish": "NOT_ATTEMPTED"
+  },
+  "transcript_fallback": {
+    "source": "https://www.youtube.com/watch?v=1Y-5wD1zTQc",
+    "source_binding": "CDC Stacks source_page links directly to this video",
+    "attempt": "free yt-dlp, manual+auto English VTT as DRAFT ONLY",
+    "run_id": 40891735544,
+    "artifact_id": 12904213026,
+    "yt_dlp_install_exit": 0,
+    "captions_exit": 1,
+    "observed_error": "YouTube: Sign in to confirm you are not a bot",
+    "result": "TRANSCRIPT_BLOCKED; no VTT",
+    "retry_policy": "Do not repeat this same anti-bot attempt or request browser cookies; choose a different freely accessible source"
+  },
+  "visual_screening": {
+    "status": "PRELIMINARY_REJECT_FOR_30_40S_MOVING_FOOTAGE",
+    "observed_source_sha256": "c3f07149b76009162bf650e926b41ac5827121ffc59df56950e0add70811d0a2",
+    "media_dimensions": "1920x1080",
+    "sampled_seconds": [
+      5,
+      15,
+      25,
+      35,
+      45,
+      55,
+      65,
+      75,
+      85,
+      95,
+      105
+    ],
+    "observation": "11 extracted stills show predominantly wide-screen animated text/infographic panels. Central 9:16 crop would cut wide headline and explanatory text; non-cropping padding would require independent readability QA.",
+    "conclusion": "Do not select a 30-40s excerpt as requested moving-footage Short from this source. Preliminary sampling is not full-duration independent media QA.",
+    "full_duration_qa": "NOT_PERFORMED",
+    "independently_reviewed": false
+  },
+  "audio_screening": {
+    "status": "TECHNICAL_ONLY",
+    "ffmpeg_silencedetect_threshold": "-40 dB; min 1s",
+    "intervals_seconds": [
+      [
+        62.501,
+        63.727
+      ],
+      [
+        75.4,
+        76.791
+      ],
+      [
+        106.56,
+        112.733
+      ]
+    ],
+    "spoken_word_sync": "NOT_VERIFIED",
+    "music_and_voice_rights": "NOT_VERIFIED"
   }
 }
