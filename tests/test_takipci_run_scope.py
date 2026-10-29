@@ -29,6 +29,25 @@ class AuditorRunScopeTests(unittest.TestCase):
         self.assertEqual(reasons, [])
         self.assertTrue(any("40682689517" in w and "historical" in w for w in warnings))
 
+    def test_historical_in_progress_run_is_warning_not_gate(self):
+        # Live regression: main CodeQL run 40787996094 was in progress
+        # while the auditor checked a different PR head.
+        reasons, warnings = td.check_run_refs(
+            [cited_run(40787996094, None, "38694cd24a22f35bcef14ebbacc3eeea30bd7e63",
+                       status="in_progress")], REPO, HEAD
+        )
+        self.assertEqual(reasons, [])
+        self.assertTrue(any("40787996094" in w and "historical" in w for w in warnings))
+
+    def test_historical_skipped_run_is_warning_not_gate(self):
+        # Live regression: unrelated main comms-watch 40787996127 was skipped.
+        reasons, warnings = td.check_run_refs(
+            [cited_run(40787996127, "skipped", "38694cd24a22f35bcef14ebbacc3eeea30bd7e63")],
+            REPO, HEAD
+        )
+        self.assertEqual(reasons, [])
+        self.assertTrue(any("40787996127" in w and "historical" in w for w in warnings))
+
     def test_current_head_failed_run_still_blocks(self):
         reasons, warnings = td.check_run_refs(
             [cited_run(40687999121, "failure")], REPO, HEAD
