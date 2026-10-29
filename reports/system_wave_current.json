@@ -497,14 +497,11 @@
   "handoff_write": {
     "path": "state/handoffs.json",
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit_sha": "c82af45851be8478905dbb78d139d8b25d24b3bd",
-    "content_sha": "64065ad7607e7f4cfa3cdba8185bb0572821a2d7",
-    "readback_sha": "64065ad7607e7f4cfa3cdba8185bb0572821a2d7",
-    "count": 55,
-    "unique": 55,
-    "readback_status": "PASS_SAFE_BRANCH_ONLY",
-    "main_modified": false,
-    "record_id": "CI-39269730285"
+    "commit": "d0de9a301c06212b60b4a73dc600b12f25e20b47",
+    "blob": "300c904ba51052cc525d4069a516580fc4b7c7c3",
+    "readback": "PASS",
+    "items": 55,
+    "existing_id": "CI-39269730285"
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
@@ -521,7 +518,7 @@
     "continuing": 19,
     "blocked_user": 1,
     "production_gate": "OPEN",
-    "readback": "PENDING",
+    "readback": "REPORT_AND_EXISTING_HANDOFF_BLOB_READBACK_PASS",
     "tests": "LOADER_CI_9_PASS; AUDITOR_CI_FAIL; P0_COMBINED_RACE_NOT_RUN; LOCAL_GIT_DNS_EXIT128"
   },
   "audit_20261028_2139": {
@@ -1682,6 +1679,14 @@
       "stderr": "Could not resolve host: github.com",
       "alternative": "GitHub connector file/CI log readback"
     },
-    "result": "PARTIAL; production gates remain open"
+    "result": "PARTIAL; production gates remain open",
+    "persistence": {
+      "report_first_commit": "30a2eadd7c6d03ac47ca1e4c1c7540063b661be7",
+      "report_first_blob": "0bee571bc03f7c60ed890769a7e7114666f31a52",
+      "handoff_commit": "d0de9a301c06212b60b4a73dc600b12f25e20b47",
+      "handoff_blob": "300c904ba51052cc525d4069a516580fc4b7c7c3",
+      "handoff_readback": "PASS",
+      "main_written": false
+    }
   }
 }
