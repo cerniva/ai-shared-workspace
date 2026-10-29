@@ -43,12 +43,12 @@
     "independent_review": "PENDING",
     "youtube_upload": "NOT_ATTEMPTED",
     "caption_readability": "TRANSCRIPT_BLOCKED",
-    "source_reproducibility": "SOURCE_MEDIA_UNAVAILABLE"
+    "source_reproducibility": "SOURCE_SHA_VERIFIED_IN_GITHUB_ACTIONS"
   },
   "applied_learning_ids": {
-    "learn_ae8a18babc190373": "Actual SRT 23 cues screened; 11 exceed 20 CPS; PR #269 renderer now rejects unreadably fast cues before FFmpeg; original wording preserved pending human rights/sync review.",
-    "learn_4decad368966e2e6": "Historical source/ZIP hashes remain recorded, but the 2026-10-29 run could not obtain original bytes; first-page artifact listing returned zero. Current SHA cannot be revalidated; fail closed until reacquired, byte count and SHA matched.",
-    "learn_af28044522e96790": "publish_ready=false and upload NOT_ATTEMPTED; privacy, target channel and OAuth not assumed.",
+    "learn_ae8a18babc190373": "Selected 33.8s candidate remains blocked: 11/23 original SRT cues exceed 20 CPS and center 9:16 crop cuts existing on-screen text; no automatic rewording or render before rights/sync/framing QA.",
+    "learn_4decad368966e2e6": "2026-10-29 GitHub Actions run 40841729931 reacquired 46,822,069 bytes from canonical Commons URL, SHA256 matched pinned 40793f21...fcc9289d with sha256sum --check; ZIP digest tracked separately; source integrity technical PASS only; rights remain blocked.",
+    "learn_af28044522e96790": "publish_ready=false; no MP4 or upload, despite source SHA and CI PASS; independent rights review and explicit channel/OAuth/privacy gate still required.",
     "learn_e74d8dd625c30863": "No retention/engaged-view conclusion from sparse public views."
   },
   "cost_eur": 0,
@@ -56,8 +56,8 @@
   "review_required": "A separate reviewer must inspect exact downloaded source bytes, audio/music/person/insignia rights, Commons TimedText license, actual spoken sync, full-length moving visuals and 9:16 composition before publish.",
   "source_media_bytes": 46822069,
   "source_media_duration_seconds": 181.561,
-  "source_artifact": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40420896015/artifacts/12697513894",
-  "source_artifact_expires_at": "2026-10-28T23:37:03Z",
+  "source_artifact": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40841729931/artifacts/12883371084",
+  "source_artifact_expires_at": "2026-11-05T08:23:30Z",
   "source_technical_qc": "Local SHA matches Actions SHA; VP9 1280x720, Opus stereo, one video and one audio stream; selected 33.8s decoded without FFmpeg error, no >1.5s freeze/black detected; NOT independent rights, sync, framing or publication QA.",
   "caption_readability": {
     "status": "TRANSCRIPT_BLOCKED",
@@ -83,14 +83,25 @@
     "action": "No automatic rewording or retiming. Licensed caption derivative rights and human speech synchronization review required."
   },
   "source_artifact_current_availability": {
-    "checked_at": "2026-10-29T07:17:00Z",
-    "workflow_run_id": 40420896015,
-    "artifact_id": 12697513894,
-    "observed_artifacts_in_first_page": 0,
-    "status": "NOT_LISTED_FIRST_PAGE",
-    "caveat": "GitHub connector returns first page only; absence is not a definitive proof of expiration. Recorded expiry timestamp was 2026-10-28T23:37:03Z.",
-    "current_source_bytes_available_to_this_run": false,
-    "current_sha256_recomputed_this_run": false,
-    "action": "Reacquire exact original WebM from canonical Commons source; verify 46,822,069 bytes and recorded SHA-256 before any further source-specific QC. Never substitute a different edition or fabricate rights."
+    "checked_at": "2026-10-29T08:23:36Z",
+    "workflow_run_id": 40841729931,
+    "workflow_run_url": "https://github.com/cerniva/ai-shared-workspace/actions/runs/40841729931",
+    "artifact_id": 12883371084,
+    "artifact_expired": false,
+    "artifact_expires_at": "2026-11-05T08:23:30Z",
+    "status": "REACQUIRED_SHA_MATCH_TECHNICAL_ONLY",
+    "source_sha256": "40793f21f2d4377b9c958217bd7e8b43081bc4cf16fdac0a98c6bc28fcc9289d",
+    "source_bytes": 46822069,
+    "sha256sum_check": "OK",
+    "duration_seconds": 181.561,
+    "video_streams": 1,
+    "audio_streams": 1,
+    "artifact_zip_digest_sha256": "65a2537c88a91de7a53b8b023b330e9e224247d6e76c70de46b467eabf82245c",
+    "artifact_zip_digest_is_not_source_hash": true,
+    "source_sha256_recomputed_on_actions_runner": true,
+    "source_bytes_in_local_chat_container": false,
+    "learning_gate_stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "learning_gate_exit": "0 (GitHub Actions step completed successfully; exit file stored in logs artifact 12882758545)",
+    "note": "This is a source-integrity recheck, not independent license, audio, caption, person or media approval."
   }
 }
