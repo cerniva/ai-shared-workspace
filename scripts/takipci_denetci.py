@@ -175,7 +175,10 @@ def check_run_refs(runs: list[dict], repo: str, head_sha: str) -> tuple[list[str
         # but only gate the referenced run if it belongs to this exact head.
         # Missing head_sha is not trusted and remains fail-closed below.
         run_head = run.get("head_sha")
-        if head_sha and run_head and run_head != head_sha:
+        if head_sha and not run_head:
+            reasons.append(f"run {rid} missing head_sha (cannot verify current PR head)")
+            continue
+        if head_sha and run_head != head_sha:
             warnings.append(
                 f"run {rid} head_sha {run_head[:7]} != PR head {head_sha[:7]}"
                 " (historical/non-head CI; not a current-head gate)"
