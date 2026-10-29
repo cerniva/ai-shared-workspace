@@ -78,11 +78,32 @@ jobs:
           print('publish_ready=false')
           PY
           if [ "$transcript_exit" -ne 0 ] || [ ! -s audit/transcript.html ]; then
-            echo 'TRANSCRIPT_BLOCKED: official transcript URL unavailable' >&2
+            echo 'TRANSCRIPT_BLOCKED: CDC HTML transcript unavailable; trying distinct free official YouTube caption track' >&2
+            rm -f audit/transcript.html
+            printf '%s\n' 'https://www.youtube.com/watch?v=1Y-5wD1zTQc' > audit/caption_fallback_url.txt
+            set +e
+            python3 -m pip install --quiet --disable-pip-version-check --no-input yt-dlp >audit/yt_dlp_install.stdout 2>audit/yt_dlp_install.stderr
+            install_exit=$?
+            if [ "$install_exit" -eq 0 ]; then
+              yt-dlp --no-playlist --skip-download --write-subs --write-auto-subs --sub-langs 'en.*' --sub-format vtt --output 'audit/cdc_youtube.%(ext)s' 'https://www.youtube.com/watch?v=1Y-5wD1zTQc' >audit/captions.stdout 2>audit/captions.stderr
+              captions_exit=$?
+            else
+              captions_exit=127
+            fi
+            set -e
+            printf '%s\n' "$install_exit" > audit/yt_dlp_install.exit
+            printf '%s\n' "$captions_exit" > audit/captions.exit
+            caption_file="$(find audit -maxdepth 1 -type f -name 'cdc_youtube*.vtt' -print -quit)"
+            if [ "$captions_exit" -ne 0 ] || [ -z "$caption_file" ] || ! grep -q '^WEBVTT' "$caption_file"; then
+              echo 'TRANSCRIPT_BLOCKED: no verified English timed captions; no render or publication' >&2
+              exit 1
+            fi
+            sha256sum "$caption_file" > audit/captions.sha256
+            echo 'CAPTIONS_DRAFT_ONLY: source-linked English VTT acquired; speech alignment, third-party audio rights and 9:16 QA remain unverified' >&2
             exit 1
           fi
           sha256sum audit/transcript.html > audit/transcript.sha256
-          echo 'Transcript acquired; timed captions and rights still unverified.'
+          echo 'CDC HTML transcript acquired; timed captions, sync and rights still unverified.'
       - name: Preserve acquisition evidence (not publication approval)
         if: always()
         uses: actions/upload-artifact@v4
