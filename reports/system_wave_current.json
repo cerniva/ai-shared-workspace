@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T18:35:00Z",
+  "generated_at": "2026-10-29T19:37:00Z",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
+  "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "New auto-merge-gate CI #40931556282 conclusion=success; merge verdict not yet read. PR386 auditor CI failure cause unknown.",
-  "decision_after": "PR269 merge=false (draft, nonallowlisted branch, missing handoff/CI evidence, workflow denylist, required checks absent). PR386 takipci-denetci exit1 (missing handoff ID, prior failed run, ci_pending=true, SHA mismatch). No merge; no all-green.",
+  "decision_before": "automation-runner CI #40941798597 success and plan-learnings-check CI #40941820186 success might be interpreted as four production plans healthy; PR309 race status last known 143 behind.",
+  "decision_after": "Read-back state/automation_runner.json proves finance dispatch+observe without finance runner; video and knowledge dry-run; shorts-free-render never_run; youtube-upload failure; system dispatch+observe. Therefore four ChatGPT schedules enabled but production delivery NOT_VERIFIED. PR309 145 behind/52 ahead; bridge_failure remains OPEN.",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
-    "learn_67340fd77c09f582"
+    "learn_175c67179539e7e6"
   ],
-  "applied_learning_ids_scope": "REAL AUDIT DECISION ONLY: first-page inventory PARTIAL and required PR check; NOT production Reporting API/artifact consumer",
+  "applied_learning_ids_scope": "REAL_AUDIT_DECISION_ONLY: first page of 30 GitHub runs is PARTIAL; compare PR309 to current main before reporting fresh-base readiness. No Reporting API/digest production consumer.",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -167,27 +167,42 @@
         "production_readback": "NOT_VERIFIED"
       }
     ],
-    "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+    "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
     "ledger_count": 83,
     "source_count": 95,
     "active_system_count": 9,
     "ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
-    "catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f"
+    "catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f",
+    "latest_loader": {
+      "run_id": 40941820186,
+      "job_id": 123686886091,
+      "head_sha": "fd85f8b9f36cd481363e107b3e7ec8a1edc3ad39",
+      "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+      "stdout": "plan_learnings tag=system count=9 error=None",
+      "exit": 0,
+      "artifact_list": [],
+      "scope": "loader only, no real consumer read-back"
+    },
+    "pr_behind_current_main": {
+      "314": 340,
+      "334": 159
+    }
   },
   "archive": {
     "pr": 309,
     "status": "OPEN_DRAFT_FRESH_MAIN_RACE_AND_PRODUCTION_READBACK_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 143,
+    "behind": 145,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-    "combined_race_ci": "NOT_VERIFIED"
+    "base_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+    "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+    "combined_race_ci": "NOT_VERIFIED",
+    "comparison": "GitHub compare_commits main...fix/archive-heal-fresh-main-race-20261022-1037; diverged"
   },
   "worker": {
     "run_id": 40869439679,
@@ -250,19 +265,28 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.list 2026-10-29 21:35 TRT",
-    "finance_runner": "GITHUB_PRODUCTION_NOT_VERIFIED",
-    "video_shopify": "GITHUB_PRODUCTION_NOT_VERIFIED",
-    "knowledge": "GITHUB_PRODUCTION_NOT_VERIFIED",
-    "system": "DISPATCH_AND_OBSERVE_NOT_PRODUCTION",
-    "chatgpt_enabled_count": 4
+    "verified_via": "Automations.peek 2026-10-29 22:37 TRT",
+    "finance_runner": "GITHUB_PRODUCTION_ABSENT; dispatch+observe loader only",
+    "video_shopify": "DRY_RUN; shorts-free-render never_run; youtube-upload failed",
+    "knowledge": "DRY_RUN; knowledge-promote success not plan output",
+    "system": "DISPATCH_AND_OBSERVE; no proof four production consumers",
+    "chatgpt_enabled_count": 4,
+    "automation_runner": {
+      "run_id": 40941798597,
+      "job_id": 123686803569,
+      "head_sha": "fd85f8b9f36cd481363e107b3e7ec8a1edc3ad39",
+      "output_path": "state/automation_runner.json",
+      "output_blob": "6e8e92d098a6e4658fb87d9ffe15a50141c67d1f",
+      "read_back": "PASS main",
+      "model_summary_overclaim": "'Diğer tüm otomasyonlar ... sağlıklı' is unsupported by modes; audit corrected to NOT_VERIFIED"
+    }
   },
   "finance": {
     "altcoin_calibrated": 0,
     "total": 10,
     "score": "N/A",
     "production_svg": "NOT_VERIFIED",
-    "current_turn_recheck": "config/altcoin_panel_calibration.json blob 6bbeacf9482245304a056dbfe7507d08cb181aa9, all 10 validated=false"
+    "current_turn_recheck": "config/altcoin_panel_calibration.json sha 6bbeacf9482245304a056dbfe7507d08cb181aa9; 10 validated=false"
   },
   "shorts": {
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
@@ -350,6 +374,16 @@
         "required_test_missing"
       ],
       "readback": "GitHub job log; no merge"
+    },
+    "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
+    "current_runner": {
+      "shorts_free_render": "never_run",
+      "youtube_upload": {
+        "run_id": 38011519419,
+        "conclusion": "failure",
+        "created_at": "2026-10-10T01:01:34Z"
+      },
+      "scope": "main state/automation_runner.json read-back; NOT current media QC"
     }
   },
   "wave": {
@@ -359,7 +393,7 @@
     "newly_completed": 0,
     "new_wave_started": false,
     "all_retested": false,
-    "reviewed_this_turn": 5
+    "reviewed_this_turn": 4
   },
   "tasks": [
     {
@@ -367,14 +401,14 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "BLOCKED_USER",
-      "evidence": "state/now.json direct OAuth invalid_grant, old Metricool fallback verified 2026-09-30 only; current ledger uploads=[]",
-      "test_command": "NOT_RUN this turn",
+      "evidence": "state/now.json direct OAuth invalid_grant, old Metricool fallback verified 2026-09-30 only; current ledger uploads=[] | 2026-10-29 22:37 TRT main bbba43794c OAuth still blocked; uploads=0",
+      "test_command": "NO_NEW_COMBINED_TEST",
       "test_exit": null,
-      "main_sha": "1afe56cfee4188915e36043cecd0f7542d5fa81f",
-      "read_back": "OAuth remains unverified, no new upload ID",
+      "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+      "read_back": "GitHub ledger / automation_runner.json read-back; no media upload proof",
       "next_step": "Use fresh authorized provider connection if available; user OAuth/2FA/secret only when genuinely required",
       "retested_this_turn": false,
-      "reviewed_this_turn": false
+      "reviewed_this_turn": true
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
@@ -402,7 +436,7 @@
       "read_back": "Main workflow blob f8c074dd and PR309 branch workflow blob9ee49710 re-read; production archive read-back NOT_VERIFIED",
       "next_step": "Reuse PR309; reconcile on current main and run combined race test before any merge",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
@@ -444,7 +478,7 @@
       "read_back": "CI job log contains 269.merge=false, no merge",
       "next_step": "Reuse existing PR; ensure required checks, no forced merge; dedup/fanout tests before optimizing workflow",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "CI-39568642118",
@@ -535,14 +569,14 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal remains unsafe; PR309 behind136/ahead52 | 2026-10-29 14:34: PR309 behind=137 ahead=52; main archive-heal still pull --rebase; combined CI missing",
-      "test_command": "NOT_RUN this turn",
+      "evidence": "main e7628fab71073449c14ea4e4565d12614f2813e1 archive-heal remains unsafe; PR309 behind136/ahead52 | 2026-10-29 14:34: PR309 behind=137 ahead=52; main archive-heal still pull --rebase; combined CI missing | 2026-10-29 22:37 TRT main bbba43794c PR309 behind145 ahead52",
+      "test_command": "NO_NEW_COMBINED_TEST",
       "test_exit": null,
-      "main_sha": "3106492cb55d536d6430fb2d853e733915a7a67e",
-      "read_back": "Main GitHub source read-back only; production not verified",
-      "next_step": "Run fresh-main PR309 combined race CI and archive production read-back",
+      "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+      "read_back": "PR compare 145 behind/52 ahead; main workflow git pull --rebase; production not verified",
+      "next_step": "Rebase existing PR309 on current main and run race test + production read-back without merge",
       "retested_this_turn": false,
-      "reviewed_this_turn": false
+      "reviewed_this_turn": true
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
@@ -556,7 +590,7 @@
       "read_back": "Both job logs + PR385 head14a9d7ee and PR386 heada50a9fda, open; no production merge",
       "next_step": "Review PR385/386 test and required checks, reuse existing handoffs, do not auto-merge",
       "retested_this_turn": false,
-      "reviewed_this_turn": true
+      "reviewed_this_turn": false
     },
     {
       "id": "CI-40086311263",
@@ -619,12 +653,12 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main ledger blob6654ffabba 83, source catalog blob72fb179f 95, nine system-tagged records (some omit status, default active). Reporting API/digest production consumer still unverified; issue308 open.",
-      "test_command": "python3 scripts/plan_learnings.py system --require (LOCAL_NOT_RUN: git DNS exit128); historical CI40877877894 exit0 loader only",
-      "test_exit": null,
-      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "Main source IDs src_be6523a27c85e346 and src_569c596da7048714 exist; no real applied_learning_ids manifest",
-      "next_step": "Reuse issue308, PR314/334; positive/negative consumer tests + artifact read-back, bridge_failure OPEN",
+      "evidence": "Main ledger blob6654ffabba 83, source catalog blob72fb179f 95, nine system-tagged records (some omit status, default active). Reporting API/digest production consumer still unverified; issue308 open. | 2026-10-29 22:37 TRT main bbba43794c loader CI40941820186 count9 exit0, no consumer manifest",
+      "test_command": "GitHub CI #40941820186: python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+      "test_exit": 0,
+      "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+      "read_back": "loader stdout read-back only; no real consumer artifact",
+      "next_step": "Reuse Issue308 and draft PR314/334; current-main consumer positive+negative tests and manifest read-back",
       "retested_this_turn": false,
       "reviewed_this_turn": true
     },
@@ -633,11 +667,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main knowledge/shorts/upload_ledger.json blob aa357952c4 uploads=[]; PR269 auto-merge denied CI40931556282. Main MP4 full QC not run.",
-      "test_command": "MP4 ffprobe/frame/audio/subtitle/license QC NOT_RUN_THIS_TURN",
+      "evidence": "Main knowledge/shorts/upload_ledger.json blob aa357952c4 uploads=[]; PR269 auto-merge denied CI40931556282. Main MP4 full QC not run. | 2026-10-29 22:37 TRT main bbba43794c uploads=0, render never_run, upload historical failure",
+      "test_command": "NO_NEW_COMBINED_TEST",
       "test_exit": null,
-      "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-      "read_back": "Main upload ledger uploads=[]; no YouTube video ID",
+      "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+      "read_back": "GitHub ledger / automation_runner.json read-back; no media upload proof",
       "next_step": "Run full QC, verify rights/captions and authorized upload channel before any publish",
       "retested_this_turn": false,
       "reviewed_this_turn": true
@@ -659,10 +693,10 @@
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
   "current_turn": {
-    "at": "2026-10-29T18:35:00Z",
-    "main_sha": "04dc6c087dd737add868eea463ab044333c2f009",
-    "summary": "PR269_MERGE_FALSE_PR386_AUDITOR_FAIL_AND_WORKER_PR385_PR386_OPENED_NOT_MERGED;P0_BRIDGE_OPEN",
-    "audit_key": "audit_20261029_2135",
+    "at": "2026-10-29T19:37:00Z",
+    "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+    "summary": "REAL_AUTOMATION_RUNNER_READBACK_REVEALS_DRY_RUN_AND_MISSING_FINANCE_RUNNER;PR309_145_BEHIND;BRIDGE_OPEN",
+    "audit_key": "audit_20261029_2237",
     "branch_state_not_main": true
   },
   "audit_20261028_2139": {
@@ -3192,5 +3226,39 @@
         "readback": "GitHub Actions job log + PR metadata"
       }
     ]
+  },
+  "audit_20261029_2237": {
+    "at": "2026-10-29T19:37:00Z",
+    "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
+    "decision_before": "automation-runner CI #40941798597 success and plan-learnings-check CI #40941820186 success might be interpreted as four production plans healthy; PR309 race status last known 143 behind.",
+    "decision_after": "Read-back state/automation_runner.json proves finance dispatch+observe without finance runner; video and knowledge dry-run; shorts-free-render never_run; youtube-upload failure; system dispatch+observe. Therefore four ChatGPT schedules enabled but production delivery NOT_VERIFIED. PR309 145 behind/52 ahead; bridge_failure remains OPEN.",
+    "applied_learning_ids": [
+      "learn_1f26fa5202f29769",
+      "learn_175c67179539e7e6"
+    ],
+    "source_ids": [
+      "src_74c1f2ed10aefae7",
+      "src_c55c127baae6d0e8"
+    ],
+    "source_evidence": {
+      "runner_path": "state/automation_runner.json",
+      "runner_blob": "6e8e92d098a6e4658fb87d9ffe15a50141c67d1f",
+      "loader_run": 40941820186,
+      "loader_job": 123686886091,
+      "loader_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+      "loader_stdout": "plan_learnings tag=system count=9 error=None",
+      "loader_exit": 0,
+      "artifact_readback": "NONE",
+      "runner_run": 40941798597,
+      "runner_job": 123686803569,
+      "runner_exit": 0,
+      "comparison": "PR309 behind=145 ahead=52; PR314 behind=340; PR334 behind=159",
+      "main_readback": "GitHub main branch SHA bbba43794..."
+    },
+    "bridge_failure": "OPEN",
+    "production_gates": "NOT_VERIFIED",
+    "tests_this_turn": "No local shell or fresh combined CI; historical/current CI loader only",
+    "scope": "AUDIT_ONLY_SAFE_BRANCH",
+    "payoutlens_touched": false
   }
 }
