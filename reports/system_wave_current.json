@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-29T06:40:30Z",
+  "generated_at": "2026-10-29T07:35:21Z",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
+  "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "audit_only_not_production",
   "payoutlens_touched": false,
-  "decision_before": "HISTORICAL_8_SYSTEM_LEARNINGS_AND_GREEN_CI_MAY_BE_MISREAD_AS_CURRENT_PRODUCTION",
-  "decision_after": "9_SYSTEM_LEARNINGS_LOADER_VERIFIED; REAL_CONSUMER_NOT_VERIFIED; P0_ARCHIVE_AND_P1_AUDITOR_OPEN",
+  "decision_before": "PRIOR_AUDIT_9_SYSTEM_LEARNINGS_AND_MP4_BINARY_QC_UNVERIFIED",
+  "decision_after": "CURRENT_MAIN_RECHECKED_9_SYSTEM_LEARNINGS; MP4_BOX_STRUCTURE_VALID_ONLY; P0_ARCHIVE_AND_REAL_CONSUMER_BRIDGE_STILL_OPEN",
   "applied_learning_ids": [],
-  "applied_learning_ids_scope": "AUDIT_ONLY_NO_REAL_CONSUMER_APPLICATION",
+  "applied_learning_ids_scope": "AUDIT_ONLY; NO_PRODUCTION_CONSUMER_PROOF",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -21,7 +21,7 @@
       "stdout": "plan_learnings tag=system count=9 error=None",
       "exit": 0,
       "scope": "REAL_GITHUB_CI_LOADER_ONLY_NOT_CONSUMER",
-      "artifact_readback": "NO_WORKFLOW_ARTIFACTS; output artifacts/system.json not remotely verified"
+      "artifact_readback": "CI stdout verified, but workflow artifact read-back NOT_VERIFIED"
     },
     "learnings": [
       {
@@ -101,20 +101,35 @@
       "negative_tests": "missing learning and unverified source in test_github_agents.py",
       "production_readback": "NOT_VERIFIED; branch-only tests",
       "current_main_combined_ci": "NOT_VERIFIED"
+    },
+    "catalog_recheck": {
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "ledger_count": 83,
+      "source_count": 95,
+      "active_system_count": 9,
+      "learning_ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+      "source_catalog_blob": "8d9bfdd16820a9b7ab9a0f21b045b2ad98efa183",
+      "target_ids": [
+        "learn_0bdcee93377fd18d",
+        "learn_4decad368966e2e6"
+      ],
+      "target_source_status": "verified-public",
+      "scope": "metadata-only; no real Reporting API or artifact consumer",
+      "test_exit": "NO_SHELL_EXIT"
     }
   },
   "archive": {
     "pr": 309,
     "status": "OPEN_DRAFT_CURRENT_MAIN_COMBINED_RACE_NOT_VERIFIED",
     "head_sha": "8039adb266c4da0a3e8f353e49a6e549d489b375",
-    "behind": 130,
+    "behind": 131,
     "ahead": 52,
     "workflow_path": ".github/workflows/archive-heal.yml",
     "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
     "risky_command": "git pull --rebase origin main",
     "combined_race_test": "NOT_RUN_ON_CURRENT_MAIN",
     "production_readback": "NOT_VERIFIED",
-    "base_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14"
+    "base_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef"
   },
   "worker": {
     "run_id": 40829428191,
@@ -146,7 +161,7 @@
   },
   "automations": {
     "four_enabled": true,
-    "verified_via": "Automations.peek 2026-10-29 09:40 Europe/Istanbul",
+    "verified_via": "Automations.list 2026-10-29 10:35 Europe/Istanbul",
     "finance_runner": "GITHUB_PRODUCTION_RUNNER_NOT_PRESENT; LOADER_ONLY",
     "video_shopify": "GITHUB_DRY_RUN",
     "knowledge": "GITHUB_DRY_RUN",
@@ -163,10 +178,28 @@
   "shorts": {
     "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
     "mp4_size": 598439,
-    "mp4_qc": "NOT_RUN_BINARY_QC_THIS_TURN",
+    "mp4_qc": "MP4_BOX_STRUCTURE_PASS_ONLY; full ffprobe/decode/audio/subtitle/license QC NOT_RUN",
     "upload_ledger_path": "knowledge/shorts/upload_ledger.json",
     "upload_ledger_count": 0,
-    "remote_upload": "NOT_VERIFIED"
+    "remote_upload": "NOT_VERIFIED",
+    "container_probe": {
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "path": "shorts/shorts_bugun.mp4",
+      "method": "GitHub fetch_file base64 -> in-memory MP4 top-level box parse",
+      "ftyp": true,
+      "moov": true,
+      "mdat": true,
+      "track_count": 2,
+      "duration_seconds": 18,
+      "decoded_bytes": 598439,
+      "blob_sha": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
+      "structure_valid": true,
+      "test_exit": "IN_PROCESS_NO_SHELL_EXIT",
+      "ci_run_id": null,
+      "ci_job_id": null,
+      "production_readback": "FILE_BLOB_READBACK_ONLY; NO_YOUTUBE_ID",
+      "limitations": "No ffprobe/frame decode/audio/SRT timing/reuse rights/upload validation"
+    }
   },
   "wave": {
     "selected": 20,
@@ -174,7 +207,8 @@
     "blocked_user": 1,
     "newly_completed": 0,
     "new_wave_started": false,
-    "all_retested": false
+    "all_retested": false,
+    "reviewed_this_turn": 5
   },
   "tasks": [
     {
@@ -210,13 +244,13 @@
       "owner_recorded": "grok",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main 8b1421fdb8046c0991488386eaa10e5a5c69fa14 archive workflow blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f risky rebase; PR #309 130 behind/52 ahead",
-      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037; combined current-main race NOT_RUN",
+      "evidence": "main d7945be248f6263e5b59ff5faa8cea5d7e2deeef archive-heal.yml blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f; PR #309 131 behind/52 ahead",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037",
       "test_exit": null,
-      "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
-      "read_back": "workflow and PR metadata PASS; production archive NOT_VERIFIED",
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "read_back": "Main workflow read-back PASS; current-main race/production archive NOT_VERIFIED",
       "next_step": "Reuse PR #309; run current-main combined race tests and verify production archive read-back; no merge",
-      "retested_this_turn": true,
+      "retested_this_turn": false,
       "reviewed_this_turn": true
     },
     {
@@ -252,13 +286,13 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "PR #376 current HEAD 9b98c15; trusted-main auditor #40829399892 job 123299883025 FAIL on historical run refs; PR tests #40829399893 job 123299874762 808+15 PASS",
+      "evidence": "PR #376 46 behind/5 ahead; trusted auditor CI 40829399892 job 123299883025 exit 1 on old run references",
       "test_command": "python3 -m unittest discover -s tests -p 'test_*.py' [GitHub CI PR #376]",
       "test_exit": 0,
-      "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
-      "read_back": "PR branch tested; trusted-main auditor failure exit 1; merge NOT_VERIFIED",
-      "next_step": "Reuse PR #376; preserve fail-closed current-head checks; avoid gate bypass",
-      "retested_this_turn": true,
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "read_back": "CI job log read-back PASS; fix not merged or production verified",
+      "next_step": "Reuse PR #376; current HEAD exact SHA checks and negative tests, no bypass",
+      "retested_this_turn": false,
       "reviewed_this_turn": true
     },
     {
@@ -350,13 +384,13 @@
       "owner_recorded": "auditor",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "same P0 archive workflow + PR #309 current compare diverged 130 behind 52 ahead",
-      "test_command": "GitHub compare main...PR #309",
+      "evidence": "main d7945be248f6263e5b59ff5faa8cea5d7e2deeef archive-heal.yml blob f8c074ddad554ddde7e496f20adbcfc1e5736b7f; PR #309 131 behind/52 ahead",
+      "test_command": "GitHub compare main...fix/archive-heal-fresh-main-race-20261022-1037",
       "test_exit": null,
-      "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
-      "read_back": "PR metadata verified; production read-back NOT_VERIFIED",
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "read_back": "Main workflow read-back PASS; current-main race/production archive NOT_VERIFIED",
       "next_step": "Do not repeat stale rebase; test existing PR #309 against current main",
-      "retested_this_turn": true,
+      "retested_this_turn": false,
       "reviewed_this_turn": true
     },
     {
@@ -434,13 +468,13 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main 8b1421fdb8046c0991488386eaa10e5a5c69fa14 ledger 83 blob 6654ffabba3e5cc4b10ad53e37bb539dc71022e0, sources 95 blob 8d9bfdd16820a9b7ab9a0f21b045b2ad98efa183; system 9; loader #40827713681 job 123294473303 count=9",
-      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json [GitHub CI]",
+      "evidence": "Main ledger 83, sources 95, active system 9; loader CI 40827713681 job 123294473303 exit 0; real consumer absent",
+      "test_command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json [CI only]",
       "test_exit": 0,
-      "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
-      "read_back": "loader stdout verified; real consumer applied_learning_ids/reporting checkpoint/digest negative read-back NOT_VERIFIED",
-      "next_step": "Keep bridge_failure open in existing issue #308; real consumer positive+negative tests and manifest read-back",
-      "retested_this_turn": true,
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "read_back": "Ledger/catalog/loader log read-back PASS; applied_learning_ids real manifest NOT_VERIFIED",
+      "next_step": "Reuse Issue #308; run partial Reporting batch and wrong digest consumer negative tests, verify real applied_learning_ids output",
+      "retested_this_turn": false,
       "reviewed_this_turn": true
     },
     {
@@ -448,13 +482,13 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "main MP4 blob 14f34ef7110b6052a79d434bd80d7d087e6a4f0b 598439 bytes; upload ledger blob aa357952c4ee713ddc224d8426cf8bc9c538d13e uploads=[]",
-      "test_command": "Binary MP4 QC NOT_RUN; upload API NOT_RUN",
+      "evidence": "shorts/shorts_bugun.mp4 blob 14f34ef7110b6052a79d434bd80d7d087e6a4f0b 598439 bytes; MP4 ftyp/moov/mdat valid 2 tracks 18s; upload ledger []",
+      "test_command": "In-memory base64 MP4 top-level box parser; no shell exit",
       "test_exit": null,
-      "main_sha": "8b1421fdb8046c0991488386eaa10e5a5c69fa14",
-      "read_back": "GitHub MP4 metadata and upload ledger PASS; binary QC and YouTube remote ID NOT_VERIFIED",
-      "next_step": "Run binary MP4 QC with accessible artifact; verify authorized remote upload ID before green",
-      "retested_this_turn": true,
+      "main_sha": "d7945be248f6263e5b59ff5faa8cea5d7e2deeef",
+      "read_back": "GitHub MP4 blob and ledger read-back PASS; full decode/QC and upload NOT_VERIFIED",
+      "next_step": "Run ffprobe and subtitle/audio/license QC; verify channel upload ID via authorized route",
+      "retested_this_turn": false,
       "reviewed_this_turn": true
     }
   ],
@@ -1507,5 +1541,28 @@
     "grok_ack": "NOT_SENT_NO_NEW_DURABLE_APPLIED_REPORT",
     "local_git": "DNS github.com failed; git ls-remote exit 128",
     "handoff_write": "c82af45851be8478905dbb78d139d8b25d24b3bd; readback 64065ad7607e7f4cfa3cdba8185bb0572821a2d7"
+  },
+  "ci_recheck": {
+    "loader_run_id": 40827713681,
+    "loader_job_id": 123294473303,
+    "loader_stdout": "plan_learnings tag=system count=9 error=None",
+    "loader_exit": 0,
+    "worker_run_id": 40829428191,
+    "worker_job_id": 123300075577,
+    "worker_result": "skip_no_handoff_id",
+    "auditor_run_id": 40829399892,
+    "auditor_job_id": 123299883025,
+    "auditor_exit": 1,
+    "auditor_error": "historical failed run refs 40788057454 and 40794476498 treated as current gate",
+    "scope": "historical CI logs read-back; no fresh CI dispatched"
+  },
+  "audit_limits": {
+    "local_git_command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git refs/heads/main",
+    "local_git_exit": 128,
+    "local_git_error": "Could not resolve host: github.com",
+    "local_plan_learnings_run": "NOT_RUN_LOCAL; GitHub CI loader stdout used",
+    "production_bridge": "FAIL_UNVERIFIED",
+    "grok_ack": "NOT_SENT; no new verified report",
+    "payoutlens_touched": false
   }
 }
