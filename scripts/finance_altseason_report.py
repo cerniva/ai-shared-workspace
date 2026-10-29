@@ -16,6 +16,9 @@ from projects.finance.altcoin_panel import altseason_panel
 
 
 def produce(values_path: Path, output_path: Path) -> dict:
+    # Never replace the raw input artifact, including through a symlink alias.
+    if Path(values_path).resolve() == Path(output_path).resolve():
+        raise ValueError("bridge_failure: finance output must not overwrite input")
     values = json.loads(Path(values_path).read_text(encoding="utf-8"))
     if not isinstance(values, dict) or any(
         not isinstance(k, str) or
