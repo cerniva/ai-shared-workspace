@@ -51,6 +51,20 @@ class FinanceAltseasonArtifactTests(unittest.TestCase):
                 produce(values, output)
             self.assertEqual(output.read_text(encoding="utf-8"), "previous verified report")
 
+    def test_output_must_not_overwrite_raw_input_or_symlink_alias(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            values = base / "values.json"
+            alias = base / "decision-link.json"
+            original = '{"btc_dominance": 50.0}'
+            values.write_text(original, encoding="utf-8")
+            alias.symlink_to(values)
+            for output in (values, alias):
+                with self.subTest(output=str(output)):
+                    with self.assertRaisesRegex(ValueError, "bridge_failure: .*overwrite input"):
+                        produce(values, output)
+                    self.assertEqual(values.read_text(encoding="utf-8"), original)
+
     def test_nonfinite_input_fails_before_artifact_creation(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
