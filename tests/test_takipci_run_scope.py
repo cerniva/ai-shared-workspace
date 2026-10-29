@@ -61,7 +61,17 @@ class AuditorRunScopeTests(unittest.TestCase):
         )
         self.assertTrue(reasons)
 
-    def test_missing_run_head_stays_fail_closed(self):
+    def test_missing_run_head_stays_fail_closed_even_on_success(self):
+        # A completed/success run without head_sha cannot prove this PR's CI.
+        for sha in (None, ""):
+            with self.subTest(sha=sha):
+                reasons, warnings = td.check_run_refs(
+                    [cited_run(40687999121, "success", sha=sha)], REPO, HEAD
+                )
+                self.assertTrue(any("missing head_sha" in r for r in reasons))
+                self.assertEqual(warnings, [])
+
+    def test_missing_run_head_with_failure_also_blocks(self):
         reasons, _ = td.check_run_refs(
             [cited_run(40687999121, "failure", sha=None)], REPO, HEAD
         )
