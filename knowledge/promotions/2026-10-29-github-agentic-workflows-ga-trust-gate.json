@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_4dba21c9e50a763f",
+      "source_name": "GitHub Agentic Workflows GA changelog, 28 October 2026",
+      "canonical": "https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available",
+      "category": "system-agentic-workflow-security",
+      "purpose": "Verify GitHub Agentic Workflows GA, read-only default, sandbox/firewall, safe outputs, threat scanning and license constraints",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free to read; GitHub Free supports the framework but the default Copilot CLI engine requires a Copilot license and inference may be billable",
+      "reliability_limits": "GA announcement does not prove this repository has the gh-aw extension, Copilot entitlement, authorized secrets, or a safe working integration",
+      "discovered_at": "2026-10-29T20:31:00+03:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_a84e3c76f0b91d25",
+      "source_name": "GitHub Agentic Workflows official quickstart and privileged PR event guidance",
+      "canonical": "https://github.github.com/gh-aw/setup/quick-start/",
+      "category": "system-agentic-workflow-security",
+      "purpose": "Verify gh-aw Markdown-to-Actions compilation, credential and budget prerequisites, and pull_request_target trust boundary",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Documentation free; configured AI engine credentials or license and GitHub Actions capacity may incur charges",
+      "reliability_limits": "Quickstart is documentation, not a security audit or proof of this repository's runner configuration",
+      "discovered_at": "2026-10-29T20:31:00+03:00",
+      "provenance": "verified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_2e94d16ab730c85f",
+      "title": "GitHub Agentic Workflows GA: sandboxed read-only defaults do not remove PR trust-boundary and AI billing gates",
+      "domain": "github-agentic-workflows-security",
+      "claim": "GitHub's 28 Oct 2026 GA announcement says Agentic Workflows compiles Markdown automation into GitHub Actions, with read-only agent permissions by default, sandbox/firewall, safe outputs and threat-detection review. The official quickstart requires an AI account/engine and repository permissions, warns that pull_request_target runs in a privileged base-repository context and must not check out untrusted PR-head code with secrets/write permissions, and notes the default Copilot CLI engine needs a Copilot license. Availability on GitHub Free is not free inference or proof of safe deployment.",
+      "evidence_status": "verified",
+      "decision": "AGENTIC_WORKFLOWS_TRUST_BUDGET_GATE: REVIEW_ONLY. Treat gh-aw as an optional future alternative for documentation, triage and read-only CI analysis, not as a bypass for PR #376's failing trusted-main auditor. Do not enable or migrate workflows until exact GitHub permissions, AI engine entitlement, budget, sandbox/safe-output behavior and trust boundary are reviewed. Prefer pull_request over privileged pull_request_target; never execute untrusted PR code with write tokens. Require reviewed PR, genuine negative security tests, current-main CI and a real system report containing source-linked applied_learning_ids before claiming adoption.",
+      "outcome": "pending",
+      "next_measurement": "Read-only inspect current workflows for pull_request_target usage and existing gh-aw files. If future pilot is approved, test one non-critical read-only workflow and compare actual cost, exact HEAD/merge-parent CI, safe-output checks and report artifact SHA. Do not install tools or spend credits now.",
+      "learned_at": "2026-10-29T20:31:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_4dba21c9e50a763f",
+        "src_a84e3c76f0b91d25"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "Continue existing free GitHub REST read-only audits and existing trusted-main security gates; never replace them with unverified agentic execution."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "AGENTIC_WORKFLOWS_TRUST_BUDGET_GATE"
+  ],
+  "evidence": {
+    "official_urls": [
+      "https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available",
+      "https://github.github.com/gh-aw/setup/quick-start/"
+    ],
+    "checked_at": "2026-10-29T20:31:00+03:00",
+    "note": "Distinct from Copilot Fusion orchestration and Actions dependency lockfiles. Additive review-only source; no workflow, credential, catalog, ledger or historical archive changes; PayoutLens excluded."
+  }
+}
