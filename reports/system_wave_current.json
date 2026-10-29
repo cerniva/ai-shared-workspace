@@ -545,11 +545,11 @@
       "owner_recorded": "chatgpt audit (not delegated)",
       "execution_authorized": false,
       "status": "CONTINUING",
-      "evidence": "Main upload ledger uploads=[]; MP4 structural prior probe only; 2026-09-30 Metricool remote video historical and not this artifact",
+      "evidence": "main knowledge/shorts/upload_ledger.json blob aa357952... uploads=[]; shorts/shorts_bugun.mp4 blob 14f34ef...; full media/rights QC and YouTube video_id NOT_VERIFIED",
       "test_command": "Full ffprobe/decode/captions/rights QC NOT_RUN this turn",
       "test_exit": null,
       "main_sha": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
-      "read_back": "no current YouTube upload ID for shorts/shorts_bugun.mp4",
+      "read_back": "upload ledger 0, MP4 exists; no upload",
       "next_step": "Run full media/rights QC before any upload",
       "retested_this_turn": false,
       "reviewed_this_turn": true
@@ -2475,13 +2475,19 @@
       "mp4": "shorts/shorts_bugun.mp4",
       "prior_structure_check": "PASS_PREVIOUS_TURN",
       "full_qc": "NOT_RUN",
-      "upload_ledger": "previously empty; not revalidated this turn",
-      "youtube_video_id": "NOT_VERIFIED"
+      "upload_ledger": "knowledge/shorts/upload_ledger.json",
+      "youtube_video_id": "NOT_VERIFIED",
+      "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
+      "upload_count": 0,
+      "mp4_blob": "14f34ef7110b6052a79d434bd80d7d087e6a4f0b",
+      "upload_readback": "PASS_ZERO_UPLOADS_NOT_PUBLICATION"
     },
     "finance": {
-      "altcoin_validated": "0/10 from previous report, NOT_RETESTED",
+      "altcoin_validated": "0/10 VERIFIED_MAIN",
       "score": "N/A",
-      "svg_production": "NOT_VERIFIED"
+      "svg_production": "NOT_VERIFIED; only reports/charts/2026-10-04-brent-friday-vs-prewar.svg located in main tree",
+      "calibration_path": "config/altcoin_panel_calibration.json",
+      "calibration_blob": "6bbeacf9482245304a056dbfe7507d08cb181aa9"
     },
     "audit_decision": {
       "before": "AUTO_MERGE_GATE_SUCCESS_COULD_BE_MISTAKEN_FOR_MERGED_AND_CI_INVENTORY_COMPLETE",
