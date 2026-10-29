@@ -1,0 +1,107 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "date_local": "2026-10-29T23:17:00+03:00",
+  "record_type": "ACTUAL_SOURCE_AUDIO_AND_COMPOSITION_QA_NOT_RENDER",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+  "source_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+  "srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+  "artifact_zip_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+  "artifact_id": 12909206804,
+  "analysis": {
+    "original_audio_decoded": true,
+    "pcm": "mono 16000Hz f32",
+    "rms_70p8_71p0": 0.018451,
+    "rms_71p0_71p2": 0.007708,
+    "rms_71p2_71p4": 0.001416,
+    "rms_71p4_71p6": 0.000764,
+    "old_cut_end_s": 71,
+    "new_candidate_end_s": 71.4,
+    "reason": "Nonzero audio energy continues past 71.0; possible spoken tail, not independently heard. New end 71.4 leaves 0.6s before SRT cue 10 at 72.",
+    "source_intervals_candidate": [
+      [
+        0,
+        28
+      ],
+      [
+        65,
+        71.4
+      ]
+    ],
+    "duration_s": 34.4,
+    "first_audio_100ms_rms_above_0p003_s": 0.8,
+    "source_sampled_portrait_frames": 13,
+    "center_crop_retained_width_fraction": 0.3167,
+    "blur_pad_foreground_height_fraction": 0.3167,
+    "visual": "0-28 mostly water bath, bags and tank; searing action only in last ~6.4s. Center crop clips context/flame; blurred full image occupies 31.7% of 9:16 screen height. Neither framing approved.",
+    "srt_readability": "4/5 selected cues over 17 cps; no verified word-level alignment",
+    "srt_license": "unverified; Commons footer is not sufficient to assign the exact subtitle license",
+    "third_party_music_voice": "unverified",
+    "food_safety": "cues 5,6,7 excluded; independent review pending"
+  },
+  "gates": {
+    "rights": "RIGHTS_BLOCKED",
+    "captions": "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "fact_check": "FACT_CHECK_BLOCKED",
+    "independent_review": "NONE",
+    "final_mp4": false,
+    "publish_ready": false,
+    "youtube_upload": false
+  },
+  "applied_learning_ids": [
+    {
+      "id": "learn_4decad368966e2e6",
+      "applied": "SHA-bound source, subtitle, artifact verified on bytes"
+    },
+    {
+      "id": "learn_ae8a18babc190373",
+      "applied": "Actual 13-frame crop/blur review blocks weak portrait hook"
+    },
+    {
+      "id": "learn_7ffa70a4b15fd05a",
+      "applied": "Do not treat CC BY file as component-level audio/voice clearance"
+    },
+    {
+      "id": "learn_e74d8dd625c30863",
+      "applied": "No inference of Shorts retention from raw daily views"
+    },
+    {
+      "id": "learn_961e3256bcf30279",
+      "applied": "No net margin or demand inference from 2 sessions/0 orders"
+    },
+    {
+      "id": "learn_0f6a35b37d68a20a",
+      "applied": "Gumroad private data unverified, draft-first only"
+    },
+    {
+      "id": "learn_af28044522e96790",
+      "applied": "No upload; privacy and channel gates remain closed"
+    }
+  ],
+  "plan_learnings": {
+    "executed_this_turn": false,
+    "reason": "Full repository unavailable in local runtime; only GitHub artifact materialized",
+    "prior_actions_run": 40900500860,
+    "prior_stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "prior_exit": 0
+  },
+  "commerce": {
+    "shopify_drafts": 9,
+    "shopify_active": 0,
+    "shopify_orders": 0,
+    "shopify_sessions_last_7d": 2,
+    "shopify_carts": 0,
+    "shopify_checkouts": 0,
+    "gumroad": "BLOCKED_USER_PRIVATE_DATA"
+  },
+  "youtube": {
+    "metricool_brand_id": 7082876,
+    "subscribers": 5,
+    "views_20261023": 2,
+    "views_20261025": 2,
+    "missing_days": "NULL_NOT_ZERO"
+  },
+  "next": "Independently listen to 71s speech tail and check component rights; verify SRT license; pick mobile 9:16 composition; implement and test 2-part renderer on PR; then actual MP4 and independent QA.",
+  "payoutlens_touched": false
+}
