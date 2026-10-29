@@ -1,0 +1,39 @@
+{
+  "handoff_id": "CI-40922469080",
+  "source": "ci-bekci",
+  "run_id": "40922631635",
+  "task": "CI failure in 'worker-orchestration-tests' run 40922469080: jobs test[Unit and integration tests/Knowledge integrity and race tests]; first error: test_real_repo_promotions_apply_and_are_idempotent (tests.test_knowledge_integrity.IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent)",
+  "generated_at": "2026-10-29T17:34:55+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-40922469080",
+    "evidence": [
+      {
+        "path": "tests/test_knowledge_integrity.py",
+        "source": "CI run 40922469080 log",
+        "details": "Failure reported in IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent during job 'Unit and integration tests/Knowledge integrity and race tests'."
+      }
+    ],
+    "factual_findings": [
+      "CI run 40922469080 failed in job 'Unit and integration tests/Knowledge integrity and race tests'.",
+      "The first error encountered in the test run was test_real_repo_promotions_apply_and_are_idempotent located in tests/test_knowledge_integrity.py."
+    ],
+    "hypotheses": [
+      "The promotion application process in tests/test_knowledge_integrity.py is non-idempotent when existing promotion metadata or cached state is present.",
+      "Race conditions or shared environment state during the parallel execution of 'Knowledge integrity and race tests' cause state pollution across test cases in tests/test_knowledge_integrity.py."
+    ],
+    "recommendation": "Review the promotion application logic and test setup in tests/test_knowledge_integrity.py to ensure that real repo promotions verify existing state before re-applying and that test fixtures clean up temporary state.",
+    "confidence": 0.85,
+    "next_action": "Fetch the full trace for tests/test_knowledge_integrity.py from CI run 40922469080 and execute 'pytest tests/test_knowledge_integrity.py -k test_real_repo_promotions_apply_and_are_idempotent' locally to reproduce.",
+    "timing": {
+      "started_at": "2026-10-29T17:35:07.583297+00:00",
+      "duration_ms": 11178
+    },
+    "usage": {
+      "input_tokens": 188,
+      "output_tokens": 401,
+      "total_tokens": 2102
+    }
+  }
+}

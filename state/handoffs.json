@@ -913,6 +913,23 @@
       "status": "open",
       "created_at": "2026-10-29T11:36:09+00:00",
       "updated_at": "2026-10-29T11:36:09+00:00"
+    },
+    {
+      "id": "CI-40922469080",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'worker-orchestration-tests' run 40922469080: jobs test[Unit and integration tests/Knowledge integrity and race tests]; first error: test_real_repo_promotions_apply_and_are_idempotent (tests.test_knowledge_integrity.IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent)",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-40922469080",
+      "status": "claimed",
+      "created_at": "2026-10-29T17:34:55+00:00",
+      "updated_at": "2026-10-29T17:34:55+00:00",
+      "claimed_at": "2026-10-29T17:34:55+00:00",
+      "notes": [
+        "2026-10-29T17:34:55+00:00 grok: team-worker devraldi",
+        "2026-10-29T17:34:55+00:00 team-worker: model sonucu state/team_work/CI-40922469080.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
