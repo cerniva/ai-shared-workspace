@@ -1,0 +1,91 @@
+name: shorts-nomiku-source-audit
+
+# CORE-03: research-only candidate; never renders, merges or uploads a Short.
+on:
+  push:
+    branches: [fix/shorts-original-audio-clip-20261020]
+    paths: [.github/workflows/shorts-nomiku-source-audit.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nomiku-source-audit:
+    if: github.ref == 'refs/heads/fix/shorts-original-audio-clip-20261020'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run learning gate with captured stdout and exit
+        shell: bash
+        run: |
+          mkdir -p audit
+          set +e
+          python3 scripts/plan_learnings.py video_shopify --require --out audit/plan_learnings.json >audit/plan_learnings.stdout 2>audit/plan_learnings.stderr
+          code=$?
+          set -e
+          echo "$code" > audit/plan_learnings.exit
+          cat audit/plan_learnings.stdout
+          cat audit/plan_learnings.stderr
+          exit "$code"
+      - name: Acquire original Wikimedia Commons source and English SRT
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/frames
+          media='https://upload.wikimedia.org/wikipedia/commons/f/f6/Sous_vide_overview_by_Nomiku_with_VO.webm'
+          subtitles='https://commons.wikimedia.org/w/index.php?title=TimedText%3ASous_vide_overview_by_Nomiku_with_VO.webm.en.srt&action=raw'
+          printf '%s\n' "$media" > audit/media_url.txt
+          printf '%s\n' "$subtitles" > audit/subtitle_url.txt
+          set +e
+          curl --fail --location --silent --show-error --retry 1 --connect-timeout 15 --max-time 180 -A 'ShortsResearchAudit/1.0 (rights verification)' -o audit/original.webm "$media" >audit/media.stdout 2>audit/media.stderr
+          media_code=$?
+          curl --fail --location --silent --show-error --retry 1 --connect-timeout 15 --max-time 45 -A 'ShortsResearchAudit/1.0 (rights verification)' -o audit/original.en.srt "$subtitles" >audit/subtitles.stdout 2>audit/subtitles.stderr
+          sub_code=$?
+          set -e
+          echo "$media_code" >audit/media.exit
+          echo "$sub_code" >audit/subtitles.exit
+          if [ "$media_code" -ne 0 ] || [ ! -s audit/original.webm ]; then
+            echo 'SOURCE_MEDIA_UNAVAILABLE: no clip' >&2
+            exit 1
+          fi
+          sha256sum audit/original.webm | tee audit/media.sha256
+          if ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height -of json audit/original.webm >audit/ffprobe.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('audit/ffprobe.json').read_text())
+          d=float(p['format']['duration'])
+          v=[s for s in p['streams'] if s['codec_type']=='video']
+          a=[s for s in p['streams'] if s['codec_type']=='audio']
+          assert 80<=d<=90, f'wrong source duration {d}'
+          assert len(v)==1 and len(a)==1, 'source must have exactly one video and audio track'
+          print(f'SOURCE_TECHNICAL_ONLY duration={d:.3f}s video={len(v)} audio={len(a)}')
+          PY
+          for t in 5 20 35 50 65 80; do
+            ffmpeg -nostdin -hide_banner -loglevel error -ss "$t" -i audit/original.webm -frames:v 1 -vf scale=320:-2 -y "audit/frames/frame_${t}.jpg"
+          done
+          ffmpeg -nostdin -hide_banner -i audit/original.webm -af silencedetect=noise=-40dB:d=1 -f null - >audit/audio.stdout 2>audit/audio.stderr || true
+          if [ "$sub_code" -eq 0 ] && [ -s audit/original.en.srt ] && grep -Eq '[0-9]{2}:[0-9]{2}:[0-9]{2}' audit/original.en.srt; then
+            sha256sum audit/original.en.srt >audit/subtitles.sha256
+            echo 'ENGLISH_SRT_DRAFT_ONLY: timed text acquired; actual speech alignment unverified'
+          else
+            rm -f audit/original.en.srt
+            echo 'TRANSCRIPT_BLOCKED: source-timed SRT not acquired' >&2
+          fi
+          echo 'RIGHTS_BLOCKED: CC BY 4.0 file-level license seen; voice/music/likeness must be independently checked' >&2
+          echo 'FRAMING_QA_BLOCKED: six samples not an approved 9:16 crop or full-duration motion QA' >&2
+          echo 'publish_ready=false; no rendered 9:16 MP4, no YouTube upload' >&2
+          exit 1
+      - name: Preserve research evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomiku-sous-vide-audit-only
+          path: audit/
+          if-no-files-found: warn
+          retention-days: 3
