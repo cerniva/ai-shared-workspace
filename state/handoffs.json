@@ -890,7 +890,9 @@
       "status": "open",
       "created_at": "2026-10-23T05:53:00+00:00",
       "updated_at": "2026-10-23T05:53:00+00:00",
-      "notes": []
+      "notes": [
+        "2026-10-29 22:37 TRT chatgpt AUDIT_ONLY: main bbba43794cb4269f5ae0d6427024961693f1262f; PR309 head 8039adb266c4da0a3e8f353e49a6e549d489b375 diverged behind145/ahead52 (GitHub compare); archive-heal.yml still git pull --rebase; no current-main combined race CI or production archive read-back. Existing PR309 reused; no merge, no main write. Runner CI40941798597 job123686803569 success is dispatch/observe only; bridge issue308 remains OPEN. Evidence: reports/system_wave_current.json audit_20261029_2237 on safe branch. Next: fresh-main race CI and archive production read-back. PayoutLens excluded."
+      ]
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
