@@ -1,0 +1,146 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "date_local": "2026-10-29T22:17:00+03:00",
+  "type": "ACTUAL_MEDIA_INTEGRITY_AND_9_16_QC_PREFLIGHT_NO_RENDER",
+  "pr": 269,
+  "head_before_write": "08f3a1db22f0732073f6686d4e88b64c7574423b",
+  "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "file_license": "CC BY 4.0 file-level; audio/voice/music/brands not independently cleared",
+    "source_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "srt_license": "CC BY-SA footer; specific authorship/rights unresolved",
+    "duration_s": 84.488
+  },
+  "artifact_integrity": {
+    "actions_run": 40900500860,
+    "artifact_id": 12909206804,
+    "github_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+    "downloaded_zip_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+    "digest_match": true,
+    "source_and_srt_hash_match": true
+  },
+  "edit": {
+    "source_intervals": [
+      [
+        0,
+        28
+      ],
+      [
+        65,
+        71
+      ]
+    ],
+    "duration_s": 34,
+    "original_audio": true,
+    "tts": false,
+    "output_mp4": null
+  },
+  "visual": {
+    "actual_source_9_16_center_crop_stills": 13,
+    "crop": "608x1080 at x=656",
+    "motion_1fps": [
+      {
+        "segment": "0-28",
+        "mean_abs_luma_diff": 22.05,
+        "pairs": 27
+      },
+      {
+        "segment": "65-71",
+        "mean_abs_luma_diff": 30.5,
+        "pairs": 5
+      }
+    ],
+    "finding": "Movement exists; water-bath shots weak hook, torch flame intermittently clipped; no full-length subject tracking/QA",
+    "status": "FRAMING_QA_BLOCKED"
+  },
+  "audio": {
+    "decoded_original_vorbis": true,
+    "level_windows_around_source_seconds": [
+      0,
+      28,
+      65,
+      71
+    ],
+    "finding": "RMS/peak level preflight only; not listening, spoken-word sync, music rights or independent QA",
+    "status": "TRANSCRIPT_SYNC_QA_BLOCKED"
+  },
+  "captions": {
+    "selected_source_cues": [
+      1,
+      2,
+      3,
+      4,
+      9
+    ],
+    "cue9_output_time": [
+      28,
+      34
+    ],
+    "chars_per_second": [
+      16.2,
+      19.8,
+      20.1,
+      20.3,
+      18
+    ],
+    "cues_over_17_cps": 4,
+    "decision": "Do not use as final captions; human-verified spoken alignment and splitting needed"
+  },
+  "rights": {
+    "third_party_audio_music_voice_marks": "UNVERIFIED",
+    "independent_review": "NONE",
+    "status": "RIGHTS_BLOCKED"
+  },
+  "factual": {
+    "excluded_unsafe_source_cues": [
+      5,
+      6,
+      7
+    ],
+    "status": "FACT_CHECK_BLOCKED"
+  },
+  "learned": {
+    "learn_4decad368966e2e6": "Cross-run artifact SHA256 digest explicitly matched; source and SRT SHA reverified",
+    "learn_7ffa70a4b15fd05a": "No release despite file CC BY license; component rights and originality not proven",
+    "learn_ae8a18babc190373": "Actual moving frames inspected and 4/5 caption cues too dense; block final",
+    "learn_e74d8dd625c30863": "Raw views not treated as retention",
+    "learn_961e3256bcf30279": "Zero orders and 2 sessions cannot validate demand or net margin",
+    "learn_0f6a35b37d68a20a": "Gumroad private account unverified",
+    "learn_af28044522e96790": "No upload or privacy read-back"
+  },
+  "plan_learnings": {
+    "run_this_turn": false,
+    "reason": "No full local repo; not simulated",
+    "prior_actions_run": 40900500860,
+    "prior_stdout": "plan_learnings tag=video_shopify count=20 error=None",
+    "prior_exit": 0
+  },
+  "shopify": {
+    "live_draft": 9,
+    "live_active": 0,
+    "live_orders": 0,
+    "sessions_2026_10_22_to_29": 2,
+    "cart_additions": 0,
+    "checkouts": 0,
+    "shipping_returns_fees_net_margin": "UNVERIFIED"
+  },
+  "youtube": {
+    "metricool_brand": 7082876,
+    "subscribers": 5,
+    "views_2026_10_23": 2,
+    "views_2026_10_25": 2,
+    "missing_dates": "NULL_NOT_ZERO"
+  },
+  "gumroad": "BLOCKED_USER_NO_PRIVATE_DATA",
+  "gates": {
+    "publish_ready": false,
+    "final_mp4": false,
+    "independent_qa": false,
+    "upload": false,
+    "merge": false
+  },
+  "next": "Independent rights/audio/caption license and food-safety review, speech-aligned shorter captions, two-segment renderer tests on PR branch, full-length 9:16 QC; no publish",
+  "payoutlens_touched": false
+}
