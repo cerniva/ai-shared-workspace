@@ -1,0 +1,85 @@
+name: shorts-cdc-source-audit
+
+# CORE-03 research-only source acquisition. No rendering, publication or merge.
+on:
+  push:
+    branches: [fix/shorts-original-audio-clip-20261020]
+    paths: [.github/workflows/shorts-cdc-source-audit.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cdc-source-audit:
+    if: github.ref == 'refs/heads/fix/shorts-original-audio-clip-20261020'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run learning gate and persist stdout stderr exit
+        shell: bash
+        run: |
+          mkdir -p audit
+          set +e
+          python3 scripts/plan_learnings.py video_shopify --require --out audit/plan_learnings.json > audit/plan_learnings.stdout 2> audit/plan_learnings.stderr
+          status=$?
+          set -e
+          echo "$status" > audit/plan_learnings.exit
+          cat audit/plan_learnings.stdout
+          cat audit/plan_learnings.stderr
+          exit "$status"
+      - name: Download exact CDC archive MP4 and transcript (research only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          media_url='https://stacks.cdc.gov/view/cdc/53796/cdc_53796_DS3.mp4'
+          transcript_url='https://www.cdc.gov/cdctv/diseaseandconditions/outbreaks/tiny-turtles-transcript.html'
+          printf '%s\n' "$media_url" > audit/media_url.txt
+          printf '%s\n' "$transcript_url" > audit/transcript_url.txt
+          set +e
+          curl --fail --location --silent --show-error --retry 1 --connect-timeout 15 --max-time 240 --output audit/original.mp4 "$media_url" >audit/media.stdout 2>audit/media.stderr
+          media_exit=$?
+          curl --fail --location --silent --show-error --retry 1 --connect-timeout 15 --max-time 90 --output audit/transcript.html "$transcript_url" >audit/transcript.stdout 2>audit/transcript.stderr
+          transcript_exit=$?
+          set -e
+          echo "$media_exit" > audit/media.exit
+          echo "$transcript_exit" > audit/transcript.exit
+          if [ "$media_exit" -ne 0 ] || [ ! -s audit/original.mp4 ]; then
+            echo 'SOURCE_MEDIA_UNAVAILABLE; no SHA or clip' >&2
+            exit 1
+          fi
+          test "$(wc -c < audit/original.mp4)" -gt 100000
+          sha256sum audit/original.mp4 | tee audit/media.sha256
+          file audit/original.mp4 | tee audit/media.file
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height,start_time,duration -of json audit/original.mp4 > audit/ffprobe.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('audit/ffprobe.json').read_text())
+          duration=float(p['format']['duration'])
+          video=[s for s in p['streams'] if s['codec_type']=='video']
+          audio=[s for s in p['streams'] if s['codec_type']=='audio']
+          assert 110 <= duration <= 115, f'unexpected edition/duration: {duration}'
+          assert len(video)==1 and len(audio)==1, (video,audio)
+          print(f'SOURCE_TECHNICAL_ONLY duration={duration:.3f} video={len(video)} audio={len(audio)}')
+          print('RIGHTS_BLOCKED: third-party audio and person rights not independently checked')
+          print('TRANSCRIPT_BLOCKED: timed English captions and spoken sync not checked')
+          print('FRAMING_QA_BLOCKED: 9:16 crop not reviewed')
+          print('publish_ready=false')
+          PY
+          if [ "$transcript_exit" -ne 0 ] || [ ! -s audit/transcript.html ]; then
+            echo 'TRANSCRIPT_BLOCKED: official transcript URL unavailable' >&2
+            exit 1
+          fi
+          sha256sum audit/transcript.html > audit/transcript.sha256
+          echo 'Transcript acquired; timed captions and rights still unverified.'
+      - name: Preserve acquisition evidence (not publication approval)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cdc-tiny-turtles-audit-only
+          path: audit/
+          if-no-files-found: warn
+          retention-days: 3
