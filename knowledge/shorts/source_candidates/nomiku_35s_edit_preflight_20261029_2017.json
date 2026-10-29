@@ -1,0 +1,127 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "date_local": "2026-10-29T20:17:00+03:00",
+  "record_type": "RESEARCH_ONLY_TWO_SEGMENT_EDIT_AND_LICENSE_PREFLIGHT",
+  "pr": 269,
+  "branch": "fix/shorts-original-audio-clip-20261020",
+  "base_candidate": "knowledge/shorts/source_candidates/nomiku_sous_vide_rights_pending.json",
+  "source": {
+    "title": "Sous vide overview by Nomiku with VO",
+    "author": "Pkwong89",
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "file_license": "CC BY 4.0 (file page declaration; not component-level clearance)",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "srt_url": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+    "srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9"
+  },
+  "license_review": {
+    "file": "File page attributes author Pkwong89, own work, CC BY 4.0; share and adapt allowed with attribution/license link/change notice.",
+    "timed_text": "TimedText page footer states unstructured text is available under CC BY-SA, additional terms may apply; do NOT assume source video CC BY 4.0 automatically licenses separately edited SRT. Confirm TimedText revision history, authorship and exact reuse terms independently.",
+    "third_party_voice_music_people_brand": "UNVERIFIED: do not assert none_detected or cleared; independent component review required.",
+    "sources": [
+      "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+      "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+      "https://commons.wikimedia.org/wiki/Commons:Timed_Text"
+    ]
+  },
+  "edit_decision": {
+    "status": "NOT_APPROVED_FOR_RENDER_OR_PUBLICATION",
+    "purpose": "Exclude source cues 5-7 containing unsupported food-safety generalizations; preserve original English audio, no TTS.",
+    "segments": [
+      {
+        "source_start_s": 0,
+        "source_end_s": 28,
+        "duration_s": 28,
+        "source_cues": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "output_start_s": 0,
+        "output_end_s": 28
+      },
+      {
+        "source_start_s": 65,
+        "source_end_s": 72,
+        "duration_s": 7,
+        "source_cues": [
+          9
+        ],
+        "output_start_s": 28,
+        "output_end_s": 35
+      }
+    ],
+    "total_duration_s": 35,
+    "excluded_source_cues": [
+      5,
+      6,
+      7
+    ],
+    "required_renderer_change": "Current PR #269 renderer accepts a single contiguous cut; two-segment concatenation needs separately tested branch-only implementation, not pretend main supports it.",
+    "timed_caption_mapping_research_only": [
+      {
+        "source_cue": 1,
+        "output_window_s": [
+          0,
+          8
+        ]
+      },
+      {
+        "source_cue": 2,
+        "output_window_s": [
+          10,
+          15
+        ]
+      },
+      {
+        "source_cue": 3,
+        "output_window_s": [
+          16,
+          24
+        ]
+      },
+      {
+        "source_cue": 4,
+        "output_window_s": [
+          25,
+          28
+        ]
+      },
+      {
+        "source_cue": 9,
+        "output_window_s": [
+          28,
+          34
+        ]
+      }
+    ],
+    "caption_quality": "Original cue 3/4 mobile readability and spoken sync require real audio-aligned splitting. No fabricated timings or approved SRT.",
+    "seam_risk": "28s cut to source 65s: verify no clipped words, music discontinuity, abrupt visual jump, lip sync, and audio levels; 34-35s trailing section may lack subtitle, do not fill with invented words.",
+    "framing": "9:16 center crop of 1920x1080 source may remove hands, text and brand; full-duration independent QC needed."
+  },
+  "attribution_draft_not_published": "Sous vide overview by Nomiku with VO — Pkwong89, CC BY 4.0, https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm ; edited into two segments, reframed 9:16 and captioned in English. License: https://creativecommons.org/licenses/by/4.0/ . No endorsement implied. Subtitle credits/license must be added only after separate verification.",
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Keep exact WebM/SRT SHA binding, not Commons SHA-1 or archive ZIP digest.",
+    "learn_ae8a18babc190373": "No SRT approval until real speech timing and CPS/line checks pass.",
+    "learn_53ca8fb858703eb6": "Require moving 9:16 full-duration framing, not stills alone.",
+    "learn_af28044522e96790": "publish_ready=false and no upload until independent rights/media QA and verified upload scope.",
+    "learn_991df8ed39245aef": "Shopify unit price is not net margin; no price action without shipping/returns/fees."
+  },
+  "gates": {
+    "rights": "RIGHTS_BLOCKED",
+    "captions": "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "facts": "FACT_CHECK_BLOCKED",
+    "independent_review": "PENDING",
+    "publish_ready": false
+  },
+  "artifacts": {
+    "final_mp4": null,
+    "final_mp4_sha256": null,
+    "video_id": null
+  },
+  "next": "Independent source/component rights and caption-license review; verify exact spoken audio; implement/test two-interval concat on PR branch; full-duration MP4 QA and read-back; no merge/publish without authorization."
+}
