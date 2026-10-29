@@ -100,5 +100,21 @@ class AuditorRunScopeTests(unittest.TestCase):
         self.assertTrue(td.check_ci_pending(checks, False, True))
 
 
+    def test_adjacent_evidence_headers_are_independent(self):
+        # The second CI line remains a real failure; it must not be counted
+        # twice as a failure of the preceding successful Test record.
+        body = "HO-1\\nTest: 801 passed\\nCI: historical run failed\\n"
+        reasons = td.check_evidence_words(body)
+        self.assertEqual(len(reasons), 1, reasons)
+        self.assertIn("evidence line 3", reasons[0])
+
+    def test_multiline_current_failure_still_blocks(self):
+        # A continuation line with a real failed result remains fail-closed.
+        body = "HO-1\\nTest: run summary\\ncurrent-head job failed\\n"
+        reasons = td.check_evidence_words(body)
+        self.assertEqual(len(reasons), 1, reasons)
+        self.assertIn("evidence line 2", reasons[0])
+
+
 if __name__ == "__main__":
     unittest.main()
