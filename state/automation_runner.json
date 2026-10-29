@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-28T22:34:26+00:00",
+  "generated_at": "2026-10-29T05:47:05+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 40727800259,
+          "id": 40788045529,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-28T16:37:32Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-10-28T23:32:16Z",
+          "event": "workflow_run"
         }
       },
       "dispatched": [
@@ -58,10 +58,10 @@
     "knowledge": {
       "workflows": {
         "knowledge-promote.yml": {
-          "id": 40642279050,
+          "id": 40787996214,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-28T06:10:40Z",
+          "created_at": "2026-10-28T23:31:50Z",
           "event": "push"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 40727815899,
+          "id": 40787996295,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-28T16:37:38Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-10-28T23:31:51Z",
+          "event": "push"
         },
         "handoff-audit.yml": {
-          "id": 40771001788,
+          "id": 40799119457,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-28T21:19:37Z",
+          "created_at": "2026-10-29T01:13:44Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 40751767567,
+          "id": 40809406259,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-28T19:09:39Z",
+          "created_at": "2026-10-29T02:57:44Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız olduğu için sağlıksız görünmektedir. Ayrıca aynı projede yer alan shorts-free-render.yml iş akışı daha önce hiç çalıştırılmamıştır. Finans, bilgi ve sistem alanlarındaki diğer otomasyonlar ise tamamen sağlıklı görünmektedir."
+  "model_summary": "video_shorts_shopify_gumroad kategorisindeki youtube-upload.yml iş akışı başarısız olmuş, shorts-free-render.yml ise hiç çalıştırılmamıştır. Diğer tüm kategorilerdeki otomasyonlar sorunsuz çalışırken yalnızca bu iki akış sağlıksız görünmektedir."
 }
