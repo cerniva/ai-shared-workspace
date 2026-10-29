@@ -104,11 +104,13 @@
   },
   "attribution_draft_not_published": "Sous vide overview by Nomiku with VO — Pkwong89, CC BY 4.0, https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm ; edited into two segments, reframed 9:16 and captioned in English. License: https://creativecommons.org/licenses/by/4.0/ . No endorsement implied. Subtitle credits/license must be added only after separate verification.",
   "applied_learning_ids": {
-    "learn_4decad368966e2e6": "Keep exact WebM/SRT SHA binding, not Commons SHA-1 or archive ZIP digest.",
-    "learn_ae8a18babc190373": "No SRT approval until real speech timing and CPS/line checks pass.",
-    "learn_53ca8fb858703eb6": "Require moving 9:16 full-duration framing, not stills alone.",
-    "learn_af28044522e96790": "publish_ready=false and no upload until independent rights/media QA and verified upload scope.",
-    "learn_991df8ed39245aef": "Shopify unit price is not net margin; no price action without shipping/returns/fees."
+    "learn_4decad368966e2e6": "Verified prior source/SRT hashes are necessary; any GitHub Actions artifact digest mismatch must explicitly fail closed rather than treating successful download as integrity proof.",
+    "learn_ae8a18babc190373": "HO-04 research packet gate: source rights, originality, storyboard, real spoken-language subtitle sync, full MP4 QC remain mandatory; no release from a draft edit plan.",
+    "learn_7ffa70a4b15fd05a": "Commercial rights and reused-content originality must be reviewed separately; original music/voice components are not assumed covered by a generic file license.",
+    "learn_af28044522e96790": "If an upload ever becomes authorized, explicitly set privacyStatus=private at first, never rely on YouTube default public; currently no upload or video_id.",
+    "learn_961e3256bcf30279": "HO-05 Shopify data gate: need actual variant inventoryItem.unitCost, shipping/fees/returns before any net-margin claim; current product search does not expose cost.",
+    "learn_0f6a35b37d68a20a": "HO-06 Gumroad draft-first: no private sales or draft claims without authorized access; do not publish or enable.",
+    "learn_e74d8dd625c30863": "YouTube growth decisions require Stayed-to-watch and engaged-view AVD/APV, unavailable from current Metricool response; do not infer retention from 2 raw views."
   },
   "gates": {
     "rights": "RIGHTS_BLOCKED",
@@ -123,5 +125,6 @@
     "final_mp4_sha256": null,
     "video_id": null
   },
-  "next": "Independent source/component rights and caption-license review; verify exact spoken audio; implement/test two-interval concat on PR branch; full-duration MP4 QA and read-back; no merge/publish without authorization."
+  "next": "Independent source/component rights and caption-license review; verify exact spoken audio; implement/test two-interval concat on PR branch; full-duration MP4 QA and read-back; no merge/publish without authorization.",
+  "learning_verification": "Re-read main knowledge/learning_ledger.json on 2026-10-29: all IDs above exist; earlier generic mappings of learn_53ca8fb858703eb6 (football/aviation tests) and learn_991df8ed39245aef (Catalog list_price context) are not evidence for crop or margin and are deliberately excluded."
 }
