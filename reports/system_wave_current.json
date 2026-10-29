@@ -572,7 +572,11 @@
     "main_sha": "e7628fab71073449c14ea4e4565d12614f2813e1",
     "summary": "LOADER_SUCCESS_ONLY; REQUIRED_AUDITOR_FAIL; TEAM_WORKER_SKIPPED; P0_AND_BRIDGE_OPEN",
     "bridge_failure": "OPEN",
-    "audit_key": "audit_20261029_1434"
+    "audit_key": "audit_20261029_1434",
+    "main_sha_at_audit": "e7628fab71073449c14ea4e4565d12614f2813e1",
+    "main_sha_end": "94e08d8e4fe56b564d3bcf34203176fef9ba2c20",
+    "main_changed_during_audit": true,
+    "branch_state_not_main": true
   },
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
@@ -2231,6 +2235,27 @@
       "reason": "No production consumer/read-back or current-main combined P0 race CI; local git DNS failed",
       "attempted": "GitHub main files, tasks/capacity, messages/fallback, PRs, CI jobs/logs, loader stdout, upload ledger, source metadata",
       "required": "Authorized real Reporting API batch+checkpoint readback, cross-run artifact digest fail-closed runtime, PR #309 current-main race CI, MP4 full QC, verified upload/video ID, SVG output readback"
+    },
+    "main_sha_at_audit": "e7628fab71073449c14ea4e4565d12614f2813e1",
+    "main_sha_end": "94e08d8e4fe56b564d3bcf34203176fef9ba2c20",
+    "main_changed_during_audit": true,
+    "main_new_commit": {
+      "sha": "94e08d8e4fe56b564d3bcf34203176fef9ba2c20",
+      "subject": "chore(improvement-bot): report 2026-10-29",
+      "changed_paths": [
+        "messages/improvement-latest.md",
+        "state/handoffs.json",
+        "state/improvement_report.json"
+      ],
+      "readback": "GitHub commit API",
+      "not_reaudited": "new improvement-bot handoff not included in existing 20-slot wave"
+    },
+    "handoff_inventory": {
+      "main_count_end": 56,
+      "main_open_end": 20,
+      "branch_count": 55,
+      "branch_scope": "AUDIT_BRANCH_ONLY; no direct main mutation",
+      "new_main_id": "HO-IMP-20261029-slow-improvement-bot"
     }
   }
 }
