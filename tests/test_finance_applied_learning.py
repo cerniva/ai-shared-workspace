@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from projects.finance import altcoin_panel as ap
+from scripts.knowledge_bridge import CatalogError
 
 
 class FinanceAppliedLearningTests(unittest.TestCase):
@@ -14,6 +15,11 @@ class FinanceAppliedLearningTests(unittest.TestCase):
     def test_actual_decision_output_records_learning_and_blocks_unvalidated_scores(self):
         out = ap.altseason_panel(self.values, self.cfg)
         self.assertEqual(out["applied_learning_ids"], [ap.FINANCE_ALTSEASON_LEARNING_ID])
+        from scripts.plan_learnings import plan_learnings
+        active = {row["learning_id"]: row for row in plan_learnings("finance")["learnings"]}
+        self.assertEqual(out["applied_learning_source_ids"], {
+            ap.FINANCE_ALTSEASON_LEARNING_ID:
+                sorted(set(active[ap.FINANCE_ALTSEASON_LEARNING_ID]["source_ids"]))})
         self.assertEqual(out["scored"], 0)
         self.assertEqual(out["composite_score"], "N/A")
         self.assertTrue(all(row["score"] == "N/A" for row in out["indicators"].values()))
@@ -60,6 +66,11 @@ class FinanceAppliedLearningTests(unittest.TestCase):
         mock_loader.return_value = {"tag": "finance", "error": None,
                                     "learnings": [row, copy.deepcopy(row)]}
         with self.assertRaisesRegex(ValueError, "bridge_failure: .*duplicate"):
+            ap.altseason_panel(self.values, self.cfg)
+
+    @patch("scripts.knowledge_bridge.SourceCatalog.validate", side_effect=CatalogError("unstable canonical source_id"))
+    def test_invalid_catalog_blocks_decision(self, _invalid_catalog):
+        with self.assertRaisesRegex(ValueError, "bridge_failure: finance source catalog unavailable"):
             ap.altseason_panel(self.values, self.cfg)
 
     def test_calibration_drift_blocks_decision(self):
