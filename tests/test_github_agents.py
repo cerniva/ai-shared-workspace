@@ -87,11 +87,48 @@ class AutomationRunnerTests(Base):
                 self.assertFalse(entry["production_verified"])
                 self.assertEqual(entry["decision_before"], "workflow_status_observed")
                 self.assertEqual(entry["decision_after"], "PRODUCTION_NOT_VERIFIED")
-                self.assertEqual(entry["applied_learning_ids"], [])
+                if plan == "system":
+                    self.assertEqual(entry["applied_learning_ids"],
+                                     [ga.SYSTEM_REQUIRED_CHECK_LEARNING_ID])
+                    self.assertEqual(entry["applied_learning_source_ids"],
+                                     ["src_c99620eb8f764049"])
+                    self.assertFalse(entry["required_pr_check_verified"])
+                    self.assertNotIn("learning_bridge_failure", entry)
+                else:
+                    self.assertEqual(entry["applied_learning_ids"], [])
                 self.assertTrue(entry["verification_reason"])
         persisted = json.loads((self.root / "state" / "automation_runner.json").read_text())
         self.assertEqual(persisted["overall_decision"], "PRODUCTION_NOT_VERIFIED")
         self.assertEqual(persisted["automations"]["finance"]["applied_learning_ids"], [])
+
+    def test_system_learning_missing_fails_closed_in_actual_report(self):
+        ledger_path = self.root / "knowledge" / "learning_ledger.json"
+        doc = json.loads(ledger_path.read_text(encoding="utf-8"))
+        doc["learnings"] = [row for row in doc["learnings"]
+                            if row.get("learning_id") != ga.SYSTEM_REQUIRED_CHECK_LEARNING_ID]
+        ledger_path.write_text(json.dumps(doc), encoding="utf-8")
+        rep = ga.automation_runner(root=self.root, gh=ga.GitHub(None, None),
+                                   adapter=None, dispatch=False)
+        system = rep["automations"]["system"]
+        self.assertEqual(system["applied_learning_ids"], [])
+        self.assertIn("bridge_failure", system["learning_bridge_failure"])
+        self.assertFalse(system["required_pr_check_verified"])
+        self.assertFalse(system["production_verified"])
+        persisted = json.loads((self.root / "state" / "automation_runner.json").read_text())
+        self.assertEqual(persisted["automations"]["system"]["applied_learning_ids"], [])
+
+    def test_system_unverified_source_cannot_be_claimed_as_applied(self):
+        path = self.root / "knowledge" / "source_catalog.json"
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for row in doc["sources"]:
+            if row["source_id"] == "src_c99620eb8f764049":
+                row["provenance"] = "unverified"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        rep = ga.automation_runner(root=self.root, gh=ga.GitHub(None, None),
+                                   adapter=None, dispatch=False)
+        system = rep["automations"]["system"]
+        self.assertEqual(system["applied_learning_ids"], [])
+        self.assertIn("source not verified", system["learning_bridge_failure"])
 
     def test_dispatch_targets_exist_and_are_not_publishers(self):
         for spec in ga.AUTOMATIONS.values():
