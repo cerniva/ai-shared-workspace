@@ -839,11 +839,12 @@
   ],
   "handoff_write": {
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
-    "commit": "598be854b262ae66341ca9bab4a5f67d5a707aee",
-    "blob": "348587e76b836320a6e71a02a0e693d08fb4be0d",
+    "commit": "a6c441efc77bec2e1f30c0103ef055b39f46dfe8",
+    "path": "state/handoffs.json",
+    "blob": "a2cb21fe45f90ebf46395654aca6938c70116e28",
     "read_back": "PASS",
-    "count": 56,
-    "scope": "existing CI-39269730285 P0 handoff updated on safe branch; no new handoff"
+    "existing_id": "CI-39269730285",
+    "handoffs_preserved": 56
   },
   "local_git": {
     "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
@@ -3497,8 +3498,8 @@
     "actual_consumer_positive_negative": "NOT_VERIFIED",
     "grok_ack": "NOT_SENT",
     "payoutlens_touched": false,
-    "report_read_back": "PENDING",
-    "handoff_read_back": "PENDING"
+    "report_read_back": "PASS previous audit report commit e0615d2c549b91f9177b763cfce19c9c24243fec blob 46bab482832be868b17ccb294d6e8fa7def01f58",
+    "handoff_read_back": "PASS commit a6c441efc77bec2e1f30c0103ef055b39f46dfe8 blob a2cb21fe45f90ebf46395654aca6938c70116e28"
   },
   "audit_20261030_0041": {
     "at": "2026-10-29T21:40:57Z",
@@ -3794,6 +3795,19 @@
     },
     "local_git_exit": 128,
     "local_git_error": "DNS",
-    "payoutlens_touched": false
+    "payoutlens_touched": false,
+    "persistence": {
+      "report_first_write": {
+        "commit": "e0615d2c549b91f9177b763cfce19c9c24243fec",
+        "blob": "46bab482832be868b17ccb294d6e8fa7def01f58",
+        "read_back": "PASS"
+      },
+      "handoff": {
+        "commit": "a6c441efc77bec2e1f30c0103ef055b39f46dfe8",
+        "blob": "a2cb21fe45f90ebf46395654aca6938c70116e28",
+        "read_back": "PASS"
+      },
+      "scope": "safe branch only, no main writes"
+    }
   }
 }
