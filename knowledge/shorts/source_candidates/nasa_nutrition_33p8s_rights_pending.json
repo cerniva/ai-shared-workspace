@@ -42,16 +42,17 @@
     "decoded_media": "QC_BLOCKED",
     "independent_review": "PENDING",
     "youtube_upload": "NOT_ATTEMPTED",
-    "caption_readability": "TRANSCRIPT_BLOCKED"
+    "caption_readability": "TRANSCRIPT_BLOCKED",
+    "source_reproducibility": "SOURCE_MEDIA_UNAVAILABLE"
   },
   "applied_learning_ids": {
     "learn_ae8a18babc190373": "Actual SRT 23 cues screened; 11 exceed 20 CPS; PR #269 renderer now rejects unreadably fast cues before FFmpeg; original wording preserved pending human rights/sync review.",
-    "learn_4decad368966e2e6": "Actual original WebM SHA-256 verified by GitHub Actions artifact and local extraction; final MP4 SHA remains null.",
+    "learn_4decad368966e2e6": "Historical source/ZIP hashes remain recorded, but the 2026-10-29 run could not obtain original bytes; first-page artifact listing returned zero. Current SHA cannot be revalidated; fail closed until reacquired, byte count and SHA matched.",
     "learn_af28044522e96790": "publish_ready=false and upload NOT_ATTEMPTED; privacy, target channel and OAuth not assumed.",
     "learn_e74d8dd625c30863": "No retention/engaged-view conclusion from sparse public views."
   },
   "cost_eur": 0,
-  "updated_on": "2026-10-27",
+  "updated_on": "2026-10-29",
   "review_required": "A separate reviewer must inspect exact downloaded source bytes, audio/music/person/insignia rights, Commons TimedText license, actual spoken sync, full-length moving visuals and 9:16 composition before publish.",
   "source_media_bytes": 46822069,
   "source_media_duration_seconds": 181.561,
@@ -80,5 +81,16 @@
     "worst_cue_id": 15,
     "worst_cps": 29.96,
     "action": "No automatic rewording or retiming. Licensed caption derivative rights and human speech synchronization review required."
+  },
+  "source_artifact_current_availability": {
+    "checked_at": "2026-10-29T07:17:00Z",
+    "workflow_run_id": 40420896015,
+    "artifact_id": 12697513894,
+    "observed_artifacts_in_first_page": 0,
+    "status": "NOT_LISTED_FIRST_PAGE",
+    "caveat": "GitHub connector returns first page only; absence is not a definitive proof of expiration. Recorded expiry timestamp was 2026-10-28T23:37:03Z.",
+    "current_source_bytes_available_to_this_run": false,
+    "current_sha256_recomputed_this_run": false,
+    "action": "Reacquire exact original WebM from canonical Commons source; verify 46,822,069 bytes and recorded SHA-256 before any further source-specific QC. Never substitute a different edition or fabricate rights."
   }
 }
