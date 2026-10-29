@@ -1,0 +1,97 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "date_local": "2026-10-30T02:17:00+03:00",
+  "record_type": "ACTUAL_MEDIA_SHA_BOUND_AUDIO_BOUNDARY_AND_SRT_FORMAT_GATE_NOT_RENDER",
+  "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "artifact_id": 12909206804,
+    "artifact_run_id": 40900500860,
+    "artifact_zip_sha256": "7538aa58a807044c9a54f3d039bacfe1050d8c5c3533ef82468f6020c7440704",
+    "media_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "subtitle_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "byte_hashes_verified": true
+  },
+  "actual_audio_probe": {
+    "method": "ffmpeg 16kHz mono f32 decode, RMS on actual source bytes; RMS is not spoken-word recognition",
+    "rms_27p0_27p6": 0.009345,
+    "rms_28p0_28p4": 0.000901,
+    "rms_64p8_65p1": 0.000473,
+    "rms_65p2_65p6": 0.019437,
+    "rms_70p8_71p0": 0.018451,
+    "rms_71p4_71p8": 0.000657,
+    "rms_72p2_72p6": 0.038853
+  },
+  "candidate": {
+    "previous_duration_s": 34.4,
+    "new_segments_source_seconds": [
+      [
+        0,
+        28.4
+      ],
+      [
+        65,
+        71.4
+      ]
+    ],
+    "new_duration_s": 34.8,
+    "reason": "First cut extended by 0.4s into low-energy tail, second starts/ends at low-energy windows; no speech alignment or narrative continuity proof",
+    "status": "RESEARCH_ONLY"
+  },
+  "subtitle_format_gate": {
+    "source_timestamps": "11/11 cues use HH:MM:SS without milliseconds",
+    "pr_269_parser": "TIME_RE and CUE_RE require HH:MM:SS,mmm",
+    "strict_regex_matches_on_actual_source_srt": 0,
+    "source_whole_second_timestamp_matches": 11,
+    "selected_cue_ids": [
+      1,
+      2,
+      3,
+      4,
+      9
+    ],
+    "selected_cue_single_line_lengths": [
+      130,
+      99,
+      161,
+      61,
+      108
+    ],
+    "renderer_max_visible_chars_per_line": 42,
+    "decision": "TRANSCRIPT_FORMAT_BLOCKED; do not pass raw source SRT as render-ready or silently invent subcue timings"
+  },
+  "framing": {
+    "source_frames_seconds": [
+      27.8,
+      28.3,
+      65,
+      65.2,
+      71.4
+    ],
+    "observation": "Tank-to-torch jump remains abrupt; 9:16 center crop risks excluding flame. No independent full-duration portrait QA"
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Actual artifact ZIP, WebM and SRT digests matched known source; no digest bypass.",
+    "learn_ae8a18babc190373": "Source frame samples confirm scene cut but no 9:16 approval; retain framing veto.",
+    "learn_7ffa70a4b15fd05a": "File-level CC BY 4.0 does not independently clear component voice/music or subtitle authorship.",
+    "learn_53ca8fb858703eb6": "Motion/visual hook still weak in first 28s; no retention success claimed.",
+    "learn_e74d8dd625c30863": "No viewer retention claim from public views."
+  },
+  "gates": {
+    "rights": "RIGHTS_BLOCKED",
+    "subtitle": "TRANSCRIPT_FORMAT_BLOCKED_AND_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "food_safety": "FACT_CHECK_BLOCKED",
+    "independent_review": "NONE",
+    "final_mp4": null,
+    "publish_ready": false,
+    "youtube_upload": false
+  },
+  "execution": {
+    "local_audio_decode_exit": 0,
+    "local_timestamp_regex_assertions_exit": 0,
+    "plan_learnings_executed_this_run": false,
+    "reason": "Full repo unavailable in local container (git ls-remote DNS exit 128). Historical GitHub Actions #40900500860 plan_learnings stdout count=20 exit=0; not a new run."
+  },
+  "next": "Independently clear voice/music and subtitle license, normalize timestamps only after exact cue/speech audit, split long caption lines with verified timing, review mobile framing and editorial cut, implement two-segment support on PR with CI/read-back; no merge/upload."
+}
