@@ -3,13 +3,20 @@ name: shorts-source-media-audit
 # Audit-only acquisition. Never renders, publishes, merges, or assumes rights clearance.
 on:
   workflow_dispatch:
+  # One safe re-acquisition on this PR branch when the audit workflow changes.
+  # No production render, publishing, or main-branch execution.
+  push:
+    branches:
+      - fix/shorts-original-audio-clip-20261020
+    paths:
+      - .github/workflows/shorts-source-media-audit.yml
 
 permissions:
   contents: read
 
 jobs:
   source-media-audit:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 269
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/fix/shorts-original-audio-clip-20261020')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -72,10 +79,22 @@ jobs:
           print("FRAMING_QA_BLOCKED: 9:16 crop not checked")
           print("publish_ready=false")
           PY
+      - name: Preserve plan-learning stdout, stderr and exit even when acquisition fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nasa-nutrition-acquisition-logs
+          path: |
+            audit/plan_learnings.*
+            audit/source.sha256
+            audit/source.expected.sha256
+            audit/ffprobe.json
+          if-no-files-found: warn
+          retention-days: 7
       - name: Save original media and technical evidence for independent review
         uses: actions/upload-artifact@v4
         with:
           name: nasa-nutrition-original-rights-audit
           path: audit/
           if-no-files-found: error
-          retention-days: 2
+          retention-days: 7
