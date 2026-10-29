@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_178a9fb90b64508e",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_3bf49e7d372522c9",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_3f9a7bf27e86813c",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_4a04a6e2373e869e",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_7da8b77b5544370e",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_80e052e409d61960",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_c37e6ac887e2cee2",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_ce43d72df653a221",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    },
+    {
+      "source_id": "src_e66787535ca12866",
+      "verified_at": "2026-10-29T10:04:42+00:00"
+    }
+  ]
+}
