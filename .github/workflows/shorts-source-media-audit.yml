@@ -43,6 +43,18 @@ jobs:
           fi
           command -v ffprobe
           sha256sum audit/source.webm | tee audit/source.sha256
+          # Compare the downloaded bytes to the reviewed candidate's pinned SHA.
+          # Merely printing sha256sum is not an integrity gate.
+          expected_sha256="$(python3 -c 'import json; from pathlib import Path; print(json.loads(Path("knowledge/shorts/source_candidates/nasa_nutrition_33p8s_rights_pending.json").read_text(encoding="utf-8"))["source_sha256"])')"
+          if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "SOURCE_HASH_EXPECTATION_INVALID" >&2
+            exit 1
+          fi
+          printf '%s  %s\\n' "$expected_sha256" audit/source.webm > audit/source.expected.sha256
+          if ! sha256sum --check audit/source.expected.sha256; then
+            echo "SOURCE_HASH_MISMATCH: downloaded bytes differ from pinned candidate" >&2
+            exit 1
+          fi
           ffprobe -v error -show_entries format=duration,size -show_entries stream=index,codec_type,codec_name,width,height -of json audit/source.webm > audit/ffprobe.json
           python3 - <<'PY'
           import json
