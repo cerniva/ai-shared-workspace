@@ -6408,5 +6408,32 @@
       "per_task_retest": false
     },
     "payoutlens_touched": false
+  },
+  "latest_audit_20261030_2241": {
+    "timestamp": "2026-10-30T22:41:45+03:00",
+    "main_sha": "fc000b5fa1a06e09dd84c4b4718cb4f7b8faabbc",
+    "runner_path": "state/automation_runner.json",
+    "runner_blob": "f9f89a8e91f4fe9db8cc23926a58f8654b444e00",
+    "ledger_blob": "b2ebca4fddee76dfebac5abd61f6ec8e9febd606",
+    "source_catalog_blob": "937824ee275a3ff45608fa9a5a147ab3080facc8",
+    "decision_before": "P0 archive open; learning bridge unverified",
+    "decision_after": "P0 archive remains open; learning bridge remains bridge_failure until real consumer tests",
+    "applied_learning_ids": [],
+    "tests": {
+      "command": "NOT_RUN: executable checkout not available",
+      "exit": null,
+      "ci_run_id": null,
+      "ci_job_id": null
+    },
+    "readback": "pending",
+    "archive_pr": 309,
+    "bridge_issue": 308,
+    "wave": {
+      "historical_continuing": 19,
+      "historical_blocked": 1,
+      "new_completed": 0,
+      "per_task_retested": false
+    },
+    "payoutlens_touched": false
   }
 }
