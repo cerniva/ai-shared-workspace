@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "artifact_type": "actual_chatgpt_finance_report_decision_record_not_external_production_consumer_proof",
+  "report_date": "2026-10-30",
+  "cutoff": "2026-10-30 09:00 Europe/Istanbul; market feeds sampled at differing timestamps; no synchronized close claim",
+  "scope": "finance; PayoutLens excluded",
+  "source_catalog_main_blob_sha": "72fb179f83f4af170e196484ae368a6463c0883f",
+  "learning_ledger_main_blob_sha": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+  "repo_counts": {
+    "sources": 95,
+    "learnings": 83,
+    "finance_plan_tagged": 9
+  },
+  "quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+    "reason": "A manually authored ChatGPT report decision record is not the scheduled production Finance consumer output; draft PR #364 unmerged; no end-to-end real runner decision change + applied_learning_ids artifact read-back",
+    "required": "Run actual producer on latest main/PR integration; positive and negative tests; source lineage and persistent production artifact read-back"
+  },
+  "local_command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "git_probe": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+    "git_probe_exit_code": 128,
+    "git_probe_stderr": "Could not resolve host: github.com",
+    "fallback": "Read main ledger and source catalog via GitHub connector; 9 finance-tagged entries"
+  },
+  "market": {
+    "us_equities_close_date": "2026-10-29",
+    "sp500": 7720.39,
+    "sp500_day_pct": -0.3,
+    "nasdaq": 26184.72,
+    "nasdaq_day_pct": -1.37,
+    "dow": 52342.56,
+    "dow_day_pct": -0.25,
+    "treasury_official_date": "2026-10-29",
+    "treasury_2y_pct": 4.61,
+    "treasury_10y_pct": 4.98,
+    "treasury_30y_pct": 5.32,
+    "us_pce_sep_yoy_pct": 3.6,
+    "us_core_pce_sep_yoy_pct": 3.1,
+    "us_gdp_q3_advance_annualized_pct": 3.4,
+    "ecb_oct29_action": "hold",
+    "fed_oct28_rate": "3.75-4.00%",
+    "tcmb_oct22_rate_pct": 36,
+    "brent_oct30_intraday_usd": 116.08,
+    "wti_oct30_intraday_usd": 103.37,
+    "gold_oct30_intraday_usd": 4000.54,
+    "dxy_oct30_intraday": 101.77,
+    "btc_usd_snapshot": 78479.66,
+    "eth_usd_snapshot": 2240.63,
+    "btc_dominance_pct": 60.05,
+    "cmc_altseason": 44,
+    "blockchaincenter_altseason": 41,
+    "stablecoin_cap_usd_b": 297.186,
+    "stablecoin_7d_pct": -1.25,
+    "btc_etf_oct29_usdm": 17.2,
+    "eth_etf_oct29_usdm": -105.5,
+    "etf_latest_status": "PROVISIONAL_LATEST_ROW",
+    "calibrated_altcoin_support": "N/A",
+    "backtest_2020_2025_verified": false
+  },
+  "top70_cmc_ordered_symbols": [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "XRP",
+    "USDC",
+    "SOL",
+    "TRX",
+    "HYPE",
+    "ZEC",
+    "DOGE",
+    "XMR",
+    "LEO",
+    "LINK",
+    "ADA",
+    "XLM",
+    "BCH",
+    "NEAR",
+    "DAI",
+    "USDe",
+    "LTC",
+    "UNI",
+    "USD1",
+    "AVAX",
+    "CC",
+    "SUI",
+    "GRAM",
+    "HBAR",
+    "USDG",
+    "PYUSD",
+    "XAUt",
+    "TAO",
+    "SHIB",
+    "RLUSD",
+    "CRO",
+    "ENA",
+    "OKB",
+    "M",
+    "QNT",
+    "PEPE",
+    "AAVE",
+    "ONDO",
+    "PUMP",
+    "ASTER",
+    "PAXG",
+    "WLFI",
+    "DOT",
+    "U",
+    "MNT",
+    "SKY",
+    "USDD",
+    "WLD",
+    "ICP",
+    "BGB",
+    "ETC",
+    "ARB",
+    "VVV",
+    "JST",
+    "MORPHO",
+    "KCS",
+    "GT",
+    "KAS",
+    "POL",
+    "PI",
+    "ALGO",
+    "JUP",
+    "ATOM",
+    "RENDER",
+    "AERO",
+    "INJ"
+  ],
+  "top70_coverage": "First 14 CMC ranks explicitly numbered; 15-70 page display order; all 70 synchronized risk metrics unverified",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_fba30853bde7b37e",
+    "learn_63b873bf5dbd8208",
+    "learn_f7b141c60755c294",
+    "learn_27333cc91fdf7f58",
+    "learn_084a973ea4587745",
+    "learn_d44f97b112d55564"
+  ],
+  "decisions": [
+    {
+      "field": "official_macro_primary_source",
+      "before": "29 Oct PCE and GDP not yet released in prior report",
+      "after": "29 Oct BEA: Sep headline PCE 3.6% y/y, core 3.1%, monthly 0.5/0.3%; Q3 real GDP advance 3.4% annualized; official release dated and no pre-release assumptions",
+      "source": "https://www.bea.gov/news/2026/personal-income-and-outlays-september-2026",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ]
+    },
+    {
+      "field": "fed_policy_freshness",
+      "before": "28 Oct Fed hold previously covered; risk of repeating as new 30 Oct action",
+      "after": "Fed 28 Oct hold 3.75–4.00%, 10–2 dissent kept as dated context, not 30 Oct new decision; ECB 29 Oct hold now new",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "applied_learning_ids": [
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "treasury_official_date",
+      "before": "28 Oct 2Y 4.67%, 10Y 5.05%, 30Y 5.37%",
+      "after": "29 Oct official 2Y 4.61%, 10Y 4.98%, 30Y 5.32%; 30 Oct intraday 10Y ~4.91% is separate snapshot",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "tcmb_fx_date",
+      "before": "Potential use of prior-day or holiday TCMB FX bulletin as 30 Oct live quote",
+      "after": "TCMB 22 Oct policy 36% kept dated; current tradable USDTRY and 30 Oct official bulletin N/A until independently verified",
+      "source": "https://www.tcmb.gov.tr/kurlar/today.xml",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "field": "altcoin_support_calibration",
+      "before": "CMC Altseason 44 and BlockchainCenter 41 might be misread as calibrated 0-100 composite",
+      "after": "10/10 validated=false in canonical config; all support scores N/A, 2020-25 walk-forward/lo-hi not verified",
+      "source": "https://www.blockchaincenter.net/altcoin-season-index/",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "issuer_earnings_filing_gate",
+      "before": "Alphabet/Amazon Reuters earnings narrative could be treated as verified SEC filing numbers",
+      "after": "Report uses dated Reuters price reaction only; no unverified issuer-specific filing financial line items asserted",
+      "source": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "field": "news_dedup",
+      "before": "Historical Fed small-bank enforcement and household survey could recur as fresh news",
+      "after": "Both review-only items excluded from 30 Oct new news, retained in ledger",
+      "source": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    },
+    {
+      "field": "crypto_exchange_security_incident",
+      "before": "Could conflate Binance $6.3bn preliminary impact with confirmed stolen amount, $3bn frozen with recovered customer funds",
+      "after": "Separately reported Binance preliminary impact $6.3bn, frozen ~$3bn, independently reported theft ~$5.912bn, withdrawal suspension at announcement time; current restoration status N/A; no confirmed net customer loss",
+      "source": "https://www.binance.com/en/support/announcement/detail/c5a8729a97ac486d963784d96c5642d7",
+      "applied_learning_ids": [],
+      "staged_new_learning_id": "learn_ada231d1d0d2c5ea",
+      "note": "New learning is pending on safe branch; NOT included among main-active applied IDs"
+    },
+    {
+      "field": "etf_flow_reconciliation",
+      "before": "28 Oct provisional BTC +137.3 / ETH -21.4; 29 Oct not in prior report",
+      "after": "29 Oct Farside current BTC +17.2m / ETH -105.5m; latest date provisional; conflicting third-party +4.4m BTC not blended",
+      "source": "https://farside.co.uk/btc/",
+      "applied_learning_ids": [],
+      "note": "Dedup with existing ETF incomplete/late-fund cells gate in draft PR #273"
+    }
+  ],
+  "new_promotion": {
+    "path": "knowledge/promotions/2026-10-30-finance-exchange-incident-impact-freeze-gate.json",
+    "learning_id": "learn_ada231d1d0d2c5ea",
+    "status": "staged_not_main_active",
+    "promotion_blob_sha": "59f04524823219a1cb1501f69cf3a807cfa85767"
+  },
+  "dedup": [
+    "Historical Fed 28 Oct decision not repeated as 30 Oct new action",
+    "Existing draft PR #273 ETF completeness/revision gate preserved; no duplicate",
+    "Existing draft PR #332 CMC volume denominator gate preserved; no duplicate"
+  ],
+  "charts": {
+    "python_graphs_used": false,
+    "altcoin_calibrated_chart": "N/A",
+    "note": "Report DIL Treasury and ETF charts use only sourced dated values; no external screenshot/test claimed"
+  },
+  "grok_delivery": {
+    "message_id": null,
+    "receiver_read_back": false,
+    "claim": "No independently verified Grok response/delivery"
+  }
+}
