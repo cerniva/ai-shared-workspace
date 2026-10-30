@@ -235,7 +235,9 @@
     "path": "knowledge/promotions/2026-10-30-finance-exchange-incident-impact-freeze-gate.json",
     "learning_id": "learn_ada231d1d0d2c5ea",
     "status": "staged_not_main_active",
-    "promotion_blob_sha": "59f04524823219a1cb1501f69cf3a807cfa85767"
+    "promotion_blob_sha": "8ab4d082f952d0233ee84f881b46e6ce11972fd4",
+    "promotion_fix_commit": "4f6c4bbefe03a75a768b4ab5def1b51cad3d2486",
+    "ci_initial_failure": "source_id mismatch for canonical Reuters URL due to trailing slash; fixed, new HEAD CI not yet confirmed"
   },
   "dedup": [
     "Historical Fed 28 Oct decision not repeated as 30 Oct new action",
