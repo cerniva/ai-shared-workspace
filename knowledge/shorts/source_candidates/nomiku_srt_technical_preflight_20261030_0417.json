@@ -1,0 +1,73 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "local_date": "2026-10-30T04:17:00+03:00",
+  "record_type": "EXACT_GIT_BLOB_LOCAL_UNIT_TEST_AND_FAIL_CLOSED_CLI",
+  "pr": 269,
+  "base": "main",
+  "branch": "fix/shorts-original-audio-clip-20261020",
+  "code_commit": "7e4fc8cd1b48b7f841693d6720b06fbe7d87eeb9",
+  "code_blob_sha": "1860fceb4c4853ec98d36cf203ec2021d35bf269",
+  "test_blob_sha": "4a5000db41f30a7bbcf1e0dec8b0fd08f85e30d5",
+  "code_file": "scripts/shorts_srt_timeline.py",
+  "test_file": "tests/test_shorts_srt_timeline.py",
+  "local_verification": {
+    "exact_git_blob_hash_match": true,
+    "python_compile_exit": 0,
+    "unittest_count": 10,
+    "unittest_exit": 0,
+    "synthetic_fixture_only": true,
+    "synthetic_fixture_sha256": "22b46b68f6a710522c3dfc391570995f160f15412c3519369e5be3f8005fa25e",
+    "cli_exit": 2,
+    "cli_ok": false,
+    "technical_preflight_gate": "BLOCKED",
+    "technical_preflight_blockers": [
+      "SRT_MILLISECONDS_REQUIRED",
+      "MOBILE_READABILITY_REVIEW"
+    ],
+    "mapped_cues": [
+      1,
+      2,
+      3,
+      4,
+      9
+    ],
+    "duration_seconds": 34.8
+  },
+  "change": "Previously CLI could emit ok=true and exit 0 for an SRT with whole-second timestamps and unreadable mobile lines when cue boundaries passed. It now fails closed; mixed-precision endpoint timestamps also fail. Does not synthesize captions or change speech timing.",
+  "source": {
+    "title": "Sous vide overview by Nomiku with VO",
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "source_sha256_historical": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "actual_source_media_reprocessed_this_run": false,
+    "source_transcript_reprocessed_this_run": false
+  },
+  "pr_state_at_readback": {
+    "draft": true,
+    "mergeable": false,
+    "independent_reviews": 0,
+    "head_ci_runs": 0
+  },
+  "gates": [
+    "RIGHTS_BLOCKED",
+    "TRANSCRIPT_FORMAT_BLOCKED",
+    "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "FRAMING_QA_BLOCKED",
+    "FACT_CHECK_BLOCKED",
+    "INDEPENDENT_QA_BLOCKED"
+  ],
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "SHA-bound source preflight remains mandatory; local fixture SHA used only for tests, never as actual source evidence.",
+    "learn_ae8a18babc190373": "Real clip candidate remains research-only; subtitle format and mobile legibility now block CLI success.",
+    "learn_53ca8fb858703eb6": "No retention/hook success inferred without owned-channel evidence."
+  },
+  "plan_learnings": {
+    "executed_this_run": false,
+    "reason": "Complete local repository unavailable; git ls-remote failed DNS resolution, so no stdout/exit claimed for plan_learnings.py."
+  },
+  "rendered_mp4": null,
+  "rendered_sha256": null,
+  "publish_ready": false,
+  "youtube_uploaded": false,
+  "next": "CI and independent voice/music, subtitle license, actual spoken sync, portrait and food-safety QA; only then implement tested two-segment render; no merge/upload."
+}
