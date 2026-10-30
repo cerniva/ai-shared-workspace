@@ -75,6 +75,14 @@ class TimelineTests(unittest.TestCase):
         self.assertEqual(report["technical_preflight_blockers"], [])
         self.assertFalse(report["publish_ready"])
 
+    def test_mixed_precision_timestamp_still_blocks(self):
+        self.path.write_text("1\\n00:00:00,000 --> 00:00:32\\nHello\\n".replace("\\n", "\n"), encoding="utf-8")
+        digest = hashlib.sha256(self.path.read_bytes()).hexdigest()
+        report = audit(self.path, digest, [(0, 32)])
+        self.assertTrue(report["caption_format_conversion_required"])
+        self.assertIn("SRT_MILLISECONDS_REQUIRED", report["technical_preflight_blockers"])
+        self.assertEqual(report["technical_preflight_gate"], "BLOCKED")
+
     def test_cli_exits_nonzero_for_whole_second_and_overlong_srt(self):
         argv = ["shorts_srt_timeline.py", "--srt", str(self.path),
                 "--expected-sha256", self.sha, "--segment", "0:28.4",
