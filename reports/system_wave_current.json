@@ -6437,30 +6437,50 @@
     "payoutlens_touched": false
   },
   "latest_audit": {
-    "at": "2026-10-31T01:37:12+03:00",
-    "main_sha": "c89878ebf21219afeae21cec01407350ac4892af",
-    "ci_run_id": 41137366297,
-    "ci_job_id": 124343018908,
-    "ci_conclusion": "success_watch_only",
-    "learning_targets": [
-      "learn_0bdcee93377fd18d",
-      "learn_4decad368966e2e6"
+    "at": "2026-10-31T02:35:28+03:00",
+    "main_sha": "63fd3621dd8d2e1618d91ddfaa85b731e53ebae3",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "decision_before": "Previous P0 archive race and bridge_failure remain unverified; finance runner absent; shorts upload and SVG unverified.",
+    "decision_after": "Main advanced to 63fd362; 86 ledger entries and 95 sources fetched; both target learnings and source IDs inspected; no real consumer or production gate evidence. Keep P0 open, bridge_failure open, altcoin N/A, no publication.",
+    "applied_learning_ids": [],
+    "applied_learning_ids_scope": "NO_VERIFIED_REAL_CONSUMER",
+    "learning_evidence": [
+      {
+        "id": "learn_0bdcee93377fd18d",
+        "source_id": "src_be6523a27c85e346",
+        "production_application": "NOT_VERIFIED"
+      },
+      {
+        "id": "learn_4decad368966e2e6",
+        "source_id": "src_569c596da7048714",
+        "production_application": "NOT_VERIFIED"
+      }
     ],
-    "source_ids": [
-      "src_be6523a27c85e346",
-      "src_569c596da7048714"
-    ],
-    "consumer_tests": "NOT_RUN",
-    "bridge_failure": "OPEN",
-    "archive_pr": 309,
-    "archive_gate": "OPEN",
-    "shorts_mp4_upload": "NOT_VERIFIED",
-    "finance_altcoin": "N/A",
-    "svg_production": "NOT_VERIFIED",
-    "local_git": "DNS_FAILURE_EXIT_128",
-    "test_command": "python3 scripts/plan_learnings.py system --require",
-    "test_exit": "NOT_RUN",
-    "reason": "no executable checkout; GitHub API read only for execution",
+    "tests": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "stderr": "Could not resolve host: github.com",
+      "plan_learnings_command": "python3 scripts/plan_learnings.py system --require",
+      "plan_learnings_exit": "NOT_RUN_NO_CHECKOUT",
+      "ci_run_job": "NO_NEW_CI_EXECUTION",
+      "consumer_negative_tests": "NOT_RUN"
+    },
+    "evidence": {
+      "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+      "handoffs_blob": "16ada199293948c721e6cb7f128b9e631553b1d4",
+      "ledger_blob": "b2ebca4fddee76dfebac5abd61f6ec8e9febd606",
+      "catalog_blob": "937824ee275a3ff45608fa9a5a147ab3080facc8",
+      "runner_blob": "f9f89a8e91f4fe9db8cc23926a58f8654b444e00",
+      "branch_divergence": "155 behind / 175 ahead",
+      "pr309": "draft/open",
+      "issue308": "open"
+    },
+    "wave": {
+      "previous": "0 completed, 19 continuing, 1 blocked (historical, not retested)",
+      "current_verified": "NOT_RETESTED",
+      "new_wave": false
+    },
+    "read_back": "PENDING",
     "payoutlens_touched": false
   }
 }
