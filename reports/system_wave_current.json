@@ -6366,5 +6366,47 @@
     "production_readback": "NOT_VERIFIED",
     "task_counts": "not independently revalidated; previous 0/19/1 historical",
     "payoutlens_touched": false
+  },
+  "audit_20261030_2141": {
+    "main_sha": "c97651e903bb61b1816bfc3175e321d76cfdf1b0",
+    "source": "GitHub connector main reads",
+    "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+    "handoffs_blob": "16ada199293948c721e6cb7f128b9e631553b1d4",
+    "ledger_blob": "b2ebca4fddee76dfebac5abd61f6ec8e9febd606",
+    "catalog_blob": "937824ee275a3ff45608fa9a5a147ab3080facc8",
+    "runner_blob": "a927dd67d21da74b6ff0c1f7cd87e56187117eb0",
+    "learning_count": 86,
+    "source_count": 95,
+    "active_system_learnings": 10,
+    "focus_learning_ids": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "source_ids": [
+      "src_be6523a27c85e346",
+      "src_569c596da7048714"
+    ],
+    "decision_before": "bridge_failure and P0 archive remain open",
+    "decision_after": "remain open; catalog presence is not real consumer application",
+    "applied_learning_ids": [],
+    "test_command": "NOT_RUN; no executable checkout",
+    "test_exit": null,
+    "ci_run_id": null,
+    "ci_job_id": null,
+    "production_readback": "NOT_VERIFIED",
+    "archive_pr": 309,
+    "bridge_issue": 308,
+    "branch_divergence": {
+      "ahead": 172,
+      "behind": 149
+    },
+    "wave": {
+      "selected": 20,
+      "completed_new": 0,
+      "continuing_historical": 19,
+      "blocked_historical": 1,
+      "per_task_retest": false
+    },
+    "payoutlens_touched": false
   }
 }
