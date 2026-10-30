@@ -1,0 +1,153 @@
+{
+  "task_ids": [
+    "CORE-03",
+    "CORE-04"
+  ],
+  "owner": "ChatGPT",
+  "checked_at": "2026-10-30T13:24:33+03:00",
+  "kind": "READ_ONLY_LIVE_GATE_AND_COMMERCE_COST_READBACK_NOT_RENDER",
+  "protocol": {
+    "repo": "cerniva/ai-shared-workspace",
+    "main_protocol_sha": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+    "main_learning_ledger_sha": "read_2026-10-30",
+    "main_source_catalog_read": true
+  },
+  "pr": {
+    "number": 269,
+    "branch": "fix/shorts-original-audio-clip-20261020",
+    "head_before": "1609a671d087a28be68267923a43acb09c26a32d",
+    "draft": true,
+    "mergeable": false,
+    "independent_reviews": 0,
+    "head_pr_workflow_runs": 0,
+    "head_commit_statuses": 0
+  },
+  "shorts": {
+    "candidate": "Sous vide overview by Nomiku with VO",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "source_license": "CC BY 4.0 (Commons file declaration, not independently verified component-level rights)",
+    "source_sha256_historical": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "transcript_sha256_historical": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "segments": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "planned_seconds": 36.5,
+    "source_cues_included": [
+      1,
+      2,
+      8,
+      9,
+      10
+    ],
+    "excluded_unsafe_cues": [
+      5,
+      6,
+      7
+    ],
+    "original_audio_only": true,
+    "synthetic_voiceover": false,
+    "source_audio_music_rights": "PENDING_INDEPENDENT_REVIEW",
+    "caption_license_and_spoken_sync": "PENDING_INDEPENDENT_REVIEW",
+    "visual_58_64_low_motion": "UNRESOLVED",
+    "visual_67_70_bright_flame": "UNRESOLVED",
+    "multi_segment_renderer_integration": "NOT_PROVEN",
+    "gates": [
+      "RIGHTS_BLOCKED",
+      "TRANSCRIPT_BLOCKED",
+      "FRAMING_QA_BLOCKED",
+      "FACT_CHECK_BLOCKED",
+      "MULTI_SEGMENT_RENDER_BLOCKED",
+      "CI_REVIEW_BLOCKED"
+    ],
+    "final_mp4": null,
+    "media_sha256": null,
+    "full_length_qa": false,
+    "publish_ready": false,
+    "youtube_upload": false
+  },
+  "youtube": {
+    "source": "Metricool read 2026-10-30",
+    "brand_id": "7082876",
+    "channel_id": "UCAKg-ZKPoazTnF2zDVORk4Q",
+    "subscribers_known_dates": 5,
+    "views_known": {
+      "2026-10-23": 2,
+      "2026-10-25": 2
+    },
+    "other_dates": "NULL_NOT_ZERO",
+    "retention_stayed_to_watch": "NOT_AVAILABLE",
+    "upload_scope": "NOT_VERIFIED"
+  },
+  "shopify": {
+    "source": "Live Shopify Admin product search + read-only GraphQL unitCost and 7d sessions/orders 2026-10-30",
+    "products": 9,
+    "drafts": 9,
+    "active": 0,
+    "orders": 0,
+    "period": "2026-10-23..2026-10-30",
+    "sessions": 2,
+    "cart_sessions": 0,
+    "checkout_sessions": 0,
+    "oil_sprayer": {
+      "price_eur": 24.9,
+      "unit_cost_eur": 7.42,
+      "pre_shipping_tax_fees_returns_difference_eur": 17.48,
+      "requires_shipping": true
+    },
+    "pet_hair_roller": {
+      "variants": 8,
+      "all_variant_price_equals_recorded_unit_cost": true,
+      "pre_shipping_tax_fees_returns_difference_eur": 0,
+      "requires_shipping": true
+    },
+    "digital_products": {
+      "count": 7,
+      "unit_cost": "NULL",
+      "requires_shipping": false,
+      "tracked_inventory": false
+    },
+    "supplier_shipping": "UNKNOWN",
+    "supplier_quality": "NOT_VERIFIED",
+    "refund_policy": "NOT_VERIFIED",
+    "net_margin": "UNKNOWN",
+    "demand": "NOT_ESTABLISHED",
+    "decision": "NO_LIVE_LISTING_OR_PRICE_CHANGE; pet roller economics fail pre-expense screen; oil sprayer only pre-expense spread, not net profit"
+  },
+  "gumroad": {
+    "private_access": "NOT_AVAILABLE",
+    "drafts": "UNKNOWN",
+    "sales": "UNKNOWN",
+    "action": "NONE"
+  },
+  "learning_runner": {
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "reason": "Complete local repository not available; git ls-remote github.com DNS resolution failed; previous Actions success is historical, not this run."
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Source/SRT digests are historical only; no fresh byte-level verification, so no integrity PASS or MP4 production.",
+    "learn_ae8a18babc190373": "Excluded unsafe source cues 5–7; held 36.5s edit for transcript, portrait framing, audio and full-length QC.",
+    "learn_e74d8dd625c30863": "Sparse Metricool videoViews are not stayed-to-watch or engaged-view retention; no hook-performance conclusion.",
+    "learn_961e3256bcf30279": "Read live Shopify variant price, inventoryItem.unitCost, requiresShipping and tracked via schema-validated read-only GraphQL.",
+    "learn_991df8ed39245aef": "Only same-currency EUR price-cost difference; not net margin. Missing supplier shipping, returns and taxes remain unknown.",
+    "learn_f5624ca54a31e57c": "No Gumroad draft create, enable, price or files update without connected authorized account."
+  },
+  "restrictions": {
+    "main_modified": false,
+    "merge": false,
+    "publication": false,
+    "commerce_mutations": false,
+    "paid_credits": false,
+    "payoutlens": "NOT_ACCESSED"
+  },
+  "next": "Independent source voice/music and subtitle rights verification; real speech-aligned English SRT and two-cut rights-controlled renderer integration; full 9:16 MP4 QC, independent review and current PR CI. Commerce: verify supplier shipping, returns, net margin before any listing."
+}
