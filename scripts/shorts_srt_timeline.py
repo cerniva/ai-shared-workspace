@@ -85,8 +85,15 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
     if not mapped:
         raise ValueError("no fully contained transcript cues")
     overlong = [c["cue"] for c in mapped if c["max_line_chars"] > 42 or c["line_count"] > 2]
-    format_conversion_required = any("," not in line and "." not in line
-        for line in srt.read_text(encoding="utf-8-sig").splitlines() if "-->" in line)
+    # Both endpoints must have explicit millisecond precision; mixed precision
+    # is not a renderer-compatible SRT even when one timestamp has a comma.
+    precise_stamp = re.compile(r"^\\d{2}:\\d{2}:\\d{2}[,.]\\d{3}$")
+    format_conversion_required = any(
+        not all(precise_stamp.fullmatch(token.strip())
+                for token in line.split("-->", 1))
+        for line in srt.read_text(encoding="utf-8-sig").splitlines()
+        if "-->" in line
+    )
     technical_blockers = (
         (["BOUNDARY_CROSSING_CUE"] if crossed else [])
         + (["SRT_MILLISECONDS_REQUIRED"] if format_conversion_required else [])
