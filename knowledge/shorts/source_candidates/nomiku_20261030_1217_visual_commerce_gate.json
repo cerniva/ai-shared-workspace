@@ -1,0 +1,151 @@
+{
+  "task_id": "CORE-03 / CORE-04",
+  "owner": "ChatGPT",
+  "checked_at": "2026-10-30T12:14:17+03:00",
+  "kind": "VISUAL_SPOT_REVIEW_AND_LIVE_COMMERCE_ANALYTICS_NOT_RENDER_OR_PUBLISH",
+  "repository": {
+    "protocol_read_from_main": true,
+    "learning_ledger_and_source_catalog_read_from_main": true,
+    "pr_number": 269,
+    "pr_head_before": "b75b8bb8eb9fb1f09e217a3a5b6dc76c8439dc73",
+    "pr_branch": "fix/shorts-original-audio-clip-20261020",
+    "draft": true,
+    "mergeable": false,
+    "independent_reviews": 0,
+    "pr_head_statuses": 0,
+    "pr_head_workflow_runs": 0
+  },
+  "source": {
+    "name": "Sous vide overview by Nomiku with VO",
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "license": "CC BY 4.0 (Wikimedia file page)",
+    "author": "Pkwong89",
+    "source_sha256_historical_only": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "subtitle_url": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+    "subtitle_text_license_page": "Commons footer says unstructured text CC BY-SA; additional terms may apply",
+    "voice_music_and_subtitle_derivative_clearance": "PENDING"
+  },
+  "edit": {
+    "segments": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "duration_seconds": 36.5,
+    "language": "en",
+    "original_audio_only": true,
+    "ai_voiceover": false,
+    "technical_status": "RESEARCH_ONLY"
+  },
+  "visual_spot_check": {
+    "source": "Earlier 2026-10-30 05:17 locally preserved portrait contact sheet, NOT a current full-duration MP4",
+    "file_sha256": "dd14270dab92fb14d0c57db41e844daab2dd9eeb8869318f63b7656e91358d78",
+    "image_dimensions": "1264x2312 JPEG contact sheet",
+    "frames_inspected_seconds": [
+      2,
+      5,
+      8,
+      11,
+      14,
+      58.5,
+      61,
+      64,
+      67,
+      70,
+      73,
+      76,
+      78.5
+    ],
+    "findings": [
+      "58.5s, 61s and 64s sample frames show near-identical close-up steak framing; static-feel risk across ~6s, not a full-motion measurement",
+      "67s and 70s sample frames show intense bright torch flame partly obscuring food; exposure/legibility requires full-video review",
+      "Samples do not show subtitles overlaid, so caption safe-area and speech synchronization are NOT tested"
+    ],
+    "verdict": "SPOT_REVIEW_FAILED_TO_CLEAR_FRAMING; FULL_VIDEO_QA_REQUIRED",
+    "independent_review": false
+  },
+  "shopify": {
+    "read_at": "2026-10-30 12:14 Europe/Istanbul",
+    "product_count": 9,
+    "draft_count": 9,
+    "active_count": 0,
+    "orders_total": 0,
+    "period": "2026-10-23..2026-10-30",
+    "sessions": 2,
+    "cart_sessions": 0,
+    "checkout_sessions": 0,
+    "orders": 0,
+    "net_sales_eur": 0,
+    "oil_sprayer_current_price_eur": 24.9,
+    "oil_sprayer_recorded_unit_cost_eur_prior_run": 7.42,
+    "oil_sprayer_difference_before_shipping_fees_tax_returns_eur": 17.48,
+    "pet_roller_current_price_range_eur": "3.71..10.62 (visible variants)",
+    "pet_roller_unit_cost_equals_price": "prior-run observation only, not reverified",
+    "supplier_shipping_cost": "UNKNOWN",
+    "observed_returns": "NO_ORDERS",
+    "net_margin": "UNKNOWN",
+    "demand": "NOT_ESTABLISHED"
+  },
+  "youtube": {
+    "metricool_brand_id": "7082876",
+    "channel_id": "UCAKg-ZKPoazTnF2zDVORk4Q",
+    "subscribers_known_dates": 5,
+    "views_2026_10_23": 2,
+    "views_2026_10_25": 2,
+    "other_dates": "NULL_NOT_ZERO",
+    "retention": "UNAVAILABLE",
+    "upload_scope": "NOT_VERIFIED"
+  },
+  "gumroad": {
+    "private_account_access": "NOT_AVAILABLE",
+    "drafts": "UNKNOWN",
+    "sales": "UNKNOWN",
+    "mutations": false
+  },
+  "learning_runner": {
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "reason": "Complete runnable local repo absent; git ls-remote DNS resolution failed; do not present previous run stdout as current"
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "No current artifact download/digest verification, so historical media SHA is not upgraded to a fresh integrity pass.",
+    "learn_ae8a18babc190373": "Visual sample 58.5-64s static-feel and 67-70s torch glare keep framing and hook gates blocked; no ready claim.",
+    "learn_e74d8dd625c30863": "Metricool sparse views are not stayed-to-watch, retention or AVD; no hook success inferred.",
+    "learn_f0de38014bef7448": "2 sessions and zero orders do not establish demand; physical margin remains unknown without landed cost and returns.",
+    "learn_f5624ca54a31e57c": "No Gumroad draft create/enable/update without private access and approval."
+  },
+  "gates": {
+    "rights": "RIGHTS_BLOCKED",
+    "transcript": "TRANSCRIPT_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "facts": "FACT_CHECK_BLOCKED",
+    "multi_segment": "MULTI_SEGMENT_RENDER_BLOCKED",
+    "independent_qa": "PENDING",
+    "pr_ci": "NOT_VERIFIED",
+    "publish": "BLOCKED"
+  },
+  "deliverables": {
+    "final_mp4": null,
+    "media_sha256": null,
+    "full_duration_visual_audio_qc": false,
+    "youtube_uploaded": false,
+    "publish_ready": false
+  },
+  "restrictions": {
+    "main_modified": false,
+    "merge": false,
+    "youtube_upload": false,
+    "shopify_mutation": false,
+    "gumroad_mutation": false,
+    "paid_credits": false,
+    "payoutlens": "NOT_ACCESSED"
+  },
+  "next": "Independent audio/voice/music and TimedText rights review; real 36.5s spoken-word-aligned English SRT; reframe 58-64s low-motion and 67-70s glare; test integrated two-cut rights-controlled renderer with real source, full-length QC, CI and independent review before publication."
+}
