@@ -3480,7 +3480,9 @@
     "grok_ack": "NOT_SENT",
     "payoutlens_touched": false,
     "handoff_read_back": "PASS commit 06312d7dfc7267642db80668a66043e308c7e936 blob e9b3980fb0ddb8fbbcd36cd3f2547f43eb07599e",
-    "report_read_back": "PENDING_FINAL_READBACK"
+    "report_read_back": "PASS (pre-final observation), then updated with main advance warning",
+    "final_observed_main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+    "current_main_tests": "NOT_RUN_AFTER_MAIN_ADVANCED"
   },
   "audit_20261030_0041": {
     "at": "2026-10-29T21:40:57Z",
@@ -4193,6 +4195,12 @@
       "blocked_user": 1,
       "all_retested": false
     },
-    "next": "PR309 fresh-main race CI and readback; Issue308 real consumer tests; no duplicate handoff/issue"
+    "next": "PR309 fresh-main race CI and readback; Issue308 real consumer tests; no duplicate handoff/issue",
+    "post_write_main_observation": {
+      "observed_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+      "audit_snapshot_sha": "6c88d9ae0c7ee1968e60351763d202d22f79a7ee",
+      "status": "MAIN_ADVANCED_AFTER_AUDIT; NEW_SHA_NOT_RETESTED; DO_NOT_LABEL_GREEN",
+      "source": "GET /repos/cerniva/ai-shared-workspace/branches/main after report+handoff readback"
+    }
   }
 }
