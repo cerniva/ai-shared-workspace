@@ -1,0 +1,156 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "local_time": "2026-10-30T05:17:00+03:00",
+  "kind": "REAL_SOURCE_COMPARATIVE_EDIT_PREFLIGHT_ONLY",
+  "source": {
+    "title": "Sous vide overview by Nomiku with VO",
+    "url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "source_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "archive_artifact_id": 12909206804,
+    "source_bytes": 21547217,
+    "verified_sha256_both": true,
+    "transcript_language": "en",
+    "license_file": "CC BY 4.0",
+    "subtitle_license": "Wikimedia unstructured text CC BY-SA; component-level rights unreviewed"
+  },
+  "previous_candidate": {
+    "segments": [
+      [
+        0,
+        28.4
+      ],
+      [
+        65,
+        71.4
+      ]
+    ],
+    "duration_seconds": 34.8,
+    "source_cues": [
+      1,
+      2,
+      3,
+      4,
+      9
+    ],
+    "cue_chars_per_second": {
+      "1": 16.25,
+      "2": 19.8,
+      "3": 20.12,
+      "4": 20.33,
+      "9": 18
+    },
+    "over_20_cps": [
+      3,
+      4
+    ],
+    "mobile_line_review": [
+      1,
+      2,
+      3,
+      4,
+      9
+    ]
+  },
+  "alternate_candidate": {
+    "segments": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "duration_seconds": 36.5,
+    "source_cues": [
+      1,
+      2,
+      8,
+      9,
+      10
+    ],
+    "cue_chars_per_second": {
+      "1": 16.25,
+      "2": 19.8,
+      "8": 16.33,
+      "9": 18,
+      "10": 16.57
+    },
+    "over_20_cps": [],
+    "mobile_line_review": [
+      1,
+      2,
+      8,
+      9,
+      10
+    ],
+    "boundary_crossing_cues": [],
+    "silence_intervals_verified_on_source": [
+      [
+        14.9871,
+        16.1681
+      ],
+      [
+        57.1973,
+        58.4607
+      ],
+      [
+        78.6868,
+        79.7978
+      ]
+    ],
+    "cut_points_in_silence": true,
+    "portrait_frame_samples_at_seconds": [
+      2,
+      5,
+      8,
+      11,
+      14,
+      58.5,
+      61,
+      64,
+      67,
+      70,
+      73,
+      76,
+      78.5
+    ],
+    "center_crop_dimensions": "608x1080 -> 304x540 preview",
+    "frame_motion_half_second_median_by_source_range": {
+      "0-15.4": 16.37,
+      "58-64": 1.75,
+      "65-71": 24.25,
+      "72-79.1": 12.94
+    },
+    "known_visual_weakness": "58-64 seconds largely static steak shot; needs independent mobile QA",
+    "technical_selection": "PREFERRED_RESEARCH_ONLY",
+    "rationale": "Avoids unsafe food-safety cues 5-7 and the prior edit's cues 3-4 over 20 CPS, while maintaining 30-40s; source transcript has no millisecond precision and all selected original cues exceed 42 chars per line."
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Downloaded exact GitHub Actions artifact and checked original WebM/SRT SHA-256 against stored artifact and rights record; mismatches would block use.",
+    "learn_ae8a18babc190373": "Compared actual transcript, edit boundaries, mobile text density and 13 real 9:16 source frames; no publish-ready claim.",
+    "learn_991df8ed39245aef": "Shopify product prices are not net margins; no price or product status changes.",
+    "learn_e74d8dd625c30863": "Owned-channel Metricool raw views do not establish hook/retention; no video performance claim.",
+    "learn_f5624ca54a31e57c": "Gumroad draft-first gate remains; no product creation without account/scope and user approval."
+  },
+  "learning_runner": {
+    "this_run_executed": false,
+    "reason": "Full local repository unavailable (git DNS failure); archived prior Actions run has stdout plan_learnings tag=video_shopify count=20 error=None and exit 0, not a current run."
+  },
+  "status": {
+    "rights": "RIGHTS_BLOCKED",
+    "transcript": "TRANSCRIPT_FORMAT_BLOCKED / TRANSCRIPT_SYNC_QA_BLOCKED",
+    "framing": "FRAMING_QA_BLOCKED",
+    "fact_check": "FACT_CHECK_BLOCKED",
+    "independent_review": "PENDING",
+    "ci_current_head": "NOT_VERIFIED",
+    "final_mp4": null,
+    "media_sha256": null,
+    "publish_ready": false,
+    "youtube_uploaded": false
+  },
+  "next": "Independently clear original voice/music and subtitle license; real spoken-word alignment and short sub-cues, review static segment 58-64 and factual claims; only then test two-segment FFmpeg render, full-length QA and CI. No main write/merge/upload."
+}
