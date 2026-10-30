@@ -118,7 +118,13 @@ def merge_missing(acc: str, text: str) -> str:
     i, n = 0, min(len(acc), len(text))
     while i < n and acc[i] == text[i]:
         i += 1
-    i = text.rfind("\n", 0, i) + 1 if i < len(text) else i
+    if i < len(text):
+        # Keep a complete record at the divergence point. A shared '---' header
+        # can otherwise be trimmed away when the following id line differs.
+        # Replaying from the nearest boundary is safe: existing blocks are
+        # checked against acc below, and ambiguous duplicates fail closed.
+        previous = max(text.rfind("\n---\n", 0, i), text.rfind("\n## ", 0, i))
+        i = previous + 1 if previous >= 0 else 0
     acc_n = norm(acc)
     run: list[str] = []
     pending: list[str] = []  # bir kaydın önündeki tek başına `---` ayracı
