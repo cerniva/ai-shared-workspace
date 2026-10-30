@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T07:35:00+03:00",
+  "generated_at": "2026-10-30T08:37:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "AUDIT_ONLY_NOT_PRODUCTION",
   "payoutlens_touched": false,
-  "decision_before": "PARTIAL_FAIL_CLOSED: main=2bcc0e80; PR309 behind154/ahead52, merge-ref first parent stale; auto-merge CI40998484226 exit0 but PR269 merge=false; real Reporting API checkpoint, artifact digest consumer, Shorts upload and finance production SVG NOT_VERIFIED",
-  "decision_after": "FAIL_CLOSED: auto-merge PR269 merge=false; PR309 diverged behind154/ahead52 and no fresh combined race CI; learning bridge consumer tests and read-back absent; production Shorts upload/SVG not verified",
+  "decision_before": "FAIL_CLOSED: auto-merge PR269 merge=false; PR309 diverged behind154/ahead52 and no fresh combined race CI; learning bridge consumer tests and read-back absent; production Shorts upload/SVG not verified",
+  "decision_after": "FAIL_CLOSED: PR309 merge-ref first parent 1ce579cd != current main 2bcc0e80; behind154/ahead52; latest auto-merge PR269 merge=false despite exit0; system learning metadata pass but real Reporting API/digest consumer tests and read-back missing; no verified Shorts upload or finance SVG",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_175c67179539e7e6",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "AUDIT_DECISIONS_ONLY; actual Reporting API/artifact consumer applied_learning_ids=[]",
+  "applied_learning_ids_scope": "AUDIT_DECISIONS_ONLY; real consumer applied_learning_ids=[]",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -474,7 +474,7 @@
     "new_wave_started": false,
     "all_retested": false,
     "reviewed_this_turn": 20,
-    "review_scope": "20 existing task records retained and metadata reviewed; targeted P0, CI, source ledger, upload ledger, altcoin, SVG and 4 automations; no new application tests for all 20"
+    "review_scope": "20 existing metadata records preserved; targeted current main/CI, PR309, ledger, runner and upload evidence; no all-20 application tests"
   },
   "tasks": [
     {
@@ -492,7 +492,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
@@ -509,7 +509,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39269730285",
@@ -526,7 +526,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
@@ -543,7 +543,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39382139527",
@@ -560,7 +560,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261021-slow-auto-merge-gate",
@@ -577,7 +577,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39568642118",
@@ -594,7 +594,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39592612716",
@@ -611,7 +611,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39617972568",
@@ -628,7 +628,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261022-slow-shorts-render-tests",
@@ -645,7 +645,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39733548992",
@@ -662,7 +662,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-39755405014",
@@ -679,7 +679,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
@@ -696,7 +696,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
@@ -713,7 +713,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-40086311263",
@@ -730,7 +730,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "CI-40115771434",
@@ -747,7 +747,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261025-slow-codeql-code-scanning",
@@ -764,7 +764,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "HO-IMP-20261027-slow-research-learner",
@@ -781,7 +781,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "ISSUE-308",
@@ -798,7 +798,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "NOT_A_HANDOFF",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     },
     {
       "id": "SHORTS-FINAL-MP4-UPLOAD-GATE",
@@ -815,7 +815,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "NOT_A_HANDOFF",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
+      "metadata_reviewed_at": "2026-10-30T08:37:00+03:00"
     }
   ],
   "handoff_write": {
@@ -834,13 +834,7 @@
     "local_plan_learnings": "NOT_RUN",
     "alternative": "GitHub connector fetch_file, compare, CI job logs"
   },
-  "current_turn": {
-    "at": "2026-10-29T19:37:00Z",
-    "main_sha": "bbba43794cb4269f5ae0d6427024961693f1262f",
-    "summary": "REAL_AUTOMATION_RUNNER_READBACK_REVEALS_DRY_RUN_AND_MISSING_FINANCE_RUNNER;PR309_145_BEHIND;BRIDGE_OPEN",
-    "audit_key": "audit_20261029_2237",
-    "branch_state_not_main": true
-  },
+  "current_turn": "audit_20261030_0837",
   "audit_20261028_2139": {
     "main_sha": "71aaf1bd0d4fe1be8b4b0770ef18384c8bf0769a",
     "read_only_checks": [
@@ -3470,18 +3464,7 @@
     "ci_run_id": null,
     "ci_job_id": null
   },
-  "last_run": {
-    "at": "2026-10-30T06:39:21+03:00",
-    "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
-    "read_only_production": true,
-    "git_write_scope": "chatgpt/system-audit-20261026-1337-handoff",
-    "ci_new_test": "NOT_RUN",
-    "actual_consumer_positive_negative": "NOT_VERIFIED",
-    "grok_ack": "NOT_SENT",
-    "payoutlens_touched": false,
-    "handoff_read_back": "PASS commit 93cd167653e4b7ded40fda2e246beeb4ed7dc361 blob 41b07dda6942e1977065f154804502d300e41011",
-    "report_read_back": "PENDING"
-  },
+  "last_run": "2026-10-30T08:37:00+03:00",
   "audit_20261030_0041": {
     "at": "2026-10-29T21:40:57Z",
     "main_sha": "f5d311d626309e51166d21d2578f79a84dd312e9",
@@ -4515,5 +4498,139 @@
       "read_back": "PASS",
       "handoffs_preserved": 56
     }
+  },
+  "audit_20261030_0837": {
+    "time": "2026-10-30T08:37:00+03:00",
+    "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+    "priority": "P0>P1>P2",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "p0": {
+      "pr": 309,
+      "head": "8039adb266c4da0a3e8f353e49a6e549d489b375",
+      "behind": 154,
+      "ahead": 52,
+      "merge_ref": "f48d88a0ca392c1e656cf8b331a91bc65b876ef7",
+      "merge_ref_first_parent": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+      "current_main_match": false,
+      "workflow": "archive-heal.yml",
+      "unsafe_main_command": "git pull --rebase origin main",
+      "combined_ci": "NOT_RUN",
+      "production_readback": "NOT_VERIFIED",
+      "decision": "P0_OPEN"
+    },
+    "ci": {
+      "auto_merge": {
+        "run": 41008466997,
+        "job": 123908682091,
+        "command": "python3 scripts/auto_merge_gate.py",
+        "exit": 0,
+        "pr": 269,
+        "merge": false,
+        "reasons": [
+          "draft",
+          "unapproved branch",
+          "missing handoff/test evidence",
+          "workflow denylist",
+          "missing required checks"
+        ],
+        "logs_readback": "job logs: JSON 269 merge=false"
+      },
+      "team_worker": {
+        "run": 41008249568,
+        "job": 123907977099,
+        "exit": 0,
+        "stdout": "skip_no_handoff_id",
+        "executed_task": false
+      },
+      "loader": {
+        "run": 40976477159,
+        "job": 123805652693,
+        "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+        "exit": 0,
+        "stdout": "plan_learnings tag=system count=9 error=None",
+        "artifact_list": []
+      }
+    },
+    "learning_bridge": {
+      "ledger_count": 83,
+      "source_count": 95,
+      "system_active_count": 9,
+      "targets": [
+        {
+          "id": "learn_0bdcee93377fd18d",
+          "source_id": "src_be6523a27c85e346",
+          "decision_effect": "NOT_VERIFIED_REPORTING_API_CONSUMER"
+        },
+        {
+          "id": "learn_4decad368966e2e6",
+          "source_id": "src_569c596da7048714",
+          "decision_effect": "NOT_VERIFIED_ARTIFACT_CONSUMER"
+        }
+      ],
+      "metadata_tests": {
+        "positive": true,
+        "missing": true,
+        "inactive": true,
+        "superseded": true,
+        "invalid_source": true,
+        "scope": "in-memory JS metadata, no shell exit"
+      },
+      "consumer_tests": {
+        "reporting_partial_batch": "NOT_RUN",
+        "digest_mismatch": "NOT_RUN",
+        "artifact_readback": "NOT_VERIFIED",
+        "applied_learning_ids": []
+      },
+      "bridge_failure": true,
+      "issue": 308
+    },
+    "automations": {
+      "system": {
+        "enabled": true,
+        "github_mode": "dispatch+observe"
+      },
+      "finance": {
+        "enabled": true,
+        "github_mode": "dispatch+observe; finance runner missing"
+      },
+      "video_shopify": {
+        "enabled": true,
+        "github_mode": "dry-run"
+      },
+      "knowledge": {
+        "enabled": true,
+        "github_mode": "dry-run"
+      },
+      "source": "ChatGPT automation peek + main state/automation_runner.json 2026-10-29T23:56:38Z"
+    },
+    "production_gates": {
+      "shorts_upload_ledger_entries": 0,
+      "mp4_full_qc": "NOT_RUN",
+      "finance_altcoin": "N/A (0/10 verified)",
+      "finance_svg": "NOT_VERIFIED"
+    },
+    "decisions": {
+      "before": "CI success and loader success may be mistaken for production PASS",
+      "after": "FAIL_CLOSED: actual merge=false and no consumer/production read-back",
+      "applied_learning_ids": [
+        "learn_1f26fa5202f29769",
+        "learn_175c67179539e7e6",
+        "learn_67340fd77c09f582"
+      ],
+      "scope": "AUDIT_ONLY"
+    },
+    "persistence": {
+      "report_path": "reports/system_wave_current.json",
+      "handoff_path": "state/handoffs.json",
+      "target_branch": "chatgpt/system-audit-20261026-1337-handoff",
+      "main_written": false
+    },
+    "wave": {
+      "completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "new_wave_started": false
+    },
+    "payoutlens_touched": false
   }
 }
