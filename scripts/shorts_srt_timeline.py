@@ -85,13 +85,21 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
     if not mapped:
         raise ValueError("no fully contained transcript cues")
     overlong = [c["cue"] for c in mapped if c["max_line_chars"] > 42 or c["line_count"] > 2]
+    format_conversion_required = any("," not in line and "." not in line
+        for line in srt.read_text(encoding="utf-8-sig").splitlines() if "-->" in line)
+    technical_blockers = (
+        (["BOUNDARY_CROSSING_CUE"] if crossed else [])
+        + (["SRT_MILLISECONDS_REQUIRED"] if format_conversion_required else [])
+        + (["MOBILE_READABILITY_REVIEW"] if overlong else [])
+    )
     return {"source_srt_sha256": actual, "duration": round(total, 3),
             "segments": segments, "mapped_cues": mapped,
             "boundary_crossing_cues": sorted(set(crossed)),
             "mobile_readability_review_cues": overlong,
             "timeline_boundary_gate": "BLOCKED" if crossed else "PASS_TECHNICAL_ONLY",
-            "caption_format_conversion_required": any("," not in line and "." not in line
-                for line in srt.read_text(encoding="utf-8-sig").splitlines() if "-->" in line),
+            "caption_format_conversion_required": format_conversion_required,
+            "technical_preflight_gate": "BLOCKED" if technical_blockers else "PASS_TECHNICAL_ONLY",
+            "technical_preflight_blockers": technical_blockers,
             "rights_review_pending": True, "speech_sync_review_pending": True,
             "framing_review_pending": True, "publish_ready": False}
 
@@ -110,8 +118,8 @@ def main() -> int:
     except (OSError, ValueError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}))
         return 2
-    print(json.dumps({"ok": report["timeline_boundary_gate"] == "PASS_TECHNICAL_ONLY", **report}))
-    return 0 if report["timeline_boundary_gate"] == "PASS_TECHNICAL_ONLY" else 2
+    print(json.dumps({"ok": report["technical_preflight_gate"] == "PASS_TECHNICAL_ONLY", **report}))
+    return 0 if report["technical_preflight_gate"] == "PASS_TECHNICAL_ONLY" else 2
 
 
 if __name__ == "__main__":
