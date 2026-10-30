@@ -97,7 +97,7 @@ class TimelineTests(unittest.TestCase):
         self.assertEqual(report["technical_preflight_gate"], "BLOCKED")
 
     def test_reading_speed_gate_blocks_short_dense_cue(self):
-        self.path.write_text("1\\n00:00:00,000 --> 00:00:02,000\\n" + "A" * 41 + "\\n\\n2\\n00:00:03,000 --> 00:00:32,000\\nOK\\n".replace("\\n", "\n"), encoding="utf-8")
+        self.path.write_text("1\n00:00:00,000 --> 00:00:02,000\n" + "A" * 41 + "\n\n2\n00:00:03,000 --> 00:00:32,000\nOK\n", encoding="utf-8")
         digest = hashlib.sha256(self.path.read_bytes()).hexdigest()
         report = audit(self.path, digest, [(0, 32)])
         self.assertEqual(report["caption_reading_speed_review_cues"], [1])
@@ -106,10 +106,9 @@ class TimelineTests(unittest.TestCase):
         self.assertEqual(report["technical_preflight_gate"], "BLOCKED")
 
     def test_markup_not_counted_as_visible_text(self):
-        cues = read_cues("1\\n00:00:00,000 --> 00:00:02,000\\n<i>Hello</i>\\n".replace("\\n", "\n"))
+        cues = read_cues("1\n00:00:00,000 --> 00:00:02,000\n<i>Hello</i>\n")
         self.assertEqual(cues[0]["max_line_chars"], 5)
         self.assertEqual(cues[0]["chars_per_second"], 2.5)
-
 
 if __name__ == "__main__":
     unittest.main()
