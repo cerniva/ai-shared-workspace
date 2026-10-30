@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_97656cefc7b0673b", "verified_at": "2026-10-30T09:20:00+03:00"},
+    {"source_id": "src_c47bbcd15b32d194", "verified_at": "2026-10-30T09:20:00+03:00"},
+    {"source_id": "src_14818279e16364ff", "verified_at": "2026-10-30T09:20:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board press releases RSS: Federal Reserve issues FOMC statement (October 28, 2026)",
+      "domain": "finance-news",
+      "claim": "Federal Reserve press release monetary20261028a (28 Oct 2026, 2:00 p.m. EDT, read 2026-10-30, HTTP 200) states the FOMC voted 10-2 to maintain the federal funds target range at 3-3/4 to 4 percent and to continue maintaining ample reserves. The statement says economic activity is expanding at a strong pace, inflation remains elevated, and the unemployment rate has changed little. Lisa D. Cook and Beth M. Hammack dissented, preferring a 1/4 percentage point increase. This is the newest dated policy action and supersedes the September 16, 2026 statement as the current target range (unchanged level 3.75%-4.00%).",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: Finance reports should cite the October 28, 2026 FOMC statement as the latest policy action (hold at 3.75%-4.00%, two hawkish dissents) and keep distinguishing target range from effective rate. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Next Finance report states the policy rate as 3.75%-4.00% citing monetary20261028a and mentions the 10-2 vote; record yes/no before 2026-11-06.",
+      "learned_at": "2026-10-30T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_97656cefc7b0673b"],
+      "plan_tags": ["finance"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog feed: Route and orchestrate models with GitHub Copilot Fusion",
+      "domain": "github-platform",
+      "claim": "GitHub changelog item 2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion (28 Oct 2026, read 2026-10-30, HTTP 200) states GitHub Copilot Fusion is generally available: selecting Copilot Fusion in the model picker lets Copilot route and orchestrate models per task (Single, Cascade, Critique workflows) at effort levels Fusion Standard, High or Max. It only uses models enabled by enterprise/organization model policies; admins can set it as default via Enterprise managed settings. Billing is per model used at each model's standard rate, with a limited-time 30% discount on paid Copilot plans. Available on all Copilot plans in VS Code, the GitHub Copilot app, Copilot CLI and JetBrains IDEs; previous auto/HydraFusion selections transition automatically.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan may evaluate Copilot Fusion (Standard) for interactive coding to reduce manual model switching and token spend; billing is per underlying model, so watch premium usage. No operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Check whether any system workflow or agent pins a specific Copilot model where Fusion could apply; record found/not-found before 2026-11-06.",
+      "learned_at": "2026-10-30T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Start Sidekick conversations from your app",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page start-sidekick-conversations-from-your-app (28 Oct 2026, flag New, surface API, affected API App Bridge, read 2026-10-30, HTTP 200) states embedded apps can launch Sidekick with a pre-filled prompt via the Sidekick Launch API: from within the Shopify admin an app calls shopify.sidekick.launch({ message }) and Sidekick opens with that prompt sent as the merchant's message, e.g. from an Ask Sidekick button next to a report.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify ships an embedded admin app using App Bridge; could add contextual Ask Sidekick buttons later. No code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether video_shopify has an embedded App Bridge app; record yes/no before 2026-11-06.",
+      "learned_at": "2026-10-30T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
