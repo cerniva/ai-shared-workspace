@@ -16,9 +16,9 @@
       "last_successful_use": "2026-10-30T09:00:00+03:00"
     },
     {
-      "source_id": "src_3eacde591e51353f",
+      "source_id": "src_49dc2607641acddd",
       "source_name": "Reuters — Analysts react to Binance $6.3bn security breach (30 Oct 2026)",
-      "canonical": "https://www.reuters.com/legal/government/view-analysts-react-binance-freezes-assets-after-63-billion-security-breach-2026-10-30/",
+      "canonical": "https://www.reuters.com/legal/government/view-analysts-react-binance-freezes-assets-after-63-billion-security-breach-2026-10-30",
       "category": "finance-crypto-exchange-security",
       "purpose": "Cross-check reported impact, independently estimated stolen amount, frozen funds and immediate liquidity risk",
       "evidence_tier": "secondary",
@@ -46,7 +46,7 @@
       "learned_at": "2026-10-30T09:00:00+03:00",
       "source_ids": [
         "src_0c6e7eb5e0f5c6e4",
-        "src_3eacde591e51353f"
+        "src_49dc2607641acddd"
       ],
       "next_measurement": "Read Binance post-mortem, independent chain-forensics updates and withdrawal-status timestamps; compare reported loss, frozen amount and confirmed recovery without conflation.",
       "failure_history": [
