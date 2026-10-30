@@ -1,0 +1,110 @@
+{
+  "task_id": "CORE-03",
+  "owner": "ChatGPT",
+  "local_run": "2026-10-30 09:17 Europe/Istanbul",
+  "kind": "SRT_COVERAGE_FAIL_CLOSED_FIX_AND_LOCAL_REGRESSION_TEST_NOT_RENDER",
+  "prior_pr_head": "a6a29fcf12e37e22303529296ae0a207984acabb",
+  "branch": "fix/shorts-original-audio-clip-20261020",
+  "pr": 269,
+  "changes": [
+    {
+      "path": "scripts/shorts_srt_timeline.py",
+      "blob_sha": "20a29a4c1166308eb78d51d036cc94a00b890d62",
+      "effect": "Preflight now blocks >3s uncovered caption timeline gaps, consistent with existing source renderer; rejects markup-only/invisible cues."
+    },
+    {
+      "path": "tests/test_shorts_srt_coverage_gate.py",
+      "blob_sha": "8e7ab68ecc8b83a43dcb5753325ad4f69f2aefe0",
+      "effect": "3 new regression tests: 27s uncovered gap blocked, full coverage passes technical-only, markup-only cue rejected."
+    }
+  ],
+  "local_test": {
+    "scope": "Exact GitHub blob copies of scripts/shorts_srt_timeline.py and tests/test_shorts_srt_timeline.py plus new tests; not full repository CI",
+    "original_blob_sha_verified": [
+      "79ba329311d98cd9a0cde2156f766123b14eae04",
+      "44aca788af002885d535b52d9bcc8d30010722d4"
+    ],
+    "tests_passed": 15,
+    "tests_total": 15,
+    "exit_code": 0,
+    "python_compile": "PASS",
+    "test_source": "/mnt/data/video_shopify_20261030_0917/test_stdout_combined.txt"
+  },
+  "selected_research_candidate": {
+    "source": "Sous vide overview by Nomiku with VO",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "source_sha256": "624667f7235d4155b858e92f933d26d67303b1794f27757d74108c3f3562571d",
+    "srt_sha256": "527bbb5d995f754cbb0cbc72b47dc9e289e34ddd8247cd724b1f0f84368e29b9",
+    "segments": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "duration_seconds": 36.5,
+    "status": "RESEARCH_ONLY"
+  },
+  "gates": [
+    "RIGHTS_BLOCKED",
+    "TRANSCRIPT_FORMAT_BLOCKED",
+    "TRANSCRIPT_SYNC_QA_BLOCKED",
+    "FRAMING_QA_BLOCKED",
+    "FACT_CHECK_BLOCKED",
+    "MULTI_SEGMENT_RENDER_BLOCKED",
+    "INDEPENDENT_QA_PENDING",
+    "PR_CI_NOT_VERIFIED"
+  ],
+  "final_mp4": null,
+  "media_sha256": null,
+  "uploaded_to_youtube": false,
+  "publish_ready": false,
+  "learning_gate": {
+    "executed_this_run": false,
+    "reason": "Full local repository unavailable; git ls-remote failed DNS; no stdout or exit code from plan_learnings.py this run",
+    "stdout": null,
+    "exit_code": null
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "GitHub source SHA pins preserved; no downloaded media substitution or inferred rights from digest.",
+    "learn_ae8a18babc190373": "Preflight fail-closed for uncovered captions, screen-readable cues and original-audio edit; no publish-ready claim.",
+    "learn_e74d8dd625c30863": "Metricool sparse views not converted to retention/stayed-to-watch claims.",
+    "learn_991df8ed39245aef": "No Shopify gross price interpreted as realized profit; no changes to draft products.",
+    "learn_f5624ca54a31e57c": "Gumroad draft-first; private account access not available, no create or publish."
+  },
+  "commerce": {
+    "shopify": {
+      "product_count": 9,
+      "draft": 9,
+      "active": 0,
+      "orders": 0,
+      "sessions_2026_10_23_to_30": 2,
+      "cart_sessions": 0,
+      "checkout_sessions": 0,
+      "supplier_shipping": "unknown",
+      "returns": "unknown",
+      "net_margin": "unknown"
+    },
+    "gumroad": {
+      "private_sales": "not accessible",
+      "private_drafts": "not accessible",
+      "changes": false
+    }
+  },
+  "youtube": {
+    "source": "Metricool linked channel",
+    "channel_id": "UCAKg-ZKPoazTnF2zDVORk4Q",
+    "subscribers_observed": 5,
+    "views_observed": {
+      "2026-10-23": 2,
+      "2026-10-25": 2
+    },
+    "missing_days": "unknown",
+    "retention": "not accessible"
+  },
+  "next_action": "Independent rights/audio/music/caption and sync review, mobile 9:16 QA, multi-segment integration, full PR CI and independent code review before any actual render or upload.",
+  "restrictions": "No main write, no merge, no upload, no paid service, no commercial mutation; PayoutLens untouched."
+}
