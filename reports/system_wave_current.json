@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T06:39:21+03:00",
+  "generated_at": "2026-10-30T07:35:00+03:00",
   "repository": "cerniva/ai-shared-workspace",
   "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "AUDIT_ONLY_NOT_PRODUCTION",
   "payoutlens_touched": false,
-  "decision_before": "PARTIAL_FAIL_CLOSED: current main 6c88d9ae0c7ee1968e60351763d202d22f79a7ee; PR309 behind153/ahead52, merge-ref first parent 1ce579cd != current main; auto-merge CI40992086833 job123856647014 exit0 but PR269 merge=false; real consumer/Shorts upload/production SVG NOT_VERIFIED",
-  "decision_after": "PARTIAL_FAIL_CLOSED: main=2bcc0e80; PR309 behind154/ahead52, merge-ref first parent stale; auto-merge CI40998484226 exit0 but PR269 merge=false; real Reporting API checkpoint, artifact digest consumer, Shorts upload and finance production SVG NOT_VERIFIED",
+  "decision_before": "PARTIAL_FAIL_CLOSED: main=2bcc0e80; PR309 behind154/ahead52, merge-ref first parent stale; auto-merge CI40998484226 exit0 but PR269 merge=false; real Reporting API checkpoint, artifact digest consumer, Shorts upload and finance production SVG NOT_VERIFIED",
+  "decision_after": "FAIL_CLOSED: auto-merge PR269 merge=false; PR309 diverged behind154/ahead52 and no fresh combined race CI; learning bridge consumer tests and read-back absent; production Shorts upload/SVG not verified",
   "applied_learning_ids": [
     "learn_1f26fa5202f29769",
     "learn_175c67179539e7e6",
     "learn_67340fd77c09f582"
   ],
-  "applied_learning_ids_scope": "AUDIT_DECISIONS_ONLY; actual Reporting API and artifact consumer applied_learning_ids=[]",
+  "applied_learning_ids_scope": "AUDIT_DECISIONS_ONLY; actual Reporting API/artifact consumer applied_learning_ids=[]",
   "learning_bridge": {
     "status": "bridge_failure_OPEN",
     "issue": 308,
@@ -492,7 +492,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
@@ -509,7 +509,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39269730285",
@@ -526,7 +526,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
@@ -543,7 +543,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39382139527",
@@ -560,7 +560,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261021-slow-auto-merge-gate",
@@ -577,7 +577,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39568642118",
@@ -594,7 +594,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39592612716",
@@ -611,7 +611,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39617972568",
@@ -628,7 +628,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261022-slow-shorts-render-tests",
@@ -645,7 +645,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39733548992",
@@ -662,7 +662,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-39755405014",
@@ -679,7 +679,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
@@ -696,7 +696,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
@@ -713,7 +713,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-40086311263",
@@ -730,7 +730,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "CI-40115771434",
@@ -747,7 +747,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261025-slow-codeql-code-scanning",
@@ -764,7 +764,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "HO-IMP-20261027-slow-research-learner",
@@ -781,7 +781,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "open",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "ISSUE-308",
@@ -798,7 +798,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "NOT_A_HANDOFF",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     },
     {
       "id": "SHORTS-FINAL-MP4-UPLOAD-GATE",
@@ -815,7 +815,7 @@
       "reviewed_this_turn": true,
       "current_main_handoff_status": "NOT_A_HANDOFF",
       "current_main_handoff_sha": "145730b4d9322604ddc3b3acce4ade9cb08655b0",
-      "metadata_reviewed_at": "2026-10-30T06:39:21+03:00"
+      "metadata_reviewed_at": "2026-10-30T07:35:00+03:00"
     }
   ],
   "handoff_write": {
@@ -4317,6 +4317,194 @@
       "blob": "41b07dda6942e1977065f154804502d300e41011",
       "readback": "PASS",
       "items": 56
+    }
+  },
+  "audit_20261030_0735": {
+    "at": "2026-10-30T07:35:00+03:00",
+    "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "payoutlens_touched": false,
+    "decision_before": "LATEST_AUTO_MERGE_SUCCESS_MIGHT_BE_MISREAD_AS_MERGE; PR309 HISTORICAL_GREEN_MIGHT_BE_MISREAD_AS_CURRENT_MAIN_TEST; LOADER_SUCCESS_MIGHT_BE_MISREAD_AS_REAL_CONSUMER",
+    "decision_after": "FAIL_CLOSED: auto-merge PR269 merge=false; PR309 diverged behind154/ahead52 and no fresh combined race CI; learning bridge consumer tests and read-back absent; production Shorts upload/SVG not verified",
+    "decisions": [
+      {
+        "consumer": "GitHub workflow inventory",
+        "before": "first-page list might be treated as complete",
+        "after": "PARTIAL (35 latest run sample, pagination not exhausted)",
+        "applied_learning_ids": [
+          "learn_1f26fa5202f29769"
+        ],
+        "source_ids": [
+          "src_74c1f2ed10aefae7"
+        ]
+      },
+      {
+        "consumer": "PR309 current-main promotion",
+        "before": "historical successful PR checks",
+        "after": "FAIL_CLOSED: main=2bcc0e80e830fe6f0edc590f3be477b23b08db67 PR309 behind154 ahead52, merge-ref first parent 1ce579cd6e949eb34e7ecc2352f5f743b6a6177c != main; no current race CI",
+        "applied_learning_ids": [
+          "learn_175c67179539e7e6"
+        ],
+        "source_ids": [
+          "src_c55c127baae6d0e8"
+        ]
+      },
+      {
+        "consumer": "PR269 required checks",
+        "before": "auto-merge run success",
+        "after": "merge=false: draft, workflow denylist, no handoff/test evidence, missing required checks",
+        "applied_learning_ids": [
+          "learn_67340fd77c09f582"
+        ],
+        "source_ids": [
+          "src_c99620eb8f764049"
+        ]
+      }
+    ],
+    "ci": {
+      "run_id": 41002728872,
+      "job_id": 123890616518,
+      "head_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+      "command": "python3 scripts/auto_merge_gate.py",
+      "exit": 0,
+      "result": "PR269 merge=false",
+      "url": "https://github.com/cerniva/ai-shared-workspace/actions/runs/41002728872",
+      "log_readback": "PASS"
+    },
+    "worker": {
+      "run_id": 40999013075,
+      "job_id": 123878879060,
+      "head_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+      "command": "python3 -m scripts.team_worker",
+      "exit": 0,
+      "result": "skip_no_handoff_id; no task executed",
+      "log_readback": "PASS"
+    },
+    "p0": {
+      "pr": 309,
+      "state": "open draft",
+      "behind": 154,
+      "ahead": 52,
+      "main_sha": "2bcc0e80e830fe6f0edc590f3be477b23b08db67",
+      "workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "risky_command": "git pull --rebase origin main",
+      "merge_ref_first_parent": "1ce579cd6e949eb34e7ecc2352f5f743b6a6177c",
+      "race_ci": "NOT_RUN",
+      "production_readback": "NOT_VERIFIED"
+    },
+    "learning": {
+      "ledger_blob": "6654ffabba3e5cc4b10ad53e37bb539dc71022e0",
+      "catalog_blob": "72fb179f83f4af170e196484ae368a6463c0883f",
+      "learnings": 83,
+      "sources": 95,
+      "active_system": 9,
+      "source_links": "PASS_METADATA",
+      "targets": [
+        {
+          "id": "learn_0bdcee93377fd18d",
+          "source_id": "src_be6523a27c85e346",
+          "consumer": "Reporting API createdAfter",
+          "actual_applied": "NOT_VERIFIED"
+        },
+        {
+          "id": "learn_4decad368966e2e6",
+          "source_id": "src_569c596da7048714",
+          "consumer": "cross-workflow artifact digest",
+          "actual_applied": "NOT_VERIFIED"
+        }
+      ],
+      "metadata_tests": {
+        "positive": true,
+        "missing": true,
+        "inactive": true,
+        "superseded": true,
+        "invalid_source": true,
+        "scope": "JS_METADATA_ONLY_NO_SHELL_EXIT"
+      },
+      "real_consumer_applied_learning_ids": [],
+      "real_partial_batch_test": "NOT_RUN",
+      "real_digest_mismatch_test": "NOT_RUN",
+      "manifest_readback": "NOT_VERIFIED",
+      "bridge_failure": "OPEN issue #308",
+      "loader": {
+        "run_id": 40976477159,
+        "job_id": 123805652693,
+        "stdout": "plan_learnings tag=system count=9 error=None",
+        "exit": 0,
+        "scope": "LOADER_ONLY",
+        "artifact_readback": "NONE"
+      }
+    },
+    "automations": {
+      "enabled": 4,
+      "total": 4,
+      "source": "Automations.peek",
+      "states": {
+        "system": "in_progress",
+        "finance": "completed",
+        "video_shopify": "completed",
+        "knowledge": "completed"
+      },
+      "github_runner_blob": "d78de575178b1945247648cb47d065f3e64cd8f2",
+      "github_modes": {
+        "system": "dispatch+observe",
+        "finance": "dispatch+observe, finance production runner absent",
+        "video_shopify": "dry-run",
+        "knowledge": "dry-run"
+      },
+      "production_all_four": "NOT_VERIFIED"
+    },
+    "shorts": {
+      "upload_ledger_blob": "aa357952c4ee713ddc224d8426cf8bc9c538d13e",
+      "verified_uploads": 0,
+      "mp4_full_qc": "NOT_RUN",
+      "youtube_remote_upload": "NOT_VERIFIED"
+    },
+    "finance": {
+      "calibration_path": "config/altcoin_panel_calibration.json",
+      "calibration_blob": "6bbeacf9482245304a056dbfe7507d08cb181aa9",
+      "validated": 0,
+      "total": 10,
+      "score": "N/A",
+      "svg_code_blob": "e5bef42ef02a84862a7e59828c1c80d8a50ed50a",
+      "production_svg": "NOT_VERIFIED"
+    },
+    "fallback": {
+      "id": "FB-20261009-213204-grok-fallback-open",
+      "acked_by": null,
+      "ack": "NOT_SENT"
+    },
+    "wave": {
+      "selected": 20,
+      "completed": 0,
+      "continuing": 19,
+      "blocked_user": 1,
+      "all_task_metadata_reviewed": true,
+      "all_task_tests_rerun": false,
+      "new_wave_started": false,
+      "owner_limit": 5,
+      "external_agents_not_assigned": true
+    },
+    "local": {
+      "command": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+      "exit": 128,
+      "reason": "Could not resolve host github.com",
+      "plan_learnings_local": "NOT_RUN; no checkout",
+      "alternative": "GitHub connector fetch_file/CI job logs/compare"
+    },
+    "draft_consumers": {
+      "reporting_pr334": {
+        "state": "open draft",
+        "behind": 168,
+        "ahead": 15,
+        "production_readback": "NOT_VERIFIED"
+      },
+      "digest_pr314": {
+        "state": "open draft",
+        "behind": 349,
+        "ahead": 19,
+        "production_readback": "NOT_VERIFIED"
+      }
     }
   }
 }
