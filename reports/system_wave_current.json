@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T17:37:43+03:00",
+  "generated_at": "2026-10-30T19:33:16+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "ddd68019a6118660eaa77fa7d0ed46fa4b3e39cc",
+  "main_sha": "734ed52af9dd1236053de2fcbbbb3ca1e26d3fa1",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "AUDIT_ONLY_NOT_PRODUCTION",
   "payoutlens_touched": false,
-  "decision_before": "16:37 audit: main b49c2032; PR309 behind168/ahead52, stale merge-ref first-parent 1ce579cd != main; PR387 is OPEN non-draft but only state/handoffs.json + state/team_work JSON (no workflow fix). New loader CI41058894848 job124073317277 system count10 exit0; automation-runner CI41058877556 job124073253966 dispatch/observe+dry-run only; 4 automations enabled; production Reporting API/digest, MP4 upload and SVG still NOT_VERIFIED; issue308 OPEN.",
-  "decision_after": "17:37 main ddd68019 (only state/desk_notify_health.json changed); PR309 diverged behind169/ahead52; current-main race/production read-back absent => P0 OPEN. CI-bekci run41073159992/job124122238816 success is watcher only. Loader run41058894848/job124073317277 count10 exit0, metadata positive+4 negative checks pass in memory, no consumer tests => bridge_failure OPEN issue308. Four automations enabled, GitHub finance runner missing, video/knowledge dry-run; Shorts upload ledger empty, altcoin 0/10 N/A, SVG production read-back absent.",
+  "decision_before": "18:37 main ddd68019; P0 archive PR309 unresolved, issue308 bridge_failure open, no consumer output",
+  "decision_after": "19:33 main 734ed52a; ci-bekci 41089915216 success only watcher, tinyfish-event-bridge 41089877585 success only bridge; no archive production read-back, no Reporting API partial-batch or digest-mismatch consumer test, no upload or SVG production proof. Preserve P0 and bridge_failure.",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "NO_REAL_PRODUCTION_CONSUMER_APPLICATION",
   "learning_bridge": {
@@ -6284,6 +6284,54 @@
       "newly_completed": 0,
       "verified_against": "previous report; no exhaustive per-task retest"
     },
+    "payoutlens_touched": false
+  },
+  "audit_20261030_1933": {
+    "scope": "AUDIT_ONLY_NOT_PRODUCTION",
+    "main_sha": "734ed52af9dd1236053de2fcbbbb3ca1e26d3fa1",
+    "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+    "handoffs_count": 57,
+    "active_tasks_source": "tasks/active.json",
+    "capacity_source": "tasks/agent_capacity.json",
+    "ledger_count": 86,
+    "source_count": 95,
+    "learning_ids_checked": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "applied_learning_ids": [],
+    "decision_before": "previous main ddd68019, P0/bridge blocked",
+    "decision_after": "main advanced; no new production gate evidence, P0/bridge remain blocked",
+    "ci": [
+      {
+        "run": 41089915216,
+        "job": null,
+        "conclusion": "success",
+        "scope": "ci-bekci only"
+      },
+      {
+        "run": 41089877585,
+        "job": null,
+        "conclusion": "success",
+        "scope": "tinyfish event bridge only"
+      }
+    ],
+    "tests": {
+      "command": "python3 scripts/plan_learnings.py system --require",
+      "exit": "NOT_RUN_THIS_TURN",
+      "reason": "no local repo checkout; previous CI loader only"
+    },
+    "readback": "PENDING",
+    "production": {
+      "archive": "NOT_VERIFIED",
+      "reporting_batch": "NOT_VERIFIED",
+      "digest_mismatch": "NOT_VERIFIED",
+      "shorts_mp4_upload": "NOT_VERIFIED",
+      "finance_altcoin": "N/A",
+      "svg": "NOT_VERIFIED"
+    },
+    "issue": 308,
+    "pr": 309,
     "payoutlens_touched": false
   }
 }
