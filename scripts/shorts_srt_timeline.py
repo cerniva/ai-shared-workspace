@@ -45,9 +45,12 @@ def read_cues(text: str) -> list[dict]:
         start, end = parse_stamp(m.group(1)), parse_stamp(m.group(2))
         if end <= start or start < prev_end - 0.001:
             raise ValueError(f"overlapping or invalid cue {idx}")
+        visible_lines = [re.sub(r"<[^>]+>", "", line).strip() for line in lines[1:] if line.strip()]
+        visible_text = " ".join(visible_lines)
         result.append({"cue": idx, "start": start, "end": end,
-                       "max_line_chars": max(len(line.strip()) for line in lines[1:]),
-                       "line_count": sum(bool(line.strip()) for line in lines[1:])})
+                       "max_line_chars": max(len(line) for line in visible_lines),
+                       "line_count": len(visible_lines),
+                       "chars_per_second": round(len(visible_text) / (end - start), 2)})
         prev_end = end
     return result
 
@@ -80,11 +83,13 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
                            "short_start": round(offset + cue["start"] - start, 3),
                            "short_end": round(offset + cue["end"] - start, 3),
                            "max_line_chars": cue["max_line_chars"],
-                           "line_count": cue["line_count"]})
+                           "line_count": cue["line_count"],
+                           "chars_per_second": cue["chars_per_second"]})
         offset += end - start
     if not mapped:
         raise ValueError("no fully contained transcript cues")
     overlong = [c["cue"] for c in mapped if c["max_line_chars"] > 42 or c["line_count"] > 2]
+    too_fast = [c["cue"] for c in mapped if c["chars_per_second"] > 20]
     # Both endpoints must have explicit millisecond precision; mixed precision
     # is not a renderer-compatible SRT even when one timestamp has a comma.
     precise_stamp = re.compile(r"^\d{2}:\d{2}:\d{2}[,.]\d{3}$")
@@ -98,11 +103,13 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
         (["BOUNDARY_CROSSING_CUE"] if crossed else [])
         + (["SRT_MILLISECONDS_REQUIRED"] if format_conversion_required else [])
         + (["MOBILE_READABILITY_REVIEW"] if overlong else [])
+        + (["CAPTION_READING_SPEED_REVIEW"] if too_fast else [])
     )
     return {"source_srt_sha256": actual, "duration": round(total, 3),
             "segments": segments, "mapped_cues": mapped,
             "boundary_crossing_cues": sorted(set(crossed)),
             "mobile_readability_review_cues": overlong,
+            "caption_reading_speed_review_cues": too_fast,
             "timeline_boundary_gate": "BLOCKED" if crossed else "PASS_TECHNICAL_ONLY",
             "caption_format_conversion_required": format_conversion_required,
             "technical_preflight_gate": "BLOCKED" if technical_blockers else "PASS_TECHNICAL_ONLY",
