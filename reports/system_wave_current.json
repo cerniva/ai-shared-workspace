@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T20:39:45+03:00",
+  "generated_at": "2026-10-31T01:37:12+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "c97651e903bb61b1816bfc3175e321d76cfdf1b0",
+  "main_sha": "c89878ebf21219afeae21cec01407350ac4892af",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "AUDIT_ONLY_NOT_PRODUCTION",
   "payoutlens_touched": false,
-  "decision_before": "19:33 main 734ed52a; P0 and bridge_failure open",
-  "decision_after": "20:39 main c97651e9; provider-health-only commit; main PROTOCOL, tasks/active, capacity, inbox, fallback, ledger, catalog and runner inspected; no production consumer/MP4/upload/SVG readback. P0 and bridge_failure remain open.",
+  "decision_before": "Previous audit: P0 archive race and bridge_failure open; no production read-back.",
+  "decision_after": "Current main and 86 learning/95 source catalog verified; PR #309 draft, issue #308 open; target learning source IDs valid but no real consumer evidence; CI watch success not production gate. Preserve fail-closed and N/A.",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "NO_REAL_PRODUCTION_CONSUMER_APPLICATION",
   "learning_bridge": {
@@ -6434,6 +6434,33 @@
       "new_completed": 0,
       "per_task_retested": false
     },
+    "payoutlens_touched": false
+  },
+  "latest_audit": {
+    "at": "2026-10-31T01:37:12+03:00",
+    "main_sha": "c89878ebf21219afeae21cec01407350ac4892af",
+    "ci_run_id": 41137366297,
+    "ci_job_id": 124343018908,
+    "ci_conclusion": "success_watch_only",
+    "learning_targets": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "source_ids": [
+      "src_be6523a27c85e346",
+      "src_569c596da7048714"
+    ],
+    "consumer_tests": "NOT_RUN",
+    "bridge_failure": "OPEN",
+    "archive_pr": 309,
+    "archive_gate": "OPEN",
+    "shorts_mp4_upload": "NOT_VERIFIED",
+    "finance_altcoin": "N/A",
+    "svg_production": "NOT_VERIFIED",
+    "local_git": "DNS_FAILURE_EXIT_128",
+    "test_command": "python3 scripts/plan_learnings.py system --require",
+    "test_exit": "NOT_RUN",
+    "reason": "no executable checkout; GitHub API read only for execution",
     "payoutlens_touched": false
   }
 }
