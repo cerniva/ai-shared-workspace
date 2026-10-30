@@ -1,0 +1,132 @@
+{
+  "task_ids": [
+    "CORE-03",
+    "CORE-04"
+  ],
+  "owner": "ChatGPT",
+  "checked_at": "2026-10-30T14:31:08+03:00",
+  "kind": "PUBLIC_SOURCE_REVISION_AND_LIVE_READONLY_COMMERCE_ANALYTICS_GATE",
+  "main_protocol_sha": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+  "main_learning_ledger_blob_sha": "b2ebca4fddee76dfebac5abd61f6ec8e9febd606",
+  "pr": {
+    "number": 269,
+    "branch": "fix/shorts-original-audio-clip-20261020",
+    "head_before": "640de94423603536b2e7c485355f428fddc5f894",
+    "draft": true,
+    "mergeable": false,
+    "independent_reviews": 0,
+    "head_workflow_runs": 0
+  },
+  "source": {
+    "file_page": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "file_page_revision": "https://commons.wikimedia.org/w/index.php?title=File:Sous_vide_overview_by_Nomiku_with_VO.webm&oldid=1267414219",
+    "declared_author": "Pkwong89",
+    "declared_license": "CC BY 4.0",
+    "declared_license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "declared_media_duration_seconds": 84.488,
+    "declared_media_sha1": "4e911cbce1e94cfac38ec4420d546eecf689fc11",
+    "sha1_is_not_local_sha256": true,
+    "caption_page": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+    "caption_revision": "https://commons.wikimedia.org/w/index.php?title=TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt&oldid=185645656",
+    "caption_text_page_terms": "Wikimedia Commons unstructured text: CC BY-SA; additional terms may apply",
+    "caption_times": "Page displays HH:MM:SS timestamps without millisecond precision; not accepted as renderer-ready SRT until verified and converted from actual transcript, no inferred timing",
+    "attribution_required": "credit source creator, link CC BY 4.0 license, identify editing; review caption CC BY-SA attribution/share-alike compatibility",
+    "audio_component_rights": "PENDING_INDEPENDENT_REVIEW",
+    "caption_reuse_and_sync": "PENDING_INDEPENDENT_REVIEW",
+    "source_sha256_local_current": "NOT_VERIFIED_THIS_RUN",
+    "download_attempt": "source download unavailable in this runtime; no original media byte read",
+    "planned_segments_seconds": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "planned_total_seconds": 36.5,
+    "final_mp4": null,
+    "media_sha256": null,
+    "full_length_qc": false,
+    "publish_ready": false,
+    "gates": [
+      "RIGHTS_BLOCKED",
+      "TRANSCRIPT_BLOCKED",
+      "FRAMING_QA_BLOCKED",
+      "MULTI_SEGMENT_RENDER_BLOCKED",
+      "CI_REVIEW_BLOCKED"
+    ]
+  },
+  "youtube": {
+    "source": "Metricool read-only connected brand 7082876, YouTube channel ID UCAKg-ZKPoazTnF2zDVORk4Q",
+    "period": "2026-10-23..2026-10-30 14:00 TRT",
+    "subscribers_latest_non_null": 5,
+    "video_views_non_null_days": {
+      "2026-10-23": 2,
+      "2026-10-25": 2
+    },
+    "missing_view_days_are_null_not_zero": true,
+    "video_upload_count_from_metricool": "NULL/UNVERIFIED",
+    "engaged_views": "UNAVAILABLE",
+    "retention": "UNAVAILABLE",
+    "oauth_upload_scope": "NOT_VERIFIED",
+    "uploaded_this_run": false
+  },
+  "shopify": {
+    "source": "Shopify Admin live search, list_orders, ShopifyQL sessions",
+    "products": 9,
+    "drafts": 9,
+    "active": 0,
+    "orders": 0,
+    "sessions": 2,
+    "cart_sessions": 0,
+    "checkout_sessions": 0,
+    "conversion_rate": 0,
+    "period": "2026-10-23..2026-10-30",
+    "currency": "EUR",
+    "oil_sprayer_price_eur": 24.9,
+    "oil_sprayer_unit_cost_eur": "NOT_RECHECKED_THIS_RUN (historical 7.42)",
+    "pet_hair_roller_price_range_eur": "3.71..10.62 among displayed variants; all-variant cost NOT_RECHECKED_THIS_RUN",
+    "supplier_shipping": "UNKNOWN",
+    "returns_policy": "UNKNOWN",
+    "supplier_quality": "UNKNOWN",
+    "net_margin": "UNKNOWN",
+    "demand": "NOT_ESTABLISHED",
+    "action": "NO_LISTING_OR_PRICE_CHANGE"
+  },
+  "gumroad": {
+    "private_account_connection": "NOT_AVAILABLE_IN_CURRENT_TOOLS",
+    "drafts": "UNVERIFIED",
+    "sales": "UNVERIFIED",
+    "action": "NO_CREATE_OR_PUBLISH"
+  },
+  "learning_runner": {
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "reason": "Full repository unavailable in container; git ls-remote attempt failed DNS (exit 128). Do not run partial standalone script or fabricate output.",
+    "git_ls_remote_exit_code": 128,
+    "git_ls_remote_stderr": "Could not resolve host: github.com"
+  },
+  "applied_learning_ids": {
+    "learn_4decad368966e2e6": "Distinguish Commons SHA-1 and historical local SHA-256; no current byte-level source integrity PASS.",
+    "learn_ae8a18babc190373": "Keep original 36.5s segment proposal, no render until rights, transcript, motion, framing, independent QA.",
+    "learn_e74d8dd625c30863": "Sparse videoViews cannot establish Shorts stayed-to-watch, AVD, retention, or packaging success.",
+    "learn_991df8ed39245aef": "Treat Shopify prices as EUR list prices; no net margin from historical unitCost, shipping/tax/returns unknown.",
+    "learn_f0de38014bef7448": "Two sessions and zero orders are insufficient to prove product demand.",
+    "learn_f5624ca54a31e57c": "No Gumroad private draft create, price, enable or file updates without authorized access and approval."
+  },
+  "next": {
+    "owner": "CORE-03 ChatGPT + independent reviewer",
+    "action": "Independently verify original audio/music and CC BY-SA subtitle adaptation/attribution, obtain source+SRT bytes and SHA-256, resolve multi-segment render integration and CI; only then 9:16 MP4 full-duration QA. CORE-04: obtain landed shipping/return data before price decisions."
+  },
+  "restrictions": {
+    "main_written": false,
+    "merged": false,
+    "published": false,
+    "paid_credits_used": 0,
+    "payoutlens_touched": false
+  }
+}
