@@ -114,7 +114,7 @@
       "discovered_at": "2026-10-09T22:36:57+00:00",
       "evidence_tier": "primary",
       "failure_note": null,
-      "last_successful_use": "2026-10-29T06:15:00+00:00",
+      "last_successful_use": "2026-10-30T06:20:00+00:00",
       "provenance": "verified",
       "purpose": "Keyless primary feed for video_shopify research-learner agent",
       "reliability_limits": "Feed item description read in full and item page returned HTTP 200 on 2026-10-10. Does not prove this workspace uses the Global Catalog REST API.",
@@ -849,7 +849,7 @@
       "discovered_at": "2026-10-09T22:36:57+00:00",
       "evidence_tier": "primary",
       "failure_note": null,
-      "last_successful_use": "2026-10-17T06:12:00+00:00",
+      "last_successful_use": "2026-10-30T06:20:00+00:00",
       "provenance": "verified",
       "purpose": "Keyless primary feed for finance research-learner agent",
       "reliability_limits": "Feed gives headline/link only; figures in this learning were read from the linked release page https://www.federalreserve.gov/newsevents/pressreleases/other20261009a.htm. Survey data is triennial and backward-looking.",
@@ -1074,7 +1074,7 @@
       "discovered_at": "2026-10-25T06:03:22+00:00",
       "evidence_tier": "primary",
       "failure_note": null,
-      "last_successful_use": "2026-10-29T06:15:00+00:00",
+      "last_successful_use": "2026-10-30T06:20:00+00:00",
       "provenance": "verified",
       "purpose": "Keyless primary feed for system research-learner agent",
       "reliability_limits": "Feed and item page fetched and read in full on 2026-10-25 (newest item 2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode). Changelog items describe GitHub product changes only; they do not prove this workspace uses the feature.",
@@ -1427,5 +1427,5 @@
       "source_name": "GitHub repository rulesets: available rules and path restrictions"
     }
   ],
-  "updated_at": "2026-10-29T10:04:47+00:00"
+  "updated_at": "2026-10-30T06:11:22+00:00"
 }
