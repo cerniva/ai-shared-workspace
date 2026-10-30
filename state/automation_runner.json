@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-30T05:47:25+00:00",
+  "generated_at": "2026-10-30T12:54:18+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 40976477159,
+          "id": 41048004512,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-29T23:56:40Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-10-30T11:25:38Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -58,10 +58,10 @@
     "knowledge": {
       "workflows": {
         "knowledge-promote.yml": {
-          "id": 40827688604,
+          "id": 41012609360,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-29T06:11:07Z",
+          "created_at": "2026-10-30T06:11:14Z",
           "event": "push"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 40976484185,
+          "id": 41010380379,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-29T23:56:44Z",
+          "created_at": "2026-10-30T05:47:32Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 40979243055,
+          "id": 41014098157,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T00:22:08Z",
+          "created_at": "2026-10-30T06:26:32Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 40985511647,
+          "id": 41022227166,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T01:22:58Z",
+          "created_at": "2026-10-30T07:47:16Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": null
+  "model_summary": "Sağlıksız görünen youtube-upload.yml iş akışının hata günlüklerini (logs) inceleyin ve çalıştırılmamış olan shorts-free-render.yml akışının tetikleme koşullarını kontrol edin."
 }
