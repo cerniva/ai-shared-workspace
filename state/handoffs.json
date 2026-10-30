@@ -921,9 +921,15 @@
       "task": "[.github/workflows/shorts-cdc-source-audit.yml] GitHub Actions üzerindeki darboğazı çözmek ve 'shorts-cdc-source-audit' iş akışındaki %100 başarısızlık oranını ortadan kaldırmak için, `.github/workflows/shorts-cdc-source-audit.yml` dosyasında iş akışına `timeout-minutes: 10` sınırlaması eklenmeli, flaky olan denetim/bağımlılık adımına `nick-fields/retry` kullanılarak maksimum 3 tekrar yapılabilen retry mantığı tanımlanmalı ve bağımlılıkların tekrar indirilmesini önlemek için `actions/cache` adımı entegre edilmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261030 key=fail-shorts-cdc-source-audit",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-30T11:27:43+00:00",
-      "updated_at": "2026-10-30T11:27:43+00:00"
+      "updated_at": "2026-10-30T11:28:59+00:00",
+      "claimed_at": "2026-10-30T11:28:59+00:00",
+      "notes": [
+        "2026-10-30T11:28:59+00:00 auditor: team-worker devraldi",
+        "2026-10-30T11:28:59+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261030-fail-shorts-cdc-source-audit.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
