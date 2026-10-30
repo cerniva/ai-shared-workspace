@@ -26,7 +26,7 @@ def validate_segments(segments, source_duration, *, enforce_shorts=True):
             raise ValueError("segment timestamps must be finite numbers, not booleans")
         if start < 0 or end <= start or (i and start < previous_end):
             raise ValueError("segments must be ordered, non-overlapping and positive")
-        if end > source_duration + 0.001:
+        if end > source_duration:
             raise ValueError("segment extends beyond source duration")
         # FFmpeg trim/atrim graph below serializes timestamps to milliseconds.
         # Reject sub-ms spans that would silently become zero-length cuts.
