@@ -28,15 +28,21 @@ def validate_segments(segments, source_duration, *, enforce_shorts=True):
             raise ValueError("segments must be ordered, non-overlapping and positive")
         if end > source_duration:
             raise ValueError("segment extends beyond source duration")
-        # FFmpeg trim/atrim graph below serializes timestamps to milliseconds.
-        # Reject sub-ms spans that would silently become zero-length cuts.
-        if round(end, 3) <= round(start, 3):
+        # Validate the exact millisecond timestamps written into the FFmpeg graph.
+        # Summing raw floats can reject an exact 30.000s serialized edit
+        # (e.g. 15.4 + (72.6 - 58) is 29.999999999999993).
+        serialized_start = float(f"{start:.3f}")
+        serialized_end = float(f"{end:.3f}")
+        if serialized_end <= serialized_start:
             raise ValueError("segment collapses at millisecond timestamp precision")
-        total += end - start
+        if serialized_end > source_duration:
+            raise ValueError("serialized segment extends beyond source duration")
+        total += serialized_end - serialized_start
         previous_end = end
+    total = round(total, 3)
     if enforce_shorts and not 30 <= total <= 40:
         raise ValueError("selected total must be 30–40 seconds")
-    return round(total, 3)
+    return total
 
 
 def build_concat_graph(segments, source_duration, *, enforce_shorts=True):
