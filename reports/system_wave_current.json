@@ -6216,5 +6216,74 @@
       "ack": "NOT_SENT"
     },
     "payoutlens_touched": false
+  },
+  "audit_20261030_1837": {
+    "audit_at": "2026-10-30T18:37:00+03:00",
+    "main_sha": "ddd68019a6118660eaa77fa7d0ed46fa4b3e39cc",
+    "scope": "READ_ONLY_VERIFICATION_PLUS_SAFE_BRANCH_REPORT_WRITE",
+    "decision_before": "Prior P0 archive race and Issue #308 bridge failure unresolved; no current-main integrated test",
+    "decision_after": "Fresh GitHub compare confirms PR #309 diverged 169 behind/52 ahead with race tests only on PR branch; no current-main test or production archive read-back. P0 OPEN. Learning catalog 86/95; relevant system lessons linked, real consumer tests/read-back absent; bridge_failure OPEN. No new completion.",
+    "changed_decision_fields": [
+      "archive.current_main_compare_confirmed",
+      "learning_bridge.consumer_gate_unverified",
+      "wave.no_new_completion"
+    ],
+    "applied_learning_ids": [],
+    "audit_only_learning_ids": [
+      "learn_175c67179539e7e6"
+    ],
+    "source_evidence": {
+      "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+      "handoffs_blob": "16ada199293948c721e6cb7f128b9e631553b1d4",
+      "source_catalog_blob": "937824ee275a3ff45608fa9a5a147ab3080facc8",
+      "archive_workflow_blob": "f8c074ddad554ddde7e496f20adbcfc1e5736b7f",
+      "pr309_merge_base": "fdd67b03cb7244442aa0229428c377e92d75636c",
+      "pr309_head": "8039adb266c4da0a3e8f353e49a6e549d489b375"
+    },
+    "ci": {
+      "loader_run": 41058894848,
+      "loader_job": 124073317277,
+      "loader_job_conclusion": "success",
+      "consumer_test": "NOT_RUN",
+      "artifact_readback": "NOT_VERIFIED",
+      "command": "python3 scripts/plan_learnings.py system --require --out artifacts/system.json",
+      "stdout": "previous verified CI stdout count=10 error=None",
+      "exit": "previous CI exit 0; NOT EXECUTED THIS TURN"
+    },
+    "archive": {
+      "pr": 309,
+      "behind": 169,
+      "ahead": 52,
+      "main_rebase_still_present": true,
+      "current_main_race_test": "NOT_RUN",
+      "production_readback": "NOT_VERIFIED"
+    },
+    "learning_bridge": {
+      "issue": 308,
+      "status": "bridge_failure_OPEN",
+      "targets": [
+        "learn_0bdcee93377fd18d",
+        "learn_4decad368966e2e6"
+      ],
+      "real_consumer_applied_learning_ids": [],
+      "negative_digest_test": "NOT_RUN",
+      "partial_reporting_batch_test": "NOT_RUN"
+    },
+    "automations": {
+      "github_runner_source": "state/automation_runner.json",
+      "finance": "runner missing",
+      "video": "dry-run",
+      "knowledge": "dry-run",
+      "system": "dispatch+observe",
+      "chatgpt_enabled": "NOT_RECHECKED_THIS_TURN"
+    },
+    "wave": {
+      "selected": 20,
+      "continuing": 19,
+      "blocked_user": 1,
+      "newly_completed": 0,
+      "verified_against": "previous report; no exhaustive per-task retest"
+    },
+    "payoutlens_touched": false
   }
 }
