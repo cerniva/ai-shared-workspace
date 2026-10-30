@@ -1,0 +1,195 @@
+{
+  "task_ids": [
+    "CORE-03",
+    "CORE-04"
+  ],
+  "owner": "ChatGPT",
+  "checked_at": "2026-10-30T16:13:00+03:00",
+  "kind": "CAPTION_SOURCE_TIMING_MAP_AND_LIVE_UNIT_COST_READBACK",
+  "source": {
+    "media_page": "https://commons.wikimedia.org/wiki/File:Sous_vide_overview_by_Nomiku_with_VO.webm",
+    "caption_page": "https://commons.wikimedia.org/wiki/TimedText:Sous_vide_overview_by_Nomiku_with_VO.webm.en.srt",
+    "author": "Pkwong89",
+    "video_license": "CC BY 4.0",
+    "caption_page_text_terms": "CC BY-SA; additional terms may apply",
+    "media_duration_seconds": 84.488,
+    "media_sha1_from_page": "4e911cbce1e94cfac38ec4420d546eecf689fc11",
+    "selected_segments_source_seconds": [
+      [
+        0,
+        15.4
+      ],
+      [
+        58,
+        79.1
+      ]
+    ],
+    "planned_total_seconds": 36.5,
+    "caption_cue_mapping_research_only": [
+      {
+        "source_cue": 1,
+        "source_seconds": [
+          0,
+          8
+        ],
+        "proposed_clip_seconds": [
+          0,
+          8
+        ]
+      },
+      {
+        "source_cue": 2,
+        "source_seconds": [
+          10,
+          15
+        ],
+        "proposed_clip_seconds": [
+          10,
+          15
+        ]
+      },
+      {
+        "source_cue": 8,
+        "source_seconds": [
+          58,
+          64
+        ],
+        "proposed_clip_seconds": [
+          15.4,
+          21.4
+        ]
+      },
+      {
+        "source_cue": 9,
+        "source_seconds": [
+          65,
+          71
+        ],
+        "proposed_clip_seconds": [
+          22.4,
+          28.4
+        ]
+      },
+      {
+        "source_cue": 10,
+        "source_seconds": [
+          72,
+          79
+        ],
+        "proposed_clip_seconds": [
+          29.4,
+          36.4
+        ]
+      }
+    ],
+    "mapping_warning": "Source web page has second-resolution HH:MM:SS captions, not verified millisecond SRT. Mapping is arithmetic for editorial planning only; no SRT generated or timing invented. Source page visibly lacks a blank line between cues 8 and 9. Require original raw SRT bytes and independent spoken-word synchronization review.",
+    "content_review": "The proposed segments avoid captions 5-7 (food-safety statements about bacterial growth and temperature) but do not establish full factual accuracy or rights. No independent video/audio/music clearance.",
+    "local_source_sha256": null,
+    "local_caption_sha256": null,
+    "local_media_bytes_available": false,
+    "final_mp4": null,
+    "final_media_sha256": null,
+    "full_duration_audio_video_qc": false,
+    "independent_rights_review": false,
+    "independent_media_review": false,
+    "publish_ready": false,
+    "blockers": [
+      "RIGHTS_BLOCKED",
+      "TRANSCRIPT_BLOCKED",
+      "FRAMING_QA_BLOCKED",
+      "MULTI_SEGMENT_RENDER_BLOCKED",
+      "CI_REVIEW_BLOCKED"
+    ]
+  },
+  "github": {
+    "pr": 269,
+    "head_before": "d926c7b234a520fa763b4491f7664f3031201085",
+    "draft": true,
+    "mergeable": false,
+    "head_pr_workflow_runs": 0,
+    "independent_review_submissions": 0,
+    "code_changed": false,
+    "tests_executed": false
+  },
+  "youtube": {
+    "metricool_brand_id": "7082876",
+    "channel_id": "UCAKg-ZKPoazTnF2zDVORk4Q",
+    "period": "2026-10-23..2026-10-30",
+    "latest_subscribers_non_null": 5,
+    "non_null_daily_video_views": {
+      "2026-10-23": 2,
+      "2026-10-25": 2
+    },
+    "missing_daily_views": "null not zero",
+    "engaged_views": null,
+    "retention": null,
+    "new_upload": false
+  },
+  "shopify": {
+    "source": "Live Admin GraphQL ProductUnitCosts + search_products + list_orders + ShopifyQL",
+    "period": "2026-10-23..2026-10-30",
+    "products": 9,
+    "draft_products": 9,
+    "active_products": 0,
+    "orders": 0,
+    "sessions": 2,
+    "cart_sessions": 0,
+    "checkout_sessions": 0,
+    "currency": "EUR",
+    "oil_sprayer": {
+      "price": 24.9,
+      "recorded_unit_cost": 7.42,
+      "pre_shipping_tax_fee_return_difference": 17.48,
+      "tracked": true,
+      "requires_shipping": true,
+      "net_margin": "UNKNOWN"
+    },
+    "pet_hair_roller": {
+      "variants_checked": 8,
+      "all_price_equal_recorded_unit_cost": true,
+      "pre_shipping_tax_fee_return_difference_each": 0,
+      "tracked": true,
+      "requires_shipping": true,
+      "net_margin": "NEGATIVE_IF_ANY_POSITIVE_EXPENSES"
+    },
+    "supplier_shipping": "UNKNOWN",
+    "supplier_quality": "UNKNOWN",
+    "return_rate": "UNKNOWN",
+    "real_product_demand": "NOT_ESTABLISHED",
+    "writes": false
+  },
+  "gumroad": {
+    "private_account_access": false,
+    "drafts": "UNVERIFIED",
+    "sales": "UNVERIFIED",
+    "draft_first_only": true,
+    "writes": false
+  },
+  "learning_runner": {
+    "command": "python3 scripts/plan_learnings.py video_shopify --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "reason": "Repository main files were read via GitHub connector, but complete executable checkout is unavailable locally; local github.com DNS resolution failed. Do not claim a partial replica as the command."
+  },
+  "applied_learning_ids": {
+    "learn_ae8a18babc190373": "Exact proposed 36.5s source cuts and source cue map; no SRT or MP4 without verified source and timed captions.",
+    "learn_4decad368966e2e6": "Wikimedia page SHA-1 is not an SHA-256 of locally acquired source bytes; source integrity gate remains blocked.",
+    "learn_e74d8dd625c30863": "Metricool raw video views are not engaged-view, stayed-to-watch or retention evidence.",
+    "learn_991df8ed39245aef": "EUR price minus recorded cost is not net profit; shipping, fees, returns and tax remain unknown.",
+    "learn_f0de38014bef7448": "Two sessions and zero orders cannot prove demand; no product publication.",
+    "learn_f5624ca54a31e57c": "Gumroad draft-first; no publish/enable/price/payment action without connected data and approval."
+  },
+  "next": {
+    "owner": "CORE-03 ChatGPT + independent reviewer; CORE-04 ChatGPT",
+    "action": "Obtain raw media and caption bytes with SHA-256; independently clear music/audio and caption reuse; verify real millisecond timing and frame-by-frame composition; CI/review then full MP4 QC. Obtain supplier landed cost, shipping and return evidence before commerce changes."
+  },
+  "restrictions": {
+    "main_written": false,
+    "merged": false,
+    "published": false,
+    "price_changed": false,
+    "paid_credits_used": 0,
+    "payoutlens_touched": false
+  }
+}
