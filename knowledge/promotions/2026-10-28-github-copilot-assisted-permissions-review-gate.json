@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_b26f70c790034ce0",
+    "source_name": "GitHub Changelog: Copilot assisted permissions generally available",
+    "canonical": "https://github.blog/changelog/2026-10-26-github-copilot-assisted-permissions-generally-available",
+    "category": "github-agent-permission-controls",
+    "purpose": "Review optional assisted permissions in authorized Copilot clients without treating it as GitHub connector authorization or a policy bypass",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public changelog; no API key or paid service call",
+    "reliability_limits": "Announcement describes Copilot CLI/app/VS Code permission UX, not this GitHub connector, repository rulesets, or proof that a specific client is installed/enabled. No automated permission change was attempted.",
+    "discovered_at": "2026-10-28T05:30:00+03:00",
+    "last_successful_use": "2026-10-28T05:30:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_d6c694ece82e504c",
+    "title": "Copilot assisted permissions are client-scoped and do not bypass GitHub protections",
+    "domain": "github-copilot-agent-permissions",
+    "claim": "GitHub's October 26, 2026 changelog states that Copilot assisted permissions are generally available in Copilot CLI, Copilot app, and Visual Studio Code. In assisted mode, a model evaluates requested command, filesystem-path, or URL access; clearly safe requests may proceed automatically, while other requests still require user approval. Enterprise policy can restrict permission modes. This feature does not grant permissions to unrelated GitHub connectors or bypass repository branch protections.",
+    "evidence_status": "verified",
+    "decision": "COPILOT_ASSISTED_PERMISSIONS_REVIEW_GATE: Only when an authorized Copilot CLI, Copilot app, or VS Code client is actually in use, evaluate Assisted mode for clearly safe tool requests. Retain explicit approval for uncertain actions and all policy/security gates. Do not claim this changes GitHub connector permissions, branch protection, or CI status; do not enable it automatically.",
+    "outcome": "pending",
+    "next_measurement": "Inspect whether the system plan uses an eligible Copilot client; record the client, permission setting, organization policy, and an authorized read-only safe-request test in a real system decision report with applied_learning_ids. Otherwise keep REVIEW_ONLY.",
+    "learned_at": "2026-10-28T05:30:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_b26f70c790034ce0"
+    ],
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active",
+    "failure_history": [],
+    "fallback_history": [
+      "Keep manual approvals and existing GitHub PR/CI review when no eligible Copilot client or policy evidence exists."
+    ],
+    "supersedes": null
+  },
+  "gates": [
+    "COPILOT_ASSISTED_PERMISSIONS_REVIEW_GATE"
+  ]
+}
