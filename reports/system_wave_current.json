@@ -821,10 +821,10 @@
   "handoff_write": {
     "branch": "chatgpt/system-audit-20261026-1337-handoff",
     "path": "state/handoffs.json",
-    "commit": "06312d7dfc7267642db80668a66043e308c7e936",
-    "blob": "e9b3980fb0ddb8fbbcd36cd3f2547f43eb07599e",
+    "existing_id": "HO-IMP-20261023-slow-archive-heal",
+    "commit": "90ef54274ff3c75d0a097a4edc4f15d155fe16c9",
+    "blob": "7831147e835f5ee2a235c942d9e51b10e97d9211",
     "read_back": "PASS",
-    "existing_id": "CI-39269730285",
     "handoffs_preserved": 56
   },
   "local_git": {
@@ -4505,6 +4505,15 @@
         "ahead": 19,
         "production_readback": "NOT_VERIFIED"
       }
+    },
+    "handoff_readback": {
+      "branch": "chatgpt/system-audit-20261026-1337-handoff",
+      "path": "state/handoffs.json",
+      "existing_id": "HO-IMP-20261023-slow-archive-heal",
+      "commit": "90ef54274ff3c75d0a097a4edc4f15d155fe16c9",
+      "blob": "7831147e835f5ee2a235c942d9e51b10e97d9211",
+      "read_back": "PASS",
+      "handoffs_preserved": 56
     }
   }
 }
