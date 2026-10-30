@@ -50,7 +50,7 @@ def read_cues(text: str) -> list[dict]:
         result.append({"cue": idx, "start": start, "end": end,
                        "max_line_chars": max(len(line) for line in visible_lines),
                        "line_count": len(visible_lines),
-                       "chars_per_second": round(len(visible_text) / (end - start), 2)})
+                       "chars_per_second": len(visible_text) / (end - start)})
         prev_end = end
     return result
 
