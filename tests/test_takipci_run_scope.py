@@ -116,5 +116,31 @@ class AuditorRunScopeTests(unittest.TestCase):
         self.assertIn("evidence line 2", reasons[0])
 
 
+    def test_mixed_historical_and_current_head_failure_remains_red(self):
+        # Historical failure is a warning, but a separate current-head
+        # failure must still fail the PR gate.
+        reasons, warnings = td.check_run_refs(
+            [
+                cited_run(40788057454, "failure", "older-main-sha"),
+                cited_run(40948993980, "failure", HEAD),
+            ],
+            REPO, HEAD,
+        )
+        self.assertTrue(any("40948993980" in r for r in reasons), reasons)
+        self.assertFalse(any("40788057454" in r for r in reasons), reasons)
+        self.assertTrue(any("40788057454" in w for w in warnings), warnings)
+
+    def test_current_head_cancelled_or_timed_out_runs_remain_blocking(self):
+        # Neither cancellation nor timeout is a successful exact-head gate.
+        for conclusion in ("cancelled", "timed_out"):
+            with self.subTest(conclusion=conclusion):
+                reasons, warnings = td.check_run_refs(
+                    [cited_run(40948993980, conclusion)], REPO, HEAD
+                )
+                self.assertTrue(reasons, (conclusion, reasons))
+                self.assertEqual(warnings, [])
+
+
+
 if __name__ == "__main__":
     unittest.main()
