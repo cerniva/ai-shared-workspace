@@ -3498,8 +3498,8 @@
     "actual_consumer_positive_negative": "NOT_VERIFIED",
     "grok_ack": "NOT_SENT",
     "payoutlens_touched": false,
-    "report_read_back": "PENDING",
-    "handoff_read_back": "PENDING"
+    "report_read_back": "PASS commit d6c482cb44c62bf1e83e4126065928314feb5c36 blob 5b21419692a6279f590a89756bdd38cd7d31ac83",
+    "handoff_read_back": "PASS commit c4dcf3ba239ab5f0998e8fa9aaf6f0aa3b7cff9c blob 1d73648541ef3cd04fab4796021be0ef6900108b"
   },
   "audit_20261030_0041": {
     "at": "2026-10-29T21:40:57Z",
@@ -3901,6 +3901,13 @@
     "issue": 308,
     "payoutlens_touched": false,
     "ack": "NOT_SENT",
-    "notes": "No merge, publish, payment, new issue or unauthorized external-agent assignment"
+    "notes": "No merge, publish, payment, new issue or unauthorized external-agent assignment",
+    "persistence": {
+      "report_initial_commit": "d6c482cb44c62bf1e83e4126065928314feb5c36",
+      "report_initial_blob": "5b21419692a6279f590a89756bdd38cd7d31ac83",
+      "handoff_commit": "c4dcf3ba239ab5f0998e8fa9aaf6f0aa3b7cff9c",
+      "handoff_blob": "1d73648541ef3cd04fab4796021be0ef6900108b",
+      "main_end_sha": "627f35ef6f5659000be59a2926dda7655af58b55"
+    }
   }
 }
