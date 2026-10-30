@@ -14,7 +14,7 @@ def validate_segments(segments, source_duration, *, enforce_shorts=True):
     """Return total duration; reject invalid source-cut ordering and coverage."""
     if not isinstance(segments, (list, tuple)) or not 1 <= len(segments) <= 8:
         raise ValueError("expected 1–8 ordered source segments")
-    if not isinstance(source_duration, (int, float)) or not math.isfinite(source_duration) or source_duration <= 0:
+    if isinstance(source_duration, bool) or not isinstance(source_duration, (int, float)) or not math.isfinite(source_duration) or source_duration <= 0:
         raise ValueError("source duration must be positive and finite")
     total = 0.0
     previous_end = 0.0
@@ -22,12 +22,16 @@ def validate_segments(segments, source_duration, *, enforce_shorts=True):
         if not isinstance(segment, (list, tuple)) or len(segment) != 2:
             raise ValueError("each segment must be [start, end]")
         start, end = segment
-        if not all(isinstance(x, (int, float)) and math.isfinite(x) for x in (start, end)):
-            raise ValueError("segment timestamps must be finite numbers")
+        if any(isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x) for x in (start, end)):
+            raise ValueError("segment timestamps must be finite numbers, not booleans")
         if start < 0 or end <= start or (i and start < previous_end):
             raise ValueError("segments must be ordered, non-overlapping and positive")
         if end > source_duration + 0.001:
             raise ValueError("segment extends beyond source duration")
+        # FFmpeg trim/atrim graph below serializes timestamps to milliseconds.
+        # Reject sub-ms spans that would silently become zero-length cuts.
+        if round(end, 3) <= round(start, 3):
+            raise ValueError("segment collapses at millisecond timestamp precision")
         total += end - start
         previous_end = end
     if enforce_shorts and not 30 <= total <= 40:
