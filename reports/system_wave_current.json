@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T19:33:16+03:00",
+  "generated_at": "2026-10-30T20:39:45+03:00",
   "repository": "cerniva/ai-shared-workspace",
-  "main_sha": "734ed52af9dd1236053de2fcbbbb3ca1e26d3fa1",
+  "main_sha": "c97651e903bb61b1816bfc3175e321d76cfdf1b0",
   "branch": "chatgpt/system-audit-20261026-1337-handoff",
   "scope": "AUDIT_ONLY_NOT_PRODUCTION",
   "payoutlens_touched": false,
-  "decision_before": "18:37 main ddd68019; P0 archive PR309 unresolved, issue308 bridge_failure open, no consumer output",
-  "decision_after": "19:33 main 734ed52a; ci-bekci 41089915216 success only watcher, tinyfish-event-bridge 41089877585 success only bridge; no archive production read-back, no Reporting API partial-batch or digest-mismatch consumer test, no upload or SVG production proof. Preserve P0 and bridge_failure.",
+  "decision_before": "19:33 main 734ed52a; P0 and bridge_failure open",
+  "decision_after": "20:39 main c97651e9; provider-health-only commit; main PROTOCOL, tasks/active, capacity, inbox, fallback, ledger, catalog and runner inspected; no production consumer/MP4/upload/SVG readback. P0 and bridge_failure remain open.",
   "applied_learning_ids": [],
   "applied_learning_ids_scope": "NO_REAL_PRODUCTION_CONSUMER_APPLICATION",
   "learning_bridge": {
@@ -6332,6 +6332,39 @@
     },
     "issue": 308,
     "pr": 309,
+    "payoutlens_touched": false
+  },
+  "audit_20261030_2039": {
+    "main_sha": "c97651e903bb61b1816bfc3175e321d76cfdf1b0",
+    "runner": "state/automation_runner.json",
+    "runner_blob": "a927dd67d21da74b6ff0c1f7cd87e56187117eb0",
+    "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+    "handoffs_blob": "16ada199293948c721e6cb7f128b9e631553b1d4",
+    "tasks_blob": "5925e61f1f46f180b4f6d70106b651e9f2de8526",
+    "capacity_blob": "e4cefca89fed4d47ca8b9a9b097b380accd38fa9",
+    "ledger_blob": "b2ebca4fddee76dfebac5abd61f6ec8e9febd606",
+    "catalog_blob": "937824ee275a3ff45608fa9a5a147ab3080facc8",
+    "learning_count": 86,
+    "source_count": 95,
+    "targets": [
+      {
+        "id": "learn_0bdcee93377fd18d",
+        "source_found": true
+      },
+      {
+        "id": "learn_4decad368966e2e6",
+        "source_found": true
+      }
+    ],
+    "decision_before": "P0 and bridge_failure open",
+    "decision_after": "Remain open; loader success is not consumer evidence",
+    "applied_learning_ids": [],
+    "test_command": "NOT_RUN; remote GitHub connector has no shell",
+    "test_exit": null,
+    "ci_run_id": null,
+    "ci_job_id": null,
+    "production_readback": "NOT_VERIFIED",
+    "task_counts": "not independently revalidated; previous 0/19/1 historical",
     "payoutlens_touched": false
   }
 }
