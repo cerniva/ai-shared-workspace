@@ -27,6 +27,16 @@ class MultiSegmentPreflightTests(unittest.TestCase):
             with self.subTest(cuts=cuts), self.assertRaises(ValueError):
                 validate_segments(cuts, duration)
 
+    def test_rejects_boolean_timestamps_and_source_duration(self):
+        for cuts, duration in [([(False, 35)], 84), ([(0, True)], 84),
+                               ([(0, 35)], True), ([(0, 35)], False)]:
+            with self.subTest(cuts=cuts, duration=duration), self.assertRaises(ValueError):
+                build_concat_graph(cuts, duration)
+
+    def test_rejects_submillisecond_cuts_lost_in_ffmpeg_graph(self):
+        with self.assertRaisesRegex(ValueError, "millisecond"):
+            build_concat_graph([(0, 0.0004), (5, 39.9996)], 50)
+
     def test_synthetic_ffmpeg_preserves_two_audio_and_video_sections(self):
         if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
             self.skipTest("free FFmpeg/ffprobe not installed")
