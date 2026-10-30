@@ -46,7 +46,9 @@ def read_cues(text: str) -> list[dict]:
         if end <= start or start < prev_end - 0.001:
             raise ValueError(f"overlapping or invalid cue {idx}")
         visible_lines = [re.sub(r"<[^>]+>", "", line).strip() for line in lines[1:] if line.strip()]
-        visible_text = " ".join(visible_lines)
+        visible_text = " ".join(visible_lines).strip()
+        if not visible_text:
+            raise ValueError(f"missing visible cue text in block {idx}")
         result.append({"cue": idx, "start": start, "end": end,
                        "max_line_chars": max(len(line) for line in visible_lines),
                        "line_count": len(visible_lines),
@@ -90,6 +92,17 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
         raise ValueError("no fully contained transcript cues")
     overlong = [c["cue"] for c in mapped if c["max_line_chars"] > 42 or c["line_count"] > 2]
     too_fast = [c["cue"] for c in mapped if c["chars_per_second"] > 20]
+    # Match the renderer's conservative three-second caption coverage gate.
+    # Silence may be intentional; this is a review flag, never a sync verdict.
+    max_gap = 3.0
+    cursor = 0.0
+    uncovered = []
+    for cue in mapped:
+        if cue["short_start"] - cursor > max_gap:
+            uncovered.append([round(cursor, 3), cue["short_start"]])
+        cursor = max(cursor, cue["short_end"])
+    if total - cursor > max_gap:
+        uncovered.append([round(cursor, 3), round(total, 3)])
     # Both endpoints must have explicit millisecond precision; mixed precision
     # is not a renderer-compatible SRT even when one timestamp has a comma.
     precise_stamp = re.compile(r"^\d{2}:\d{2}:\d{2}[,.]\d{3}$")
@@ -104,12 +117,14 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
         + (["SRT_MILLISECONDS_REQUIRED"] if format_conversion_required else [])
         + (["MOBILE_READABILITY_REVIEW"] if overlong else [])
         + (["CAPTION_READING_SPEED_REVIEW"] if too_fast else [])
+        + (["CAPTION_TIMELINE_GAP_REVIEW"] if uncovered else [])
     )
     return {"source_srt_sha256": actual, "duration": round(total, 3),
             "segments": segments, "mapped_cues": mapped,
             "boundary_crossing_cues": sorted(set(crossed)),
             "mobile_readability_review_cues": overlong,
             "caption_reading_speed_review_cues": too_fast,
+            "caption_timeline_uncovered_gaps": uncovered,
             "timeline_boundary_gate": "BLOCKED" if crossed else "PASS_TECHNICAL_ONLY",
             "caption_format_conversion_required": format_conversion_required,
             "technical_preflight_gate": "BLOCKED" if technical_blockers else "PASS_TECHNICAL_ONLY",
