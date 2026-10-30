@@ -87,7 +87,7 @@ def audit(srt: Path, expected_sha256: str, segments: list[tuple[float, float]]) 
     overlong = [c["cue"] for c in mapped if c["max_line_chars"] > 42 or c["line_count"] > 2]
     # Both endpoints must have explicit millisecond precision; mixed precision
     # is not a renderer-compatible SRT even when one timestamp has a comma.
-    precise_stamp = re.compile(r"^\\d{2}:\\d{2}:\\d{2}[,.]\\d{3}$")
+    precise_stamp = re.compile(r"^\d{2}:\d{2}:\d{2}[,.]\d{3}$")
     format_conversion_required = any(
         not all(precise_stamp.fullmatch(token.strip())
                 for token in line.split("-->", 1))
