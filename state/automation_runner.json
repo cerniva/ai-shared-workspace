@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-30T23:45:43+00:00",
+  "generated_at": "2026-10-31T05:39:18+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 41114567176,
+          "id": 41146365809,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T19:21:19Z",
+          "created_at": "2026-10-30T23:45:45Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 41114576726,
+          "id": 41146374801,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T19:21:23Z",
+          "created_at": "2026-10-30T23:45:51Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 41143125321,
+          "id": 41161228764,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T23:13:11Z",
+          "created_at": "2026-10-31T02:42:53Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 41143660790,
+          "id": 41161691528,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-30T23:18:23Z",
+          "created_at": "2026-10-31T02:49:26Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": null
+  "model_summary": "youtube-upload.yml iş akışının hata kayıtları incelenmeli ve hiç çalıştırılmayan shorts-free-render.yml akışının tetiklenme koşulları kontrol edilmelidir."
 }
