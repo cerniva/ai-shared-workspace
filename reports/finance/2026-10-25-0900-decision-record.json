@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "artifact_type": "scheduled_finance_report_actual_decision_record",
+  "report_date": "2026-10-25",
+  "local_cutoff": "2026-10-25 09:00 Europe/Istanbul",
+  "scope": "finance; PayoutLens excluded",
+  "source_catalog_main_blob_sha": "2a931ac43007f79628c0205703352ff33aab83a4",
+  "learning_ledger_main_blob_sha": "0dece40cb04e853dc370009f1998553d82b27449",
+  "repo_catalog_counts": {
+    "sources": 89,
+    "learnings": 73,
+    "active_finance": 9
+  },
+  "quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+    "reason": "Real ChatGPT scheduled report decisions recorded here; production external finance runner and main altseason_panel do not yet have verified end-to-end applied_learning_ids read-back. Draft PR #318 not merged. This decision record is not production-consumer CI proof.",
+    "required": "Integrate active ledger into actual scheduled report consumer; verify before/after decision, negative missing/inactive/superseded tests, CI run, and persisted output read-back."
+  },
+  "market": {
+    "us_equities_last_close": "2026-10-23",
+    "sp500": 7623.68,
+    "nasdaq": 25955.34,
+    "dow": 52215.16,
+    "russell2000": 2775.9,
+    "treasury_last_date": "2026-10-23",
+    "treasury_2y": 4.69,
+    "treasury_10y": 5,
+    "treasury_30y": 5.33,
+    "tcmb_policy_rate": 36,
+    "tcmb_decision_date": "2026-10-22",
+    "btc_usd": 80498.45,
+    "eth_usd": 2349.95,
+    "crypto_quote_asof_utc": "2026-10-25T05:59:00Z",
+    "btc_dominance_pct": 60.11,
+    "cmc_altseason_breadth": 49,
+    "blockchaincenter_altseason_breadth": 47,
+    "stablecoin_cap_usd_b": 300.53,
+    "stablecoin_7d_change_pct": -0.68,
+    "etf_btc_20261023_usd_m": -137.9,
+    "etf_eth_20261023_usd_m": 4.4,
+    "etf_status": "PROVISIONAL_MISSING_FUND_CELLS",
+    "altcoin_calibrated_score": "N/A",
+    "backtest_2020_2025_verified": false,
+    "derivatives_oi_usd_b": 332.15,
+    "derivatives_liquidity_ratio": "N/A",
+    "derivatives_data_conflict": true
+  },
+  "top70_cmc_ranked_symbols": [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "XRP",
+    "USDC",
+    "SOL",
+    "TRX",
+    "ZEC",
+    "HYPE",
+    "DOGE",
+    "XMR",
+    "LINK",
+    "LEO",
+    "ADA",
+    "XLM",
+    "NEAR",
+    "BCH",
+    "USDe",
+    "DAI",
+    "LTC",
+    "UNI",
+    "CC",
+    "AVAX",
+    "USD1",
+    "SUI",
+    "GRAM",
+    "HBAR",
+    "USDG",
+    "PYUSD",
+    "TAO",
+    "XAUt",
+    "SHIB",
+    "CRO",
+    "ENA",
+    "RLUSD",
+    "OKB",
+    "QNT",
+    "AAVE",
+    "M",
+    "ONDO",
+    "PUMP",
+    "ASTER",
+    "PEPE",
+    "USDD",
+    "DOT",
+    "PAXG",
+    "WLD",
+    "MNT",
+    "WLFI",
+    "SKY",
+    "U",
+    "ICP",
+    "BGB",
+    "VVV",
+    "ETC",
+    "ARB",
+    "JST",
+    "MORPHO",
+    "GT",
+    "KCS",
+    "KAS",
+    "POL",
+    "JUP",
+    "ALGO",
+    "RENDER",
+    "ATOM",
+    "PI",
+    "LIT",
+    "AERO"
+  ],
+  "top70_coverage": "Rank/order snapshot from CMC current public page; full 70-asset synchronized price+OI+funding+unlock verification NOT performed.",
+  "rendered_charts": {
+    "renderer": "Wolfram Language DateListPlot",
+    "actual_image_rendered_in_chat": true,
+    "plots": [
+      "US Treasury 2Y/10Y/30Y dated 21-23 Oct 2026"
+    ],
+    "python_chart_used": false,
+    "repo_chart_image_readback": false
+  },
+  "decisions": [
+    {
+      "field": "fed_policy",
+      "before": "Risk of treating the September FOMC rate as a new 25 October action",
+      "after": "September 16 target 3.75%-4.00% retained as dated historical latest verified FOMC release; no Sunday Fed decision claimed",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "treasury_freshness",
+      "before": "Sunday 25 October could be mislabelled as a new US bond close",
+      "after": "Last business-day Treasury observation explicitly 23 October: 2Y 4.69%, 10Y 5.00%, 30Y 5.33%; Sunday close N/A",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "tcmb_fx_bulletin",
+      "before": "Weekend TCMB today.xml could be interpreted as fresh Sunday quote",
+      "after": "No Sunday TCMB indicative FX bulletin asserted; 22 Oct PPK 36% cited as historical decision, FX rate N/A",
+      "source": "https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb+tr/main+menu/duyurular/basin/2026/duy2026-45",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "field": "altcoin_support_score",
+      "before": "CMC 49/100 or BlockchainCenter 47/100 could be misrepresented as validated composite bull support",
+      "after": "CMC 49 and BlockchainCenter 47 treated as provider breadth indices only; all 10 calibrated scores and combined score N/A (2020-2025 walk-forward unverified)",
+      "source": "https://www.blockchaincenter.net/altcoin-season-index/",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "company_earnings",
+      "before": "Secondary-market claims could be elevated to company-filed earnings",
+      "after": "No unverified issuer-specific 8-K/XBRL numeric earnings claims; new corporate earnings omitted without EDGAR primary match",
+      "source": "https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "field": "old_news_dedup",
+      "before": "Fed Oct 16 small-bank enforcement and Oct 9 SCF 2025 results could be recycled as fresh Oct 25",
+      "after": "Both excluded from new-news section; no new financial decision inferred",
+      "source": "https://www.federalreserve.gov/newsevents.htm",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    },
+    {
+      "field": "crypto_volume_provider_conflict",
+      "before": "Could compute spot/derivatives liquidity ratio using CMC 54.72B total, 109.4B spot, 554.55B derivatives and 170.67T separate derivatives endpoint",
+      "after": "Ratio suppressed N/A; incompatible scopes/units and missing synchronized timestamps; new pending learning staged separately",
+      "source": "tool:coinmarketcap/get_global_metrics_latest",
+      "applied_learning_ids": [],
+      "pending_promotion_id": "learn_bba75babea656079"
+    },
+    {
+      "field": "etf_23_oct_completeness",
+      "before": "Farside -137.9M BTC and +4.4M ETH may look final",
+      "after": "23 Oct values provisional because at least one fund cell '-' on both; not used as final institutional rotation proof",
+      "source": "https://farside.co.uk/btc/",
+      "applied_learning_ids": [],
+      "pending_existing_pr": 273
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_084a973ea4587745",
+    "learn_27333cc91fdf7f58",
+    "learn_5f961fa5fb9f6388",
+    "learn_63b873bf5dbd8208",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_d44f97b112d55564",
+    "learn_f7b141c60755c294",
+    "learn_fba30853bde7b37e"
+  ],
+  "applied_ids_scope": "Only the documented decisions in this actual ChatGPT scheduled report; not production finance runner CI evidence",
+  "new_learning": {
+    "id": "learn_bba75babea656079",
+    "status": "staged_promotion_not_active",
+    "promotion": "knowledge/promotions/2026-10-25-finance-cmc-volume-denominator-gate.json"
+  },
+  "plan_learnings_execution": {
+    "local_command_run": false,
+    "attempted_git_ls_remote": true,
+    "git_exit_code": 128,
+    "git_stderr": "fatal: unable to access 'https://github.com/cerniva/ai-shared-workspace.git/': Could not resolve host: github.com",
+    "script_stdout": null,
+    "script_exit_code": null,
+    "alternative": "Fetched canonical main learning_ledger.json via GitHub connector; 9 active finance-tagged records applied in decisions above."
+  },
+  "grok": {
+    "new_independent_25_oct_report_verified": false,
+    "message_delivery_verified": false
+  },
+  "claims_not_made": [
+    "No main merge",
+    "No live production bridge PASS",
+    "No local plan_learnings execution",
+    "No Grok receipt",
+    "No publishing or email"
+  ]
+}

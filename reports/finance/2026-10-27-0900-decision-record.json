@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "artifact_type": "actual_chatgpt_finance_report_decision_record_not_external_production_consumer_proof",
+  "report_date": "2026-10-27",
+  "cutoff": "2026-10-27 09:02 Europe/Istanbul (market pages may not provide exact snapshot time)",
+  "scope": "finance; PayoutLens excluded",
+  "main_head_observed": "001347bd219c188173ff9dc1032bcc7312441162",
+  "source_catalog_main_blob_sha": "a3b019a9b7c4f7a277dfd715d52278fa3cc1d05b",
+  "learning_ledger_main_blob_sha": "b43d5f20a5579b560f92a71280516f5d276143d3",
+  "repo_counts": {
+    "sources": 90,
+    "learnings": 75,
+    "active_finance": 9
+  },
+  "quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+    "reason": "Actual ChatGPT report decision record has applied_learning_ids but no verified scheduled production finance runner/altseason_panel real output with negative tests; draft PR #318 not merged. This record is NOT production consumer proof.",
+    "required": "Actual finance producer runtime artifact with applied IDs, observed decision delta, negative tests for missing/inactive/superseded learnings, latest CI run SHA and artifact read-back."
+  },
+  "local_command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "git_probe": "git ls-remote https://github.com/cerniva/ai-shared-workspace.git HEAD",
+    "git_probe_exit_code": 128,
+    "git_probe_stderr": "Could not resolve host: github.com",
+    "fallback": "Fetched main ledger and evaluated active plan_tags=finance: 9"
+  },
+  "market": {
+    "us_equities_last_close": "2026-10-26",
+    "sp500": 7676.77,
+    "nasdaq": 26169.38,
+    "dow": 52361.58,
+    "russell2000": 2786.42,
+    "treasury_last_official_date": "2026-10-26",
+    "treasury_2y_pct": 4.68,
+    "treasury_10y_pct": 5,
+    "treasury_30y_pct": 5.31,
+    "tcmb_policy_rate_pct": 36,
+    "tcmb_decision_date": "2026-10-22",
+    "brent_intraday_usd": 114.81,
+    "wti_intraday_usd": 100.88,
+    "gold_intraday_usd_oz": 4013.7,
+    "crypto_market_cap_usd_t": 2.67,
+    "btc_usd": 79677.3,
+    "eth_usd": 2306.7,
+    "eth_btc_calculated": 0.028950529197148998,
+    "btc_dominance_pct": 60.03,
+    "cmc_altseason": 56,
+    "blockchaincenter_altseason": 51,
+    "stablecoin_cap_usd_b": 299.2,
+    "stablecoin_7d_pct": -0.74,
+    "stablecoin_30d_pct": -1.23,
+    "btc_etf_oct26_usdm": 110.3,
+    "eth_etf_oct26_usdm": -88.6,
+    "etf_oct26_status": "PROVISIONAL_MISSING_FUND_CELLS",
+    "vix_oct26_close": null,
+    "vix_oct26_intraday": 18.27,
+    "global_m2": "N/A",
+    "dxy": "N/A",
+    "calibrated_altcoin_support": "N/A",
+    "backtest_2020_2025_verified": false
+  },
+  "top70_cmc_ordered_symbols": [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "XRP",
+    "USDC",
+    "SOL",
+    "TRX",
+    "ZEC",
+    "HYPE",
+    "DOGE",
+    "XMR",
+    "LINK",
+    "LEO",
+    "ADA",
+    "XLM",
+    "NEAR",
+    "BCH",
+    "USDe",
+    "DAI",
+    "UNI",
+    "LTC",
+    "USD1",
+    "CC",
+    "AVAX",
+    "SUI",
+    "GRAM",
+    "HBAR",
+    "USDG",
+    "PYUSD",
+    "XAUt",
+    "TAO",
+    "SHIB",
+    "ENA",
+    "CRO",
+    "RLUSD",
+    "QNT",
+    "OKB",
+    "M",
+    "AAVE",
+    "ONDO",
+    "PUMP",
+    "ASTER",
+    "PEPE",
+    "PAXG",
+    "USDD",
+    "DOT",
+    "MNT",
+    "WLFI",
+    "WLD",
+    "U",
+    "SKY",
+    "ICP",
+    "BGB",
+    "VVV",
+    "ETC",
+    "ARB",
+    "MORPHO",
+    "JST",
+    "KCS",
+    "GT",
+    "KAS",
+    "POL",
+    "ALGO",
+    "JUP",
+    "ATOM",
+    "RENDER",
+    "PI",
+    "AERO",
+    "INJ"
+  ],
+  "top70_coverage": "Rank/order and selected top coin quotes from public CMC page; no synchronized 70/70 funding, OI, unlock, liquidations, volume; quote timestamp absent",
+  "dedup": [
+    "Farside missing ETF fund cells already covered by draft PR #273",
+    "CMC incompatible total/spot/derivative volume denominators already covered by draft PR #332",
+    "Treasury as-of date gate already active learning learn_fba30853bde7b37e",
+    "Old Fed bank enforcement and household survey items already in ledger and not new market news"
+  ],
+  "new_promotion_created": false,
+  "charts": {
+    "python_used": false,
+    "chart_data_verified": [
+      "US Treasury Oct 23-26 2Y/10Y/30Y",
+      "Farside Oct 22-26 BTC/ETH ETF net flow; Oct26 provisional"
+    ],
+    "calibrated_support_chart": "N/A"
+  },
+  "decisions": [
+    {
+      "field": "fed_primary_policy",
+      "before": "A September FOMC decision could be misrepresented as Oct 27 policy change",
+      "after": "16 Sep 2026 FOMC 3.75-4.00% is dated historical latest verified decision; Oct 27-28 meeting has not issued its result",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "treasury_last_official_observation",
+      "before": "26 Oct morning report reused 23 Oct yield as latest official",
+      "after": "US Treasury published 26 Oct: 2Y=4.68%, 10Y=5.00%, 30Y=5.31%; previous 23 Oct 4.69/5.00/5.33; 27 Oct official close not yet available",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202610&type=daily_treasury_yield_curve",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "tcmb_policy_vs_fx_bulletin",
+      "before": "Could treat 22 Oct rate decision as new 27 Oct event or fetch date as FX bulletin date",
+      "after": "TCMB 22 Oct policy rate 36% explicitly historical; no unverified 27 Oct indicative FX bulletin claimed",
+      "source": "https://tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Duyurular/Basin/2026/DUY2026-45",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "field": "altcoin_support_calibration",
+      "before": "CMC altseason 56 or BlockchainCenter 51 might be used as calibrated bull support",
+      "after": "Both are provider breadth metrics; 10 support scores and composite N/A because config validated=false and 2020-25 walk-forward absent",
+      "source": "https://www.blockchaincenter.net/altcoin-season-index/",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "issuer_earnings_gate",
+      "before": "AI-company forward earnings speculation could be treated as already filed SEC earnings",
+      "after": "No issuer-specific financial result numbers asserted without EDGAR filing read-back; pending earnings treated as future only",
+      "source": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "field": "finance_news_dedup_low_impact",
+      "before": "Oct 16 small Kansas bank enforcement and Oct 9 SCF survey might be repeated as Oct 27 market catalysts",
+      "after": "Excluded both old/low-impact items from new-news section; kept in ledger without re-promotion",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261016a.htm",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.reuters.com/world/china/global-markets-global-markets-2026-10-27/",
+      "date": "2026-10-27",
+      "role": "Asia risk and gold"
+    },
+    {
+      "url": "https://www.reuters.com/business/energy/oil-eases-middle-east-diplomacy-hopes-saudi-attacks-keep-supply-worries-alive-2026-10-27/",
+      "date": "2026-10-27",
+      "role": "oil and diplomacy"
+    },
+    {
+      "url": "https://apnews.com/article/693ac6c4e67da0332045e66804780be7",
+      "date": "2026-10-26",
+      "role": "US equity close"
+    },
+    {
+      "url": "https://farside.co.uk/btc/",
+      "date": "2026-10-26",
+      "role": "BTC ETF preliminary"
+    },
+    {
+      "url": "https://farside.co.uk/eth/",
+      "date": "2026-10-26",
+      "role": "ETH ETF preliminary"
+    },
+    {
+      "url": "https://defillama.com/stablecoins",
+      "date": "2026-10-27",
+      "role": "stablecoin market cap"
+    },
+    {
+      "url": "https://coinmarketcap.com/",
+      "date": "2026-10-27",
+      "role": "crypto snapshot, no precise timestamp"
+    }
+  ]
+}
