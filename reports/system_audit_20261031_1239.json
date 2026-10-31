@@ -251,5 +251,35 @@
     "pr": 309,
     "main_write": false,
     "payoutlens_touched": false
+  },
+  "followup_20261031_1839": {
+    "main_sha": "7e85e74f37d68f5c2eabbac9df7eb8d78a6b4fd5",
+    "main_sha_verification": "compare_commits(main, SHA): identical",
+    "runner_record_utc": "2026-10-31T12:27:12Z",
+    "ledger_count": 89,
+    "source_count": 95,
+    "learning_ids_checked": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "source_ids": [
+      "src_be6523a27c85e346",
+      "src_569c596da7048714"
+    ],
+    "decision_before": "bridge_failure; production consumers unverified",
+    "decision_after": "bridge_failure remains; loader and sources verified, real consumer still unverified",
+    "applied_learning_ids": [],
+    "plan_learnings_require_exit": null,
+    "reason": "No executable checkout assembled; connector fetch is not script execution",
+    "production_readback": false,
+    "shorts_mp4_upload": "unverified",
+    "finance_altcoin": "N/A",
+    "svg_gate": "unverified",
+    "task_wave": "no new wave; capacity snapshot stale",
+    "issue": 308,
+    "pr": 309,
+    "ack_written": false,
+    "main_write": false,
+    "payoutlens_touched": false
   }
 }
