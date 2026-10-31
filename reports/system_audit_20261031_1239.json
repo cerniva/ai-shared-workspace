@@ -159,5 +159,49 @@
     "ack_written": false,
     "main_write": false,
     "payoutlens_touched": false
+  },
+  "followup_20261031_1534": {
+    "main_sha_verified": "08158a6c5ecbd3487b1db30add1c95f11dfef194",
+    "main_commit_utc": "2026-10-31T12:27:46Z",
+    "runner_record_utc": "2026-10-31T12:27:12Z",
+    "ci_bekci": {
+      "run": 41201264837,
+      "conclusion": "success",
+      "scope": "watch only"
+    },
+    "audit_failure_root_cause": {
+      "run": 41196467765,
+      "job": 124523517594,
+      "pr": 388,
+      "head": "b2cd64b8ce8de9a15e3c46e9c09706e15973dc88",
+      "reason": "ci_pending: CI not finished (client_payload.ci_pending=true)",
+      "exit": 1,
+      "interpretation": "intentional fail-closed; not proof of code defect"
+    },
+    "ledger_count": 89,
+    "source_count": 95,
+    "learning_ids": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "source_ids_verified": [
+      "src_be6523a27c85e346",
+      "src_569c596da7048714"
+    ],
+    "applied_learning_ids": [],
+    "decision_before": "bridge_failure; P0 open",
+    "decision_after": "bridge_failure; P0 open; audit failure classified as CI pending",
+    "consumer_tests": "not executed",
+    "plan_learnings_require_exit": null,
+    "production_readback": false,
+    "finance_altcoin": "N/A",
+    "shorts_mp4_upload": "unverified",
+    "svg_gate": "unverified",
+    "task_wave": "no new wave; stale capacity",
+    "fallback_ack": null,
+    "issue": 308,
+    "pr": 309,
+    "main_write": false,
+    "payoutlens_touched": false
   }
 }
