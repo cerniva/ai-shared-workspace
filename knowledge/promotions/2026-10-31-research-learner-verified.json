@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_97656cefc7b0673b", "verified_at": "2026-10-31T09:15:00+03:00"},
+    {"source_id": "src_c47bbcd15b32d194", "verified_at": "2026-10-31T09:15:00+03:00"},
+    {"source_id": "src_14818279e16364ff", "verified_at": "2026-10-31T09:15:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board press releases RSS: Federal Reserve Board announces approval of application by The Bank of Nova Scotia",
+      "domain": "finance-news",
+      "claim": "Federal Reserve press release orders20261029a (29 Oct 2026, for release 4:30 p.m. EDT, read 2026-10-31, HTTP 200) states the Board approved the application by The Bank of Nova Scotia (Toronto, Canada) to become a bank holding company by acquiring Maple Financial Holdings, Inc. (Dallas, Texas), thereby indirectly acquiring MapleMark Bank (Tulsa, Oklahoma). This is a routine bank-holding-company order, not a monetary policy action.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: Low relevance for the finance plan; record as a regulatory order only and do not treat it as a market or rate signal. No operational change.",
+      "outcome": "pending",
+      "next_measurement": "Confirm the next Finance report does not cite this order as a policy signal; record yes/no before 2026-11-07.",
+      "learned_at": "2026-10-31T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_97656cefc7b0673b"],
+      "plan_tags": ["finance"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog feed: Webhook IP ranges added to the Meta API",
+      "domain": "github-platform",
+      "claim": "GitHub changelog item 2026-10-29-webhook-ip-ranges-added-to-the-meta-api (29 Oct 2026, read 2026-10-31, HTTP 200) states GitHub added IP ranges for github.com webhook deliveries, now listed in the Meta API hooks field: 9.234.98.160/28, 9.234.98.176/28 and 9.234.106.48/28. Static webhook allowlists must add these CIDRs to avoid rejecting deliveries; allowlists kept current from the Meta API need no change. Applies to all plans including GitHub Enterprise Cloud.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan should check whether any webhook receiver uses a static IP allowlist; if so add the three CIDRs or switch to reading the Meta API. No change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Check whether any system webhook receiver filters by static GitHub IP list; record found/not-found before 2026-11-07.",
+      "learned_at": "2026-10-31T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify developer changelog feed: Shop SDK lead capture now supports Rich Authorization Requests",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page shop-sdk-lead-capture-now-supports-rich-authorization-requests (28 Oct 2026, flag New, surface Tools, read 2026-10-31, HTTP 200) states Shop SDK lead capture accepts an authorizationDetails attribute (serialized JSON array, type urn:shopify:shop_app:data-sharing:v1) listing requested fields as required or optional; given name, family name, phone number and birthdate can be requested, and Shop prompts users for missing values before authorization. RAR is opt-in; existing integrations need no changes. Existing scopes shop_app:user:profile and shop_app:user:phone do not prompt for missing values.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify uses Shop SDK lead capture; could request phone/birthdate as optional fields later. No code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether video_shopify uses Shop SDK lead capture; record yes/no before 2026-11-07.",
+      "learned_at": "2026-10-31T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
