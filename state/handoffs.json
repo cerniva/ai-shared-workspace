@@ -934,7 +934,10 @@
       "evidence": "state/improvement_report.json day=20261031 key=slow-worker-orchestration-tests",
       "status": "open",
       "created_at": "2026-10-31T10:58:48+00:00",
-      "updated_at": "2026-10-31T10:58:48+00:00"
+      "updated_at": "2026-10-31T11:01:37+00:00",
+      "notes": [
+        "2026-10-31T11:01:37+00:00 team-worker: research-learner (team-research): Restore LLM provider key/quota availability in state/provider_health.json, then update `.github/workflows/worker-orchestration-tests.yml` with `cache: 'pip'`, path filters (`paths:` / `paths-ignore:`), and matrix parallelization. | sonraki: Apply the workflow configuration updates to `.github/workflows/worker-orchestration-tests.yml` once LLM provider connectivity is stabilized."
+      ]
     }
   ]
 }
