@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_fa81d10c13f2496c",
+      "source_name": "Shopify developer changelog: Flow automations through AI Toolkit",
+      "canonical": "https://shopify.dev/changelog/posts/shopify-flow-manage-automations-through-admin-api",
+      "category": "commerce-platform",
+      "purpose": "Gate safe own-store Flow automation management and Shopify-approved direct API scope",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API or paid credits",
+      "reliability_limits": "Documentation only; does not prove the workspace has Shopify AI Toolkit, its own-store Flow connection, or approval for write_automations. Third-party apps cannot use underlying APIs directly.",
+      "discovered_at": "2026-10-28T19:23:12+00:00",
+      "last_successful_use": "2026-10-28T19:23:12+00:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_e50637a7d14696cd",
+      "title": "Shopify Flow AI Toolkit own-store automation and approved-scope gate",
+      "domain": "video-shopify-flow-ai-toolkit-automation-authorization",
+      "claim": "Shopify's October 28, 2026 changelog states that external agents can manage their own store's Shopify Flow workflows through AI Toolkit or Shopify CLI, including listing, creating, updating, deleting, activating and deactivating workflows; third-party apps cannot call the underlying APIs directly, and direct automation API use requires Shopify-approved write_automations scope. This does not establish that this workspace has an authorized Flow connection or scope approval.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_FLOW_AI_TOOLKIT_APPROVAL_GATE: REVIEW_ONLY. Before any own-store Flow action, verify the actual Shopify AI Toolkit/CLI connection and operator authorization; direct API use requires Shopify approval of write_automations. First perform a permitted read-only list of workflows and record the result. Never create, modify, activate, deactivate, or delete workflows or request scopes automatically. If no approved connection exists, record blocked/N/A. Do not claim applied_learning_ids until an actual video_shopify decision/manifest consumes the learning.",
+      "outcome": "pending",
+      "next_measurement": "Check whether the video_shopify workspace actually uses Shopify Flow, AI Toolkit, and an authorized own-store connection; record found/not-found and approved-scope status without exposing credentials, then capture real manifest SHA if applied.",
+      "learned_at": "2026-10-28T19:23:12+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_fa81d10c13f2496c"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If AI Toolkit is unavailable or Shopify scope approval is absent, use Shopify's public documentation and a manual workflow review; do not call a restricted API through another route."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_FLOW_AI_TOOLKIT_APPROVAL_GATE"
+  ]
+}
