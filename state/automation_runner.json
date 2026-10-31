@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-31T18:33:38+00:00",
+  "generated_at": "2026-10-31T23:23:41+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 41201166635,
+          "id": 41230011650,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-31T12:27:13Z",
+          "created_at": "2026-10-31T18:33:39Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 41201172468,
+          "id": 41230017790,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-31T12:27:18Z",
+          "created_at": "2026-10-31T18:33:44Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 41216900411,
+          "id": 41238242885,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-31T15:52:16Z",
+          "created_at": "2026-10-31T20:17:56Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 41212576318,
+          "id": 41250092919,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-10-31T14:58:14Z",
+          "created_at": "2026-10-31T22:52:22Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesinde yer alan youtube-upload.yml iş akışı başarısız olmuş (failure), shorts-free-render.yml ise henüz hiç çalıştırılmamıştır (never_run). Diğer tüm projelerdeki (finance, knowledge, system) otomasyonlar başarıyla tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısızlıkla sonuçlandığı için sağlıksız görünmektedir. Aynı projede yer alan shorts-free-render.yml iş akışı ise henüz hiç çalıştırılmamıştır. Diğer tüm projelerdeki otomasyonlar sorunsuz ve başarılı şekilde tamamlanmıştır."
 }
