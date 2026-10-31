@@ -116,5 +116,48 @@
     "task_wave": "no new wave; stale capacity records",
     "production_gates": "NOT_PASS",
     "main_write": false
+  },
+  "followup_20261031_1435": {
+    "main_sha_verified": "395f8590c0881ff99471f515b876bdbda55eaaa0",
+    "main_commit_time_utc": "2026-10-31T11:09:59Z",
+    "latest_ci": [
+      {
+        "run": 41196467765,
+        "job": 124523517594,
+        "name": "takipci-denetci",
+        "conclusion": "failure",
+        "failed_step": "Audit"
+      },
+      {
+        "run": 41196467683,
+        "name": "comms-watch",
+        "conclusion": "success"
+      },
+      {
+        "run": 41195727571,
+        "name": "ci-bekci",
+        "conclusion": "success"
+      }
+    ],
+    "ledger_count": 89,
+    "source_count": 95,
+    "learning_ids_checked": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "learning_consumer_production_readback": false,
+    "applied_learning_ids": [],
+    "bridge_failure": true,
+    "existing_issue": 308,
+    "existing_pr": 309,
+    "local_git_ls_remote_exit": 128,
+    "local_git_error": "Could not resolve host: github.com",
+    "plan_learnings_require_exit": null,
+    "reason": "No local checkout; script not executed",
+    "production_gates": "NOT_PASS",
+    "wave_current_counts": "unverified; no new wave",
+    "ack_written": false,
+    "main_write": false,
+    "payoutlens_touched": false
   }
 }
