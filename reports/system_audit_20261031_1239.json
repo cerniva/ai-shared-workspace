@@ -203,5 +203,53 @@
     "pr": 309,
     "main_write": false,
     "payoutlens_touched": false
+  },
+  "followup_20261031_1633": {
+    "main_sha": "08158a6c5ecbd3487b1db30add1c95f11dfef194",
+    "runner_record_utc": "2026-10-31T12:27:12Z",
+    "new_ci": [
+      {
+        "run": 41202179130,
+        "name": "team-worker",
+        "conclusion": "success",
+        "scope": "worker only"
+      },
+      {
+        "run": 41202184551,
+        "name": "ci-bekci",
+        "conclusion": "skipped"
+      },
+      {
+        "run": 41201264837,
+        "name": "ci-bekci",
+        "conclusion": "success",
+        "scope": "watch only"
+      }
+    ],
+    "learning_ids_checked": [
+      "learn_0bdcee93377fd18d",
+      "learn_4decad368966e2e6"
+    ],
+    "source_ids": [
+      "src_be6523a27c85e346",
+      "src_569c596da7048714"
+    ],
+    "decision_before": "bridge_failure; P0 open",
+    "decision_after": "bridge_failure; P0 open; team-worker successful but consumer bridge unverified",
+    "applied_learning_ids": [],
+    "reporting_api_checkpoint_test": "not run",
+    "digest_mismatch_test": "not run",
+    "production_readback": false,
+    "shorts_mp4_upload": "unverified",
+    "finance_altcoin": "N/A",
+    "svg_gate": "unverified",
+    "task_wave": "no new wave; capacity stale",
+    "fallback_ack": null,
+    "plan_learnings_require_exit": null,
+    "reason": "No executable checkout available in connector environment",
+    "issue": 308,
+    "pr": 309,
+    "main_write": false,
+    "payoutlens_touched": false
   }
 }
