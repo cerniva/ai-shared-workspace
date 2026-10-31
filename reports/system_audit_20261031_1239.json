@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-10-31T09:39:41Z",
+  "main_sha": "021582d76ca8134a94ecafcafd523e1037c51060",
+  "main_sha_verification": "compare_commits(main, SHA): identical",
+  "status": "PARTIAL_NOT_PASS",
+  "scope": "system; PayoutLens excluded",
+  "read_paths": [
+    "PROTOCOL.md",
+    "state/handoffs.json",
+    "tasks/active.json",
+    "tasks/agent_capacity.json",
+    "state/automation_runner.json",
+    "state/now.json",
+    "knowledge/learning_ledger.json",
+    "knowledge/source_catalog.json",
+    "scripts/plan_learnings.py",
+    "messages/grok-to-chatgpt.md",
+    "messages/team-reports.md"
+  ],
+  "learning_bridge": {
+    "status": "bridge_failure",
+    "issue": 308,
+    "ledger_count": 89,
+    "source_count": 95,
+    "system_eligible_count": 11,
+    "targets": [
+      {
+        "learning_id": "learn_0bdcee93377fd18d",
+        "source_id": "src_be6523a27c85e346",
+        "source_exists": true,
+        "consumer": "Reporting API",
+        "decision_before": "unverified",
+        "decision_after": "unverified",
+        "applied": false
+      },
+      {
+        "learning_id": "learn_4decad368966e2e6",
+        "source_id": "src_569c596da7048714",
+        "source_exists": true,
+        "consumer": "cross-workflow artifact digest",
+        "decision_before": "unverified",
+        "decision_after": "unverified",
+        "applied": false
+      }
+    ],
+    "applied_learning_ids": [],
+    "consumer_test_exit": null,
+    "negative_tests": "not run: missing/inactive/superseded, bad digest, partial Reporting API batch",
+    "reason": "No verified real consumer artifact with before/after decision and applied_learning_ids; loader alone is insufficient"
+  },
+  "archive": {
+    "priority": "P0",
+    "pr": 309,
+    "status": "draft fix not proven on live main",
+    "production_readback": false
+  },
+  "plans": {
+    "system": "dispatch+observe only",
+    "finance": "learning check only; production runner absent",
+    "video_shopify": "dry-run; free build historical success, render never_run, upload historical failure",
+    "knowledge": "dry-run"
+  },
+  "gates": {
+    "persistence": "this report branch write/read-back pending",
+    "shorts_mp4": "no new production artifact",
+    "shorts_upload": "not verified",
+    "finance_altcoin": "N/A",
+    "svg_chart": "not verified"
+  },
+  "tasks": {
+    "active_registry_updated_at": "2026-10-06",
+    "capacity_registry_updated_at": "2026-09-26",
+    "max_active_per_agent": 5,
+    "prior_wave_historical": {
+      "done": 0,
+      "ongoing": 19,
+      "blocked": 1
+    },
+    "current_wave_counts": "not verified; no new wave"
+  },
+  "execution": {
+    "command": "python3 scripts/plan_learnings.py system --require",
+    "exit": null,
+    "stdout": null,
+    "reason": "no local checkout; git ls-remote DNS failure exit 128",
+    "ci_run_id": null,
+    "ci_job_id": null,
+    "ci_note": "GitHub runner snapshot has historical success but no new consumer CI test"
+  },
+  "handoff": {
+    "existing_issue": 308,
+    "existing_pr": 309,
+    "new_duplicate": false,
+    "ack_written": false
+  },
+  "restrictions": {
+    "main_write": false,
+    "merge": false,
+    "publish": false,
+    "payment": false,
+    "payoutlens_touched": false
+  }
+}
