@@ -1,41 +1,41 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T11:27:43+00:00",
+  "generated_at": "2026-10-31T10:58:48+00:00",
   "week": "2026W44",
   "window_days": 7,
   "inputs": {
     "workflow_runs": 1000,
-    "bot_prs": 34,
-    "health_snapshots": 72
+    "bot_prs": 35,
+    "health_snapshots": 50
   },
   "bottlenecks": {
     "slowest_workflows": [
       {
         "workflow": "CodeQL code scanning",
         "path": ".github/workflows/codeql.yml",
-        "runs": 24,
+        "runs": 18,
         "failures": 0,
         "median_s": 63.0,
-        "max_s": 78.0,
+        "max_s": 69.0,
         "failure_rate": 0.0
       },
       {
         "workflow": "improvement-bot",
         "path": ".github/workflows/improvement-bot.yml",
-        "runs": 1,
+        "runs": 2,
         "failures": 0,
-        "median_s": 51.0,
-        "max_s": 51.0,
+        "median_s": 55.5,
+        "max_s": 60.0,
         "failure_rate": 0.0
       },
       {
         "workflow": "worker-orchestration-tests",
         "path": ".github/workflows/worker-orchestration-tests.yml",
-        "runs": 32,
+        "runs": 30,
         "failures": 6,
         "median_s": 51.0,
         "max_s": 105.0,
-        "failure_rate": 0.188
+        "failure_rate": 0.2
       }
     ],
     "most_failing_workflow": {
@@ -51,86 +51,86 @@
       "id": "HO-20261009-08",
       "to": "auditor",
       "status": "open",
-      "age_h": 494.5,
+      "age_h": 518.0,
       "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     },
     "most_down_provider": {
       "provider": "cerebras",
-      "down_h": 166.3,
-      "no_key_h": 166.3,
+      "down_h": 164.8,
+      "no_key_h": 164.8,
       "billing_h": 0.0,
       "quota_h": 0.0
     },
     "providers_down": [
       {
         "provider": "cerebras",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "deepseek",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "groq",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "local",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "mistral",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "openai",
-        "down_h": 166.3,
+        "down_h": 164.8,
         "no_key_h": 0.0,
         "billing_h": 0.0,
-        "quota_h": 166.3
+        "quota_h": 164.8
       },
       {
         "provider": "openrouter_free",
-        "down_h": 166.3,
-        "no_key_h": 166.3,
+        "down_h": 164.8,
+        "no_key_h": 164.8,
         "billing_h": 0.0,
         "quota_h": 0.0
       },
       {
         "provider": "claude",
-        "down_h": 105.6,
+        "down_h": 81.6,
         "no_key_h": 0.0,
-        "billing_h": 105.6,
+        "billing_h": 81.6,
         "quota_h": 0.0
       },
       {
         "provider": "gemini",
-        "down_h": 6.1,
+        "down_h": 3.1,
         "no_key_h": 0.0,
         "billing_h": 0.0,
-        "quota_h": 6.1
+        "quota_h": 3.1
       }
     ],
     "longest_waiting_bot_pr": {
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 470.1
+      "wait_h": 493.6
     },
     "yapamadim_count": 26
   },
@@ -271,141 +271,148 @@
       "id": "HO-20261009-08",
       "to": "auditor",
       "status": "open",
-      "age_h": 494.5,
+      "age_h": 518.0,
       "task": "Furkan'a yükselt: Shorts upload için YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN Actions secret'ları (kalan tek madde). TinyFish kısmı çözüldü: profil id'leri config"
     },
     {
       "id": "HO-IMP-20261019-slow-shorts-free-smoke-once",
       "to": "auditor",
       "status": "open",
-      "age_h": 269.6,
+      "age_h": 293.1,
       "task": "[.github/workflows/shorts-free-smoke-once.yml] .github/workflows/shorts-free-smoke-once.yml iş akışındaki 66 saniyelik medyan çalışma süresini kısaltmak için; p"
     },
     {
       "id": "CI-39269730285",
       "to": "grok",
       "status": "open",
-      "age_h": 260.9,
+      "age_h": 284.4,
       "task": "CI failure in 'archive-heal' run 39269730285: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261020-slow-tinyfish-youtube-analytics",
       "to": "auditor",
       "status": "open",
-      "age_h": 245.6,
+      "age_h": 269.1,
       "task": "[.github/workflows/tinyfish-youtube-analytics.yml] 'tinyfish-youtube-analytics' medyan 99 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari "
     },
     {
       "id": "CI-39382139527",
       "to": "grok",
       "status": "open",
-      "age_h": 244.7,
+      "age_h": 268.2,
       "task": "CI failure in 'archive-heal' run 39382139527: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261021-slow-auto-merge-gate",
       "to": "auditor",
       "status": "open",
-      "age_h": 221.6,
+      "age_h": 245.1,
       "task": "[.github/workflows/auto-merge-gate.yml] 'auto-merge-gate' medyan 58 sn (44 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atl"
     },
     {
       "id": "CI-39568642118",
       "to": "grok",
       "status": "open",
-      "age_h": 219.1,
+      "age_h": 242.6,
       "task": "CI failure in 'archive-heal' run 39568642118: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39592612716",
       "to": "grok",
       "status": "open",
-      "age_h": 215.9,
+      "age_h": 239.4,
       "task": "CI failure in 'archive-heal' run 39592612716: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39617972568",
       "to": "grok",
       "status": "open",
-      "age_h": 212.8,
+      "age_h": 236.4,
       "task": "CI failure in 'archive-heal' run 39617972568: jobs heal[Heal archives from git history (fail-closed)]; first error: Process completed with exit code 1."
     },
     {
       "id": "HO-IMP-20261022-slow-shorts-render-tests",
       "to": "auditor",
       "status": "open",
-      "age_h": 197.6,
+      "age_h": 221.1,
       "task": "[.github/workflows/shorts-render-tests.yml] 'shorts-render-tests' medyan 57 sn (3 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresi"
     },
     {
       "id": "CI-39733548992",
       "to": "grok",
       "status": "open",
-      "age_h": 197.0,
+      "age_h": 220.6,
       "task": "CI failure in 'archive-heal' run 39733548992: jobs heal[Commit healed archives only]; first error: Process completed with exit code 1."
     },
     {
       "id": "CI-39755405014",
       "to": "grok",
       "status": "open",
-      "age_h": 194.0,
+      "age_h": 217.5,
       "task": "CI failure in 'archive-heal' run 39755405014: jobs heal[Heal archives from git history (fail-closed)]; first error: Traceback (most recent call last):"
     },
     {
       "id": "HO-IMP-20261023-slow-archive-heal",
       "to": "auditor",
       "status": "open",
-      "age_h": 173.6,
+      "age_h": 197.1,
       "task": "[.github/workflows/archive-heal.yml] .github/workflows/archive-heal.yml workflow'undaki 68 saniyelik medyan süreyi düşürmek amacıyla, pip ve apt bağımlılık pake"
     },
     {
       "id": "HO-IMP-20261024-slow-worker-orchestration-tests",
       "to": "auditor",
       "status": "open",
-      "age_h": 149.6,
+      "age_h": 173.1,
       "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml workflow'undaki 56 saniyelik darboğazı gidermek için Pip ve "
     },
     {
       "id": "CI-40086311263",
       "to": "grok",
       "status": "open",
-      "age_h": 144.9,
+      "age_h": 168.4,
       "task": "CI failure in 'shorts-free-smoke-once' run 40086311263: jobs smoke[Run free-first unit tests]; first error: test_cerno_30s_cap_and_broadcast_clips_block_without"
     },
     {
       "id": "CI-40115771434",
       "to": "grok",
       "status": "open",
-      "age_h": 138.1,
+      "age_h": 161.6,
       "task": "CI failure in 'shorts-render-tests' run 40115771434: jobs test[?]; first error: tests/test_shorts_atomic_gate.py::AtomicShortsGateTests::test_audio_rejection_le"
     },
     {
       "id": "HO-IMP-20261025-slow-codeql-code-scanning",
       "to": "auditor",
       "status": "open",
-      "age_h": 125.6,
+      "age_h": 149.1,
       "task": "[.github/workflows/codeql.yml] 'CodeQL code scanning' medyan 70 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, b"
     },
     {
       "id": "HO-IMP-20261027-slow-research-learner",
       "to": "auditor",
       "status": "open",
-      "age_h": 72.8,
+      "age_h": 96.3,
       "task": "[.github/workflows/research-learner.yml] .github/workflows/research-learner.yml iş akışındaki 85 saniyelik darboğazı gidermek için; Pip ve APT paket kurulum adı"
     },
     {
       "id": "HO-IMP-20261028-provider-cerebras",
       "to": "auditor",
       "status": "open",
-      "age_h": 48.0,
+      "age_h": 71.6,
       "task": "[config/model_providers.json] GitHub Actions CI/CD hatlarındaki darboğazı gidermek amacıyla, `config/model_providers.json` dosyasında `cerebras` sağlayıcısı, so"
     },
     {
       "id": "HO-IMP-20261029-slow-improvement-bot",
       "to": "auditor",
       "status": "open",
-      "age_h": 23.9,
+      "age_h": 47.4,
       "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml dosyasındaki 49 saniyelik derleme darboğazını gidermek için pip ve apt adımlarına "
+    },
+    {
+      "id": "HO-IMP-20261030-fail-shorts-cdc-source-audit",
+      "to": "auditor",
+      "status": "open",
+      "age_h": 23.5,
+      "task": "[.github/workflows/shorts-cdc-source-audit.yml] GitHub Actions üzerindeki darboğazı çözmek ve 'shorts-cdc-source-audit' iş akışındaki %100 başarısızlık oranını "
     }
   ],
   "bot_prs": [
@@ -413,205 +420,211 @@
       "number": 158,
       "branch": "bot/telegram-model-fallback-20261011",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/158",
-      "wait_h": 470.1
+      "wait_h": 493.6
     },
     {
       "number": 185,
       "branch": "bot/lessons-pr-183",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/185",
-      "wait_h": 420.0
+      "wait_h": 443.5
     },
     {
       "number": 263,
       "branch": "bot/lessons-pr-260",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/263",
-      "wait_h": 268.3
+      "wait_h": 291.8
     },
     {
       "number": 265,
       "branch": "bot/CI-39218921179-39219028905",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/265",
-      "wait_h": 267.5
+      "wait_h": 291.1
     },
     {
       "number": 267,
       "branch": "bot/CI-39269730285-39269909672",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/267",
-      "wait_h": 260.9
+      "wait_h": 284.4
     },
     {
       "number": 271,
       "branch": "bot/CI-39364890322-39364989642",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/271",
-      "wait_h": 247.9
+      "wait_h": 271.4
     },
     {
       "number": 272,
       "branch": "bot/HO-IMP-20261020-slow-tinyfish-youtube-analytics-39377254275",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/272",
-      "wait_h": 245.6
+      "wait_h": 269.1
     },
     {
       "number": 275,
       "branch": "bot/CI-39382139527-39382253704",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/275",
-      "wait_h": 244.7
+      "wait_h": 268.2
     },
     {
       "number": 277,
       "branch": "bot/CI-39456475383-39456639571",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/277",
-      "wait_h": 235.1
+      "wait_h": 258.6
     },
     {
       "number": 279,
       "branch": "bot/CI-39458487246-39458632717",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/279",
-      "wait_h": 234.9
+      "wait_h": 258.4
     },
     {
       "number": 284,
       "branch": "bot/HO-IMP-20261021-slow-auto-merge-gate-39552039106",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/284",
-      "wait_h": 221.6
+      "wait_h": 245.1
     },
     {
       "number": 286,
       "branch": "bot/CI-39568642118-39568760132",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/286",
-      "wait_h": 219.1
+      "wait_h": 242.6
     },
     {
       "number": 288,
       "branch": "bot/CI-39591667571-39591813281",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/288",
-      "wait_h": 216.0
+      "wait_h": 239.5
     },
     {
       "number": 290,
       "branch": "bot/CI-39592612716-39592712349",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/290",
-      "wait_h": 215.9
+      "wait_h": 239.4
     },
     {
       "number": 292,
       "branch": "bot/CI-39617972568-39618168443",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/292",
-      "wait_h": 212.8
+      "wait_h": 236.4
     },
     {
       "number": 294,
       "branch": "bot/HO-IMP-20261022-slow-shorts-render-tests-39730491018",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/294",
-      "wait_h": 197.6
+      "wait_h": 221.1
     },
     {
       "number": 298,
       "branch": "bot/CI-39733548992-39733655968",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/298",
-      "wait_h": 197.1
+      "wait_h": 220.6
     },
     {
       "number": 296,
       "branch": "bot/CI-39733346498-39733433084",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/296",
-      "wait_h": 197.1
+      "wait_h": 220.6
     },
     {
       "number": 302,
       "branch": "bot/CI-39755405014-39755603005",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/302",
-      "wait_h": 194.0
+      "wait_h": 217.5
     },
     {
       "number": 300,
       "branch": "bot/CI-39755284076-39755400923",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/300",
-      "wait_h": 194.0
+      "wait_h": 217.5
     },
     {
       "number": 305,
       "branch": "bot/HO-IMP-20261023-slow-archive-heal-39908301440",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/305",
-      "wait_h": 173.5
+      "wait_h": 197.1
     },
     {
       "number": 311,
       "branch": "bot/CI-39925351995-39925547310",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/311",
-      "wait_h": 170.9
+      "wait_h": 194.4
     },
     {
       "number": 313,
       "branch": "bot/CI-39961063903-39961195602",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/313",
-      "wait_h": 166.0
+      "wait_h": 189.5
     },
     {
       "number": 316,
       "branch": "bot/CI-39995132216-39995320554",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/316",
-      "wait_h": 162.0
+      "wait_h": 185.5
     },
     {
       "number": 361,
       "branch": "bot/lessons-pr-350",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/361",
-      "wait_h": 83.6
+      "wait_h": 107.1
     },
     {
       "number": 363,
       "branch": "bot/CI-40449518705-40449615655",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/363",
-      "wait_h": 78.6
+      "wait_h": 102.1
     },
     {
       "number": 367,
       "branch": "bot/HO-IMP-20261027-slow-research-learner-40490506365",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/367",
-      "wait_h": 72.3
+      "wait_h": 95.8
     },
     {
       "number": 372,
       "branch": "bot/CI-40641794188-40641904207",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/372",
-      "wait_h": 53.3
+      "wait_h": 76.8
     },
     {
       "number": 374,
       "branch": "bot/HO-IMP-20261028-provider-cerebras-40679970076",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/374",
-      "wait_h": 48.0
+      "wait_h": 71.5
     },
     {
       "number": 379,
       "branch": "bot/lessons-pr-141",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/379",
-      "wait_h": 35.9
+      "wait_h": 59.4
     },
     {
       "number": 381,
       "branch": "bot/CI-40806810609-40806923713",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/381",
-      "wait_h": 32.9
+      "wait_h": 56.4
     },
     {
       "number": 382,
       "branch": "bot/HO-IMP-20261029-slow-improvement-bot-40866744454",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/382",
-      "wait_h": 23.8
+      "wait_h": 47.3
     },
     {
       "number": 386,
       "branch": "bot/CI-40922447912-40922528962",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/386",
-      "wait_h": 17.9
+      "wait_h": 41.4
     },
     {
       "number": 385,
       "branch": "bot/CI-40922469080-40922631635",
       "url": "https://github.com/cerniva/ai-shared-workspace/pull/385",
-      "wait_h": 17.9
+      "wait_h": 41.4
+    },
+    {
+      "number": 387,
+      "branch": "bot/HO-IMP-20261030-fail-shorts-cdc-source-audit-41048343027",
+      "url": "https://github.com/cerniva/ai-shared-workspace/pull/387",
+      "wait_h": 23.5
     }
   ],
   "suggestions": [
@@ -619,19 +632,19 @@
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 63 sn (24 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 63 sn (18 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-improvement-bot",
       "kind": "speedup",
       "target": ".github/workflows/improvement-bot.yml",
-      "text": "'improvement-bot' medyan 51 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'improvement-bot' medyan 56 sn (2 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-worker-orchestration-tests",
       "kind": "speedup",
       "target": ".github/workflows/worker-orchestration-tests.yml",
-      "text": "'worker-orchestration-tests' medyan 51 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'worker-orchestration-tests' medyan 51 sn (30 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "fail-shorts-cdc-source-audit",
@@ -643,19 +656,19 @@
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 166.3 saat dustu (no_key 166.3, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 164.8 saat dustu (no_key 164.8, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
       "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-08 (auditor, open) 494.5 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 518.0 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 470.1 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 493.6 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "ranked_speedups": [
@@ -663,19 +676,19 @@
       "key": "slow-codeql-code-scanning",
       "kind": "speedup",
       "target": ".github/workflows/codeql.yml",
-      "text": "'CodeQL code scanning' medyan 63 sn (24 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'CodeQL code scanning' medyan 63 sn (18 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-improvement-bot",
       "kind": "speedup",
       "target": ".github/workflows/improvement-bot.yml",
-      "text": "'improvement-bot' medyan 51 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'improvement-bot' medyan 56 sn (2 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "slow-worker-orchestration-tests",
       "kind": "speedup",
       "target": ".github/workflows/worker-orchestration-tests.yml",
-      "text": "'worker-orchestration-tests' medyan 51 sn (32 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
+      "text": "'worker-orchestration-tests' medyan 51 sn (30 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol."
     },
     {
       "key": "fail-shorts-cdc-source-audit",
@@ -687,35 +700,35 @@
       "key": "provider-cerebras",
       "kind": "provider",
       "target": "config/model_providers.json",
-      "text": "'cerebras' 7 gunde 166.3 saat dustu (no_key 166.3, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
+      "text": "'cerebras' 7 gunde 164.8 saat dustu (no_key 164.8, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar."
     },
     {
       "key": "handoff-ho-20261009-08",
       "kind": "handoff",
       "target": "state/handoffs.json",
-      "text": "HO-20261009-08 (auditor, open) 494.5 saattir acik; sahibine hatirlat veya kapat."
+      "text": "HO-20261009-08 (auditor, open) 518.0 saattir acik; sahibine hatirlat veya kapat."
     },
     {
       "key": "pr-158",
       "kind": "review",
       "target": "bot/telegram-model-fallback-20261011",
-      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 470.1 saattir bekliyor; incele/birlestir/kapat."
+      "text": "bot PR #158 (bot/telegram-model-fallback-20261011) 493.6 saattir bekliyor; incele/birlestir/kapat."
     }
   ],
   "speedup": {
-    "key": "fail-shorts-cdc-source-audit",
-    "kind": "reliability",
-    "target": ".github/workflows/shorts-cdc-source-audit.yml",
-    "text": "'shorts-cdc-source-audit' basarisizlik orani %100 (3/3). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+    "key": "slow-worker-orchestration-tests",
+    "kind": "speedup",
+    "target": ".github/workflows/worker-orchestration-tests.yml",
+    "text": "'worker-orchestration-tests' medyan 51 sn (30 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
     "enriched_by": "gemini",
-    "model_text": "GitHub Actions üzerindeki darboğazı çözmek ve 'shorts-cdc-source-audit' iş akışındaki %100 başarısızlık oranını ortadan kaldırmak için, `.github/workflows/shorts-cdc-source-audit.yml` dosyasında iş akışına `timeout-minutes: 10` sınırlaması eklenmeli, flaky olan denetim/bağımlılık adımına `nick-fields/retry` kullanılarak maksimum 3 tekrar yapılabilen retry mantığı tanımlanmalı ve bağımlılıkların tekrar indirilmesini önlemek için `actions/cache` adımı entegre edilmelidir."
+    "model_text": ".github/workflows/worker-orchestration-tests.yml iş akışındaki medyan 51 saniyelik darboğazı gidermek için Pip paketlerinde `actions/setup-python` üzerinden `cache: 'pip'` (ve apt bağımlılıkları için `actions/cache`) entegrasyonu sağlayarak indirme adımlarını hızlandırın; workflow tetiklenmesine `on.push.paths` ve `on.pull_request.paths` filtreleri ekleyerek ilgisiz kod değişikliklerinde gereksiz çalıştırmaları atlayın; son olarak birbirine bağımlı olmayan test adımlarını `strategy.matrix` veya ayrı job'lara bölerek eşzamanlı (paralel) çalışacak şekilde yapılandırın."
   },
   "dispatch": {
     "status": "pending",
-    "handoff_id": "HO-IMP-20261030-fail-shorts-cdc-source-audit",
+    "handoff_id": "HO-IMP-20261031-slow-worker-orchestration-tests",
     "payload": {
-      "handoff_id": "HO-IMP-20261030-fail-shorts-cdc-source-audit",
-      "task": "[.github/workflows/shorts-cdc-source-audit.yml] GitHub Actions üzerindeki darboğazı çözmek ve 'shorts-cdc-source-audit' iş akışındaki %100 başarısızlık oranını ortadan kaldırmak için, `.github/workflows/shorts-cdc-source-audit.yml` dosyasında iş akışına `timeout-minutes: 10` sınırlaması eklenmeli, flaky olan denetim/bağımlılık adımına `nick-fields/retry` kullanılarak maksimum 3 tekrar yapılabilen retry mantığı tanımlanmalı ve bağımlılıkların tekrar indirilmesini önlemek için `actions/cache` adımı entegre edilmelidir.",
+      "handoff_id": "HO-IMP-20261031-slow-worker-orchestration-tests",
+      "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml iş akışındaki medyan 51 saniyelik darboğazı gidermek için Pip paketlerinde `actions/setup-python` üzerinden `cache: 'pip'` (ve apt bağımlılıkları için `actions/cache`) entegrasyonu sağlayarak indirme adımlarını hızlandırın; workflow tetiklenmesine `on.push.paths` ve `on.pull_request.paths` filtreleri ekleyerek ilgisiz kod değişikliklerinde gereksiz çalıştırmaları atlayın; son olarak birbirine bağımlı olmayan test adımlarını `strategy.matrix` veya ayrı job'lara bölerek eşzamanlı (paralel) çalışacak şekilde yapılandırın.",
       "source": "improvement-bot"
     }
   },

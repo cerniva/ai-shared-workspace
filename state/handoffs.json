@@ -924,6 +924,17 @@
       "status": "open",
       "created_at": "2026-10-30T11:27:43+00:00",
       "updated_at": "2026-10-30T11:27:43+00:00"
+    },
+    {
+      "id": "HO-IMP-20261031-slow-worker-orchestration-tests",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml iş akışındaki medyan 51 saniyelik darboğazı gidermek için Pip paketlerinde `actions/setup-python` üzerinden `cache: 'pip'` (ve apt bağımlılıkları için `actions/cache`) entegrasyonu sağlayarak indirme adımlarını hızlandırın; workflow tetiklenmesine `on.push.paths` ve `on.pull_request.paths` filtreleri ekleyerek ilgisiz kod değişikliklerinde gereksiz çalıştırmaları atlayın; son olarak birbirine bağımlı olmayan test adımlarını `strategy.matrix` veya ayrı job'lara bölerek eşzamanlı (paralel) çalışacak şekilde yapılandırın.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261031 key=slow-worker-orchestration-tests",
+      "status": "open",
+      "created_at": "2026-10-31T10:58:48+00:00",
+      "updated_at": "2026-10-31T10:58:48+00:00"
     }
   ]
 }
