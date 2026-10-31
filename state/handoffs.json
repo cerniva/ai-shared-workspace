@@ -932,9 +932,15 @@
       "task": "[.github/workflows/worker-orchestration-tests.yml] .github/workflows/worker-orchestration-tests.yml iş akışındaki medyan 51 saniyelik darboğazı gidermek için Pip paketlerinde `actions/setup-python` üzerinden `cache: 'pip'` (ve apt bağımlılıkları için `actions/cache`) entegrasyonu sağlayarak indirme adımlarını hızlandırın; workflow tetiklenmesine `on.push.paths` ve `on.pull_request.paths` filtreleri ekleyerek ilgisiz kod değişikliklerinde gereksiz çalıştırmaları atlayın; son olarak birbirine bağımlı olmayan test adımlarını `strategy.matrix` veya ayrı job'lara bölerek eşzamanlı (paralel) çalışacak şekilde yapılandırın.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261031 key=slow-worker-orchestration-tests",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-10-31T10:58:48+00:00",
-      "updated_at": "2026-10-31T10:58:48+00:00"
+      "updated_at": "2026-10-31T11:00:19+00:00",
+      "claimed_at": "2026-10-31T11:00:19+00:00",
+      "notes": [
+        "2026-10-31T11:00:19+00:00 auditor: team-worker devraldi",
+        "2026-10-31T11:00:19+00:00 team-worker: YAPAMADIM: model cevap vermedi (CannotDo: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=auth, grok=auth; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: gemini: NonRetryableProviderError: gemini response contained no text; github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain)) | team-research dispatched (team-research) | kuyruga alindi (state/team_worker_queue.json)"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
