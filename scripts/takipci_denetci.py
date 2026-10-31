@@ -170,11 +170,23 @@ def check_run_refs(runs: list[dict], repo: str, head_sha: str) -> tuple[list[str
         if run_repo.lower() != repo.lower():
             reasons.append(f"run {rid} belongs to another repo ({run_repo})")
             continue
+        # A PR body may cite a historical main/other-PR CI failure as evidence.
+        # It must not fail the current PR's auditor check. Keep the warning,
+        # but only gate the referenced run if it belongs to this exact head.
+        # Missing head_sha is not trusted and remains fail-closed below.
+        run_head = run.get("head_sha")
+        if head_sha and not run_head:
+            reasons.append(f"run {rid} missing head_sha (cannot verify current PR head)")
+            continue
+        if head_sha and run_head != head_sha:
+            warnings.append(
+                f"run {rid} head_sha {run_head[:7]} != PR head {head_sha[:7]}"
+                " (historical/non-head CI; not a current-head gate)"
+            )
+            continue
         concl = run.get("conclusion")
         if run.get("status") != "completed" or concl != "success":
             reasons.append(f"run {rid} conclusion is {concl or run.get('status')} (not success)")
-        if head_sha and run.get("head_sha") and run["head_sha"] != head_sha:
-            warnings.append(f"run {rid} head_sha {run['head_sha'][:7]} != PR head {head_sha[:7]}")
     return reasons, warnings
 
 
@@ -184,7 +196,11 @@ def check_evidence_words(body: str | None) -> list[str]:
     for i, line in enumerate(lines):
         if not EVIDENCE_LINE_RE.match(line):
             continue
-        for chunk in lines[i:i + 2]:
+        for offset, chunk in enumerate(lines[i:i + 2]):
+            # A following Test:/CI: starts a separate evidence record. Check it
+            # on its own iteration, never attribute its result to this line.
+            if offset and EVIDENCE_LINE_RE.match(chunk):
+                break
             m = FAIL_WORD_RE.search(chunk)
             if m:
                 out.append(f"evidence line {i + 1} mentions '{m.group(1)}': {line.strip()[:80]}")
