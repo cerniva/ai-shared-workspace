@@ -99,5 +99,22 @@
     "publish": false,
     "payment": false,
     "payoutlens_touched": false
+  },
+  "followup_20261031_1339": {
+    "main_sha_verified": "021582d76ca8134a94ecafcafd523e1037c51060",
+    "ci_run_id": 41190749150,
+    "ci_job_id": 124506873253,
+    "ci_conclusion": "success",
+    "ci_scope": "ci-bekci watch only; not consumer, archive heal, MP4, SVG, or upload",
+    "ci_url": "https://github.com/cerniva/ai-shared-workspace/actions/runs/41190749150",
+    "fallback_message": "FB-20261009-213204-grok-fallback-open",
+    "fallback_ack": "null; unchanged",
+    "issue_308": "existing; bridge_failure remains",
+    "pr_309": "draft; live production unverified",
+    "applied_learning_ids": [],
+    "consumer_tests": "not executed",
+    "task_wave": "no new wave; stale capacity records",
+    "production_gates": "NOT_PASS",
+    "main_write": false
   }
 }
