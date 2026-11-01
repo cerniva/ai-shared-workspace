@@ -946,9 +946,15 @@
       "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki medyan 62 saniyelik CodeQL code scanning darboğazını gidermek için pip ve apt adımlarına `actions/cache` eklenerek bağımlılık indirme süreleri kısaltılmalı, yalnızca ilgili dosya değişikliklerinde çalışması için `paths` filtreleri yapılandırılmalı ve birbirine bağımlı olmayan test adımları paralel job'lara bölünerek toplam pipeline süresi optimize edilmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261101 key=slow-codeql-code-scanning",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-01T11:54:04+00:00",
-      "updated_at": "2026-11-01T11:54:04+00:00"
+      "updated_at": "2026-11-01T11:55:16+00:00",
+      "claimed_at": "2026-11-01T11:55:16+00:00",
+      "notes": [
+        "2026-11-01T11:55:16+00:00 auditor: team-worker devraldi",
+        "2026-11-01T11:55:16+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261101-slow-codeql-code-scanning.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }

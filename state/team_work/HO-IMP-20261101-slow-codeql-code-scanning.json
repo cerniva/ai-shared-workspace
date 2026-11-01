@@ -1,0 +1,39 @@
+{
+  "handoff_id": "HO-IMP-20261101-slow-codeql-code-scanning",
+  "source": "improvement-bot",
+  "run_id": "41303987192",
+  "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki medyan 62 saniyelik CodeQL code scanning darboğazını gidermek için pip ve apt adımlarına `actions/cache` eklenerek bağımlılık indirme süreleri kısaltılmalı, yalnızca ilgili dosya değişikliklerinde çalışması için `paths` filtreleri yapılandırılmalı ve birbirine bağımlı olmayan test adımları paralel job'lara bölünerek toplam pipeline süresi optimize edilmelidir.",
+  "generated_at": "2026-11-01T11:55:16+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261101-slow-codeql-code-scanning",
+    "evidence": [
+      {
+        "path": ".github/workflows/codeql.yml",
+        "detail": "Target workflow file .github/workflows/codeql.yml identified for CodeQL scanning bottleneck optimization, dependency caching, path filtering, and job parallelization."
+      }
+    ],
+    "factual_findings": [
+      "The workflow file requiring optimization is .github/workflows/codeql.yml.",
+      "The proposed optimizations target the median 62-second CodeQL bottleneck by introducing actions/cache for pip/apt dependencies, path filtering for trigger conditions, and parallel job splitting."
+    ],
+    "hypotheses": [
+      "Integrating actions/cache for pip and apt dependencies in .github/workflows/codeql.yml will decrease setup time across workflow executions.",
+      "Adding path filters (`paths`) to on.push and on.pull_request in .github/workflows/codeql.yml will avoid running CodeQL scans when non-code files (such as documentation) are modified.",
+      "Decomposing monolithic workflow jobs into independent parallel jobs will optimize overall pipeline runtime."
+    ],
+    "recommendation": "Modify .github/workflows/codeql.yml to add actions/cache for package managers, configure `paths` triggers for relevant source files, and split independent steps into parallel GitHub Actions jobs.",
+    "confidence": 0.95,
+    "next_action": "Update .github/workflows/codeql.yml with the caching, path filtering, and job parallelization changes.",
+    "timing": {
+      "started_at": "2026-11-01T11:55:20.393326+00:00",
+      "duration_ms": 7668
+    },
+    "usage": {
+      "input_tokens": 206,
+      "output_tokens": 335,
+      "total_tokens": 1670
+    }
+  }
+}
