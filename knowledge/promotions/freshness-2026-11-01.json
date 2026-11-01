@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_07499d1e803556e9",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_41dbc8ec4da31e1d",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_4aa8389bc084a43f",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_595a7e36bf31ca5d",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_5e4956b3ee8afc3b",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_a3ade0736b8da178",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_ca3fdf40ca60849a",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    },
+    {
+      "source_id": "src_f492a0640e50dfce",
+      "verified_at": "2026-11-01T10:33:43+00:00"
+    }
+  ]
+}
