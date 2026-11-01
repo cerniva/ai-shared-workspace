@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-01T13:22:39+00:00",
+  "generated_at": "2026-11-01T18:56:02+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 41303714047,
+          "id": 41310964770,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-01T11:51:06Z",
-          "event": "schedule"
+          "created_at": "2026-11-01T13:22:41Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 41279190316,
+          "id": 41310970176,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-01T06:02:16Z",
+          "created_at": "2026-11-01T13:22:45Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 41282430263,
+          "id": 41316518981,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-01T06:50:38Z",
+          "created_at": "2026-11-01T14:30:22Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 41288003988,
+          "id": 41321501217,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-01T09:14:21Z",
+          "created_at": "2026-11-01T15:29:45Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışı başarısız (failure) olmuş ve shorts-free-render.yml henüz hiç çalışmamıştır (never_run). Finans projesinde ise ana runner iş akışının depoda bulunmadığı not edilmiştir. Diğer tüm sistem ve bilgi otomasyonları sorunsuz çalışmaktadır."
+  "model_summary": "video_shorts_shopify_gumroad altındaki youtube-upload.yml otomasyonunun hata loglarını inceleyin ve duruma göre shorts-free-render.yml workflow'unu tetikleyin."
 }
