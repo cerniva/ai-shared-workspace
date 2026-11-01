@@ -357,6 +357,27 @@
       "title": "Federal Reserve Board press releases RSS: Federal Reserve Board announces approval of application by The Bank of Nova Scotia"
     },
     {
+      "claim": "Shopify developer changelog page ui-extensions-now-support-a-larger-number-of-locales (30 Oct 2026, flag Update, surface Platform, read 2026-11-01, HTTP 200) states UI extensions no longer have a 256 KB limit on the combined size of their locale files; the 30 KB limit per individual locale file still applies. Locale file format, naming and fallback behavior are unchanged. Applies to all apps with UI extensions on all API versions; no action required, and new deploys (shopify app deploy) are not limited by combined locale size.",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify ships UI extensions with locale files; languages previously dropped to stay under 256 KB can be re-added as long as each file stays under 30 KB. No code or operational change without approval.",
+      "domain": "commerce-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-01T06:20:00+00:00",
+      "learning_id": "learn_3c2cf357e322bda2",
+      "next_measurement": "Confirm whether video_shopify has any UI extension with a locales folder; record yes/no before 2026-11-08.",
+      "outcome": "pending",
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "supersedes": null,
+      "title": "Shopify developer changelog feed: UI extensions now support a larger number of locales"
+    },
+    {
       "claim": "The official GraphQL Admin API reference (fetched 2026-10-09) states that the GraphQL API can return 200 OK for cases that would be 4xx/5xx in REST, with errors[].extensions.code values such as THROTTLED, ACCESS_DENIED, SHOP_INACTIVE and INTERNAL_SERVER_ERROR, that a single query above the max cost (1000) fails with MAX_COST_EXCEEDED, and that responses carry extensions.cost.throttleStatus.",
       "decision": "SHOPIFY_200_ERROR_GATE: never treat HTTP 200 as success; a response with a non-empty errors array or mutation userErrors is a failure classified by extensions.code. THROTTLED -> backoff/retry; MAX_COST_EXCEEDED -> split query or use bulk operation; ACCESS_DENIED/SHOP_INACTIVE -> stop and escalate to Furkan.",
       "domain": "shopify-admin-api",
@@ -2022,5 +2043,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-31T06:14:04+00:00"
+  "updated_at": "2026-11-01T06:15:47+00:00"
 }
