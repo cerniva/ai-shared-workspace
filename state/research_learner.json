@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T11:09:48+00:00",
+  "generated_at": "2026-11-01T11:59:31+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
@@ -8,10 +8,7 @@
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
-      "status": "staged",
-      "path": "intake/promotions/2026-10-31-research-learner-video_shopify.json",
-      "learning_id": "learn_b0978e9cf87355fb",
-      "source_id": "src_14818279e16364ff"
+      "status": "already_in_ledger"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
