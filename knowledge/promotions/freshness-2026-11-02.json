@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_0acc40a4a170ff80",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_0c0576e57cb62ef8",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_1ee3fe3382f17f55",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_23c007ed449deb42",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_28b32158daac71ec",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_2f09c35724049c63",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_35d788c11230ae93",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_38cf57b7b2d3c21b",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_4f81ff624e4eda30",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_59f52b1f650983e4",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_62a331e31269e5a6",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_75c9e52d0a30a9d9",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_7fdeed3f9ddd8166",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_8114d88826736507",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_8f545c8978df20e8",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_97a7eb010a0d1efa",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_a07c7e21d17c1bf8",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_ad68ab9c9d0b3fa2",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_d04b5a72ae4029f9",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_d1eebde122d891b3",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_d8c0211c4b948b1f",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    },
+    {
+      "source_id": "src_f093e461ee7afc85",
+      "verified_at": "2026-11-02T11:18:43+00:00"
+    }
+  ]
+}
