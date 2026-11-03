@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-03",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "source_branch": "main",
+  "decisions": [
+    {
+      "area": "fed",
+      "claim": "28 Ekim Fed %3.75-4.00 sabit, 10-2",
+      "source": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20261028.htm",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ],
+      "effect": "Eski karar yeni haber sayılmadı; resmi Fed kaynağı kullanıldı"
+    },
+    {
+      "area": "equities",
+      "claim": "2 Kasım S&P 500 7541.40 (-0.51%), Nasdaq 25164.32 (-1.07%), Dow 51983.98 (+0.41%)",
+      "source": "https://apnews.com/article/475bb37b4d95dd99e26c94e708c99f8f",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745"
+      ],
+      "effect": "Düşük etkili eski bankacılık haberi yerine yeni kapanış işlendi"
+    },
+    {
+      "area": "bonds",
+      "claim": "3 Kasım yeni resmî Hazine getiri serisi henüz teyitsiz",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "Önceki tahvil getirileri canlı olarak sunulmadı"
+    },
+    {
+      "area": "fx",
+      "claim": "TCMB tarihli bülten teyitsiz",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "effect": "USDTRY canlı rakam uydurulmadı"
+    },
+    {
+      "area": "altcoin",
+      "claim": "2020-25 walk-forward/lo-hi kalibrasyon validated=false",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "10 gösterge ve toplam destek skoru N/A"
+    },
+    {
+      "area": "energy",
+      "claim": "Petrol fiyat düşüşü ve İran görüşmeleri; fiziksel arz normalleşmesi teyitsiz",
+      "applied_learning_ids": [
+        "learn_fin_hormuz_flow_security_divergence_20261005",
+        "learn_fin_energy_logistics_stack_20261006"
+      ],
+      "effect": "Diplomatik risk azalması fiziksel petrol akışı artışı olarak yazılmadı"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_084a973ea4587745",
+    "learn_fba30853bde7b37e",
+    "learn_63b873bf5dbd8208",
+    "learn_f7b141c60755c294",
+    "learn_fin_hormuz_flow_security_divergence_20261005",
+    "learn_fin_energy_logistics_stack_20261006"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External finance production runner applied_learning_ids read-back not verified"
+  },
+  "command": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "reason": "scripts/plan_learnings.py absent in local working directory /",
+    "stdout": null,
+    "exit_code": null
+  },
+  "ci": "NOT_VERIFIED",
+  "grok_delivery": "NOT_VERIFIED",
+  "altcoin_score": null,
+  "scope_excluded": [
+    "PayoutLens"
+  ]
+}
