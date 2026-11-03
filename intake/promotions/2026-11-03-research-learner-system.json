@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "source_name": "GitHub changelog feed",
+      "canonical": "https://github.blog/changelog/feed",
+      "category": "github-platform",
+      "purpose": "Keyless primary feed for system research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-03T12:58:35+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_8b56bb4f49e3410b",
+      "title": "GitHub changelog feed: GitHub Desktop adds short-lived authentication tokens",
+      "domain": "github-platform",
+      "claim": "GitHub changelog feed fetched 2026-11-03 lists as newest item: \"GitHub Desktop adds short-lived authentication tokens\" (Tue, 03 Nov 2026 07:55:58 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The system plan should assess the security benefits and potential workflow impacts of GitHub Desktop's short-lived authentication tokens to ensure future compatibility, taking no immediate action.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-03T12:58:35+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}

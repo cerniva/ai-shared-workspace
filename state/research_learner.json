@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T13:47:33+00:00",
+  "generated_at": "2026-11-03T12:58:35+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
@@ -8,11 +8,14 @@
     },
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
-      "status": "already_in_ledger"
+      "status": "model_unavailable"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
-      "status": "already_in_ledger"
+      "status": "staged",
+      "path": "intake/promotions/2026-11-03-research-learner-system.json",
+      "learning_id": "learn_8b56bb4f49e3410b",
+      "source_id": "src_c47bbcd15b32d194"
     }
   }
 }
