@@ -957,9 +957,15 @@
       "task": "[.github/workflows/takipci-denetci.yml] .github/workflows/takipci-denetci.yml iş akışındaki %50'lik (8/16) başarısızlık oranını azaltmak ve iş hattı darboğazını çözmek için, iş akışı düzeyinde veya adım düzeyinde 'timeout-minutes: 10' parametresi tanımlanmalı, ağ ve paket indirme odaklı flaky adımlar 'nick-fields/retry@v2' benzeri bir retry aksiyonu ile en fazla 3 deneme yapacak şekilde sarmalanmalı ve ilk log hatasında tespit edilen bağımlılık kurulum eksiklikleri önbellekleme ('actions/cache') ile stabilize edilmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261102 key=fail-takipci-denetci",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-02T13:38:42+00:00",
-      "updated_at": "2026-11-02T13:38:42+00:00"
+      "updated_at": "2026-11-02T13:40:27+00:00",
+      "claimed_at": "2026-11-02T13:40:27+00:00",
+      "notes": [
+        "2026-11-02T13:40:27+00:00 auditor: team-worker devraldi",
+        "2026-11-02T13:40:27+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261102-fail-takipci-denetci.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
