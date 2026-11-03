@@ -970,7 +970,10 @@
       "evidence": "state/improvement_report.json day=20261103 key=slow-tinyfish-youtube-analytics",
       "status": "open",
       "created_at": "2026-11-03T12:52:26+00:00",
-      "updated_at": "2026-11-03T12:52:26+00:00"
+      "updated_at": "2026-11-03T12:54:22+00:00",
+      "notes": [
+        "2026-11-03T12:54:22+00:00 team-worker: research-learner (team-research): Ensure model provider access is restored, then refactor `.github/workflows/tinyfish-youtube-analytics.yml` by adding `cache: 'pip'` (and `actions/cache` for apt packages), inserting `paths` filters under push/pull_request triggers, and separating non-dependent test execution steps into concurrent jobs. | sonraki: Modify `.github/workflows/tinyfish-youtube-analytics.yml` to implement pip/apt caching, path filtering, and multi-job parallelization."
+      ]
     }
   ]
 }
