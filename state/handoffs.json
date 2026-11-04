@@ -974,6 +974,17 @@
       "notes": [
         "2026-11-03T12:54:22+00:00 team-worker: research-learner (team-research): Ensure model provider access is restored, then refactor `.github/workflows/tinyfish-youtube-analytics.yml` by adding `cache: 'pip'` (and `actions/cache` for apt packages), inserting `paths` filters under push/pull_request triggers, and separating non-dependent test execution steps into concurrent jobs. | sonraki: Modify `.github/workflows/tinyfish-youtube-analytics.yml` to implement pip/apt caching, path filtering, and multi-job parallelization."
       ]
+    },
+    {
+      "id": "HO-IMP-20261104-provider-cerebras",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[config/model_providers.json] GitHub Actions iş akışlarındaki 160.3 saatlik gecikme ve darboğazı ortadan kaldırmak için `config/model_providers.json` yapılandırmasındaki fallback zincirinden 'cerebras' sağlayıcısını geçerli API anahtarları tanımlanana kadar geçici olarak çıkarın veya zincir yürütücüsünü eksik anahtar (`no_key`) tespit edildiğinde zaman aşımını beklemeden anında bir sonraki aktif sağlayıcıya geçecek şekilde güncelleyin.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261104 key=provider-cerebras",
+      "status": "open",
+      "created_at": "2026-11-04T13:05:37+00:00",
+      "updated_at": "2026-11-04T13:05:37+00:00"
     }
   ]
 }
