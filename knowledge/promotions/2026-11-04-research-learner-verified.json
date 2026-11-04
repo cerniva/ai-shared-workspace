@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_c47bbcd15b32d194", "verified_at": "2026-11-04T09:18:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: GitHub Desktop adds short-lived authentication tokens",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-03-github-desktop-adds-short-lived-authentication-tokens (dated November 2, 2026, Improvement; feed pubDate Tue, 03 Nov 2026 07:55:58 +0000; read 2026-11-04, HTTP 200) states that when signing in to GitHub Desktop 3.6.10 or later, eligible accounts can use short-lived, automatically refreshing authentication tokens, refreshed by Desktop for GitHub API requests and Git operations. Rollout is gradual on github.com including GitHub Enterprise Cloud, not available to everyone yet, and excludes GitHub Enterprise Server. Existing sessions stay signed in after upgrading and existing tokens are not automatically migrated; short-lived tokens are issued during sign-in once the rollout reaches the installation.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: affects only humans using GitHub Desktop; bots on the box use MCP/PAT/Actions tokens and are unaffected. No code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether any workflow in the system plan depends on a token issued by GitHub Desktop; record yes/no before 2026-11-11.",
+      "learned_at": "2026-11-04T06:18:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
