@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Europe/Istanbul",
+  "source_branch": "main",
+  "status": "PARTIAL",
+  "decisions": [
+    {
+      "field": "fed_policy",
+      "value": "3.75-4.00%, 2026-10-28 FOMC 10-2 hold; not new 2026-11-04",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_6b1c96a05f850f64",
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Official dated Fed release replaces undated or recycled rate headlines",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "field": "treasury_yield",
+      "value": "4.906% Reuters intraday Nov 4, not Treasury official closing",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "Intraday Reuters yield explicitly not represented as official daily Treasury observation",
+      "source": "https://www.reuters.com/world/china/global-markets-wrapup-1-2026-11-04/"
+    },
+    {
+      "field": "altcoin_support_score",
+      "value": null,
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "All ten unvalidated calibrations force N/A instead of a fabricated 0-100 score",
+      "source": "config/altcoin_panel_calibration.json"
+    },
+    {
+      "field": "fx_usdtry",
+      "value": null,
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "effect": "No undated TCMB indicative rate is passed off as Nov 4 live FX",
+      "source": "https://www.tcmb.gov.tr/kurlar/today.xml"
+    },
+    {
+      "field": "news_dedup",
+      "value": "Only Nov 3 US close and Nov 4 election reaction highlighted",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745"
+      ],
+      "effect": "Older low-impact small-bank enforcement item excluded from new-news section"
+    },
+    {
+      "field": "corporate_earnings",
+      "value": "No unverified exact filing-based earnings figures",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ],
+      "effect": "Secondary earnings narrative not promoted to audited SEC filing figures"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_6b1c96a05f850f64",
+    "learn_5f961fa5fb9f6388",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294",
+    "learn_63b873bf5dbd8208",
+    "learn_084a973ea4587745",
+    "learn_27333cc91fdf7f58"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External production finance consumer decision-effect read-back not verified; this record is ChatGPT report decision evidence only"
+  },
+  "first70_crypto_status": "NOT_VERIFIED",
+  "altcoin_score": null,
+  "command": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "executed": false,
+    "stdout": null,
+    "exit_code": null,
+    "blocker": "Local repo absent; git ls-remote DNS failure with git exit 128"
+  },
+  "new_promotion": "DEDUP_OR_UNVERIFIED_NOT_WRITTEN",
+  "grok_delivery": "NOT_VERIFIED"
+}
