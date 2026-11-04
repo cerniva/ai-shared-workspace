@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-04T16:18:50+00:00",
+  "generated_at": "2026-11-04T23:39:38+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 41834148774,
+          "id": 41865965404,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-04T13:00:19Z",
-          "event": "schedule"
+          "created_at": "2026-11-04T16:18:52Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 41784801540,
+          "id": 41865982861,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-04T06:19:55Z",
+          "created_at": "2026-11-04T16:18:58Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 41861122699,
+          "id": 41923190476,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-04T15:45:54Z",
+          "created_at": "2026-11-04T22:12:23Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 41822549831,
+          "id": 41891646807,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-04T11:38:23Z",
+          "created_at": "2026-11-04T18:53:59Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad modülündeki youtube-upload.yml otomasyonu son çalıştırmada başarısız (failure) olduğu için sağlıksız görünmektedir. Aynı modüldeki shorts-free-render.yml otomasyonu ise henüz hiç çalıştırılmamıştır (never_run). Finans, bilgi ve sistem modüllerindeki diğer tüm otomasyonlar ise başarıyla tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad altındaki youtube-upload.yml çalıştırma günlükleri incelenmeli ve shorts-free-render.yml iş akışının tetikleyici yapılandırması kontrol edilmelidir."
 }
