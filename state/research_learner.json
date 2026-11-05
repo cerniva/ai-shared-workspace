@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T13:14:21+00:00",
+  "generated_at": "2026-11-05T13:27:26+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
@@ -9,15 +9,15 @@
     "video_shopify": {
       "source": "https://shopify.dev/changelog/feed.xml",
       "status": "staged",
-      "path": "intake/promotions/2026-11-04-research-learner-video_shopify.json",
-      "learning_id": "learn_206003a56504b483",
+      "path": "intake/promotions/2026-11-05-research-learner-video_shopify.json",
+      "learning_id": "learn_9877078c7b7d8aae",
       "source_id": "src_14818279e16364ff"
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
       "status": "staged",
-      "path": "intake/promotions/2026-11-04-research-learner-system.json",
-      "learning_id": "learn_264479c951bd58f6",
+      "path": "intake/promotions/2026-11-05-research-learner-system.json",
+      "learning_id": "learn_c35dd220cb904157",
       "source_id": "src_c47bbcd15b32d194"
     }
   }
