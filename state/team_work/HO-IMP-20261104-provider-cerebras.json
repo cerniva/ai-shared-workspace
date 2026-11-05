@@ -1,0 +1,39 @@
+{
+  "handoff_id": "HO-IMP-20261104-provider-cerebras",
+  "source": "improvement-bot",
+  "run_id": "41835250467",
+  "task": "[config/model_providers.json] GitHub Actions iş akışlarındaki 160.3 saatlik gecikme ve darboğazı ortadan kaldırmak için `config/model_providers.json` yapılandırmasındaki fallback zincirinden 'cerebras' sağlayıcısını geçerli API anahtarları tanımlanana kadar geçici olarak çıkarın veya zincir yürütücüsünü eksik anahtar (`no_key`) tespit edildiğinde zaman aşımını beklemeden anında bir sonraki aktif sağlayıcıya geçecek şekilde güncelleyin.",
+  "generated_at": "2026-11-04T13:08:02+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261104-provider-cerebras",
+    "evidence": [
+      {
+        "path": "config/model_providers.json",
+        "description": "Configuration file containing model provider definitions and fallback chain order where 'cerebras' is listed without valid API keys ('no_key')."
+      }
+    ],
+    "factual_findings": [
+      "The fallback chain configured in config/model_providers.json includes the 'cerebras' provider.",
+      "Because 'cerebras' lacks valid API keys ('no_key'), requests to it encounter timeout delays, accumulating to a total of 160.3 hours of bottlenecking in GitHub Actions workflows.",
+      "Bypassing providers with 'no_key' status or removing 'cerebras' from config/model_providers.json eliminates unnecessary timeout wait times in CI workflows."
+    ],
+    "hypotheses": [
+      "Temporarily removing 'cerebras' from the fallback array in config/model_providers.json will instantly prevent GitHub Actions from attempting calls to 'cerebras', eliminating the 160.3-hour delay.",
+      "Updating the chain execution logic to fast-fail when 'no_key' is detected will make the fallback mechanism resilient against unconfigured providers in the future."
+    ],
+    "recommendation": "Update config/model_providers.json to temporarily exclude 'cerebras' from the active fallback chain until valid API credentials are provided, and/or update the executor to immediately advance to the next provider upon detecting 'no_key'.",
+    "confidence": 0.95,
+    "next_action": "Modify config/model_providers.json to remove 'cerebras' from the active fallback list and verify CI workflow execution speed.",
+    "timing": {
+      "started_at": "2026-11-04T13:08:37.963422+00:00",
+      "duration_ms": 20162
+    },
+    "usage": {
+      "input_tokens": 215,
+      "output_tokens": 372,
+      "total_tokens": 1771
+    }
+  }
+}

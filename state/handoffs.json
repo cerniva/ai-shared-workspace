@@ -982,9 +982,15 @@
       "task": "[config/model_providers.json] GitHub Actions iş akışlarındaki 160.3 saatlik gecikme ve darboğazı ortadan kaldırmak için `config/model_providers.json` yapılandırmasındaki fallback zincirinden 'cerebras' sağlayıcısını geçerli API anahtarları tanımlanana kadar geçici olarak çıkarın veya zincir yürütücüsünü eksik anahtar (`no_key`) tespit edildiğinde zaman aşımını beklemeden anında bir sonraki aktif sağlayıcıya geçecek şekilde güncelleyin.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261104 key=provider-cerebras",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-04T13:05:37+00:00",
-      "updated_at": "2026-11-04T13:05:37+00:00"
+      "updated_at": "2026-11-04T13:08:02+00:00",
+      "claimed_at": "2026-11-04T13:08:02+00:00",
+      "notes": [
+        "2026-11-04T13:08:02+00:00 auditor: team-worker devraldi",
+        "2026-11-04T13:08:02+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261104-provider-cerebras.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
