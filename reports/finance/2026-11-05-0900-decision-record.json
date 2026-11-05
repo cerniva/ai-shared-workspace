@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "source_branch": "main",
+  "decisions": [
+    {
+      "area": "fed",
+      "claim": "2026-10-28 FOMC hold 3.75-4.00%, 10-2",
+      "action": "Official dated release used; not a new Nov 5 decision",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_6b1c96a05f850f64",
+        "learn_5f961fa5fb9f6388",
+        "learn_9b39644affcb8a33"
+      ],
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "area": "equities",
+      "claim": "Nov 4 close SPX 7688.62, Nasdaq 25736.51, Dow 53356.12",
+      "action": "Replaced prior Nov 3 closes; 4 Nov settlement distinguished from 5 Nov Asia intraday",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745"
+      ],
+      "source": "https://apnews.com/article/4d12764c0b3ce38ffde3077712811182"
+    },
+    {
+      "area": "rates",
+      "claim": "10y yield 4.87% Nov 5 Asian intraday",
+      "action": "Not mislabelled as official US Treasury close",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "source": "https://www.reuters.com/business/energy/global-markets-global-markets-2026-11-05/"
+    },
+    {
+      "area": "energy",
+      "claim": "Brent Nov 4 $94.62, Nov 5 Asia near $93.50",
+      "action": "Different observation timestamps; peace expectations not asserted as physical supply recovery",
+      "applied_learning_ids": [],
+      "source": "https://apnews.com/article/4d12764c0b3ce38ffde3077712811182"
+    },
+    {
+      "area": "fx",
+      "claim": "EURUSD near 1.1273 Nov 5 Asia",
+      "action": "USDTRY omitted because dated CBRT bulletin not checked",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "source": "https://www.reuters.com/business/energy/global-markets-global-markets-2026-11-05/"
+    },
+    {
+      "area": "altcoin",
+      "claim": "Calibration file has all 10 indicators validated=false",
+      "action": "All calibrated support scores and combined score set N/A",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "source": "https://github.com/cerniva/ai-shared-workspace/blob/main/config/altcoin_panel_calibration.json"
+    },
+    {
+      "area": "company_filing",
+      "claim": "No new SEC-verified company earnings figures",
+      "action": "Omitted unverified detailed earnings numbers",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ],
+      "source": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_6b1c96a05f850f64",
+    "learn_5f961fa5fb9f6388",
+    "learn_9b39644affcb8a33",
+    "learn_084a973ea4587745",
+    "learn_fba30853bde7b37e",
+    "learn_63b873bf5dbd8208",
+    "learn_f7b141c60755c294",
+    "learn_27333cc91fdf7f58"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External production finance runner application and independent output read-back unverified; this decision record is not proof of runner integration."
+  },
+  "command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "git_attempt_exit_code": 128,
+    "git_error": "Could not resolve host: github.com"
+  },
+  "coverage": {
+    "macro": true,
+    "treasury_partial": true,
+    "equities": true,
+    "commodities_partial": true,
+    "fx_partial": true,
+    "etf": false,
+    "top70_crypto": false,
+    "altcoin_score": "N/A"
+  },
+  "new_learning_promotion": "DEDUP_NO_NEW_LEARNING",
+  "grok_delivery": "NOT_VERIFIED",
+  "ci": "NOT_VERIFIED",
+  "issue": 308
+}
