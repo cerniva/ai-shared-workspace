@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261106-handoff-ho-20261009-08",
+      "task": "[state/handoffs.json] GitHub Actions süreçlerindeki darboğazları gidermek için paket yöneticisi bağımlılıklarının (`actions/cache` ile npm/pip/cargo) önbelleğe alınması, testlerin matris stratejisiyle paralel koşturulması ve gereksiz tetiklemelerin filtrelenmesi önerilir; ayrıca 664 saattir açık duran HO-20261009-08 numaralı handoff kaydının güncelliğini yitirdiği değerlendirilerek `state/handoffs.json` dosyasında 'closed' durumuna getirilmesi veya ilgili sahibine hatırlatılması gerekmektedir.",
+      "source": "improvement-bot",
+      "ts": "2026-11-06T13:03:02+00:00"
+    }
+  ]
+}
