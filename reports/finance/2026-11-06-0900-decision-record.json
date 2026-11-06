@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-06",
+  "timezone": "Europe/Istanbul",
+  "base_main_sha": "af56921280ada1d8ae5e820404b8a733848e0b40",
+  "status": "PARTIAL",
+  "decisions": [
+    {
+      "area": "fed_policy_primary_gate",
+      "claim": "FOMC held 3.75%-4.00% on 2026-10-28 by 10-2 vote; not new on 2026-11-06",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "source_publication_date": "2026-10-28",
+      "verification": "official page read 2026-11-06",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "concrete_change": "Official FOMC primary source verified the rate and vote, prevented reporting an older rate decision as new."
+    },
+    {
+      "area": "equities",
+      "claim": "2026-11-05 Nasdaq -5.52%, S&P 500 -4.36%",
+      "source": "https://www.reuters.com/business/sp-500-futures-steady-after-midterm-rally-nasdaq-lags-chip-weakness-2026-11-05/",
+      "applied_learning_ids": [],
+      "concrete_change": "Replaced stale 2026-11-04 closing snapshot with 2026-11-05 close."
+    },
+    {
+      "area": "altcoin",
+      "calibrated_score": null,
+      "reason": "10/10 indicators validated=false; no 2020-2025 walk-forward backtest",
+      "applied_learning_ids": [],
+      "concrete_change": "All calibrated scores withheld."
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independently verified external finance producer applied-learning read-back; this decision record is not production proof."
+  },
+  "script": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "reason": "script absent in /; git ls-remote DNS failure for github.com, separate git exit 128"
+  },
+  "promotion": {
+    "status": "NOT_CREATED",
+    "reason": "No verified novel nonduplicate learning established"
+  },
+  "grok_delivery": {
+    "status": "UNVERIFIED",
+    "message_id": null
+  },
+  "ci": {
+    "status": "NOT_VERIFIED"
+  }
+}
