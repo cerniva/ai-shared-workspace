@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-06T06:42:32+00:00",
+  "generated_at": "2026-11-06T15:55:30+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 42172752355,
+          "id": 42221689611,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T06:10:21Z",
-          "event": "workflow_run"
+          "created_at": "2026-11-06T12:57:57Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 42172722142,
+          "id": 42176164203,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T06:10:04Z",
-          "event": "push"
+          "created_at": "2026-11-06T06:42:38Z",
+          "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 42137624323,
+          "id": 42242498335,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T00:32:58Z",
+          "created_at": "2026-11-06T15:22:51Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 42142056842,
+          "id": 42188827255,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T01:10:44Z",
+          "created_at": "2026-11-06T08:35:54Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışı başarısız olmuş ve shorts-free-render.yml iş akışı hiç çalıştırılmamıştır. Diğer projelerdeki otomasyonlar sorunsuz çalışmaktadır."
+  "model_summary": "video_shorts_shopify_gumroad modülünde yer alan youtube-upload.yml otomasyonu başarısız (failure) olmuştur. Ayrıca aynı modüldeki shorts-free-render.yml otomasyonu hiç çalıştırılmamıştır (never_run). Diğer tüm modüllerdeki otomasyonlar ise sorunsuz ve başarılı şekilde tamamlanmıştır."
 }
