@@ -324,7 +324,7 @@
       "discovered_at": "2026-10-06T14:22:00+03:00",
       "evidence_tier": "official",
       "failure_note": "Candidate knowledge/2026-10-06-shopify-next-gen-events-product-signal-gate.json stayed outside the canonical ledger until this bridge.",
-      "last_successful_use": "2026-10-06T14:22:00+03:00",
+      "last_successful_use": "2026-11-06T11:00:03+00:00",
       "provenance": "verified",
       "purpose": "Official GA notice for Next Gen Events in API 2026-10, 18 topics, filters and custom payloads",
       "reliability_limits": "Docs only. No store event delivery was observed. Event payload is not sales proof.",
@@ -639,7 +639,7 @@
       "discovered_at": "2026-10-06T14:23:00+00:00",
       "evidence_tier": "official",
       "failure_note": null,
-      "last_successful_use": "2026-10-06T14:23:00+00:00",
+      "last_successful_use": "2026-11-06T11:00:03+00:00",
       "provenance": "verified",
       "purpose": "Market return policy profiles are structured terms, not observed returns or sales",
       "reliability_limits": "Public changelog only. Store market assignment, hierarchy, and actual returns were not read. Profiles are read-only in GraphQL; no mutations.",
@@ -1427,5 +1427,5 @@
       "source_name": "GitHub repository rulesets: available rules and path restrictions"
     }
   ],
-  "updated_at": "2026-11-06T06:09:41+00:00"
+  "updated_at": "2026-11-06T11:00:08+00:00"
 }
