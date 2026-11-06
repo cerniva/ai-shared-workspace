@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-06T15:55:30+00:00",
+  "generated_at": "2026-11-06T21:29:03+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 42221689611,
+          "id": 42247551395,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T12:57:57Z",
-          "event": "schedule"
+          "created_at": "2026-11-06T15:55:32Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 42176164203,
+          "id": 42247565263,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T06:42:38Z",
+          "created_at": "2026-11-06T15:55:37Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 42242498335,
+          "id": 42293558128,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T15:22:51Z",
+          "created_at": "2026-11-06T21:03:41Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 42188827255,
+          "id": 42251563809,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-06T08:35:54Z",
+          "created_at": "2026-11-06T16:21:08Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad modülünde yer alan youtube-upload.yml otomasyonu başarısız (failure) olmuştur. Ayrıca aynı modüldeki shorts-free-render.yml otomasyonu hiç çalıştırılmamıştır (never_run). Diğer tüm modüllerdeki otomasyonlar ise sorunsuz ve başarılı şekilde tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml workflow'u başarısızlıkla sonuçlanmış, shorts-free-render.yml ise hiç çalıştırılmamıştır. Bu durum nedeniyle ilgili video otomasyonu sorunlu görünmektedir. Diğer projelerdeki (finance, knowledge, system) tüm workflow'lar ise sorunsuz ve başarılı şekilde tamamlanmıştır."
 }
