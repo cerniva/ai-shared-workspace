@@ -999,6 +999,17 @@
       "notes": [
         "2026-11-05T13:24:36+00:00 team-worker: research-learner (team-research): 1. Resolve provider availability by updating credentials, key configurations, and network endpoints referenced in state/provider_health.json so at least one provider (e.g., Gemini, GitHub Models, or OpenAI) is active and healthy.\n2. Refactor .github/workflows/improvement-bot.yml by adding pip/apt caching via actions/cache, placing path filters on workflow triggers, and splitting test tasks into parallel jobs. | sonraki: Restore healthy provider credentials in state/provider_health.json and apply caching, path filtering, and parallel job decomposition to .github/workflows/improvement-bot.yml."
       ]
+    },
+    {
+      "id": "HO-IMP-20261106-handoff-ho-20261009-08",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[state/handoffs.json] GitHub Actions süreçlerindeki darboğazları gidermek için paket yöneticisi bağımlılıklarının (`actions/cache` ile npm/pip/cargo) önbelleğe alınması, testlerin matris stratejisiyle paralel koşturulması ve gereksiz tetiklemelerin filtrelenmesi önerilir; ayrıca 664 saattir açık duran HO-20261009-08 numaralı handoff kaydının güncelliğini yitirdiği değerlendirilerek `state/handoffs.json` dosyasında 'closed' durumuna getirilmesi veya ilgili sahibine hatırlatılması gerekmektedir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261106 key=handoff-ho-20261009-08",
+      "status": "open",
+      "created_at": "2026-11-06T13:01:50+00:00",
+      "updated_at": "2026-11-06T13:01:50+00:00"
     }
   ]
 }
