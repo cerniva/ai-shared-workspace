@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-06T09:15:00+03:00"
+    },
+    {
+      "source_id": "src_14818279e16364ff",
+      "verified_at": "2026-11-06T09:15:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: CodeQL 2.27.4 improves query accuracy, drops CWE-730 tag from regex queries, and skips pack files outside the root",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-04-codeql-2-27-4-improves-accuracy-and-query-metadata (feed pubDate Wed, 04 Nov 2026 20:04:52 +0000; read 2026-11-06) states CodeQL 2.27.4 adds query accuracy improvements (java/log-injection recognizes more sanitizers; fewer Rust false positives; C/C++ pointer-scaling and unused-variable queries no longer flag std::byte* arithmetic or [[maybe_unused]] variables), stops applying the CWE-730 tag to the redos and regex-injection queries across C#, Java/Kotlin, JavaScript/TypeScript, Python, Ruby and Swift, sends JVM warnings and initialization errors to standard error so JSON output stays clean, and on bundle or publish of a pack omits files that resolve via symbolic links outside the pack root with a warning. GitHub deploys it automatically to code scanning on github.com; GHES 3.24 will include it and older GHES must upgrade CodeQL manually.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan runs CodeQL code scanning or publishes CodeQL packs (alerts tagged CWE-730 may change); no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-13 whether any system repo uses CodeQL code scanning or CodeQL pack publishing that this release affects.",
+      "learned_at": "2026-11-06T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Shopify changelog: network_access_testing dev store feature preview tests app network_access settings",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog entry 'Test app network access configuration on dev stores' (feed pubDate Wed, 04 Nov 2026 18:00:00 +0000; read 2026-11-06) states dev stores created with the network_access_testing feature preview let apps test their [network_access] settings: links to hosts not in allowed_navigation_hosts show the exit warning, and the browser console warns when a storefront page loads from or sends requests to a server not in allowed_sources. The preview only warns and blocks nothing. Any app whose code links to or contacts external servers from a storefront can use it, and Shopify recommends all such apps configure these settings to avoid navigation warnings on merchant sites.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: applies only if the video_shopify plan ships an app or extension that links to or calls external servers from a storefront; no change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-13 whether any Shopify app in the video_shopify plan loads external resources on storefront pages and needs [network_access] configured.",
+      "learned_at": "2026-11-06T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
