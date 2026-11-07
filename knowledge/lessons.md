@@ -51,3 +51,6 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 
 ## 2026-10-19
 - ephemeral-runner-toolchain-smoke | PR #254; merge d3e4355; checks: Analyze javascript-typescript=success, Analyze python=success, auto-merge-gate=success, check=success, smoke=success, test=success, watch=skipped, worker=success; lesson-learner run 39191041474 | Ephemeral CI runners should use native workflow orchestration for toolchain smoke tests (Playwright + FFmpeg) rather than deploying heavy orchestration tools or attaching secrets. | Keep Playwright and FFmpeg toolchain smoke tests manual-only, zero-secret, and zero-credit cost on ephemeral runners. | 0 credit cost and 0 secret leaks across toolchain smoke executions
+
+## 2026-10-28
+- stale-pr-integration-gate-validation | PR #141; merge 38694cd; checks: Analyze javascript-typescript=in_progress, Analyze python=queued, reconcile=in_progress, test=in_progress, watch=skipped; lesson-learner run 40787994939 | CI check passes on stale PR branches lagging behind main do not constitute valid integration evidence; branches must be updated and retested against current main before merge. | Enforce PR freshness requirements and automated promotion gate CI checks on all knowledge promotion PRs. | 0 stale PR merges without current main CI re-evaluation
