@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "verified_at": "2026-10-10T22:18:00+03:00",
+  "asset": "short-onion-001-v2.mp4",
+  "artifact_origin": "https://github.com/cerniva/ai-shared-workspace/actions/runs/38009504919",
+  "sha256": "7d55355920159bdbc323b6a0b1a383172f961be43e46229d5e28059b1cba2fb0",
+  "duration_seconds": 28.466667,
+  "width": 1080,
+  "height": 1920,
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "full_decode": {
+    "tool": "ffmpeg",
+    "exit_code": 0,
+    "stderr_bytes": 0
+  },
+  "note": "Full decode and hash verified on mounted MP4 this run; not a substitute for human content/rights approval or YouTube remote read-back.",
+  "youtube_remote_id": null,
+  "published": false
+}
