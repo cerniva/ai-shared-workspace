@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_7ccf6537c78580a9",
+      "source_name": "Reserve Bank of New Zealand — OCR held at 2.75%, 28 October 2026",
+      "canonical": "https://www.rbnz.govt.nz/news-and-events/news/2026/10/ocr-held-at-2-75-percent",
+      "category": "finance-central-banks",
+      "purpose": "Official MPC vote split and forward guidance after unexpected policy hold",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "public no-key release",
+      "reliability_limits": "Policy vote and forecast are official; intraday FX market reaction must be sourced separately; future tightening is conditional, not a guaranteed decision",
+      "provenance": "verified",
+      "discovered_at": "2026-10-28T08:55:00+03:00",
+      "last_successful_use": "2026-10-28T08:55:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_d7b9f316f4986063",
+      "title": "Central-bank hold is not automatically dovish: verify vote split and conditional guidance",
+      "domain": "finance-macro-central-bank",
+      "claim": "On 28 October 2026 RBNZ held OCR at 2.75% by a 4–3 vote; three members favoured a 25bp increase. The MPC said further tightening likely but conditional on the outlook; September CPI was 3.7%, December-quarter inflation forecast 4.4%.",
+      "decision": "FINANCE_CENTRAL_BANK_HOLD_VOTE_SPLIT_GATE: On a surprising hold, report official policy level, vote tally, dissent direction, conditional forward guidance, and release date separately. Do not label the hold an unconditional easing/dovish pivot or assert the next hike as certain. Keep currency first reaction separate from later session close.",
+      "evidence_status": "verified",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-28T08:55:00+03:00",
+      "source_ids": [
+        "src_7ccf6537c78580a9"
+      ],
+      "next_measurement": "On the next split MPC vote, compare official vote and conditional guidance to intraday FX and next-session closing observations before classifying policy surprise.",
+      "failure_history": [],
+      "fallback_history": [
+        "If official vote tally unavailable, report policy action only and mark split N/A; if FX close unavailable, label initial reaction only."
+      ],
+      "supersedes": null
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "scope": "finance_only",
+  "source_main_read": true,
+  "observations": [
+    {
+      "field": "fed_policy",
+      "value": "3.75%-4.00%; 10-2 hold",
+      "asof": "2026-10-28",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "field": "brent_settlement",
+      "value": 117.63,
+      "unit": "USD/bbl",
+      "asof": "2026-10-30",
+      "source": "https://www.reuters.com/legal/transactional/global-markets-global-markets-2026-10-30/"
+    },
+    {
+      "field": "nasdaq_daily_change",
+      "value": -2.86,
+      "unit": "percent",
+      "asof": "2026-10-30",
+      "source": "https://www.reuters.com/business/media-telecom/nasdaq-faces-2-trillion-wipeout-october-ai-spending-fears-deepen-2026-10-30/"
+    }
+  ],
+  "decisions": [
+    {
+      "field": "fed_latest",
+      "decision": "Keep October 28 as latest verified decision, not new November 1 event",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "altcoin_score",
+      "decision": "N/A; all ten calibration indicators validated=false",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "oil_supply_loss",
+      "decision": "N/A physical loss; distinguish shipping risk and verified export flow",
+      "applied_learning_ids": [
+        "learn_fin_hormuz_flow_security_divergence_20261005",
+        "learn_fin_energy_logistics_stack_20261006"
+      ]
+    },
+    {
+      "field": "weekend_market_freshness",
+      "decision": "Use dated Friday settlements; do not present as Sunday live prices",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_f7b141c60755c294",
+    "learn_fin_hormuz_flow_security_divergence_20261005",
+    "learn_fin_energy_logistics_stack_20261006",
+    "learn_fba30853bde7b37e"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No verified production consumer output with applied_learning_ids and decision effects; this is ChatGPT report decision record only."
+  },
+  "plan_learnings": {
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "clone_exit_code": 128,
+    "clone_error": "Could not resolve host: github.com"
+  },
+  "altcoin_calibration": "N/A",
+  "first70_full_risk": "PARTIAL",
+  "grok_delivery": "NOT_VERIFIED",
+  "promotion": "DEDUP_NO_NEW_PROMOTION"
+}

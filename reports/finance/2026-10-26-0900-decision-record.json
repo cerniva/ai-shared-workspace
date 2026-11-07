@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "artifact_type": "actual_chatgpt_scheduled_finance_report_decision_record_not_production_consumer_proof",
+  "report_date": "2026-10-26",
+  "local_cutoff": "2026-10-26 ~09:00 Europe/Istanbul",
+  "scope": "finance; PayoutLens excluded",
+  "source_catalog_main_blob_sha": "a3b019a9b7c4f7a277dfd715d52278fa3cc1d05b",
+  "learning_ledger_main_blob_sha": "b43d5f20a5579b560f92a71280516f5d276143d3",
+  "main_head_observed": "6d53ddb1a1225ad52828543e2615bac3d1dad0e3",
+  "repo_counts": {
+    "sources": 90,
+    "learnings": 75,
+    "active_finance": 9,
+    "duplicate_source_ids": 0,
+    "duplicate_canonical_urls": 0,
+    "duplicate_learning_ids": 0,
+    "missing_source_refs": 0
+  },
+  "quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+    "reason": "This is a decision record of actual ChatGPT scheduled report decisions. It does NOT demonstrate production finance runner applied-learning execution, persisted output, or passing negative CI. Draft PR318 is not merged.",
+    "required": "Prove actual producer consumes active finance rows and writes applied_learning_ids in its real output; positive and missing/inactive/superseded tests, latest CI SHA and main read-back."
+  },
+  "market": {
+    "crypto_quote_time_utc": "2026-10-26T06:00:00Z",
+    "btc_usd": 80149.17,
+    "eth_usd": 2323.79,
+    "btc_dominance_global_pct": 60.07,
+    "cmc_altseason": 51,
+    "blockchaincenter_altseason": 47,
+    "crypto_market_cap_usd_t": 2.68,
+    "stablecoin_cap_usd_b": 300.084,
+    "stablecoin_7d_pct": -0.73,
+    "stablecoin_1d_pct": -0.09,
+    "us_equity_last_close": "2026-10-23",
+    "sp500": 7623.68,
+    "nasdaq": 25955.34,
+    "dow": 52215.16,
+    "treasury_last_official_date": "2026-10-23",
+    "treasury_2y_pct": 4.69,
+    "treasury_10y_pct": 5,
+    "treasury_30y_pct": 5.33,
+    "tcmb_policy_rate_pct": 36,
+    "brent_intraday_usd": 114.48,
+    "wti_intraday_usd": 101.01,
+    "gold_intraday_usd_oz": 4012,
+    "etf_btc_oct23_musd": -137.9,
+    "etf_eth_oct23_musd": 4.4,
+    "etf_oct23_status": "PROVISIONAL_MISSING_FUND_CELLS",
+    "derivatives_oi_usd_b": 336.09,
+    "derivatives_volume_ratio": "N/A",
+    "altcoin_composite_support": "N/A",
+    "backtest_2020_2025_verified": false
+  },
+  "top70_cmc_ordered_symbols": [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "XRP",
+    "USDC",
+    "SOL",
+    "TRX",
+    "ZEC",
+    "HYPE",
+    "DOGE",
+    "XMR",
+    "LINK",
+    "LEO",
+    "ADA",
+    "XLM",
+    "NEAR",
+    "BCH",
+    "USDe",
+    "DAI",
+    "LTC",
+    "UNI",
+    "CC",
+    "AVAX",
+    "USD1",
+    "SUI",
+    "GRAM",
+    "HBAR",
+    "USDG",
+    "PYUSD",
+    "TAO",
+    "XAUt",
+    "SHIB",
+    "ENA",
+    "CRO",
+    "RLUSD",
+    "QNT",
+    "M",
+    "OKB",
+    "AAVE",
+    "ONDO",
+    "PUMP",
+    "ASTER",
+    "PEPE",
+    "PAXG",
+    "USDD",
+    "DOT",
+    "MNT",
+    "WLFI",
+    "WLD",
+    "U",
+    "SKY",
+    "ICP",
+    "BGB",
+    "VVV",
+    "ETC",
+    "ARB",
+    "JST",
+    "MORPHO",
+    "KCS",
+    "GT",
+    "KAS",
+    "POL",
+    "ALGO",
+    "JUP",
+    "RENDER",
+    "ATOM",
+    "PI",
+    "CAKE",
+    "LIT"
+  ],
+  "top70_coverage": "Rank/order based on CMC public page 26 Oct; no 70/70 synchronized OI/funding/unlock/liquidation audit",
+  "decisions": [
+    {
+      "field": "fed_policy_asof",
+      "before": "A historical September FOMC decision could be misrepresented as a new 26 Oct Fed action",
+      "after": "Sep 16 2026 target 3.75-4.00% is the last verified decision, not a 26 Oct action; Oct 27-28 meeting future",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "treasury_last_official_observation",
+      "before": "26 Oct morning intraday 10Y ~4.97% might be substituted for official daily par yield",
+      "after": "Official latest daily par yields dated Oct 23: 2Y=4.69%, 10Y=5.00%, 30Y=5.33%; 26 Oct official daily print not yet available; intraday ~4.97% separately labeled",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "tcmb_policy_vs_fx_date",
+      "before": "TCMB Oct 22 rate decision or prior FX bulletin could be labeled as fresh 26 Oct announcement",
+      "after": "TCMB Oct 22 official rate 36% retained with exact date; no 26 Oct FX bulletin claimed without primary XML date",
+      "source": "https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb+tr/main+menu/duyurular/basin/2026/duy2026-45",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "field": "altcoin_calibrated_support",
+      "before": "CMC Altcoin Season 51 or BlockchainCenter 47 could be mistaken for backtested 0-100 bull support",
+      "after": "Both explicitly breadth indices; all ten support scores and composite N/A because all ten config validated=false and 2020-2025 walk-forward not verified",
+      "source": "https://www.blockchaincenter.net/altcoin-season-index/",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "company_earnings",
+      "before": "Upcoming Alphabet/Microsoft/Amazon consensus could be stated as actual filed earnings",
+      "after": "Only Reuters-described future consensus and schedule; no issuer earnings actuals without SEC EDGAR read-back",
+      "source": "https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "field": "stale_finance_news",
+      "before": "Oct 16 small-bank Fed enforcement and historical SCF survey could recur as new Oct 26 events",
+      "after": "Excluded from new-news section as stale and review-only, no action",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases.htm",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    },
+    {
+      "field": "crypto_volume_conflict",
+      "before": "CMC total 47.61B, spot 75.85B, derivatives 413.96B, separate derivatives 137T could produce an invalid spot/derivatives ratio",
+      "after": "No spot/perp ratio reported; incompatible denominators and no aligned timestamps -> N/A; existing draft PR332 dedup",
+      "source": "tool:CoinMarketCap/get_global_metrics_latest",
+      "applied_learning_ids": [],
+      "existing_pending_pr": 332
+    },
+    {
+      "field": "oil_physical_flow",
+      "before": "26 Oct Houthi attack claim could be turned into quantified physical oil export loss",
+      "after": "Reuters reported attack claim unconfirmed by Riyadh and diplomacy news; physical export loss N/A; security risk and oil risk premium kept separate",
+      "source": "https://www.reuters.com/world/asia-pacific/global-markets-pix-2026-10-26/",
+      "applied_learning_ids": [],
+      "prior_runtime_learning": "learn_fin_hormuz_flow_security_divergence_20261005"
+    },
+    {
+      "field": "etf_completeness",
+      "before": "Oct 23 Farside BTC -137.9M/ETH +4.4M might be asserted final",
+      "after": "Both provisional because '-' cells remain; Oct 26 US spot ETF session has not opened, no new flow; pending PR273 dedup",
+      "source": "https://farside.co.uk/btc/",
+      "applied_learning_ids": [],
+      "existing_pending_pr": 273
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_084a973ea4587745",
+    "learn_27333cc91fdf7f58",
+    "learn_5f961fa5fb9f6388",
+    "learn_63b873bf5dbd8208",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_d44f97b112d55564",
+    "learn_f7b141c60755c294",
+    "learn_fba30853bde7b37e"
+  ],
+  "applied_ids_scope": "Only listed actual ChatGPT report decisions; no external producer CI proof",
+  "chart": {
+    "renderer": "Wolfram DateListPlot",
+    "actual_image_rendered_in_chat": true,
+    "source": "US Treasury official 21-23 Oct daily par yields",
+    "python_chart_used": false,
+    "repo_chart_image_readback": false
+  },
+  "new_learning": {
+    "status": "DEDUP",
+    "reason": "Oil security vs physical supply already in finance_runtime_state; CMC denominator conflict staged PR332; ETF incomplete fund rows staged PR273; no new promotion created"
+  },
+  "plan_learnings_execution": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "script_executed": false,
+    "script_stdout": null,
+    "script_exit_code": null,
+    "git_ls_remote_attempted": true,
+    "git_exit_code": 128,
+    "git_stderr": "fatal: unable to access 'https://github.com/cerniva/ai-shared-workspace.git/': Could not resolve host: github.com",
+    "alternative": "GitHub main ledger read-back: 9 active finance-tagged learning IDs; applied only to decisions listed"
+  },
+  "grok": {
+    "new_independent_26_oct_finance_report_verified": false,
+    "message_id_or_recipient_readback": false
+  },
+  "claims_not_made": [
+    "No main merge",
+    "No production bridge PASS",
+    "No script execution",
+    "No Grok receipt",
+    "No email",
+    "No publishing"
+  ]
+}
