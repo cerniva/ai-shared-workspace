@@ -33,6 +33,7 @@ from collections.abc import Mapping
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 if __package__ in (None, ""):
@@ -209,6 +210,11 @@ def _default_fetch(url: str) -> str:
 _CLEAN = re.compile(r"\s+")
 
 
+def _title_key(value: str) -> str:
+    """Ignore harmless RSS headline casing/spacing changes when deduplicating."""
+    return _CLEAN.sub(" ", value).strip().casefold()
+
+
 def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, decision: str) -> dict[str, Any]:
     spec = RESEARCH_SOURCES[domain_key]
     canonical = canonicalize(spec["url"])
@@ -237,14 +243,181 @@ def build_promotion(domain_key: str, item: dict[str, str], fetched_at: str, deci
     }
 
 
-def _known_learning_titles(root: Path) -> set[str]:
-    """Titles already in the canonical ledger, so the same feed headline is not re-staged every day."""
-    try:
-        ledger = json.loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return set()
-    return {str(l.get("title")) for l in ledger.get("learnings") or [] if isinstance(l, dict) and l.get("title")}
+def _reject_duplicate_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Fail closed on repeated JSON keys at any nesting depth."""
+    obj: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in obj:
+            raise ValueError(f"duplicate JSON key: {key}")
+        obj[key] = value
+    return obj
 
+
+def _reject_nonfinite_constant(value: str) -> None:
+    raise ValueError(f"non-finite JSON constant: {value}")
+
+
+def _strict_json_loads(raw: str) -> Any:
+    """No last-key-wins or NaN/Infinity in research identity evidence."""
+    return json.loads(raw, object_pairs_hook=_reject_duplicate_pairs,
+                      parse_constant=_reject_nonfinite_constant)
+
+
+def _canonical_source_ids(root: Path) -> set[str] | None:
+    """Require a readable, unique canonical source catalog before trusting ledger references."""
+    try:
+        doc = _strict_json_loads((root / "knowledge" / "source_catalog.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if (not isinstance(doc, dict) or type(doc.get("schema_version")) is not int
+            or doc["schema_version"] != 1 or not isinstance(doc.get("sources"), list)):
+        return None
+    ids: set[str] = set()
+    canonicals: set[str] = set()
+    for row in doc["sources"]:
+        if (not isinstance(row, dict)
+                or not isinstance(row.get("source_id"), str) or not row["source_id"]
+                or not isinstance(row.get("canonical"), str) or not row["canonical"]):
+            return None
+        try:
+            canonical = canonicalize(row["canonical"])
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if (canonical != row["canonical"] or row["source_id"] != source_id(canonical)
+                or row["source_id"] in ids or canonical in canonicals):
+            return None
+        ids.add(row["source_id"])
+        canonicals.add(canonical)
+    return ids
+
+
+def _canonical_learning_rows(doc: Any, source_ids: set[str] | None = None) -> list[dict[str, Any]] | None:
+    """Fail closed if the canonical ledger has lost its schema or learning identities."""
+    if not isinstance(doc, dict) or type(doc.get("schema_version")) is not int or doc["schema_version"] != 1:
+        return None
+    rows = doc.get("learnings")
+    if not isinstance(rows, list):
+        return None
+    seen: set[str] = set()
+    for row in rows:
+        if (not isinstance(row, dict)
+                or not isinstance(row.get("learning_id"), str) or not row["learning_id"]
+                or not isinstance(row.get("domain"), str) or not row["domain"]
+                or not isinstance(row.get("claim"), str) or not row["claim"]
+                or row["learning_id"] != learning_id(row["domain"], row["claim"])
+                or not isinstance(row.get("title"), str) or not row["title"]
+                or not isinstance(row.get("source_ids"), list) or not row["source_ids"]
+                or any(not isinstance(ref, str) or not ref
+                       or (source_ids is not None and ref not in source_ids)
+                       for ref in row["source_ids"])
+                or len(row["source_ids"]) != len(set(row["source_ids"]))
+                or row["learning_id"] in seen):
+            return None
+        seen.add(row["learning_id"])
+    return rows
+
+
+def _known_learning_titles(root: Path) -> tuple[set[str], set[str]] | None:
+    """Return validated titles and previously reviewed Fed enforcement release IDs.
+
+    RSS headlines and reviewed ledger titles may be phrased differently. A
+    stable, official press-release ID in the canonical claim prevents the
+    same news item being restaged with a fresh timestamp-based learning ID.
+    """
+    try:
+        ledger = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    source_ids = _canonical_source_ids(root)
+    if source_ids is None:
+        return None
+    rows = _canonical_learning_rows(ledger, source_ids)
+    if rows is None:
+        return None
+    release_ids = {release_id for row in rows if row["domain"] == "finance-news"
+                   for release_id in re.findall(r"\benforcement\d{8}[a-z]\b", row["claim"])}
+    return {row["title"] for row in rows}, release_ids
+
+
+def _fed_enforcement_release_id(item: dict[str, str]) -> str | None:
+    """Only trust the identifier from an exact HTTPS Federal Reserve release URL."""
+    link = item.get("link")
+    if not isinstance(link, str):
+        return None
+    parts = urlsplit(link)
+    if (parts.scheme != "https" or parts.netloc.lower() not in
+            {"www.federalreserve.gov", "federalreserve.gov"} or parts.query or parts.fragment):
+        return None
+    match = re.fullmatch(r"/newsevents/pressreleases/(enforcement\d{8}[a-z])\.htm", parts.path)
+    return match.group(1) if match else None
+
+
+def _validated_staged_rows(doc: Any) -> tuple[set[str], list[tuple[str, str, list[str]]]] | None:
+    """Reject the entire staged document if any identity, reference or duplicate is invalid."""
+    if (not isinstance(doc, dict) or type(doc.get("schema_version")) is not int
+            or doc["schema_version"] != 1
+            or not isinstance(doc.get("sources"), list) or not doc["sources"]
+            or not isinstance(doc.get("learnings"), list) or not doc["learnings"]):
+        return None
+    valid_sources: set[str] = set()
+    canonicals: set[str] = set()
+    for source in doc["sources"]:
+        if not isinstance(source, dict) or not isinstance(source.get("canonical"), str):
+            return None
+        try:
+            canonical = canonicalize(source["canonical"])
+            sid = source_id(canonical)
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if (canonical != source["canonical"] or source.get("source_id") != sid
+                or sid in valid_sources or canonical in canonicals):
+            return None
+        valid_sources.add(sid)
+        canonicals.add(canonical)
+    valid_learnings: list[tuple[str, str, list[str]]] = []
+    seen_learning_ids: set[str] = set()
+    for learning in doc["learnings"]:
+        if not isinstance(learning, dict):
+            return None
+        domain, claim, refs = learning.get("domain"), learning.get("claim"), learning.get("source_ids")
+        title, lid = learning.get("title"), learning.get("learning_id")
+        if (not isinstance(domain, str) or not domain
+                or not isinstance(claim, str) or not claim
+                or not isinstance(title, str) or not title
+                or not isinstance(refs, list) or not refs
+                or any(not isinstance(ref, str) or ref not in valid_sources for ref in refs)
+                or len(refs) != len(set(refs))):
+            return None
+        try:
+            expected_id = learning_id(domain, claim)
+        except (ValueError, RuntimeError, TypeError):
+            return None
+        if lid != expected_id or lid in seen_learning_ids:
+            return None
+        seen_learning_ids.add(lid)
+        valid_learnings.append((title, lid, refs))
+    return valid_sources, valid_learnings
+
+
+def _staged_learning_titles(root: Path) -> set[str]:
+    """Deduplicate only fully valid, still-pending intake files; never trust partial documents."""
+    titles: set[str] = set()
+    folder = root / "intake" / "promotions"
+    # A symlinked intake parent can escape the repository even when the
+    # promotions directory itself is a regular directory. Reject both.
+    if (root / "intake").is_symlink() or not folder.is_dir() or folder.is_symlink():
+        return titles
+    for path in folder.glob("*.json"):
+        if path.is_symlink() or not path.is_file():
+            continue
+        try:
+            doc = _strict_json_loads(path.read_text(encoding="utf-8"))
+            validated = _validated_staged_rows(doc)
+            if validated is not None:
+                titles.update(title for title, _, _ in validated[1])
+        except (OSError, ValueError, AttributeError, TypeError):
+            continue
+    return titles
 
 def validate_promotion(root: Path, doc: dict[str, Any]) -> None:
     from scripts.knowledge_promote import _apply_batch
@@ -281,8 +454,19 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             report["domains"][key] = entry
             continue
         known = _known_learning_titles(root)
-        if f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180] in known:
+        if known is None:
+            entry["status"] = "ledger_unavailable"
+            report["domains"][key] = entry
+            continue
+        title = f"{spec['name']}: {_CLEAN.sub(' ', item['title'])[:200]}"[:180]
+        known_titles, known_fed_releases = known
+        release_id = _fed_enforcement_release_id(item) if key == "finance" else None
+        if _title_key(title) in {_title_key(t) for t in known_titles} or (release_id is not None and release_id in known_fed_releases):
             entry["status"] = "already_in_ledger"
+            report["domains"][key] = entry
+            continue
+        if _title_key(title) in {_title_key(t) for t in _staged_learning_titles(root)}:
+            entry["status"] = "already_staged"
             report["domains"][key] = entry
             continue
         decision = _summarize(adapter, f"In one English sentence, what should the '{spec['plan']}' plan do about "
@@ -299,7 +483,25 @@ def research_learner(*, root: Path = ROOT, adapter=None, fetch: Callable[[str], 
             entry["status"] = f"invalid:{type(exc).__name__}"
             report["domains"][key] = entry
             continue
-        write_json(root, rel, doc)
+        # Exclusive creation prevents an hourly rerun from overwriting a
+        # different, still-unreviewed candidate under the date-based filename.
+        target = safe_output_path(root, rel)
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.parent.resolve().is_relative_to(root.resolve()):
+                raise ValueError("staging directory escapes repository")
+            with target.open("x", encoding="utf-8") as out:
+                out.write(json.dumps(doc, ensure_ascii=False, indent=2) + "\n")
+            if json.loads(target.read_text(encoding="utf-8")) != doc:
+                raise ValueError("staging read-back mismatch")
+        except FileExistsError:
+            entry.update(status="staging_collision", path=rel)
+            report["domains"][key] = entry
+            continue
+        except (OSError, ValueError) as exc:
+            entry.update(status=f"staging_write_failed:{type(exc).__name__}", path=rel)
+            report["domains"][key] = entry
+            continue
         entry.update(status="staged", path=rel, learning_id=doc["learnings"][0]["learning_id"],
                      source_id=doc["sources"][0]["source_id"])
         report["domains"][key] = entry
@@ -314,13 +516,69 @@ def _ci_line(gh: GitHub) -> str:
         data = gh._call("GET", "/actions/runs?branch=main&per_page=30")
     except Exception as exc:
         return f"okunamadı ({type(exc).__name__})"
-    latest: dict[str, str] = {}
-    for r in data.get("workflow_runs") or []:
-        if r.get("status") == "completed":
-            latest.setdefault(r.get("name") or "?", r.get("conclusion") or "?")
-    bad = sorted(n for n, c in latest.items() if c not in ("success", "skipped", "neutral"))
-    return f"{len(latest)} workflow; başarısız: {', '.join(bad) or 'yok'}"
+    # The REST endpoint is paginated. A successful first-page request cannot
+    # prove that older runs or additional workflows are healthy.
+    runs = data.get("workflow_runs")
+    if not isinstance(runs, list):
+        return "okunamadı (workflow_runs eksik)"
+    if not runs:
+        return "CI kanıtı yok (0 workflow run); tüm CI yeşil doğrulanmadı"
+    # GitHub returns newest runs first. Keep the newest status even when it
+    # is queued/in progress: an older successful run must not mask it.
+    # Workflow names are display labels, not unique identities. Two distinct
+    # workflow files can share a name; do not hide a failing run behind a
+    # newer success from another workflow with the same display name.
+    latest: dict[tuple[str, int | str], tuple[str, str]] = {}
+    for run in runs:
+        if not isinstance(run, dict):
+            return "okunamadı (geçersiz workflow run)"
+        name = run.get("name") or "?"
+        workflow_id = run.get("workflow_id")
+        if type(workflow_id) is int and workflow_id > 0:
+            key = ("id", workflow_id)
+            label = f"{name}#{workflow_id}"
+        else:
+            key = ("name", name)
+            label = name
+        if key not in latest:
+            state = (run.get("conclusion") or "?") if run.get("status") == "completed" else (run.get("status") or "?")
+            latest[key] = (label, state)
+    pending_states = {"queued", "in_progress", "requested", "waiting", "pending"}
+    pending = sorted(label for label, state in latest.values() if state in pending_states)
+    bad = sorted(label for label, state in latest.values()
+                 if state not in {"success", "skipped", "neutral"} | pending_states)
+    total = data.get("total_count")
+    total_known = type(total) is int and total >= len(runs)
+    complete = total_known and total == len(runs)
+    coverage = (f"ilk {len(runs)} / {total} koşu" if total_known
+                else f"ilk {len(runs)} koşu (toplam bilinmiyor)")
+    status = ("tam tarama; CI tamamlanmadı" if complete and pending
+              else "tam tarama" if complete else "KISMİ örnek; tüm CI yeşil doğrulanmadı")
+    return (f"{status} ({coverage}); {len(latest)} workflow; "
+            f"örnekte başarısız: {', '.join(bad) or 'yok'}; "
+            f"örnekte bekleyen: {', '.join(pending) or 'yok'}")
 
+
+def _valid_staged_identity(doc: Any, sid: Any, lid: Any, plan: str | None = None) -> bool:
+    """Verify the expected identity and, for reports, its active plan assignment."""
+    if not isinstance(sid, str) or not isinstance(lid, str):
+        return False
+    validated = _validated_staged_rows(doc)
+    if validated is None:
+        return False
+    sources, learnings = validated
+    if sid not in sources or not any(candidate_id == lid and sid in refs
+                                     for _, candidate_id, refs in learnings):
+        return False
+    if plan is None:
+        return True
+    return any(
+        row.get("learning_id") == lid
+        and row.get("status", "active") == "active"
+        and isinstance(row.get("plan_tags"), list)
+        and plan in row["plan_tags"]
+        for row in doc["learnings"]
+    )
 
 def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> str:
     current = (now or now_utc()).astimezone(UTC)
@@ -340,14 +598,65 @@ def reporter(*, root: Path = ROOT, gh: GitHub, now: datetime | None = None) -> s
                         + (f"#{r['id']}" if r.get("id") else ""))
         auto_lines.append(f"  - {name}: {', '.join(runs) or 'veri yok'}"
                           + (f"; tetiklenen: {', '.join(entry['dispatched'])}" if entry.get("dispatched") else ""))
-    learn_lines = [f"  - {k}: {v.get('status')}" + (f" → {v['path']}" if v.get("path") else "")
-                   for k, v in (learner.get("domains") or {}).items()] or [f"  - {learner.get('skipped') or 'henüz çalışmadı'}"]
+    # A prior staged candidate may have been deduplicated and removed after review.
+    # State is historical; only a current, safely scoped file proves staging.
+    domains = learner.get("domains") or {}
+    # A candidate can still be present after its learning was promoted.
+    # Do not count an already-canonical learning as a fresh staged discovery.
+    try:
+        ledger_doc = _strict_json_loads((root / "knowledge" / "learning_ledger.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        ledger_doc = {}
+    catalog_source_ids = _canonical_source_ids(root)
+    ledger_rows = (_canonical_learning_rows(ledger_doc, catalog_source_ids)
+                   if catalog_source_ids is not None else None)
+    ledger_ready = ledger_rows is not None
+    canonical_learning_ids = {row["learning_id"] for row in (ledger_rows or [])}
+    staged_live = {}
+    staged_promoted = {}
+    staged_valid = {}
+    for k, v in domains.items():
+        rel = v.get("path")
+        safe_rel = (isinstance(rel, str) and Path(rel).parts[:2] == ("intake", "promotions")
+                    and ".." not in Path(rel).parts and Path(rel).suffix == ".json")
+        # A file's presence alone does not prove a valid, identity-matched
+        # promotion. Reject corrupt JSON, mismatched IDs and symlink escapes.
+        valid = False
+        if v.get("status") == "staged" and safe_rel:
+            try:
+                staging = root / "intake" / "promotions"
+                # Do not trust a resolved symlink as the staging boundary:
+                # otherwise a linked directory makes outside files look in-scope.
+                if (root / "intake").is_symlink() or staging.is_symlink():
+                    raise ValueError("symlink staging directory")
+                boundary = staging.resolve()
+                if not boundary.is_relative_to(root.resolve()):
+                    raise ValueError("staging directory escapes repository")
+                target = (root / rel).resolve(strict=True)
+                if target.is_relative_to(boundary) and target.is_file():
+                    doc = _strict_json_loads(target.read_text(encoding="utf-8"))
+                    valid = _valid_staged_identity(doc, v.get("source_id"), v.get("learning_id"), k)
+            except (OSError, ValueError, TypeError, AttributeError):
+                pass
+        staged_valid[k] = valid
+        staged_promoted[k] = valid and ledger_ready and v.get("learning_id") in canonical_learning_ids
+        staged_live[k] = valid and ledger_ready and not staged_promoted[k]
+    learn_lines = [
+        (f"  - {k}: already_in_ledger (staged file retained; not new)" if staged_promoted[k]
+         else f"  - {k}: staged → {v['path']}" if staged_live[k]
+         else f"  - {k}: staged_unverified (canonical ledger unavailable)"
+         if v.get("status") == "staged" and staged_valid[k] and not ledger_ready
+         else f"  - {k}: staged_missing (intake read-back failed or deduplicated)"
+         if v.get("status") == "staged"
+         else f"  - {k}: {v.get('status')}" + (f" → {v['path']}" if v.get("path") else ""))
+        for k, v in domains.items()
+    ] or [f"  - {learner.get('skipped') or 'henüz çalışmadı'}"]
     history_path = root / "state" / "agents_history.json"
     history = read_json(history_path, [])
     if not isinstance(history, list):
         history = []
     history.append({"at": current.isoformat(), "overdue": len(overdue), "open": len(open_ho),
-                    "staged": sum(1 for v in (learner.get("domains") or {}).values() if v.get("status") == "staged")})
+                    "staged": sum(staged_live.values())})
     cutoff = current - timedelta(hours=24)
     history = [h for h in history if datetime.fromisoformat(h["at"]) >= cutoff][-48:]
     write_json(root, "state/agents_history.json", history)
