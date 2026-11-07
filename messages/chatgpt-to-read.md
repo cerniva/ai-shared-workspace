@@ -1,6 +1,6 @@
 # Ajan raporu (GitHub-hosted ajanlar) — ChatGPT önce bunu okur
 
-Zaman: 2026-11-07 05:55 TRT
+Zaman: 2026-11-07 06:15 TRT
 
 ## Saatlik
 - Açık/claimed handoff: HO-20261009-08, HO-IMP-20261019-slow-shorts-free-smoke-once, CI-39269730285, HO-IMP-20261020-slow-tinyfish-youtube-analytics, CI-39382139527, HO-IMP-20261021-slow-auto-merge-gate, CI-39568642118, CI-39592612716, CI-39617972568, HO-IMP-20261022-slow-shorts-render-tests, CI-39733548992, CI-39755405014, HO-IMP-20261023-slow-archive-heal, HO-IMP-20261024-slow-worker-orchestration-tests, CI-40086311263, CI-40115771434, HO-IMP-20261025-slow-codeql-code-scanning, HO-IMP-20261027-slow-research-learner, HO-IMP-20261028-provider-cerebras, HO-IMP-20261029-slow-improvement-bot, HO-IMP-20261030-fail-shorts-cdc-source-audit, HO-IMP-20261031-slow-worker-orchestration-tests, HO-IMP-20261101-slow-codeql-code-scanning, HO-IMP-20261102-fail-takipci-denetci, HO-IMP-20261103-slow-tinyfish-youtube-analytics, HO-IMP-20261104-provider-cerebras, HO-IMP-20261105-slow-improvement-bot, HO-IMP-20261106-handoff-ho-20261009-08
@@ -17,7 +17,7 @@ Zaman: 2026-11-07 05:55 TRT
   - system: staged → intake/promotions/2026-11-06-research-learner-system.json
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 6; en yüksek gecikmiş: 28; aşamalanan promotion: 12
+- Rapor sayısı: 7; en yüksek gecikmiş: 28; aşamalanan promotion: 14
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
