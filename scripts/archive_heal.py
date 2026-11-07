@@ -28,7 +28,7 @@ from scripts.archive_record_guard import RECORD_ID, assert_record_delimiters, mi
 ARCHIVES = ["messages/grok-to-chatgpt.md", "messages/team-reports.md"]
 NOTES = ROOT / "config" / "archive_heal_notes.json"
 HEAD_BOGUS = re.compile(
-    r"^(SEE_FILE|\$\(cat .*|PLACEHOLDER\S*.*|FULL_CONTENT_PLACEHOLDER.*|"
+    r"^(SEE_FILE|CONTENT_FROM_FILE|\$\(cat .*|PLACEHOLDER\S*.*|FULL_CONTENT_PLACEHOLDER.*|"
     r"The full content is too large to inline.*)$"
 )
 
@@ -41,7 +41,7 @@ HEAD_BOGUS = re.compile(
 # 2026-10-10: FULL_CONTENT_WILL_BE_REPLACED,
 # THE_FULL_CONTENT_HERE_IS_TOO_LARGE_TO_PASTE..., THE_CONTENT_FROM_TMP_FILE heal'den sonra geri geldi).
 BODY_SENTINEL = re.compile(
-    r"^(SEE_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
+    r"^(SEE_FILE|CONTENT_FROM_FILE|PLACEHOLDER[A-Z0-9_]*|FULL_CONTENT_[A-Z0-9_]+|_FIXED_BY_FULL_CONTENT|THE_FULL_CONTENT_[A-Z0-9_]+.*|"
     r"THE_CONTENT_FROM_[A-Z0-9_]+|_?WILL_FIX|placeholder\b.*|dummy|"
     r"RESTORED_FROM_PREVIOUS_COMMIT_[A-Fa-f0-9]+|test content for size check|"
     r"\[\.\.\. full previous content omitted for brevity.*|"
