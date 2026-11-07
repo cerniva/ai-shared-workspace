@@ -152,6 +152,44 @@ def _summarize(adapter, objective: str) -> str | None:
         return None
 
 
+SYSTEM_REQUIRED_CHECK_LEARNING_ID = "learn_67340fd77c09f582"
+
+
+def _system_required_check_gate(root: Path) -> tuple[list[str], list[str], str | None]:
+    """Apply an active, official-source learning to the real system decision report.
+
+    Manual workflow_dispatch is diagnostic, never proof of a required PR check.
+    Missing/stale/unknown evidence fails closed without claiming learning usage.
+    """
+    from scripts.plan_learnings import plan_learnings
+    from scripts.knowledge_bridge import SourceCatalog
+
+    catalog_path = root / "knowledge" / "source_catalog.json"
+    loaded = plan_learnings("system", ledger_path=root / "knowledge" / "learning_ledger.json",
+                            catalog_path=catalog_path)
+    if loaded.get("error"):
+        return [], [], "bridge_failure: " + str(loaded["error"])
+    rows = [row for row in loaded.get("learnings", [])
+            if row.get("learning_id") == SYSTEM_REQUIRED_CHECK_LEARNING_ID]
+    if len(rows) != 1:
+        return [], [], "bridge_failure: required-check learning missing or duplicated"
+    row = rows[0]
+    decision = row.get("decision") or ""
+    if "workflow_dispatch" not in decision or "required PR status check" not in decision:
+        return [], [], "bridge_failure: required-check learning policy drift"
+    ids = row.get("source_ids") or []
+    if not ids or len(ids) != len(set(ids)):
+        return [], [], "bridge_failure: required-check source references missing or duplicated"
+    try:
+        sources = {source["source_id"]: source for source in SourceCatalog(catalog_path).list()}
+    except (OSError, ValueError, KeyError) as exc:
+        return [], [], "bridge_failure: source catalog unavailable (" + type(exc).__name__ + ")"
+    if any(sid not in sources or sources[sid].get("evidence_tier") != "official"
+           or sources[sid].get("provenance") != "verified" for sid in ids):
+        return [], [], "bridge_failure: required-check source not verified and official"
+    return [SYSTEM_REQUIRED_CHECK_LEARNING_ID], list(ids), None
+
+
 def automation_runner(*, root: Path = ROOT, gh: GitHub, adapter=None, dispatch: bool = True) -> dict[str, Any]:
     report: dict[str, Any] = {"generated_at": now_utc().isoformat(), "github_api": gh.available,
                               "automations": {}}
@@ -174,9 +212,36 @@ def automation_runner(*, root: Path = ROOT, gh: GitHub, adapter=None, dispatch: 
                     entry.setdefault("dispatch_errors", {})[wf] = type(exc).__name__
         if name == "finance":
             entry["note"] = "Finans runner workflow'u repoda yok; yalnızca plan-learnings-check gözlenir."
+        # A successful observation/dispatch is NOT a production consumer read-back.
+        # Keep this fail-closed until each plan has an independently verified
+        # decision/output artifact. No learning is claimed by this observer.
+        entry["decision_before"] = "workflow_status_observed"
+        entry["decision_after"] = "PRODUCTION_NOT_VERIFIED"
+        entry["production_verified"] = False
+        entry["applied_learning_ids"] = []
+        if name == "system":
+            ids, source_ids, bridge_error = _system_required_check_gate(root)
+            entry["applied_learning_ids"] = ids
+            entry["applied_learning_source_ids"] = source_ids
+            entry["required_pr_check_verified"] = False
+            if bridge_error:
+                entry["learning_bridge_failure"] = bridge_error
+        entry["verification_reason"] = {
+            "finance": "no production finance runner; loader-only workflow",
+            "video_shorts_shopify_gumroad": "dry-run; no new upload ID/status read-back",
+            "knowledge": "dry-run; promotion workflow is not a plan decision",
+            "system": "test/desk workflows do not prove production learning consumption",
+        }[name]
         report["automations"][name] = entry
-    report["model_summary"] = _summarize(adapter, "Summarize in Turkish, max 3 sentences, which automations look "
-                                         "unhealthy: " + json.dumps(report["automations"], ensure_ascii=False)[:6000])
+    observation = _summarize(adapter, "Summarize in Turkish, max 3 sentences, which automations look "
+                             "unhealthy: " + json.dumps(report["automations"], ensure_ascii=False)[:6000])
+    # Preserve the model's text as unverified evidence, not as the decision.
+    # In particular, a model saying 'all healthy' cannot override the gates.
+    report["model_observation_unverified"] = observation
+    report["overall_decision"] = "PRODUCTION_NOT_VERIFIED"
+    report["model_summary"] = ("ÜRETİM DOĞRULANMADI: workflow başarısı üretim çıktısı değildir; "
+                               "finans runner eksik, diğer planlarda gerçek tüketim/yayın "
+                               "read-back'i doğrulanmadı." if observation else None)
     write_json(root, "state/automation_runner.json", report)
     return report
 
