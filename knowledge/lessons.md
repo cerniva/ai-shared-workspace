@@ -51,3 +51,6 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 
 ## 2026-10-19
 - ephemeral-runner-toolchain-smoke | PR #254; merge d3e4355; checks: Analyze javascript-typescript=success, Analyze python=success, auto-merge-gate=success, check=success, smoke=success, test=success, watch=skipped, worker=success; lesson-learner run 39191041474 | Ephemeral CI runners should use native workflow orchestration for toolchain smoke tests (Playwright + FFmpeg) rather than deploying heavy orchestration tools or attaching secrets. | Keep Playwright and FFmpeg toolchain smoke tests manual-only, zero-secret, and zero-credit cost on ephemeral runners. | 0 credit cost and 0 secret leaks across toolchain smoke executions
+
+## 2026-10-26
+- github-actions-explicit-timeouts | PR #350; merge 59c0663; checks: Analyze javascript-typescript=success, Analyze python=success, auto-merge-gate=success, check=success, test=success, watch=skipped; lesson-learner run 40422585188 | GitHub Actions iş akışlarında varsayılan 6 saatlik takılma süresini önlemek için medyan çalışma süresine uygun job ve adım düzeyinde timeout-minutes sınırları tanımlanmalıdır. | Medyan süresi ~1 dk olan test iş akışlarına job seviyesinde 20 dk, adım seviyelerinde 2-10 dk timeout-minutes sınırları eklenmelidir. | Maksimum takılı kalma süresi 6 saatten job için 20 dk, adımlar için 2-10 dk seviyesine indirildi.
