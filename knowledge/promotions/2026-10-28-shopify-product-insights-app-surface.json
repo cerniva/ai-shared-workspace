@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97a7eb010a0d1efa",
+      "verified_at": "2026-10-28T13:23:23+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Shopify Product Insights is not available in the Shopify mobile app",
+      "domain": "shopify-product-validation",
+      "claim": "On 2026-10-28, the official Shopify Help Product insights page explicitly states that Product insights is not currently available for the Shopify app. The 90-day product view is reached from Shopify admin > Products > product details > Insights > View details and includes net sales, channel breakdown, net units by traffic source and first-time versus returning customers. This corrects the 2026-10-03 historical learning that the fetched page did not document app unavailability; it does not prove access to any specific store.",
+      "evidence_status": "verified",
+      "decision": "PRODUCT_INSIGHTS_APP_SURFACE_GATE: For video_shopify product-demand checks, do not claim the Shopify mobile app exposes Product Insights. Use an authorized Shopify admin product details page when available; require verified net sales and net units rather than traffic or virality. If the authorized admin surface is unavailable, mark Product Insights data N/A and do not invent store values.",
+      "outcome": "pending",
+      "next_measurement": "At the next authorized Shopify product review, verify Product Insights access from admin product details and record whether 90-day net sales, net units by traffic source, channel and first-time/returning metrics are available; no account access is implied by the public Help page.",
+      "learned_at": "2026-10-28T10:23:23+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97a7eb010a0d1efa"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [
+        "Historical learn_f0de38014bef7448 was untagged for video_shopify and said the fetched 2026-10-03 Help page did not document app unavailability; the official page checked 2026-10-28 now explicitly states the limitation. Preserve the historical record."
+      ],
+      "fallback_history": [
+        "If Shopify admin product insights are unavailable or not authorized, use verified orders, sales, returns, landed cost, margin, trust, policy and seasonality; never infer product demand from public video views."
+      ],
+      "supersedes": "learn_f0de38014bef7448"
+    }
+  ],
+  "gates": [
+    "PRODUCT_INSIGHTS_APP_SURFACE_GATE"
+  ]
+}
