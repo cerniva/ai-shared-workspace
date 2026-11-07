@@ -1,0 +1,25 @@
+# CORE-03 / CORE-04 — 2026-10-26 13:17 Europe/Istanbul
+
+- owner: ChatGPT; task_ids: CORE-03 (Shorts), CORE-04 (Shopify), HO-06 (Gumroad).
+- scope: PayoutLens excluded; no direct main write, merge, upload, publishing, price change, payment, ad, deletion, or paid service.
+- main HEAD read: daa1f682ebfdf216846b1900431b8937a8fd31ca; PROTOCOL.md read on main.
+- learning_ledger: 75 learnings; source_catalog: 90 sources, both read on main.
+- current main packets: 2026-10-26 honey (26s narration) and apple (28s narration) are preproduction ideas, NOT licensed 30–40s sourced original-audio MP4.
+- original-audio renderer: PR #269 open, not merged, no independent approval; do not execute as main. Caption/source rights chain #340 still draft; publication gate #341 still draft.
+- finding: existing PR #342 wrote an atomic IN_FLIGHT_UNKNOWN receipt before upload but overwrote a prior receipt on repeat invocation of the same script and path, allowing an ambiguous remote insert to be repeated.
+- actual branch code change: commit 02e6a32c4c5d0056bed2570078eac4dbc18c000f adds reserve_remote_receipt() using O_CREAT|O_EXCL and fsync; existing receipt, even partial/corrupt, fails closed before next_chunk. Follow-up test commit 3a3a0788916e9b7ca8e549a367f4ac3942cfb7c6 adds two regression tests for RESULT_UNKNOWN and corrupt existing receipt. Both files independently read back by blob SHA (code aa709f99f52dfebd3f063b664c57f716980f657e, test 66cae2f0d7549d5c3e648abe611398c320eb40ff).
+- CI on code/test head: worker-orchestration-tests SUCCESS, CodeQL SUCCESS, takipci-denetci SUCCESS, auto-merge-gate SUCCESS; shorts-render-tests IN_PROGRESS at first read-back. No independent review submission. Do not call all green before rechecking.
+- residual HIGH-RISK: GitHub Actions runs use fresh workspaces. An artifact from an earlier run is NOT automatically reloaded; this same-filesystem guard alone cannot guarantee cross-run idempotency. Publication/upload remains blocked until prior-run remote receipts are reconciled against the target channel and a durable cross-run gate is independently reviewed. Receipt path is optional for direct script callers, another unclosed safety boundary.
+- rights/media: no independently verified source-video and third-party audio license, no SHA-bound local source file, no same-language verified timed transcript, no 30–40s original-audio 1080x1920 MP4, no full-duration video/audio QC, no independent rights/media approval. RIGHTS_BLOCKED / TRANSCRIPT_BLOCKED / FRAMING_QA_BLOCKED / QC_BLOCKED; publish_ready=false; remote_video_id=null.
+- Metricool brand 7082876 read live: YouTube channel UCAKg-ZKPoazTnF2zDVORk4Q; subscribers=5 on observed dates, Oct 23 views=2; other daily views null (not zero), Oct 26 subscribers null. No authenticated YouTube Studio retention, engagedViews or stayed-to-watch available.
+- Shopify live read: 9 DRAFT, 0 ACTIVE; 2026-10-19 to 2026-10-26: 2 sessions (Oct 23), 0 cart additions, 0 completed checkouts. Unit costs read live: oil sprayer price EUR 24.90, unit cost EUR 7.42, gross spread EUR 17.48 BEFORE shipping, fees, returns and tax; all 8 pet-hair-remover variants have unit cost equal to sale price (zero spread before fulfillment). Supplier quality, returns, net margin and market demand not verified; no product changes.
+- Gumroad: no verified authenticated draft/sales access; do not invent performance or publish. BLOCKED_USER for account-dependent operations.
+- plan_learnings.py video_shopify --require: NOT EXECUTED; complete executable local checkout absent (git ls-remote failed DNS). stdout=null, exit_code=null; this is not a dry-run pass.
+- applied_learning_ids with decisions:
+  - learn_af28044522e96790: no upload without explicit privacy/target channel/remote receipt gate; reject repeat attempts.
+  - learn_4decad368966e2e6: SHA-bound receipt and test blobs read back, but no cross-run artifact integrity pass claimed.
+  - learn_ae8a18babc190373: reject 26s/28s narration-only packets as the required 30–40s original-audio sourced deliverable.
+  - learn_e74d8dd625c30863: do not treat null YouTube views as zero or extrapolate retention.
+  - learn_7d2fad64925e5f70 and learn_991df8ed39245aef: compare variant cost/price in EUR, do not infer net margin or discounts; keep drafts.
+  - learn_f5624ca54a31e57c: no Gumroad write without verified draft-first account access and rights.
+- next: independently review #342 and build a durable cross-run receipt reconciliation gate; separately obtain a real source MP4, verify license/audio/transcript/source SHA and render with #269 only after review. No publishing.

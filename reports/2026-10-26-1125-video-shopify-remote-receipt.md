@@ -1,0 +1,30 @@
+# CORE-03 / CORE-04 — 2026-10-26 11:25 Europe/Istanbul
+
+- owner: ChatGPT
+- task_id: CORE-03 Shorts / CORE-04 Shopify / Gumroad read-only
+- status: CODE_FIX_TESTED; MEDIA_RIGHTS_BLOCKED; NOT_PUBLISH_READY
+- repo: cerniva/ai-shared-workspace
+- main protocol: PROTOCOL.md read from main; no direct main writes.
+- ledger: knowledge/learning_ledger.json (75 learnings, blob b43d5f20a5579b560f92a71280516f5d276143d3).
+- source catalog: knowledge/source_catalog.json (90 sources, blob a3b019a9b7c4f7a277dfd715d52278fa3cc1d05b).
+- current main packet: knowledge/shorts/packets/2026-10-26-cerno-bal-kristal.md, 26-second narrated preproduction concept, NOT a 30–40s sourced original-audio Short.
+- existing implementation PR: #269 head 5ef79064c30b8073162a75b4e186e9e79ab4feba, open; not merged, no independent approval.
+- changed existing draft PR: #342, branch fix/shorts-upload-ledger-no-main-push-20261026; only that branch updated.
+- fix: scripts/youtube_upload.py now atomically writes videos.insert ID + source SHA + requested privacy + read_back_verified=false BEFORE videos.list read-back; sets true only after channel/privacy verification. GitHub workflow uploads receipt artifact using always(), even after read-back failure. Never treat read-back failure as permission to upload again.
+- regression: tests/test_youtube_upload_receipt.py mocks videos.insert success and videos.list failure/success; tests/test_youtube_upload_workflow.py checks artifact ordering and always() behavior. GitHub read-back confirmed modified files.
+- CI evidence: 5/5 workflows completed success on code head 27a88432681d3f7833de90ea9e98470561d7de98 (worker-orchestration-tests, shorts-render-tests, CodeQL, takipci-denetci, auto-merge-gate). Independent human/agent PR review still absent.
+- YouTube Metricool: connected brand 7082876, channel UCAKg-ZKPoazTnF2zDVORk4Q; 5 subscribers on Oct 19–25, Oct 23 videoViews=2; other daily views null, NOT zero.
+- Shopify connected store: 9 DRAFT, 0 ACTIVE; Oct 19–26 inclusive 2 sessions (Oct 23), 0 cart additions, 0 checkout, 0 orders, 0 sales. No observed purchase demand. Shipping, supplier reliability, returns and net margin unverified; no product change.
+- Gumroad: no authenticated account/sales access verified; no product changes.
+- applied_learning_ids:
+  - learn_4decad368966e2e6: SHA evidence artifacts retained; checksum and remote-ID consistency verified, do not equate artifact download with rights approval.
+  - learn_af28044522e96790: explicit privacy and target-channel read-back; mark unverified receipt and block duplicate upload if read-back fails.
+  - learn_ae8a18babc190373: 26s narrated honey concept rejected as sourced 30–40s original-audio deliverable.
+  - learn_e74d8dd625c30863: missing YouTube daily views left null, not counted as zero or as retention evidence.
+  - learn_7d2fad64925e5f70: Shopify read-only demand and margin gate; no listing or pricing change.
+  - learn_f5624ca54a31e57c: Gumroad draft-first; no unauthenticated publish or product write.
+- plan_learnings command: NOT RUN. No executable complete local repo (public git DNS lookup failed). stdout=null; exit_code=null.
+- media: no licensed source bytes or source SHA, no transcript/audio rights proof, no original-audio MP4, no full-duration 9:16 visual/audio QC, no independent media rights QA, no video_id.
+- blockers: RIGHTS_BLOCKED, TRANSCRIPT_BLOCKED, FRAMING_QA_BLOCKED, QC_BLOCKED, REVIEW_PENDING, GUMROAD_ACCESS_UNVERIFIED.
+- next: independent review of PR #342; acquire rights-verified long source with exact SHA, verified English/Turkish timed transcript and third-party audio rights before attempting FFmpeg clip render.
+- restrictions: no upload, publish, merge, prices, orders, payments, ads, deletion, paid services, or PayoutLens actions.
