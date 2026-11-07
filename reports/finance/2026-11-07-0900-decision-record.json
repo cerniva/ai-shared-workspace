@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-07",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "sources": [
+    {
+      "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "published": "2026-11-06",
+      "claim": "October nonfarm payrolls +165000; unemployment 4.1%",
+      "verified": true
+    },
+    {
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "published": "2026-10-28",
+      "claim": "FOMC target 3.75-4.00; 10-2",
+      "verified": true
+    },
+    {
+      "url": "https://www.reuters.com/business/nasdaq-futures-rise-after-steep-ai-selloff-chip-stocks-stabilize-2026-11-06/",
+      "published": "2026-11-06",
+      "claim": "Nasdaq +1.1% Friday, -3.4% week; S&P +0.32%",
+      "verified": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "official_macro_gate",
+      "input": "2026-11-06 BLS release and 2026-10-28 FOMC statement",
+      "result": "Use +165000 and 4.1% official BLS, keep 28 Oct FOMC hold as historical policy rather than new Nov 7 action",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "learning_effect": "Replaced reliance on secondary-only payroll/Fed coverage with direct dated official verification."
+    },
+    {
+      "id": "altcoin_calibration",
+      "input": "main config/altcoin_panel_calibration.json; all 10 validated=false",
+      "result": "All ten indicator scores and combined score N/A; no fabricated 0-100",
+      "applied_learning_ids": [],
+      "learning_effect": "Calibration file independently enforced; plan-tagged learning learn_f7b141c60755c294 is pending and is not claimed as active."
+    },
+    {
+      "id": "market_close",
+      "input": "Reuters November 6 close",
+      "result": "Friday tech rebound separated from weekly decline; no intraday figures called final closes",
+      "applied_learning_ids": [],
+      "learning_effect": "Fresh dated evidence; no other active finance plan-tagged learning verified."
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No verified external Finance consumer output with decision effects and applied_learning_ids; local plan_learnings.py was NOT_RUN due to DNS clone failure."
+  },
+  "command": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "clone_exit_code": 128,
+    "clone_error": "Could not resolve host: github.com"
+  },
+  "missing": [
+    "first 70 crypto synchronized dataset",
+    "2020-2025 walk-forward backtest",
+    "external producer read-back",
+    "Grok message delivery evidence"
+  ],
+  "issue": 308,
+  "payoutlens_excluded": true
+}
