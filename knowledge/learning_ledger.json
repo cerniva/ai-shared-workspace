@@ -1807,6 +1807,27 @@
       "title": "Bundle channel support is page-specific and not assumed"
     },
     {
+      "claim": "GitHub changelog page 2026-11-05-usage-metrics-api-adds-code-review-details-and-addressed-rate (feed pubDate Fri, 06 Nov 2026 00:19:07 +0000; Improvement dated November 5, 2026; read 2026-11-07) states enterprise and organization repository-level Copilot usage metrics repos-1-day reports now include a copilot_code_review object with total_comments_evaluated, total_comments_addressed (addressed rate = addressed/evaluated), breakdowns review_comments_by_severity/review_tier/comment_type/customization, and total_merged_no_human_change_request_after_review. Comments are counted on PR merge day; bot PRs are usually excluded from comment evaluation; access requires the Copilot usage metrics policy and View Copilot Metrics permission.",
+      "decision": "REVIEW_ONLY: relevant only if the system plan reads Copilot usage metrics (earlier learnings on totals_by_client / BYOK); no code or operational change without approval.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-07T06:14:00+00:00",
+      "learning_id": "learn_eb761ee058c5fb47",
+      "next_measurement": "Record yes/no before 2026-11-14 whether any system workflow consumes Copilot usage metrics and would benefit from copilot_code_review addressed-rate fields.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub changelog: Usage metrics API adds Copilot code review details and addressed rate"
+    },
+    {
       "claim": "Shopify Next Gen Events is generally available in Admin API version 2026-10 across 18 topics and can filter actions, field-level triggers, and custom GraphQL payloads. Event delivery is a freshness signal only and is not proof of product demand or sales.",
       "decision": "NEXT_GEN_EVENTS_PRODUCT_SIGNAL_GATE: when authorized store event access exists, prefer narrowly filtered Next Gen Events for product, collection, or order freshness. Never treat event delivery as demand or sales. Confirm ranking changes with verified orders, net units, and net sales. Human learning_id learn_shopify_next_gen_events_product_signal_20261006. Keep PRODUCT_SALES_SOURCE_GATE unchanged.",
       "domain": "shopify-events",
@@ -1989,6 +2010,27 @@
       "title": "YouTube videos.insert own quota bucket"
     },
     {
+      "claim": "Federal Reserve Board press release enforcement20261105a (feed pubDate Thu, 5 Nov 2026 16:00:00 GMT; For release at 11:00 a.m. EST; lastUpdate November 05, 2026; read 2026-11-07) announces termination of the enforcement action with Allegiant United Holdings, LLC, Irvine California, Nano Financial Holdings, Inc., Irvine, California, and Nano Banc, Irvine California: the Written Agreement dated February 24, 2021 was terminated October 21, 2026. The release page links the Written Agreement PDF.",
+      "decision": "REVIEW_ONLY: regulatory-awareness item about a single Irvine, California bank holding company group; no market-moving content and no action for Finance reports or Shorts unless a reviewer finds a specific use.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-07T06:14:00+00:00",
+      "learning_id": "learn_f6bb81940c596ba5",
+      "next_measurement": "Record yes/no before 2026-11-14 whether any Finance report or Shorts item needs this Allegiant/Nano Banc termination citation.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "supersedes": null,
+      "title": "Federal Reserve Board terminates enforcement action with Allegiant United Holdings, Nano Financial Holdings, and Nano Banc"
+    },
+    {
       "claim": "Ten candidate public URLs are documented with keyless availability caveats. Public URL does not imply complete 2020-2025 coverage. CoinGecko global current data cannot prove historical dominance or TOTAL3; Binance OI history is restricted to recent history; exact historical DXY and daily Altseason Index archives remain unverified.",
       "decision": "No invented 0-100 values. For each indicator: reconstruct UTC daily x, freeze train-only lo=p20 and hi=p80 of preceding 730 daily observations (>=500 valid; at least 80% daily coverage), update only at quarterly walk-forward boundaries; monotonic up score=100*clip((x-lo)/(hi-lo)); down=100*clip((hi-x)/(hi-lo)). Index and breadth have natural 0/100 limits. If p20>=p80, unavailable history, or data lookahead risk, output N/A. Funding/OI requires historical OI and validated two-tail shape; N/A meanwhile. Hold out rolling next 90 days, every 90 days, from 2020-2025; do not calculate early folds lacking 730 days. Compare p10/p90 vs p20/p80 on train only, freeze choice before test. Prevent survivorship, data leakage, mixed providers, and unstable symbols.",
       "domain": "finance",
@@ -2148,5 +2190,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-11-06T06:09:41+00:00"
+  "updated_at": "2026-11-07T06:14:07+00:00"
 }
