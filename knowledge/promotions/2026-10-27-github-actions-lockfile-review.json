@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_f5fa4d6131d7db33",
+    "source_name": "GitHub Changelog: Actions workflow dependency lockfiles public preview",
+    "canonical": "https://github.blog/changelog/2026-10-14-github-actions-workflow-lockfiles-in-public-preview",
+    "category": "system-actions-supply-chain",
+    "purpose": "Assess free, reviewable commit-pinning alternative for repository GitHub Actions dependencies",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public documentation; preview available on Free plan; no API key used",
+    "reliability_limits": "Preview availability and per-repository enablement not verified. Locking freezes reviewed references but cannot establish dependency trustworthiness; do not enable or change workflows without testing.",
+    "discovered_at": "2026-10-27T01:25:00+03:00",
+    "last_successful_use": "2026-10-27T01:25:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_a381f47f8f318363",
+    "title": "Review GitHub Actions workflow lockfiles before relying on movable action tags",
+    "domain": "github-actions-dependency-integrity",
+    "claim": "GitHub announced on 14 October 2026 that Actions workflow dependency lockfiles are in public preview on Free, Team and Enterprise Cloud plans; a reviewed actions.lock can bind onboarded workflows to recorded action, transitive action and reusable workflow commit SHAs even when tags or branches move. Locking does not establish that a dependency is trustworthy.",
+    "evidence_status": "verified",
+    "decision": "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE: REVIEW_ONLY. The current main tree has no .github/workflows/actions.lock. Inventory the actions/reusable-workflow dependencies, assess GitHub Actions lockfile preview eligibility, and use a non-mutating freshness check before any small pilot. Do not treat an untested preview as deployed protection or replace existing CI checks; require human review of pinned code and preserve working append-only workflows. Generate the lockfile with gh actions-lock (never hand-edit it); for reusable workflows, review the defining repository's lockfile because the caller's lockfile does not cover their internal transitive dependencies. The official how-to warns that gh actions-lock may rewrite workflow uses refs (including local ./ actions to $/), and SHA-pinned dependencies can invalidate tag-based action allowlists: inspect the complete generated diff and allowed-actions settings in a disposable PR before any rollout. The how-to currently labels availability Enterprise Cloud while the dated changelog lists Free/Team too; resolve this repository-specific discrepancy without enabling or bypassing policy.",
+    "outcome": "pending",
+    "next_measurement": "In an isolated review branch, inventory action uses refs and allowed-actions policy; verify repo-specific preview entitlement (changelog vs how-to discrepancy), review any gh actions-lock full diff, then run CI at exact HEAD. Record real system decision/report applied_learning_ids only after central promotion and consumer test; do not enable production protection on assumption.",
+    "learned_at": "2026-10-27T01:25:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_0b2addff54a24a9f",
+      "src_76811b880217b4a5",
+      "src_f5fa4d6131d7db33"
+    ],
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active",
+    "failure_history": [],
+    "fallback_history": [
+      "If preview is unavailable or changes risk the append-only workflows, retain current checks and evaluate commit-SHA pinning manually in a separate safe PR."
+    ],
+    "supersedes": null
+  },
+  "gates": [
+    "ACTIONS_DEPENDENCY_LOCKFILE_REVIEW_GATE"
+  ],
+  "sources": [
+    {
+      "source_id": "src_76811b880217b4a5",
+      "source_name": "GitHub Docs: workflow dependency lockfiles",
+      "canonical": "https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles",
+      "category": "system-actions-supply-chain",
+      "purpose": "Clarify gh actions-lock generation, repository identity pinning, and reusable-workflow transitive dependency scope",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free official documentation; no API key",
+      "reliability_limits": "Public preview and subject to change. The caller repository's lockfile does not lock transitive dependencies inside a reusable workflow defined in another repository; that workflow is governed by its defining repository's lockfile. No rollout or enablement verified.",
+      "discovered_at": "2026-10-27T03:25:53+03:00",
+      "last_successful_use": "2026-10-27T03:25:53+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_0b2addff54a24a9f",
+      "source_name": "GitHub Docs: locking action dependencies in a repository's workflows",
+      "canonical": "https://docs.github.com/en/actions/how-tos/secure-your-work/lock-workflow-dependencies",
+      "category": "system-actions-supply-chain",
+      "purpose": "Check full gh actions-lock mutation scope, allowlist behavior and preview entitlement before a safe pilot",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "public documentation; no API key or paid tool used",
+      "reliability_limits": "How-to access banner currently says GitHub Enterprise Cloud while 14 Oct 2026 GitHub changelog lists Free/Team/Enterprise Cloud; repo-specific entitlement is not established. CLI may rewrite workflow uses refs and local action refs, and SHA-based allowlists can stop matching tags.",
+      "discovered_at": "2026-10-27T04:29:00+03:00",
+      "last_successful_use": "2026-10-27T04:29:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ]
+}
