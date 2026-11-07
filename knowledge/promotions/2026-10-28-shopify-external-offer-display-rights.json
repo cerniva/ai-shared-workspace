@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_71e3cdab42775813",
+    "source_name": "Shopify Global Catalog extension: external offer display and usage requirements",
+    "canonical": "https://shopify.dev/docs/agents/catalog/global-catalog-extension",
+    "category": "commerce-platform-catalog-offer-rights",
+    "purpose": "Prevent unsafe reuse of external offers in video_shopify merchandising, content, and model training",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official docs; no credential or paid credit",
+    "reliability_limits": "Beta, source restrictions and enabled-client requirements may change; docs do not establish that this workspace has Catalog API access or uses external offers. External prices and stock must be rechecked on the merchant site.",
+    "discovered_at": "2026-10-28T02:24:39+03:00",
+    "last_successful_use": "2026-10-28T02:24:39+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_077e79f03c21c319",
+    "title": "Shopify external offers: seller links, no rehosting/training, and indicative price or stock",
+    "domain": "shopify-external-offer-display-rights",
+    "claim": "Shopify Global Catalog extension documentation (checked 2026-10-28) says external offers are display-only, not Shopify checkout inventory: each offer must visibly identify seller.name and link to variants[].url; external product images may not be rehosted, cropped, overlaid or altered, and external offer data may not be bulk-exported, redistributed, used to train/evaluate machine-learning models or retained beyond the current shopper session. External price is indicative, and availability.available=true does not prove current stock. catalog.sources requires version 2026-08-25 or draft and an enabled client; otherwise search_catalog ignores requested sources.",
+    "evidence_status": "verified",
+    "decision": "SHOPIFY_EXTERNAL_OFFER_DISPLAY_RIGHTS_GATE: REVIEW_ONLY until the actual video_shopify consumer uses authorized Global Catalog external offers. If it does, display seller.name and link each offer to variants[].url, distinguish external from Shopify sellers, never route to Shopify checkout, never rehost/edit external images, bulk-export/redistribute offers, train/evaluate models on them, or retain them beyond the current shopper session. Do not treat indicative prices or available=true as verified stock; confirm on merchant site. Require enabled client and version 2026-08-25/draft before relying on catalog.sources. No live store or content publication.",
+    "outcome": "pending",
+    "next_measurement": "2026-10-28 GitHub main code search for search_catalog, discover.shopifyapps.com/global and catalog.shopify.com/api/ucp/mcp returned zero matching code files; recheck full consumer inventory before 2026-11-02. If a consumer is found, write a negative/positive decision test and record applied_learning_ids in the actual manifest; otherwise keep REVIEW_ONLY.",
+    "learned_at": "2026-10-28T02:24:39+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_71e3cdab42775813"
+    ],
+    "plan_tags": [
+      "video_shopify"
+    ],
+    "status": "active",
+    "failure_history": [],
+    "fallback_history": [
+      "Existing PR #368 covers US-only, checkout and commission constraints; this additive learning separately covers official display/license/retention and data-quality requirements. No existing canonical source or matching claim was found on main."
+    ],
+    "supersedes": null
+  },
+  "gates": [
+    "SHOPIFY_EXTERNAL_OFFER_DISPLAY_RIGHTS_GATE"
+  ]
+}

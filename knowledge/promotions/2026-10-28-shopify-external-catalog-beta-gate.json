@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_0200f5a0a815d996",
+    "source_name": "Shopify developer changelog: external brands in Catalog API beta (2026-10-27)",
+    "canonical": "https://shopify.dev/changelog/posts/search-brands-that-don-t-sell-on-shopify-in-the-catalog-api-beta",
+    "category": "commerce-platform-catalog-api-beta",
+    "purpose": "Prevent video_shopify from treating beta external catalog products as Shopify-native checkout or worldwide availability",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official documentation; no key or paid credits",
+    "reliability_limits": "Beta feature; external products currently appear only for US shoppers. External product data is sourced from brand websites, links to off-platform checkout, and is not eligible for native Shopify checkout or Promoted Placements commission.",
+    "discovered_at": "2026-10-28T00:31:51+03:00",
+    "last_successful_use": "2026-10-28T00:31:51+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_ef20c2d2e87a6d3c",
+    "title": "Shopify Catalog API external brands beta: US-only, no native checkout or commission",
+    "domain": "shopify-catalog-external-products-beta",
+    "claim": "Shopify's Catalog API beta announced 2026-10-27 that search_catalog accepts sources=['shopify','external'] or ['external'] to include products from brands not selling on Shopify; without sources it remains Shopify-only. External products have eligible.native_checkout=false and do not earn Promoted Placements commission. During beta, external results are available only for US shoppers; non-US searches continue to return Shopify merchant products.",
+    "evidence_status": "verified",
+    "decision": "SHOPIFY_CATALOG_EXTERNAL_US_ONLY_NO_CHECKOUT_GATE: video_shopify must not count Catalog API external products as Shopify-native-checkout inventory or Promoted Placements revenue. If an authorized app uses search_catalog and targets US shoppers, explicitly set sources and display external off-platform links; for non-US shoppers or apps not using Catalog API, REVIEW_ONLY/no changes. Never publish products or charge without separate approval.",
+    "outcome": "pending",
+    "next_measurement": "Read video_shopify code and current API usage for search_catalog; record found/not-found. If found, test sources omitted versus ['shopify','external'] with US/non-US buyer context and assert eligible.native_checkout=false for external products; attach actual decision/manifest applied_learning_ids and a new-head CI run before claiming applied.",
+    "learned_at": "2026-10-28T00:31:51+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_0200f5a0a815d996"
+    ],
+    "plan_tags": [
+      "video_shopify"
+    ],
+    "status": "active",
+    "failure_history": [
+      "2026-10-27 intake/promotions/2026-10-27-research-learner-video_shopify.json was headline-only and unverified; this independent official article read adds region, checkout and commission constraints without rewriting the intake record."
+    ],
+    "fallback_history": [
+      "If Catalog API is not used or buyer context cannot be verified, keep the learning REVIEW_ONLY and do not alter catalog, Shopify products or checkout."
+    ],
+    "supersedes": null
+  },
+  "gates": [
+    "SHOPIFY_CATALOG_EXTERNAL_US_ONLY_NO_CHECKOUT_GATE"
+  ]
+}
