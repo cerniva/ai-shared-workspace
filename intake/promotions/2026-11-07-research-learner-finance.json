@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "source_name": "Federal Reserve Board press releases RSS",
+      "canonical": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "finance-news",
+      "purpose": "Keyless primary feed for finance research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-07T11:54:03+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_7bd01e4f4ac4e18e",
+      "title": "Federal Reserve Board press releases RSS: Federal Reserve Board announces termination of enforcement action with Allegiant United Holdings, LLC, Nano Financial Holdings, Inc., and ",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press releases RSS fetched 2026-11-07 lists as newest item: \"Federal Reserve Board announces termination of enforcement action with Allegiant United Holdings, LLC, Nano Financial Holdings, Inc., and Nano Banc\" (Thu, 5 Nov 2026 16:00:00 GMT). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The finance plan should review and record the Federal Reserve Board's termination of the enforcement action to update compliance and counterparty risk profiles without initiating any operational changes.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-07T11:54:03+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}

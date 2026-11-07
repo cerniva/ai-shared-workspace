@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-06T13:11:11+00:00",
+  "generated_at": "2026-11-07T11:54:03+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
       "source": "https://www.federalreserve.gov/feeds/press_all.xml",
       "status": "staged",
-      "path": "intake/promotions/2026-11-06-research-learner-finance.json",
-      "learning_id": "learn_fa6c599ecf5c6f91",
+      "path": "intake/promotions/2026-11-07-research-learner-finance.json",
+      "learning_id": "learn_7bd01e4f4ac4e18e",
       "source_id": "src_97656cefc7b0673b"
     },
     "video_shopify": {
@@ -16,8 +16,8 @@
     "system": {
       "source": "https://github.blog/changelog/feed/",
       "status": "staged",
-      "path": "intake/promotions/2026-11-06-research-learner-system.json",
-      "learning_id": "learn_78cfa3af42638351",
+      "path": "intake/promotions/2026-11-07-research-learner-system.json",
+      "learning_id": "learn_d4d9605e33be2f29",
       "source_id": "src_c47bbcd15b32d194"
     }
   }
