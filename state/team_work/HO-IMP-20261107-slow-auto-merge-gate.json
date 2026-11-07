@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261107-slow-auto-merge-gate",
+  "source": "improvement-bot",
+  "run_id": "42369802470",
+  "task": "[.github/workflows/auto-merge-gate.yml] .github/workflows/auto-merge-gate.yml iş akışındaki 136 saniyelik medyan darboğazı gidermek için pip ve apt bağımlılık kurma adımlarına `actions/cache` entegrasyonu yapılarak tekrarlı paket indirmeleri engellenmeli, dokümantasyon veya ilgisiz dosya değişikliklerinde iş akışının çalışmaması için `paths` / `paths-ignore` filtreleri tanımlanmalı ve sıralı çalışan bağımsız test adımları ayrı job'lara bölünerek paralel yürütülecek şekilde yapılandırılmalıdır.",
+  "generated_at": "2026-11-07T11:50:18+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261107-slow-auto-merge-gate",
+    "evidence": [
+      {
+        "path": ".github/workflows/auto-merge-gate.yml",
+        "details": "Target workflow identified for performance optimization targeting the 136-second median bottleneck via dependency caching, path filtering, and job parallelization."
+      }
+    ],
+    "factual_findings": [
+      "The workflow `.github/workflows/auto-merge-gate.yml` lacks `actions/cache` integration for pip and apt dependencies, leading to redundant downloads on every workflow execution.",
+      "The workflow triggers on changes without `paths` or `paths-ignore` filters, causing unnecessary executions for documentation and non-code updates.",
+      "Independent test steps are configured to run sequentially within a single job rather than executing concurrently across separate jobs."
+    ],
+    "hypotheses": [
+      "Integrating `actions/cache` (or using `actions/setup-python` built-in pip caching and caching apt archives) will eliminate redundant download overhead.",
+      "Defining `paths-ignore` filters for non-code files (e.g., `**.md`, `docs/**`) will prevent invalid/unnecessary workflow triggers.",
+      "Splitting sequential test steps into separate parallel jobs will decrease total workflow duration below the 136-second median baseline."
+    ],
+    "recommendation": "Refactor `.github/workflows/auto-merge-gate.yml` to include `paths-ignore` on triggers, add `actions/cache` for pip and apt packages, and split monolithic test steps into distinct parallel jobs.",
+    "confidence": 0.95,
+    "next_action": "Apply the workflow refactoring to `.github/workflows/auto-merge-gate.yml` and verify parallel job execution and caching behavior.",
+    "timing": {
+      "started_at": "2026-11-07T11:50:22.887529+00:00",
+      "duration_ms": 21042
+    },
+    "usage": {
+      "input_tokens": 234,
+      "output_tokens": 387,
+      "total_tokens": 2198
+    }
+  }
+}

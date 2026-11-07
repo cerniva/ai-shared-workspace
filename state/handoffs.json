@@ -1021,9 +1021,15 @@
       "task": "[.github/workflows/auto-merge-gate.yml] .github/workflows/auto-merge-gate.yml iş akışındaki 136 saniyelik medyan darboğazı gidermek için pip ve apt bağımlılık kurma adımlarına `actions/cache` entegrasyonu yapılarak tekrarlı paket indirmeleri engellenmeli, dokümantasyon veya ilgisiz dosya değişikliklerinde iş akışının çalışmaması için `paths` / `paths-ignore` filtreleri tanımlanmalı ve sıralı çalışan bağımsız test adımları ayrı job'lara bölünerek paralel yürütülecek şekilde yapılandırılmalıdır.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261107 key=slow-auto-merge-gate",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-07T11:48:40+00:00",
-      "updated_at": "2026-11-07T11:48:40+00:00"
+      "updated_at": "2026-11-07T11:50:18+00:00",
+      "claimed_at": "2026-11-07T11:50:18+00:00",
+      "notes": [
+        "2026-11-07T11:50:18+00:00 auditor: team-worker devraldi",
+        "2026-11-07T11:50:18+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261107-slow-auto-merge-gate.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
