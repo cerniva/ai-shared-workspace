@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-08T09:17:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: Copilot code review adds REST/GraphQL settings management and a more compact review overview",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-06-copilot-code-review-api-management-and-review-overview-updates (feed pubDate Sat, 07 Nov 2026 00:27:19 +0000; dated November 6, 2026; read 2026-11-08) states you can now manage GitHub Copilot code review settings through the REST and GraphQL APIs, from enterprise policy down to individual repositories. Copilot's review overview comment is now more compact, and the update includes fixes for billing, automatic reviews, and reliability. These updates are available to Copilot Pro, Pro+, Max, Business, and Enterprise plans. Enterprise administrators can enable or disable code review for all organizations or leave the choice to organization administrators; organization administrators can manage enablement, the default review effort, and the runner configuration (enterprise-managed settings cannot be overridden); repository administrators can manage review effort and whether reviews use custom instructions and MCP tools. The enterprise and organization settings endpoints, including the organization runner endpoint, do not support GitHub Apps or fine-grained personal access tokens; repository settings endpoints support both, with Administration: read to read settings and Administration: write to update them. New review overviews move effort and surveys into a compact footer and merge skipped and content-excluded files into one Files not reviewed section. The Automatically request Copilot code review repository rule now supports the bypass list.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan manages Copilot code review settings via API or depends on review overview comment shape; no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-15 whether any system workflow needs to manage Copilot code review settings via REST/GraphQL or depends on the review overview comment layout.",
+      "learned_at": "2026-11-08T06:17:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
