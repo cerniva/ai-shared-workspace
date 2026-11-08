@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-07T21:49:44+00:00",
+  "generated_at": "2026-11-08T01:26:20+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 42391202179,
+          "id": 42417699650,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-07T16:25:15Z",
+          "created_at": "2026-11-07T21:49:45Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 42391208196,
+          "id": 42417705587,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-07T16:25:20Z",
+          "created_at": "2026-11-07T21:49:50Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 42407068755,
+          "id": 42423272141,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-07T19:36:49Z",
+          "created_at": "2026-11-07T23:01:02Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 42404519951,
+          "id": 42423813035,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-07T19:05:46Z",
+          "created_at": "2026-11-07T23:07:50Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısızlıkla (failure) sonuçlanmıştır. Ayrıca aynı projede yer alan shorts-free-render.yml iş akışı henüz hiç çalıştırılmamıştır (never_run). Diğer projelerdeki tüm otomasyonlar ise sağlıklı bir şekilde başarıyla tamamlanmıştır."
+  "model_summary": "video_shorts_shopify_gumroad modülünde youtube-upload.yml iş akışı başarısızlıkla (failure) sonuçlanmıştır. Ayrıca aynı modüldeki shorts-free-render.yml iş akışı hiç çalıştırılmamıştır (never_run). Diğer tüm modüllerdeki otomasyonlar ise sağlıklı bir şekilde tamamlanmıştır."
 }
