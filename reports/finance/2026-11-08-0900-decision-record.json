@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Europe/Istanbul",
+  "scope": "finance",
+  "payoutlens": "excluded",
+  "source_ref": "main",
+  "evidence": {
+    "protocol_blob": "9ad093fd3bc5629636a1b3cf81dab26915a7bbe3",
+    "ledger_blob": "06685d35f5dca14a201603e9409dcfd2e924209f",
+    "catalog_blob": "6e269a6039c18ab2a786246c10b9263320eb21e7",
+    "calibration_blob": "6bbeacf9482245304a056dbfe7507d08cb181aa9"
+  },
+  "decisions": [
+    {
+      "field": "fed_policy",
+      "result": "2026-10-28 Fed held 3.75%-4.00%; historical, not new November 8 event",
+      "source": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20261028.htm",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Official Federal Reserve primary-source check retained the dated target range and excluded a fresh-rate-change claim."
+    },
+    {
+      "field": "berkshire_earnings",
+      "result": "Reuters November 7 reports Q3 operating profit $12.71bn down 6%; SEC primary filing not checked, provisional secondary claim",
+      "source": "https://www.reuters.com/business/finance/berkshire-hathaway-accelerates-stock-buybacks-operating-profit-falls-2026-11-07/",
+      "applied_learning_ids": []
+    },
+    {
+      "field": "crypto_etf",
+      "result": "November 6 BTC -411.9m USD ETH -93.2m USD, cross-provider agreement; not primary issuer confirmation",
+      "source": "https://coinmico.com/etf-flows",
+      "applied_learning_ids": []
+    },
+    {
+      "field": "altcoin_score",
+      "result": "N/A; all 10 calibration indicators validated=false; no 2020-2025 backtest",
+      "applied_learning_ids": []
+    },
+    {
+      "field": "top70",
+      "result": "YAPAMADIM: synchronized top-70 market and derivatives snapshot not obtained",
+      "applied_learning_ids": []
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No verified end-to-end external Finance producer output with decision-level applied_learning_ids and read-back; local plan_learnings command not run."
+  },
+  "command": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "reason": "GitHub connector can read source but cannot execute repository command; local checked-out repository not available"
+  },
+  "promotion": {
+    "status": "NOT_CREATED",
+    "reason": "No independently validated nonduplicate new rule; avoid speculative promotion"
+  },
+  "ci": {
+    "status": "NOT_VERIFIED"
+  },
+  "grok": {
+    "message_delivery": "NOT_VERIFIED"
+  }
+}
