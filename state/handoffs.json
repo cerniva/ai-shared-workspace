@@ -1024,6 +1024,17 @@
       "status": "open",
       "created_at": "2026-11-07T11:48:40+00:00",
       "updated_at": "2026-11-07T11:48:40+00:00"
+    },
+    {
+      "id": "HO-IMP-20261108-slow-codeql-code-scanning",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki CodeQL tarama süresini düşürmek için pip ve paket kurulum adımlarına actions/cache entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, yalnızca ilgili dosya değişikliklerinde çalışması için workflow tetikleyicilerine paths/paths-ignore filtreleri eklenmeli ve bağımsız test ile analiz adımları paralel job'lara bölünerek 65 saniyelik medyan çalışma süresi optimize edilmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261108 key=slow-codeql-code-scanning",
+      "status": "open",
+      "created_at": "2026-11-08T11:59:37+00:00",
+      "updated_at": "2026-11-08T11:59:37+00:00"
     }
   ]
 }
