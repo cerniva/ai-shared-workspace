@@ -1035,6 +1035,17 @@
       "status": "open",
       "created_at": "2026-11-08T11:59:37+00:00",
       "updated_at": "2026-11-08T11:59:37+00:00"
+    },
+    {
+      "id": "HO-IMP-20261109-fail-takipci-denetci",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/takipci-denetci.yml] .github/workflows/takipci-denetci.yml iş akışındaki %50 (6/12) başarısızlık oranını düşürmek ve derleme darboğazını çözmek için; bağımlılık kurulum adımlarında `actions/cache` ile paket önbellekleme kullanılması, aynı PR/dal üzerindeki çakışan veya eski koşuları iptal eden `concurrency` bloğunun eklenmesi, uzun süren kararsız adımlara `timeout-minutes: 10` sınırlaması getirilmesi ve ağ/test bağımlılığı olan flaky adımlara `nick-fields/retry` veya `retry` aksiyonu eklenerek otomatik yeniden deneme mekanizmasının devreye alınması gerekmektedir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261109 key=fail-takipci-denetci",
+      "status": "open",
+      "created_at": "2026-11-09T14:01:46+00:00",
+      "updated_at": "2026-11-09T14:01:46+00:00"
     }
   ]
 }
