@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-09T01:43:43+00:00",
+  "generated_at": "2026-11-09T09:47:37+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 42528277833,
+          "id": 42547082716,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-08T22:03:33Z",
+          "created_at": "2026-11-09T01:43:44Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 42528283113,
+          "id": 42547088648,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-08T22:03:37Z",
+          "created_at": "2026-11-09T01:43:49Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 42544348938,
+          "id": 42587572356,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-09T01:12:51Z",
+          "created_at": "2026-11-09T08:39:45Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 42538659906,
+          "id": 42578373539,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-09T00:09:38Z",
+          "created_at": "2026-11-09T07:17:20Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız (failure) sonuçlanmıştır. Aynı projede yer alan shorts-free-render.yml ise hiç çalıştırılmamıştır (never_run). Diğer tüm projelerdeki otomasyonlar ise sorunsuz ve başarılı görünmektedir."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml otomasyonu başarısızlıkla sonuçlandığı, shorts-free-render.yml ise hiç çalıştırılmadığı için bu iki otomasyon sağlıksız görünmektedir. Diğer tüm projelerdeki (finance, knowledge, system) otomasyon akışları ise sorunsuz şekilde tamamlanmıştır."
 }
