@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261108-slow-codeql-code-scanning",
+  "source": "improvement-bot",
+  "run_id": "42478189407",
+  "task": "[.github/workflows/codeql.yml] .github/workflows/codeql.yml dosyasındaki CodeQL tarama süresini düşürmek için pip ve paket kurulum adımlarına actions/cache entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, yalnızca ilgili dosya değişikliklerinde çalışması için workflow tetikleyicilerine paths/paths-ignore filtreleri eklenmeli ve bağımsız test ile analiz adımları paralel job'lara bölünerek 65 saniyelik medyan çalışma süresi optimize edilmelidir.",
+  "generated_at": "2026-11-08T12:00:39+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261108-slow-codeql-code-scanning",
+    "evidence": [
+      {
+        "path": ".github/workflows/codeql.yml",
+        "detail": "Workflow file identified for optimizing CodeQL scan duration, pip package caching, path filtering, and job parallelization."
+      }
+    ],
+    "factual_findings": [
+      ".github/workflows/codeql.yml controls the CodeQL analysis workflow and currently has a median execution duration of approximately 65 seconds.",
+      "Dependency setup steps in .github/workflows/codeql.yml re-download Python/pip packages on every run due to missing dependency caching mechanisms.",
+      "Triggers under `on:` in .github/workflows/codeql.yml lack `paths` or `paths-ignore` filters, causing the workflow to run on commits that do not affect executable code."
+    ],
+    "hypotheses": [
+      "Integrating `cache: 'pip'` or `actions/cache` in .github/workflows/codeql.yml will prevent redundant package downloads and decrease step execution time.",
+      "Adding `paths` and `paths-ignore` rules to `.github/workflows/codeql.yml` triggers will eliminate unnecessary workflow runs on non-code file changes.",
+      "Splitting independent setup, testing, and CodeQL matrix scanning steps into parallel jobs within .github/workflows/codeql.yml will reduce total workflow runtime below 65 seconds."
+    ],
+    "recommendation": "Refactor `.github/workflows/codeql.yml` by adding dependency caching (`cache: 'pip'`), adding trigger path filters (`paths`/`paths-ignore`), and splitting independent execution steps into parallelized GitHub Actions jobs.",
+    "confidence": 0.95,
+    "next_action": "Apply the caching, path filtering, and parallel job changes to .github/workflows/codeql.yml and verify workflow runtime reduction.",
+    "timing": {
+      "started_at": "2026-11-08T12:00:39.818582+00:00",
+      "duration_ms": 7822
+    },
+    "usage": {
+      "input_tokens": 212,
+      "output_tokens": 406,
+      "total_tokens": 1704
+    }
+  }
+}
