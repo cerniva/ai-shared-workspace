@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-10",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "source_branch": "main",
+  "source_main_sha": "a5764f5ee645eb0d94ccfcdc7180b07ecd05115c",
+  "primary_verification": {
+    "claim": "FOMC maintained 3.75%-4.00% on 2026-10-28 by 10-2 vote",
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+    "published": "2026-10-28",
+    "verified": "2026-11-10",
+    "result": "PASS"
+  },
+  "decisions": [
+    {
+      "area": "fed_policy",
+      "result": "Keep Oct 28 3.75%-4.00% decision dated; not new news",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Direct Fed primary verification instead of secondary-only or undated rate"
+    },
+    {
+      "area": "us_equities",
+      "result": "Nov 9 close: S&P 7549.94 +2.35%, Nasdaq 25253.14 +2.74%, Dow 52389.75 +2.15%; source AP",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "oil_geopolitics",
+      "result": "Nov 10 Reuters morning Brent $91.56, diplomacy does not prove physical flow recovery",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "altcoin",
+      "result": "10 scores N/A; 2020-25 calibration and walk-forward not validated",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "crypto_etf",
+      "result": "Nov 9 secondary ETF flow sources conflict/partial; no confirmed issuer-complete number",
+      "applied_learning_ids": []
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External production consumer applied-learning decision/read-back not verified; local plan_learnings script not executed",
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "command_status": "NOT_RUN",
+    "command_stdout": null,
+    "command_exit_code": null,
+    "git_clone_exit_code": 128,
+    "git_clone_error": "Could not resolve host: github.com"
+  },
+  "altcoin_score": null,
+  "altcoin_score_label": "N/A",
+  "first_70_crypto_status": "PARTIAL",
+  "charts_status": "NOT_RENDERED",
+  "promotion_status": "NO_NEW_VERIFIED_NON_DUPLICATE_LEARNING",
+  "sources": [
+    "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+    "https://apnews.com/article/f7ec9680fc858e3c2505913e7b3a54e2",
+    "https://www.reuters.com/world/china/global-markets-wrapup-1-2026-11-10/"
+  ],
+  "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308",
+  "payoutlens": "excluded"
+}
