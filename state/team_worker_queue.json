@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261110-slow-tinyfish-youtube-analytics",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] .github/workflows/tinyfish-youtube-analytics.yml iş akışındaki 143 saniyelik darboğazı gidermek için pip ve apt adımlarına 'actions/cache' entegre edilerek tekrarlayan indirmeler önlenmeli, gereksiz tetiklemeleri engellemek amacıyla workflow 'paths' filtresiyle sınırlandırılmalı ve birbirine bağımlı olmayan test adımları paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "source": "improvement-bot",
+      "ts": "2026-11-10T13:38:18+00:00"
+    }
+  ]
+}
