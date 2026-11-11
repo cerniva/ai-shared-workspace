@@ -69,12 +69,12 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           # Canonical DNS outage 2026-11-11 (actions/runner-images#15296): when Ubuntu hosts
-          # don't resolve, put a non-ubuntu.com mirror first. apt still verifies the archive key.
+          # don't resolve, switch apt to a non-ubuntu.com mirror. apt still verifies the archive key.
           if ! getent hosts archive.ubuntu.com >/dev/null && [ -f /etc/apt/apt-mirrors.txt ] \
              && ! grep -q mirrors.edge.kernel.org /etc/apt/apt-mirrors.txt; then
-            echo "::warning::Ubuntu archive DNS unresolved; using mirrors.edge.kernel.org first"
-            { echo "http://mirrors.edge.kernel.org/ubuntu/"; cat /etc/apt/apt-mirrors.txt; } > /tmp/apt-mirrors.txt
-            sudo cp /tmp/apt-mirrors.txt /etc/apt/apt-mirrors.txt
+            # Only the fallback: apt otherwise still retries every dead ubuntu.com host per file.
+            echo "::warning::Ubuntu archive DNS unresolved; using only mirrors.edge.kernel.org"
+            echo "http://mirrors.edge.kernel.org/ubuntu/" | sudo tee /etc/apt/apt-mirrors.txt >/dev/null
           fi
           sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update
           sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y --no-install-recommends ffmpeg
