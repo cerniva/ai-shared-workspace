@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-43058621471",
+  "source": "ci-bekci",
+  "run_id": "43060110299",
+  "task": "CI failure in 'worker-orchestration-tests' run 43058621471: jobs test[Install ffmpeg (MP4 QC tests need real media tools)]; first error: no error line matched",
+  "generated_at": "2026-11-11T16:55:48+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-43058621471",
+    "evidence": [
+      {
+        "path": ".github/workflows/worker-orchestration-tests.yml",
+        "description": "Workflow file containing the 'test' job and the 'Install ffmpeg (MP4 QC tests need real media tools)' step."
+      }
+    ],
+    "factual_findings": [
+      "CI run 43058621471 failed in the job 'test' at step 'Install ffmpeg (MP4 QC tests need real media tools)' configured in '.github/workflows/worker-orchestration-tests.yml'.",
+      "The step execution returned a non-zero exit code without matching standard error log patterns in '.github/workflows/worker-orchestration-tests.yml', resulting in the 'no error line matched' status."
+    ],
+    "hypotheses": [
+      "Transient network failure or APT package mirror unavailability during package index update/download in '.github/workflows/worker-orchestration-tests.yml' caused ffmpeg installation to fail.",
+      "Outdated package index or missing retry wrapper for `apt-get update` / `apt-get install` in '.github/workflows/worker-orchestration-tests.yml' led to unhandled exit failure on the runner."
+    ],
+    "recommendation": "Update '.github/workflows/worker-orchestration-tests.yml' to run `sudo apt-get update` before installation and wrap APT commands with retry logic or use standard action setup scripts.",
+    "confidence": 0.85,
+    "next_action": "Inspect step logs for '.github/workflows/worker-orchestration-tests.yml' in run 43058621471 and add retry mechanism to the ffmpeg installation step.",
+    "timing": {
+      "started_at": "2026-11-11T16:55:49.041942+00:00",
+      "duration_ms": 10671
+    },
+    "usage": {
+      "input_tokens": 144,
+      "output_tokens": 391,
+      "total_tokens": 2182
+    }
+  }
+}
