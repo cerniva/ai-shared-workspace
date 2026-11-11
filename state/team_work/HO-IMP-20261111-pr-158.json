@@ -1,0 +1,43 @@
+{
+  "handoff_id": "HO-IMP-20261111-pr-158",
+  "source": "improvement-bot",
+  "run_id": "43023647172",
+  "task": "[bot/telegram-model-fallback-20261011] GitHub Actions boru hattını hızlandırmak için iş akışlarına bağımlılık önbellekleme (actions/cache) uygulanmalı, gereksiz build matrisleri kaldırılmalı ve öncelikle 759.5 saattir askıda bekleyerek boru hattında kilitlenmeye yol açan PR #158 (bot/telegram-model-fallback-20261011) acilen incelenerek birleştirilmeli veya kapatılmalıdır.",
+  "generated_at": "2026-11-11T12:49:52+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261111-pr-158",
+    "evidence": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "description": "GitHub Actions CI pipeline workflow file requiring dependency caching and matrix optimization."
+      },
+      {
+        "path": "PR #158 (branch: bot/telegram-model-fallback-20261011)",
+        "description": "Pull Request #158 on branch bot/telegram-model-fallback-20261011 pending for 759.5 hours and causing pipeline lockup."
+      }
+    ],
+    "factual_findings": [
+      "PR #158 on branch 'bot/telegram-model-fallback-20261011' has been hanging for 759.5 hours, creating a pipeline bottleneck.",
+      "GitHub Actions workflow files (such as '.github/workflows/ci.yml') lack dependency caching steps via actions/cache.",
+      "Redundant build matrix entries contribute to extended CI runner duration and queue times."
+    ],
+    "hypotheses": [
+      "Closing or merging PR #158 will immediately unblock pipeline concurrency and clear runner queues.",
+      "Implementing actions/cache in '.github/workflows/ci.yml' will shorten workflow runtimes by avoiding redundant dependency installations."
+    ],
+    "recommendation": "Urgent manual or automated review of PR #158 (bot/telegram-model-fallback-20261011) to merge or close it, followed by adding actions/cache and streamlining build matrices in '.github/workflows/ci.yml'.",
+    "confidence": 0.95,
+    "next_action": "Inspect PR #158 state and resolve lockup, then modify .github/workflows/ci.yml to enable actions/cache and optimize matrix strategies.",
+    "timing": {
+      "started_at": "2026-11-11T12:49:55.797150+00:00",
+      "duration_ms": 11324
+    },
+    "usage": {
+      "input_tokens": 218,
+      "output_tokens": 411,
+      "total_tokens": 2357
+    }
+  }
+}
