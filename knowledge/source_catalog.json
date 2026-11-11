@@ -459,7 +459,7 @@
       "discovered_at": "2026-10-12T09:00:00+03:00",
       "evidence_tier": "primary",
       "failure_note": null,
-      "last_successful_use": "2026-10-12T09:00:00+03:00",
+      "last_successful_use": "2026-11-11T11:05:50+00:00",
       "provenance": "verified",
       "purpose": "Determine bond-market holiday and last-valid-session data freshness for daily Finance reports",
       "reliability_limits": "SIFMA holiday closes are recommendations, not legally binding; actual member trading decisions and data availability may differ; 2026 event-specific release, check each year's official schedule.",
@@ -1427,5 +1427,5 @@
       "source_name": "GitHub repository rulesets: available rules and path restrictions"
     }
   ],
-  "updated_at": "2026-11-11T06:15:50+00:00"
+  "updated_at": "2026-11-11T11:05:53+00:00"
 }
