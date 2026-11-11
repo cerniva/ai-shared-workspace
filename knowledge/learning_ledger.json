@@ -471,6 +471,27 @@
       "title": "REST API writes obey GitHub push rulesets; preserve append-only archive writer"
     },
     {
+      "claim": "GitHub changelog page 2026-11-09-claude-fable-5-2-in-github-copilot (feed pubDate Mon, 09 Nov 2026 16:46:43 +0000; read 2026-11-11) states Claude Fable 5.2 is generally available in GitHub Copilot for Pro+, Max, Business and Enterprise users, selectable in VS Code, Visual Studio, Copilot CLI, Copilot coding agent, Copilot app, github.com, GitHub Mobile, JetBrains, Xcode and Eclipse, with gradual rollout. It is billed at provider list pricing under usage-based billing. Business and Enterprise admins must enable the Claude Fable 5.2 policy (off by default). The model requires data retention by default for Anthropic safety classifiers (not used for training); Fable 5, 5.1 and 5.2 are exceptions to zero data retention. Eligible enterprises can use Fable 5, 5.1 and 5.2 with ZDR through the end of the calendar year under a time-bound exemption, after which Enterprise Frontier Safeguards are required.",
+      "decision": "REVIEW_ONLY: relevant only if the system plan selects Copilot models or has data-retention constraints; no change without approval.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-11T06:20:00+00:00",
+      "learning_id": "learn_4242acb58b4ec232",
+      "next_measurement": "Record yes/no before 2026-11-18 whether any system workflow uses Copilot model selection or is affected by the Fable data retention requirement.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub changelog: Claude Fable 5.2 GA in GitHub Copilot, data retention required by default"
+    },
+    {
       "claim": "Per-workflow concurrency groups prevent duplicate runs of one workflow but do not serialize different workflows that push to the same branch.",
       "decision": "Use one repo-main-writers group with queue max for all workflows that commit to main, while retaining pull-rebase as a secondary conflict check.",
       "domain": "repository-concurrency",
@@ -841,6 +862,27 @@
       ],
       "supersedes": null,
       "title": "Federal Reserve official RSS for speeches and rates"
+    },
+    {
+      "claim": "Federal Reserve press release orders20261109a (feed pubDate Mon, 9 Nov 2026 21:00:00 GMT; page last updated November 09, 2026; read 2026-11-11) states the Board on Monday announced approval of two applications by Mutual Federal Bancorp, MHC, and MFB Bancorp, Inc., both of Chicago, Illinois. The approvals allow the banking organization to have a new top-tier holding company, MFB Bancorp, Inc., which would become a savings and loan holding company by acquiring Mutual Federal Bank, of Chicago. Category: Orders on Banking Applications; a routine structural approval, not a monetary policy action.",
+      "decision": "REVIEW_ONLY: log only; routine small-bank holding company restructuring order with no market or policy signal for the finance plan; no operational change.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-11T06:20:00+00:00",
+      "learning_id": "learn_6e87a6fa25713fa3",
+      "next_measurement": "None needed unless a finance item cites bank-application orders; record yes/no before 2026-11-18.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "supersedes": null,
+      "title": "Federal Reserve Board: approval of Mutual Federal Bancorp, MHC / MFB Bancorp, Inc. applications (Order orders20261109a)"
     },
     {
       "claim": "YouTube Help 'Get started creating YouTube Shorts' (fetched 2026-10-10) says Shorts can be up to 3 minutes, uploads max 1080p, titles max 100 characters; since 2025-03-31 Shorts views count every play or replay with no minimum watch time while the old metric is kept as Engaged views; YPP via Shorts needs 1,000 subscribers and 10 million qualified Shorts views in the last 90 days; the upload flow has a Get feedback button analysing hook and pacing.",
@@ -2211,5 +2253,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-11-08T06:17:02+00:00"
+  "updated_at": "2026-11-11T06:15:50+00:00"
 }
