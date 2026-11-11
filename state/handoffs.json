@@ -1066,6 +1066,17 @@
       "notes": [
         "2026-11-10T13:39:51+00:00 team-worker: research-learner (team-research): Update `.github/workflows/tinyfish-youtube-analytics.yml` with: 1) `paths` filters under `on.push` / `on.pull_request`, 2) `actions/cache` or `cache: 'pip'` in `actions/setup-python` plus apt caching, and 3) refactored parallel job definitions for independent test suites. | sonraki: Refactor `.github/workflows/tinyfish-youtube-analytics.yml` to incorporate caching, path filtering, and parallel job execution."
       ]
+    },
+    {
+      "id": "HO-IMP-20261111-pr-158",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[bot/telegram-model-fallback-20261011] GitHub Actions boru hattını hızlandırmak için iş akışlarına bağımlılık önbellekleme (actions/cache) uygulanmalı, gereksiz build matrisleri kaldırılmalı ve öncelikle 759.5 saattir askıda bekleyerek boru hattında kilitlenmeye yol açan PR #158 (bot/telegram-model-fallback-20261011) acilen incelenerek birleştirilmeli veya kapatılmalıdır.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261111 key=pr-158",
+      "status": "open",
+      "created_at": "2026-11-11T12:48:28+00:00",
+      "updated_at": "2026-11-11T12:48:28+00:00"
     }
   ]
 }
