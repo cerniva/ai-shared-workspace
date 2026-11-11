@@ -1,0 +1,56 @@
+{
+  "report_date": "2026-11-11",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "main_base_sha": "80df9acfc846ab6035401476f50c58fc0928ddf8",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "decisions": [
+    {
+      "area": "official_policy_source",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Verified Fed 2026-10-28 target range 3.75%-4.00% and 10-2 vote against original Federal Reserve release; excluded old rate decision from new-news section.",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "area": "inflation",
+      "applied_learning_ids": [],
+      "effect": "October CPI +0.4% m/m, core +0.3% m/m from BLS release 2026-11-10; October year-over-year CPI unavailable due missing October 2025 index, left N/A.",
+      "source": "https://www.bls.gov/news.release/archives/cpi_11102026.htm"
+    },
+    {
+      "area": "altcoin",
+      "applied_learning_ids": [],
+      "effect": "10/10 indicators validated=false in config/altcoin_panel_calibration.json; no synthetic 0-100 score.",
+      "source": "config/altcoin_panel_calibration.json"
+    },
+    {
+      "area": "energy",
+      "applied_learning_ids": [],
+      "effect": "Brent rebound is not verified physical Hormuz flow recovery; physical flow N/A.",
+      "source": "https://www.reuters.com/business/media-telecom/global-markets-global-markets-2026-11-11/"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External Finance producer decision effects and applied_learning_ids not independently verified; script not run due missing local checkout and git DNS failure."
+  },
+  "script": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "git_error": "Could not resolve host: github.com",
+    "git_exit_code": 128
+  },
+  "new_learning_promotion": "NONE: no independently verified nonduplicate reusable learning",
+  "sources": [
+    "https://www.bls.gov/news.release/archives/cpi_11102026.htm",
+    "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+    "https://www.reuters.com/business/sp-500-dow-futures-climb-oil-slide-lifts-sentiment-2026-11-10/",
+    "https://www.reuters.com/business/media-telecom/global-markets-global-markets-2026-11-11/"
+  ]
+}
