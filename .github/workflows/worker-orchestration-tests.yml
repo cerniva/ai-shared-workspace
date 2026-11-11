@@ -92,15 +92,19 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # 2026-11-11: apt hang kept this job alive with the 360-min default
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Install ffmpeg (MP4 QC tests need real media tools)
+        timeout-minutes: 8
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update
+          sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y --no-install-recommends ffmpeg
       - name: Shorts MP4 QC tests (HO-20261010-12)
         run: python3 -m unittest tests.test_shorts_mp4_qc -v
       - name: team-worker tests
