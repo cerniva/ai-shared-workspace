@@ -112,7 +112,7 @@ jobs:
             echo "http://mirrors.edge.kernel.org/ubuntu/" | sudo tee /etc/apt/apt-mirrors.txt >/dev/null
           fi
           sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update
-          sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y --no-install-recommends ffmpeg
+          sudo -E apt-get install -y ffmpeg --no-install-recommends -o Acquire::Retries=3 -o Acquire::http::Timeout=30
       - name: Shorts MP4 QC tests (HO-20261010-12)
         run: python3 -m unittest tests.test_shorts_mp4_qc -v
       - name: team-worker tests
