@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-12T09:49:12+00:00",
+  "generated_at": "2026-11-12T18:18:51+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 43166311347,
+          "id": 43230573727,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-12T06:10:47Z",
-          "event": "workflow_run"
+          "created_at": "2026-11-12T13:46:53Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 43166272254,
+          "id": 43194845547,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-12T06:10:27Z",
-          "event": "push"
+          "created_at": "2026-11-12T09:49:18Z",
+          "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 43147648388,
+          "id": 43212575089,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-12T03:21:24Z",
+          "created_at": "2026-11-12T11:50:20Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 43154663107,
+          "id": 43226267356,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-12T04:25:05Z",
+          "created_at": "2026-11-12T13:19:58Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısızlıkla sonuçlanmıştır. Aynı projede yer alan shorts-free-render.yml iş akışı ise henüz hiç çalıştırılmamıştır. Diğer tüm projelerdeki otomasyonlar başarılı görünmektedir."
+  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışı başarısızlıkla sonuçlanmıştır. Aynı projede yer alan shorts-free-render.yml ise henüz hiç çalıştırılmamıştır. Diğer tüm projelerdeki otomasyonlar başarıyla tamamlandığı için yalnızca bu iki iş akışı sağlıksız görünmektedir."
 }
