@@ -1091,9 +1091,15 @@
       "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml iş akışındaki 72 saniyelik medyan çalışma süresini optimize etmek için Pip ve apt paket adımlarına `actions/cache` entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, workflow tetikleme kurallarına `paths` filtreleri (ör. kaynak kod dışındaki dokümantasyon güncellemelerini atlamak için) eklenmeli ve birbirine bağımlı olmayan test adımları müstakil paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261112 key=slow-improvement-bot",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-12T13:51:01+00:00",
-      "updated_at": "2026-11-12T13:51:01+00:00"
+      "updated_at": "2026-11-12T13:52:14+00:00",
+      "claimed_at": "2026-11-12T13:52:14+00:00",
+      "notes": [
+        "2026-11-12T13:52:14+00:00 auditor: team-worker devraldi",
+        "2026-11-12T13:52:14+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261112-slow-improvement-bot.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }

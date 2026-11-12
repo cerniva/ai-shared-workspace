@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261112-slow-improvement-bot",
+  "source": "improvement-bot",
+  "run_id": "43231367554",
+  "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml iş akışındaki 72 saniyelik medyan çalışma süresini optimize etmek için Pip ve apt paket adımlarına `actions/cache` entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, workflow tetikleme kurallarına `paths` filtreleri (ör. kaynak kod dışındaki dokümantasyon güncellemelerini atlamak için) eklenmeli ve birbirine bağımlı olmayan test adımları müstakil paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+  "generated_at": "2026-11-12T13:52:14+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261112-slow-improvement-bot",
+    "evidence": [
+      {
+        "path": ".github/workflows/improvement-bot.yml",
+        "detail": "Target workflow file requiring optimization to reduce the 72-second median runtime via dependency caching, trigger path filters, and job parallelization."
+      }
+    ],
+    "factual_findings": [
+      ".github/workflows/improvement-bot.yml currently executes steps sequentially without dependency caching for Pip or apt packages.",
+      "Workflow triggers in .github/workflows/improvement-bot.yml lack path filters, causing execution on changes that do not affect runtime code (e.g., documentation changes).",
+      "Independent test steps are bounded within a single job rather than executing concurrently across parallel jobs."
+    ],
+    "hypotheses": [
+      "Integrating actions/cache or setup-python built-in caching for Pip dependencies in .github/workflows/improvement-bot.yml will avoid redundant dependency downloads.",
+      "Adding 'paths' or 'paths-ignore' filters (e.g., ignoring '**.md' or 'docs/**') to workflow triggers will skip unnecessary runs on non-code updates.",
+      "Splitting independent test steps into separate parallel jobs in .github/workflows/improvement-bot.yml will lower total workflow duration below the 72-second median baseline."
+    ],
+    "recommendation": "Refactor .github/workflows/improvement-bot.yml by adding 'paths-ignore' filters to triggers, configuring Pip dependency caching, and matrixing/splitting independent test steps into concurrent jobs.",
+    "confidence": 0.95,
+    "next_action": "Modify .github/workflows/improvement-bot.yml with the caching, path filter, and parallel job structure, then verify workflow execution performance.",
+    "timing": {
+      "started_at": "2026-11-12T13:52:15.658262+00:00",
+      "duration_ms": 10142
+    },
+    "usage": {
+      "input_tokens": 230,
+      "output_tokens": 384,
+      "total_tokens": 1709
+    }
+  }
+}
