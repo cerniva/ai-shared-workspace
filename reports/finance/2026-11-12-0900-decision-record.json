@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-12",
+  "plan": "finance",
+  "status": "PARTIAL",
+  "payoutlens": "excluded",
+  "source_readback": {
+    "protocol": true,
+    "source_catalog": true,
+    "learning_ledger": true,
+    "finance_runtime_state": true,
+    "handoffs": true,
+    "team_reports": true,
+    "calibration": true
+  },
+  "decisions": [
+    {
+      "area": "primary_macro",
+      "claim": "October 2026 US headline CPI rose 0.4% month-on-month; October 2025 missing for many annual series",
+      "source": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "source_date": "2026-11-10",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "impact": "Used BLS primary publication rather than a secondary CPI quote; omitted unavailable annual rate."
+    },
+    {
+      "area": "equities",
+      "claim": "Nvidia after-hours shares fell more than 8% on board uncertainty; no completed CEO removal asserted",
+      "source": "https://www.reuters.com/world/china/global-markets-wrapup-1-2026-11-12/",
+      "applied_learning_ids": [],
+      "impact": "Allegation treated as unconfirmed; after-hours not conflated with closing price."
+    },
+    {
+      "area": "energy",
+      "claim": "Brent $91.29 and WTI $85.29 as of 04:26 GMT",
+      "source": "https://www.reuters.com/business/energy/oil-prices-drop-more-than-1-hopes-iran-ukraine-peace-talks-pressure-markets-2026-11-12/",
+      "applied_learning_ids": [],
+      "impact": "Price snapshot not conflated with physical flow normalization."
+    },
+    {
+      "area": "altcoin",
+      "claim": "10 indicator calibrations validated=false; 2020-2025 backtest not confirmed",
+      "applied_learning_ids": [],
+      "impact": "All support scores N/A; no synthetic score."
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independent external finance producer read-back proving learning effects"
+  },
+  "command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "git_clone_exit_code": 128,
+    "git_clone_error": "Could not resolve host: github.com"
+  },
+  "first70": "PARTIAL_NO_SYNCHRONOUS_DATA",
+  "etf_flows": "N/A_NOT_VERIFIED",
+  "chart": "NOT_RENDERED_NO_VERIFIED_MULTIPOINT_SERIES",
+  "ci_sha": null,
+  "grok_delivery_message_id": null,
+  "promotion": "NONE_DEDUP_NO_NEW_VERIFIED_LEARNING"
+}
