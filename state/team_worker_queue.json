@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261113-provider-cerebras",
+      "task": "[config/model_providers.json] GitHub Actions iş akışlarındaki darboğazı gidermek için 'config/model_providers.json' dosyasındaki fallback zincirinden 'cerebras' sağlayıcısını geçerli bir API anahtarı tanımlanana kadar geçici olarak tamamen çıkarın veya en son sıraya taşıyın; böylece eksik anahtar yüzünden 7 günde yaşanan 160.9 saatlik gereksiz bekleme süresi engellenerek CI/CD süreçleri anında hızlandırılmış olacaktır.",
+      "source": "improvement-bot",
+      "ts": "2026-11-13T13:15:07+00:00"
+    }
+  ]
+}
