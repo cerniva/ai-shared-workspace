@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-13",
+  "status": "PARTIAL",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "decisions": [
+    {
+      "area": "fed",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Official 2026 FOMC release index checked: latest monetary statement October 28, not November 12; no fabricated new rate decision.",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/2026-press-fomc.htm"
+    },
+    {
+      "area": "altcoin",
+      "applied_learning_ids": [],
+      "effect": "All ten calibration validated=false; score N/A",
+      "source": "config/altcoin_panel_calibration.json"
+    },
+    {
+      "area": "geopolitics",
+      "applied_learning_ids": [],
+      "effect": "Oil price moves not equated with verified physical shipping flows; flow data unavailable"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independent production consumer read-back; script not executed due to git clone DNS failure"
+  },
+  "script": {
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "git_clone_exit_code": 128
+  },
+  "new_learning_promotion": "none; no independently verified novel reusable rule",
+  "grok_message_id": null
+}
