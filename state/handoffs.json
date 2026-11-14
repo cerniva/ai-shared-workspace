@@ -1116,9 +1116,15 @@
       "task": "[.github/workflows/research-learner.yml] `.github/workflows/research-learner.yml` iş akışındaki 62 saniyelik medyan çalışma süresini düşürmek için; pip ve apt bağımlılıklarına `actions/cache` eklenerek yinelemeli paket indirme süreleri optimize edilmeli, dokümantasyon veya ilgisiz kod değişikliklerinde gereksiz tetiklemeleri önlemek adına trigger yapısına `paths` filtresi eklenmeli ve birbiriyle bağımlılığı bulunmayan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi kısaltılmalıdır.",
       "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
       "evidence": "state/improvement_report.json day=20261114 key=slow-research-learner",
-      "status": "open",
+      "status": "claimed",
       "created_at": "2026-11-14T12:17:33+00:00",
-      "updated_at": "2026-11-14T12:17:33+00:00"
+      "updated_at": "2026-11-14T12:18:34+00:00",
+      "claimed_at": "2026-11-14T12:18:34+00:00",
+      "notes": [
+        "2026-11-14T12:18:34+00:00 auditor: team-worker devraldi",
+        "2026-11-14T12:18:34+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261114-slow-research-learner.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
