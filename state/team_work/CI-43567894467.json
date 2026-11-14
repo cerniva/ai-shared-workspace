@@ -1,0 +1,37 @@
+{
+  "handoff_id": "CI-43567894467",
+  "source": "ci-bekci",
+  "run_id": "43567957754",
+  "task": "CI failure in 'backup-supervisor' run 43567894467: jobs supervise[Persist status and intake patches only]; first error: Process completed with exit code 1.",
+  "generated_at": "2026-11-14T06:46:59+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-43567894467",
+    "evidence": [
+      {
+        "path": ".github/workflows/backup-supervisor.yml",
+        "detail": "CI run 43567894467 failed in job 'supervise', step 'Persist status and intake patches only' with exit code 1."
+      }
+    ],
+    "factual_findings": [
+      "Workflow `.github/workflows/backup-supervisor.yml` failed during run 43567894467 at step 'Persist status and intake patches only' with exit code 1."
+    ],
+    "hypotheses": [
+      "The script or command executed by step 'Persist status and intake patches only' in `.github/workflows/backup-supervisor.yml` encountered an unexpected failure during patch intake or status persistence.",
+      "Required input files or permissions were missing during the execution of `.github/workflows/backup-supervisor.yml` step 'Persist status and intake patches only'."
+    ],
+    "recommendation": "Examine the detailed execution logs for run 43567894467 and inspect `.github/workflows/backup-supervisor.yml` to identify the failing command.",
+    "confidence": 0.8,
+    "next_action": "Inspect `.github/workflows/backup-supervisor.yml` and retrieve step logs for run 43567894467.",
+    "timing": {
+      "started_at": "2026-11-14T06:47:03.970755+00:00",
+      "duration_ms": 25809
+    },
+    "usage": {
+      "input_tokens": 140,
+      "output_tokens": 318,
+      "total_tokens": 1480
+    }
+  }
+}
