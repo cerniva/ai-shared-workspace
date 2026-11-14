@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-11-14",
+  "timezone": "Europe/Istanbul",
+  "base_main_sha": "a700e2fc569fdf75b8995afba15688a9dd77361e",
+  "status": "PARTIAL",
+  "source_verifications": [
+    {
+      "claim": "October 2026 US final demand PPI +0.3% m/m and +6.5% y/y",
+      "source": "https://www.bls.gov/news.release/archives/ppi_11132026.htm",
+      "publication_date": "2026-11-13",
+      "result": "verified_official"
+    },
+    {
+      "claim": "Latest FOMC target range 3.75%-4.00% from Oct 28",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/2026-press-fomc.htm",
+      "publication_date": "2026-10-28",
+      "result": "verified_official_archive"
+    }
+  ],
+  "decisions": [
+    {
+      "area": "macro_ppi",
+      "input": "BLS 2026-11-13 October PPI release",
+      "effect": "Use official +0.3% monthly and +6.5% annual; distinguish initial market response from closing prices; no invented contemporaneous price reaction",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ]
+    },
+    {
+      "area": "equities",
+      "input": "AP 2026-11-13 US close",
+      "effect": "Report dated close S&P 7561.67, Nasdaq 25136.27, Dow 52347.55; do not relabel as live Saturday quotes",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "crypto_etf",
+      "input": "Secondary ETF providers disagree on reporting completeness",
+      "effect": "Exclude unconfirmed final BTC/ETH net flows; no definitive issuer-level total",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "altcoin",
+      "input": "config/altcoin_panel_calibration.json all 10 validated=false",
+      "effect": "Set all ten scores and composite to N/A",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "energy",
+      "input": "Reuters 2026-11-13 oil close and unverified physical flows",
+      "effect": "Separate Brent/WTI price observation from crude export, refined product, and freight/insurance; physical impact N/A",
+      "applied_learning_ids": []
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "learning_command": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "reason": "No local repository; git ls-remote failed DNS resolution (Git exit 128); GitHub connector read ledger and script instead"
+  },
+  "bridge_failure": {
+    "open": true,
+    "status": "YAPAMADIM",
+    "reason": "No independently verified real external finance runner output with decision effects and applied_learning_ids; this decision record is not production bridge evidence",
+    "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308"
+  },
+  "altcoin": {
+    "calibration_validated": false,
+    "backtest_2020_2025_verified": false,
+    "score": null
+  },
+  "grok_delivery": {
+    "message_id": null,
+    "read_back": false
+  },
+  "promotion": {
+    "created": false,
+    "reason": "No independently validated novel reusable learning distinct from existing ledger"
+  },
+  "ci": {
+    "new_run_verified": false,
+    "run_sha": null
+  }
+}
