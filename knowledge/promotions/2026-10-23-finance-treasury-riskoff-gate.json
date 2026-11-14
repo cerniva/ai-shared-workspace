@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_deb841630abc4e8e",
+      "source_name": "US Treasury daily par yield curve rates 2026",
+      "canonical": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+      "category": "finance-bonds-official",
+      "purpose": "Official dated 2Y 10Y 30Y par yields for cross-asset risk-off interpretation",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public webpage",
+      "reliability_limits": "Official daily nominal par yield observations; not intraday tradable quotes; check release date and holidays.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-23T08:55:00+03:00",
+      "last_successful_use": "2026-10-23T08:55:00+03:00",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_70432d5aefaedb21",
+      "source_name": "Reuters Oct 23 2026 Asia markets Treasury safe haven report",
+      "canonical": "https://www.reuters.com/world/china/global-markets-global-markets-2026-10-23",
+      "category": "finance-cross-asset-news",
+      "purpose": "Independent contemporary account of AI equity selloff and Treasury flight-to-safety context",
+      "evidence_tier": "secondary",
+      "access_status": "verified-public",
+      "cost_quota": "public news webpage",
+      "reliability_limits": "Market narrative and intraday snapshots may change; use official Treasury for exact daily yields and exchange for final equity close.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-23T08:55:00+03:00",
+      "last_successful_use": "2026-10-23T08:55:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_20e908ff5a5b1b13",
+      "title": "Treasury yield falls during tech selloff must not be scored as altcoin risk-on",
+      "domain": "finance-cross-asset-risk",
+      "claim": "On 22 October 2026 the US Treasury official par-yield series shows the 2-year yield fell from 4.81% to 4.65% and 10-year from 5.13% to 4.96%, while the Nasdaq Composite fell 2.60%; falling sovereign yields during equity selloffs can reflect flight-to-safety rather than a broad risk-on liquidity improvement.",
+      "evidence_status": "verified",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-23T08:55:00+03:00",
+      "decision": "FINANCE_TREASURY_RISKOFF_GATE: When bond yields fall, check contemporaneous equity breadth, volatility, credit spreads and cause. If equities sell off and Treasuries rally on flight-to-safety, classify as risk-off/ambiguous, never automatically bullish for altcoins; do not invent a calibrated score.",
+      "next_measurement": "Check 23 October closing equity breadth, VIX and credit spreads against the 22 October Treasury yield move, then test rule in next daily Altcoin panel.",
+      "source_ids": [
+        "src_deb841630abc4e8e",
+        "src_70432d5aefaedb21"
+      ],
+      "failure_history": [
+        "Prior daily Altcoin reports sometimes treated lower US yields alone as supportive without separating safe-haven demand from liquidity easing."
+      ],
+      "fallback_history": [
+        "If equity breadth or volatility cannot be verified for the same session, classify combined risk-on as N/A rather than bullish."
+      ],
+      "supersedes": null
+    }
+  ]
+}
