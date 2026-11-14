@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-14T09:20:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-14T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board: 2027 payment services pricing (effective January 1, 2027) and check service changes",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press release other20261112a (feed pubDate 12 Nov 2026; read 2026-11-14) announces pricing effective January 1, 2027 for Reserve Banks payment services (check clearing, ACH, instant payments, wholesale payment and settlement). The Fed expects to recover 101.5 percent of actual and imputed expenses in 2027; price changes yield an estimated 1.4 percent average price increase for established, mature services. Reserve Banks also announced changes to streamline and adjust check services.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: finance plan notes a ~1.4% average Fed payment-service price rise from 2027-01-01 for bank-side cost assumptions; no operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-21 whether any finance projection depends on Fed payment service fees.",
+      "learned_at": "2026-11-14T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub code scanning: AI Scan for repositories manageable via REST API (repository_scan, public preview)",
+      "domain": "github-platform",
+      "claim": "GitHub changelog 2026-11-13 (read 2026-11-14) states the repository_scan setting (enabled/disabled) is added to the AI Scan enablement endpoints GET/PATCH /orgs/{org}/code-scanning/ai-scan and /repos/{owner}/{repo}/code-scanning/ai-scan, in public preview. Works like pr_scan: org disable blocks repos, org enable is inherited with repo opt-out, enterprise policy disallowing returns 422; pr_scan and repository_scan can be updated in one request, and if either is blocked it returns 422 and neither changes.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan evaluates the endpoints for cerniva repos; no change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-21 whether AI Scan is wanted on cerniva repositories.",
+      "learned_at": "2026-11-14T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
