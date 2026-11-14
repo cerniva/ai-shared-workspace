@@ -774,9 +774,10 @@
       "evidence": "ci-bekci dispatch CI-39755405014",
       "status": "open",
       "created_at": "2026-10-22T09:28:46+00:00",
-      "updated_at": "2026-10-22T09:28:59+00:00",
+      "updated_at": "2026-10-25T20:56:32+00:00",
       "notes": [
-        "2026-10-22T09:28:59+00:00 team-worker: research-learner (team-research): Update repository secrets with valid API credentials or refill quota for at least one supported provider (e.g., OpenAI, Gemini, or GitHub Models). Ensure state/provider_health.json reflects the restored status, then re-trigger CI run 39755405014. | sonraki: Verify and update API key credentials in GitHub Secrets and re-run workflow archive-heal run 39755405014."
+        "2026-10-22T09:28:59+00:00 team-worker: research-learner (team-research): Update repository secrets with valid API credentials or refill quota for at least one supported provider (e.g., OpenAI, Gemini, or GitHub Models). Ensure state/provider_health.json reflects the restored status, then re-trigger CI run 39755405014. | sonraki: Verify and update API key credentials in GitHub Secrets and re-run workflow archive-heal run 39755405014.",
+        "2026-10-25T20:56:32+00:00 chatgpt P0 progress: existing draft PR #309 branch reconciled with main fdd67b03cb7244442aa0229428c377e92d75636c by non-force merge commit 73ddac9852e87642f3a0ee4da1293573302966f6. Compared to main: behind=0, only workflow/archive script/three tests differ; state/handoffs blob matched main dbea91531163e0ccb4d0a51e8251051e04e61a9f (51 items). Worker CI run 40233060251 job 121288716121: 797 tests OK, 3 skipped, exit 0; CodeQL 40233060281, takipci 40233060256, auto-merge gate 40233060283 SUCCESS. Read-back: PR head and compare verified. Status OPEN until independent review, authorized merge and production archive-heal run/read-back. Next: verify CI on final handoff commit, request review through existing PR; no main write/publish/payment; PayoutLens excluded."
       ]
     },
     {
