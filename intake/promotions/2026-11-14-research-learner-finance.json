@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "source_name": "Federal Reserve Board press releases RSS",
+      "canonical": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "finance-news",
+      "purpose": "Keyless primary feed for finance research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-14T12:27:30+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_695c437e2de6990e",
+      "title": "Federal Reserve Board press releases RSS: Agencies extend comment period for proposed third-party risk management guidance",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press releases RSS fetched 2026-11-14 lists as newest item: \"Agencies extend comment period for proposed third-party risk management guidance\" (Fri, 13 Nov 2026 21:15:00 GMT). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The finance plan should monitor the extended comment period for the proposed third-party risk management guidance to evaluate potential future impacts on vendor risk compliance while taking no immediate operational action.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-14T12:27:30+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}

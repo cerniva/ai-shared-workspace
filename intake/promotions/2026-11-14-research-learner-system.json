@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "source_name": "GitHub changelog feed",
+      "canonical": "https://github.blog/changelog/feed",
+      "category": "github-platform",
+      "purpose": "Keyless primary feed for system research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-14T12:27:30+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_2538da4309e8fddb",
+      "title": "GitHub changelog feed: Upcoming deprecation of selected GitHub Copilot models in December",
+      "domain": "github-platform",
+      "claim": "GitHub changelog feed fetched 2026-11-14 lists as newest item: \"Upcoming deprecation of selected GitHub Copilot models in December\" (Fri, 13 Nov 2026 20:40:05 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The 'system' plan should inventory current project usage of GitHub Copilot models and schedule timely migrations to supported alternative models before the December deprecation takes effect.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-14T12:27:30+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
