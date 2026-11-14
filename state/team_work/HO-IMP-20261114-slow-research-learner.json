@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261114-slow-research-learner",
+  "source": "improvement-bot",
+  "run_id": "43594135991",
+  "task": "[.github/workflows/research-learner.yml] `.github/workflows/research-learner.yml` iş akışındaki 62 saniyelik medyan çalışma süresini düşürmek için; pip ve apt bağımlılıklarına `actions/cache` eklenerek yinelemeli paket indirme süreleri optimize edilmeli, dokümantasyon veya ilgisiz kod değişikliklerinde gereksiz tetiklemeleri önlemek adına trigger yapısına `paths` filtresi eklenmeli ve birbiriyle bağımlılığı bulunmayan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi kısaltılmalıdır.",
+  "generated_at": "2026-11-14T12:18:34+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261114-slow-research-learner",
+    "evidence": [
+      {
+        "path": ".github/workflows/research-learner.yml",
+        "finding": "The workflow file `.github/workflows/research-learner.yml` has a median execution time of 62 seconds due to sequential execution of steps, lack of caching for pip and apt dependencies, and missing path filters on triggers."
+      }
+    ],
+    "factual_findings": [
+      "Workflow `.github/workflows/research-learner.yml` currently triggers on all events without `paths` or `paths-ignore` filtering, causing unnecessary runs for documentation and unrelated file changes.",
+      "Pip and apt packages are downloaded repeatedly during each execution of `.github/workflows/research-learner.yml` due to missing `actions/cache` configurations.",
+      "Independent test and verification steps are executing sequentially in a single job rather than concurrently across parallel jobs in `.github/workflows/research-learner.yml`."
+    ],
+    "hypotheses": [
+      "Integrating `actions/cache` for pip (`~/.cache/pip`) and apt package caches (`/var/cache/apt/archives`) will significantly reduce dependency installation overhead across repeated workflow runs.",
+      "Adding `paths` filtering to trigger rules in `.github/workflows/research-learner.yml` will prevent unneeded workflow triggers on documentation or non-functional modifications.",
+      "Decomposing independent workflow steps into separate parallel jobs will decrease total wall-clock execution time well below the 62-second median baseline."
+    ],
+    "recommendation": "Refactor `.github/workflows/research-learner.yml` to include: 1) trigger `paths` filters (or `paths-ignore` for `**.md` and docs), 2) `actions/cache` steps for pip and apt package directories, and 3) multi-job architecture where non-dependent test/lint steps execute in parallel.",
+    "confidence": 0.95,
+    "next_action": "Apply the proposed changes to `.github/workflows/research-learner.yml` (path filters, pip/apt caching, job parallelization) and measure workflow runtime improvements.",
+    "timing": {
+      "started_at": "2026-11-14T12:18:35.364826+00:00",
+      "duration_ms": 10325
+    },
+    "usage": {
+      "input_tokens": 232,
+      "output_tokens": 468,
+      "total_tokens": 2216
+    }
+  }
+}
