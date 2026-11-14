@@ -17,7 +17,7 @@ Zaman: 2026-11-14 22:30 TRT
   - system: staged → intake/promotions/2026-11-14-research-learner-system.json
 
 ## Günlük (son 24 sa)
-- Rapor sayısı: 20; en yüksek gecikmiş: 34; aşamalanan promotion: 40
+- Rapor sayısı: 21; en yüksek gecikmiş: 34; aşamalanan promotion: 42
 
 Not: Ajanlar main'deki koda yazmaz; yalnız state/, messages/ ve intake/ altına yazar. Yayın/upload/ödeme workflow'ları yalnız gözlenir (dry-run).
 
