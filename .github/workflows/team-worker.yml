@@ -63,9 +63,21 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install ffmpeg (full test suite includes MP4 QC tests)
+        # 2026-11-11: apt-get hung >45 min twice (run 43037502417); bound it and fail fast.
+        timeout-minutes: 8
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          # Canonical DNS outage 2026-11-11 (actions/runner-images#15296): when Ubuntu hosts
+          # don't resolve, switch apt to a non-ubuntu.com mirror. apt still verifies the archive key.
+          if ! getent hosts archive.ubuntu.com >/dev/null && [ -f /etc/apt/apt-mirrors.txt ] \
+             && ! grep -q mirrors.edge.kernel.org /etc/apt/apt-mirrors.txt; then
+            # Only the fallback: apt otherwise still retries every dead ubuntu.com host per file.
+            echo "::warning::Ubuntu archive DNS unresolved; using only mirrors.edge.kernel.org"
+            echo "http://mirrors.edge.kernel.org/ubuntu/" | sudo tee /etc/apt/apt-mirrors.txt >/dev/null
+          fi
+          sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update
+          sudo -E apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y --no-install-recommends ffmpeg
       - name: Run team-worker
         shell: bash
         run: |
