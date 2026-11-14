@@ -1,0 +1,86 @@
+{
+  "report_date": "2026-10-31",
+  "timezone": "Europe/Istanbul",
+  "source_branch": "main",
+  "report_quality": "PARTIAL",
+  "bridge_failure": {
+    "open": true,
+    "reason": "No real external finance producer applied_learning_ids read-back; local plan_learnings command not run (git DNS resolution failed)."
+  },
+  "script": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "git_clone_exit_code": 128,
+    "git_clone_stderr": "Could not resolve host: github.com",
+    "stdout": null,
+    "exit_code": null
+  },
+  "decisions": [
+    {
+      "area": "fed_policy",
+      "finding": "28 October FOMC held 3.75-4.00% by 10-2; not a new Oct31 decision",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33",
+        "learn_5f961fa5fb9f6388"
+      ]
+    },
+    {
+      "area": "bond_freshness",
+      "finding": "30 October 2Y 4.56%,10Y 4.94%,30Y 5.31% secondary published Treasury-derived series; official direct retrieval not confirmed",
+      "source": "https://yieldwatch.io/",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "area": "altcoin_calibration",
+      "finding": "All ten validated=false; 0-100 score N/A",
+      "source": "config/altcoin_panel_calibration.json",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "area": "tcmb_fx",
+      "finding": "No new Saturday TCMB indicative bulletin claimed; USDTRY N/A",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    },
+    {
+      "area": "equity_earnings",
+      "finding": "Reuters Oct30 AI capex selloff; company filing-level earnings metrics omitted pending SEC check",
+      "source": "https://www.reuters.com/business/nasdaq-futures-tumble-amazon-intel-results-deepen-ai-spending-woes-2026-10-30/",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ]
+    },
+    {
+      "area": "dedup",
+      "finding": "October 28 Fed hold and October 29 Binance announcement not treated as new October 31 developments",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_d44f97b112d55564"
+      ]
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_5f961fa5fb9f6388",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294",
+    "learn_63b873bf5dbd8208",
+    "learn_27333cc91fdf7f58",
+    "learn_084a973ea4587745",
+    "learn_d44f97b112d55564"
+  ],
+  "altcoin_support_score": null,
+  "altcoin_backtest_validated": false,
+  "first70_complete": false,
+  "grok_delivery_verified": false
+}
