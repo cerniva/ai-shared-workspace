@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_92608e65bdba9862",
+      "source_name": "GitHub Copilot server-to-server authentication announcement, 27 Oct 2026",
+      "canonical": "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication",
+      "category": "system-copilot-auth",
+      "purpose": "Verify public-preview GitHub App Copilot SDK auth, permissions, organization billing and safeguards",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Official announcement is free to read; Copilot SDK model usage is billed to the organization",
+      "reliability_limits": "Public preview and org-only GitHub App install; not proof of a connected or authorized SDK workload",
+      "discovered_at": "2026-10-28T12:23:00+00:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_0e76504be1989659",
+      "source_name": "Shopify Dev Dashboard store and app install details, 27 Oct 2026",
+      "canonical": "https://shopify.dev/changelog/posts/store-and-app-install-details-in-the-dev-dashboard",
+      "category": "video-shopify-app-observability",
+      "purpose": "Verify developer-app install, collaborator, billing and access-limited dashboard metrics",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free public developer changelog; authenticated dashboard access requires appropriate permissions",
+      "reliability_limits": "Developer app/store relationship metrics are not storefront sessions, product demand or merchant sales analytics",
+      "discovered_at": "2026-10-28T12:23:00+00:00",
+      "provenance": "verified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_f179db9f3ae28d71",
+      "title": "Copilot SDK server-to-server auth requires organization-owned installation and billable usage",
+      "domain": "github-platform",
+      "claim": "GitHub changelog 2026-10-27 confirms Copilot SDK server-to-server authentication is a public preview for GitHub Apps installed on organizations, using a short-lived installation token and read-only organization Copilot Requests permission; model usage is billed to the organization under its policies and budgets. This does not grant an existing connector access, remove human approval, or establish a free model invocation path.",
+      "evidence_status": "verified",
+      "decision": "COPILOT_ORG_AUTH_BUDGET_GATE: REVIEW_ONLY. Do not enable Copilot SDK server-to-server authentication unless a GitHub organization owner explicitly authorizes a least-privilege app installation, verifies Copilot Requests permission, confirms usage budget and cost controls, and tests the workload. Keep existing connector permissions unchanged; no bypass or free-access claim.",
+      "outcome": "pending",
+      "next_measurement": "Read-only check whether any system workflow actually uses the Copilot SDK and whether an organization-owned installation/budget exists; absent proof, mark not applicable.",
+      "learned_at": "2026-10-28T12:23:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_92608e65bdba9862",
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [
+        "Continue existing permissioned GitHub read-only API and CI verification at no extra Copilot model cost."
+      ],
+      "supersedes": null
+    },
+    {
+      "learning_id": "learn_05ee8f4001db2a14",
+      "title": "Shopify Dev Dashboard app earnings and install details are not storefront sales evidence",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog 2026-10-27 confirms Dev Dashboard store and app install details show an organization's installed apps, collaborators, app/theme earnings, installation and billing events, and app subscriptions only according to store access and permissions; these developer-app metrics are not evidence of merchant storefront traffic, product demand, or orders.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_DEV_DASHBOARD_SCOPE_GATE: REVIEW_ONLY. Use Dev Dashboard metrics only for owned app-install or collaborator monitoring where access is confirmed. Never substitute app earnings/install counts for merchant storefront conversion, orders, traffic or product demand; prefer authorized merchant analytics for those decisions.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether video_shopify operates a Shopify developer app with Dev Dashboard access; otherwise mark not applicable and do not request extra permissions.",
+      "learned_at": "2026-10-28T12:23:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_0e76504be1989659",
+        "src_14818279e16364ff"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "failure_history": [],
+      "fallback_history": [
+        "Keep merchant demand unverified until authorized merchant sales/traffic reports exist; no paid tool required."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "COPILOT_ORG_AUTH_BUDGET_GATE",
+    "SHOPIFY_DEV_DASHBOARD_SCOPE_GATE"
+  ],
+  "evidence": {
+    "official_urls": [
+      "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication/",
+      "https://shopify.dev/changelog/posts/store-and-app-install-details-in-the-dev-dashboard"
+    ],
+    "checked_at": "2026-10-28T12:23:00+00:00",
+    "source_feed_intake": [
+      "intake/promotions/2026-10-28-research-learner-system.json",
+      "intake/promotions/2026-10-28-research-learner-video_shopify.json"
+    ],
+    "note": "Distinct verified details from the unverified feed-only staged titles; preserve intake and all historical catalog/ledger records."
+  }
+}
