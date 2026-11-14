@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_fc67104fc8b27190",
+    "source_name": "Python urllib.parse: URL parsing security",
+    "canonical": "https://docs.python.org/3/library/urllib.parse.html",
+    "category": "system-python-url-identity",
+    "purpose": "Confirm urlsplit parsing is not input validation and reconstructed URLs may normalize URL spelling, relevant to staged source identity read-back.",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public Python documentation; no API key or credits",
+    "reliability_limits": "Documentation describes Python parser behavior; repo-specific canonical policy and its CI enforcement are separate and must be tested.",
+    "discovered_at": "2026-10-26T10:35:18+03:00",
+    "last_successful_use": "2026-10-26T10:35:18+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_bcd0bbf28f7ccaf0",
+    "title": "Staged URL identities must be canonical before research read-back",
+    "domain": "research-url-identity-integrity",
+    "claim": "Python urllib.parse.urlsplit() parses URL components but does not validate all inputs; URL recombination can normalize scheme casing or remove empty components, so staged identity evidence must require the raw stored URL to equal the canonicalized URL before reporting a source as verified.",
+    "evidence_status": "verified",
+    "decision": "STAGED_CANONICAL_URL_READBACK_GATE: Reject a staged source when canonicalize(raw_url) != raw_url even if its source_id matches the normalized URL. Verify unique source and learning identities and references, then read back the staged file. Use positive canonical and negative uppercase-scheme regression tests; never count an unverified candidate as new or overwrite canonical history.",
+    "outcome": "pending",
+    "next_measurement": "On PR #326 latest HEAD run python3 -m unittest discover -s tests -p test_*.py and verify 4 PR workflows, then reconcile against current main and read back any approved merge. Confirm reporter rejects noncanonical staged source while retaining 90/75 historical rows.",
+    "learned_at": "2026-10-26T10:35:18+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_fc67104fc8b27190"
+    ],
+    "failure_history": [
+      "2026-10-26 PR #326 staged identity validation accepted noncanonical raw source URL if normalized source_id matched; canonical ledger validation was stricter."
+    ],
+    "fallback_history": [
+      "If main reconciliation or CI fails, keep this schema-versioned promotion pending on the existing draft PR and report bridge_failure; do not alter canonical catalog/ledger."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "STAGED_CANONICAL_URL_READBACK_GATE"
+  ]
+}
