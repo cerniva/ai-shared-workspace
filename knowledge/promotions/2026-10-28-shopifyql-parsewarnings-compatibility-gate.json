@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_3a3b7df8e3c94ed6",
+      "source_name": "Shopify changelog: Added parseWarnings to ShopifyqlQueryResponse",
+      "canonical": "https://shopify.dev/changelog/posts/added-parsewarnings-to-shopifyqlqueryresponse",
+      "category": "video-shopify-shopifyql-query-compatibility",
+      "purpose": "Official October 1, 2026 API 2026-10 compatibility notice for non-fatal ShopifyQL parse warnings",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API calls",
+      "reliability_limits": "Documents schema behavior, not access to any store or actual query output; older API versions do not expose this field.",
+      "discovered_at": "2026-10-28T19:30:00+03:00",
+      "last_successful_use": "2026-10-28T19:30:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_b03e0bdfdd181c26",
+      "source_name": "Shopify GraphQL Admin API 2026-10: ShopifyqlQueryResponse",
+      "canonical": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ShopifyqlQueryResponse",
+      "category": "video-shopify-shopifyql-query-compatibility",
+      "purpose": "Confirm parseWarnings and parseErrors types and read_reports scope for 2026-10 ShopifyQL response",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API calls",
+      "reliability_limits": "The 2026-10 docs URL currently redirects to latest because 2026-10 is latest; this is documentation, not proof the connected store uses that API version or has read_reports scope.",
+      "discovered_at": "2026-10-28T19:30:00+03:00",
+      "last_successful_use": "2026-10-28T19:30:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_407955adc6c87efb",
+      "title": "ShopifyQL 2026-10 parseWarnings must be checked without failing successful queries",
+      "domain": "video-shopify-shopifyql-query-compatibility",
+      "claim": "Shopify's October 1, 2026 changelog and 2026-10 GraphQL Admin API reference state that ShopifyqlQueryResponse.parseWarnings is a non-null list of non-fatal warnings for successfully executed ShopifyQL queries, including deprecated fields; parseErrors reports query parsing failures. Request parseWarnings in the selection set only when the chosen API version supports it, keep successful tableData distinct from warnings, and inspect both warnings and errors before trusting a ShopifyQL analytics result.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFYQL_PARSE_WARNINGS_VERSION_GATE: If an authorized video_shopify analytics consumer uses GraphQL Admin API 2026-10 or newer, select parseWarnings alongside parseErrors and tableData; report non-fatal warnings as compatibility risk without discarding successful results. For older API versions omit parseWarnings; never retry blindly on missing field, 401/403, or quota. Require actual query response and report applied_learning_ids before claiming production application.",
+      "outcome": "pending",
+      "next_measurement": "Find the real ShopifyQL analytics query builder and its API version; in an authorized non-mutating query or fixture, verify empty and non-empty parseWarnings with successful tableData, parseErrors handling and API-version negative case; capture consumer artifact SHA and applied_learning_ids. If no consumer or scope, record N/A or blocked.",
+      "learned_at": "2026-10-28T19:30:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_3a3b7df8e3c94ed6",
+        "src_b03e0bdfdd181c26"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If the store app uses an API version before 2026-10, keep the existing parseErrors/tableData selection set and record a version-specific not-applicable decision; do not request additional scopes automatically."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFYQL_PARSE_WARNINGS_VERSION_GATE"
+  ]
+}
