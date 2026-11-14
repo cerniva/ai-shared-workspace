@@ -1108,6 +1108,17 @@
       "notes": [
         "2026-11-13T13:16:52+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=auth, openai=quota, grok=no_key, local=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
       ]
+    },
+    {
+      "id": "HO-IMP-20261114-slow-research-learner",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/research-learner.yml] `.github/workflows/research-learner.yml` iş akışındaki 62 saniyelik medyan çalışma süresini düşürmek için; pip ve apt bağımlılıklarına `actions/cache` eklenerek yinelemeli paket indirme süreleri optimize edilmeli, dokümantasyon veya ilgisiz kod değişikliklerinde gereksiz tetiklemeleri önlemek adına trigger yapısına `paths` filtresi eklenmeli ve birbiriyle bağımlılığı bulunmayan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi kısaltılmalıdır.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261114 key=slow-research-learner",
+      "status": "open",
+      "created_at": "2026-11-14T12:17:33+00:00",
+      "updated_at": "2026-11-14T12:17:33+00:00"
     }
   ]
 }
