@@ -291,6 +291,27 @@
       "title": "GitHub changelog: CodeQL 2.27.4 improves query accuracy, drops CWE-730 tag from regex queries, and skips pack files outside the root"
     },
     {
+      "claim": "Federal Reserve Board joint press release bcreg20261113a (13 Nov 2026; page read 2026-11-15) says FDIC, Fed, NCUA and OCC extend the comment period on proposed third-party relationship risk management guidance from November 16 to December 16. The guidance is principles-based and non-binding; when finalized, agencies plan to rescind existing TPRM guidance. The Fed separately extended to December 16 the comment period on a TPRM guide for Fed-supervised traditional community banks.",
+      "decision": "REVIEW_ONLY: finance plan notes the Dec 16 deadline; no operational change without approval.",
+      "domain": "finance-news",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-15T06:20:00+00:00",
+      "learning_id": "learn_26c58c2c4c60142e",
+      "next_measurement": "Record yes/no before 2026-12-16 whether any finance process depends on bank third-party risk guidance.",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "supersedes": null,
+      "title": "Fed/FDIC/OCC/NCUA: third-party risk management guidance comment period extended to December 16"
+    },
+    {
       "claim": "The SEC EDGAR API page (fetched 2026-10-09) states data.sec.gov submissions and XBRL APIs need no authentication or API key and update in real time (submissions typically under one second, XBRL under one minute), and the SEC developer resources page limits each user to no more than 10 requests per second across all machines and blocks unclassified bots.",
       "decision": "FINANCE_EDGAR_PRIMARY_GATE: company earnings/filing claims in the Finans mail should be verified against data.sec.gov submissions/companyfacts before secondary news; the fetcher must stay well under 10 req/s and identify itself, and an IP block is reported as BLOCKED, not as no news.",
       "domain": "finance-news",
@@ -812,6 +833,27 @@
       ],
       "supersedes": null,
       "title": "Keyless official finance feeds: Fed, TCMB, SEC, CoinGecko"
+    },
+    {
+      "claim": "GitHub changelog 2026-11-13 (page read 2026-11-15) says Claude Fable 5, Claude Haiku 4.5*, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6 and Kimi K3 are deprecated across all Copilot experiences on 2026-12-14 (alternatives: Fable 5.2, Haiku 5.5, Gemini 4 Hydrogen, Gemini 4 Carbon, Grok 4.7, Kimi K3 TBA). *Haiku 4.5 stays for individual annual-plan subscribers. Enterprise/Business get alternatives auto-enabled unless the global default is off or the model is disabled.",
+      "decision": "REVIEW_ONLY: system plan checks whether any cerniva workflow pins a deprecated Copilot model; no change without approval.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-15T06:20:00+00:00",
+      "learning_id": "learn_64a59b6769db78cd",
+      "next_measurement": "Record yes/no before 2026-12-10 whether any workflow pins a deprecated model.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub Copilot: six models deprecated on 2026-12-14 across all Copilot experiences"
     },
     {
       "claim": "YouTube Analytics API data is not real-time; processing typically adds 48-72 hours of latency, and responses omit recent days until all requested metrics are fully processed. Current per-video view, like, and comment counts belong to Data API videos.list, not Analytics.",
@@ -2358,5 +2400,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-11-14T06:14:14+00:00"
+  "updated_at": "2026-11-15T06:18:10+00:00"
 }
