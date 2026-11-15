@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "scope": "finance",
+  "payoutlens_excluded": true,
+  "source_branch": "main",
+  "ledger_blob_sha": "11f91b7cb70125c838f1f7c3fbb368435d3a1764",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "decisions": [
+    {
+      "id": "fed_primary",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "effect": "Verified 2026-10-28 FOMC target range 3.75%-4.00% and 10-2 vote from official Federal Reserve; dated historical decision, not fresh 2026-11-15 rate action",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "id": "ppi_freight",
+      "applied_learning_ids": [],
+      "effect": "Official 2026-11-13 BLS PPI reports Oct +0.3% monthly, +6.5% yearly and truck freight +3.9%; retain date, not new Sunday release",
+      "source": "https://www.bls.gov/news.release/archives/ppi_11132026.htm"
+    },
+    {
+      "id": "hormuz",
+      "applied_learning_ids": [],
+      "effect": "2026-11-14 Reuters reports Iranian navy mine claims on three tankers; independently unverified; physical export-flow and refined product impacts N/A",
+      "source": "https://www.reuters.com/world/middle-east/irans-navy-says-oil-tanker-fire-after-hitting-mine-hormuz-2026-11-14/"
+    },
+    {
+      "id": "altcoin",
+      "applied_learning_ids": [],
+      "effect": "All ten indicators validated=false; 2020-2025 backtest and train-only lo/hi missing, score N/A",
+      "source": "config/altcoin_panel_calibration.json"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independently verified downstream finance producer output with decision effects and applied_learning_ids; this decision record alone is not proof"
+  },
+  "command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "clone_attempt_exit_code": 128,
+    "clone_error": "Could not resolve host: github.com"
+  },
+  "coverage": {
+    "first70_crypto": "NOT_VERIFIED",
+    "fx": "PARTIAL",
+    "bonds": "PARTIAL",
+    "equities": "PARTIAL",
+    "etf": "PARTIAL",
+    "geopolitics": "PARTIAL"
+  },
+  "promotion": {
+    "created": false,
+    "reason": "New evidence is dated event data or covered by existing learning; no separately validated reusable novel rule"
+  },
+  "ci": {
+    "verified": false
+  },
+  "grok_delivery": {
+    "verified": false,
+    "message_id": null
+  },
+  "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308"
+}
