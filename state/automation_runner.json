@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-15T01:54:25+00:00",
+  "generated_at": "2026-11-15T09:24:41+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 43638926633,
+          "id": 43684823499,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T20:42:37Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-11-15T06:18:20Z",
+          "event": "workflow_run"
         }
       },
       "dispatched": [
@@ -58,10 +58,10 @@
     "knowledge": {
       "workflows": {
         "knowledge-promote.yml": {
-          "id": 43565318467,
+          "id": 43684803429,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T06:14:00Z",
+          "created_at": "2026-11-15T06:18:04Z",
           "event": "push"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 43638931822,
+          "id": 43665258371,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T20:42:40Z",
+          "created_at": "2026-11-15T01:54:31Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 43662578074,
+          "id": 43694560502,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-15T01:19:52Z",
+          "created_at": "2026-11-15T08:27:01Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 43662720435,
+          "id": 43694701000,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-15T01:21:34Z",
+          "created_at": "2026-11-15T08:28:56Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "Sağlıksız görünen youtube-upload.yml workflow'unun loglarını inceleyin ve çalıştırılmayan shorts-free-render.yml için tetikleyici yapılandırmasını doğrulayın."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız olmuş ve shorts-free-render.yml hiç çalıştırılmamıştır. Ayrıca finance projesinde ana finans runner iş akışının repoda eksik olduğu görünmektedir. Bunların dışındaki diğer otomasyonlar sağlıklı şekilde başarıyla tamamlanmıştır."
 }
