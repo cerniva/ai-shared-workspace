@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-14T20:42:36+00:00",
+  "generated_at": "2026-11-15T01:54:25+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 43608120667,
+          "id": 43638926633,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T15:03:51Z",
+          "created_at": "2026-11-14T20:42:37Z",
           "event": "workflow_dispatch"
         }
       },
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 43608127933,
+          "id": 43638931822,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T15:03:56Z",
+          "created_at": "2026-11-14T20:42:40Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 43620297183,
+          "id": 43662578074,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T17:17:35Z",
+          "created_at": "2026-11-15T01:19:52Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 43620576272,
+          "id": 43662720435,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-14T17:20:32Z",
+          "created_at": "2026-11-15T01:21:34Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesinde youtube-upload.yml iş akışının başarısız olması ve shorts-free-render.yml iş akışının hiç çalıştırılmamış olması nedeniyle bu otomasyonlar sağlıksız görünmektedir. Diğer tüm projelerdeki otomasyonlar sorunsuz tamamlanmıştır."
+  "model_summary": "Sağlıksız görünen youtube-upload.yml workflow'unun loglarını inceleyin ve çalıştırılmayan shorts-free-render.yml için tetikleyici yapılandırmasını doğrulayın."
 }
