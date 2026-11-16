@@ -1130,6 +1130,17 @@
       "status": "open",
       "created_at": "2026-11-15T12:50:37+00:00",
       "updated_at": "2026-11-15T12:50:37+00:00"
+    },
+    {
+      "id": "HO-IMP-20261116-slow-auto-merge-gate",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/auto-merge-gate.yml] .github/workflows/auto-merge-gate.yml dosyasinda tespit edilen 151 saniyelik medyan sureyi dusurmek amaciyla; pip ve apt paket indirmelerine actions/cache adimi eklenerek tekrarlayan paket kurulumlari engellenmeli, ilgisiz kod degisikliklerinde calismayi önlemek adina push ve pull_request tetikleyicilerine paths filtreleri tanimlanmali ve birbirine bagimliligi olmayan test adimlari ayri job'lara bolunerek paralel calismalari saglanmalidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261116 key=slow-auto-merge-gate",
+      "status": "open",
+      "created_at": "2026-11-16T13:47:06+00:00",
+      "updated_at": "2026-11-16T13:47:06+00:00"
     }
   ]
 }
