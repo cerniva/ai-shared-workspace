@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-16",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "main_reference_sha": "d4de2c1689c17a7953e052bd089408f4eaf33434",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "decisions": [
+    {
+      "area": "fed_policy",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388"
+      ],
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "publication_date": "2026-10-28",
+      "checked_date": "2026-11-16",
+      "verified": "3.75-4.00 percent target; 10-2 vote; old release excluded from new news",
+      "changed_field": "fed.target_range_and_release_date"
+    },
+    {
+      "area": "energy",
+      "applied_learning_ids": [],
+      "source": "https://www.reuters.com/business/energy/oil-prices-fall-expectations-coming-supply-surplus-2026-11-16/",
+      "changed_field": "physical_supply_loss",
+      "result": "N/A; security incident unverified; crude, refined and logistics separate",
+      "runtime_context_ids": [
+        "learn_fin_hormuz_flow_security_divergence_20261005",
+        "learn_fin_energy_logistics_stack_20261006"
+      ]
+    },
+    {
+      "area": "altcoin",
+      "applied_learning_ids": [],
+      "changed_field": "calibrated_score",
+      "result": "N/A; 10 indicators validated=false; 2020-2025 backtest not verified"
+    },
+    {
+      "area": "stocks",
+      "applied_learning_ids": [],
+      "result": "2026-11-16 Asian intraday weakness; not a closing print"
+    },
+    {
+      "area": "funds_crypto",
+      "applied_learning_ids": [],
+      "result": "new 2026-11-16 complete ETF flow and top-70 snapshot not verified"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "External finance producer application and independent read-back not verified; local learning command not run due to GitHub clone DNS failure",
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "command_status": "NOT_RUN",
+    "command_stdout": null,
+    "command_exit_code": null,
+    "git_clone_exit_code": 128
+  },
+  "promotion": {
+    "status": "NOT_CREATED",
+    "reason": "No novel fully validated reusable learning beyond existing energy/source gates"
+  },
+  "grok_delivery": {
+    "status": "NOT_VERIFIED",
+    "message_id": null
+  },
+  "ci": {
+    "status": "NOT_VERIFIED",
+    "sha": null
+  },
+  "issue": "https://github.com/cerniva/ai-shared-workspace/issues/308"
+}
