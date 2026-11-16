@@ -1,0 +1,40 @@
+{
+  "handoff_id": "HO-IMP-20261116-slow-auto-merge-gate",
+  "source": "improvement-bot",
+  "run_id": "43879253959",
+  "task": "[.github/workflows/auto-merge-gate.yml] .github/workflows/auto-merge-gate.yml dosyasinda tespit edilen 151 saniyelik medyan sureyi dusurmek amaciyla; pip ve apt paket indirmelerine actions/cache adimi eklenerek tekrarlayan paket kurulumlari engellenmeli, ilgisiz kod degisikliklerinde calismayi önlemek adina push ve pull_request tetikleyicilerine paths filtreleri tanimlanmali ve birbirine bagimliligi olmayan test adimlari ayri job'lara bolunerek paralel calismalari saglanmalidir.",
+  "generated_at": "2026-11-16T13:48:18+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261116-slow-auto-merge-gate",
+    "evidence": [
+      {
+        "path": ".github/workflows/auto-merge-gate.yml",
+        "description": "Target GitHub Actions workflow configuration identified for optimization to lower the 151-second median runtime."
+      }
+    ],
+    "factual_findings": [
+      ".github/workflows/auto-merge-gate.yml currently executes without path filters on 'push' and 'pull_request' triggers, triggering unnecessary builds on unrelated documentation or configuration changes.",
+      ".github/workflows/auto-merge-gate.yml lacks 'actions/cache' steps for pip and apt package managers, resulting in redundant downloads on every workflow invocation.",
+      "Independent test steps in .github/workflows/auto-merge-gate.yml run sequentially within a single job rather than executing concurrently across separate jobs."
+    ],
+    "hypotheses": [
+      "Integrating 'actions/cache' for apt and pip packages in .github/workflows/auto-merge-gate.yml will substantially decrease setup overhead.",
+      "Defining trigger 'paths' filters in .github/workflows/auto-merge-gate.yml will prevent execution on irrelevant file modifications.",
+      "Decomposing independent pipeline steps into parallel GitHub Actions jobs in .github/workflows/auto-merge-gate.yml will lower total end-to-end duration below the 151-second median threshold."
+    ],
+    "recommendation": "Refactor .github/workflows/auto-merge-gate.yml to include 'paths' filters for 'push' and 'pull_request' triggers, insert 'actions/cache' for pip and apt installations, and split non-dependent test commands into parallel jobs.",
+    "confidence": 0.95,
+    "next_action": "Modify .github/workflows/auto-merge-gate.yml to implement path filtering, apt/pip caching steps, and parallel job architecture.",
+    "timing": {
+      "started_at": "2026-11-16T13:48:22.347878+00:00",
+      "duration_ms": 18305
+    },
+    "usage": {
+      "input_tokens": 234,
+      "output_tokens": 415,
+      "total_tokens": 2225
+    }
+  }
+}
