@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-17",
+  "scope": "finance",
+  "status": "partial",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388"
+  ],
+  "decisions": [
+    {
+      "field": "fed_policy",
+      "learning_id": "learn_5f961fa5fb9f6388",
+      "change": "Verified target 3.75%-4.00%, 10-2 vote and 2026-10-28 date against official Fed release; excluded as new 2026-11-17 event",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "field": "equity_close",
+      "learning_id": null,
+      "change": "2026-11-16 S&P 500 7416.59 -1.92%, Nasdaq 24509.76 -2.49%; AP close; distinct from 2026-11-17 Asian intraday"
+    },
+    {
+      "field": "altcoin",
+      "learning_id": null,
+      "change": "N/A all 10; calibration validated=false and 2020-2025 walk-forward missing"
+    },
+    {
+      "field": "energy",
+      "learning_id": null,
+      "change": "Separate oil price/surplus narrative from unverified physical flows and tanker risk"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independent production-run decision read-back; local plan_learnings script not run because git clone DNS failed"
+  },
+  "command": {
+    "requested": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "clone_exit_code": 128,
+    "clone_error": "Could not resolve host: github.com"
+  },
+  "coverage": {
+    "top70": "incomplete",
+    "etf_flows": "unverified",
+    "charts": "not_rendered"
+  },
+  "source_dates": [
+    "2026-11-17 Reuters Asia",
+    "2026-11-16 AP US close",
+    "2026-10-28 Fed official"
+  ],
+  "issue": 308
+}
