@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-18",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_21162db4c3969b7b",
+    "learn_9b39644affcb8a33",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294"
+  ],
+  "decisions": [
+    {
+      "ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_21162db4c3969b7b",
+        "learn_9b39644affcb8a33"
+      ],
+      "effect": "Fed target 3.75–4%, dated Oct 28 hold, not new hike, not effective rate",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "published": "2026-10-28",
+      "observed": "2026-11-18",
+      "verification": "PASS"
+    },
+    {
+      "ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "Official Nov 17 2Y 4.80, 10Y 5.10, 30Y 5.46; Nov 18 close unavailable; 10Y down 2bp",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve"
+    },
+    {
+      "ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "All 10 calibrated scores N/A, raw CMC index 52 not calibrated score"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "issue": 308,
+    "reason": "external production readback absent; clone DNS failed exit 128, script not run"
+  },
+  "payoutlens": "excluded"
+}
