@@ -1169,6 +1169,17 @@
       "notes": [
         "2026-11-18T14:18:10+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, github_models=error, gemini=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
       ]
+    },
+    {
+      "id": "HO-IMP-20261119-fail-takipci-denetci",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/takipci-denetci.yml] 'takipci-denetci' basarisizlik orani %75 (9/12). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261119 key=fail-takipci-denetci",
+      "status": "open",
+      "created_at": "2026-11-19T14:31:08+00:00",
+      "updated_at": "2026-11-19T14:31:08+00:00"
     }
   ]
 }
