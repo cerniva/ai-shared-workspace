@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-18T17:14:59+00:00",
+  "generated_at": "2026-11-19T00:21:48+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 44319737185,
+          "id": 44356528832,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-18T14:01:24Z",
-          "event": "schedule"
+          "created_at": "2026-11-18T17:15:01Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 44258938240,
+          "id": 44356542949,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-18T07:26:48Z",
+          "created_at": "2026-11-18T17:15:05Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 44288086335,
+          "id": 44381936821,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-18T10:43:32Z",
+          "created_at": "2026-11-18T19:35:03Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 44274561393,
+          "id": 44369795887,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-18T09:17:40Z",
+          "created_at": "2026-11-18T18:26:49Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": null
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml otomasyonu başarısızlıkla sonuçlanmış ve shorts-free-render.yml ise hiç çalıştırılmamıştır. finance, knowledge ve system projelerindeki diğer tüm otomasyonlar başarıyla tamamlanmıştır. Bu doğrultuda yalnızca bu iki otomasyon sağlıksız görünmektedir."
 }
