@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-19",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_21162db4c3969b7b",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294",
+    "learn_63b873bf5dbd8208"
+  ],
+  "decisions": [
+    {
+      "ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_21162db4c3969b7b"
+      ],
+      "effect": "Official full minutes confirm nearly all foresee further tightening, two would consider >25bp conditional on inflation; October hold 3.75–4%, 10–2, not November hike.",
+      "source": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+      "published": "2026-11-18",
+      "observed": "2026-11-19 morning TRT",
+      "verification": "PASS"
+    },
+    {
+      "ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "SIFMA calendar checked; latest Treasury Nov 18 2Y 4.80, 10Y 5.07, 30Y 5.41; daily changes 0,-3,-5 bp",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve",
+      "calendar": "https://www.sifma.org/resources/general/holiday-schedule"
+    },
+    {
+      "ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "All ten calibrated scores N/A; raw CMC 59 not combined score; no backtest verified"
+    },
+    {
+      "ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "effect": "TCMB dated XML inaccessible; no invented USDTRY; CMC market data alternative"
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "issue": 308,
+    "reason": "External production output independent readback absent; git clone DNS exit 128; script NOT_RUN"
+  },
+  "payoutlens": "excluded"
+}
