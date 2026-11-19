@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261119-fail-takipci-denetci",
+      "task": "[.github/workflows/takipci-denetci.yml] 'takipci-denetci' basarisizlik orani %75 (9/12). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+      "source": "improvement-bot",
+      "ts": "2026-11-19T14:33:10+00:00"
+    }
+  ]
+}
