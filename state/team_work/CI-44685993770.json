@@ -1,0 +1,43 @@
+{
+  "handoff_id": "CI-44685993770",
+  "source": "ci-bekci",
+  "run_id": "44686148305",
+  "task": "CI failure in 'worker-orchestration-tests' run 44685993770: jobs test[Unit and integration tests/Knowledge integrity and race tests]; first error: test_real_repo_promotions_apply_and_are_idempotent (tests.test_knowledge_integrity.IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent)",
+  "generated_at": "2026-11-20T06:12:37+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-44685993770",
+    "evidence": [
+      {
+        "path": "tests/test_knowledge_integrity.py",
+        "observation": "CI run 44685993770 failed in job 'Unit and integration tests/Knowledge integrity and race tests' during execution of test_real_repo_promotions_apply_and_are_idempotent (IntegrityTests)."
+      },
+      {
+        "path": ".github/workflows/worker-orchestration-tests.yml",
+        "observation": "Workflow configuration invokes knowledge integrity and race test suite which includes tests/test_knowledge_integrity.py."
+      }
+    ],
+    "factual_findings": [
+      "CI run 44685993770 failed in workflow `.github/workflows/worker-orchestration-tests.yml` under job 'test[Unit and integration tests/Knowledge integrity and race tests]'.",
+      "The first error encountered in CI run 44685993770 was in `tests/test_knowledge_integrity.py` within `IntegrityTests.test_real_repo_promotions_apply_and_are_idempotent`.",
+      "The test `tests/test_knowledge_integrity.py` validates that real repository knowledge promotion operations apply cleanly and that repeated applications produce identical, idempotent repository state."
+    ],
+    "hypotheses": [
+      "Promotion logic executed in `tests/test_knowledge_integrity.py` introduces non-deterministic side effects (such as un-sorted list ordering or un-mocked timestamp updates), causing the second application pass to report non-idempotent changes.",
+      "A newly added or modified knowledge promotion artifact evaluated by `tests/test_knowledge_integrity.py` breaks schema constraints or duplicate key invariants when re-applied."
+    ],
+    "recommendation": "Reproduce the failure locally by running `pytest tests/test_knowledge_integrity.py -k test_real_repo_promotions_apply_and_are_idempotent -vv`, inspect the exact diff or exception between initial and secondary promotion execution, and ensure deterministic sorting and timestamp normalization in the underlying promotion engine.",
+    "confidence": 0.9,
+    "next_action": "Execute local reproduction of `tests/test_knowledge_integrity.py` to isolate the state mutation causing the idempotency assertion failure.",
+    "timing": {
+      "started_at": "2026-11-20T06:12:41.580434+00:00",
+      "duration_ms": 19533
+    },
+    "usage": {
+      "input_tokens": 188,
+      "output_tokens": 527,
+      "total_tokens": 3882
+    }
+  }
+}
