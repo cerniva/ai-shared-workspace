@@ -2406,7 +2406,7 @@
       "failure_history": [],
       "fallback_history": [],
       "learned_at": "2026-11-20T06:09:00+00:00",
-      "learning_id": "learn_1c62bb4dd51cc0dc",
+      "learning_id": "learn_442abe856d13681f",
       "next_measurement": "Record yes/no before 2026-11-27 whether any cerniva enterprise on GHE.com streams audit logs to S3 or would benefit from OIDC instead of long-lived AWS credentials.",
       "outcome": "pending",
       "plan_tags": [
