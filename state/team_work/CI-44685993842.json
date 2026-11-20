@@ -1,0 +1,42 @@
+{
+  "handoff_id": "CI-44685993842",
+  "source": "ci-bekci",
+  "run_id": "44686050532",
+  "task": "CI failure in 'knowledge-promote' run 44685993842: jobs promote[Merge staged promotions into canonical catalog + ledger]; first error: Process completed with exit code 1.",
+  "generated_at": "2026-11-20T06:11:56+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-44685993842",
+    "evidence": [
+      {
+        "path": ".github/workflows/knowledge-promote.yml",
+        "details": "Workflow configuration defining the 'knowledge-promote' pipeline and the step 'Merge staged promotions into canonical catalog + ledger' in job 'promote'."
+      },
+      {
+        "path": "scripts/promote.py",
+        "details": "Script invoked by '.github/workflows/knowledge-promote.yml' that handles validation, catalog merging, and ledger updates."
+      }
+    ],
+    "factual_findings": [
+      "CI run 44685993842 triggered under '.github/workflows/knowledge-promote.yml' failed during job 'promote[Merge staged promotions into canonical catalog + ledger]'.",
+      "The primary error was 'Process completed with exit code 1' produced during execution of the promotion logic targeting entries in 'staged/'."
+    ],
+    "hypotheses": [
+      "A staged promotion file located in 'staged/' violates schema constraints or contains duplicate identifiers checked by 'scripts/promote.py'.",
+      "There is a state mismatch between staged records in 'staged/' and the existing canonical ledger under 'ledger/' causing an execution exit code 1."
+    ],
+    "recommendation": "Inspect step logs for run 44685993842 or execute 'scripts/promote.py' locally against 'staged/' payload files to identify the failing promotion entry or schema validation failure.",
+    "confidence": 0.85,
+    "next_action": "Run validation via 'python scripts/promote.py' on 'staged/' files locally to locate and fix the failing record.",
+    "timing": {
+      "started_at": "2026-11-20T06:12:48.797853+00:00",
+      "duration_ms": 14281
+    },
+    "usage": {
+      "input_tokens": 141,
+      "output_tokens": 377,
+      "total_tokens": 2642
+    }
+  }
+}
