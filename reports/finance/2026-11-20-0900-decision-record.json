@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-20",
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_fba30853bde7b37e",
+    "learn_63b873bf5dbd8208",
+    "learn_f7b141c60755c294",
+    "learn_9b39644affcb8a33"
+  ],
+  "decisions": [
+    {
+      "ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ],
+      "effect": "Official October 28 hold 3.75–4%; November 18 minutes explicitly retrospective, not new decision; December hike probability only market pricing.",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "published": "2026-10-28",
+      "observed": "2026-11-20 morning TRT",
+      "verification": "PASS"
+    },
+    {
+      "ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "SIFMA calendar checked; dated Treasury Nov 19 2Y 4.76, 10Y 5.04, 30Y 5.40; changes -4,-3,-1bp.",
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve"
+    },
+    {
+      "ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "effect": "Dated TCMB XML inaccessible; no invented TRY rate; CMC alternative crypto data."
+    },
+    {
+      "ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "All ten scores N/A; config validated=false; raw CMC index 48 distinct from combined score."
+    }
+  ],
+  "bridge_failure": {
+    "open": true,
+    "issue": 308,
+    "reason": "External production readback absent; git clone DNS exit 128; script NOT_RUN"
+  },
+  "market": {
+    "gold": 3525.25,
+    "gold_observed_utc": "2026-11-20T05:04:00Z",
+    "btc_etf_musd": -582.3,
+    "eth_etf_musd": -131.2,
+    "etf_date": "2026-11-19"
+  },
+  "payoutlens": "excluded"
+}
