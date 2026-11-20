@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261120-provider-cerebras",
+      "task": "[config/model_providers.json] 'cerebras' 7 gunde 163.2 saat dustu (no_key 163.2, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar.",
+      "source": "improvement-bot",
+      "ts": "2026-11-20T14:10:56+00:00"
+    }
+  ]
+}
