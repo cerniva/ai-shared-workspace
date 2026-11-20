@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T14:39:24+00:00",
+  "generated_at": "2026-11-20T14:19:00+00:00",
   "provider_available": true,
   "domains": {
     "finance": {
@@ -12,10 +12,7 @@
     },
     "system": {
       "source": "https://github.blog/changelog/feed/",
-      "status": "staged",
-      "path": "intake/promotions/2026-11-19-research-learner-system.json",
-      "learning_id": "learn_1c62bb4dd51cc0dc",
-      "source_id": "src_c47bbcd15b32d194"
+      "status": "model_unavailable"
     }
   }
 }
