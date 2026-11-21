@@ -125,7 +125,51 @@ def require_explicit_declarations(meta: dict) -> None:
         raise ValueError("Metadata JSON must explicitly declare: " + ", ".join(missing) + " (no implicit defaults before upload).")
 
 
-def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False, contains_synthetic: bool = True) -> dict:
+def write_remote_receipt(path: Path, receipt: dict) -> None:
+    """Atomically preserve the videos.insert ID before attempting remote read-back."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + ".tmp")
+    try:
+        with temp.open("w", encoding="utf-8") as handle:
+            json.dump(receipt, handle, ensure_ascii=False, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp, path)
+    finally:
+        temp.unlink(missing_ok=True)
+
+
+
+def reserve_remote_receipt(path: Path, receipt: dict) -> None:
+    """Fail closed on an existing receipt; never overwrite a previous attempt.
+
+    O_EXCL makes same-filesystem concurrent attempts mutually exclusive. If the
+    process dies during reservation, keep the partial file as an UNKNOWN result:
+    deleting it and retrying could duplicate a completed remote upload.
+    Cross-run GitHub Actions artifacts still require separate reconciliation.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError as exc:
+        raise RuntimeError(
+            "Existing YouTube upload receipt: reconcile the previous remote "
+            "outcome before any new attempt; do not retry blindly."
+        ) from exc
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(receipt, handle, ensure_ascii=False, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = False,
+           contains_synthetic: bool = True, receipt_path: Path | None = None) -> dict:
+    # Library callers must not bypass the CLI's mandatory remote receipt.
+    # Block before credentials, YouTube API construction, or videos.insert.
+    if receipt_path is None:
+        raise ValueError("receipt_path is required for every YouTube upload attempt")
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     from googleapiclient.http import MediaFileUpload
@@ -146,6 +190,19 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
     body = {"snippet": {"title": metadata["title"], "description": metadata["description"]}, "status": status}
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
     request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
+    # Before the first resumable request, record an attempt. A network timeout
+    # may hide a successful remote insert even when no video_id is returned.
+    # An absent ID must NEVER be interpreted as permission to retry blindly.
+    receipt = {
+        "video_id": None,
+        "upload_state": "IN_FLIGHT_UNKNOWN",
+        "channel_id": CHANNEL_ID,
+        "requested_privacy_status": status["privacyStatus"],
+        "source_sha256": sha256_file(video),
+        "read_back_verified": False,
+    }
+    if receipt_path is not None:
+        reserve_remote_receipt(receipt_path, receipt)
     response = None
     try:
         while response is None:
@@ -153,10 +210,28 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
             if progress is not None:
                 print(f"Upload progress: {progress.progress() * 100:.0f}%", file=sys.stderr)
     except HttpError as exc:
-        raise RuntimeError(f"YouTube upload failed (HTTP {exc.resp.status}). Check OAuth scope and API project status.") from exc
-    video_id = response.get("id")
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise RuntimeError(f"YouTube upload failed (HTTP {exc.resp.status}). Check OAuth scope and API project status; never retry an ambiguous attempt blindly.") from exc
+    except Exception:
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise
+    video_id = response.get("id") if isinstance(response, dict) else None
     if not video_id:
-        raise RuntimeError("YouTube returned no video ID; upload cannot be verified.")
+        receipt["upload_state"] = "RESULT_UNKNOWN"
+        if receipt_path is not None:
+            write_remote_receipt(receipt_path, receipt)
+        raise RuntimeError("YouTube returned no video ID; upload outcome is unknown, do not retry blindly.")
+    # A videos.insert may succeed even when the subsequent read-back fails.
+    # Persist the remote ID before that request; a failed verification must never
+    # be interpreted as a safe signal to retry uploading the same media.
+    receipt["video_id"] = video_id
+    receipt["upload_state"] = "REMOTE_ID_RECEIVED"
+    if receipt_path is not None:
+        write_remote_receipt(receipt_path, receipt)
     verified = youtube.videos().list(part="snippet,status", id=video_id).execute().get("items", [])
     if not verified:
         raise RuntimeError(f"Upload {video_id} completed but could not be verified.")
@@ -167,6 +242,11 @@ def upload(video: Path, metadata: dict, publish: bool, made_for_kids: bool = Fal
     actual_status = item.get("status", {}).get("privacyStatus")
     if actual_status != expected_status:
         raise RuntimeError(f"Video {video_id} has visibility '{actual_status}', expected '{expected_status}'.")
+    if receipt_path is not None:
+        receipt["read_back_verified"] = True
+        receipt["upload_state"] = "READBACK_VERIFIED"
+        receipt["actual_privacy_status"] = actual_status
+        write_remote_receipt(receipt_path, receipt)
     return {"video_id": video_id, "url": f"https://www.youtube.com/watch?v={video_id}", "privacy_status": actual_status}
 
 
@@ -176,6 +256,7 @@ def main() -> int:
     parser.add_argument("metadata", type=Path, help="JSON file containing title and description")
     parser.add_argument("--preflight", type=Path, required=True, help="Ready preflight JSON for this exact MP4")
     parser.add_argument("--publish", action="store_true", help="Publish publicly; default uploads privately")
+    parser.add_argument("--receipt-path", type=Path, required=True, help="Required durable remote videos.insert receipt; a missing receipt must block all CLI uploads")
     args = parser.parse_args()
     if not args.video.is_file() or args.video.suffix.lower() != ".mp4":
         parser.error("video must be an existing .mp4 file")
@@ -189,7 +270,7 @@ def main() -> int:
         require_explicit_declarations(meta)
         made_for_kids = meta["selfDeclaredMadeForKids"]
         contains_synthetic = meta["containsSyntheticMedia"]
-        result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic)
+        result = upload(args.video, meta, args.publish, made_for_kids, contains_synthetic, args.receipt_path)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

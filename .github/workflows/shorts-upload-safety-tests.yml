@@ -1,0 +1,39 @@
+name: shorts-upload-safety-tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/youtube_upload.py'
+      - 'scripts/shorts_upload_daily_gate.py'
+      - 'scripts/verify_shorts_upload_evidence.py'
+      - 'tests/test_youtube_upload*.py'
+      - 'tests/test_shorts_upload_daily_gate.py'
+      - '.github/workflows/youtube-upload.yml'
+      - '.github/workflows/shorts-upload-safety-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  upload-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      # These are pure standard-library safety tests; avoid the unrelated
+      # 99 MB apt/FFmpeg/eSpeak installation that timed out in render CI.
+      # A PASS here does not imply full media QC or publication readiness.
+      - name: Run upload receipt, daily gate and workflow regression tests
+        run: |
+          python3 -m unittest \
+            tests.test_shorts_upload_daily_gate \
+            tests.test_youtube_upload_receipt \
+            tests.test_youtube_upload_no_main_push \
+            tests.test_youtube_upload_workflow -v
+      - name: Compile upload safety modules
+        run: |
+          python3 -m py_compile \
+            scripts/youtube_upload.py \
+            scripts/shorts_upload_daily_gate.py \
+            scripts/verify_shorts_upload_evidence.py
