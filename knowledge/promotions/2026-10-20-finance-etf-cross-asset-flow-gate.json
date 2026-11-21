@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_75a21b952bee98c8",
+      "source_name": "Farside Investors Bitcoin ETF daily fund flows",
+      "canonical": "https://farside.co.uk/btc",
+      "category": "finance-crypto-etf-flows",
+      "purpose": "Fund-level dated US spot Bitcoin ETF daily net flow and completeness checks",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public webpage",
+      "reliability_limits": "Third-party data aggregator, automatically updated; inspect fund-level cells, as-of date and later revisions; not an SEC regulatory filing.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-20T09:00:00+03:00",
+      "last_successful_use": "2026-10-20T09:00:00+03:00",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_79c922c5f763836e",
+      "source_name": "Farside Investors Ethereum ETF daily fund flows",
+      "canonical": "https://farside.co.uk/eth",
+      "category": "finance-crypto-etf-flows",
+      "purpose": "Fund-level dated US spot Ethereum ETF daily net flow and completeness checks",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public webpage",
+      "reliability_limits": "Third-party data aggregator, automatically updated; inspect fund-level cells, as-of date and later revisions; not an SEC regulatory filing.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-20T09:00:00+03:00",
+      "last_successful_use": "2026-10-20T09:00:00+03:00",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_0dc925db2409db3c",
+      "title": "Cross-asset ETF flow divergence must not be labeled broad altcoin rotation",
+      "domain": "finance-etf-flow-rotation",
+      "claim": "On 19 October 2026 Farside Investors reported +526.7 million USD of net U.S. spot Bitcoin ETF flows and -103.3 million USD of net U.S. spot Ethereum ETF flows; one asset-class inflow does not establish broad crypto or altcoin demand.",
+      "evidence_status": "verified",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-20T09:00:00+03:00",
+      "decision": "FINANCE_ETF_CROSS_ASSET_GATE: Verify each ETF asset class separately, fund-level row completeness and observation date; compare same-session BTC and ETH ETF flows before inferring rotation. A positive BTC ETF net flow does not prove ETH or broad altcoin demand. Mark provisional/incomplete rows and recheck revisions.",
+      "next_measurement": "At next report compare Oct 19 Farside fund-level BTC and ETH flows with revised daily rows and ETH/BTC, altseason breadth; do not treat one session as persistent trend.",
+      "source_ids": [
+        "src_75a21b952bee98c8",
+        "src_79c922c5f763836e"
+      ],
+      "failure_history": [
+        "Earlier Finance reports could conflate BTC ETF recovery with broad altcoin risk-on despite simultaneous ETH ETF outflows."
+      ],
+      "fallback_history": [
+        "If Farside is unavailable, use issuer official flow/AUM releases or another independently checked fund-level flow provider; otherwise ETF flow N/A."
+      ],
+      "supersedes": null
+    }
+  ]
+}
