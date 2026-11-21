@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-20T21:48:31+00:00",
+  "generated_at": "2026-11-21T03:12:19+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 44749591050,
+          "id": 44823563020,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-20T14:02:02Z",
-          "event": "schedule"
+          "created_at": "2026-11-20T21:48:32Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 44739498228,
+          "id": 44823574767,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-20T12:53:03Z",
+          "created_at": "2026-11-20T21:48:36Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 44788575633,
+          "id": 44842354335,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-20T17:59:59Z",
+          "created_at": "2026-11-21T00:13:20Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 44821499000,
+          "id": 44858198076,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-20T21:34:17Z",
+          "created_at": "2026-11-21T02:52:22Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad projesindeki 'youtube-upload.yml' ve knowledge projesindeki 'knowledge-promote.yml' iş akışları başarısızlıkla sonuçlandığı için sağlıksız görünmektedir. Ayrıca 'shorts-free-render.yml' otomasyonunun henüz hiç çalıştırılmadığı görülmektedir. Diğer finans ve sistem otomasyonları ise başarıyla tamamlanmıştır."
+  "model_summary": "Başarısız olan youtube-upload.yml ve knowledge-promote.yml iş akışlarının hata logları incelenmeli, shorts-free-render.yml iş akışının tetikleme durumu kontrol edilmelidir."
 }
