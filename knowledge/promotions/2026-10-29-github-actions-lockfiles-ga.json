@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_ad19e1712c42ab02",
+      "source_name": "GitHub Actions workflow lockfiles GA announcement, 28 Oct 2026",
+      "canonical": "https://github.blog/changelog/2026-10-28-github-actions-workflow-lockfiles-are-generally-available",
+      "category": "system-actions-security",
+      "purpose": "Confirm GitHub Actions lockfiles GA, supported plans, dependency locking and rollout safeguards",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Official changelog is free to read; lockfiles are available on GitHub Free, Team and Enterprise Cloud",
+      "reliability_limits": "GA availability does not mean this repository has adopted a lockfile; lockfiles do not prove dependency safety",
+      "discovered_at": "2026-10-29T01:22:00+03:00",
+      "provenance": "verified"
+    },
+    {
+      "source_id": "src_76811b880217b4a5",
+      "source_name": "GitHub Docs workflow dependency lockfiles",
+      "canonical": "https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles",
+      "category": "system-actions-security",
+      "purpose": "Confirm direct/transitive pinning, exclusions for reusable workflows and runner inputs, and generated-file requirement",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "Free official documentation",
+      "reliability_limits": "Docs describe platform behavior; not evidence of current repository enforcement, lockfile freshness or approved dependencies",
+      "discovered_at": "2026-10-29T01:22:00+03:00",
+      "provenance": "verified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_87c7a637c2654b3f",
+      "title": "GitHub Actions workflow lockfiles GA: pin direct and transitive action dependencies without changing readable refs",
+      "domain": "github-actions-supply-chain",
+      "claim": "GitHub announced on 2026-10-28 that GitHub Actions workflow dependency lockfiles are generally available on Free, Team and Enterprise Cloud. The generated .github/workflows/actions.lock pins direct and transitive action dependencies to reviewed commits while workflows may retain readable tags; an onboarded workflow requires every action dependency in the lockfile. Lockfiles do not pin reusable workflow calls, runner images, inputs or secrets, and they do not establish that a dependency is safe. GitHub Docs says generate via gh actions-lock rather than editing manually.",
+      "evidence_status": "verified",
+      "decision": "ACTIONS_LOCKFILE_ADOPTION_GATE: REVIEW_ONLY. Inventory workflow action refs and check for .github/workflows/actions.lock. If adoption is justified, use official gh actions-lock to generate a lockfile on a separate safe PR, review direct and transitive dependencies, preserve required checks, verify lockfile freshness in CI, and use full commit SHA for reusable workflow calls. Never hand-edit actions.lock or assume it secures runner images, inputs or secrets. Do not change workflow execution until tested.",
+      "outcome": "pending",
+      "next_measurement": "System plan: audit .github/workflows for tag refs and reusable workflow calls, then test gh actions-lock against one non-critical workflow in a reviewed branch with exact CI run/HEAD SHA and applied_learning_ids in the actual system report. Current main has no .github/workflows/actions.lock; a read-only code search found actions/checkout@v4 in free-shorts-toolchain-smoke.yml. No workflow change in this promotion.",
+      "learned_at": "2026-10-29T01:22:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ad19e1712c42ab02",
+        "src_76811b880217b4a5"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "Until authorized lockfile adoption and CI proof, use reviewed full-length commit SHA pins for sensitive third-party actions and retain existing workflow protections."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "ACTIONS_LOCKFILE_ADOPTION_GATE"
+  ],
+  "evidence": {
+    "official_urls": [
+      "https://github.blog/changelog/2026-10-28-github-actions-workflow-lockfiles-are-generally-available",
+      "https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles"
+    ],
+    "checked_at": "2026-10-29T01:22:00+03:00",
+    "repository_observation": "main bf35f5921c18750ff6c04dfb4423a74c23ee4309: no .github/workflows/actions.lock; free-shorts-toolchain-smoke.yml uses actions/checkout@v4. No repo action dependencies modified.",
+    "note": "Distinct from existing GitHub Copilot auth and required-check promotions. Stage only; main catalog/ledger unchanged until authorized import."
+  }
+}
