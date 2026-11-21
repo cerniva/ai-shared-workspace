@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c35717da9d28cfb8",
+      "source_name": "Shopify developer changelog: UCP /buy cart and checkout permalinks",
+      "canonical": "https://shopify.dev/changelog/posts/cart-and-checkout-permalinks-now-support-ucp-at-buy",
+      "category": "commerce-platform",
+      "purpose": "Verify Shopify storefront UCP checkout-link discovery and /cart compatibility before adding any Shorts-to-store conversion link",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API call or paid credit",
+      "reliability_limits": "Public documentation only; this workspace's storefront visibility, UCP discovery profile, variant IDs, checkout availability and clickable traffic surface are not verified.",
+      "discovered_at": "2026-10-28T21:31:00+00:00",
+      "last_successful_use": "2026-10-28T21:31:00+00:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_2698c1ab36265386",
+      "title": "Shopify UCP /buy permalink requires live discovery and legacy /cart compatibility",
+      "domain": "video-shopify-ucp-checkout-permalink-routing",
+      "claim": "Shopify's October 28, 2026 developer changelog states that UCP 2026-08-25 storefronts advertise dev.ucp.shopping.permalink at /.well-known/ucp, whose config.endpoint identifies the /buy route for variant quantity, discount and checkout links. Legacy /cart remains supported and is still required for selling plans, line-item properties, cart notes and cart attributes; /buy links must be built from the discovered endpoint. This documentation does not establish that this workspace's store is public, supports UCP, or has clickable links in YouTube Shorts descriptions.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_UCP_BUY_LINK_DISCOVERY_GATE: REVIEW_ONLY. Before using /buy for video_shopify conversions, verify that the actual store is public and UCP-capable, read /.well-known/ucp and its dev.ucp.shopping.permalink config.endpoint, then validate real variant IDs and a permitted checkout test. Keep /cart for selling plans, line-item properties, cart notes and cart attributes. Never put buyer personal details, payment credentials or tokens in a public link; do not assume Shorts description URLs are clickable. If store is private or UCP unsupported, mark N/A. No automatic checkout, store write or publish. Record applied_learning_ids only in a real source-linked decision/manifest with artifact SHA.",
+      "outcome": "pending",
+      "next_measurement": "Read-only verify whether the actual Shopify store advertises dev.ucp.shopping.permalink and a valid config.endpoint, and whether a permitted Shorts traffic surface has a clickable destination. Record found/not-found, actual manifest SHA and source-linked application only if used.",
+      "learned_at": "2026-10-28T21:31:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c35717da9d28cfb8"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If UCP discovery is missing or the store remains private, retain legacy /cart documentation for later review and do not construct /buy links by guesswork or claim conversion readiness."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_UCP_BUY_LINK_DISCOVERY_GATE"
+  ]
+}

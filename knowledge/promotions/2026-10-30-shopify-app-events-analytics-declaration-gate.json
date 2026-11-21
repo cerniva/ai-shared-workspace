@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_1b41ccdd9054c9f8",
+      "source_name": "Shopify changelog: App Events in Analytics (October 28, 2026)",
+      "canonical": "https://shopify.dev/changelog/posts/app-events-in-analytics",
+      "category": "video-shopify-app-events-analytics",
+      "purpose": "Primary announcement: released analytics_app_events declarations and merchant ShopifyQL app_events reporting",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API, store authentication, or paid credits used",
+      "reliability_limits": "Feature announcement only; not evidence that any app is installed, events have been sent, or a merchant report exists.",
+      "discovered_at": "2026-10-30T00:31:45+03:00",
+      "last_successful_use": "2026-10-30T00:31:45+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    },
+    {
+      "source_id": "src_26d73b0168a57a58",
+      "source_name": "Shopify official guide: App Events in Analytics",
+      "canonical": "https://shopify.dev/docs/apps/build/app-events/analytics",
+      "category": "video-shopify-app-events-analytics",
+      "purpose": "Confirm event declaration and validation, 202 Accepted semantics, privacy requirements, ShopifyQL dataset and retention limits",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no Shopify API, store authentication, or paid credits used",
+      "reliability_limits": "Documentation cannot prove live analytics availability. Requires installed authorized app, released declaration, valid events, merchant access and independent query result.",
+      "discovered_at": "2026-10-30T00:31:45+03:00",
+      "last_successful_use": "2026-10-30T00:31:45+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_a22514499109c39e",
+      "title": "Shopify App Events Analytics requires released declarations, privacy-safe data and separate query proof",
+      "domain": "video-shopify-app-events-analytics-gate",
+      "claim": "Shopify's 2026-10-28 App Events in Analytics changelog and official guide require a released analytics_app_events declaration plus matching validated App Events before merchant ShopifyQL FROM app_events can report them. A 202 Accepted event receipt or Dev Dashboard log alone does not prove analytics availability. Event attributes are filterable for 30 days, while hourly count/sum metrics remain for up to 365 days; do not include identifying personal data or join app_events with other datasets.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY / SHOPIFY_APP_EVENTS_ANALYTICS_DECLARATION_RETENTION_GATE: Only if an authorized installed Shopify app and a real analytics consumer exist, require a released analytics_app_events declaration, matching event handle and validation, and a successful ShopifyQL FROM app_events report. Treat 202 Accepted and Dev Dashboard logs as ingestion-only. Respect 30-day attribute and 365-day hourly count/sum retention, no cross-dataset query, and never include identifying personal data. Do not deploy, emit, or claim applied_learning_ids without permission and an actual report artifact.",
+      "outcome": "pending",
+      "next_measurement": "First establish whether video_shopify has an authorized installed Shopify app and an analytics consumer. If absent mark N/A and do not deploy. If present, use read-only merchant report evidence to test matching released declaration, valid event handle, 30/365-day windows, and absence of identifying attributes; capture report SHA and applied_learning_ids only when the actual consumer applies the gate.",
+      "learned_at": "2026-10-30T00:31:45+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_1b41ccdd9054c9f8",
+        "src_26d73b0168a57a58"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "No authorized app, merchant query, or scope: keep REVIEW_ONLY, do not infer event delivery or analytics availability from docs or 202 Accepted."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_APP_EVENTS_ANALYTICS_DECLARATION_RETENTION_GATE"
+  ]
+}

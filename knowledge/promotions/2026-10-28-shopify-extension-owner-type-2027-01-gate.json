@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_ed378d3aeb2a17f9",
+      "source_name": "Shopify changelog: owner_type required for Checkout and Customer Account extension metafields in 2027-01",
+      "canonical": "https://shopify.dev/changelog/posts/metafield-owner-types-required-for-checkout-and-customer-account-ui-extensions",
+      "category": "video-shopify-extension-metafield-compatibility",
+      "purpose": "Guard Checkout and Customer Account UI extension deployments against API 2027-01 owner_type missing declaration errors",
+      "evidence_tier": "official",
+      "access_status": "verified-public",
+      "cost_quota": "free public documentation; no store API calls",
+      "reliability_limits": "Only applies to Checkout and Customer Account UI extensions declaring metafields in shopify.extension.toml; repository search found no such extension on main as of 2026-10-28, so actual applicability is unverified.",
+      "discovered_at": "2026-10-28T20:25:00+03:00",
+      "last_successful_use": "2026-10-28T20:25:00+03:00",
+      "provenance": "verified",
+      "failure_note": null
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_a581f048146641f8",
+      "title": "Checkout and Customer Account UI metafield owner_type gate for Shopify API 2027-01",
+      "domain": "video-shopify-checkout-customer-ui-metafield-declaration",
+      "claim": "Shopify's October 8, 2026 developer changelog says Checkout and Customer Account UI extensions using API version 2027-01 or later must specify owner_type for every metafield declaration in shopify.extension.toml, including extensions.metafields and extensions.targeting.metafields; deployments missing owner_type will be blocked. API 2026-10 supports optional owner_type. Extensions without declared metafields are unaffected.",
+      "evidence_status": "verified",
+      "decision": "SHOPIFY_EXTENSION_OWNER_TYPE_2027_01_GATE: Before upgrading any Checkout or Customer Account UI extension to API 2027-01 or later, inventory shopify.extension.toml declarations and require a valid owner_type for every extensions.metafields and extensions.targeting.metafields entry. If no matching extension exists, mark N/A rather than invent a migration or changing the store. Never deploy automatically or claim applied_learning_ids without a real decision/manifest.",
+      "outcome": "pending",
+      "next_measurement": "Inspect actual video_shopify checkout/customer UI extension source and API version. Current main GitHub search returned no shopify.extension.toml, extensions.metafields or owner_type; mark REVIEW_ONLY/N/A until an extension is present. If found, add a fixture-based positive/negative deploy config test and record actual manifest SHA plus applied_learning_ids.",
+      "learned_at": "2026-10-28T20:25:00+03:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_ed378d3aeb2a17f9"
+      ],
+      "plan_tags": [
+        "video_shopify"
+      ],
+      "status": "active",
+      "failure_history": [],
+      "fallback_history": [
+        "If API version is 2026-10 and no planned upgrade, record optional owner_type status; if extension does not declare metafields, the new gate is not applicable."
+      ],
+      "supersedes": null
+    }
+  ],
+  "gates": [
+    "SHOPIFY_EXTENSION_OWNER_TYPE_2027_01_GATE"
+  ]
+}
