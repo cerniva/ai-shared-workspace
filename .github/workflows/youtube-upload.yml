@@ -118,15 +118,26 @@ jobs:
               raise SystemExit("unsupported source_mode")
           PY
 
-      - name: Download credit-free render artifact
+      - name: Verify cross-run render digest before extraction
         if: ${{ inputs.source_mode == 'render_artifact' }}
-        uses: actions/download-artifact@v8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RENDER_RUN_ID: ${{ inputs.render_run_id }}
+          RENDER_ARTIFACT_NAME: ${{ inputs.render_artifact_name }}
+        run: |
+          python3 -m scripts.verify_render_artifact \
+            --run-id "$RENDER_RUN_ID" \
+            --name "$RENDER_ARTIFACT_NAME" \
+            --destination downloaded-render \
+            --report "$RUNNER_TEMP/verified-render-artifact.json"
+
+      - name: Persist digest learning decision and read-back
+        if: ${{ inputs.source_mode == 'render_artifact' }}
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.render_artifact_name }}
-          path: downloaded-render
-          repository: ${{ github.repository }}
-          run-id: ${{ inputs.render_run_id }}
-          github-token: ${{ github.token }}
+          name: verified-render-integrity-${{ github.run_id }}
+          path: ${{ runner.temp }}/verified-render-artifact.json
+          if-no-files-found: error
 
       - name: Resolve upload video
         env:
