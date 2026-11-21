@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
@@ -191,6 +192,13 @@ def prepare_render_bundle(
     and applied to the render manifest (applied_learning_ids recorded).
     """
     packet = _load_packet(Path(packet_path))
+    # Sourced clips must retain their licensed original audio. This free-first
+    # renderer synthesizes narration, so it cannot safely process that mode.
+    # Fail before research/media calls rather than silently replacing audio.
+    if (packet.get("content_type") in ("sourced_clip", "licensed_source_clip")
+            or packet.get("preserve_original_audio") is True
+            or packet.get("source_video_url")):
+        raise ValueError("source_audio_gate: sourced clips require original audio; this renderer adds narration")
     blockers = gate_packet(packet)
     if blockers:
         raise ValueError("research gate blocked: " + ",".join(blockers))
@@ -200,6 +208,8 @@ def prepare_render_bundle(
         target_seconds = float(packet["target_seconds"])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("target_seconds must be a number") from exc
+    if not math.isfinite(target_seconds):
+        raise ValueError("target_seconds must be finite")
     if target_seconds <= 0 or target_seconds > 180:
         raise ValueError("target_seconds must be between 0 and 180 seconds")
     if learnings_doc is not None:

@@ -11,6 +11,10 @@ import json
 from pathlib import Path
 from typing import Any, Callable
 
+from scripts.knowledge_bridge import CatalogError, SourceCatalog
+from scripts.learning_bridge import LearningLedger
+from scripts.plan_learnings import plan_learnings
+
 PRIVACY = "learn_af28044522e96790"   # explicit privacyStatus=private + madeForKids + synthetic flags
 QUOTA = "learn_f6b1a61d4538f86b"     # videos.insert 100/day bucket, reset 00:00 PT
 CERNO = "learn_53ca8fb858703eb6"     # 30-second moving-footage concept tests, no broadcast clips
@@ -69,10 +73,46 @@ RULES: dict[str, Callable[[dict, dict], None]] = {PRIVACY: _privacy, QUOTA: _quo
 
 def apply(doc: dict[str, Any], packet: dict, manifest: dict) -> list[str]:
     """Mutate manifest per learnings; return applied learning ids. Missing required id -> error."""
-    present = {row.get("learning_id") for row in doc["learnings"] if isinstance(row, dict)}
-    missing = sorted(set(RULES) - present)
+    # A matching ID alone is not evidence: require source lineage and reject
+    # duplicate required rows before any media acquisition or manifest claim.
+    lineage: dict[str, list[str]] = {}
+    for row in doc["learnings"]:
+        if not isinstance(row, dict) or row.get("learning_id") not in RULES:
+            continue
+        lid = row["learning_id"]
+        if lid in lineage:
+            raise LearningsError(f"bridge_failure: duplicate required learning: {lid}")
+        refs = row.get("source_ids")
+        if not isinstance(refs, list) or not refs or any(
+            not isinstance(ref, str) or not ref.startswith("src_") for ref in refs
+        ):
+            raise LearningsError(f"bridge_failure: required learning missing source references: {lid}")
+        lineage[lid] = sorted(set(refs))
+    missing = sorted(set(RULES) - set(lineage))
     if missing:
         raise LearningsError("bridge_failure: required learnings missing: " + ", ".join(missing))
+
+    # A syntactically valid src_* token is not proof of catalog provenance.
+    # Compare the rendered artifact input against the active, validated
+    # ledger/catalog before applying a rule or claiming it in the manifest.
+    try:
+        SourceCatalog().validate()
+        LearningLedger().validate()
+    except (CatalogError, OSError, ValueError) as exc:
+        raise LearningsError("bridge_failure: active knowledge integrity failed: " + str(exc)) from exc
+    active = plan_learnings("video_shopify")
+    if active["error"]:
+        raise LearningsError("bridge_failure: active learning lookup failed: " + str(active["error"]))
+    expected = {row["learning_id"]: row for row in active["learnings"]
+                if row["learning_id"] in RULES}
+    actual = {row["learning_id"]: row for row in doc["learnings"]
+              if isinstance(row, dict) and row.get("learning_id") in RULES}
+    for lid in RULES:
+        if lid not in expected:
+            raise LearningsError("bridge_failure: required learning not active: " + lid)
+        if (lineage[lid] != sorted(set(expected[lid]["source_ids"]))
+                or actual[lid].get("decision") != expected[lid]["decision"]):
+            raise LearningsError("bridge_failure: learning provenance/decision mismatch: " + lid)
     manifest.setdefault("upload_policy", {})
     manifest.setdefault("production_gates", {})
     applied = []
@@ -80,4 +120,5 @@ def apply(doc: dict[str, Any], packet: dict, manifest: dict) -> list[str]:
         rule(packet, manifest)
         applied.append(learning_id)
     manifest["applied_learning_ids"] = applied
+    manifest["applied_learning_source_ids"] = {lid: lineage[lid] for lid in applied}
     return applied
