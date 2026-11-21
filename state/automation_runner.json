@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-21T12:38:14+00:00",
+  "generated_at": "2026-11-21T20:30:45+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 44859894229,
+          "id": 44909071639,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-21T03:12:20Z",
-          "event": "workflow_dispatch"
+          "created_at": "2026-11-21T13:29:04Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 44859900211,
+          "id": 44904906531,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-21T03:12:24Z",
+          "created_at": "2026-11-21T12:38:19Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 44881405628,
+          "id": 44924264432,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-21T07:41:29Z",
+          "created_at": "2026-11-21T16:22:54Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 44893741560,
+          "id": 44931971264,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-21T10:18:52Z",
+          "created_at": "2026-11-21T17:47:39Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "Başarısız olan youtube-upload.yml ve knowledge-promote.yml iş akışlarının hata logları incelenmeli ve çalıştırılmamış olan shorts-free-render.yml kontrol edilmelidir."
+  "model_summary": "Sağlıksız görünen otomasyonlar 'knowledge' projesindeki knowledge-promote.yml ve 'video_shorts_shopify_gumroad' projesindeki youtube-upload.yml iş akışlarıdır. Buna ek olarak, 'video_shorts_shopify_gumroad' projesindeki shorts-free-render.yml workflow'u henüz hiç çalıştırılmamıştır. Diğer tüm projelerdeki (finance ve system) otomasyonlar ise sağlıklı bir şekilde tamamlanmıştır."
 }
