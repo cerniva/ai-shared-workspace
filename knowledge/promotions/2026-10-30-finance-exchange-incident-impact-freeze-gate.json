@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_0c6e7eb5e0f5c6e4",
+      "source_name": "Binance Support — Security Incident Update (30 Oct 2026)",
+      "canonical": "https://www.binance.com/en/support/announcement/detail/c5a8729a97ac486d963784d96c5642d7",
+      "category": "finance-crypto-exchange-security",
+      "purpose": "Separate preliminary platform-reported incident impact, frozen assets, deposits/withdrawals status and unconfirmed cause",
+      "evidence_tier": "official",
+      "access_status": "unverified",
+      "cost_quota": "public page; no key",
+      "reliability_limits": "Search-indexed official announcement text was available but direct page redirected to general announcement index in this environment; issuer assertions are preliminary, not independent forensic confirmation.",
+      "provenance": "unverified",
+      "discovered_at": "2026-10-30T09:00:00+03:00",
+      "last_successful_use": "2026-10-30T09:00:00+03:00"
+    },
+    {
+      "source_id": "src_49dc2607641acddd",
+      "source_name": "Reuters — Analysts react to Binance $6.3bn security breach (30 Oct 2026)",
+      "canonical": "https://www.reuters.com/legal/government/view-analysts-react-binance-freezes-assets-after-63-billion-security-breach-2026-10-30",
+      "category": "finance-crypto-exchange-security",
+      "purpose": "Cross-check reported impact, independently estimated stolen amount, frozen funds and immediate liquidity risk",
+      "evidence_tier": "secondary",
+      "access_status": "verified-public",
+      "cost_quota": "public news read",
+      "reliability_limits": "Independent analysts' stolen-asset estimates and company-reported incident impact are different measures; incident investigation ongoing; prices and exchange status change rapidly.",
+      "provenance": "verified",
+      "discovered_at": "2026-10-30T09:00:00+03:00",
+      "last_successful_use": "2026-10-30T09:00:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_ada231d1d0d2c5ea",
+      "title": "Crypto exchange incident: distinguish reported impact, independently traced theft, frozen assets and withdrawal availability",
+      "domain": "finance-crypto-exchange-security",
+      "claim": "On 30 October 2026 Binance estimated $6.3 billion in total security-incident impact, said about $3 billion of affected assets were frozen, temporarily suspended deposits and withdrawals, and reported its investigation was preliminary; impact, independently confirmed theft, frozen assets, customer loss and exchange availability are distinct fields.",
+      "decision": "FINANCE_EXCHANGE_INCIDENT_SEPARATION_GATE: Report company-estimated incident impact, independently confirmed stolen assets, frozen/recovered assets, verified exchange deposit/withdrawal status and customer reimbursement commitments as separate dated fields. Do not subtract frozen assets to assert recovered cash or net customer loss. Never treat company SAFU assurance as verified reimbursement or claim attribution before forensic confirmation. During active withdrawal suspension, label exchange execution and price-feed liquidity risk explicitly; no blanket exchange-wide safe/unsafe claim.",
+      "evidence_status": "mixed",
+      "provenance": "verified",
+      "outcome": "pending",
+      "plan_tags": [
+        "finance"
+      ],
+      "learned_at": "2026-10-30T09:00:00+03:00",
+      "source_ids": [
+        "src_0c6e7eb5e0f5c6e4",
+        "src_49dc2607641acddd"
+      ],
+      "next_measurement": "Read Binance post-mortem, independent chain-forensics updates and withdrawal-status timestamps; compare reported loss, frozen amount and confirmed recovery without conflation.",
+      "failure_history": [
+        "On 30 Oct 2026 preliminary $6.3bn impact and $3bn frozen could be mistaken for a confirmed $3.3bn net loss."
+      ],
+      "fallback_history": [
+        "If direct issuer statement is inaccessible, mark official access limited and rely on attributed Reuters/forensic estimates with explicit uncertainty; if exchange status cannot be refreshed, mark current withdrawal status N/A."
+      ],
+      "supersedes": null
+    }
+  ]
+}
