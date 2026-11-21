@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-21",
+  "scope": "finance",
+  "source_ref": "main",
+  "source_ledger_sha": "4301863b445060baa6740af42c6c3ab2af5cecf2",
+  "status": "partial",
+  "decisions": [
+    {
+      "area": "Fed policy",
+      "claim": "2026-10-28 FOMC held 3.75%-4.00%, vote 10-2",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "source_date": "2026-10-28",
+      "checked_at": "2026-11-21",
+      "effect": "Use dated primary Fed release; do not present historical policy as new",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "area": "bond",
+      "claim": "20 Nov US 10y ~4.92% secondary only; official curve not fetched",
+      "effect": "No official daily change asserted",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "area": "energy",
+      "claim": "Crude flow, refined flow, tanker costs not independently measured",
+      "effect": "Physical supply impact N/A; no conflation with security headlines",
+      "applied_learning_ids": []
+    },
+    {
+      "area": "altcoin",
+      "claim": "10/10 calibration indicators validated=false",
+      "effect": "Composite and all normalized scores N/A",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "area": "crypto",
+      "claim": "Reuters Bitcoin $55,830 at 2026-11-21 04:13 UTC",
+      "effect": "Time-stamped snapshot, not close",
+      "applied_learning_ids": []
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "Actual external finance producer end-to-end read-back not available; local plan_learnings script not executed due to git clone DNS failure; this decision record is not producer execution proof"
+  },
+  "script": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "stdout": null,
+    "exit_code": null,
+    "clone_exit_code": 128,
+    "clone_error": "Could not resolve host: github.com"
+  },
+  "promotion": {
+    "created": false,
+    "reason": "No new distinct verified reusable learning established"
+  },
+  "ci": {
+    "verified": false
+  },
+  "grok": {
+    "message_id": null,
+    "delivery_verified": false
+  }
+}
