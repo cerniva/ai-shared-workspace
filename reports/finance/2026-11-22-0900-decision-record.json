@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-22",
+  "timezone": "Europe/Istanbul",
+  "scope": "finance",
+  "payoutlens": "excluded",
+  "status": "partial",
+  "sources": [
+    {
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+      "date": "2026-11-18",
+      "claim": "Oct 28 target range held 3.75%-4.00%; two dissents favor +25bp",
+      "verification": "primary verified"
+    },
+    {
+      "url": "https://www.reuters.com/business/bitcoin-rises-over-2-more-than-60000-2026-11-21/",
+      "date": "2026-11-21",
+      "claim": "BTC 60192.07 USD at 15:16 UTC Nov21",
+      "verification": "Reuters dated snapshot"
+    },
+    {
+      "url": "https://www.reuters.com/legal/transactional/wall-st-futures-slip-anthropic-debut-fails-reassure-ai-investors-2026-11-20/",
+      "date": "2026-11-20",
+      "claim": "Friday Nasdaq -5.28%, S&P -3.70%, Dow -1.93%",
+      "verification": "Reuters prior close"
+    }
+  ],
+  "decisions": [
+    {
+      "area": "Fed",
+      "learning_id": "learn_5f961fa5fb9f6388",
+      "impact": "Official dated FOMC minutes checked; historical 3.75-4.00% hold not misreported as Nov22 new decision"
+    },
+    {
+      "area": "Fed sources",
+      "learning_id": "learn_6b1c96a05f850f64",
+      "impact": "Federalreserve.gov used as primary source; Reuters only context"
+    },
+    {
+      "area": "Altcoin",
+      "learning_id": "learn_f7b141c60755c294",
+      "impact": "10 unvalidated calibration indicators; all scores and composite N/A"
+    },
+    {
+      "area": "FX weekend",
+      "learning_id": "learn_63b873bf5dbd8208",
+      "impact": "No invented Sunday TCMB bulletin/FX rate"
+    },
+    {
+      "area": "Bond freshness",
+      "learning_id": "learn_fba30853bde7b37e",
+      "impact": "Sunday no new US Treasury settlement; dated last official yield unverified, so N/A"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_f7b141c60755c294",
+    "learn_63b873bf5dbd8208",
+    "learn_fba30853bde7b37e"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "Local clone DNS failure; plan_learnings script NOT_RUN, external producer decision read-back unavailable",
+    "git_clone_exit_code": 128,
+    "script_stdout": null,
+    "script_exit_code": null
+  },
+  "altcoin_composite_score": null,
+  "first70_status": "not verified",
+  "promotion": "none; no distinct validated durable learning",
+  "grok_delivery": "not claimed; no message-id/read-back",
+  "ci": "not verified",
+  "main_merge": "not performed"
+}
