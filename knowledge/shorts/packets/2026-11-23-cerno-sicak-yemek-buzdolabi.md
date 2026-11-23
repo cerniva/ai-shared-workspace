@@ -50,8 +50,8 @@ Metin (~28 sn):
 Üstten-yan açı, ocakta dolu büyük çorba tenceresi; kapak kalkarken yoğun buhar bulutu yükseliyor. Üstte büyük beyaz yazı: "SOĞUMASINI BEKLEME". Hareket ve ses 0. saniyede.
 
 ## KAPAK
-SOĞUMASINI BEKLEME
-(Kapak 3 kelime: "TENCERE SOĞUMASIN, BÖL" yerine net seçenek: "BEKLEMEK ASIL HATA")
+BEKLEMEK ASIL HATA
+(3 kelime)
 
 ## BAŞLIK
 Why You Shouldn't Let Soup Cool on the Stove (2-Hour Rule)
