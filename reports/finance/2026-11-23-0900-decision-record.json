@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-23",
+  "timezone": "Europe/Istanbul",
+  "status": "partial",
+  "sources": [
+    {
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "publication_date": "2026-10-28",
+      "observed_date": "2026-11-23",
+      "claim": "Fed target range 3.75%-4.00%, vote 10-2",
+      "verified": true
+    },
+    {
+      "url": "https://www.reuters.com/world/china/global-markets-global-markets-2026-11-22/",
+      "publication_date": "2026-11-22",
+      "observed_date": "2026-11-23",
+      "claim": "US futures rebound as Asia shares struggle",
+      "verified": true
+    }
+  ],
+  "decisions": [
+    {
+      "field": "fed_policy",
+      "result": "3.75%-4.00% October 28 hold; not a new November decision",
+      "applied_learning_ids": [
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ]
+    },
+    {
+      "field": "altcoin_support_score",
+      "result": "N/A: 2020-2025 walk-forward validation and train-only lo/hi not verified",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ]
+    },
+    {
+      "field": "treasury_yield_daily_change",
+      "result": "N/A: dated official US Treasury series not obtained",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ]
+    },
+    {
+      "field": "fx_tcmb",
+      "result": "N/A: no new verified TCMB bulletin",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ]
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_f7b141c60755c294",
+    "learn_fba30853bde7b37e",
+    "learn_63b873bf5dbd8208"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No independent external finance production read-back; local script not executed because git clone DNS failure",
+    "script_status": "NOT_RUN",
+    "clone_exit_code": 128
+  },
+  "promotion": "not_created_no_new_verified_generalizable_learning",
+  "grok_delivery": "not_claimed_no_message_id",
+  "issue": 308
+}
