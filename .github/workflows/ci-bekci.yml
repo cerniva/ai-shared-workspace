@@ -40,6 +40,7 @@ on:
       - "plan-learnings-check"
       - "provider-health"
       - "research-learner"
+      - "schedule-watchdog"
       - "self-healing-health-controller"
       - "shorts-48h-lessons"
       - "shorts-free-build"
