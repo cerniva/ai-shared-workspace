@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_1ab9dfce432fd86a",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_239d8d13df54e11d",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_527e9618377fed71",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_6abcf2649edb582c",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_7b59e187607e2f7a",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_a2ab2e6f41d05d70",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_d9ad3569da502ff8",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_daa345ba503d7df0",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_dba1a72aa5f4fc73",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_e8107921e7c45aa8",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    },
+    {
+      "source_id": "src_f0d89c2d1756987d",
+      "verified_at": "2026-10-28T09:46:39+00:00"
+    }
+  ]
+}

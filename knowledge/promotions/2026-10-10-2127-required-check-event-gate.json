@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_c99620eb8f764049",
+    "source_name": "GitHub troubleshooting required status checks",
+    "canonical": "https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks",
+    "category": "system-github-required-checks",
+    "purpose": "Distinguish valid PR required-check evidence from manual workflow_dispatch runs and prevent skipped path-filter checks from blocking promotion PRs",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public official documentation; no API key or paid credit",
+    "reliability_limits": "Documents GitHub required-check behavior; does not itself prove that a repository's current branch protection requires a particular check. Confirm local auto-merge-gate configuration and the actual latest PR check runs.",
+    "discovered_at": "2026-10-10T21:23:25+03:00",
+    "last_successful_use": "2026-10-10T21:23:25+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_67340fd77c09f582",
+    "title": "Manual workflow_dispatch cannot satisfy required PR status checks",
+    "domain": "github-required-check-events",
+    "claim": "GitHub Actions jobs triggered by workflow_dispatch do not satisfy required pull-request status checks; required checks skipped by pull_request path filters can remain pending and block merging.",
+    "evidence_status": "verified",
+    "decision": "PR_REQUIRED_CHECK_EVENT_GATE: if a required test check must appear on a promotion-only PR, run it on an eligible pull_request event and ensure promotion paths are not excluded (or provide an always-running lightweight required job). workflow_dispatch is diagnostic only and must not be claimed to satisfy a required PR status check. Verify actual latest-head check and job names before any merge; do not bypass required checks.",
+    "outcome": "pending",
+    "next_measurement": "For existing PR #141, update the approved PR test trigger to cover knowledge/promotions/** or use a safe always-running required job; capture latest head SHA, pull_request-triggered test run ID, test job success, and promotion read-back before merging. Keep Evaluate-mode archive safety correction separate; PayoutLens excluded.",
+    "learned_at": "2026-10-10T21:23:25+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_c99620eb8f764049"
+    ],
+    "failure_history": [
+      "2026-10-10 PR #141 promotion-only changes did not trigger worker-orchestration-tests pull_request.paths; manual workflow_dispatch was previously suggested but is not a valid substitute for required PR check."
+    ],
+    "fallback_history": [
+      "Until the trigger is fixed, keep PR unmerged and mark required-check evidence missing. Do not fabricate success or turn off the gate."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "PR_REQUIRED_CHECK_EVENT_GATE"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {"source_id": "src_14818279e16364ff", "verified_at": "2026-11-01T09:20:00+03:00"}
+  ],
+  "learnings": [
+    {
+      "title": "Shopify developer changelog feed: UI extensions now support a larger number of locales",
+      "domain": "commerce-platform",
+      "claim": "Shopify developer changelog page ui-extensions-now-support-a-larger-number-of-locales (30 Oct 2026, flag Update, surface Platform, read 2026-11-01, HTTP 200) states UI extensions no longer have a 256 KB limit on the combined size of their locale files; the 30 KB limit per individual locale file still applies. Locale file format, naming and fallback behavior are unchanged. Applies to all apps with UI extensions on all API versions; no action required, and new deploys (shopify app deploy) are not limited by combined locale size.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: only relevant if video_shopify ships UI extensions with locale files; languages previously dropped to stay under 256 KB can be re-added as long as each file stays under 30 KB. No code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Confirm whether video_shopify has any UI extension with a locales folder; record yes/no before 2026-11-08.",
+      "learned_at": "2026-11-01T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_14818279e16364ff"],
+      "plan_tags": ["video_shopify"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

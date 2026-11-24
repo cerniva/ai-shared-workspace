@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-23T09:14:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: Security advisory permissions are now generally available via custom repository roles",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-20-security-advisory-permissions-are-now-generally-available (feed pubDate Fri, 20 Nov 2026 21:49:29 +0000; read 2026-11-23) states organization owners can now let people work on repository security advisories, including private vulnerability reports, through custom repository roles, without making them repository administrators or giving them the organization-wide security manager role. Four new permissions appear under Security when creating or editing a custom repository role: View security advisories; Create, Edit, and Manage security advisories (everything in View plus create/edit, comment, manage collaborators, create a temporary private fork); Accept private vulnerability reports and close or reopen security advisories (requires View or Create, Edit, and Manage); Publish security advisories and request CVEs (requires View or Create, Edit, and Manage). Roles can be assigned to users and teams on only the repositories where needed. Available to organizations on plans that support custom repository roles, including GitHub Enterprise Cloud.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan delegates repository security advisory or private vulnerability report handling to non-admin users; no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-30 whether any cerniva org workflow needs delegated security advisory access via a custom repository role.",
+      "learned_at": "2026-11-23T06:14:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

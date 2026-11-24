@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-15T09:20:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-15T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Fed/FDIC/OCC/NCUA: third-party risk management guidance comment period extended to December 16",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board joint press release bcreg20261113a (13 Nov 2026; page read 2026-11-15) says FDIC, Fed, NCUA and OCC extend the comment period on proposed third-party relationship risk management guidance from November 16 to December 16. The guidance is principles-based and non-binding; when finalized, agencies plan to rescind existing TPRM guidance. The Fed separately extended to December 16 the comment period on a TPRM guide for Fed-supervised traditional community banks.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: finance plan notes the Dec 16 deadline; no operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-12-16 whether any finance process depends on bank third-party risk guidance.",
+      "learned_at": "2026-11-15T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub Copilot: six models deprecated on 2026-12-14 across all Copilot experiences",
+      "domain": "github-platform",
+      "claim": "GitHub changelog 2026-11-13 (page read 2026-11-15) says Claude Fable 5, Claude Haiku 4.5*, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6 and Kimi K3 are deprecated across all Copilot experiences on 2026-12-14 (alternatives: Fable 5.2, Haiku 5.5, Gemini 4 Hydrogen, Gemini 4 Carbon, Grok 4.7, Kimi K3 TBA). *Haiku 4.5 stays for individual annual-plan subscribers. Enterprise/Business get alternatives auto-enabled unless the global default is off or the model is disabled.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan checks whether any cerniva workflow pins a deprecated Copilot model; no change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-12-10 whether any workflow pins a deprecated model.",
+      "learned_at": "2026-11-15T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_407897ce4f74ec61",
+      "verified_at": "2026-11-06T11:00:03+00:00"
+    },
+    {
+      "source_id": "src_75ded79c688f9594",
+      "verified_at": "2026-11-06T11:00:03+00:00"
+    }
+  ]
+}

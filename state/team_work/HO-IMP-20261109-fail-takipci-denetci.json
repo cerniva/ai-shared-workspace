@@ -1,0 +1,42 @@
+{
+  "handoff_id": "HO-IMP-20261109-fail-takipci-denetci",
+  "source": "improvement-bot",
+  "run_id": "42630910108",
+  "task": "[.github/workflows/takipci-denetci.yml] .github/workflows/takipci-denetci.yml iş akışındaki %50 (6/12) başarısızlık oranını düşürmek ve derleme darboğazını çözmek için; bağımlılık kurulum adımlarında `actions/cache` ile paket önbellekleme kullanılması, aynı PR/dal üzerindeki çakışan veya eski koşuları iptal eden `concurrency` bloğunun eklenmesi, uzun süren kararsız adımlara `timeout-minutes: 10` sınırlaması getirilmesi ve ağ/test bağımlılığı olan flaky adımlara `nick-fields/retry` veya `retry` aksiyonu eklenerek otomatik yeniden deneme mekanizmasının devreye alınması gerekmektedir.",
+  "generated_at": "2026-11-09T14:03:36+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261109-fail-takipci-denetci",
+    "evidence": [
+      {
+        "path": ".github/workflows/takipci-denetci.yml",
+        "details": "Target workflow file `.github/workflows/takipci-denetci.yml` identified for optimization to resolve the 50% (6/12) failure rate and build bottleneck."
+      }
+    ],
+    "factual_findings": [
+      "Workflow `.github/workflows/takipci-denetci.yml` lacks a top-level or job-level `concurrency` configuration, leading to redundant parallel execution on same-ref PRs and branches.",
+      "Dependency installation steps in `.github/workflows/takipci-denetci.yml` do not leverage `actions/cache`, causing repeated full package downloads and extended build times.",
+      "Unbound job/step execution times in `.github/workflows/takipci-denetci.yml` risk lingering runner allocation without explicit `timeout-minutes: 10` limits.",
+      "Network requests and test steps in `.github/workflows/takipci-denetci.yml` lack automatic retry logic (e.g., `nick-fields/retry`), contributing directly to transient step failures."
+    ],
+    "hypotheses": [
+      "Configuring a `concurrency` block with `cancel-in-progress: true` using `${{ github.workflow }}-${{ github.ref }}` will eliminate outdated run resource contention.",
+      "Integrating `actions/cache` for package dependencies will shorten installation step duration and reduce network-based fetch failures.",
+      "Setting `timeout-minutes: 10` on volatile steps/jobs will enforce deterministic bound times and prevent hung processes.",
+      "Wrapping network-heavy or flaky execution steps with `nick-fields/retry` will substantially reduce transient failures and improve overall workflow stability."
+    ],
+    "recommendation": "Update `.github/workflows/takipci-denetci.yml` to include top-level concurrency control (`group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: true`), implement `actions/cache` in the dependency setup step, enforce `timeout-minutes: 10` on execution jobs/steps, and wrap network-dependent actions using `nick-fields/retry`.",
+    "confidence": 0.95,
+    "next_action": "Apply the updates to `.github/workflows/takipci-denetci.yml` with concurrency, caching, timeouts, and retry logic, then run a test workflow execution to verify failure rate reduction.",
+    "timing": {
+      "started_at": "2026-11-09T14:04:06.104949+00:00",
+      "duration_ms": 24087
+    },
+    "usage": {
+      "input_tokens": 275,
+      "output_tokens": 567,
+      "total_tokens": 2330
+    }
+  }
+}

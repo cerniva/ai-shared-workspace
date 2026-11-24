@@ -15,8 +15,12 @@ No key / provider failure / invalid output -> no lesson, no PLACEHOLDER; a
 ``YAPAMADIM:`` comment is posted on the merged PR and the process exits 0.
 Output goes to branch ``bot/lessons-pr-<n>`` + a PR; never pushes to main.
 The PR body satisfies auto-merge-gate (config/auto_merge.json): handoff id
-``HO-...`` and a ``CI:`` evidence line. Without a source HO id the body says
-"handoff: yok" (no HO- token) so the gate leaves the PR open for a human.
+``HO-...`` and a ``CI:`` evidence line. Without a source HO id the body carries
+the deterministic ``HO-LESSON-PR<n>`` (lesson PRs only touch knowledge/lessons.md,
+low risk). PRs opened with GITHUB_TOKEN start no pull_request workflows, so the
+gate's required check ``test`` never appears; after opening the PR the bot
+dispatches ``knowledge-lint.yml`` on the PR branch (check run lands on the head
+sha; failure is visible in the result but not fatal).
 Backlog mode (``--backlog``; workflow_run after provider-health or
 workflow_dispatch without pr_number): no state file. The backlog is derived
 from merged PRs of the last 14 days carrying a ``YAPAMADIM:`` comment and no
@@ -51,6 +55,8 @@ RUN_URL_RE = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/actions/runs/(\d+)
 BACKLOG_DAYS = 14
 BACKLOG_LIMIT = 3
 DONE_PREFIX = "Ders yazıldı:"
+LINT_WORKFLOW = "knowledge-lint.yml"
+LESSON_HO_PREFIX = "HO-LESSON-PR"
 PROTECTED_WORKFLOWS = ("youtube-upload", "shorts-free-", "meta-", "shopify", "gumroad")
 
 
@@ -144,6 +150,17 @@ def parse_dispatch_payload(payload: Mapping[str, Any] | None) -> int | None:
     return n if n > 0 else None
 
 
+def lesson_handoff_id(pr_number: int) -> str:
+    """Deterministic handoff id for lesson PRs whose source PR has none (matches gate handoff_regex)."""
+    return f"{LESSON_HO_PREFIX}{int(pr_number)}"
+
+
+def lint_dispatch_payload(branch: str, pr_number: int | None) -> dict[str, Any]:
+    """workflow_dispatch body for knowledge-lint: ref = PR branch so check `test` lands on the head sha."""
+    inputs = {"pr_number": str(pr_number)} if pr_number else {}
+    return {"ref": branch, "inputs": inputs}
+
+
 def team_pr_opened_payload(pr_number: int, head_sha: str, handoff_id: str | None) -> dict[str, Any]:
     return {"event_type": "team-pr-opened",
             "client_payload": {"pr_number": pr_number, "head_sha": head_sha, "handoff_id": handoff_id}}
@@ -159,7 +176,8 @@ def ci_evidence_line(merge_sha: str, checks: dict[str, str], run_urls: list[str]
 
 
 def lesson_pr_body(pr_number: int, merge_sha: str, handoff_id: str | None, ci_line: str, line: str) -> str:
-    ho = handoff_id if handoff_id else "handoff: yok (kaynak PR'da handoff id bulunamadı; gate birleştirmez, insan incelemesi)"
+    ho = handoff_id if handoff_id else (
+        f"{lesson_handoff_id(pr_number)} (kaynak PR'da handoff id yok; ders PR'ı için deterministik id)")
     return (f"Kaynak: PR #{pr_number} ({merge_sha[:7]})\n{ho}\n{ci_line}\n\n"
             f"Ders satırı (knowledge/lessons.md):\n{line}\n")
 
@@ -294,7 +312,9 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
         return {"status": "skip", "reason": "duplicate"}
     runs = (gh.call("GET", f"/commits/{sha}/check-runs?per_page=100") or {}).get("check_runs") or []
     checks = {r["name"]: (r.get("conclusion") or r.get("status") or "?") for r in runs}
-    run_urls = [m.group(0) for r in runs if (m := RUN_URL_RE.search(r.get("details_url") or r.get("html_url") or ""))]
+    # only successful runs: takipci-denetci fails the PR for any referenced run that is not success
+    run_urls = [m.group(0) for r in runs if r.get("conclusion") == "success"
+                and (m := RUN_URL_RE.search(r.get("details_url") or r.get("html_url") or ""))]
     hid = extract_handoff_id(pr.get("title"), pr.get("body"), (pr.get("head") or {}).get("ref"),
                              env.get("DISPATCH_HANDOFF_ID"))
     line, why = draft_line(adapter, pr, files, checks, hid, env.get("GITHUB_RUN_ID"))
@@ -313,16 +333,25 @@ def run(pr_number: int, *, gh: GH, env: Mapping[str, str], root: Path = ROOT, ad
         g(["push", "origin", f"HEAD:refs/heads/{branch}"])  # non-force: a parallel run's branch wins
     except subprocess.CalledProcessError:
         return {"status": "skip", "reason": f"branch {branch} already pushed by a parallel run"}
+    body_ho = hid or lesson_handoff_id(pr_number)
     new = gh.call("POST", "/pulls", {"title": f"knowledge(lessons): PR #{pr_number} dersi", "head": branch,
                                      "base": "main", "draft": False,
                                      "body": lesson_pr_body(pr_number, sha, hid, ci_evidence_line(sha, checks, run_urls), line)})
     new_no = new.get("number")
     head_sha = (new.get("head") or {}).get("sha") or ""
+    out: dict[str, Any] = {"status": "opened", "pr": new_no, "line": line}
+    try:  # required check `test`: GITHUB_TOKEN PRs start no pull_request workflows
+        gh.call("POST", f"/actions/workflows/{LINT_WORKFLOW}/dispatches", lint_dispatch_payload(branch, new_no))
+        out["lint_dispatched"] = LINT_WORKFLOW
+    except Exception as exc:  # PR exists; visible but not fatal
+        out["lint_dispatch_error"] = type(exc).__name__
     try:
-        gh.call("POST", "/dispatches", team_pr_opened_payload(new_no, head_sha, hid))
+        gh.call("POST", "/dispatches", team_pr_opened_payload(new_no, head_sha, body_ho))
     except Exception as exc:  # PR exists; dispatch failure must be visible but not fatal
-        return {"status": "opened", "pr": new_no, "line": line, "dispatch_error": type(exc).__name__}
-    return {"status": "opened", "pr": new_no, "line": line, "dispatched": "team-pr-opened"}
+        out["dispatch_error"] = type(exc).__name__
+        return out
+    out["dispatched"] = "team-pr-opened"
+    return out
 
 
 def fetch_backlog_candidates(gh: GH, *, now: datetime, days: int = BACKLOG_DAYS) -> list[dict[str, Any]]:

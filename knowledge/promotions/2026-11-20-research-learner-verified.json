@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-20T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: S3 audit log streaming with OpenID Connect expands to GHE.com",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-19-s3-audit-log-streaming-with-openid-connect-expands-to-ghe-com (dated November 19, 2026; feed pubDate Thu, 19 Nov 2026 08:27:16 +0000; page read in full 2026-11-20, 1 minute read, labeled Improvement) states you can now stream enterprise audit logs to Amazon S3 using OpenID Connect (OIDC) on GitHub Enterprise Cloud with data residency (GHE.com). This extends the existing github.com capability and lets you authenticate without storing long-lived AWS credentials on GitHub. The page links to docs on setting up audit log streaming to S3 with OIDC; setup details were not read.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan uses GHE.com enterprise audit log streaming to S3; no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-27 whether any cerniva enterprise on GHE.com streams audit logs to S3 or would benefit from OIDC instead of long-lived AWS credentials.",
+      "learned_at": "2026-11-20T06:09:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

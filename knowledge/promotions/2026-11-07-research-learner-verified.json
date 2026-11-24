@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-07T09:14:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-07T09:14:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board terminates enforcement action with Allegiant United Holdings, Nano Financial Holdings, and Nano Banc",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press release enforcement20261105a (feed pubDate Thu, 5 Nov 2026 16:00:00 GMT; For release at 11:00 a.m. EST; lastUpdate November 05, 2026; read 2026-11-07) announces termination of the enforcement action with Allegiant United Holdings, LLC, Irvine California, Nano Financial Holdings, Inc., Irvine, California, and Nano Banc, Irvine California: the Written Agreement dated February 24, 2021 was terminated October 21, 2026. The release page links the Written Agreement PDF.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: regulatory-awareness item about a single Irvine, California bank holding company group; no market-moving content and no action for Finance reports or Shorts unless a reviewer finds a specific use.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-14 whether any Finance report or Shorts item needs this Allegiant/Nano Banc termination citation.",
+      "learned_at": "2026-11-07T06:14:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog: Usage metrics API adds Copilot code review details and addressed rate",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-05-usage-metrics-api-adds-code-review-details-and-addressed-rate (feed pubDate Fri, 06 Nov 2026 00:19:07 +0000; Improvement dated November 5, 2026; read 2026-11-07) states enterprise and organization repository-level Copilot usage metrics repos-1-day reports now include a copilot_code_review object with total_comments_evaluated, total_comments_addressed (addressed rate = addressed/evaluated), breakdowns review_comments_by_severity/review_tier/comment_type/customization, and total_merged_no_human_change_request_after_review. Comments are counted on PR merge day; bot PRs are usually excluded from comment evaluation; access requires the Copilot usage metrics policy and View Copilot Metrics permission.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan reads Copilot usage metrics (earlier learnings on totals_by_client / BYOK); no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-14 whether any system workflow consumes Copilot usage metrics and would benefit from copilot_code_review addressed-rate fields.",
+      "learned_at": "2026-11-07T06:14:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

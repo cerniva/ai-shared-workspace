@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-11T09:20:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-11T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board: approval of Mutual Federal Bancorp, MHC / MFB Bancorp, Inc. applications (Order orders20261109a)",
+      "domain": "finance-news",
+      "claim": "Federal Reserve press release orders20261109a (feed pubDate Mon, 9 Nov 2026 21:00:00 GMT; page last updated November 09, 2026; read 2026-11-11) states the Board on Monday announced approval of two applications by Mutual Federal Bancorp, MHC, and MFB Bancorp, Inc., both of Chicago, Illinois. The approvals allow the banking organization to have a new top-tier holding company, MFB Bancorp, Inc., which would become a savings and loan holding company by acquiring Mutual Federal Bank, of Chicago. Category: Orders on Banking Applications; a routine structural approval, not a monetary policy action.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: log only; routine small-bank holding company restructuring order with no market or policy signal for the finance plan; no operational change.",
+      "outcome": "pending",
+      "next_measurement": "None needed unless a finance item cites bank-application orders; record yes/no before 2026-11-18.",
+      "learned_at": "2026-11-11T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog: Claude Fable 5.2 GA in GitHub Copilot, data retention required by default",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-09-claude-fable-5-2-in-github-copilot (feed pubDate Mon, 09 Nov 2026 16:46:43 +0000; read 2026-11-11) states Claude Fable 5.2 is generally available in GitHub Copilot for Pro+, Max, Business and Enterprise users, selectable in VS Code, Visual Studio, Copilot CLI, Copilot coding agent, Copilot app, github.com, GitHub Mobile, JetBrains, Xcode and Eclipse, with gradual rollout. It is billed at provider list pricing under usage-based billing. Business and Enterprise admins must enable the Claude Fable 5.2 policy (off by default). The model requires data retention by default for Anthropic safety classifiers (not used for training); Fable 5, 5.1 and 5.2 are exceptions to zero data retention. Eligible enterprises can use Fable 5, 5.1 and 5.2 with ZDR through the end of the calendar year under a time-bound exemption, after which Enterprise Frontier Safeguards are required.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan selects Copilot models or has data-retention constraints; no change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-18 whether any system workflow uses Copilot model selection or is affected by the Fable data retention requirement.",
+      "learned_at": "2026-11-11T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
