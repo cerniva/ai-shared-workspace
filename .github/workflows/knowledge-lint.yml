@@ -1,0 +1,77 @@
+name: knowledge-lint
+
+# Provides the required check `test` (config/auto_merge.json required_checks) for
+# knowledge / lesson PRs. PRs opened with GITHUB_TOKEN (lesson-learner) start no
+# pull_request workflows, so scripts/lesson_learner.py dispatches this workflow with
+# ref = PR branch: the check run then lands on the PR head sha, which is what
+# auto-merge-gate reads. After a green `test` on a dispatched run, takipci-denetci
+# is re-run in PR mode (its team-pr-opened run may have seen this check unfinished).
+# auto-merge-gate listens to this workflow via workflow_run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Lesson PR number (optional; re-runs takipci-denetci for it after tests)"
+        required: false
+        default: ''
+  pull_request:
+    paths:
+      - 'knowledge/**'
+      - 'scripts/lesson_learner.py'
+      - 'scripts/knowledge_*.py'
+      - 'tests/test_lesson_learner.py'
+      - 'tests/test_lessons_ledger.py'
+      - 'tests/test_knowledge_*.py'
+      - '.github/workflows/knowledge-lint.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'knowledge/**'
+      - 'scripts/lesson_learner.py'
+      - 'scripts/knowledge_*.py'
+      - 'tests/test_lesson_learner.py'
+      - 'tests/test_lessons_ledger.py'
+      - 'tests/test_knowledge_*.py'
+      - '.github/workflows/knowledge-lint.yml'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: knowledge-lint-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Knowledge / lessons integrity + lesson-learner tests
+        run: >-
+          python3 -m unittest -v
+          tests.test_lessons_ledger
+          tests.test_knowledge_integrity
+          tests.test_knowledge_promote
+          tests.test_lesson_learner
+          tests.test_auto_merge_gate
+
+  reaudit:
+    needs: test
+    if: github.event_name == 'workflow_dispatch' && inputs.pr_number != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Re-run takipci-denetci in PR mode
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ inputs.pr_number }}
+        run: |
+          case "$PR" in ''|*[!0-9]*) echo "invalid pr_number"; exit 1;; esac
+          gh workflow run takipci-denetci.yml --repo "$GITHUB_REPOSITORY" --ref main -f pr_number="$PR"

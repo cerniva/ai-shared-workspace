@@ -23,6 +23,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write  # workflow_dispatch knowledge-lint.yml on the lesson branch (required check `test`)
 
 concurrency:
   group: lesson-learner-${{ github.event.pull_request.number || inputs.pr_number || github.event.client_payload.pr_number || 'backlog' }}

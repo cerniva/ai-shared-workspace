@@ -1083,6 +1083,187 @@
         "2026-11-11T12:49:52+00:00 team-worker: model sonucu state/team_work/HO-IMP-20261111-pr-158.json (gemini/gemini-3.6-flash), PR bekliyor"
       ],
       "claimed_by": "team-worker"
+    },
+    {
+      "id": "HO-IMP-20261112-slow-improvement-bot",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/improvement-bot.yml] .github/workflows/improvement-bot.yml iş akışındaki 72 saniyelik medyan çalışma süresini optimize etmek için Pip ve apt paket adımlarına `actions/cache` entegre edilerek bağımlılıkların tekrar indirilmesi önlenmeli, workflow tetikleme kurallarına `paths` filtreleri (ör. kaynak kod dışındaki dokümantasyon güncellemelerini atlamak için) eklenmeli ve birbirine bağımlı olmayan test adımları müstakil paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261112 key=slow-improvement-bot",
+      "status": "open",
+      "created_at": "2026-11-12T13:51:01+00:00",
+      "updated_at": "2026-11-12T13:51:01+00:00"
+    },
+    {
+      "id": "HO-IMP-20261113-provider-cerebras",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[config/model_providers.json] GitHub Actions iş akışlarındaki darboğazı gidermek için 'config/model_providers.json' dosyasındaki fallback zincirinden 'cerebras' sağlayıcısını geçerli bir API anahtarı tanımlanana kadar geçici olarak tamamen çıkarın veya en son sıraya taşıyın; böylece eksik anahtar yüzünden 7 günde yaşanan 160.9 saatlik gereksiz bekleme süresi engellenerek CI/CD süreçleri anında hızlandırılmış olacaktır.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261113 key=provider-cerebras",
+      "status": "open",
+      "created_at": "2026-11-13T13:13:42+00:00",
+      "updated_at": "2026-11-13T13:16:52+00:00",
+      "notes": [
+        "2026-11-13T13:16:52+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=auth, openai=quota, grok=no_key, local=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261114-slow-research-learner",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/research-learner.yml] `.github/workflows/research-learner.yml` iş akışındaki 62 saniyelik medyan çalışma süresini düşürmek için; pip ve apt bağımlılıklarına `actions/cache` eklenerek yinelemeli paket indirme süreleri optimize edilmeli, dokümantasyon veya ilgisiz kod değişikliklerinde gereksiz tetiklemeleri önlemek adına trigger yapısına `paths` filtresi eklenmeli ve birbiriyle bağımlılığı bulunmayan test adımları ayrı paralel job'lara bölünerek toplam yürütme süresi kısaltılmalıdır.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261114 key=slow-research-learner",
+      "status": "open",
+      "created_at": "2026-11-14T12:17:33+00:00",
+      "updated_at": "2026-11-14T12:17:33+00:00"
+    },
+    {
+      "id": "HO-IMP-20261115-slow-codeql-code-scanning",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/codeql.yml] `.github/workflows/codeql.yml` iş akışını hızlandırmak için `on.push` ve `on.pull_request` tetikleyicilerine `paths-ignore` eklenerek belgeler veya ilgisiz dosyalar değiştiğinde gereksiz tetiklemeler önlenmeli, Python pip ve apt paket indirme adımlarına `actions/cache` eklenerek bağımlılıkların tekrar yüklenmesi engellenmeli ve birbirinden bağımsız olan adımlar paralel job'lara bölünerek medyan 67 saniyelik çalışma süresi önemli ölçüde düşürülmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261115 key=slow-codeql-code-scanning",
+      "status": "open",
+      "created_at": "2026-11-15T12:50:37+00:00",
+      "updated_at": "2026-11-15T12:50:37+00:00"
+    },
+    {
+      "id": "HO-IMP-20261116-slow-auto-merge-gate",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/auto-merge-gate.yml] .github/workflows/auto-merge-gate.yml dosyasinda tespit edilen 151 saniyelik medyan sureyi dusurmek amaciyla; pip ve apt paket indirmelerine actions/cache adimi eklenerek tekrarlayan paket kurulumlari engellenmeli, ilgisiz kod degisikliklerinde calismayi önlemek adina push ve pull_request tetikleyicilerine paths filtreleri tanimlanmali ve birbirine bagimliligi olmayan test adimlari ayri job'lara bolunerek paralel calismalari saglanmalidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261116 key=slow-auto-merge-gate",
+      "status": "open",
+      "created_at": "2026-11-16T13:47:06+00:00",
+      "updated_at": "2026-11-16T13:47:06+00:00"
+    },
+    {
+      "id": "HO-IMP-20261117-slow-tinyfish-youtube-analytics",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] 'tinyfish-youtube-analytics' medyan 235 sn (1 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261117 key=slow-tinyfish-youtube-analytics",
+      "status": "open",
+      "created_at": "2026-11-17T14:39:01+00:00",
+      "updated_at": "2026-11-17T14:42:49+00:00",
+      "notes": [
+        "2026-11-17T14:42:49+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, github_models=error, gemini=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider network error)"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261118-slow-knowledge-promotion-pr-gate",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/knowledge-promotion-pr-gate.yml] 'knowledge-promotion-pr-gate' medyan 1452 sn (6 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261118 key=slow-knowledge-promotion-pr-gate",
+      "status": "open",
+      "created_at": "2026-11-18T14:15:58+00:00",
+      "updated_at": "2026-11-18T14:18:10+00:00",
+      "notes": [
+        "2026-11-18T14:18:10+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, github_models=error, gemini=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261119-fail-takipci-denetci",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/takipci-denetci.yml] 'takipci-denetci' basarisizlik orani %75 (9/12). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261119 key=fail-takipci-denetci",
+      "status": "open",
+      "created_at": "2026-11-19T14:31:08+00:00",
+      "updated_at": "2026-11-19T14:35:24+00:00",
+      "notes": [
+        "2026-11-19T14:35:24+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, deepseek=no_key, openai=quota, local=no_key, github_models=error, gemini=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261120-provider-cerebras",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[config/model_providers.json] 'cerebras' 7 gunde 163.2 saat dustu (no_key 163.2, billing 0.0, quota 0.0). Fallback sirasinda geri al veya anahtar/kota duzelene kadar zincirden cikar.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261120 key=provider-cerebras",
+      "status": "open",
+      "created_at": "2026-11-20T14:08:26+00:00",
+      "updated_at": "2026-11-20T14:13:46+00:00",
+      "notes": [
+        "2026-11-20T14:13:46+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: gemini: RetryableProviderError: provider network error; github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain))"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261121-fail-knowledge-promotion-pr-gate",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/knowledge-promotion-pr-gate.yml] 'knowledge-promotion-pr-gate' basarisizlik orani %86 (6/7). Son kirik kosularin logundaki ilk hatayi duzelt; flaky adima retry/timeout ekle.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261121 key=fail-knowledge-promotion-pr-gate",
+      "status": "open",
+      "created_at": "2026-11-21T13:33:49+00:00",
+      "updated_at": "2026-11-21T13:33:49+00:00"
+    },
+    {
+      "id": "HO-IMP-20261122-slow-improvement-bot",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/improvement-bot.yml] 'improvement-bot' medyan 90 sn (5 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261122 key=slow-improvement-bot",
+      "status": "open",
+      "created_at": "2026-11-22T13:26:43+00:00",
+      "updated_at": "2026-11-22T13:31:33+00:00",
+      "notes": [
+        "2026-11-22T13:31:33+00:00 team-worker: research-learner (team-research): Öncelikle 'state/provider_health.json' ve ortam API anahtarlarini kontrol ederek en az bir LLM provider'i (örn. OpenAI kotasi veya Gemini/Groq API key) aktif hale getirin; ardindan '.github/workflows/improvement-bot.yml' dosyasina actions/cache, paths filtresi ve paralel job yapisini uygulayin. | sonraki: Geçerli bir AI provider API key sağlandıktan sonra '.github/workflows/improvement-bot.yml' optimizasyon görevini tekrar çalıştırın."
+      ]
+    },
+    {
+      "id": "HO-IMP-20261123-slow-auto-merge-gate",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/auto-merge-gate.yml] 'auto-merge-gate' medyan 196 sn (29 kosu). Pip/apt adimlarina actions/cache ekle, gereksiz adimlari paths filtresiyle atla, bagimsiz test adimlarini paralel job'a bol.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261123 key=slow-auto-merge-gate",
+      "status": "open",
+      "created_at": "2026-11-23T16:10:21+00:00",
+      "updated_at": "2026-11-23T16:16:35+00:00",
+      "notes": [
+        "2026-11-23T16:16:35+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: github_models=error, groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, claude=auth, openai=quota, grok=no_key, local=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain); gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com)"
+      ]
+    },
+    {
+      "id": "CI-45340603299",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'agents-reporter' run 45340603299: jobs agent[Persist agent output only]; first error: Process completed with exit code 1.",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-45340603299",
+      "status": "open",
+      "created_at": "2026-11-24T06:29:47+00:00",
+      "updated_at": "2026-11-24T06:30:01+00:00",
+      "notes": [
+        "2026-11-24T06:30:01+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com; github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain))"
+      ]
+    },
+    {
+      "id": "HO-IMP-20261124-slow-tinyfish-youtube-analytics",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] .github/workflows/tinyfish-youtube-analytics.yml workflow'unun 117 saniyelik medyan süresini kısaltmak için pip ve apt kurulum adımlarına actions/cache entegre edilerek bağımlılık yüklemeleri hızlandırılmalı, sadece ilgili kod değişikliklerinde çalışması için push ve pull_request tetikleyicilerine paths filtreleri eklenmeli ve birbiriyle bağımlılığı olmayan test adımları ayrı paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261124 key=slow-tinyfish-youtube-analytics",
+      "status": "open",
+      "created_at": "2026-11-24T15:59:10+00:00",
+      "updated_at": "2026-11-24T16:02:52+00:00",
+      "notes": [
+        "2026-11-24T16:02:52+00:00 team-worker: research-learner (team-research): 1) `state/provider_health.json` uzerinden en az bir calısir AI modeli anahtarini/kotasini yenileyin.\n2) `.github/workflows/tinyfish-youtube-analytics.yml` dosyasina `actions/setup-python` (cache: 'pip') veya `actions/cache` entegre edin.\n3) `on.push` ve `on.pull_request` altina `paths` kısıtlamalari ekleyin.\n4) Monolitik test adimlarini bagimsiz job'lar (`jobs.<job_id>`) olarak eszamanli calisacak sekilde yeniden yapilandirin. | sonraki: Model provider erisimini dogruladiktan sonra `.github/workflows/tinyfish-youtube-analytics.yml` dosyasinda caching, path filtering ve paralel job refactoring degisikliklerini uygulayin."
+      ]
     }
   ]
 }

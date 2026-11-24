@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-12T09:15:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-12T09:15:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve: Board approves two applications by Mutual Federal Bancorp, MHC, and MFB Bancorp, Inc. (Chicago)",
+      "domain": "finance-news",
+      "claim": "Federal Reserve press release orders20261109a (feed pubDate Mon, 9 Nov 2026 21:00:00 GMT, category Orders on Banking Applications; feed and release page read 2026-11-12) announces Board approval of two applications by Mutual Federal Bancorp, MHC, and MFB Bancorp, Inc., both of Chicago, Illinois. Only the page summary was read; application details were not analysed.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: routine bank applications order; no finance plan action.",
+      "outcome": "pending",
+      "next_measurement": "None required; record only if a finance workflow depends on Fed banking application orders.",
+      "learned_at": "2026-11-12T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog: Enterprise GitHub Apps can call enterprise Copilot seat management APIs",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-10-github-app-support-for-enterprise-copilot-seat-management (feed pubDate Wed, 11 Nov 2026 00:10:31 +0000; read 2026-11-12) states enterprise GitHub Apps can now call the enterprise-level Copilot seat management APIs to control which users and enterprise teams are assigned Copilot seats, via a new enterprise fine-grained permission for Apps: Enterprise Copilot license management.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if the system plan manages enterprise Copilot seats via a GitHub App; no operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-19 whether any system workflow manages enterprise Copilot seats via a GitHub App.",
+      "learned_at": "2026-11-12T06:15:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
