@@ -11,7 +11,7 @@ on:
   check_suite:
     types: [completed]
   workflow_run:
-    workflows: ["worker-orchestration-tests", "handoff-audit", "takipci-denetci", "codeql"]
+    workflows: ["worker-orchestration-tests", "handoff-audit", "takipci-denetci", "codeql", "knowledge-lint"]
     types: [completed]
   workflow_dispatch:
     inputs:

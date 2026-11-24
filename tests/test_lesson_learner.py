@@ -191,10 +191,59 @@ class DispatchPathTests(Base):
         gh = FakeGH()
         out = self.go(gh, Adapter(text=GOOD))
         self.assertEqual(out["dispatched"], "team-pr-opened")
-        self.assertEqual([p for p, _ in gh.posts], ["/pulls", "/dispatches"])
+        self.assertEqual([p for p, _ in gh.posts],
+                         ["/pulls", "/actions/workflows/knowledge-lint.yml/dispatches", "/dispatches"])
         body = gh.posts[-1][1]
         self.assertEqual(body["event_type"], "team-pr-opened")
         self.assertEqual(body["client_payload"], {"pr_number": 99, "head_sha": "feedbeef", "handoff_id": "HO-20261010-03"})
+
+
+class LintDispatchTests(Base):
+    """PRs opened with GITHUB_TOKEN start no workflows: the bot dispatches the required `test` check."""
+
+    def test_lint_dispatched_on_pr_branch(self):
+        gh = FakeGH()
+        out = self.go(gh, Adapter(text=GOOD))
+        self.assertEqual(out["lint_dispatched"], "knowledge-lint.yml")
+        path, body = gh.posts[1]
+        self.assertEqual(path, "/actions/workflows/knowledge-lint.yml/dispatches")
+        self.assertEqual(body, {"ref": "bot/lessons-pr-7", "inputs": {"pr_number": "99"}})
+
+    def test_lint_dispatch_failure_visible_not_fatal(self):
+        class Fails(FakeGH):
+            def call(self, method, path, body=None):
+                if path.startswith("/actions/workflows/"):
+                    self.posts.append((path, body))
+                    raise RuntimeError("422")
+                return super().call(method, path, body)
+        gh = Fails()
+        out = self.go(gh, Adapter(text=GOOD))
+        self.assertEqual(out["status"], "opened")
+        self.assertEqual(out["lint_dispatch_error"], "RuntimeError")
+        self.assertNotIn("lint_dispatched", out)
+        self.assertEqual(out["dispatched"], "team-pr-opened")  # team-pr-opened still sent
+
+    def test_lesson_handoff_id_matches_gate_and_auditor(self):
+        cfg = json.loads((Path(__file__).resolve().parents[1] / "config/auto_merge.json").read_text())
+        hid = ll.lesson_handoff_id(185)
+        self.assertEqual(hid, "HO-LESSON-PR185")
+        self.assertEqual(re.search(cfg["handoff_regex"], f"x {hid} y").group(0), hid)
+        from scripts import takipci_denetci as td
+        self.assertEqual(td.HO_RE.search(hid).group(0), hid)
+
+    def test_only_successful_run_urls_in_body(self):
+        class Mixed(FakeGH):
+            def call(self, method, path, body=None):
+                if "/check-runs" in path:
+                    u = "https://github.com/cerniva/ai-shared-workspace/actions/runs/{}/job/1"
+                    return {"check_runs": [{"name": "a", "conclusion": "success", "details_url": u.format(555)},
+                                           {"name": "learn", "status": "in_progress", "details_url": u.format(666)}]}
+                return super().call(method, path, body)
+        gh = Mixed()
+        self.go(gh, Adapter(text=GOOD))
+        body = gh.posts[0][1]["body"]
+        self.assertIn("/actions/runs/555", body)
+        self.assertNotIn("/actions/runs/666", body)
 
 
 class GateContractTests(Base):
@@ -218,12 +267,16 @@ class GateContractTests(Base):
         self.assertIn("\nCI: kaynak merge abcdef1", body["body"])
         self.assertIn("/actions/runs/555", body["body"])
 
-    def test_no_handoff_id_opens_pr_but_gate_regex_fails(self):
+    def test_no_handoff_id_gets_deterministic_lesson_id(self):
         gh = FakeGH()
         gh.pr["title"] = "feat: no handoff"
         body = self._opened(gh)
-        self.assertIsNone(re.search(self.cfg["handoff_regex"], body["body"]))
-        self.assertIn("handoff: yok", body["body"])
+        self.assertEqual(re.search(self.cfg["handoff_regex"], body["body"]).group(0), "HO-LESSON-PR7")
+        self.assertNotIn("handoff: yok", body["body"])
+        from scripts import takipci_denetci as td
+        self.assertEqual(td.check_body(body["body"]), [])  # auditor: HO id + CI line present
+        self.assertEqual(gh.posts[-1][1]["client_payload"]["handoff_id"], "HO-LESSON-PR7")
+        self.assertIsNone(re.search(r"HO-\d{8}-\d{2}", "HO-LESSON-PR7"))  # never mistaken for a source id
 
     def test_dispatch_handoff_id_fallback(self):
         gh = FakeGH()
@@ -352,6 +405,24 @@ class WorkflowTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         ph = (root / ".github/workflows/provider-health.yml").read_text()
         self.assertIn("name: provider-health", ph)
+        self.assertIn("actions: write", wf)  # knowledge-lint workflow_dispatch
+
+    def test_knowledge_lint_provides_required_check(self):
+        root = Path(__file__).resolve().parents[1]
+        cfg = json.loads((root / "config/auto_merge.json").read_text())
+        kl = (root / ".github/workflows" / ll.LINT_WORKFLOW).read_text()
+        self.assertIn("name: knowledge-lint", kl)
+        self.assertIn("test", cfg["required_checks"])
+        self.assertRegex(kl, r"(?m)^  test:\n    name: test$")
+        self.assertIn("workflow_dispatch:", kl)
+        self.assertIn("pull_request:", kl)
+        self.assertIn("knowledge/**", kl)
+        for mod in ("tests.test_lesson_learner", "tests.test_knowledge_integrity",
+                    "tests.test_knowledge_promote", "tests.test_lessons_ledger"):
+            self.assertIn(mod, kl)
+        self.assertIn("takipci-denetci.yml", kl)  # re-audit in PR mode after tests
+        gate = (root / ".github/workflows/auto-merge-gate.yml").read_text()
+        self.assertRegex(gate, r'workflows: \[[^\]]*"knowledge-lint"')
 
 
 if __name__ == "__main__":
