@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-13T09:25:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: Issue types and issue fields are generally available for personal-account repositories",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-11-issue-types-and-fields-are-available-for-personal-accounts (feed pubDate Wed, 11 Nov 2026 17:16:46 +0000; dated November 11, 2026; read 2026-11-13) states issue types and issue fields are now generally available on repositories owned by personal accounts, bringing the same planning capabilities to individual developers and open source maintainers. Defaults: issue types Bug, Task, Feature (up to 25 custom types); issue fields Priority, Effort, Start date, Target date (up to 25 fields; text, number, date, single-select, multi-select). Configured from personal account settings under Planning; fields can be pinned to types or used on untyped issues; usable in projects for views and bulk updates; manageable via REST and GraphQL APIs and webhooks. The same entry adds creating labels and milestones directly from an issue.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: relevant only if system workflows triage issues in personal-account repos (e.g. cerniva/*) or want issue types/fields via API; no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-11-20 whether any system workflow needs issue types/fields in cerniva repositories.",
+      "learned_at": "2026-11-13T06:25:00+00:00",
+      "provenance": "verified",
+      "source_ids": ["src_c47bbcd15b32d194"],
+      "plan_tags": ["system"],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}

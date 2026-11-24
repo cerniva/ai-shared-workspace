@@ -1,0 +1,45 @@
+name: schedule-watchdog
+# GitHub sık sık saatlik cron koşularını atlıyor. Bu bekçi agents-reporter ve
+# backup-supervisor'ın son 60 dakikada başarılı ya da süren bir koşusu yoksa onları
+# workflow_dispatch ile başlatır. GITHUB_TOKEN ile workflow_dispatch tetiklemeye izin var.
+on:
+  workflow_run:
+    workflows: [comms-watch, ci-bekci]
+    types: [completed]
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: schedule-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Kaçırılan saatlik koşuları başlat
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          MAX_AGE_MIN: '60'
+        run: |
+          set -euo pipefail
+          now=$(date -u +%s)
+          for wf in agents-reporter.yml backup-supervisor.yml; do
+            runs=$(gh api "repos/$REPO/actions/workflows/$wf/runs?per_page=20&branch=main")
+            fresh=$(echo "$runs" | jq --argjson now "$now" --argjson max "$MAX_AGE_MIN" '[.workflow_runs[]
+              | select(.status != "completed" or .conclusion == "success")
+              | select(($now - (.created_at | fromdateiso8601)) < ($max * 60))] | length')
+            if [ "$fresh" -gt 0 ]; then
+              echo "$wf: son ${MAX_AGE_MIN} dk içinde başarılı/süren koşu var, atlandı"
+            else
+              echo "$wf: ${MAX_AGE_MIN} dk'dır başarılı koşu yok, başlatılıyor"
+              gh workflow run "$wf" --repo "$REPO" --ref main
+            fi
+          done

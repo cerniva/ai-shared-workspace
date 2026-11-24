@@ -398,6 +398,27 @@ def recent_keys(data: dict, now: datetime) -> set[str]:
     return out
 
 
+_IMP_BRANCH = re.compile(r"^bot/HO-IMP-\d{8}-(?P<key>.+?)(?:-\d+)?$")
+_CLOSED_STATUSES = {"done", "closed", "canceled", "cancelled", "superseded"}
+
+
+def open_keys(data: dict, prs: Iterable[dict]) -> set[str]:
+    """Suggestion slugs that still have an open handoff or an open bot/ PR, regardless of age.
+
+    Without this the 7-day window expires and the same suggestion is reopened while the old
+    PR is still waiting, so stale YAPAMADIM PRs pile up.
+    """
+    out = set()
+    for i in _imp_items(data):
+        if str(i.get("status", "")).lower() not in _CLOSED_STATUSES and i["id"].count("-") >= 3:
+            out.add(i["id"].split("-", 3)[3])
+    for pr in prs:
+        m = _IMP_BRANCH.match(pr.get("branch") or "")
+        if m:
+            out.add(m.group("key"))
+    return out
+
+
 def dispatch_payload(hid: str, sug: dict) -> dict:
     task = sug.get("model_text") or sug["text"]
     return {"handoff_id": hid, "task": f"[{sug['target']}] {task}"[:900], "source": SOURCE}
@@ -413,7 +434,7 @@ def plan_handoff(report: dict, data: dict, *, dry_run: bool) -> dict:
     today = opened_today(data, day)
     if len(today) >= MAX_PER_DAY:
         return {"status": "daily_cap", "opened_today": today}
-    seen = recent_keys(data, now)
+    seen = recent_keys(data, now) | open_keys(data, report.get("bot_prs") or [])
     sug = next((s for s in report.get("ranked_speedups") or [] if slug(s["key"]) not in seen), None)
     if not sug:
         return {"status": "no_new_suggestion", "skipped_recent": sorted(seen)}
