@@ -1250,6 +1250,17 @@
       "notes": [
         "2026-11-24T06:30:01+00:00 team-worker: research-learner (team-research): model cevap vermedi (CannotDo: YAPAMADIM: tum saglayicilar dustu; denenen: groq=no_key, openrouter_free=no_key, cerebras=no_key, mistral=no_key, gemini=error, deepseek=no_key, openai=quota, local=no_key, github_models=error, claude=auth, grok=no_key; gereken: en az bir gecerli anahtar/kota (state/provider_health.json'a bakin); hata_nedeni: gemini: RetryableProviderError: provider HTTP 503 host=generativelanguage.googleapis.com; github_models: RetryableProviderError: provider returned non-JSON body (kind=text len=4 content_type=text/plain))"
       ]
+    },
+    {
+      "id": "HO-IMP-20261124-slow-tinyfish-youtube-analytics",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] .github/workflows/tinyfish-youtube-analytics.yml workflow'unun 117 saniyelik medyan süresini kısaltmak için pip ve apt kurulum adımlarına actions/cache entegre edilerek bağımlılık yüklemeleri hızlandırılmalı, sadece ilgili kod değişikliklerinde çalışması için push ve pull_request tetikleyicilerine paths filtreleri eklenmeli ve birbiriyle bağımlılığı olmayan test adımları ayrı paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261124 key=slow-tinyfish-youtube-analytics",
+      "status": "open",
+      "created_at": "2026-11-24T15:59:10+00:00",
+      "updated_at": "2026-11-24T15:59:10+00:00"
     }
   ]
 }
