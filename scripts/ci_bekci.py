@@ -15,7 +15,7 @@ first error-looking lines and failing test ids with regexes, and then:
   * for a successful run on main: closes open ci-bekci issues of that workflow
     with a comment linking the green run.
 
-Loop guard: runs of ci-bekci, takipci-denetci, auto-merge-gate, team-worker and any
+Loop guard: runs of ci-bekci, takipci-denetci, auto-merge-gate, team-worker, schedule-watchdog and any
 upload/publish/payment/gumroad/shopify workflow are ignored.
 """
 from __future__ import annotations
@@ -39,7 +39,8 @@ LOG_TAIL_LINES = 60
 MAX_ERROR_LINES = 8
 FAIL_CONCLUSIONS = ("failure", "timed_out")
 
-EXCLUDED_WORKFLOWS = frozenset({"ci-bekci", "takipci-denetci", "auto-merge-gate", "team-worker"})
+# schedule-watchdog itself runs on ci-bekci completion (workflow_run): watching it would loop.
+EXCLUDED_WORKFLOWS = frozenset({"ci-bekci", "takipci-denetci", "auto-merge-gate", "team-worker", "schedule-watchdog"})
 EXCLUDED_KEYWORDS = ("upload", "publish", "payment", "gumroad", "shopify")
 
 ERROR_RE = re.compile(
