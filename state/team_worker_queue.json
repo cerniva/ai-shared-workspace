@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "CI-45340603299",
+      "task": "CI failure in 'agents-reporter' run 45340603299: jobs agent[Persist agent output only]; first error: Process completed with exit code 1.",
+      "source": "ci-bekci",
+      "ts": "2026-11-24T06:28:37+00:00"
+    }
+  ]
+}
