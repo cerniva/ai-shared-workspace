@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "handoff_id": "HO-IMP-20261124-slow-tinyfish-youtube-analytics",
+      "task": "[.github/workflows/tinyfish-youtube-analytics.yml] .github/workflows/tinyfish-youtube-analytics.yml workflow'unun 117 saniyelik medyan süresini kısaltmak için pip ve apt kurulum adımlarına actions/cache entegre edilerek bağımlılık yüklemeleri hızlandırılmalı, sadece ilgili kod değişikliklerinde çalışması için push ve pull_request tetikleyicilerine paths filtreleri eklenmeli ve birbiriyle bağımlılığı olmayan test adımları ayrı paralel job'lara bölünerek eşzamanlı yürütülmelidir.",
+      "source": "improvement-bot",
+      "ts": "2026-11-24T16:00:49+00:00"
+    }
+  ]
+}
