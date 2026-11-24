@@ -1,0 +1,38 @@
+{
+  "handoff_id": "CI-45513868158",
+  "source": "ci-bekci",
+  "run_id": "45514068225",
+  "task": "CI failure in 'worker-orchestration-tests' run 45513868158: jobs test[Unit and integration tests]; first error: no error line matched",
+  "generated_at": "2026-11-24T23:56:40+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "CI-45513868158",
+    "evidence": [
+      {
+        "path_or_sha": ".github/workflows/worker-orchestration-tests.yml",
+        "details": "Workflow target for CI run 45513868158 job 'test[Unit and integration tests]' which reported 'no error line matched'."
+      }
+    ],
+    "factual_findings": [
+      "CI run 45513868158 for job 'test[Unit and integration tests]' failed.",
+      "The failure output returned 'no error line matched', indicating the log regex parser failed to match standard failure patterns or the process exited unexpectedly."
+    ],
+    "hypotheses": [
+      "The test runner process was terminated abruptly (e.g. OOM, SIGKILL, or process timeout) before writing standard failure log lines.",
+      "A setup or teardown script failed with a non-zero exit code without printing a recognized error stack trace."
+    ],
+    "recommendation": "Retrieve the unparsed raw stdout/stderr logs for CI run 45513868158 and inspect `.github/workflows/worker-orchestration-tests.yml` to pinpoint the failing step execution command.",
+    "confidence": 0.6,
+    "next_action": "Download raw log artifacts for run 45513868158 and check `.github/workflows/worker-orchestration-tests.yml`.",
+    "timing": {
+      "started_at": "2026-11-24T23:56:44.374928+00:00",
+      "duration_ms": 8032
+    },
+    "usage": {
+      "input_tokens": 136,
+      "output_tokens": 327,
+      "total_tokens": 1609
+    }
+  }
+}

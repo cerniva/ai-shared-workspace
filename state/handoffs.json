@@ -1264,6 +1264,23 @@
       "notes": [
         "2026-11-24T16:02:52+00:00 team-worker: research-learner (team-research): 1) `state/provider_health.json` uzerinden en az bir calısir AI modeli anahtarini/kotasini yenileyin.\n2) `.github/workflows/tinyfish-youtube-analytics.yml` dosyasina `actions/setup-python` (cache: 'pip') veya `actions/cache` entegre edin.\n3) `on.push` ve `on.pull_request` altina `paths` kısıtlamalari ekleyin.\n4) Monolitik test adimlarini bagimsiz job'lar (`jobs.<job_id>`) olarak eszamanli calisacak sekilde yeniden yapilandirin. | sonraki: Model provider erisimini dogruladiktan sonra `.github/workflows/tinyfish-youtube-analytics.yml` dosyasinda caching, path filtering ve paralel job refactoring degisikliklerini uygulayin."
       ]
+    },
+    {
+      "id": "CI-45513868158",
+      "from": "auditor",
+      "to": "grok",
+      "task": "CI failure in 'worker-orchestration-tests' run 45513868158: jobs test[Unit and integration tests]; first error: no error line matched",
+      "reason_cannot_do": "ci-bekci: kirmizi CI otomatik onarim isi",
+      "evidence": "ci-bekci dispatch CI-45513868158",
+      "status": "claimed",
+      "created_at": "2026-11-24T23:56:40+00:00",
+      "updated_at": "2026-11-24T23:56:40+00:00",
+      "claimed_at": "2026-11-24T23:56:40+00:00",
+      "notes": [
+        "2026-11-24T23:56:40+00:00 grok: team-worker devraldi",
+        "2026-11-24T23:56:40+00:00 team-worker: model sonucu state/team_work/CI-45513868158.json (gemini/gemini-3.6-flash), PR bekliyor"
+      ],
+      "claimed_by": "team-worker"
     }
   ]
 }
