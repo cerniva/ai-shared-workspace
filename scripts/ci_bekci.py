@@ -39,7 +39,7 @@ LOG_TAIL_LINES = 60
 MAX_ERROR_LINES = 8
 FAIL_CONCLUSIONS = ("failure", "timed_out")
 
-EXCLUDED_WORKFLOWS = frozenset({"ci-bekci", "takipci-denetci", "auto-merge-gate", "team-worker"})
+EXCLUDED_WORKFLOWS = frozenset({"ci-bekci", "takipci-denetci", "auto-merge-gate", "team-worker", "schedule-watchdog"})
 EXCLUDED_KEYWORDS = ("upload", "publish", "payment", "gumroad", "shopify")
 
 ERROR_RE = re.compile(

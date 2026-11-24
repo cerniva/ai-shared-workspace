@@ -30,6 +30,7 @@ on:
       - "handoff-audit"
       - "improvement-bot"
       - "knowledge-freshness"
+      - "knowledge-lint"
       - "knowledge-promote"
       - "knowledge-promotion-pr-gate"
       - "lesson-learner"
