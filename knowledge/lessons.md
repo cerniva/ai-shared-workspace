@@ -57,3 +57,6 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 
 ## 2026-11-11
 - github-actions-pipeline-caching-and-stale-pr-cleanup | PR #402; merge af3071e; checks: learn=in_progress, takipci-denetci=success, watch=success; lesson-learner run 43050258968 | Stale PRs pending for extended durations cause pipeline deadlocks; resolving bottleneck PRs combined with implementing actions/cache and matrix streamlining accelerates CI workflows. | Resolve long-standing pending PRs first while applying dependency caching and matrix reduction to GitHub Actions workflows. | 759.5 hours stale PR deadlock resolved
+
+## 2026-11-25
+- bot-pr-required-check | 65476fa (knowledge-lint.yml + lesson_learner dispatch); PR #403 'required check test bulunamadı' ile 2 hafta açık kaldı; knowledge-lint run 45513159357 (workflow_dispatch, ref=bot/lessons-pr-402) yeşil, auto-merge-gate run 45513215097 PR #403'ü 69baec5 olarak birleştirdi | GITHUB_TOKEN ile açılan bir PR hiçbir workflow başlatmaz, bu yüzden kapı zorunlu `test` check'ini bulamaz; testi botun kendisi dispatch etmelidir | PR açan her bot, PR'dan hemen sonra zorunlu check'i workflow_dispatch ile PR dalında (ref=dal) başlatır; check-run head sha'ya düşer. Kaynakta HO id yoksa ders PR'ı HO-LESSON-PR<n> taşır | kapı yorumunda 'required check `test` bulunamadı' sayısı, açık bot/lessons-pr-* PR sayısı
