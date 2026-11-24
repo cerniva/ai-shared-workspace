@@ -54,3 +54,6 @@ This is the durable delta-memory for ChatGPT, Grok and Gemini.
 
 ## 2026-11-09
 - workflow-failure-reduction-retry-cache-concurrency | PR #399; merge f28bfb2; checks: learn=in_progress, takipci-denetci=in_progress, watch=in_progress; lesson-learner run 42681092480 | GitHub Actions iş akışlarındaki yüksek başarısızlık oranları ve derleme darboğazları; top-level concurrency kontrolü, actions/cache önbellekleme, timeout-minutes sınırları ve flaky ağ/test adımları için retry aksiyonunun birlikte kullanılmasıyla çözülür. | Kararsız ve yavaş GitHub Actions iş akışlarında concurrency cancel-in-progress, actions/cache, timeout-minutes: 10 ve nick-fields/retry desenlerini standart çözüm olarak uygula. | .github/workflows/takipci-denetci.yml iş akışında %50 (6/12) olan başarısızlık oranının ve derleme darboğazının düşürülmesi.
+
+## 2026-11-11
+- github-actions-pipeline-caching-and-stale-pr-cleanup | PR #402; merge af3071e; checks: learn=in_progress, takipci-denetci=success, watch=success; lesson-learner run 43050258968 | Stale PRs pending for extended durations cause pipeline deadlocks; resolving bottleneck PRs combined with implementing actions/cache and matrix streamlining accelerates CI workflows. | Resolve long-standing pending PRs first while applying dependency caching and matrix reduction to GitHub Actions workflows. | 759.5 hours stale PR deadlock resolved
