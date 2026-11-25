@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-25T11:16:57+00:00",
+  "generated_at": "2026-11-25T21:40:42+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 45559443958,
+          "id": 45647336127,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T06:17:01Z",
-          "event": "workflow_run"
+          "created_at": "2026-11-25T15:37:51Z",
+          "event": "schedule"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 45520353773,
+          "id": 45602995356,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T00:43:56Z",
+          "created_at": "2026-11-25T11:17:03Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 45595386623,
+          "id": 45692360503,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T10:28:54Z",
+          "created_at": "2026-11-25T20:10:21Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 45551075599,
+          "id": 45651721288,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T05:04:48Z",
+          "created_at": "2026-11-25T16:11:53Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "video_shorts_shopify_gumroad modülünde 'youtube-upload.yml' iş akışı başarısız (failure) olmuş, 'shorts-free-render.yml' ise hiç çalıştırılmamıştır (never_run). Ayrıca finance kategorisinde finans runner workflow'unun depoda bulunmadığı not edilmiştir. Diğer otomasyonlar başarılı şekilde tamamlanmıştır."
+  "model_summary": "youtube-upload.yml iş akışının hata günlüklerini inceleyin ve çalıştırılmamış shorts-free-render.yml akışının tetiklenme koşullarını kontrol edin."
 }
