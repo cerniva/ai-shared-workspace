@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-25T09:20:00+03:00"
+    },
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-25T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: Issue statuses and repository boards are in public preview",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-23-issue-statuses-and-repository-boards-are-in-public-preview (feed pubDate Mon, 23 Nov 2026 20:37:11 +0000; read 2026-11-25) states issues get specific statuses (Backlog, Todo, In progress, In review, Done, Not planned, Duplicate) with automations (linking a draft PR -> In progress; ready-for-review or linking an open PR -> In review; assigning a user -> Todo; assigning an agent -> In progress; two-way sync with a matching GitHub Project status). Statuses are readable/settable via GraphQL, REST API and MCP server, and status changes are a Copilot automations trigger. Repository saved views gain a board layout (group by status, drag to change status). Public preview.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan may evaluate issue statuses via API later; no code or operational change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-12-05 whether any cerniva workflow needs issue status via API.",
+      "learned_at": "2026-11-25T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "Federal Reserve Board press feed: Federal Reserve announces College Fed Challenge winners",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press releases RSS (federalreserve.gov/feeds/press_all.xml, read 2026-11-25) lists the item 'Federal Reserve announces College Fed Challenge winners' (category Other Announcements; pubDate Fri, 20 Nov 2026 21:15:00 GMT per the research agent). Only the feed headline was confirmed; the release body was not read. Same feed also lists FOMC minutes of Oct 27-28, 2026.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: educational announcement, no finance plan action.",
+      "outcome": "pending",
+      "next_measurement": "None needed; headline-level note only.",
+      "learned_at": "2026-11-25T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
