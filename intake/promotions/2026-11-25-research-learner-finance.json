@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "source_name": "Federal Reserve Board press releases RSS",
+      "canonical": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "finance-news",
+      "purpose": "Keyless primary feed for finance research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-25T15:59:19+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_8224749db4c4ec22",
+      "title": "Federal Reserve Board press releases RSS: Minutes of the Board's discount rate meetings on October 19 and October 28, 2026",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press releases RSS fetched 2026-11-25 lists as newest item: \"Minutes of the Board's discount rate meetings on October 19 and October 28, 2026\" (Tue, 24 Nov 2026 19:00:00 GMT). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The finance plan should review the October 19 and October 28, 2026 discount rate meeting minutes to assess monetary policy directives and update interest rate expectations for strategic planning without taking any immediate operational actions.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-25T15:59:19+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
