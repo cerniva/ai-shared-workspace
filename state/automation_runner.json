@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-25T21:40:42+00:00",
+  "generated_at": "2026-11-26T04:09:08+00:00",
   "github_api": true,
   "automations": {
     "finance": {
       "workflows": {
         "plan-learnings-check.yml": {
-          "id": 45647336127,
+          "id": 45706531122,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T15:37:51Z",
-          "event": "schedule"
+          "created_at": "2026-11-25T21:40:44Z",
+          "event": "workflow_dispatch"
         }
       },
       "dispatched": [
@@ -71,24 +71,24 @@
     "system": {
       "workflows": {
         "worker-orchestration-tests.yml": {
-          "id": 45602995356,
+          "id": 45706542321,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T11:17:03Z",
+          "created_at": "2026-11-25T21:40:48Z",
           "event": "workflow_dispatch"
         },
         "handoff-audit.yml": {
-          "id": 45692360503,
+          "id": 45746703654,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T20:10:21Z",
+          "created_at": "2026-11-26T03:05:53Z",
           "event": "schedule"
         },
         "desk-notify.yml": {
-          "id": 45651721288,
+          "id": 45730733973,
           "status": "completed",
           "conclusion": "success",
-          "created_at": "2026-11-25T16:11:53Z",
+          "created_at": "2026-11-26T00:43:15Z",
           "event": "schedule"
         }
       },
@@ -98,5 +98,5 @@
       "mode": "dispatch+observe"
     }
   },
-  "model_summary": "youtube-upload.yml iş akışının hata günlüklerini inceleyin ve çalıştırılmamış shorts-free-render.yml akışının tetiklenme koşullarını kontrol edin."
+  "model_summary": "video_shorts_shopify_gumroad projesindeki youtube-upload.yml iş akışı başarısız olduğu ve shorts-free-render.yml henüz hiç çalışmadığı için sağlıksız durumdadır. Finans, bilgi ve sistem projelerindeki diğer tüm otomasyonlar ise sorunsuz tamamlanmıştır. Başarısız olan yükleme adımının günlükleri ve tetiklenmeyen render akışı öncelikle incelenmelidir."
 }
