@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-26T09:20:00+03:00"
+    },
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-26T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Federal Reserve Board press feed: Minutes of the Board's discount rate meetings on October 19 and October 28, 2026",
+      "domain": "finance-news",
+      "claim": "Federal Reserve Board press releases RSS (federalreserve.gov/feeds/press_all.xml, read 2026-11-26) lists the item 'Minutes of the Board's discount rate meetings on October 19 and October 28, 2026' (category Monetary Policy; pubDate Tue, 24 Nov 2026 19:00:00 GMT per the research agent). Only the feed headline was confirmed; the minutes body was not read.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: finance plan may review the minutes later; no operational action.",
+      "outcome": "pending",
+      "next_measurement": "None needed; headline-level note only.",
+      "learned_at": "2026-11-26T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    },
+    {
+      "title": "GitHub changelog: More predictable notifications on GitHub.com",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-24-more-predictable-notifications-on-github-com (feed pubDate Tue, 24 Nov 2026 16:40:59 +0000; read 2026-11-26) states that starting December 1, 2026 GitHub is migrating notifications on GitHub.com over the course of a week to make subscriptions more predictable, correct unexpected behavior and support growing activity scale. Only the feed excerpt was read.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: system plan may check whether any cerniva notification-dependent workflow is affected after 2026-12-08; no code change without approval.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-12-10 whether any cerniva workflow saw notification behavior change.",
+      "learned_at": "2026-11-26T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
