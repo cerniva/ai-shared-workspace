@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "source_name": "GitHub changelog feed",
+      "canonical": "https://github.blog/changelog/feed",
+      "category": "github-platform",
+      "purpose": "Keyless primary feed for system research-learner agent",
+      "evidence_tier": "primary",
+      "access_status": "verified-public",
+      "cost_quota": "free public feed; no API key",
+      "reliability_limits": "Feed headline only; item body not read by the agent.",
+      "discovered_at": "2026-11-27T15:30:49+00:00",
+      "provenance": "unverified"
+    }
+  ],
+  "learnings": [
+    {
+      "learning_id": "learn_2fec587fc84f2529",
+      "title": "GitHub changelog feed: Copilot code review billing will default to the organization",
+      "domain": "github-platform",
+      "claim": "GitHub changelog feed fetched 2026-11-27 lists as newest item: \"Copilot code review billing will default to the organization\" (Wed, 25 Nov 2026 22:18:03 +0000). Not independently verified.",
+      "evidence_status": "unverified",
+      "decision": "REVIEW_ONLY: The system plan should flag the headline for human administrative review to assess organizational Copilot billing settings and policy impacts without executing automated changes.",
+      "outcome": "pending",
+      "next_measurement": "Reviewer opens the item link and confirms relevance before promotion.",
+      "learned_at": "2026-11-27T15:30:49+00:00",
+      "provenance": "unverified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": []
+    }
+  ]
+}
