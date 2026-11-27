@@ -111,6 +111,27 @@
       "title": "HO-06 Gumroad draft-first ürün kapısı"
     },
     {
+      "claim": "GitHub changelog page 2026-11-25-copilot-code-review-billing-will-default-to-the-organization (feed pubDate Wed, 25 Nov 2026 22:18:03 +0000; read 2026-11-27) states that if no billing choice is saved for Copilot code review of members with a Copilot license, those reviews will be billed to the organization starting December 30, 2026; selecting Member before then keeps current billing. Applies to organizations and enterprises with Copilot Business or Enterprise. Existing Member or Organization choices stay. Accounts without AI Credits paid usage, with a billing lock, or with no billable customer are set to Member instead. The separate setting for members without a Copilot license does not change. Organization billing requires AI Credits paid usage and can increase spending.",
+      "decision": "REVIEW_ONLY: if the system plan has Copilot Business/Enterprise org settings, review and explicitly choose Member or Organization before 2026-12-30; no automated policy change.",
+      "domain": "github-platform",
+      "evidence_status": "verified",
+      "failure_history": [],
+      "fallback_history": [],
+      "learned_at": "2026-11-27T06:20:00+00:00",
+      "learning_id": "learn_156a68b87b756ce0",
+      "next_measurement": "Record yes/no before 2026-12-15 whether any owned org uses Copilot Business/Enterprise code review billing and what was selected.",
+      "outcome": "pending",
+      "plan_tags": [
+        "system"
+      ],
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "supersedes": null,
+      "title": "GitHub changelog: Copilot code review billing defaults to the organization from 2026-12-30"
+    },
+    {
       "claim": "GitHub changelog page 2026-11-10-github-app-support-for-enterprise-copilot-seat-management (feed pubDate Wed, 11 Nov 2026 00:10:31 +0000; read 2026-11-12) states enterprise GitHub Apps can now call the enterprise-level Copilot seat management APIs to control which users and enterprise teams are assigned Copilot seats, via a new enterprise fine-grained permission for Apps: Enterprise Copilot license management.",
       "decision": "REVIEW_ONLY: relevant only if the system plan manages enterprise Copilot seats via a GitHub App; no operational change without approval.",
       "domain": "github-platform",
@@ -2526,5 +2547,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-11-26T06:15:02+00:00"
+  "updated_at": "2026-11-27T06:13:39+00:00"
 }
