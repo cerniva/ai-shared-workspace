@@ -1264,6 +1264,17 @@
       "notes": [
         "2026-11-24T16:02:52+00:00 team-worker: research-learner (team-research): 1) `state/provider_health.json` uzerinden en az bir calısir AI modeli anahtarini/kotasini yenileyin.\n2) `.github/workflows/tinyfish-youtube-analytics.yml` dosyasina `actions/setup-python` (cache: 'pip') veya `actions/cache` entegre edin.\n3) `on.push` ve `on.pull_request` altina `paths` kısıtlamalari ekleyin.\n4) Monolitik test adimlarini bagimsiz job'lar (`jobs.<job_id>`) olarak eszamanli calisacak sekilde yeniden yapilandirin. | sonraki: Model provider erisimini dogruladiktan sonra `.github/workflows/tinyfish-youtube-analytics.yml` dosyasinda caching, path filtering ve paralel job refactoring degisikliklerini uygulayin."
       ]
+    },
+    {
+      "id": "HO-IMP-20261127-slow-automation-runner",
+      "from": "grok",
+      "to": "auditor",
+      "task": "[.github/workflows/automation-runner.yml] `.github/workflows/automation-runner.yml` iş akışında tespit edilen 76 saniyelik darboğazı gidermek amacıyla; pip ve apt paket kurulum adımlarına `actions/cache` eklenerek bağımlılıkların her çalışmada yeniden indirilmesi önlenmeli, tetikleme mekanizmasına `paths` filtreleri eklenerek ilgisiz dosya değişikliklerinde gereksiz adımlar atlanmalı ve birbiriyle bağıntısı olmayan test adımları paralel job'lar halinde bölünerek toplam yürütme süresi optimize edilmelidir.",
+      "reason_cannot_do": "improvement-bot gunluk hizlandirma onerisi; uygulama team-worker'a (repository_dispatch team-work)",
+      "evidence": "state/improvement_report.json day=20261127 key=slow-automation-runner",
+      "status": "open",
+      "created_at": "2026-11-27T15:17:00+00:00",
+      "updated_at": "2026-11-27T15:17:00+00:00"
     }
   ]
 }
