@@ -1,0 +1,41 @@
+{
+  "handoff_id": "HO-IMP-20261127-slow-automation-runner",
+  "source": "improvement-bot",
+  "run_id": "46023623400",
+  "task": "[.github/workflows/automation-runner.yml] `.github/workflows/automation-runner.yml` iş akışında tespit edilen 76 saniyelik darboğazı gidermek amacıyla; pip ve apt paket kurulum adımlarına `actions/cache` eklenerek bağımlılıkların her çalışmada yeniden indirilmesi önlenmeli, tetikleme mekanizmasına `paths` filtreleri eklenerek ilgisiz dosya değişikliklerinde gereksiz adımlar atlanmalı ve birbiriyle bağıntısı olmayan test adımları paralel job'lar halinde bölünerek toplam yürütme süresi optimize edilmelidir.",
+  "generated_at": "2026-11-27T15:18:37+00:00",
+  "result": {
+    "provider": "gemini",
+    "model": "gemini-3.6-flash",
+    "job_id": "HO-IMP-20261127-slow-automation-runner",
+    "evidence": [
+      {
+        "path": ".github/workflows/automation-runner.yml",
+        "description": "Target workflow file requiring optimization for pip/apt caching, trigger paths filtering, and test job parallelization."
+      }
+    ],
+    "factual_findings": [
+      "The workflow at `.github/workflows/automation-runner.yml` contains a 76-second execution bottleneck.",
+      "Dependencies for pip and apt are downloaded repeatedly on every workflow run due to missing `actions/cache` integration.",
+      "Triggers currently lack `paths` filters, causing workflow execution even when non-impactful files are modified.",
+      "Unrelated test steps are currently executed sequentially within a single job instead of running in parallel."
+    ],
+    "hypotheses": [
+      "Integrating `actions/cache` for pip and apt dependencies will eliminate redundant dependency downloads across runs.",
+      "Adding `paths` filters to event triggers will prevent workflow executions on irrelevant file commits.",
+      "Refactoring independent test steps into parallel jobs will reduce total execution time below the 76-second bottleneck."
+    ],
+    "recommendation": "Refactor `.github/workflows/automation-runner.yml` to include `actions/cache` for pip and apt packages, add `paths` filters for push/pull_request triggers, and split sequential test steps into parallel matrix or standalone jobs.",
+    "confidence": 0.95,
+    "next_action": "Apply changes to `.github/workflows/automation-runner.yml` implementing caching, path filters, and parallel job execution.",
+    "timing": {
+      "started_at": "2026-11-27T15:18:41.461438+00:00",
+      "duration_ms": 42776
+    },
+    "usage": {
+      "input_tokens": 228,
+      "output_tokens": 350,
+      "total_tokens": 2173
+    }
+  }
+}
