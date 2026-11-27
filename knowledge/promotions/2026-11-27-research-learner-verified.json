@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_c47bbcd15b32d194",
+      "verified_at": "2026-11-27T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "GitHub changelog: Copilot code review billing defaults to the organization from 2026-12-30",
+      "domain": "github-platform",
+      "claim": "GitHub changelog page 2026-11-25-copilot-code-review-billing-will-default-to-the-organization (feed pubDate Wed, 25 Nov 2026 22:18:03 +0000; read 2026-11-27) states that if no billing choice is saved for Copilot code review of members with a Copilot license, those reviews will be billed to the organization starting December 30, 2026; selecting Member before then keeps current billing. Applies to organizations and enterprises with Copilot Business or Enterprise. Existing Member or Organization choices stay. Accounts without AI Credits paid usage, with a billing lock, or with no billable customer are set to Member instead. The separate setting for members without a Copilot license does not change. Organization billing requires AI Credits paid usage and can increase spending.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: if the system plan has Copilot Business/Enterprise org settings, review and explicitly choose Member or Organization before 2026-12-30; no automated policy change.",
+      "outcome": "pending",
+      "next_measurement": "Record yes/no before 2026-12-15 whether any owned org uses Copilot Business/Enterprise code review billing and what was selected.",
+      "learned_at": "2026-11-27T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_c47bbcd15b32d194"
+      ],
+      "plan_tags": [
+        "system"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
