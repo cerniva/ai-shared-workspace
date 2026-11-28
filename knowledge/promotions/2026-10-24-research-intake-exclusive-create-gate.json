@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_3e1fa2f44636ce4e",
+    "source_name": "Python built-in open() exclusive creation mode",
+    "canonical": "https://docs.python.org/3/builtins/functions.html",
+    "category": "system-research-intake-integrity",
+    "purpose": "Primary documentation that open(mode='x') fails instead of truncating existing staged research files",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free official documentation; no API key",
+    "reliability_limits": "Documents exclusive file creation only; does not prove this repository's staged-intake tests or production deployment.",
+    "discovered_at": "2026-10-24T21:32:00+03:00",
+    "last_successful_use": "2026-10-24T21:32:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_1b7448592d5671f7",
+    "title": "Research intake must deduplicate pending candidates and refuse same-day overwrites",
+    "domain": "research-intake-integrity",
+    "claim": "A date-scoped research intake filename can collide across same-day feed changes; Python open mode 'x' refuses to overwrite an existing file. Pending-title dedup, exclusive creation, and immediate JSON read-back preserve unreviewed candidates, while collisions must fail closed.",
+    "evidence_status": "mixed",
+    "decision": "RESEARCH_INTAKE_EXCLUSIVE_CREATE_GATE: Check canonical ledger and valid pending staged titles before creating a new research candidate. Use exclusive file creation rather than truncating a date-based path, fail closed on changed-headline filename collisions, verify JSON read-back, and preserve the prior candidate. Keep promotion pending until PR-head tests and main integration are verified.",
+    "outcome": "pending",
+    "next_measurement": "On existing PR #326, confirm identical feed re-run is already_staged, different same-day headline returns staging_collision without modifying prior bytes, CodeQL and PR gate succeed on latest SHA, and main read-back proves integration. No PayoutLens changes.",
+    "learned_at": "2026-10-24T21:32:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_3e1fa2f44636ce4e"
+    ],
+    "failure_history": [
+      "2026-10-24: existing research_learner used write_json on YYYY-MM-DD-research-learner-<plan>.json; changed same-day feed could truncate an unreviewed staged candidate. Code and tests exist only on draft PR #326."
+    ],
+    "fallback_history": [
+      "If exclusive creation is blocked or the path already exists, retain the old file, record staging_collision, and request review instead of overwriting or bypassing permissions."
+    ],
+    "supersedes": null,
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  },
+  "gates": [
+    "RESEARCH_INTAKE_EXCLUSIVE_CREATE_GATE"
+  ]
+}
