@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source": {
+    "source_id": "src_5c6c61c84ac23538",
+    "source_name": "GitHub Actions official docs: setting exit codes",
+    "canonical": "https://docs.github.com/en/actions/how-tos/create-and-publish-actions/set-exit-codes",
+    "category": "system-workflow-failure-signaling",
+    "purpose": "Primary-source verification of GitHub Actions success/failure exit-code contract for automated learning workflows",
+    "evidence_tier": "official",
+    "access_status": "verified-public",
+    "cost_quota": "free public documentation; no API key",
+    "reliability_limits": "Describes process-level check-run status; does not prove that a specific lesson or model task succeeded. Inspect job logs and output JSON separately.",
+    "discovered_at": "2026-10-26T22:27:00+03:00",
+    "last_successful_use": "2026-10-26T22:27:00+03:00",
+    "provenance": "verified",
+    "failure_note": null
+  },
+  "learning": {
+    "learning_id": "learn_5932847f464e26d7",
+    "title": "Lesson-learner YAPAMADIM must not be a green GitHub Actions job",
+    "domain": "github-actions-workflow-status",
+    "claim": "GitHub Actions uses an action's process exit code for its check-run status: exit code 0 indicates success, while a nonzero exit code indicates failure.",
+    "evidence_status": "verified",
+    "decision": "If lesson-learner attempts a lesson and returns status=yapamadim, exit nonzero while retaining JSON evidence; keep no-provider and empty-backlog skips nonfatal. Never count workflow success alone as applied_learning_ids or a completed lesson.",
+    "outcome": "pending",
+    "next_measurement": "On PR #356 HEAD run tests.test_lesson_learner and exact-head CI; verify failure returns 3 and no-work returns 0; after merge verify main read-back and a real successful lesson outcome. Baseline false-green run 40385437197 job 121792342924.",
+    "learned_at": "2026-10-26T22:27:00+03:00",
+    "provenance": "verified",
+    "source_ids": [
+      "src_5c6c61c84ac23538"
+    ],
+    "failure_history": [
+      "2026-10-26 main 9410de84a27633fb48e96639053a731071dc962f: run 40385437197 job 121792342924 marked success while output status=backlog contained status=yapamadim, reason=CannotDo."
+    ],
+    "fallback_history": [
+      "If the provider cannot produce a lesson, preserve backlog and record a blocked status; do not retry 401/403/OAuth/quota blindly or fabricate learning completion."
+    ],
+    "plan_tags": [
+      "system"
+    ],
+    "status": "active"
+  }
+}
