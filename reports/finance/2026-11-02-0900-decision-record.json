@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-02",
+  "timezone": "Europe/Istanbul",
+  "status": "PARTIAL",
+  "source_main_files_read": [
+    "PROTOCOL.md",
+    "knowledge/source_catalog.json",
+    "knowledge/learning_ledger.json",
+    "knowledge/finance_runtime_state.json",
+    "state/handoffs.json",
+    "config/altcoin_panel_calibration.json",
+    "messages/grok-to-chatgpt.md",
+    "messages/team-reports.md"
+  ],
+  "news": [
+    {
+      "title": "Binance net outflows after withdrawal resumption",
+      "value_usd_billion": 3.64,
+      "source": "https://m.economictimes.com/news/international/business/binance-sees-net-outflows-of-3-64-billion-after-resumption-of-withdrawals/articleshow/135441509.cms",
+      "date": "2026-11-02",
+      "note": "Reuters syndication; claimed 95% coverage not independently audited"
+    },
+    {
+      "title": "Oil falls on Iran-Qatar diplomacy",
+      "source": "https://www.reuters.com/world/china/global-markets-global-markets-2026-11-02/",
+      "date": "2026-11-02"
+    }
+  ],
+  "decisions": [
+    {
+      "area": "fed",
+      "applied_learning_ids": [
+        "learn_21162db4c3969b7b",
+        "learn_5f961fa5fb9f6388",
+        "learn_6b1c96a05f850f64",
+        "learn_9b39644affcb8a33"
+      ],
+      "effect": "Official Oct 28 Fed 3.75-4.00% 10-2 hold retained as last decision, not new Nov 2 news",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+      "area": "treasury",
+      "applied_learning_ids": [
+        "learn_fba30853bde7b37e"
+      ],
+      "effect": "Friday Oct 30 observation not labeled Monday live yield; no new dated official yield read"
+    },
+    {
+      "area": "altcoin",
+      "applied_learning_ids": [
+        "learn_f7b141c60755c294"
+      ],
+      "effect": "All 10 normalized scores and aggregate N/A; calibration validated=false"
+    },
+    {
+      "area": "fx",
+      "applied_learning_ids": [
+        "learn_63b873bf5dbd8208"
+      ],
+      "effect": "No invented live TCMB indicative FX bulletin or price"
+    },
+    {
+      "area": "company",
+      "applied_learning_ids": [
+        "learn_27333cc91fdf7f58"
+      ],
+      "effect": "Apple earnings expectation only, no unverified actual earnings figures"
+    },
+    {
+      "area": "dedup",
+      "applied_learning_ids": [
+        "learn_084a973ea4587745",
+        "learn_3b22cb6407019aa6"
+      ],
+      "effect": "Low-impact bank enforcement and application approvals excluded as new market-moving news"
+    }
+  ],
+  "applied_learning_ids": [
+    "learn_21162db4c3969b7b",
+    "learn_5f961fa5fb9f6388",
+    "learn_6b1c96a05f850f64",
+    "learn_9b39644affcb8a33",
+    "learn_fba30853bde7b37e",
+    "learn_f7b141c60755c294",
+    "learn_63b873bf5dbd8208",
+    "learn_27333cc91fdf7f58",
+    "learn_084a973ea4587745",
+    "learn_3b22cb6407019aa6"
+  ],
+  "bridge_failure": {
+    "open": true,
+    "reason": "No verified external production consumer decision output/read-back; this report record is not bridge proof"
+  },
+  "script": {
+    "command": "python3 scripts/plan_learnings.py finance --require",
+    "status": "NOT_RUN",
+    "reason": "script absent from working directory /",
+    "stdout": null,
+    "exit_code": null
+  },
+  "altcoin": {
+    "scores": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "aggregate_score": null,
+    "reason": "2020-2025 backtest/train lo-hi not verified"
+  },
+  "grok_delivery": "NOT_VERIFIED",
+  "ci": "NOT_VERIFIED",
+  "promotion": "DEDUP_OR_NOT_VERIFIED_NO_NEW_PROMOTION",
+  "payoutlens": "excluded"
+}
