@@ -43,5 +43,31 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn('repo_file(preflight, "preflight_path", ".json")', text)
 
 
+    def test_remote_receipt_is_durable_before_ledger(self):
+        """Persist video_id before a later ledger write can fail."""
+        text = WORKFLOW.read_text(encoding="utf-8")
+        receipt = text.index("- name: Preserve remote upload receipt before ledger")
+        artifact = text.index("- name: Upload remote receipt before ledger")
+        ledger = text.index("- name: Record upload in 48h lesson ledger")
+        self.assertLess(receipt, artifact)
+        self.assertLess(artifact, ledger)
+        self.assertIn('receipt.get("video_id")', text)
+        self.assertIn('sha256sum remote_receipt.json > SHA256SUMS', text)
+        self.assertIn('--receipt-path "$RUNNER_TEMP/shorts-upload-receipt/remote_receipt.json"', text)
+        receipt_section = text.split("- name: Preserve remote upload receipt before ledger", 1)[1].split("- name:", 1)[0]
+        artifact_section = text.split("- name: Upload remote receipt before ledger", 1)[1].split("- name:", 1)[0]
+        self.assertIn("if: ${{ always() }}", receipt_section)
+        self.assertIn("if: ${{ always() }}", artifact_section)
+        self.assertIn("if-no-files-found: ignore", artifact_section)
+        self.assertIn("REMOTE_READBACK_BLOCKED", receipt_section)
+        upload_script = (ROOT / "scripts" / "youtube_upload.py").read_text(encoding="utf-8")
+        self.assertLess(upload_script.index("write_remote_receipt(receipt_path, receipt)"),
+                        upload_script.index('verified = youtube.videos().list'))
+        self.assertIn("shorts-upload-receipt-${{ github.run_id }}", text)
+        self.assertIn("if-no-files-found: error", text)
+        self.assertIn("retention-days: 14", text)
+        self.assertNotIn("git push origin HEAD:main", text)
+
+
 if __name__ == "__main__":
     unittest.main()
