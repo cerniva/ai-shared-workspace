@@ -13,10 +13,13 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn("render_artifact", text)
         self.assertIn("render_run_id", text)
         self.assertIn("actions: read", text)
-        self.assertIn("actions/download-artifact@v8", text)
+        self.assertIn("scripts.verify_render_artifact", text)
+        self.assertIn("verified-render-artifact.json", text)
+        self.assertIn("actions/upload-artifact@v4", text)
+        self.assertNotIn("actions/download-artifact@v8", text)
         self.assertNotIn("actions/download-artifact@v4", text)
-        self.assertIn("run-id: ${{ inputs.render_run_id }}", text)
-        self.assertIn("github-token: ${{ github.token }}", text)
+        self.assertIn("RENDER_RUN_ID: ${{ inputs.render_run_id }}", text)
+        self.assertIn("GITHUB_TOKEN: ${{ github.token }}", text)
         self.assertIn("render_run_id must be a positive numeric GitHub Actions run ID", text)
         self.assertIn("rendered_video_name must be a visible simple .mp4 filename", text)
         self.assertIn("default: false", text)
@@ -41,6 +44,33 @@ class YouTubeUploadWorkflowTests(unittest.TestCase):
         self.assertIn('path.is_absolute() or ".." in path.parts', text)
         self.assertIn("Missing GitHub Actions secret", text)
         self.assertIn('repo_file(preflight, "preflight_path", ".json")', text)
+
+
+    def test_read_only_artifact_verification_dispatch_never_uploads(self):
+        """A real cross-run digest check must not require YouTube OAuth or upload."""
+        verifier = ROOT / ".github" / "workflows" / "verify-render-artifact-only.yml"
+        text = verifier.read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", text)
+        self.assertIn("render_run_id:", text)
+        self.assertIn("render_artifact_name:", text)
+        self.assertIn("contents: read", text)
+        self.assertIn("actions: read", text)
+        self.assertNotIn("contents: write", text)
+        self.assertNotIn("secrets.", text)
+        self.assertNotIn("scripts/youtube_upload.py", text)
+        self.assertNotIn("git push", text)
+        self.assertIn("scripts.verify_render_artifact", text)
+        self.assertIn("verified-render-artifact.json", text)
+        self.assertIn("learn_4decad368966e2e6", text)
+        self.assertIn("if-no-files-found: error", text)
+        self.assertIn("actions/upload-artifact@v4", text)
+        # Smoke artifacts use short-ice-float.mp4, not a hard-coded short.mp4.
+        # Verify-only mode must accept exactly one real MP4 after digest check.
+        self.assertIn("default: shorts-free-smoke-once", text)
+        self.assertIn('videos = list((root / "downloaded-render").glob("*.mp4"))', text)
+        self.assertIn("assert len(videos) == 1", text)
+        self.assertIn("videos[0].stat().st_size > 0", text)
+        self.assertNotIn('"short.mp4").is_file()', text)
 
 
 if __name__ == "__main__":
