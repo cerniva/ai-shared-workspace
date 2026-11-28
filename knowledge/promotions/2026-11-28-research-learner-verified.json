@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_refreshes": [
+    {
+      "source_id": "src_97656cefc7b0673b",
+      "verified_at": "2026-11-28T09:20:00+03:00"
+    }
+  ],
+  "learnings": [
+    {
+      "title": "Fed/CFPB: 2027 Regulation Z and M consumer credit/lease threshold is $76,300",
+      "domain": "finance-news",
+      "claim": "Federal Reserve joint press release bcreg20261125b (Nov 25, 2026; feed pubDate Wed, 25 Nov 2026 20:00:00 GMT; page read 2026-11-28) states the Fed Board and CFPB announced 2027 dollar thresholds: based on the 3.9 percent CPI-W increase as of June 1, 2026, Regulation Z (Truth in Lending) and Regulation M (Consumer Leasing) generally apply to consumer credit transactions and consumer leases of $76,300 or less in 2027. Private education loans and loans secured by real property (e.g. mortgages) are subject to Regulation Z regardless of amount. Companion release bcreg20261125a: 2027 higher-priced mortgage appraisal exemption threshold rises from $34,200 to $35,500, effective January 1, 2027.",
+      "evidence_status": "verified",
+      "decision": "REVIEW_ONLY: finance plan notes the 2027 Reg Z/M $76,300 threshold as regulatory context; no operational action or automated change.",
+      "outcome": "pending",
+      "next_measurement": "Before 2027-01-01 record yes/no whether any owned product or flow involves consumer credit/leases near the threshold.",
+      "learned_at": "2026-11-28T06:20:00+00:00",
+      "provenance": "verified",
+      "source_ids": [
+        "src_97656cefc7b0673b"
+      ],
+      "plan_tags": [
+        "finance"
+      ],
+      "failure_history": [],
+      "fallback_history": [],
+      "supersedes": null
+    }
+  ]
+}
