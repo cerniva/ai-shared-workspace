@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -95,6 +96,10 @@ def load_metadata(path: Path) -> dict:
     if not isinstance(description, str):
         raise ValueError("Metadata JSON must contain a string 'description'.")
     result = {"title": title.strip(), "description": description.strip()}
+    # Explicit origin is mandatory; a sourced video must not silently take
+    # the original-content path and bypass its rights/attribution gate.
+    result["content_origin"] = data.get("content_origin")
+    result["source_rights"] = data.get("source_rights")
     # Optional per-video flags; defaults preserve previous fixed behavior.
     # Strict parse: only real bools or exact "true"/"false" strings are accepted.
     # bool("false") == True is a known footgun; never use bare bool() on untrusted strings.
@@ -113,6 +118,52 @@ def load_metadata(path: Path) -> dict:
     if "containsSyntheticMedia" in data:
         result["containsSyntheticMedia"] = _as_bool(data["containsSyntheticMedia"], "containsSyntheticMedia")
     return result
+
+
+def require_content_rights_metadata(meta: dict, preflight: dict) -> None:
+    """Block sourced uploads unless independently reviewed provenance reaches the description.
+
+    Metadata and review flags are assertions, not legal proof. Reviewers must
+    inspect original footage/audio and caption licensing separately.
+    """
+    origin = meta.get("content_origin")
+    if origin not in ("original", "sourced"):
+        raise ValueError("content_origin must explicitly be 'original' or 'sourced'")
+    if origin == "original":
+        return
+    rights = meta.get("source_rights")
+    if not isinstance(rights, dict):
+        raise ValueError("sourced content requires source_rights evidence")
+    fields = ("source_url", "license_url", "license_name", "caption_source_url",
+              "caption_license_url", "caption_license_name", "caption_attribution_text",
+              "source_sha256", "captions_sha256", "changes_notice")
+    for key in fields:
+        value = rights.get(key)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"sourced rights missing {key}")
+    for key in ("source_url", "license_url", "caption_source_url", "caption_license_url"):
+        if not rights[key].startswith("https://"):
+            raise ValueError(f"sourced rights {key} must be HTTPS")
+    for key in ("source_sha256", "captions_sha256"):
+        if re.fullmatch(r"[0-9a-f]{64}", rights[key]) is None:
+            raise ValueError(f"sourced rights invalid {key}")
+        if preflight.get(key) != rights[key]:
+            raise ValueError(f"sourced {key} not bound to reviewed preflight")
+    for key in ("reuse_permitted", "derivatives_permitted", "audio_reuse_permitted",
+                "caption_reuse_permitted", "caption_derivatives_permitted"):
+        if rights.get(key) is not True:
+            raise ValueError(f"sourced rights not affirmed: {key}")
+    for key in ("independent_rights_review", "independent_media_review",
+                "spoken_caption_sync_review", "framing_review"):
+        if preflight.get(key) is not True:
+            raise ValueError(f"sourced independent review missing: {key}")
+    description = meta["description"]
+    for key in ("source_url", "license_url", "caption_source_url",
+                "caption_license_url", "caption_attribution_text", "changes_notice"):
+        if rights[key] not in description:
+            raise ValueError(f"published description omits sourced credit: {key}")
+    if len(description) > 5000:
+        raise ValueError("YouTube description exceeds 5000 characters")
 
 
 REQUIRED_DECLARATIONS = ("selfDeclaredMadeForKids", "containsSyntheticMedia")
@@ -184,8 +235,9 @@ def main() -> int:
     if not args.preflight.is_file():
         parser.error("preflight JSON file does not exist")
     try:
-        require_ready_preflight(args.video, args.preflight)
+        preflight = require_ready_preflight(args.video, args.preflight)
         meta = load_metadata(args.metadata)
+        require_content_rights_metadata(meta, preflight)
         require_explicit_declarations(meta)
         made_for_kids = meta["selfDeclaredMadeForKids"]
         contains_synthetic = meta["containsSyntheticMedia"]
