@@ -174,8 +174,51 @@ def fit_train_bounds(history: list[float | None], as_of: int, params: dict[str, 
     return None if lo >= hi else (lo, hi)
 
 
+FINANCE_ALTSEASON_LEARNING_ID = "learn_f7b141c60755c294"
+
+
+def _require_altseason_learning(cfg: dict[str, Any]) -> tuple[str, list[str]]:
+    """Fail closed unless the active, source-linked Finance policy matches the gate.
+
+    This is called by the *decision producer*, not by a detached loader job.
+    """
+    from scripts.plan_learnings import plan_learnings
+    from scripts.knowledge_bridge import CatalogError, SourceCatalog
+
+    report = plan_learnings("finance")
+    if report.get("error"):
+        raise ValueError("bridge_failure: finance learning load failed: " + str(report["error"]))
+    matches = [item for item in report.get("learnings", [])
+               if item.get("learning_id") == FINANCE_ALTSEASON_LEARNING_ID]
+    if len(matches) != 1:
+        raise ValueError("bridge_failure: altseason learning missing or duplicate")
+    row = matches[0]
+    if not row.get("source_ids"):
+        raise ValueError("bridge_failure: active, source-linked altseason learning missing")
+    try:
+        catalog = SourceCatalog()
+        catalog.validate()  # Stable canonical URLs, IDs and duplicate-free provenance.
+        known_sources = {item["source_id"] for item in catalog.list()}
+    except (CatalogError, OSError, ValueError, KeyError) as exc:
+        raise ValueError("bridge_failure: finance source catalog unavailable") from exc
+    if len(set(row["source_ids"])) != len(row["source_ids"]):
+        raise ValueError("bridge_failure: altseason learning has duplicate source_ids")
+    if not set(row["source_ids"]).issubset(known_sources):
+        raise ValueError("bridge_failure: altseason learning references unknown source_ids")
+    decision = row.get("decision", "")
+    if not all(token in decision for token in ("No invented 0-100 values", "p20", "p80", "730")):
+        raise ValueError("bridge_failure: altseason learning policy changed; review gate")
+    params = cfg.get("calibration") or {}
+    expected = {"train_days": 730, "min_valid_obs": 500, "min_coverage": 0.8,
+                "lo_pct": 20, "hi_pct": 80, "holdout_days": 90, "step_days": 90}
+    if any(params.get(key) != value for key, value in expected.items()):
+        raise ValueError("bridge_failure: calibration parameters differ from active learning")
+    return FINANCE_ALTSEASON_LEARNING_ID, sorted(set(row["source_ids"]))
+
+
 def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None = None) -> dict[str, Any]:
     cfg = cfg or load_calibration_config()
+    applied_learning_id, applied_source_ids = _require_altseason_learning(cfg)
     rows = {}
     for ind in cfg["indicators"]:
         x = values.get(ind["name"])
@@ -188,4 +231,6 @@ def altseason_panel(values: dict[str, float | None], cfg: dict[str, Any] | None 
         rows[ind["name"]] = {"value": x, "direction": direction, "source_url": ind["source_url"], "score": s}
     scored = [r["score"] for r in rows.values() if r["score"] != "N/A"]
     composite = round(sum(scored) / len(scored), 1) if scored and len(scored) == len(rows) else "N/A"
-    return {"indicators": rows, "composite_score": composite, "scored": len(scored), "total": len(rows)}
+    return {"indicators": rows, "composite_score": composite, "scored": len(scored), "total": len(rows),
+            "applied_learning_ids": [applied_learning_id],
+            "applied_learning_source_ids": {applied_learning_id: applied_source_ids}}
